@@ -2,7 +2,8 @@ package io.muenchendigital.digiwf.engine.message.internal.impl.service;
 
 
 import io.muenchendigital.digiwf.engine.data.EngineDataSerializer;
-import io.muenchendigital.digiwf.engine.message.internal.impl.model.CorrelateMessage;
+import io.muenchendigital.digiwf.engine.message.api.CorrelateMessage;
+import io.muenchendigital.digiwf.engine.message.api.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,11 +18,12 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MessageService {
+public class MessageServiceImpl implements MessageService {
 
     private final RuntimeService runtimeService;
     private final EngineDataSerializer serializer;
 
+    @Override
     public void correlateMessage(final CorrelateMessage correlateMessage) {
         log.debug("correlateMessage {}", correlateMessage);
 

@@ -4,8 +4,8 @@
 
 package io.muenchendigital.digiwf.enginerest.jsonschema;
 
-import io.muenchendigital.digiwf.engine.jsonschema.internal.domain.model.JsonSchema;
-import io.muenchendigital.digiwf.engine.jsonschema.internal.domain.service.JsonSchemaService;
+import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchema;
+import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchemaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 /**
  * Rest API to handle schemas.
@@ -58,12 +58,12 @@ public class JsonSchemaRestController {
     @Operation(description = "get json schema by key")
     @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.engine.security.api.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<JsonSchemaDto> getJsonSchema(@PathVariable final String key) {
-        final Optional<JsonSchema> schema = this.schemaService.getByKey(key);
-        if (schema.isEmpty()) {
+        try {
+            final JsonSchema schema = this.schemaService.getByKey(key);
+            return ResponseEntity.ok(this.schemaApiMapper.map2TO(schema));
+        } catch (final NoSuchElementException exception) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(this.schemaApiMapper.map2TO(schema.get()));
     }
 
 

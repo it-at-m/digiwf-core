@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.engine.message.internal.impl.model;
 
+import io.muenchendigital.digiwf.engine.message.api.CorrelateMessage;
 import lombok.*;
 
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
 @Builder
 @ToString
 @AllArgsConstructor
-public class CorrelateMessage {
+public class CorrelateMessageImpl implements CorrelateMessage {
 
     private String processInstanceId;
 

@@ -5,7 +5,7 @@
 package io.muenchendigital.digiwf.enginerest.jsonschema;
 
 import com.google.gson.Gson;
-import io.muenchendigital.digiwf.engine.jsonschema.internal.domain.model.JsonSchema;
+import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchema;
 import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
 import org.mapstruct.Mapper;
 
@@ -13,11 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Map between {@link JsonSchemaDto} and {@link }
- *
- * @author externer.dl.horn
- */
+
 @Mapper
 public interface SchemaRestMapper {
 
