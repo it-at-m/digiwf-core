@@ -46,7 +46,8 @@ public class StreamingServiceImpl implements StreamingService {
         this.dynamicSink.tryEmitNext(message).orThrow();
     }
 
-    private MessageBuilder<Map<String, Object>> createMessage(
+    @Override
+    public MessageBuilder<Map<String, Object>> createMessage(
             final String destination,
             final String type,
             final String instanceId,

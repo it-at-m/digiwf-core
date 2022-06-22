@@ -1,5 +1,7 @@
 package io.muenchendigital.digiwf.engine.streaming.api;
 
+import org.springframework.messaging.support.MessageBuilder;
+
 import java.util.Map;
 
 /**
@@ -36,4 +38,20 @@ public interface StreamingService {
             String type,
             String instanceId,
             Map<String, Object> data);
+
+
+    /**
+     * Create a message that can be emitted.
+     *
+     * @param destination name of the topic to write the message to
+     * @param type        type header of the message
+     * @param instanceId  id of the process instance
+     * @param data        payload data
+     * @return Message Builder
+     */
+    MessageBuilder<Map<String, Object>> createMessage(
+            final String destination,
+            final String type,
+            final String instanceId,
+            final Map<String, Object> data);
 }

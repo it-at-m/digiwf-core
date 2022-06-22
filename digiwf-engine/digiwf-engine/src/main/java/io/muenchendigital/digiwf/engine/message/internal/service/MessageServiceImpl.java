@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.engine.message.internal.impl.service;
+package io.muenchendigital.digiwf.engine.message.internal.service;
 
 
 import io.muenchendigital.digiwf.engine.data.EngineDataSerializer;

@@ -7,7 +7,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ActiveProfiles(profiles = {"test"})
-public class BaseServiceTest {
+public class BaseSpringTest {
 
 
 }

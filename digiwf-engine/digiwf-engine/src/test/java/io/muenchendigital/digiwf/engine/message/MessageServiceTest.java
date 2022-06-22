@@ -1,13 +1,12 @@
 package io.muenchendigital.digiwf.engine.message;
 
 
-import com.github.javafaker.Faker;
-import io.muenchendigital.digiwf.BaseServiceTest;
+import io.muenchendigital.digiwf.BaseSpringTest;
 import io.muenchendigital.digiwf.engine.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.engine.message.api.CorrelateMessage;
 import io.muenchendigital.digiwf.engine.message.api.MessageService;
-import io.muenchendigital.digiwf.engine.message.internal.impl.model.CorrelateMessageImpl;
-import io.muenchendigital.digiwf.engine.message.internal.impl.service.MessageServiceImpl;
+import io.muenchendigital.digiwf.engine.message.internal.model.CorrelateMessageImpl;
+import io.muenchendigital.digiwf.engine.message.internal.service.MessageServiceImpl;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 import org.camunda.community.mockito.ProcessExpressions;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.Map;
 
@@ -24,7 +22,7 @@ import static org.mockito.Mockito.verify;
 @DisplayName("Message Service Test")
 @Import({EngineDataSerializer.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MessageServiceTest extends BaseServiceTest {
+public class MessageServiceTest extends BaseSpringTest {
 
     @Mock
     private RuntimeService runtimeService;
@@ -34,9 +32,6 @@ public class MessageServiceTest extends BaseServiceTest {
 
     private MessageService messageService;
 
-
-    private final Faker faker = new Faker();
-
     @BeforeEach
     private void initTests() {
         this.messageService = new MessageServiceImpl(this.runtimeService, this.engineDataSerializer);
@@ -45,7 +40,6 @@ public class MessageServiceTest extends BaseServiceTest {
     @Order(1)
     @Test
     @DisplayName("shouldCorrelateMessage")
-    @Rollback(false)
     public void shouldCorrelateMessage() {
 
         final CorrelateMessage correlateMessage = CorrelateMessageImpl.builder()

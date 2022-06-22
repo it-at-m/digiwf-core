@@ -2,9 +2,9 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.engine.jsonschema.internal.impl.repository;
+package io.muenchendigital.digiwf.engine.jsonschema.internal.repository;
 
-import io.muenchendigital.digiwf.engine.jsonschema.internal.impl.model.JsonSchemaImpl;
+import io.muenchendigital.digiwf.engine.jsonschema.internal.model.JsonSchemaImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

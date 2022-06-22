@@ -2,12 +2,12 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.engine.jsonschema.internal.impl.service;
+package io.muenchendigital.digiwf.engine.jsonschema.internal.service;
 
 import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchema;
 import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchemaService;
-import io.muenchendigital.digiwf.engine.jsonschema.internal.impl.model.JsonSchemaImpl;
-import io.muenchendigital.digiwf.engine.jsonschema.internal.impl.repository.JsonSchemaRepository;
+import io.muenchendigital.digiwf.engine.jsonschema.internal.model.JsonSchemaImpl;
+import io.muenchendigital.digiwf.engine.jsonschema.internal.repository.JsonSchemaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

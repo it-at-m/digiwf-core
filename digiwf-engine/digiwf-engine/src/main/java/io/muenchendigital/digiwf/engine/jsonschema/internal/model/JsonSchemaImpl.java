@@ -2,7 +2,7 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.engine.jsonschema.internal.impl.model;
+package io.muenchendigital.digiwf.engine.jsonschema.internal.model;
 
 import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchema;
 import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.engine.message.internal.impl.model;
+package io.muenchendigital.digiwf.engine.message.internal.model;
 
 import io.muenchendigital.digiwf.engine.message.api.CorrelateMessage;
 import lombok.*;
