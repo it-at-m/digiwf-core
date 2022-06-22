@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Mapper
 public interface SchemaRestMapper {
 
-    JsonSchema map2Model(JsonSchemaDto obj);
 
     default List<JsonSchemaDto> map2TO(final List<JsonSchema> list) {
         return list.stream().map(this::map2TO).collect(Collectors.toList());

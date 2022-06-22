@@ -1,7 +1,6 @@
-package io.muenchendigital.digiwf.engine.message.internal.streaming;
+package io.muenchendigital.digiwf.enginestreaming.message;
 
-import io.muenchendigital.digiwf.engine.message.internal.impl.model.CorrelateMessageImpl;
-import io.muenchendigital.digiwf.engine.message.internal.impl.service.MessageServiceImpl;
+import io.muenchendigital.digiwf.engine.message.api.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +17,12 @@ import java.util.function.Consumer;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MessageEventListener {
+public class MessageEventConsumer {
 
-    private final MessageServiceImpl messageService;
+    private final MessageService messageService;
 
     @Bean
-    public Consumer<Message<CorrelateMessageImpl>> correlateMessageV01() {
+    public Consumer<Message<CorrelateMessageDto>> correlateMessageV01() {
         return correlation -> {
             log.info("Received message correlation {}", correlation.getPayload());
             this.messageService.correlateMessage(correlation.getPayload());

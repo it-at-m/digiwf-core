@@ -33,6 +33,7 @@
         <module>digiwf-engine</module>
         <module>digiwf-engine-starter</module>
         <module>digiwf-engine-starter-rest</module>
+        <module>digiwf-engine-starter-streaming</module>
         <module>digiwf-engine-service</module>
     </modules>
 

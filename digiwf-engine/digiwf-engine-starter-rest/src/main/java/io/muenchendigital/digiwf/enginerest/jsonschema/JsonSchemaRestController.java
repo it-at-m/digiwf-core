@@ -44,8 +44,7 @@ public class JsonSchemaRestController {
     @Operation(description = "create a new json schema")
     @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.engine.security.api.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<JsonSchemaDto> createJsonSchema(@RequestBody @Valid final JsonSchemaDto dto) {
-        final JsonSchema jsonSchema = this.schemaApiMapper.map2Model(dto);
-        return ResponseEntity.ok(this.schemaApiMapper.map2TO(this.schemaService.createJsonSchema(jsonSchema)));
+        return ResponseEntity.ok(this.schemaApiMapper.map2TO(this.schemaService.createJsonSchema(dto)));
     }
 
     /**
