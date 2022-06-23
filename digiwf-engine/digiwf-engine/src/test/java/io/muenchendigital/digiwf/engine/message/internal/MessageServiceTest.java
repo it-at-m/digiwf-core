@@ -1,7 +1,7 @@
-package io.muenchendigital.digiwf.engine.message;
+package io.muenchendigital.digiwf.engine.message.internal;
 
 
-import io.muenchendigital.digiwf.BaseSpringTest;
+import io.muenchendigital.digiwf.engine.BaseSpringTest;
 import io.muenchendigital.digiwf.engine.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.engine.message.api.CorrelateMessage;
 import io.muenchendigital.digiwf.engine.message.api.MessageService;

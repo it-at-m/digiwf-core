@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.enginestreaming.properties;
+package io.muenchendigital.digiwf.enginerest.configuration;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,8 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "io.muenchendigital.digiwf.enginestreaming")
-public class DigiWFEngineStreamingProperties {
+@ConfigurationProperties(prefix = "io.muenchendigital.digiwf.enginerest")
+public class DigiWFEngineRestProperties {
 
 
 }

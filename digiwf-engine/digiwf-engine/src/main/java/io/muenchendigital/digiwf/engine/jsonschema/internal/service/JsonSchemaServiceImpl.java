@@ -6,6 +6,7 @@ package io.muenchendigital.digiwf.engine.jsonschema.internal.service;
 
 import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchema;
 import io.muenchendigital.digiwf.engine.jsonschema.api.JsonSchemaService;
+import io.muenchendigital.digiwf.engine.jsonschema.internal.mapper.JsonSchemaMapper;
 import io.muenchendigital.digiwf.engine.jsonschema.internal.model.JsonSchemaImpl;
 import io.muenchendigital.digiwf.engine.jsonschema.internal.repository.JsonSchemaRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,11 @@ import org.springframework.stereotype.Service;
 public class JsonSchemaServiceImpl implements JsonSchemaService {
 
     private final JsonSchemaRepository schemaRepository;
+    private final JsonSchemaMapper jsonSchemaMapper;
 
     @Override
     public JsonSchema createJsonSchema(final JsonSchema jsonSchema) {
-        final JsonSchemaImpl impl = (JsonSchemaImpl) jsonSchema;
+        final JsonSchemaImpl impl = this.jsonSchemaMapper.map(jsonSchema);
         return this.schemaRepository.save(impl);
     }
 

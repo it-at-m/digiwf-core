@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @ToString
 @AllArgsConstructor
-public class CorrelateMessageDto implements CorrelateMessage {
+public class CorrelateMessageEvent implements CorrelateMessage {
 
     private String processInstanceId;
 

@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.engine.streaming.internal;
 
 
-import io.muenchendigital.digiwf.BaseSpringTest;
+import io.muenchendigital.digiwf.engine.BaseSpringTest;
 import io.muenchendigital.digiwf.engine.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.engine.streaming.api.StreamingService;
 import org.junit.jupiter.api.*;
@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
-import org.springframework.test.annotation.Rollback;
 import reactor.core.publisher.Sinks;
 
 import java.util.Map;
@@ -38,7 +37,6 @@ public class StreamingServiceTest extends BaseSpringTest {
     @Order(1)
     @Test
     @DisplayName("shouldEmitMessage")
-    @Rollback(false)
     public void shouldEmitMessage() {
 
         when(this.dynamicSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);

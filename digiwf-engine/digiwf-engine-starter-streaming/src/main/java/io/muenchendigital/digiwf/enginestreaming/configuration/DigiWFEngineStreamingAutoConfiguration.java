@@ -1,6 +1,5 @@
 package io.muenchendigital.digiwf.enginestreaming.configuration;
 
-import io.muenchendigital.digiwf.enginestreaming.properties.DigiWFEngineStreamingProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;

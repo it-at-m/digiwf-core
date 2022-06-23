@@ -4,6 +4,7 @@
 
 package io.muenchendigital.digiwf.engine.security.internal;
 
+import io.muenchendigital.digiwf.engine.security.api.CamundaAuthenticationService;
 import io.muenchendigital.digiwf.engine.security.api.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +19,12 @@ import org.camunda.bpm.engine.IdentityService;
  */
 @RequiredArgsConstructor
 @Slf4j
-public class CamundaAuthenticationService {
+public class CamundaAuthenticationServiceImpl implements CamundaAuthenticationService {
 
     private final UserContext userContext;
     private final IdentityService identityService;
 
+    @Override
     public void setAuthentication() {
         val userId = this.userContext.getLoggedInUserId();
         val userGroups = this.userContext.getUserGroups();
@@ -30,6 +32,7 @@ public class CamundaAuthenticationService {
         this.identityService.setAuthentication(userId, userGroups);
     }
 
+    @Override
     public void clearAuthentication() {
         this.identityService.clearAuthentication();
     }

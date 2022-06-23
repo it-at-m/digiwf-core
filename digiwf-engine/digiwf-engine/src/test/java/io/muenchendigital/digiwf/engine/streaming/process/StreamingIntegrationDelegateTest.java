@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.engine.streaming.process;
 
-import io.muenchendigital.digiwf.BaseSpringTest;
+import io.muenchendigital.digiwf.engine.BaseSpringTest;
 import io.muenchendigital.digiwf.engine.streaming.api.StreamingService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.junit.jupiter.api.*;
