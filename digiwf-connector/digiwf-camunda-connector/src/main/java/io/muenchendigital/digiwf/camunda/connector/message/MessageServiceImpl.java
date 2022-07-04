@@ -22,8 +22,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
 
-    private final EngineDataSerializer serializer;
     private final MessageApi messageApi;
+    private final EngineDataSerializer serializer;
 
     @Override
     public void correlateMessage(final CorrelateMessage correlateMessage) {
@@ -31,7 +31,6 @@ public class MessageServiceImpl implements MessageService {
 
         final CorrelationMessageDto correlationMessageDto = new CorrelationMessageDto();
         correlationMessageDto.setMessageName(correlateMessage.getMessageName());
-
 
         if (correlateMessage.getPayloadVariables() != null && !correlateMessage.getPayloadVariables().isEmpty()) {
             final Map<String, VariableValueDto> variables = this.serializer.toEngineData(correlateMessage.getPayloadVariables());

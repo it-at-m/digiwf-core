@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.enginestreaming.configuration.DigiWFEngineStreamingAutoConfiguration

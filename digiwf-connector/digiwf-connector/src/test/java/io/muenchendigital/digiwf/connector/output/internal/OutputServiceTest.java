@@ -2,12 +2,9 @@ package io.muenchendigital.digiwf.connector.output.internal;
 
 
 import io.muenchendigital.digiwf.connector.BaseSpringTest;
-import io.muenchendigital.digiwf.connector.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.connector.output.api.OutputService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 import reactor.core.publisher.Sinks;
 
@@ -17,12 +14,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Streaming Service Test")
-@Import({EngineDataSerializer.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OutputServiceTest extends BaseSpringTest {
 
-    @Autowired
-    private EngineDataSerializer engineDataSerializer;
 
     @Mock
     private Sinks.Many<Message<Map<String, Object>>> dynamicSink;
@@ -31,7 +25,7 @@ public class OutputServiceTest extends BaseSpringTest {
 
     @BeforeEach
     private void initTests() {
-        this.outputService = new OutputServiceImpl(this.engineDataSerializer, this.dynamicSink);
+        this.outputService = new OutputServiceImpl(this.dynamicSink);
     }
 
     @Order(1)

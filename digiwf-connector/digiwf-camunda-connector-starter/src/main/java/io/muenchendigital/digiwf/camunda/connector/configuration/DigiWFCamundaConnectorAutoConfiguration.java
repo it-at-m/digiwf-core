@@ -25,7 +25,7 @@ import java.util.Map;
 public class DigiWFCamundaConnectorAutoConfiguration {
 
 
-    @Value("#{'${io.muenchendigital.digiwf.camunda.connector.filtervariables}'.split(',')}")
+    @Value("#{'${io.muenchendigital.digiwf.camunda.connector.filtervariables:}'.split(',')}")
     private List<String> filtervariables;
 
     @Bean

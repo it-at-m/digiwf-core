@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.enginerest.configuration.DigiWFEngineRestAutoConfiguration
+io.muenchendigital.digiwf.connectorrest.configuration.DigiWFEngineRestAutoConfiguration

@@ -32,6 +32,7 @@ public class CamundaOutputClient implements ExternalTaskHandler {
         } else {
             this.outputService.emitEvent(topic, type, externalTask.getProcessInstanceId(), filteredData);
         }
+        
         externalTaskService.complete(externalTask);
     }
 
@@ -44,7 +45,7 @@ public class CamundaOutputClient implements ExternalTaskHandler {
     }
 
     private Map<String, Object> getData(final ExternalTask externalTask) {
-        return this.serializer.fromEngineData(externalTask.getAllVariables());
+        return this.serializer.fromEngineData(externalTask.getAllVariablesTyped());
     }
 
 

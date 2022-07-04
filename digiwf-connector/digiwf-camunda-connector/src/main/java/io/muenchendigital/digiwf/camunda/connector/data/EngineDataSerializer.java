@@ -1,5 +1,7 @@
 package io.muenchendigital.digiwf.camunda.connector.data;
 
+import org.camunda.bpm.engine.variable.VariableMap;
+import org.camunda.bpm.engine.variable.value.TypedValue;
 import org.camunda.community.rest.client.dto.VariableValueDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,14 +25,16 @@ public class EngineDataSerializer {
         return variables;
     }
 
-    public Map<String, Object> fromEngineData(final Map<String, Object> variables) {
+    public Map<String, Object> fromEngineData(final VariableMap variables) {
         final Map<String, Object> data = new HashMap<>();
-        variables.forEach((key, value) -> {
-//            if (value instanceof JacksonJsonNode) {
-//                data.put(key, this.fromEngineData((JacksonJsonNode) value));
-//            } else {
-            data.put(key, value);
-//            }
+
+        variables.keySet().forEach(key -> {
+            final TypedValue value = variables.getValueTyped(key);
+            if (value.getType().getName().equals("json")) {
+                data.put(key, this.fromEngineData(value.getValue()));
+            } else {
+                data.put(key, value.getValue());
+            }
         });
         return data;
     }
@@ -47,13 +51,13 @@ public class EngineDataSerializer {
         }
         return variableValueDto;
     }
-//
-//    private Object fromEngineData(final JacksonJsonNode object) {
-//        if (object.isArray()) {
-//            return new JSONArray(object.toString()).toList();
-//        }
-//        return new JSONObject(object.toString()).toMap();
-//    }
+
+    private Object fromEngineData(final Object value) {
+        if (value.toString().startsWith("[")) {
+            return new JSONArray(value.toString()).toList();
+        }
+        return new JSONObject(value.toString()).toMap();
+    }
 
 
 }
