@@ -8,8 +8,8 @@
     <version>0.1.0</version>
     <name>digiwf-connector-parent</name>
     <packaging>pom</packaging>
-    <description>Workflow Engine used by DigiWF</description>
-    <url>https://github.com/it-at-m/digiwf-engine</url>
+    <description>Workflow Engine Connector used by DigiWF</description>
+    <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
@@ -36,7 +36,6 @@
         <module>digiwf-connector-starter-rest</module>
         <module>digiwf-camunda-connector</module>
         <module>digiwf-camunda-connector-starter</module>
-
     </modules>
 
     <dependencyManagement>
@@ -206,7 +205,7 @@
     <developers>
         <developer>
             <name>Dominik Horn</name>
-            <organization>FlowSquad GmbH</organization>
+            <organization>Miragon GmbH</organization>
             <url>https://github.com/dominikhorn93</url>
             <roles>
                 <role>initiator</role>
@@ -221,9 +220,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/it-at-m/digiwf-engine</url>
-        <connection>scm:git:git@github.com:it-at-m/digiwf-engine.git</connection>
-        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-engine.git</developerConnection>
+        <url>https://github.com/it-at-m/digiwf-core</url>
+        <connection>scm:git:git@github.com:it-at-m/digiwf-core.git</connection>
+        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-core.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
