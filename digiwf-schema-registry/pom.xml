@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
-    <artifactId>digiwf-s3-integration-parent</artifactId>
-    <version>0.0.6</version>
-    <name>digiwf-s3-integration-parent</name>
+    <artifactId>digiwf-schema-registry-parent</artifactId>
+    <version>0.1.0</version>
+    <name>digiwf-schema-registry-parent</name>
     <packaging>pom</packaging>
-    <description>S3 integration used by DigiWF</description>
-    <url>https://github.com/it-at-m/digiwf-s3-integration</url>
+    <description>Schema Registry used by DigiWF</description>
+    <url>https://github.com/it-at-m/digiwf-schema-registry</url>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
@@ -24,15 +24,14 @@
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven.surfire.plugin.version>2.22.2</maven.surfire.plugin.version>
+        <digiwf.json.serialization>0.0.5</digiwf.json.serialization>
     </properties>
 
     <modules>
-        <module>digiwf-s3-integration</module>
-        <module>digiwf-s3-integration-starter</module>
-        <module>digiwf-s3-integration-client</module>
-        <module>digiwf-s3-integration-client-starter</module>
-        <module>example-s3-integration</module>
-        <module>example-s3-integration-client</module>
+        <module>digiwf-schema-registry</module>
+        <module>digiwf-schema-registry-client</module>
+        <module>digiwf-schema-registry-client-example</module>
+        <module>digiwf-schema-registry-client-starter</module>
     </modules>
 
     <dependencyManagement>
@@ -88,6 +87,11 @@
                         </path>
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <!-- Nexus Staging Plugin -->
@@ -205,9 +209,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/it-at-m/digiwf-s3-integration</url>
-        <connection>scm:git:git@github.com:it-at-m/digiwf-s3-integration.git</connection>
-        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-s3-integration.git</developerConnection>
+        <url>https://github.com/it-at-m/digiwf-schema-registry</url>
+        <connection>scm:git:git@github.com:it-at-m/digiwf-schema-registry.git</connection>
+        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-schema-registry.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

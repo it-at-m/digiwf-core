@@ -2,14 +2,15 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.connectorrest.jsonschema;
+package io.muenchendigital.digiwf.schema.registry.rest;
 
-import io.muenchendigital.digiwf.connector.jsonschema.api.JsonSchema;
-import io.muenchendigital.digiwf.connector.jsonschema.api.JsonSchemaService;
+import io.muenchendigital.digiwf.schema.registry.api.JsonSchema;
+import io.muenchendigital.digiwf.schema.registry.api.JsonSchemaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import java.util.NoSuchElementException;
 @Validated
 @Transactional
 @RestController
-@RequestMapping("/rest/jsonschema")
+@RequestMapping("/jsonschema")
 @RequiredArgsConstructor
 @Tag(name = "JsonSchemaApi", description = "API to handle json schemas")
 public class JsonSchemaRestController {
@@ -41,8 +42,10 @@ public class JsonSchemaRestController {
      */
     @PostMapping
     @Operation(description = "create a new json schema")
+    @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.schema.registry.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<JsonSchemaDto> createJsonSchema(@RequestBody @Valid final JsonSchemaDto dto) {
-        return ResponseEntity.ok(this.schemaRestMapper.map2TO(this.schemaService.createJsonSchema(dto)));
+        final JsonSchema jsonSchema = this.schemaRestMapper.map2Model(dto);
+        return ResponseEntity.ok(this.schemaRestMapper.map2TO(this.schemaService.createJsonSchema(jsonSchema)));
     }
 
     /**
