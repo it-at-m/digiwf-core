@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-connector-parent</artifactId>
+        <artifactId>digiwf-connector</artifactId>
         <version>0.1.0</version>
     </parent>
 

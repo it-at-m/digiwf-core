@@ -395,3 +395,4 @@ gradle-app.setting
 **/.idea/
 
 **/target/
+/digiwf-schema-registry/digiwf-schema-registry-client/.swagger-codegen-ignore

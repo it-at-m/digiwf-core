@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-schema-registry-parent</artifactId>
+        <artifactId>digiwf-schema-registry</artifactId>
         <version>0.1.0</version>
     </parent>
 
@@ -105,7 +105,7 @@
                 <version>${swagger.codegen.version}</version>
                 <executions>
                     <execution>
-                        <id>document-storage-api</id>
+                        <id>schema-registry-api</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -115,9 +115,9 @@
                             <library>resttemplate</library>
                             <output>${project.basedir}</output>
 
-                            <apiPackage>io.muenchendigital.digiwf.s3.integration.gen.api</apiPackage>
-                            <modelPackage>io.muenchendigital.digiwf.s3.integration.gen.model</modelPackage>
-                            <invokerPackage>io.muenchendigital.digiwf.s3.integration.gen</invokerPackage>
+                            <apiPackage>io.muenchendigital.digiwf.schema.registry.gen.api</apiPackage>
+                            <modelPackage>io.muenchendigital.digiwf.schema.registry.gen.model</modelPackage>
+                            <invokerPackage>io.muenchendigital.digiwf.schema.registry.gen</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

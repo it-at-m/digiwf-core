@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-connector-parent</artifactId>
+        <artifactId>digiwf-connector</artifactId>
         <version>0.1.0</version>
     </parent>
 
@@ -30,11 +30,7 @@
             <version>${spring.boot.version}</version>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-connector</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -48,6 +44,11 @@
         </dependency>
 
         <!-- DigiWF -->
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-connector-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>

@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
-    <artifactId>digiwf-engine</artifactId>
+    <artifactId>digiwf-core</artifactId>
     <version>0.1.0</version>
-    <name>digiwf-engine</name>
+    <name>digiwf-core</name>
     <packaging>pom</packaging>
-    <description>Workflow Engine used by DigiWF</description>
+    <description>DigiWF Core Services</description>
     <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
@@ -28,9 +28,9 @@
     </properties>
 
     <modules>
-        <module>digiwf-engine-service</module>
-        <module>digiwf-engine-task</module>
-        <module>digiwf-engine-task-starter</module>
+        <module>digiwf-engine</module>
+        <module>digiwf-connector</module>
+        <module>digiwf-schema-registry</module>
     </modules>
 
     <dependencyManagement>

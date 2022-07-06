@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
-    <artifactId>digiwf-connector-parent</artifactId>
+    <artifactId>digiwf-connector</artifactId>
     <version>0.1.0</version>
-    <name>digiwf-connector-parent</name>
+    <name>digiwf-connector</name>
     <packaging>pom</packaging>
     <description>Workflow Engine Connector used by DigiWF</description>
     <url>https://github.com/it-at-m/digiwf-core</url>
@@ -30,7 +30,7 @@
     </properties>
 
     <modules>
-        <module>digiwf-connector</module>
+        <module>digiwf-connector-core</module>
         <module>digiwf-connector-service</module>
         <module>digiwf-connector-starter</module>
         <module>digiwf-connector-starter-rest</module>

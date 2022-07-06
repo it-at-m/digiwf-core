@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <artifactId>digiwf-camunda-connector</artifactId>
-    <name>digiwf-camunda-connector</name>
+    <artifactId>digiwf-connector-core</artifactId>
+    <name>digiwf-connector-core</name>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
@@ -35,21 +35,6 @@
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-
-        <!-- Camunda -->
-        <dependency>
-            <groupId>org.camunda.community</groupId>
-            <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-            <version>${camunda.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.camunda.bpm</groupId>
-            <artifactId>camunda-external-task-client-spring</artifactId>
-        </dependency>
 
         <!-- DigiWF -->
         <dependency>
@@ -57,11 +42,7 @@
             <artifactId>digiwf-json-serialization</artifactId>
             <version>${digiwf.json.serialization}</version>
         </dependency>
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-connector-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
 
         <!-- Validation -->
         <dependency>
@@ -105,12 +86,6 @@
                     <artifactId>junit</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.camunda.bpm</groupId>
-            <artifactId>camunda-bpm-junit5</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -161,6 +136,13 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.camunda.community.mockito</groupId>
+            <artifactId>camunda-platform-7-mockito</artifactId>
+            <scope>test</scope>
+            <version>6.17.0</version>
         </dependency>
 
     </dependencies>
