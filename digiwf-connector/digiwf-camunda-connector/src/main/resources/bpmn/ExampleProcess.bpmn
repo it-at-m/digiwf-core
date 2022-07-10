@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0n9r76g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_Example" name="Example Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Test started">
+      <bpmn:outgoing>Flow_1xd5oxg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1xd5oxg" sourceRef="StartEvent_1" targetRef="Activity_1wnsc7d" />
+    <bpmn:endEvent id="Event_1bhvdvv" name="Test finished">
+      <bpmn:incoming>Flow_0z82wuf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1pa2w93" sourceRef="Activity_1bko4i9" targetRef="Activity_0znwoj2" />
+    <bpmn:scriptTask id="Activity_1wnsc7d" name="Objektdaten erstellen" scriptFormat="javascript">
+      <bpmn:incoming>Flow_1xd5oxg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nyulbz</bpmn:outgoing>
+      <bpmn:script>var meinjson = { 
+"testString": "Hallo das ist mein Gruß" ,
+"testNumber": 100 ,
+"testBoolean": true 
+}
+execution.setVariable('objectData', S(JSON.stringify(meinjson)));
+
+</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0nyulbz" sourceRef="Activity_1wnsc7d" targetRef="Activity_1bko4i9" />
+    <bpmn:callActivity id="Activity_1bko4i9" name="Test Connector" camunda:modelerTemplate="de.muenchen.digiwf.alw.DigiWFConnector" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="dwf-connector-example" target="app_topic_name" />
+        <camunda:in sourceExpression="answerBack" target="app_message_name" />
+        <camunda:in sourceExpression="connectorExample" target="app_type_name" />
+        <camunda:in sourceExpression="abc" target="stringData" />
+        <camunda:out source="outputString" target="myOutputString" />
+        <camunda:out source="outputObject" target="myOutputObject" />
+        <camunda:in sourceExpression="${objectData}" target="objectData" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nyulbz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pa2w93</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0z82wuf" sourceRef="Activity_0znwoj2" targetRef="Event_1bhvdvv" />
+    <bpmn:userTask id="Activity_0znwoj2" name="Check data">
+      <bpmn:incoming>Flow_1pa2w93</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z82wuf</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Example">
+      <bpmndi:BPMNEdge id="Flow_0nyulbz_di" bpmnElement="Flow_0nyulbz">
+        <di:waypoint x="380" y="97" />
+        <di:waypoint x="450" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pa2w93_di" bpmnElement="Flow_1pa2w93">
+        <di:waypoint x="550" y="97" />
+        <di:waypoint x="640" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xd5oxg_di" bpmnElement="Flow_1xd5oxg">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="280" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z82wuf_di" bpmnElement="Flow_0z82wuf">
+        <di:waypoint x="740" y="97" />
+        <di:waypoint x="822" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="169" y="122" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wnsc7d_di" bpmnElement="Activity_1wnsc7d">
+        <dc:Bounds x="280" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_003emb9_di" bpmnElement="Activity_1bko4i9">
+        <dc:Bounds x="450" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16z4mwc_di" bpmnElement="Activity_0znwoj2">
+        <dc:Bounds x="640" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1bhvdvv_di" bpmnElement="Event_1bhvdvv">
+        <dc:Bounds x="822" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="122" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

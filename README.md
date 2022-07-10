@@ -1,15 +1,3 @@
-## Customize this file after creating the new REPO and remove this lines.
-What to adjust:  
-* Add the your project or repo name direct under the logo.
-* Add a short and long desciption.
-* Add links for your final repo to report a bug or request a feature.
-* Add list of used technologies.
-* If you have, add a roadmap or remove this section.
-* Fill up the section for set up and documentation.
- * Start in this file only with documentation and link to the docs folder.
-* Add project shields. Use [shields.io](https://shields.io/)
-
-## ------- end to remove -------
 <div id="top"></div>
 
 <!-- PROJECT SHIELDS -->
@@ -23,13 +11,13 @@ What to adjust:
     <img src="/images/logo.png" alt="Logo" height="200">
   </a>
 
-<h3 align="center">DigiWF <i>repo or project name</i></h3>
+<h3 align="center">DigiWF <i>Core</i></h3>
 
   <p align="center">
-    <i>Add a here a short description</i>
-    <br /><a href="#">Report Bug</a>
+    <i>This repository includes all DigiWF Core Services</i>
+    <br /><a href="https://github.com/it-at-m/digiwf-core/issues">Report Bug</a>
     ·
-    <a href="#">Request Feature</a>
+    <a href="https://github.com/it-at-m/digiwf-core/issues">Request Feature</a>
   </p>
 </div>
 
