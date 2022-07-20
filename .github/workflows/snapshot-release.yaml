@@ -42,4 +42,4 @@ jobs:
         with:
           context: ./digiwf-connector/digiwf-connector-service
           push: true
-          tags: itatm/digiwf-email-integration-service:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-connector-service:${{ env.RELEASE_VERSION }}
