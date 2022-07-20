@@ -27,14 +27,20 @@ public class IncidentConsumer {
         return correlation -> {
 
             final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get("processInstanceId")).map(Object::toString);
+            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get("messageName")).map(Object::toString);
 
             if (processInstanceId.isEmpty()) {
                 log.error("No process instance id present. Cannot create an incident");
                 return;
             }
 
+            if (messageName.isEmpty()) {
+                log.error("No messageName is present. Cannot create an incident");
+                return;
+            }
+
             log.info("Received create incident for process instance with id: {}", processInstanceId.get());
-            this.incidentService.createIncident(processInstanceId.get());
+            this.incidentService.createIncident(processInstanceId.get(), messageName.get());
         };
     }
 }
