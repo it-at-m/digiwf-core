@@ -1,7 +1,6 @@
 package io.muenchendigital.digiwf.camunda.connector.incident;
 
 
-import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +25,9 @@ public class IncidentServiceImpl implements IncidentService {
 
     private final ExecutionApi executionApi;
     private final EventSubscriptionApi eventSubscriptionApi;
-    private final EngineDataSerializer serializer;
 
     @Override
     public void createIncident(final String processInstanceId, final String messageName) {
-
         try {
 
             //check parameters
@@ -60,7 +57,7 @@ public class IncidentServiceImpl implements IncidentService {
             // create incident body
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
             createIncidentDto.setIncidentType("integrationError");
-            createIncidentDto.setMessage("Error occurred in integration artifact");
+            createIncidentDto.setMessage("Error occurred in integration service");
 
             // send create incident call
             this.executionApi.createIncident(executionId, createIncidentDto);
