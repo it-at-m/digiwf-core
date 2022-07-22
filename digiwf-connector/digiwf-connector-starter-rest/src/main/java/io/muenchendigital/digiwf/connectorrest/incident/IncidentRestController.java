@@ -2,9 +2,9 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.connectorrest.message;
+package io.muenchendigital.digiwf.connectorrest.incident;
 
-import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,29 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * Rest API to handle messages.
+ * Rest API to handle incidents.
  *
  * @author externer.dl.horn
  */
 @Validated
 @Transactional
 @RestController
-@RequestMapping("/rest/message")
+@RequestMapping("/rest/incident")
 @RequiredArgsConstructor
-@Tag(name = "MessageApi", description = "API to handle messages")
-public class MessageRestController {
+@Tag(name = "IncidentApi", description = "API to handle incidents")
+public class IncidentRestController {
 
-    private final MessageService messageService;
+    private final IncidentService incidentService;
 
     /**
-     * Correlate a message
+     * Create a incident
      *
-     * @param dto message correlation data
+     * @param dto incident creation data
      */
     @PostMapping
-    @Operation(description = "correlate message")
-    public ResponseEntity<Void> correlateMessage(@RequestBody @Valid final CorrelateMessageDto dto) {
-        this.messageService.correlateMessage(dto);
+    @Operation(description = "create incident")
+    public ResponseEntity<Void> createIncident(@RequestBody @Valid final CreateIncidentDto dto) {
+        this.incidentService.createIncident(dto.getProcessInstanceId(), dto.getMessageName());
         return ResponseEntity.ok().build();
     }
 

@@ -2,9 +2,9 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.connectorrest.message;
+package io.muenchendigital.digiwf.connectorrest.bpmnerror;
 
-import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnErrorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,29 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * Rest API to handle messages.
+ * Rest API to handle bpmn errors.
  *
- * @author externer.dl.horn
+ * @author martind260
  */
 @Validated
 @Transactional
 @RestController
-@RequestMapping("/rest/message")
+@RequestMapping("/rest/bpmnerror")
 @RequiredArgsConstructor
-@Tag(name = "MessageApi", description = "API to handle messages")
-public class MessageRestController {
+@Tag(name = "BpmnErrorApi", description = "API to handle bpmn errors")
+public class BpmnErrorRestController {
 
-    private final MessageService messageService;
+    private final BpmnErrorService bpmnErrorService;
 
     /**
-     * Correlate a message
+     * Create a bpmn error
      *
-     * @param dto message correlation data
+     * @param dto error correlation data
      */
     @PostMapping
-    @Operation(description = "correlate message")
-    public ResponseEntity<Void> correlateMessage(@RequestBody @Valid final CorrelateMessageDto dto) {
-        this.messageService.correlateMessage(dto);
+    @Operation(description = "create bpmn error")
+    public ResponseEntity<Void> createBpmnError(@RequestBody @Valid final BpmnErrorDto dto) {
+        this.bpmnErrorService.createBpmnError(dto);
         return ResponseEntity.ok().build();
     }
 
