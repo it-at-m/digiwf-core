@@ -25,12 +25,14 @@
         <maven.surfire.plugin.version>2.22.2</maven.surfire.plugin.version>
         <camunda.version>7.17.0</camunda.version>
         <digiwf.json.serialization>0.1.0</digiwf.json.serialization>
+        <taskana.version>1.13.0</taskana.version>
     </properties>
 
     <modules>
         <module>digiwf-engine</module>
         <module>digiwf-connector</module>
         <module>digiwf-schema-registry</module>
+        <module>digiwf-task</module>
     </modules>
 
     <dependencyManagement>
