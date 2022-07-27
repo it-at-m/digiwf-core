@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -54,8 +54,8 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-json-serialization</artifactId>
-            <version>${digiwf.json.serialization}</version>
+            <artifactId>digiwf-json-serialization-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>

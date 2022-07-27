@@ -1,0 +1,122 @@
+### serialize simple data
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/simpleSchema.json",
+  "data": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12"
+  },
+  "previousData": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12"
+  }
+}
+
+### serialize with readonly property
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/simpleSchema.json",
+  "data": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12"
+  },
+  "previousData": {
+    "stringProp1": "stringValue",
+    "numberProp1": "7"
+  }
+}
+
+### serialize data with previous
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/schema.json",
+  "data": {
+    "stringProp1": "fsdafsda"
+  },
+  "previousData": {
+    "dateprop": "20"
+  }
+}
+
+### serialize data and update with readonly values
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/simpleSchema.json",
+  "data": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12"
+  },
+  "previousData": {
+    "numberProp1": 100,
+    "stringProp2": "100"
+  }
+}
+
+### serialize combined object schema data
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/objectSchema.json",
+  "data": {
+    "textarea1": "textAreaValue",
+    "booleanprop": true,
+    "dateprop": "2020-10-1",
+    "stringProp1": "stringValue",
+    "numberProp1": 12,
+    "objectProp": {
+      "stringProp1": "test"
+    }
+  },
+  "previousData": {
+    "numberProp1": 100
+  }
+}
+
+### serialize custom types
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/customTypesSchema.json",
+  "data": {
+    "FormField_Grusstext": "meinValue"
+  },
+  "previousData": {
+
+  }
+}
+
+### serialize complex object structure
+
+POST http://localhost:8080/serialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/validation/complexObjectSchema.json",
+  "data": {
+    "textarea": "100",
+    "textfeld": "100",
+    "objekt1": {
+      "objektTextfeld": "fdsfsdafsdafadsfsadfsdafd",
+      "objektSchalter": true
+    }
+  },
+  "previousData": {
+
+  }
+}

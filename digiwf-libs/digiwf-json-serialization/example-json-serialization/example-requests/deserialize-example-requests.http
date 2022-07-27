@@ -1,0 +1,29 @@
+### Simple deserialize example
+
+POST http://localhost:8080/deserialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/simpleSchema.json",
+  "data": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12"
+  }
+}
+
+### Deserialize example with to many data
+
+POST http://localhost:8080/deserialize
+Content-Type: application/json
+
+{
+  "schema": "/schema/serialization/simpleSchema.json",
+  "data": {
+    "stringProp1": "stringValue",
+    "numberProp1": "12",
+    "stringProp2": "stringValue2",
+    "nonExistingStringProp1": "nonExistingStringProp1",
+    "nonExistingStringProp2": "nonExistingStringProp2",
+    "nonExistingStringProp3": "nonExistingStringProp3"
+  }
+}
