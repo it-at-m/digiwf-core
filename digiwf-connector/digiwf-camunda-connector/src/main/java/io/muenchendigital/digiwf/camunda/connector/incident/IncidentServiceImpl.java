@@ -62,6 +62,7 @@ public class IncidentServiceImpl implements IncidentService {
 
         } catch (final ApiException | NoSuchElementException | IllegalArgumentException e) {
             log.error("Cannot create incident for processinstance id {} and message name {}", processInstanceId, messageName);
+            throw new RuntimeException(e);
         }
 
     }
