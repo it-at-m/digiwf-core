@@ -6,7 +6,7 @@
 
     <artifactId>digiwf-taskana-connector-starter</artifactId>
     <parent>
-        <artifactId>digiwf-core</artifactId>
+        <artifactId>digiwf-taskana-connector</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
         <version>0.1.1-SNAPSHOT</version>
     </parent>
