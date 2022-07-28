@@ -27,6 +27,7 @@
         <camunda.version>7.17.0</camunda.version>
         <digiwf.json.serialization>0.1.0</digiwf.json.serialization>
         <taskana.version>1.13.0</taskana.version>
+        <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
     </properties>
 
     <modules>

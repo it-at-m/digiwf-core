@@ -23,7 +23,7 @@ public class MessageEventConsumer {
     private final MessageService messageService;
 
     @Bean
-    public Consumer<Message<CorrelateMessageEvent>> correlateMessageV01() {
+    public Consumer<Message<CorrelateMessageEvent>> correlateMessage() {
         return correlation -> {
             log.info("Received message correlation {}", correlation.getPayload());
             this.messageService.correlateMessage(correlation.getPayload());

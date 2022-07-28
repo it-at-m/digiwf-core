@@ -12,13 +12,11 @@ import org.camunda.community.rest.client.dto.CorrelationMessageDto;
 import org.camunda.community.rest.client.dto.VariableValueDto;
 import org.camunda.community.rest.client.invoker.ApiException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
 

@@ -17,7 +17,7 @@
 
     <modules>
         <module>digiwf-connector-core</module>
-        <module>digiwf-connector-service</module>
+        <module>digiwf-camunda-connector-service</module>
         <module>digiwf-connector-starter</module>
         <module>digiwf-connector-starter-rest</module>
         <module>digiwf-camunda-connector</module>
