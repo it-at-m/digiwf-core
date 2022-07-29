@@ -4,15 +4,20 @@ package io.muenchendigital.digiwf.connector.message;
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.camunda.connector.message.MessageServiceImpl;
 import io.muenchendigital.digiwf.connector.BaseSpringTest;
+import io.muenchendigital.digiwf.connector.message.api.CorrelateMessage;
 import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.message.internal.impl.model.CorrelateMessageImpl;
 import org.camunda.community.rest.client.api.MessageApi;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.camunda.community.rest.client.invoker.ApiException;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+
+import java.util.Map;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 @DisplayName("Message Service Test")
 @Import({EngineDataSerializer.class})
@@ -32,28 +37,22 @@ public class MessageServiceTest extends BaseSpringTest {
         this.messageService = new MessageServiceImpl(this.messageApi, this.engineDataSerializer);
     }
 
-//    @Order(1)
-//    @Test
-//    @DisplayName("shouldCorrelateMessage")
-//    public void shouldCorrelateMessage() {
-//
-//        final CorrelateMessage correlateMessage = CorrelateMessageImpl.builder()
-//                .messageName("myMessage")
-//                .processInstanceId("myId")
-//                .businessKey("businessKey")
-//                .payloadVariables(Map.of("key", "value"))
-//                .payloadVariablesLocal(Map.of("localKey", "localValue"))
-//                .build();
-//
-//        final MessageCorrelationBuilder correlation = ProcessExpressions.mockMessageCorrelation(this.messageApi, "myMessage");
-//
-//        this.messageService.correlateMessage(correlateMessage);
-//
-//        verify(correlation).correlate();
-//        verify(correlation).processInstanceId("myId");
-//        verify(correlation).processInstanceBusinessKey("businessKey");
-//        verify(correlation).setVariables(Map.of("key", "value"));
-//        verify(correlation).setVariablesLocal(Map.of("localKey", "localValue"));
-//    }
+    @Order(1)
+    @Test
+    @DisplayName("should correlate message")
+    public void shouldCorrelateMessage() throws ApiException {
+
+        final CorrelateMessage correlateMessage = CorrelateMessageImpl.builder()
+                .messageName("myMessage")
+                .processInstanceId("myId")
+                .businessKey("businessKey")
+                .payloadVariables(Map.of("key", "value"))
+                .payloadVariablesLocal(Map.of("localKey", "localValue"))
+                .build();
+
+        this.messageService.correlateMessage(correlateMessage);
+
+        verify(this.messageApi).deliverMessage(any());
+    }
 
 }

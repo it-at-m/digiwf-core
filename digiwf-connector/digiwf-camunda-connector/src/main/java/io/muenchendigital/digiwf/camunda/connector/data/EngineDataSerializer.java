@@ -39,9 +39,7 @@ public class EngineDataSerializer {
         return data;
     }
 
-    //---------------------------------- helper methods ----------------------------------//
-
-    private VariableValueDto toEngineData(final Object value) {
+    public VariableValueDto toEngineData(final Object value) {
         final VariableValueDto variableValueDto = new VariableValueDto();
         if (value instanceof JSONObject || value instanceof JSONArray) {
             variableValueDto.setValue(value.toString());
@@ -51,6 +49,8 @@ public class EngineDataSerializer {
         }
         return variableValueDto;
     }
+
+    //---------------------------------- helper methods ----------------------------------//
 
     private Object fromEngineData(final Object value) {
         if (value.toString().startsWith("[")) {
