@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "7fc17afc-fdef-48a2-889c-0e16bf7901ed",
+		"name": "DigiWF-Cloudstream-Utils",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SendMessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"payload\": \"Hello World!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/sendMessage?type=processMessage",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"sendMessage"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "processMessage"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:10004",
+			"type": "default"
+		}
+	]
+}

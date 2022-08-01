@@ -1,0 +1,44 @@
+# Covers Maven specific
+**/target
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+!/.mvn/wrapper/maven-wrapper.jar
+*.log
+# Covers Eclipse specific:
+.settings/
+.classpath
+.project
+
+# H2 specific
+*.db
+
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+.idea
+*.iml
+
+# Covers Netbeans:
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Gradle
+.gradle
+gradle
+
+#Swagger
+.swagger-codegen
+.swagger-codegen-ignore
+
+# Local Config
+/example/src/main/resources/application-local.yml

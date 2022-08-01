@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration
