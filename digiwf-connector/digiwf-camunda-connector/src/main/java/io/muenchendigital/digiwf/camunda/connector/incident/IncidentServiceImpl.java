@@ -10,14 +10,12 @@ import org.camunda.community.rest.client.dto.CreateIncidentDto;
 import org.camunda.community.rest.client.dto.EventSubscriptionDto;
 import org.camunda.community.rest.client.invoker.ApiException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class IncidentServiceImpl implements IncidentService {
 

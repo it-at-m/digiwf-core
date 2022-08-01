@@ -11,15 +11,13 @@ import org.camunda.community.rest.client.api.MessageApi;
 import org.camunda.community.rest.client.dto.CorrelationMessageDto;
 import org.camunda.community.rest.client.invoker.ApiException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BpmnErrorServiceImpl implements BpmnErrorService {
 
-    public static final String VARIABLEKEY_ERROR_CODE    = "errorCode";
+    public static final String VARIABLEKEY_ERROR_CODE = "errorCode";
     public static final String VARIABLEKEY_ERROR_MESSAGE = "errorMessage";
 
     private final MessageApi messageApi;
@@ -37,11 +35,11 @@ public class BpmnErrorServiceImpl implements BpmnErrorService {
         }
 
         if (StringUtils.isNotBlank(bpmnError.getErrorCode())) {
-            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_CODE, serializer.toEngineData(bpmnError.getErrorCode()));
+            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_CODE, this.serializer.toEngineData(bpmnError.getErrorCode()));
         }
 
         if (StringUtils.isNotBlank(bpmnError.getErrorMessage())) {
-            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_MESSAGE, serializer.toEngineData(bpmnError.getErrorMessage()));
+            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_MESSAGE, this.serializer.toEngineData(bpmnError.getErrorMessage()));
         }
 
         try {

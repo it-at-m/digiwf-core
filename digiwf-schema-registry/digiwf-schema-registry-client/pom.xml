@@ -14,8 +14,6 @@
     </parent>
 
     <properties>
-        <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
-        <lombok.version>1.18.24</lombok.version>
         <swagger.codegen.version>3.0.33</swagger.codegen.version>
         <wiremock.version>2.32.0</wiremock.version>
     </properties>
