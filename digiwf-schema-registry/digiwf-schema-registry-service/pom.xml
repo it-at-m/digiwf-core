@@ -13,10 +13,6 @@
         <version>0.1.1-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
-    </properties>
-
     <dependencies>
         <!-- Spring -->
         <dependency>
