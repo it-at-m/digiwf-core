@@ -59,6 +59,7 @@ Features:
 * Easily send messages and errors to the eventbus
 * Receive messages from the eventbus and use the built-in function router to route them within your application,
   depending on the type of the message
+* Easily start processes in digiwf
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -175,13 +176,25 @@ spring.cloud.stream.bindings.sendMessage-out-0.destination=<topic>
 
 ### Sending bpmn errors and incidents
 
-To send errors you habe to specify the topics in your application.properties.
+To send errors you have to specify the topics in your application.properties.
 
 application.properties
 
 ```
   cloud.stream.bindings.sendBpmnError-out-0.destination: <topic>
   cloud.stream.bindings.sendIncident-out-0.destination: <topic>
+```
+
+<!-- FUNCTION ROUTING -->
+
+### starting processes
+
+To start processes you have to specify the topic in your application.properties.
+
+application.properties
+
+```
+  cloud.stream.bindings.sendStartProcess-out-0.destination: <topic>
 ```
 
 <!-- FUNCTION ROUTING -->

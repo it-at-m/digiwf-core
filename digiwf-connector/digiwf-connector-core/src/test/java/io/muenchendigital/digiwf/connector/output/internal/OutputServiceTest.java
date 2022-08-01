@@ -2,7 +2,7 @@ package io.muenchendigital.digiwf.connector.output.internal;
 
 
 import io.muenchendigital.digiwf.connector.BaseSpringTest;
-import io.muenchendigital.digiwf.connector.output.api.OutputService;
+import io.muenchendigital.digiwf.connector.api.output.OutputService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.messaging.Message;

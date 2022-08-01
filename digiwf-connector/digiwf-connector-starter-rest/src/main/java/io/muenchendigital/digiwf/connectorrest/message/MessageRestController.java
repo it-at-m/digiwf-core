@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.connectorrest.message;
 
-import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.api.message.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

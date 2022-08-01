@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.connectorrest.message;
 
-import io.muenchendigital.digiwf.connector.message.api.CorrelateMessage;
+import io.muenchendigital.digiwf.connector.api.message.CorrelateMessage;
 import lombok.Data;
 
 import java.util.Map;

@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.connector.message.internal.impl.model;
 
-import io.muenchendigital.digiwf.connector.message.api.CorrelateMessage;
+import io.muenchendigital.digiwf.connector.api.message.CorrelateMessage;
 import lombok.*;
 
 import java.util.Map;

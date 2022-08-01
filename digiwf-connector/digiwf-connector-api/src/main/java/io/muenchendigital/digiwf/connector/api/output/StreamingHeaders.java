@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.connector.output.api;
+package io.muenchendigital.digiwf.connector.api.output;
 
 public class StreamingHeaders {
 

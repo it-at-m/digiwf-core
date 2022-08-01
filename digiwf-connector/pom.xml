@@ -22,6 +22,7 @@
         <module>digiwf-connector-starter-rest</module>
         <module>digiwf-camunda-connector</module>
         <module>digiwf-camunda-connector-starter</module>
+        <module>digiwf-connector-api</module>
     </modules>
 
 </project>

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.connector.incident.api;
+package io.muenchendigital.digiwf.connector.api.incident;
 
 /**
  * Service to create incidents in the digiwf engine.

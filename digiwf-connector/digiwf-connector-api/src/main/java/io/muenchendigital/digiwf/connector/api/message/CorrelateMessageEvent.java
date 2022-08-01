@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.connector.message.api;
+package io.muenchendigital.digiwf.connector.api.message;
 
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class CorrelateMessageEvent implements CorrelateMessage {
 
-    
+
     private String processInstanceId;
 
     @NotBlank

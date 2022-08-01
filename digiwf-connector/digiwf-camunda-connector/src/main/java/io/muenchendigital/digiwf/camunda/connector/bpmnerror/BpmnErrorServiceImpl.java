@@ -2,8 +2,8 @@ package io.muenchendigital.digiwf.camunda.connector.bpmnerror;
 
 
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnError;
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnErrorService;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnError;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnErrorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

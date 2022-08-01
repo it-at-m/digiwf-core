@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.connector.bpmnerror.internal.impl.model;
 
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnError;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnError;
 import lombok.*;
 
 @Setter

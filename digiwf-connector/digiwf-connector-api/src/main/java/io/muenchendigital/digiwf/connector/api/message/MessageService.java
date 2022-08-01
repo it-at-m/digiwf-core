@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.connector.message.api;
+package io.muenchendigital.digiwf.connector.api.message;
 
 /**
  * Service to correlate messages in digiwf.

@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.connector.incident.internal.streaming;
 
-import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
+import io.muenchendigital.digiwf.connector.api.incident.IncidentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

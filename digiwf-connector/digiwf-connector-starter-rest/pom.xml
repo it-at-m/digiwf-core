@@ -51,10 +51,9 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>${digiwf.json.serialization}</version>
+            <version>${project.version}</version>
         </dependency>
 
-        <!-- Camunda -->
 
     </dependencies>
 

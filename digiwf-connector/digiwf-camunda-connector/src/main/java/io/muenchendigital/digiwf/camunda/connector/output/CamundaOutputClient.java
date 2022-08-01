@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.camunda.connector.output;
 
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
-import io.muenchendigital.digiwf.connector.output.api.OutputService;
+import io.muenchendigital.digiwf.connector.api.output.OutputService;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
@@ -32,7 +32,7 @@ public class CamundaOutputClient implements ExternalTaskHandler {
         } else {
             this.outputService.emitEvent(topic, type, externalTask.getProcessInstanceId(), filteredData);
         }
-        
+
         externalTaskService.complete(externalTask);
     }
 

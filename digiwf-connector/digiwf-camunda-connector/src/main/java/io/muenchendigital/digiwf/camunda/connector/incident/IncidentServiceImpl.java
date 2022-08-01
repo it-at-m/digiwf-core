@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.camunda.connector.incident;
 
 
-import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
+import io.muenchendigital.digiwf.connector.api.incident.IncidentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;

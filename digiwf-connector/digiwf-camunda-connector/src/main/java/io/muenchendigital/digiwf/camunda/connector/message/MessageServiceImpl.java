@@ -2,8 +2,8 @@ package io.muenchendigital.digiwf.camunda.connector.message;
 
 
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
-import io.muenchendigital.digiwf.connector.message.api.CorrelateMessage;
-import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.api.message.CorrelateMessage;
+import io.muenchendigital.digiwf.connector.api.message.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

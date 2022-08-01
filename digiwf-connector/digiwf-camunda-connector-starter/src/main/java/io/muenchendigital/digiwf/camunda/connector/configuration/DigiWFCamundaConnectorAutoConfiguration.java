@@ -3,7 +3,7 @@ package io.muenchendigital.digiwf.camunda.connector.configuration;
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.camunda.connector.output.CamundaOutputClient;
 import io.muenchendigital.digiwf.camunda.connector.output.CamundaOutputConfiguration;
-import io.muenchendigital.digiwf.connector.output.api.OutputService;
+import io.muenchendigital.digiwf.connector.api.output.OutputService;
 import io.muenchendigital.digiwf.connector.output.internal.OutputServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;

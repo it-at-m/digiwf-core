@@ -9,12 +9,12 @@ import reactor.core.publisher.Sinks;
 
 import java.util.Map;
 
-import static io.muenchendigital.digiwf.connector.output.api.StreamingHeaders.*;
+import static io.muenchendigital.digiwf.connector.api.output.StreamingHeaders.*;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OutputServiceImpl implements io.muenchendigital.digiwf.connector.output.api.OutputService {
+public class OutputServiceImpl implements io.muenchendigital.digiwf.connector.api.output.OutputService {
 
     private final Sinks.Many<Message<Map<String, Object>>> dynamicSink;
 

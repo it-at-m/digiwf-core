@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.connector.bpmnerror.api;
+package io.muenchendigital.digiwf.connector.api.bpmnerror;
 
 public interface BpmnError {
 

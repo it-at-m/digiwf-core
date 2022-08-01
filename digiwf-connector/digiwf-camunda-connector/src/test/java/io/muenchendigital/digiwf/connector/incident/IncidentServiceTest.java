@@ -3,7 +3,7 @@ package io.muenchendigital.digiwf.connector.incident;
 
 import io.muenchendigital.digiwf.camunda.connector.incident.IncidentServiceImpl;
 import io.muenchendigital.digiwf.connector.BaseSpringTest;
-import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
+import io.muenchendigital.digiwf.connector.api.incident.IncidentService;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
 import org.camunda.community.rest.client.api.ExecutionApi;
 import org.camunda.community.rest.client.dto.CreateIncidentDto;

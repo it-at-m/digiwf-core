@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.connectorrest.incident;
 
-import io.muenchendigital.digiwf.connector.incident.api.IncidentService;
+import io.muenchendigital.digiwf.connector.api.incident.IncidentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.connector.bpmnerror.internal.streaming;
 
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnErrorEvent;
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnErrorService;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnErrorEvent;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnErrorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

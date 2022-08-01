@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.connector.message.internal.streaming;
 
-import io.muenchendigital.digiwf.connector.message.api.CorrelateMessageEvent;
-import io.muenchendigital.digiwf.connector.message.api.MessageService;
+import io.muenchendigital.digiwf.connector.api.message.CorrelateMessageEvent;
+import io.muenchendigital.digiwf.connector.api.message.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

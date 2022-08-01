@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.connectorrest.bpmnerror;
 
-import io.muenchendigital.digiwf.connector.bpmnerror.api.BpmnErrorService;
+import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnErrorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

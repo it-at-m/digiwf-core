@@ -32,8 +32,13 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-json-serialization</artifactId>
-            <version>${digiwf.json.serialization}</version>
+            <artifactId>digiwf-json-serialization-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-connector-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
 
