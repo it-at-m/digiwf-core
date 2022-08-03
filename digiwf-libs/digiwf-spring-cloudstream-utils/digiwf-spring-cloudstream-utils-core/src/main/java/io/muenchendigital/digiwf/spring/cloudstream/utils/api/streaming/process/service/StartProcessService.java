@@ -12,12 +12,15 @@ import reactor.core.publisher.Sinks;
 
 import java.util.Map;
 
+/**
+ * Service that can be used to start processes in the digiwf platform.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class StartProcessService {
 
-    private static final String CORRELATEMESSAGEV_01 = "startProcessV01";
+    private static final String STARTPROCESS_V01 = "startProcessV01";
 
     private final Sinks.Many<Message<StartProcessEvent>> startProcessSink;
 
@@ -36,7 +39,7 @@ public class StartProcessService {
 
         final Message<StartProcessEvent> message = MessageBuilder
                 .withPayload(startProcessEvent)
-                .setHeader(StreamingHeaders.TYPE, CORRELATEMESSAGEV_01)
+                .setHeader(StreamingHeaders.TYPE, STARTPROCESS_V01)
                 .build();
 
 //        // TODO: If spring.cloud.function.definition=sendCorrelateMessage is not set, messaging doesnt work, but no error is thrown.
@@ -44,9 +47,9 @@ public class StartProcessService {
         final Sinks.EmitResult emitResult = this.startProcessSink.tryEmitNext(message);
 //
         if (emitResult.isSuccess()) {
-            log.debug("The correlating message {} was successfully delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
+            log.debug("The process start {} was successfully delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
         } else {
-            log.error("The correlating message {} couldn't be delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
+            log.error("The process start {} couldn't be delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
         }
 
         log.debug("Message: {}", message);

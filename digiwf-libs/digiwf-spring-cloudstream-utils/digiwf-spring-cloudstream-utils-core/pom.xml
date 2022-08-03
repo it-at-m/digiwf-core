@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-connector-core</artifactId>
+            <artifactId>digiwf-connector-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

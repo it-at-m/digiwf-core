@@ -15,6 +15,9 @@ import java.util.Map;
 import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.StreamingHeaders.DIGIWF_MESSAGE_NAME;
 import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID;
 
+/**
+ * Service that can be used to correlate messages to the digiwf platform.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
