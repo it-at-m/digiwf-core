@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.json.serialization;
 
 
+import io.muenchendigital.digiwf.json.serialization.serializer.JsonSerializer;
 import io.muenchendigital.digiwf.json.serialization.serializer.JsonSerializerImpl;
 import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
@@ -20,10 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class JsonSchemaSerializationServiceTest {
 
     private JsonSerializationService jsonSchemaSerializationService;
+    private JsonSerializer jsonSerializer;
 
     @BeforeEach
     private void setUp() {
-        this.jsonSchemaSerializationService = new JsonSerializationService(new JsonSerializerImpl());
+        this.jsonSerializer = new JsonSerializerImpl();
+        this.jsonSchemaSerializationService = new JsonSerializationService(this.jsonSerializer);
     }
 
     @Test
@@ -94,6 +97,33 @@ public class JsonSchemaSerializationServiceTest {
 
         //override all
         Assertions.assertThat(serializedData).isEqualTo(validData);
+    }
+
+    @Test
+    public void serializeWithReadonlyValues() throws URISyntaxException, IOException {
+        final String rawSchema = this.getSchemaString("/schema/serialization/simpleSchema.json");
+
+        final Map<String, Object> source = Map.of(
+                "stringProp1", "stringValue"
+        );
+
+        final Map<String, Object> target = Map.of(
+        );
+
+
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final JSONObject defaultValue = this.jsonSchemaSerializationService.initialize(new JSONObject(rawSchema).toString());
+        final Map<String, Object> serializedDataWithDefaultValues = this.jsonSchemaSerializationService.merge(new JSONObject(serializedData), defaultValue);
+
+        final Map<String, Object> validData = new HashMap<>();
+
+        validData.put("stringProp1", "stringValue");
+        validData.put("stringProp2", "");
+
+        //override all
+        Assertions.assertThat(serializedDataWithDefaultValues).isEqualTo(validData);
     }
 
     @Test
@@ -453,7 +483,6 @@ public class JsonSchemaSerializationServiceTest {
         final JSONObject initializedObject = this.jsonSchemaSerializationService.initialize(rawSchema);
 
         Assertions.assertThat(initializedObject.toMap()).isEqualTo(Map.of(
-                "numberProp1", "",
                 "stringProp1", "",
                 "stringProp2", ""
         ));

@@ -48,6 +48,16 @@ public interface JsonSerializer {
      */
     Set<String> extractRootKeys(final Schema schema);
 
+
+    /**
+     * Returns all root keys that are in the json schema.
+     *
+     * @param schema
+     * @param filterReadOnly
+     * @return root keys
+     */
+    Set<String> extractRootKeys(final Schema schema, Boolean filterReadOnly);
+
     /**
      * Extract a value from a json object
      *

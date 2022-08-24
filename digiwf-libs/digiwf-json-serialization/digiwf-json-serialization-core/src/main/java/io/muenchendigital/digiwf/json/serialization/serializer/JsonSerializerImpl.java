@@ -78,15 +78,19 @@ public class JsonSerializerImpl implements JsonSerializer {
         return this.deepMerge(source, target).toMap();
     }
 
-    /**
-     * Returns all root keys that are in the json schema.
-     *
-     * @param schema
-     * @return root keys
-     */
     @Override
-    public Set<String> extractRootKeys(final Schema schema) {
+    public Set<String> extractRootKeys(final Schema schema, final Boolean filterReadOnly) {
         if (schema instanceof ObjectSchema) {
+            final ObjectSchema objectSchema = (ObjectSchema) schema;
+
+            if (filterReadOnly) {
+                return objectSchema.getPropertySchemas()
+                        .keySet()
+                        .stream()
+                        .filter(key -> objectSchema.getPropertySchemas().get(key).isReadOnly() != Boolean.TRUE)
+                        .collect(Collectors.toSet());
+            }
+
             return new HashSet<>(((ObjectSchema) schema).getPropertySchemas().keySet());
         }
 
@@ -100,6 +104,17 @@ public class JsonSerializerImpl implements JsonSerializer {
                     .collect(Collectors.toSet());
         }
         return Collections.emptySet();
+    }
+
+    /**
+     * Returns all root keys that are in the json schema.
+     *
+     * @param schema
+     * @return root keys
+     */
+    @Override
+    public Set<String> extractRootKeys(final Schema schema) {
+        return this.extractRootKeys(schema, false);
     }
 
     /**

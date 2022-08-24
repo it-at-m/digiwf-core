@@ -86,7 +86,7 @@ public class JsonSerializationService {
      */
     public JSONObject initialize(final String schema) {
         final Schema schemaObj = JsonSerializationService.createSchema(new JSONObject(schema));
-        final Set<String> rootKeys = this.serializer.extractRootKeys(schemaObj);
+        final Set<String> rootKeys = this.serializer.extractRootKeys(schemaObj, true);
         return this.serializer.generateObject(rootKeys);
     }
 
