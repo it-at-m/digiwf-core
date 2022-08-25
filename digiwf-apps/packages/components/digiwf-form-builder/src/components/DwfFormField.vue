@@ -57,7 +57,7 @@ import {computed, defineComponent, inject} from "@vue/composition-api";
 import {FormBuilderSettings} from "@dh-nx-test/digiwf-form-builder-settings";
 
 export default defineComponent({
-  props: ['value', "fieldKey"],
+  props: ['value', 'fieldKey'],
   emits: ['input', 'remove'],
   setup(props, {emit}) {
     const settings = inject<FormBuilderSettings>("builderSettings");

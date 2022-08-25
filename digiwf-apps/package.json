@@ -7,7 +7,7 @@
     "refresh": "lerna bootstrap",
     "build": "lerna run build --stream",
     "new-version": "lerna version --no-push --no-git-tag-version",
-    "dev:forms": "lerna run dev --stream --scope=@dh-nx-test/digiwf-forms"
+    "dev:forms": "lerna run dev --stream --scope=@dh-nx-test/digiwf-forms-example"
   },
   "author": {
     "name": "Dominik horn",

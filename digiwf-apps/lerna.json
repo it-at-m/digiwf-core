@@ -3,7 +3,7 @@
     "packages/components/digiwf-form-renderer",
     "packages/components/digiwf-form-builder",
     "packages/components/digiwf-form-builder-settings",
-    "packages/apps/digiwf-forms"
+    "packages/apps/digiwf-forms-example"
   ],
   "version": "0.17.0"
 }
