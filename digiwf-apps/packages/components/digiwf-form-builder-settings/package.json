@@ -1,0 +1,19 @@
+{
+  "name": "@dh-nx-test/digiwf-form-builder-settings",
+  "description": "Form Builder Settings",
+  "version": "0.17.0",
+  "module": "dist/digiwf-form-builder-settings.mjs",
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "files": [
+    "dist/*",
+    "types/*"
+  ],
+  "types": "types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "b2b458745431c62fd6a055d9b3c32ce14b0c8435"
+}

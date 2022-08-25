@@ -1,0 +1,180 @@
+<template>
+  <v-list-item
+      class="container-box"
+  >
+    <v-list-group
+        no-action
+        sub-group
+        prepend-icon=""
+        class="container-header"
+    >
+      <template #activator>
+        <v-flex class="container-content">
+          <v-icon
+              size="30"
+              class="mr-5 handle"
+          >
+            mdi-border-none-variant
+          </v-icon>
+          <span class="font-weight-bold">{{ value.title }}</span>
+          <v-spacer/>
+          <v-menu
+              top
+              offset-x
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                  icon
+                  v-bind="attrs"
+                  v-on.prevent="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <dwf-edit-section-modal
+                  :value="value"
+                  :schema="settings.conditionalContainerSchema"
+                  @saved="onContainerChanged"
+              />
+              <v-list-item
+                  link
+                  @click="removed"
+              >
+                <v-list-item-title>Remove</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-flex>
+      </template>
+
+      <draggable
+          :list="value.oneOf"
+          class="list-group"
+          handle=".handle"
+          v-bind="dragOptions"
+          @change="onListChanged"
+          @start="drag = true"
+          @end="drag = false"
+      >
+        <dwf-form-optional-item
+            v-for="optItem in value.oneOf"
+            :key="uuid(optItem)"
+            :value="optItem"
+            :default="value.default"
+            @defaultChanged="defaultChanged"
+            @input="onItemChanged"
+            @remove="onItemRemoved"
+        />
+        <div
+            v-if="value.oneOf < 1"
+            slot="header"
+            role="group"
+            class="field-placeholder"
+        >
+          insert Item
+        </div>
+      </draggable>
+    </v-list-group>
+  </v-list-item>
+</template>
+
+<script lang="ts">
+import {generateUUID} from "@/utils/UUIDGenerator";
+import {defineComponent, inject, set} from "@vue/composition-api";
+import {FormBuilderSettings} from "@dh-nx-test/digiwf-form-builder-settings";
+
+export default defineComponent({
+  props: ['fieldKey', 'value'],
+  emits: ['input', 'remove'],
+  setup(props, {emit}) {
+    const dragOptions = {
+      animation: 200,
+      group: "optionalItem",
+      disabled: false,
+    };
+    const settings = inject<FormBuilderSettings>("builderSettings")
+
+
+    const input = (value: any) => {
+      emit('input', {
+        key: props.fieldKey,
+        newKey: value.key,
+        value: value
+      })
+    }
+
+    const removed = () => {
+      emit('remove', props.value.key);
+    }
+
+    const onListChanged = () => {
+      input(props.value);
+    }
+
+    const uuid = (container: any) => {
+      if (container.key) return container.key;
+      const key = generateUUID();
+      root.$set(container, "key", key);
+      input(props.value);
+      return container.key;
+    }
+
+
+    const defaultChanged = (value: any) => {
+      const defaultValue: any = {}
+      defaultValue[value[0]] = value[1].const;
+      const newSection = {
+        ...props.value,
+        "default": defaultValue
+      };
+      input(newSection);
+    }
+
+    const onItemChanged = (container: any) => {
+      for (let i = 0; i < props.value.oneOf.length; i++) {
+        if (props.value.oneOf[i].key === container.key) {
+          set(props.value.oneOf, i, container);
+          input({
+            ...props.value
+          });
+          return;
+        }
+      }
+    }
+
+    const onItemRemoved = (key: string) => {
+      props.value.oneOf = props.value.oneOf.filter((el: any) => el.key != key);
+      input({
+        ...props.value
+      });
+    }
+
+    const onContainerChanged = (section: any) => {
+      const newSection = {
+        ...section,
+        oneOf: props.value.oneOf
+      };
+      input(newSection);
+    }
+
+
+    return {
+      dragOptions,
+      settings,
+      input,
+      removed,
+      onListChanged,
+      uuid,
+      defaultChanged,
+      onItemChanged,
+      onItemRemoved,
+      onContainerChanged
+    }
+  }
+
+});
+
+</script>
+
+

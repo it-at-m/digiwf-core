@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "packages/components/digiwf-form-renderer",
+    "packages/components/digiwf-form-builder",
+    "packages/components/digiwf-form-builder-settings",
+    "packages/apps/digiwf-forms"
+  ],
+  "version": "0.17.0"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@dh-nx-test/digiwf-form-renderer",
+  "description": "Form renderer",
+  "version": "0.17.0",
+  "module": "dist/digiwf-form-renderer.mjs",
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "peerDependencies": {
+    "@koumoul/vjsf": "2.11.3",
+    "vue": "2.6.14",
+    "vuetify": "^2.6.9"
+  },
+  "devDependencies": {
+    "deepmerge": "^4.2.2"
+  },
+  "files": [
+    "dist/*",
+    "types/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "types/index.d.ts",
+  "gitHead": "47fcec12b321f6890de7729c98cd5f0ed7b1189d"
+}
