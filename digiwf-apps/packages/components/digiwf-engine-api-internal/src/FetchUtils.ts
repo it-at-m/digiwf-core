@@ -2,7 +2,7 @@ import {Configuration} from '@/api';
 
 export default class FetchUtils {
 
-    private static base: string = process.env.VUE_APP_API_URL ? process.env.VUE_APP_API_URL : '';
+    private static base: string = '';
 
     /**
      * Liefert eine default GET-Config für fetch

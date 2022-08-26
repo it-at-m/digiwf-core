@@ -28,7 +28,7 @@
 
     <div v-if="documents && documents.length > 0" class="listWrapper">
       <template v-for="doc in documents">
-        <v-file-preview
+        <dwf-file-preview
             :document="doc"
             :key="doc.name"
             :readonly="isReadonly"
@@ -44,10 +44,11 @@
 
 import mime from "mime";
 import globalAxios from "axios";
+//@ts-ignore
 import {v4 as uuidv4} from 'uuid';
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import {DocumentData, FormContext} from "../../types";
-import FetchUtils from "@muenchen/digiwf-engine-api-internal";
+import {Configuration, DocumentRestControllerApi, FetchUtils} from "@muenchen/digiwf-engine-api-internal";
 
 export default defineComponent({
   props: [
@@ -269,7 +270,8 @@ export default defineComponent({
 
       let res: any;
       if (formContext.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
+        const test = new DocumentRestControllerApi(cfg)
+        res = await ServiceStartFileRestControllerApi(cfg).getFileNames1(
             formContext.id,
             filePath
         );

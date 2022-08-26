@@ -1,8 +1,6 @@
-import {defineConfig} from 'vite'
-
+import { defineConfig } from 'vite';
 //@ts-ignore
-import {fileURLToPath, URL} from "url";
-
+import { fileURLToPath, URL } from "url";
 export default defineConfig({
     plugins: [],
     build: {
@@ -13,7 +11,7 @@ export default defineConfig({
         },
         rollupOptions: {
             plugins: [
-                //  typescript(/*{ plugin options }*/)
+            //  typescript(/*{ plugin options }*/)
             ]
         },
         minify: 'esbuild'
@@ -24,4 +22,5 @@ export default defineConfig({
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
-})
+});
+//# sourceMappingURL=vite.config.js.map

@@ -24,7 +24,9 @@
       ]
     },
     "lib": [
-      "esnext"
+      "esnext",
+      "dom",
+      "dom.iterable"
     ]
   },
   "exclude": [

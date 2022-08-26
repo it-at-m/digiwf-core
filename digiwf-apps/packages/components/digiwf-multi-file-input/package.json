@@ -1,8 +1,8 @@
 {
-  "name": "@muenchen/digiwf-form-renderer",
+  "name": "@muenchen/digiwf-multi-file-input",
   "description": "Form renderer",
   "version": "0.17.0",
-  "module": "dist/digiwf-form-renderer.mjs",
+  "module": "dist/digiwf-multi-file-input.mjs",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"
@@ -15,7 +15,11 @@
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
-    "deepmerge": "^4.2.2"
+    "@types/mime": "^2.0.3",
+    "axios": "^0.26.0",
+    "mime": "^3.0.0",
+    "uuid": "^8.3.2",
+    "vue-pdf-embed": "^1.1.2"
   },
   "files": [
     "dist/*",

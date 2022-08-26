@@ -15,9 +15,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "newLine": "lf",
+    "outDir": "dist/",
     "types": [
       "vue",
-      "vuetify"
+      "vuetify",
+      "node"
     ],
     "paths": {
       "@/*": [
@@ -25,7 +27,8 @@
       ]
     },
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ]
   },
   "exclude": [

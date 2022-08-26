@@ -39,19 +39,19 @@ export interface GetPresignedUrlForFileUpload1Request {
 }
 
 /**
- * 
+ *
  */
-export class ServiceStartFileRestControllerApi extends runtime.BaseAPI {
+export class v extends runtime.BaseAPI {
 
     /**
      */
     async getFileNames1Raw(requestParameters: GetFileNames1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
         if (requestParameters.definitionKey === null || requestParameters.definitionKey === undefined) {
-            throw new runtime.RequiredError('definitionKey','Required parameter requestParameters.definitionKey was null or undefined when calling getFileNames1.');
+            throw new runtime.RequiredError('definitionKey', 'Required parameter requestParameters.definitionKey was null or undefined when calling getFileNames1.');
         }
 
         if (requestParameters.filePath === null || requestParameters.filePath === undefined) {
-            throw new runtime.RequiredError('filePath','Required parameter requestParameters.filePath was null or undefined when calling getFileNames1.');
+            throw new runtime.RequiredError('filePath', 'Required parameter requestParameters.filePath was null or undefined when calling getFileNames1.');
         }
 
         const queryParameters: any = {};
@@ -88,15 +88,15 @@ export class ServiceStartFileRestControllerApi extends runtime.BaseAPI {
      */
     async getPresignedUrlForFileDeletion1Raw(requestParameters: GetPresignedUrlForFileDeletion1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters.definitionKey === null || requestParameters.definitionKey === undefined) {
-            throw new runtime.RequiredError('definitionKey','Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileDeletion1.');
+            throw new runtime.RequiredError('definitionKey', 'Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileDeletion1.');
         }
 
         if (requestParameters.filename === null || requestParameters.filename === undefined) {
-            throw new runtime.RequiredError('filename','Required parameter requestParameters.filename was null or undefined when calling getPresignedUrlForFileDeletion1.');
+            throw new runtime.RequiredError('filename', 'Required parameter requestParameters.filename was null or undefined when calling getPresignedUrlForFileDeletion1.');
         }
 
         if (requestParameters.filePath === null || requestParameters.filePath === undefined) {
-            throw new runtime.RequiredError('filePath','Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileDeletion1.');
+            throw new runtime.RequiredError('filePath', 'Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileDeletion1.');
         }
 
         const queryParameters: any = {};
@@ -133,15 +133,15 @@ export class ServiceStartFileRestControllerApi extends runtime.BaseAPI {
      */
     async getPresignedUrlForFileDownload1Raw(requestParameters: GetPresignedUrlForFileDownload1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters.definitionKey === null || requestParameters.definitionKey === undefined) {
-            throw new runtime.RequiredError('definitionKey','Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileDownload1.');
+            throw new runtime.RequiredError('definitionKey', 'Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileDownload1.');
         }
 
         if (requestParameters.fileName === null || requestParameters.fileName === undefined) {
-            throw new runtime.RequiredError('fileName','Required parameter requestParameters.fileName was null or undefined when calling getPresignedUrlForFileDownload1.');
+            throw new runtime.RequiredError('fileName', 'Required parameter requestParameters.fileName was null or undefined when calling getPresignedUrlForFileDownload1.');
         }
 
         if (requestParameters.filePath === null || requestParameters.filePath === undefined) {
-            throw new runtime.RequiredError('filePath','Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileDownload1.');
+            throw new runtime.RequiredError('filePath', 'Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileDownload1.');
         }
 
         const queryParameters: any = {};
@@ -178,15 +178,15 @@ export class ServiceStartFileRestControllerApi extends runtime.BaseAPI {
      */
     async getPresignedUrlForFileUpload1Raw(requestParameters: GetPresignedUrlForFileUpload1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters.definitionKey === null || requestParameters.definitionKey === undefined) {
-            throw new runtime.RequiredError('definitionKey','Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileUpload1.');
+            throw new runtime.RequiredError('definitionKey', 'Required parameter requestParameters.definitionKey was null or undefined when calling getPresignedUrlForFileUpload1.');
         }
 
         if (requestParameters.filename === null || requestParameters.filename === undefined) {
-            throw new runtime.RequiredError('filename','Required parameter requestParameters.filename was null or undefined when calling getPresignedUrlForFileUpload1.');
+            throw new runtime.RequiredError('filename', 'Required parameter requestParameters.filename was null or undefined when calling getPresignedUrlForFileUpload1.');
         }
 
         if (requestParameters.filePath === null || requestParameters.filePath === undefined) {
-            throw new runtime.RequiredError('filePath','Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileUpload1.');
+            throw new runtime.RequiredError('filePath', 'Required parameter requestParameters.filePath was null or undefined when calling getPresignedUrlForFileUpload1.');
         }
 
         const queryParameters: any = {};

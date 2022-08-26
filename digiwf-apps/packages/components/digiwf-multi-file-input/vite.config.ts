@@ -2,16 +2,25 @@ import {createVuePlugin} from "vite-plugin-vue2";
 import {defineConfig} from 'vite'
 //@ts-ignore
 import {fileURLToPath, URL} from "url";
+import Components from 'unplugin-vue-components/vite'
+import {VuetifyResolver} from "unplugin-vue-components/resolvers";
 
 export default defineConfig({
     plugins: [
         createVuePlugin(),
+        Components({
+            transformer: 'vue2',
+            dts: true,
+            resolvers: [
+                VuetifyResolver()
+            ]
+        })
     ],
     build: {
         target: 'esnext',
         lib: {
             entry: 'src/index.ts',
-            name: 'digiwf-form-renderer',
+            name: 'digiwf-multi-file-input',
         },
         rollupOptions: {
             external: [

@@ -6,18 +6,24 @@
   "scripts": {
     "build": "vite build",
     "api": "openapi-generator-cli generate -i ./api/api-docs.json -o src/api/ -g typescript-fetch --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true",
+    "api2": "openapi-generator-cli generate \\\n  -i ./api/api-docs.json \\\n  -o src/generated-sources/openapi \\\n  -g typescript-fetch \\\n  --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true",
     "watch": "vite build --watch"
   },
   "files": [
     "dist/*",
     "types/*"
   ],
-  "types": "types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "gitHead": "b2b458745431c62fd6a055d9b3c32ce14b0c8435",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.5.1"
+    "@openapitools/openapi-generator-cli": "^2.5.1",
+    "@types/node": "^18.7.13",
+    "rollup-plugin-typescript2": "^0.33.0"
+  },
+  "dependencies": {
+    "typescript": "^4.8.2"
   }
 }

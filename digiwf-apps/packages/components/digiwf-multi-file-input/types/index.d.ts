@@ -1,10 +1,6 @@
 import Vue from "vue";
 
-export class DwfFormRenderer extends Vue {
-    options: any;
-    buttonText: string;
-    value: any;
-    schema: any;
+export class DwfMultiFileInput extends Vue {
 }
 
 export interface DocumentData {

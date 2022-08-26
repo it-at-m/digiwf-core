@@ -1,7 +1,13 @@
 <template>
   <v-app>
     <menu></menu>
-    <!--    <dwf-form-renderer :schema="schema" :options="{}"></dwf-form-renderer>-->
+    <DwfMultiFileInput
+        color="primary"
+        :schema='{"description": "Dies ist eine Beschreibung.", "filePath": "/Documents/", "uuidEnabled": true}'
+        fullKey="FormField_Datei"
+        :rules="['Required']"
+        label="File"
+    ></DwfMultiFileInput>
     <dwf-form-builder :value="schema" :builderSettings="settings"></dwf-form-builder>
   </v-app>
 </template>
@@ -9,11 +15,12 @@
 <script lang="ts">
 import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
 import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
-import {defineComponent} from "@vue/composition-api";
+import {defineComponent, provide} from "@vue/composition-api";
 import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
+import {DwfMultiFileInput} from "@muenchen/digiwf-multi-file-input";
 
 export default defineComponent({
-  components: {DwfFormRenderer, DwfFormBuilder},
+  components: {DwfFormRenderer, DwfFormBuilder, DwfMultiFileInput},
   setup(props) {
     const schema = {
       "type": "object",
@@ -226,6 +233,8 @@ export default defineComponent({
         }
       ]
     }
+
+    provide('apiEndpoint', import.meta.env.BASE_URL + 'api/digitalwf-backend-service');
 
     const settings = SettingsEN;
 
