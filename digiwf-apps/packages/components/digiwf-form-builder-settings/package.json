@@ -1,5 +1,5 @@
 {
-  "name": "@dh-nx-test/digiwf-form-builder-settings",
+  "name": "@muenchen/digiwf-form-builder-settings",
   "description": "Form Builder Settings",
   "version": "0.17.0",
   "module": "dist/digiwf-form-builder-settings.mjs",

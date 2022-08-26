@@ -1,5 +1,6 @@
 import {createVuePlugin} from "vite-plugin-vue2";
 import {defineConfig} from 'vite'
+//@ts-ignore
 import {fileURLToPath, URL} from "url";
 
 export default defineConfig({
@@ -31,6 +32,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
+            //@ts-ignore
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },

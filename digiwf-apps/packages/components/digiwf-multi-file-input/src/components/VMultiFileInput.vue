@@ -1,0 +1,496 @@
+<template>
+  <div class="pa-0">
+    <VFileInput
+        v-model="fileValue"
+        :disabled="isReadonly || !canAddDocument"
+        :rules="rules ? rules : true"
+        :loading="isLoading"
+        outlined
+        multiple
+        :label="label"
+        type="file"
+        truncate-length="50"
+        :error-messages="errorMessage"
+        v-bind="schema['x-props']"
+        @change="changeInput"
+    >
+      <template #append-outer>
+        <v-tooltip v-if="schema.description" left :open-on-hover="false">
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="on.click" @blur="on.blur" retain-focus-on-click>
+              <v-icon> mdi-information</v-icon>
+            </v-btn>
+          </template>
+          <div class="tooltip">{{ schema.description }}</div>
+        </v-tooltip>
+      </template>
+    </VFileInput>
+
+    <div v-if="documents && documents.length > 0" class="listWrapper">
+      <template v-for="doc in documents">
+        <v-file-preview
+            :document="doc"
+            :key="doc.name"
+            :readonly="isReadonly"
+            @remove-document="removeDocument"
+        />
+      </template>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+</template>
+
+<script lang="ts">
+
+import mime from "mime";
+import globalAxios from "axios";
+import {v4 as uuidv4} from 'uuid';
+import {computed, defineComponent, inject} from "@vue/composition-api";
+import {DocumentData, FormContext} from "../../types";
+import FetchUtils from "@muenchen/digiwf-engine-api-internal";
+
+export default defineComponent({
+  props: [
+    'valid',
+    'readonly',
+    'hasFocused',
+    'value',
+    'options',
+    'schema',
+    'fullKey',
+    'dense',
+    'label',
+    'disabled',
+    'rules',
+    'on'
+  ],
+  setup(props) {
+    let model = "";
+    let fileValue: File[] | null = null;
+    let data: any = {};
+    let documents: DocumentData[] = [];
+    let errorMessage = "";
+    let isLoading = false;
+    let uuid = "";
+
+    const apiEndpoint = inject<string>('apiEndpoint');
+    const formContext = inject<FormContext>('apiEndpoint');
+
+    const input = (value: any): any => {
+      if (!props.on) {
+        return;
+      }
+      //return without uuid if not enabled
+      if (!props.schema.uuidEnabled) {
+        return props.on.input({amount: value});
+      }
+      return props.on.input({
+        key: uuid,
+        amount: value
+      });
+    }
+
+    const created = () => {
+      if (!formContext.id) {
+        errorMessage = "no contextId";
+        return;
+      }
+
+      //initialize uuid if enabled
+      if (props.schema.uuidEnabled) {
+        if (props.value && props.value.key) {
+          uuid = props.value.key;
+        } else {
+          uuid = uuidv4();
+        }
+      }
+      loadInitialValues();
+    }
+
+    const isReadonly = computed(() => {
+      return (
+          props.disabled ||
+          props.readonly ||
+          props.schema.readOnly ||
+          isLoading
+      );
+    });
+
+    const canAddDocument = computed(() => {
+      return documents.length < 10;
+    });
+
+    const filePath = computed(() => {
+      let path = props.schema.filePath ? props.schema.filePath : '';
+
+      //append uuid to path if enabled
+      if (props.schema.uuidEnabled) {
+        path = path !== '' ? path + "/" + uuid : uuid;
+      }
+
+      return path;
+    })
+
+    const loadInitialValues = async () => {
+      try {
+        isLoading = true;
+
+        // get filenames
+        const filenames = await getFilenames();
+        for (const filename of filenames) {
+          await loadFile(filename);
+        }
+        errorMessage = "";
+        if (documents.length > 0) {
+          // set dummy value to satisfy "required"-rule
+          fileValue = [];
+          fileValue.push(new File([""], documents[0].name));
+          input(documents.length);
+        }
+      } catch (error) {
+        errorMessage = "Die Dateien konnten nicht geladen werden.";
+      }
+      isLoading = false;
+    }
+
+    const loadFile = async (filename: string) => {
+      // get presigned url
+      const presignedUrl = await getPresignedUrlForGet(filename);
+
+      // get file content
+      const res = await globalAxios.get(presignedUrl, {
+        responseType: "arraybuffer",
+      });
+      let content = arrayBufferToString(res.data);
+      let size = getEncodedContentSize(content);
+
+      // push data
+      const doc = createDocumentDataInstance(
+          filename,
+          getMimeType(filename),
+          base64OfString(content),
+          size
+      );
+      documents.push(doc);
+    }
+
+    const getEncodedContentSize = (content: string): number => {
+      if (isBase64Encoded(content)) { // deprecated: Files are no longer serialized in Base64 encoding
+        let decoded = window.atob(content);
+        return decoded.length;
+      }
+      return content.length;
+    }
+
+    const getMimeType = (filename: string) => {
+      const mimetype = mime.getType(filename);
+      return mimetype ? mimetype : "plain/text";
+    }
+
+    const addDocument = async (mydata: any, file: File): Promise<void> => {
+      const startTime = new Date().getTime();
+      isLoading = true;
+
+      try {
+        isLoading = true;
+
+        validateFileSize(mydata);
+
+        const presignedUrl = await getPresignedUrlForPost(file);
+        await globalAxios.put(presignedUrl, mydata);
+
+        let content = arrayBufferToString(mydata);
+
+        const doc = createDocumentDataInstance(
+            file!.name,
+            file!.type,
+            base64OfString(content),
+            mydata.byteLength
+        );
+
+        documents.push(doc);
+
+        errorMessage = "";
+        isLoading = false;
+        input(documents.length);
+      } catch (error: any) {
+        if (
+            error.response &&
+            error.response.status &&
+            error.response.status == 409
+        ) {
+          errorMessage = "Das Dokument existiert bereits.";
+        } else if (!errorMessage) {
+          errorMessage = "Das Dokument konnte nicht hochgeladen werden.";
+        }
+        setTimeout(() => {
+          isLoading = false;
+        }, Math.max(0, 5000 - (new Date().getTime() - startTime)));
+      }
+      isLoading = false;
+    }
+
+    const validateFileSize = (mydata: ArrayBuffer) => {
+      if (mydata.byteLength > 10485760) {
+        errorMessage = "Die Datei ist muss kleiner als 10MB sein.";
+        throw new Error("File too large.");
+      }
+    }
+
+    const createDocumentDataInstance = (
+        name: string,
+        type: string,
+        data: string,
+        size: number
+    ) => {
+      const doc: DocumentData = {
+        type: type,
+        name: name,
+        data: toDataUrl(type, data),
+        size: size!,
+      };
+      return doc;
+    }
+
+    const toDataUrl = (type: string, data: string): string => {
+      return `data:${type};base64, ${data}`;
+    }
+
+    const axiosConfig = (): Configuration => {
+      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      cfg.baseOptions.headers = {"Content-Type": "application/json"};
+      cfg.basePath = apiEndpoint;
+      return cfg;
+    }
+
+
+    const getFilenames = async (): Promise<string[]> => {
+      const cfg = axiosConfig();
+
+      let res: any;
+      if (formContext.type === "start") {
+        res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
+            formContext.id,
+            filePath
+        );
+      } else if (formContext.type == "task") {
+        res = await HumanTaskFileRestControllerApiFactory(cfg).getFileNames(
+            formContext.id,
+            filePath
+        );
+      } else {
+        //type "instance"
+        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getFileNames2(
+            formContext.id,
+            filePath
+        );
+      }
+
+      return res.data;
+    }
+
+    const getPresignedUrlForPost = async (file: File): Promise<string> => {
+      const cfg = axiosConfig();
+
+      let res: any;
+      if (formContext.type === "start") {
+        res = await ServiceStartFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileUpload1(
+            formContext.id,
+            file!.name,
+            filePath
+        );
+      } else if (formContext.type == "task") {
+        res = await HumanTaskFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileUpload(
+            formContext.id,
+            file!.name,
+            filePath
+        );
+      } else {
+        //type "instance"
+        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload2(
+            formContext.id,
+            file!.name,
+            filePath
+        );
+      }
+
+      return res.data;
+    }
+
+    const getPresignedUrlForGet = async (filename: string): Promise<string> => {
+      const cfg = axiosConfig();
+
+      let res: any;
+      if (formContext.type === "start") {
+        res = await ServiceStartFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileDownload1(
+            formContext.id,
+            filename,
+            filePath
+        );
+      } else if (formContext.type == "task") {
+        res = await HumanTaskFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileDownload(
+            formContext.id,
+            filename,
+            filePath
+        );
+      } else {
+        //type "instance"
+        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDownload2(
+            formContext.id,
+            filename,
+            filePath
+        );
+      }
+
+      return res.data;
+    }
+
+    const getPresignedUrlForDelete = async (filename: string): Promise<string> => {
+      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getDELETEConfig());
+      cfg.basePath = apiEndpoint;
+
+      let res: any;
+      if (formContext.type === "start") {
+        res = await ServiceStartFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileDeletion1(
+            formContext.id,
+            filename,
+            filePath
+        );
+      } else if (formContext.type == "task") {
+        res = await HumanTaskFileRestControllerApiFactory(
+            cfg
+        ).getPresignedUrlForFileDeletion(
+            formContext.id,
+            filename,
+            filePath
+        );
+      } else {
+        //type "instance"
+        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion2(
+            formContext.id,
+            filename,
+            filePath
+        );
+      }
+
+      return res.data;
+    }
+
+    const changeInput = () => {
+      if (!fileValue) {
+        return;
+      }
+
+      errorMessage = "";
+
+      fileValue.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            addDocument(event.target?.result, file);
+          } catch (e: any) {
+            errorMessage = e.message;
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    const removeDocument = async (document: DocumentData): Promise<void> => {
+      for (let i = 0; i < documents.length; i++) {
+        if (documents[i].name == document.name) {
+          try {
+            const presignedDeleteUrl = await getPresignedUrlForDelete(
+                document.name
+            );
+            await globalAxios.delete(presignedDeleteUrl);
+            documents.splice(i, 1);
+            if (documents.length == 0) {
+              // set null value to violate "required"-rule
+              fileValue = null;
+            }
+            break; // only remove first item
+          } catch (error) {
+            errorMessage = "Die Datei konnte nicht gelöscht werden.";
+          }
+        }
+      }
+      input(documents.length);
+    }
+
+    const base64OfString = (content: string) => {
+      if (isBase64Encoded(content)) { // deprecated: Files are no longer serialized in Base64 encoding
+        return content;
+      }
+      return window.btoa(content);
+    }
+
+    const arrayBufferToString = (buffer: ArrayBuffer) => {
+      let content = "";
+      const bytes = new Uint8Array(buffer);
+      const len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
+        content += String.fromCharCode(bytes[i]);
+      }
+      return content;
+    }
+
+    const isBase64Encoded = (content: string) => {
+      var base64Regex =
+          /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+      return base64Regex.test(content);
+    }
+
+    return {
+      model,
+      fileValue,
+      data,
+      documents,
+      errorMessage,
+      isLoading,
+      uuid,
+      changeInput,
+      canAddDocument,
+      isReadonly,
+      removeDocument
+    }
+
+  }
+});
+</script>
+
+<style>
+/* hide last added filename in textfield */
+.v-file-input .v-file-input__text {
+  display: none;
+}
+</style>
+
+<style scoped>
+.listWrapper {
+  margin-top: -6px;
+  margin-bottom: 26px;
+  float: left;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tooltip {
+  max-width: 200px;
+}
+
+.v-input--is-disabled:not(.v-input--is-readonly) {
+  pointer-events: all;
+}
+
+</style>

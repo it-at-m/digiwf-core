@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import {DwfFormRenderer, FormField} from "@dh-nx-test/digiwf-form-renderer";
+import {DwfFormRenderer, FormField} from "@muenchen/digiwf-form-renderer";
 import {computed, defineComponent, reactive, ref} from "@vue/composition-api";
 
 export default defineComponent({

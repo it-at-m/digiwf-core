@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import {DwfFormRenderer} from "@dh-nx-test/digiwf-form-renderer";
-import {DwfFormBuilder} from "@dh-nx-test/digiwf-form-builder";
+import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
+import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
 import {defineComponent} from "@vue/composition-api";
-import {SettingsEN} from "../../../components/digiwf-form-builder-settings";
+import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder},

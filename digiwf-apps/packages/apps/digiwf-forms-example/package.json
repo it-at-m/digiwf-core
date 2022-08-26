@@ -1,6 +1,6 @@
 {
-  "name": "@dh-nx-test/digiwf-forms",
-  "description": "Vue+Vite+Lerna Blueprint",
+  "name": "@muenchen/digiwf-forms",
+  "description": "DigiWF Forms",
   "private": true,
   "version": "0.17.0",
   "scripts": {
@@ -8,8 +8,9 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@dh-nx-test/digiwf-form-renderer": "*",
-    "@dh-nx-test/digiwf-form-builder": "*",
+    "@muenchen/digiwf-form-renderer": "*",
+    "@muenchen/digiwf-form-builder": "*",
+    "@muenchen/digiwf-form-builder-settings": "*",
     "@koumoul/vjsf": "2.11.3",
     "vue": "2.6.14",
     "vuetify": "^2.6.9"

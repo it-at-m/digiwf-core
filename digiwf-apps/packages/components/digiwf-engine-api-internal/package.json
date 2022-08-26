@@ -1,0 +1,23 @@
+{
+  "name": "@muenchen/digiwf-engine-api-internal",
+  "description": "Internal digiWF engine api",
+  "version": "0.17.0",
+  "module": "dist/digiwf-engine-api-internal.mjs",
+  "scripts": {
+    "build": "vite build",
+    "api": "openapi-generator-cli generate -i ./api/api-docs.json -o src/api/ -g typescript-fetch --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true",
+    "watch": "vite build --watch"
+  },
+  "files": [
+    "dist/*",
+    "types/*"
+  ],
+  "types": "types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "b2b458745431c62fd6a055d9b3c32ce14b0c8435",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.1"
+  }
+}

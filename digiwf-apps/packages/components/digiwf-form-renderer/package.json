@@ -1,5 +1,5 @@
 {
-  "name": "@dh-nx-test/digiwf-form-renderer",
+  "name": "@muenchen/digiwf-form-renderer",
   "description": "Form renderer",
   "version": "0.17.0",
   "module": "dist/digiwf-form-renderer.mjs",
