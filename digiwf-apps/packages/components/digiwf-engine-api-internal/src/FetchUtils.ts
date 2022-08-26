@@ -1,8 +1,6 @@
 import {Configuration} from '@/api';
 
-export default class FetchUtils {
-
-    private static base: string = '';
+export class FetchUtils {
 
     /**
      * Liefert eine default GET-Config für fetch
@@ -34,7 +32,6 @@ export default class FetchUtils {
 
     static getAxiosConfig(fetchConfig: RequestInit): Configuration {
         const cfg = new Configuration();
-        cfg.basePath = this.base;
         cfg.baseOptions = fetchConfig;
         return cfg;
     }

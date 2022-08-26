@@ -235,6 +235,11 @@ export default defineComponent({
     }
 
     provide('apiEndpoint', import.meta.env.BASE_URL + 'api/digitalwf-backend-service');
+    provide('formContext', {
+      id: 'Task01',
+      type: 'task'
+    })
+
 
     const settings = SettingsEN;
 

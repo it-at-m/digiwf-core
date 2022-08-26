@@ -1,2 +1,2 @@
-export * from './api';
-export * as FetchUtils from './FetchUtils'
+export * from './api/index';
+export * from './FetchUtils'

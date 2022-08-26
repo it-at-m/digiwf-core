@@ -1,6 +1,6 @@
 <template>
   <div class="pa-0">
-    <VFileInput
+    <v-file-input
         v-model="fileValue"
         :disabled="isReadonly || !canAddDocument"
         :rules="rules ? rules : true"
@@ -24,7 +24,7 @@
           <div class="tooltip">{{ schema.description }}</div>
         </v-tooltip>
       </template>
-    </VFileInput>
+    </v-file-input>
 
     <div v-if="documents && documents.length > 0" class="listWrapper">
       <template v-for="doc in documents">
@@ -46,9 +46,15 @@ import mime from "mime";
 import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
-import {computed, defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent, inject, ref} from "@vue/composition-api";
 import {DocumentData, FormContext} from "../../types";
-import {Configuration, DocumentRestControllerApi, FetchUtils} from "@muenchen/digiwf-engine-api-internal";
+import {
+  Configuration,
+  FetchUtils,
+  HumanTaskFileRestControllerApiFactory,
+  ServiceInstanceFileRestControllerApiFactory,
+  ServiceStartFileRestControllerApiFactory
+} from "@muenchen/digiwf-engine-api-internal";
 
 export default defineComponent({
   props: [
@@ -67,7 +73,7 @@ export default defineComponent({
   ],
   setup(props) {
     let model = "";
-    let fileValue: File[] | null = null;
+    let fileValue = ref<File[]>(null);
     let data: any = {};
     let documents: DocumentData[] = [];
     let errorMessage = "";
@@ -75,7 +81,7 @@ export default defineComponent({
     let uuid = "";
 
     const apiEndpoint = inject<string>('apiEndpoint');
-    const formContext = inject<FormContext>('apiEndpoint');
+    const formContext = inject<FormContext>('formContext');
 
     const input = (value: any): any => {
       if (!props.on) {
@@ -191,13 +197,12 @@ export default defineComponent({
     const addDocument = async (mydata: any, file: File): Promise<void> => {
       const startTime = new Date().getTime();
       isLoading = true;
-
       try {
         isLoading = true;
 
         validateFileSize(mydata);
-
         const presignedUrl = await getPresignedUrlForPost(file);
+
         await globalAxios.put(presignedUrl, mydata);
 
         let content = arrayBufferToString(mydata);
@@ -264,14 +269,12 @@ export default defineComponent({
       return cfg;
     }
 
-
     const getFilenames = async (): Promise<string[]> => {
       const cfg = axiosConfig();
 
       let res: any;
       if (formContext.type === "start") {
-        const test = new DocumentRestControllerApi(cfg)
-        res = await ServiceStartFileRestControllerApi(cfg).getFileNames1(
+        res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
             formContext.id,
             filePath
         );
@@ -296,17 +299,13 @@ export default defineComponent({
 
       let res: any;
       if (formContext.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileUpload1(
+        res = await ServiceStartFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload1(
             formContext.id,
             file!.name,
             filePath
         );
       } else if (formContext.type == "task") {
-        res = await HumanTaskFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileUpload(
+        res = await HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload(
             formContext.id,
             file!.name,
             filePath
@@ -360,26 +359,26 @@ export default defineComponent({
       cfg.basePath = apiEndpoint;
 
       let res: any;
-      if (formContext.type === "start") {
+      if (formContext!.type === "start") {
         res = await ServiceStartFileRestControllerApiFactory(
             cfg
         ).getPresignedUrlForFileDeletion1(
-            formContext.id,
+            formContext!.id,
             filename,
             filePath
         );
-      } else if (formContext.type == "task") {
+      } else if (formContext!.type == "task") {
         res = await HumanTaskFileRestControllerApiFactory(
             cfg
         ).getPresignedUrlForFileDeletion(
-            formContext.id,
+            formContext!.id,
             filename,
             filePath
         );
       } else {
         //type "instance"
         res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion2(
-            formContext.id,
+            formContext!.id,
             filename,
             filePath
         );
@@ -389,13 +388,12 @@ export default defineComponent({
     }
 
     const changeInput = () => {
-      if (!fileValue) {
+      if (!fileValue.value) {
         return;
       }
-
       errorMessage = "";
 
-      fileValue.forEach((file) => {
+      fileValue.value.forEach((file) => {
         const reader = new FileReader();
         reader.onload = (event) => {
           try {
