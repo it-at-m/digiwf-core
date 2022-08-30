@@ -1,4 +1,4 @@
-name: Snapshot Release
+name: snapshot release services
 
 # Run workflow on commits to the `main` branch
 on: workflow_dispatch

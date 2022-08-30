@@ -20,7 +20,8 @@
   },
   "files": [
     "dist/*",
-    "types/*"
+    "types/*",
+    "src/*"
   ],
   "publishConfig": {
     "access": "public"

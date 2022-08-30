@@ -1,13 +1,13 @@
-name: Release
+name: release services
 
 # Run workflow on commits to the `main` branch
 on:
   push:
     tags:
-      - '*'
+      - 'core_*.*.*'
 
 jobs:
-  release:
+  release-services:
     runs-on: ubuntu-18.04
     steps:
       - name: Check out Git repository
@@ -20,7 +20,7 @@ jobs:
 
       - name: Remove SNAPSHOT
         run: |
-            mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@v1

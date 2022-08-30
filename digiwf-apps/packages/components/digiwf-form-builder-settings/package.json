@@ -9,6 +9,7 @@
   },
   "files": [
     "dist/*",
+    "src/*",
     "types/*"
   ],
   "types": "types/index.d.ts",
