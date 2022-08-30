@@ -1,4 +1,4 @@
-name: build frontend
+name: build apps
 
 # For now we test the frontend by just building it, in the future tests should be run here
 
@@ -21,5 +21,6 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
       - run: npm run init
       - run: npm run build
