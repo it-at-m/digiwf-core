@@ -7,5 +7,5 @@
     "packages/components/digiwf-multi-file-input",
     "packages/apps/digiwf-forms-example"
   ],
-  "version": "0.17.0"
+  "version": "0.17.1"
 }

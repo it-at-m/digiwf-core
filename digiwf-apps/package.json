@@ -6,7 +6,7 @@
     "clean": "lerna clean --yes && lerna exec rimraf dist",
     "refresh": "lerna bootstrap",
     "build": "lerna run build --stream",
-    "new-version": "lerna version --no-push --no-git-tag-version",
+    "versioning": "lerna version --no-push --no-git-tag-version",
     "dev": "lerna run watch --stream --parallel",
     "serve": "npm run build && lerna run dev --stream --parallel",
     "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example"
