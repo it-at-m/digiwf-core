@@ -22,6 +22,11 @@ public class StartProcessEvent implements StartProcess {
     private String key;
 
     /**
+     * File context for document storage
+     */
+    private String fileContext;
+
+    /**
      * Data that is set
      */
     private Map<String, Object> data;

@@ -31,9 +31,10 @@ public class StartProcessService {
      * @param payload    Data to start the process
      * @return
      */
-    public boolean startProcess(final String processKey, final Map<String, Object> payload) {
+    public boolean startProcess(final String processKey, final String fileContext, final Map<String, Object> payload) {
         final StartProcessEvent startProcessEvent = StartProcessEvent.builder()
                 .key(processKey)
+                .fileContext(fileContext)
                 .data(payload)
                 .build();
 

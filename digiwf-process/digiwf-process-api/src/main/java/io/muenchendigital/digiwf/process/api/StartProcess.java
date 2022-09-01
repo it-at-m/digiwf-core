@@ -15,6 +15,11 @@ public interface StartProcess {
     String getKey();
 
     /**
+     * Return the file context for document storage.
+     */
+    String getFileContext();
+
+    /**
      * Returns the data that is passed to the created process instance
      *
      * @return data that is passed
