@@ -32,28 +32,7 @@ public class StartProcessService {
      * @return the emit result
      */
     public boolean startProcess(final String processKey, final Map<String, Object> payload) {
-        final StartProcessEvent startProcessEvent = StartProcessEvent.builder()
-                .key(processKey)
-                .data(payload)
-                .build();
-
-        final Message<StartProcessEvent> message = MessageBuilder
-                .withPayload(startProcessEvent)
-                .setHeader(StreamingHeaders.TYPE, STARTPROCESS_V01)
-                .build();
-
-//        // TODO: If spring.cloud.function.definition=sendCorrelateMessage is not set, messaging doesnt work, but no error is thrown.
-//        // Same for spring.cloud.stream.bindings.sendCorrelateMessage-out-0.destination=
-        final Sinks.EmitResult emitResult = this.startProcessSink.tryEmitNext(message);
-//
-        if (emitResult.isSuccess()) {
-            log.debug("The process start {} was successfully delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
-        } else {
-            log.error("The process start {} couldn't be delivered to the eventbus.", message.getHeaders().get(MessageHeaders.ID));
-        }
-
-        log.debug("Message: {}", message);
-        return emitResult.isSuccess();
+        return startProcess(processKey, null, payload);
     }
 
     /**
