@@ -91,7 +91,7 @@ export default defineComponent({
     const dragOptions = {
       animation: 200,
       group: "optionalItem",
-      disabled: false,
+      disabled: false
     };
     const settings = inject<FormBuilderSettings>("builderSettings")
 
@@ -115,7 +115,7 @@ export default defineComponent({
     const uuid = (container: any) => {
       if (container.key) return container.key;
       const key = generateUUID();
-      root.$set(container, "key", key);
+      set(container, "key", key);
       input(props.value);
       return container.key;
     }

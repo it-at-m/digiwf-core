@@ -88,7 +88,11 @@ export default defineComponent({
   emits: ['input', 'remove'],
   setup(props, {emit}) {
     const settings = inject<FormBuilderSettings>("builderSettings");
-
+    const dragOptions = {
+      animation: 200,
+      group: "optionalContainer",
+      disabled: false
+    };
     const currentValue = reactive(props.value);
 
     const input = (value: Container) => {
@@ -136,6 +140,7 @@ export default defineComponent({
 
     return {
       settings,
+      dragOptions,
       input,
       remove,
       onListChanged,

@@ -11,7 +11,7 @@
     "@muenchen/digiwf-engine-api-internal": "^0.17.1"
   },
   "peerDependencies": {
-    "vue": "2.6.14",
+    "vue": "^2.6.14",
     "vuetify": "^2.6.9"
   },
   "devDependencies": {

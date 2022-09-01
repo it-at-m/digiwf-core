@@ -95,11 +95,11 @@ export default defineComponent({
       if (!props.default) {
         return false;
       }
-      return props.default && Object.entries(props.default)[0][1] === this.extractKey()[1].const;
+      return props.default && Object.entries(props.default)[0][1] === extractKey()[1].const;
     })
 
     const extractKey = (): any => {
-      return Object.entries(this.value.properties).filter((obj: any) => obj[1]['const'])[0];
+      return Object.entries(props.value.properties).filter((obj: any) => obj[1]['const'])[0];
     }
 
     const onContainerChanged = (container: any) => {

@@ -8,8 +8,8 @@
     "watch": "vite build --watch"
   },
   "peerDependencies": {
-    "@koumoul/vjsf": "2.11.3",
-    "vue": "2.6.14",
+    "@koumoul/vjsf": "^2.11.3",
+    "vue": "^2.6.14",
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
