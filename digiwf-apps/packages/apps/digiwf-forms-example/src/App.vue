@@ -15,13 +15,13 @@
 <script lang="ts">
 import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
 import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
-import {defineComponent, provide} from "@vue/composition-api";
 import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
 import {DwfMultiFileInput} from "@muenchen/digiwf-multi-file-input";
+import {defineComponent, provide} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder, DwfMultiFileInput},
-  setup(props) {
+  setup() {
     const schema = {
       "type": "object",
       "x-display": "",
@@ -233,13 +233,11 @@ export default defineComponent({
         }
       ]
     }
-
     provide('apiEndpoint', import.meta.env.BASE_URL + 'api/digitalwf-backend-service');
     provide('formContext', {
       id: 'Task01',
       type: 'task'
     })
-
 
     const settings = SettingsEN;
 

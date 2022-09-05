@@ -13,18 +13,18 @@
         <v-card-text>
           <div class="preview">
             <v-img
-              v-if="isImage"
-              class="preview-component"
-              :src="document.data"
-              max-width="200px"
-              alt="Image preview..."
+                v-if="isImage"
+                class="preview-component"
+                :src="document.data"
+                max-width="200px"
+                alt="Image preview..."
             >
             </v-img>
 
             <vue2-pdf-embed
-              v-else-if="document.type === 'application/pdf'"
-              :source="document.data"
-              class="preview-component"
+                v-else-if="document.type === 'application/pdf'"
+                :source="document.data"
+                class="preview-component"
             />
 
             <div v-else class="preview-text">Keine Vorschau verfügbar</div>
@@ -32,12 +32,12 @@
               <div class="footer">{{ formatBytes(0) }}</div>
               <template v-if="!readonly">
                 <v-btn
-                  class="remove-button ma-1"
-                  elevation="1"
-                  icon
-                  @click.stop="removeDocument"
+                    class="remove-button ma-1"
+                    elevation="1"
+                    icon
+                    @click.stop="removeDocument"
                 >
-                  <v-icon> mdi-delete </v-icon>
+                  <v-icon> mdi-delete</v-icon>
                 </v-btn>
               </template>
             </div>
@@ -49,67 +49,68 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent} from "@vue/composition-api";
+
+import {computed, defineComponent} from "vue";
 
 export default defineComponent({
   props: ['document', 'readonly'],
   emits: ['remove-document'],
   setup(props, {emit}) {
 
-    const byteCharacters = computed(()=> atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
+    const calcByteCharacters = computed(() => atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
 
     const icon = computed(() => {
-        if (
-            props.document.type === "image/jpeg" ||
-            props.document.type === "image/png" ||
-            props.document.type === "image/gif" ||
-            props.document.type === "image/bmp"
-        ) {
-          return "mdi-image";
-        }
-        if (props.document.type === "application/pdf") {
-          return "mdi-file-pdf";
-        }
-        if (
-            props.document.type === "application/msword" ||
-            props.document.type ===
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-            props.document.type === "application/vnd.oasis.opendocument.text"
-        ) {
-          return "mdi-file-word";
-        }
-        if (
-            props.document.type === "application/vnd.ms-powerpoint" ||
-            props.document.type ===
-            "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
-            props.document.type === "application/vnd.oasis.opendocument.presentation"
-        ) {
-          return "mdi-file-powerpoint";
-        }
-        if (
-            props.document.type === "application/vnd.ms-excel" ||
-            props.document.type ===
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-            props.document.type === "application/vnd.oasis.opendocument.spreadsheet"
-        ) {
-          return "mdi-file-excel";
-        }
-        if (
-            props.document.type === "application/xml" ||
-            props.document.type === "application/json" ||
-            props.document.type === "application/xhtml+xml" ||
-            props.document.type === "text/html" ||
-            props.document.type === "text/xml"
-        ) {
-          return "mdi-file-code";
-        }
-        return "mdi-file";
+      if (
+          props.document.type === "image/jpeg" ||
+          props.document.type === "image/png" ||
+          props.document.type === "image/gif" ||
+          props.document.type === "image/bmp"
+      ) {
+        return "mdi-image";
+      }
+      if (props.document.type === "application/pdf") {
+        return "mdi-file-pdf";
+      }
+      if (
+          props.document.type === "application/msword" ||
+          props.document.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          props.document.type === "application/vnd.oasis.opendocument.text"
+      ) {
+        return "mdi-file-word";
+      }
+      if (
+          props.document.type === "application/vnd.ms-powerpoint" ||
+          props.document.type ===
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+          props.document.type === "application/vnd.oasis.opendocument.presentation"
+      ) {
+        return "mdi-file-powerpoint";
+      }
+      if (
+          props.document.type === "application/vnd.ms-excel" ||
+          props.document.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          props.document.type === "application/vnd.oasis.opendocument.spreadsheet"
+      ) {
+        return "mdi-file-excel";
+      }
+      if (
+          props.document.type === "application/xml" ||
+          props.document.type === "application/json" ||
+          props.document.type === "application/xhtml+xml" ||
+          props.document.type === "text/html" ||
+          props.document.type === "text/xml"
+      ) {
+        return "mdi-file-code";
+      }
+      return "mdi-file";
     });
 
-    const isImage = computed(() =>   props.document.type.toLowerCase() === "image/jpeg" || props.document.type.toLowerCase() === "image/png");
+    const isImage = computed(() => props.document.type.toLowerCase() === "image/jpeg" || props.document.type.toLowerCase() === "image/png");
 
-    const blobUrl = () : string  => {
-      const byteCharacters = byteCharacters;
+    const blobUrl = (): string => {
+      const byteCharacters = calcByteCharacters.value;
 
       const byteArrays: Uint8Array[] = [];
 
@@ -123,11 +124,11 @@ export default defineComponent({
         const byteArray = new Uint8Array(byteNumbers);
         byteArrays.push(byteArray);
       }
-      const blob = new Blob(byteArrays, { type: props.document.type });
+      const blob = new Blob(byteArrays, {type: props.document.type});
       return URL.createObjectURL(blob);
     }
 
-    const openInTab= () => {
+    const openInTab = () => {
       const calcVlobUrl = blobUrl();
       const link = document.createElement("a");
       link.href = calcVlobUrl;
@@ -141,10 +142,10 @@ export default defineComponent({
       const dm = decimals < 0 ? 0 : decimals;
       const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-      const i = Math.floor(Math.log(this.document.size) / Math.log(k));
+      const i = Math.floor(Math.log(props.document.size) / Math.log(k));
 
       return (
-          parseFloat((this.document.size / Math.pow(k, i)).toFixed(dm)) +
+          parseFloat((props.document.size / Math.pow(k, i)).toFixed(dm)) +
           " " +
           sizes[i]
       );
@@ -155,7 +156,7 @@ export default defineComponent({
     }
 
     return {
-      byteCharacters,
+      calcByteCharacters,
       icon,
       isImage,
       openInTab,

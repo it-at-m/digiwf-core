@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
-import {defineComponent, set} from "@vue/composition-api";
+import {defineComponent, set} from "vue";
 
 export default defineComponent({
   props: ['properties', 'dragOptions'],

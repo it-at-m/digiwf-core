@@ -46,7 +46,6 @@ import mime from "mime";
 import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
-import {computed, defineComponent, inject, ref} from "@vue/composition-api";
 import {DocumentData, FormContext} from "../../types";
 import {
   Configuration,
@@ -55,6 +54,7 @@ import {
   ServiceInstanceFileRestControllerApiFactory,
   ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
+import {computed, defineComponent, inject, onMounted, ref} from "vue";
 
 export default defineComponent({
   props: [
@@ -73,10 +73,10 @@ export default defineComponent({
   ],
   setup(props) {
     let model = "";
-    let fileValue = ref<File[]>(null);
+    let fileValue = ref<File[] | null>(null);
     let data: any = {};
     let documents: DocumentData[] = [];
-    let errorMessage = "";
+    let errorMessage = ref<string>("");
     let isLoading = false;
     let uuid = "";
 
@@ -95,23 +95,6 @@ export default defineComponent({
         key: uuid,
         amount: value
       });
-    }
-
-    const created = () => {
-      if (!formContext.id) {
-        errorMessage = "no contextId";
-        return;
-      }
-
-      //initialize uuid if enabled
-      if (props.schema.uuidEnabled) {
-        if (props.value && props.value.key) {
-          uuid = props.value.key;
-        } else {
-          uuid = uuidv4();
-        }
-      }
-      loadInitialValues();
     }
 
     const isReadonly = computed(() => {
@@ -147,15 +130,15 @@ export default defineComponent({
         for (const filename of filenames) {
           await loadFile(filename);
         }
-        errorMessage = "";
+        errorMessage.value = "";
         if (documents.length > 0) {
           // set dummy value to satisfy "required"-rule
-          fileValue = [];
-          fileValue.push(new File([""], documents[0].name));
+          fileValue.value = [];
+          fileValue.value.push(new File([""], documents[0].name));
           input(documents.length);
         }
       } catch (error) {
-        errorMessage = "Die Dateien konnten nicht geladen werden.";
+        errorMessage.value = "Die Dateien konnten nicht geladen werden.";
       }
       isLoading = false;
     }
@@ -216,7 +199,7 @@ export default defineComponent({
 
         documents.push(doc);
 
-        errorMessage = "";
+        errorMessage.value = "";
         isLoading = false;
         input(documents.length);
       } catch (error: any) {
@@ -225,9 +208,9 @@ export default defineComponent({
             error.response.status &&
             error.response.status == 409
         ) {
-          errorMessage = "Das Dokument existiert bereits.";
-        } else if (!errorMessage) {
-          errorMessage = "Das Dokument konnte nicht hochgeladen werden.";
+          errorMessage.value = "Das Dokument existiert bereits.";
+        } else if (!errorMessage.value) {
+          errorMessage.value = "Das Dokument konnte nicht hochgeladen werden.";
         }
         setTimeout(() => {
           isLoading = false;
@@ -238,7 +221,7 @@ export default defineComponent({
 
     const validateFileSize = (mydata: ArrayBuffer) => {
       if (mydata.byteLength > 10485760) {
-        errorMessage = "Die Datei ist muss kleiner als 10MB sein.";
+        errorMessage.value = "Die Datei ist muss kleiner als 10MB sein.";
         throw new Error("File too large.");
       }
     }
@@ -273,21 +256,21 @@ export default defineComponent({
       const cfg = axiosConfig();
 
       let res: any;
-      if (formContext.type === "start") {
+      if (formContext!.type === "start") {
         res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
-            formContext.id,
-            filePath
+            formContext!.id,
+            filePath.value
         );
-      } else if (formContext.type == "task") {
+      } else if (formContext!.type == "task") {
         res = await HumanTaskFileRestControllerApiFactory(cfg).getFileNames(
-            formContext.id,
-            filePath
+            formContext!.id,
+            filePath.value
         );
       } else {
         //type "instance"
         res = await ServiceInstanceFileRestControllerApiFactory(cfg).getFileNames2(
-            formContext.id,
-            filePath
+            formContext!.id,
+            filePath.value
         );
       }
 
@@ -298,24 +281,24 @@ export default defineComponent({
       const cfg = axiosConfig();
 
       let res: any;
-      if (formContext.type === "start") {
+      if (formContext!.type === "start") {
         res = await ServiceStartFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload1(
-            formContext.id,
+            formContext!.id,
             file!.name,
-            filePath
+            filePath.value
         );
-      } else if (formContext.type == "task") {
+      } else if (formContext!.type == "task") {
         res = await HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload(
-            formContext.id,
+            formContext!.id,
             file!.name,
-            filePath
+            filePath.value
         );
       } else {
         //type "instance"
         res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload2(
-            formContext.id,
+            formContext!.id,
             file!.name,
-            filePath
+            filePath.value
         );
       }
 
@@ -326,28 +309,28 @@ export default defineComponent({
       const cfg = axiosConfig();
 
       let res: any;
-      if (formContext.type === "start") {
+      if (formContext!.type === "start") {
         res = await ServiceStartFileRestControllerApiFactory(
             cfg
         ).getPresignedUrlForFileDownload1(
-            formContext.id,
+            formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
-      } else if (formContext.type == "task") {
+      } else if (formContext!.type == "task") {
         res = await HumanTaskFileRestControllerApiFactory(
             cfg
         ).getPresignedUrlForFileDownload(
-            formContext.id,
+            formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
       } else {
         //type "instance"
         res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDownload2(
-            formContext.id,
+            formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
       }
 
@@ -365,7 +348,7 @@ export default defineComponent({
         ).getPresignedUrlForFileDeletion1(
             formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
       } else if (formContext!.type == "task") {
         res = await HumanTaskFileRestControllerApiFactory(
@@ -373,14 +356,14 @@ export default defineComponent({
         ).getPresignedUrlForFileDeletion(
             formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
       } else {
         //type "instance"
         res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion2(
             formContext!.id,
             filename,
-            filePath
+            filePath.value
         );
       }
 
@@ -391,7 +374,7 @@ export default defineComponent({
       if (!fileValue.value) {
         return;
       }
-      errorMessage = "";
+      errorMessage.value = "";
 
       fileValue.value.forEach((file) => {
         const reader = new FileReader();
@@ -417,11 +400,11 @@ export default defineComponent({
             documents.splice(i, 1);
             if (documents.length == 0) {
               // set null value to violate "required"-rule
-              fileValue = null;
+              fileValue.value = null;
             }
             break; // only remove first item
           } catch (error) {
-            errorMessage = "Die Datei konnte nicht gelöscht werden.";
+            errorMessage.value = "Die Datei konnte nicht gelöscht werden.";
           }
         }
       }
@@ -450,6 +433,22 @@ export default defineComponent({
           /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
       return base64Regex.test(content);
     }
+
+    onMounted(() => {
+      if (!formContext!.id) {
+        errorMessage.value = "no contextId";
+        return;
+      }
+      //initialize uuid if enabled
+      if (props.schema.uuidEnabled) {
+        if (props.value && props.value.key) {
+          uuid = props.value.key;
+        } else {
+          uuid = uuidv4();
+        }
+      }
+      loadInitialValues();
+    })
 
     return {
       model,

@@ -26,8 +26,7 @@ export default defineConfig({
                 'vue',
                 'vuex',
                 'vue-router',
-                /@vuetify\/.*/,
-                /@vue\/.*/
+                /@vuetify\/.*/
             ],
             output: {
                 globals: {

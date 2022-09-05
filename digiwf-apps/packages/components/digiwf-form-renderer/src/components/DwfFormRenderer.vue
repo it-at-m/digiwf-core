@@ -12,9 +12,9 @@
 
 <script lang="ts">
 //@ts-ignore
-import {computed, defineComponent, ref} from "@vue/composition-api";
 import deepmerge from "deepmerge";
 import {VBtn, VForm} from "vuetify/lib/components";
+import {computed, defineComponent, ref} from "vue";
 
 export default defineComponent({
   props: ['options', 'buttonText', 'value', 'schema'],

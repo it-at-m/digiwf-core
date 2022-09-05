@@ -56,8 +56,8 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, inject} from "@vue/composition-api";
 import {FormBuilderSettings} from "@muenchen/digiwf-form-builder-settings";
+import {computed, defineComponent, inject} from "vue";
 
 export default defineComponent({
   props: ['fieldKey', 'value'],

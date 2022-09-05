@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import {DwfFormRenderer, FormField} from "@muenchen/digiwf-form-renderer";
-import {computed, defineComponent, reactive, ref} from "@vue/composition-api";
+import {computed, defineComponent, reactive, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer},

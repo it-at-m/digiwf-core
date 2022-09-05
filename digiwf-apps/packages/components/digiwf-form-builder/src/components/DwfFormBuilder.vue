@@ -36,9 +36,9 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, provide, reactive, set} from "@vue/composition-api";
 import {generateUUID} from "@/utils/UUIDGenerator";
 import {Form, Section} from "@muenchen/digiwf-form-renderer";
+import {defineComponent, provide, reactive, set} from "vue";
 
 export default defineComponent({
   props: ['value', 'name', 'description', 'schema', 'builderSettings'],

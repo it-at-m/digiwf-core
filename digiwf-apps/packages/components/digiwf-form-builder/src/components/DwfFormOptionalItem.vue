@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent, inject} from "vue";
 
 export default defineComponent({
   props: ['value', 'default'],

@@ -33,7 +33,6 @@ export default defineConfig({
                 'vuex',
                 'vue-router',
                 /@vuetify\/.*/,
-                /@vue\/.*/,
                 /@koumoul\/.*/
             ],
             output: {

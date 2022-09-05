@@ -147,7 +147,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject} from "@vue/composition-api";
+import {defineComponent, inject} from "vue";
 import {FormBuilderSettings} from "@muenchen/digiwf-form-builder-settings";
 
 export default defineComponent({
