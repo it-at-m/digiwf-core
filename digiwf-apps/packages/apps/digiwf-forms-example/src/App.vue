@@ -1,7 +1,25 @@
 <template>
   <v-app>
     <menu></menu>
-    <dwf-form-builder :value="schema" :builderSettings="settings"></dwf-form-builder>
+    <v-tabs>
+      <v-tab>
+        builder
+      </v-tab>
+      <v-tab>
+        renderer
+      </v-tab>
+      <v-tab-item>
+        <dwf-form-builder :value="schema" @input="changed" :builderSettings="settings"></dwf-form-builder>
+      </v-tab-item>
+      <v-tab-item>
+        <div style="padding: 30px">
+          <v-form ref="form">
+            <dwf-form-renderer :options="{}" :schema="schema"></dwf-form-renderer>
+          </v-form>
+          <v-btn @click="validate">Validate</v-btn>
+        </div>
+      </v-tab-item>
+    </v-tabs>
   </v-app>
 </template>
 
@@ -15,12 +33,14 @@ html, body {
 import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
 import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
 import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
-import {defineComponent, provide} from "vue";
+import {defineComponent, provide, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder},
   setup() {
-    const schema = {
+    const form = ref(null);
+
+    const schema = ref({
       "type": "object",
       "x-display": "",
       "allOf": [
@@ -230,7 +250,11 @@ export default defineComponent({
           ]
         }
       ]
-    }
+    });
+    const changed = (newSchema: any) => {
+      schema.value = newSchema;
+    };
+
     provide('apiEndpoint', import.meta.env.BASE_URL + 'api/digitalwf-backend-service');
     provide('formContext', {
       id: 'Task01',
@@ -239,7 +263,14 @@ export default defineComponent({
 
     const settings = SettingsEN;
 
+    const validate = () => {
+      (form.value as HTMLFormElement).validate();
+    }
+
     return {
+      changed,
+      validate,
+      form,
       schema,
       settings
     }

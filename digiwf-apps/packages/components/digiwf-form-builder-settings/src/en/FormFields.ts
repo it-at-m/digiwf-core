@@ -666,6 +666,27 @@ const arrayObjectInput = {
         },
         {
             ...basicOptions
+        },
+        {
+            ...basicValidation,
+            properties: {
+                "minItems": {
+                    "type": "integer",
+                    "title": "minimum",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                },
+                "maxItems": {
+                    "type": "integer",
+                    "title": "maximum",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
         }
     ]
 };
