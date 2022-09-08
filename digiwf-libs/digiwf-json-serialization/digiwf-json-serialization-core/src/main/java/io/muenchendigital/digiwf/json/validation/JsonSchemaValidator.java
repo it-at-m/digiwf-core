@@ -41,9 +41,15 @@ public class JsonSchemaValidator {
         schemaObj.validate(new JSONObject(data));
     }
 
-    public List<ValidationErrorInformation> extractExceptionLocation(final ValidationException validationException) {
+    /**
+     * Extract root cause exception error information
+     *
+     * @param validationException Validation Exception
+     * @return Extracted validation error information
+     */
+    public List<ValidationErrorInformation> extractValidationErrorInformation(final ValidationException validationException) {
         final List<ValidationErrorInformation> errors = validationException.getCausingExceptions()
-                .stream().map(this::extractExceptionLocation)
+                .stream().map(this::extractValidationErrorInformation)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 

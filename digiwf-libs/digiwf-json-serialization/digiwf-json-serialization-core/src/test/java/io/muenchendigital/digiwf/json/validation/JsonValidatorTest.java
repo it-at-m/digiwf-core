@@ -156,7 +156,7 @@ public class JsonValidatorTest {
             this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
         });
 
-        final List<ValidationErrorInformation> errorInformations = this.validationService.extractExceptionLocation(exception);
+        final List<ValidationErrorInformation> errorInformations = this.validationService.extractValidationErrorInformation(exception);
         assertThat(errorInformations.size()).isEqualTo(2);
     }
 
@@ -176,7 +176,7 @@ public class JsonValidatorTest {
             this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
         });
 
-        final List<ValidationErrorInformation> errorInformations = this.validationService.extractExceptionLocation(exception);
+        final List<ValidationErrorInformation> errorInformations = this.validationService.extractValidationErrorInformation(exception);
 
         assertThat(errorInformations.size()).isEqualTo(1);
         assertThat(errorInformations.get(0).getViolatedSchema().getClass()).isEqualTo(BooleanSchema.class);
