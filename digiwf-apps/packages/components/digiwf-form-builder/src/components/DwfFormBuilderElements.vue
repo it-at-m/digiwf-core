@@ -236,10 +236,9 @@ export default defineComponent({
 
 .palette {
   text-align: left;
-  margin-bottom: 8px;
-  height: 100% !important;
-  padding: 0;
-  min-width: 300px;
+  margin: 20px;
+  overflow-y: scroll;
+  min-width: 120px;
 }
 
 </style>

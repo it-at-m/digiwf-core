@@ -1,6 +1,7 @@
 <template>
   <div
-      class="d-flex h-100">
+      class="d-flex"
+      style="max-height: 90vh">
     <dwf-form-builder-elements/>
     <v-card
         elevation="1"
@@ -8,7 +9,7 @@
       <v-card-title class="pt-1">{{ name }}</v-card-title>
       <v-card-subtitle>{{ description }}</v-card-subtitle>
 
-      <v-list class="h-100">
+      <v-list>
         <draggable
             :list="currentValue.allOf"
             class="list-group"
@@ -143,13 +144,15 @@ export default defineComponent({
 
 <style scoped>
 
+
 .modeler-area {
   max-width: 1000px;
-  min-height: 908px;
+  max-height: 90vh;
+  min-height: 90vh;
+  overflow-y: scroll;
   margin-bottom: 8px;
   margin-left: 40px;
   flex-grow: 1;
-  height: 100%;
 }
 
 </style>

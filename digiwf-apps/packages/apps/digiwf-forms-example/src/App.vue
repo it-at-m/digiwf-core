@@ -1,26 +1,24 @@
 <template>
   <v-app>
     <menu></menu>
-    <DwfMultiFileInput
-        color="primary"
-        :schema='{"description": "Dies ist eine Beschreibung.", "filePath": "/Documents/", "uuidEnabled": true}'
-        fullKey="FormField_Datei"
-        :rules="['Required']"
-        label="File"
-    ></DwfMultiFileInput>
     <dwf-form-builder :value="schema" :builderSettings="settings"></dwf-form-builder>
   </v-app>
 </template>
+
+<style>
+html, body {
+  height: 100%;
+}
+</style>
 
 <script lang="ts">
 import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
 import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
 import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
-import {DwfMultiFileInput} from "@muenchen/digiwf-multi-file-input";
 import {defineComponent, provide} from "vue";
 
 export default defineComponent({
-  components: {DwfFormRenderer, DwfFormBuilder, DwfMultiFileInput},
+  components: {DwfFormRenderer, DwfFormBuilder},
   setup() {
     const schema = {
       "type": "object",
