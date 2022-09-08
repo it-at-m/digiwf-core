@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.json.validation;
 
 import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
 import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
+import org.everit.json.schema.BooleanSchema;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONObject;
@@ -142,6 +143,44 @@ public class JsonValidatorTest {
                 "objekt1", Map.of("objektTextfeld", "abc")
         );
         schema.validate(new JSONObject(data));
+    }
+
+    @Test
+    public void checkValidationErrorOfComplexSchema() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "stringProp1", "fdsfsdafsdafadsfsadfsdafd",
+                "selection", "test3"
+        );
+        final String rawSchema = this.getSchemaString("/schema/validation/complexSchema.json");
+        final ValidationException exception = assertThrows(ValidationException.class, () -> {
+            this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+        });
+
+        final List<ValidationErrorInformation> errorInformations = this.validationService.extractExceptionLocation(exception);
+        assertThat(errorInformations.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void checkValidationErrorOfObjectSchema() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "textarea", "100",
+                "textfeld", "100",
+                "objekt1", Map.of(
+                        "objektTextfeld", "fdsfsdafsdafadsfsadfsdafd",
+                        "objektSchalter", "fsdfsad"
+                )
+        );
+
+        final String rawSchema = this.getSchemaString("/schema/validation/complexObjectSchema.json");
+        final ValidationException exception = assertThrows(ValidationException.class, () -> {
+            this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+        });
+
+        final List<ValidationErrorInformation> errorInformations = this.validationService.extractExceptionLocation(exception);
+
+        assertThat(errorInformations.size()).isEqualTo(1);
+        assertThat(errorInformations.get(0).getViolatedSchema().getClass()).isEqualTo(BooleanSchema.class);
+
     }
 
 

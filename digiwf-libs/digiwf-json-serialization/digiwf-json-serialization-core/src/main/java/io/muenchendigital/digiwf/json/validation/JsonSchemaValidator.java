@@ -5,11 +5,15 @@
 package io.muenchendigital.digiwf.json.validation;
 
 import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.everit.json.schema.regexp.RE2JRegexpFactory;
 import org.json.JSONObject;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Json Schema Validator
@@ -35,6 +39,21 @@ public class JsonSchemaValidator {
     public void validate(final String schema, final Map<String, Object> data) {
         final Schema schemaObj = this.createSchema(new JSONObject(schema));
         schemaObj.validate(new JSONObject(data));
+    }
+
+    public List<ValidationErrorInformation> extractExceptionLocation(final ValidationException validationException) {
+        final List<ValidationErrorInformation> errors = validationException.getCausingExceptions()
+                .stream().map(this::extractExceptionLocation)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        if (validationException.getSchemaLocation() == null || !validationException.getCausingExceptions().isEmpty()) {
+            return errors;
+        }
+
+        final ValidationErrorInformation validationErrorInformation = new ValidationErrorInformation(validationException.getPointerToViolation(), validationException.getSchemaLocation(), validationException.getViolatedSchema());
+        errors.add(validationErrorInformation);
+        return errors;
     }
 
 
