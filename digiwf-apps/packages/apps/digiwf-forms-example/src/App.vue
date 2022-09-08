@@ -20,6 +20,7 @@
         </div>
       </v-tab-item>
     </v-tabs>
+    {{ schema }}
   </v-app>
 </template>
 
@@ -41,215 +42,54 @@ export default defineComponent({
     const form = ref(null);
 
     const schema = ref({
-      "type": "object",
-      "x-display": "",
-      "allOf": [
-        {
-          "key": "sectionKey1",
-          "type": "object",
-          "title": "Das ist meine Section",
-          "x-options": {
-            "sectionsTitlesClasses": [
-              "font-weight-bold"
-            ]
-          },
-          "allOf": [
-            {
-              "key": "feldgruppe1",
-              "title": "Hinweise",
+      "type": "object", "x-display": "", "allOf": [{
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {"sectionsTitlesClasses": ["d-none"]},
+        "allOf": [{
+          "containerType": "group",
+          "title": "Group",
+          "description": "",
+          "x-options": {"childrenClass": "pl-0"},
+          "properties": {
+            "5dab13fb-dfbc-4901-bf03-9e635df99892": {
+              "key": "5dab13fb-dfbc-4901-bf03-9e635df99892",
+              "fieldType": "object",
+              "title": "Dynamisches Objekt",
               "type": "object",
-              "description": "Mit diesem Workflow können Sie Grüße versenden. Bitte beachten Sie, dass die Grüße nicht anonym versendet werden. Geben Sie in das entsprechende Feld einen Grußtext ein und wählen Sie die Art des Grußes aus.",
-              "x-options": {
-                "childrenClass": "pr-5 pl-0"
-              },
+              "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+              "x-props": {"outlined": true, "dense": true},
               "properties": {
-                "3d5b12cd-e6b8-4a16-9f55-a6fceba46312": {
-                  "fieldType": "date",
-                  "title": "Datum",
-                  "type": "string",
-                  "format": "date",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  }
-                },
-                "7c7f0547-7399-4501-9ac3-032d6f48bc62": {
-                  "fieldType": "integer",
-                  "title": "Zahl",
-                  "type": "integer",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  }
-                }
-              }
-            },
-            {
-              "title": "Daten zum Gruß",
-              "type": "object",
-              "key": "e267be11-e07b-435e-ab58-b3861d6b370a",
-              "x-options": {
-                "childrenClass": "pr-5 pl-0"
-              },
-              "properties": {
-                "FormField_Empfaenger": {
-                  "fieldType": "user-input",
-                  "title": "Empfänger*in",
-                  "type": "string",
-                  "key": "FormField_Empfaenger",
-                  "x-display": "custom-user-input",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12,
-                      "messages": {}
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  },
-                  "x-rules": [
-                    "required"
-                  ]
-                },
-                "FormField_ArtDesGrusses": {
-                  "fieldType": "select",
-                  "title": "Ich möchte einen Gruß versenden zum",
-                  "type": "string",
-                  "key": "FormField_ArtDesGrusses",
-                  "anyOf": [
-                    {
-                      "title": "Geburtstag",
-                      "const": "Geburtstag"
-                    },
-                    {
-                      "title": "Namenstag",
-                      "const": "Namenstag"
-                    },
-                    {
-                      "title": "Dienstjubiläum",
-                      "const": "Dienstjubilaeum"
-                    }
-                  ],
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 6,
-                      "sm": 6,
-                      "messages": {}
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  },
-                  "x-rules": [
-                    "required"
-                  ]
-                },
-                "FormField_Zugehoerigkeit": {
-                  "fieldType": "integer",
-                  "title": "Zugehörigkeit zur LHM",
-                  "type": "integer",
-                  "key": "FormField_Zugehoerigkeit",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 6,
-                      "sm": 6,
-                      "messages": {}
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  },
-                  "x-rules": []
-                },
-                "FormField_Grusstext": {
+                "f681a444-6611-44c5-becd-7326f86a6e1c": {
                   "fieldType": "textarea",
-                  "title": "Grußtext (ohne Anrede)",
+                  "title": "Textarea",
                   "x-display": "textarea",
                   "type": "string",
-                  "key": "FormField_Grusstext",
-                  "description": "Hier können Sie einen ausführlichen Grußtext verfassen!",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12,
-                      "messages": {}
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  },
-                  "x-rules": [
-                    "required"
-                  ]
+                  "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+                  "x-props": {"outlined": true, "dense": true}
                 },
-                "551d70d8-4a6c-48c4-9885-b14dc8bfc18e": {
+                "456c4576-ea40-42fd-b93a-ee25ff01fe3b": {
                   "fieldType": "text",
                   "title": "Textfeld",
                   "type": "string",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  }
+                  "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+                  "x-props": {"outlined": true, "dense": true}
                 },
-                "a9838804-1fc7-405a-b84d-00b6c14ad005": {
-                  "fieldType": "integer",
-                  "title": "Zahl",
-                  "type": "integer",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  }
-                },
-                "1f783198-a97b-4de5-86a1-d9c5a1ea2a89": {
-                  "fieldType": "user-input",
-                  "title": "Benutzerauswahl",
-                  "x-display": "custom-user-input",
+                "05b7752a-a439-4e89-83cf-3ffe66d87f2e": {
+                  "fieldType": "text",
+                  "title": "Textfeld",
                   "type": "string",
-                  "x-options": {
-                    "fieldColProps": {
-                      "cols": 12,
-                      "sm": 12
-                    }
-                  },
-                  "x-props": {
-                    "outlined": true,
-                    "dense": true
-                  }
+                  "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+                  "x-props": {"outlined": true, "dense": true}
                 }
               }
             }
-          ]
-        }
-      ]
+          },
+          "key": "f02216df-ee8e-4dde-ab50-86340844baa2"
+        }],
+        "key": "6cd889c3-c0cd-497c-a02f-a5ef74721a24"
+      }]
     });
     const changed = (newSchema: any) => {
       schema.value = newSchema;

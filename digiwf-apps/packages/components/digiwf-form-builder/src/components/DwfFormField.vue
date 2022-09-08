@@ -73,7 +73,7 @@ export default defineComponent({
     }
 
     const removed = () => {
-      emit('removed', props.fieldKey);
+      emit('remove', props.fieldKey);
     }
 
     const onFieldChanged = (field: any) => {

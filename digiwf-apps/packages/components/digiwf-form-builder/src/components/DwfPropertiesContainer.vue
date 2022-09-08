@@ -103,7 +103,7 @@ export default defineComponent({
       const relevantFields = props.properties.filter((el: any) => el[0] != key);
       const properties: any = {};
       relevantFields.forEach((property: any) => properties[property[0]] = property[1]);
-      input(props);
+      input(properties);
     }
 
     const onFormFieldChanged = (update: any) => {
