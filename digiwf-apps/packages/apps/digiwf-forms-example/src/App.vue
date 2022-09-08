@@ -53,6 +53,14 @@ export default defineComponent({
           "description": "",
           "x-options": {"childrenClass": "pl-0"},
           "properties": {
+            "391da0c5-9606-4358-9e35-2dc9b877ace8": {
+              "fieldType": "textarea",
+              "title": "Textarea",
+              "x-display": "textarea",
+              "type": "string",
+              "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+              "x-props": {"outlined": true, "dense": true}
+            },
             "5dab13fb-dfbc-4901-bf03-9e635df99892": {
               "key": "5dab13fb-dfbc-4901-bf03-9e635df99892",
               "fieldType": "object",
@@ -61,22 +69,7 @@ export default defineComponent({
               "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
               "x-props": {"outlined": true, "dense": true},
               "properties": {
-                "f681a444-6611-44c5-becd-7326f86a6e1c": {
-                  "fieldType": "textarea",
-                  "title": "Textarea",
-                  "x-display": "textarea",
-                  "type": "string",
-                  "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-                  "x-props": {"outlined": true, "dense": true}
-                },
-                "456c4576-ea40-42fd-b93a-ee25ff01fe3b": {
-                  "fieldType": "text",
-                  "title": "Textfeld",
-                  "type": "string",
-                  "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-                  "x-props": {"outlined": true, "dense": true}
-                },
-                "05b7752a-a439-4e89-83cf-3ffe66d87f2e": {
+                "97a0c7d2-e8e9-409b-8ae9-5712f3faa704": {
                   "fieldType": "text",
                   "title": "Textfeld",
                   "type": "string",
