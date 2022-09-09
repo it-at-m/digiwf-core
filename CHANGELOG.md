@@ -1,19 +1,17 @@
 # Change Log
 
-## [Unreleased] - yyyy-mm-dd
+## [apps Unreleased] - yyyy-mm-dd
 
 ### Added
 
 - (digiwf-form-builder): validation of list items
-
-### Changed
 
 ### Fixed
 
 - (digiwf-form-builder): move field to nested objects
 - (digiwf-form-builder): general styling issues
 
-## [0.11.0] - 2022-08-30
+## [core 0.11.0] - 2022-08-30
 
 ### Added
 
@@ -21,8 +19,6 @@
     - add start process endpoint
 - (digiwf-connector) extract api to own package
 - (digiwf-process) add module and api for starting processes via events
-
-### Changed
 
 ### Fixed
 
