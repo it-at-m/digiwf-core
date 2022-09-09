@@ -23,6 +23,7 @@ interface FormBuilderSettings {
     containerSchema: any;
     sectionSchema: any;
     conditionalContainerSchema: any;
+    conditionalObjectContainerSchema: any;
 }
 
 export const SettingsDE: FormBuilderSettings;

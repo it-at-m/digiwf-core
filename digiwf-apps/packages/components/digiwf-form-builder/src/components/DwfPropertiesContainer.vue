@@ -1,6 +1,6 @@
 <template>
   <draggable
-      :list="currentValue"
+      :list="properties"
       class="list-group"
       handle=".handle"
       :empty-insert-threshold="500"
@@ -9,7 +9,7 @@
       @start="drag = true"
       @end="drag = false"
   >
-    <template v-for="property in currentValue">
+    <template v-for="property in properties">
       <dwf-form-field
           v-if="!isObjectType(property) && !isArrayObjectType(property) && !isOptionalContainer(property)"
           :key="property[0]"
@@ -46,7 +46,7 @@
       />
     </template>
     <div
-        v-if="currentValue.length < 1"
+        v-if="properties.length < 1"
         slot="header"
         role="group"
         class="field-placeholder"
@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
-import {defineComponent, ref, set} from "vue";
+import {defineComponent, ref} from "vue";
 
 export default defineComponent({
   props: ['properties', 'dragOptions'],
@@ -66,7 +66,6 @@ export default defineComponent({
   setup(props, {emit}) {
 
     const show = ref<boolean>(true);
-    const currentValue = ref(props.properties);
 
     const input = (value: any) => {
       emit("input", value);
@@ -86,24 +85,17 @@ export default defineComponent({
     }
 
     const onDragChanged = (event: any): void => {
-      if (event && event.added) {
+      if (event && event.added && !event.added.element[1].key) {
         event.added.element[0] = generateUUID();
       }
       const properties: any = {};
-      currentValue.value.forEach((property: any) => properties[property[0]] = property[1]);
+      props.properties.forEach((property: any) => properties[property[0]] = property[1]);
+
       input(properties);
     }
 
-    const uuid = (optionalContainer: any): string => {
-      if (optionalContainer.key) return optionalContainer.key;
-      const key = generateUUID();
-      set(optionalContainer, "key", key);
-      input(currentValue.value);
-      return optionalContainer.key;
-    }
-
     const onFieldRemoved = (key: string): any => {
-      const relevantFields = currentValue.value.filter((el: any) => el[0] != key);
+      const relevantFields = props.properties.filter((el: any) => el[0] != key);
       const properties: any = {};
       relevantFields.forEach((property: any) => properties[property[0]] = property[1]);
       input(properties);
@@ -111,10 +103,11 @@ export default defineComponent({
 
     const onFormFieldChanged = (update: any) => {
       const properties: any = {};
-      for (let i = 0; i < currentValue.value.length; i++) {
-        const property = currentValue.value[i];
+      for (let i = 0; i < props.properties.length; i++) {
+        const property = props.properties[i];
         if (property[0] === update.key) {
           properties[update.newKey] = update.value;
+          props.properties[i][1] = update.value;
         } else {
           properties[property[0]] = property[1];
         }
@@ -124,13 +117,11 @@ export default defineComponent({
 
     return {
       show,
-      currentValue,
       isObjectType,
       isOptionalContainer,
       isArrayObjectType,
       onFormFieldChanged,
       onFieldRemoved,
-      uuid,
       onDragChanged
     }
   }

@@ -14,7 +14,7 @@
       >
         <dwf-form-renderer
             style="min-height: 400px;"
-            :value="{...value, key: fieldKey}"
+            :value="currentValue"
             :schema="schema"
             :options="{}"
             @input="onFormUpdate"

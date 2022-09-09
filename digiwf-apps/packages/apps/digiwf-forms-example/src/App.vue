@@ -20,7 +20,6 @@
         </div>
       </v-tab-item>
     </v-tabs>
-    {{ schema }}
   </v-app>
 </template>
 

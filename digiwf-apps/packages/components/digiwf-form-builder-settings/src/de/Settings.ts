@@ -1,5 +1,5 @@
 import {containerIconMap, defaultContainerIcon, defaultIcon, iconMap} from "./IconMap";
-import {conditionalContainerSchema, containerSchema} from "./Container";
+import {conditionalContainerSchema, conditionalObjectContainerSchema, containerSchema} from "./Container";
 import section from "./Section";
 import {
     containerPalette,
@@ -32,6 +32,7 @@ const Settings: FormBuilderSettings = {
     },
     containerSchema: containerSchema,
     conditionalContainerSchema: conditionalContainerSchema,
+    conditionalObjectContainerSchema: conditionalObjectContainerSchema,
     sectionSchema: section,
     defaultFormFieldSchema: genericSchema,
     formFieldSchemas: schemaMap
