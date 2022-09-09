@@ -180,7 +180,7 @@ public class JsonValidatorTest {
     }
 
     @Test
-    public void checkLenient() throws URISyntaxException, IOException {
+    public void checkIntegerInStringAllowed() throws URISyntaxException, IOException {
         final Map<String, Object> data = Map.of(
                 "numberProp1", 12
         );
