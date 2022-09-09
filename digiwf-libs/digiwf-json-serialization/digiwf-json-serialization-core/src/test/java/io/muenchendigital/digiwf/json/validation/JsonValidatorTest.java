@@ -179,6 +179,15 @@ public class JsonValidatorTest {
 
     }
 
+    @Test
+    public void checkLenient() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "numberProp1", 12
+        );
+        final String rawSchema = this.getSchemaString("/schema/validation/textAreaSchema.json");
+        this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+    }
+
 
     //------------------------------------ Helper Methods ------------------------------------//
 
