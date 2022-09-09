@@ -4,6 +4,19 @@
 
 ### Added
 
+- (digiwf-form-builder): validation of list items
+
+### Changed
+
+### Fixed
+
+- (digiwf-form-builder): move field to nested objects
+- (digiwf-form-builder): general styling issues
+
+## [0.11.0] - 2022-08-30
+
+### Added
+
 - (digiwf-libs) add cloud stream function utils
     - add start process endpoint
 - (digiwf-connector) extract api to own package

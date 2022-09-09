@@ -3,7 +3,6 @@
       elevation="3"
       class="palette contentWrapper"
   >
-
     <h4 class="pl-5 pt-5">Sections</h4>
     <div class="field-divider"></div>
     <draggable
