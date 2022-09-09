@@ -27,7 +27,12 @@ public class JsonSchemaValidator {
      * @param data   data that is validated
      */
     public void validate(final Map<String, Object> schema, final Map<String, Object> data) {
-        this.validate(schema, new JSONObject(data));
+        try {
+            this.validate(schema, new JSONObject(data));
+        } catch (ValidationException validationException) {
+            final List<ValidationErrorInformation> errorInformation = this.extractValidationErrorInformation(validationException);
+            throw new DigiWFValidationException(errorInformation);
+        }
     }
 
     /**
