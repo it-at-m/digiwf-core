@@ -59,7 +59,7 @@ See the [open issues](#) for a full list of proposed features (and known issues)
 
 ### Building a new maven version
 
-- execute `Update version: ``mvn versions:set -DnewVersion='0.12.0-SNAPSHOT'``
+- execute `Update version: ``mvn versions:set -DnewVersion='0.13.0-SNAPSHOT'``
 - create a new tag with `core_` prefix
 - `-SNAPSHOT` will be removed automatically by the pipeline
 
