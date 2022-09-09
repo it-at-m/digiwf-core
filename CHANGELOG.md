@@ -11,6 +11,14 @@
 - (digiwf-form-builder): move field to nested objects
 - (digiwf-form-builder): general styling issues
 
+## [core Unreleased] - yyyy-mm-dd
+
+### Added
+
+- (digiwf-libs) add functionality to extract error information
+
+### Fixed
+
 ## [core 0.11.0] - 2022-08-30
 
 ### Added
