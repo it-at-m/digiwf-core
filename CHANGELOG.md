@@ -15,7 +15,7 @@
 
 ### Added
 
-- (digiwf-libs) add functionality to extract error information
+- (digiwf-libs) add functionality to extract error information in json serialization
 
 ### Fixed
 
