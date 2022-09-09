@@ -42,7 +42,7 @@
               />
               <v-list-item
                   link
-                  @click="fieldRemoved"
+                  @click="removed"
               >
                 <v-list-item-title>Remove</v-list-item-title>
               </v-list-item>
@@ -50,7 +50,6 @@
           </v-menu>
         </v-flex>
       </template>
-
       <dwf-properties-container @input="propertiesChanged" :dragOptions="dragOptions" :properties="properties"/>
     </v-list-group>
   </v-list-item>
@@ -80,7 +79,7 @@ export default defineComponent({
       })
     }
 
-    const fieldRemoved = () => {
+    const removed = () => {
       emit('remove', props.fieldKey);
     }
 
@@ -115,7 +114,7 @@ export default defineComponent({
       settings,
       properties,
       input,
-      fieldRemoved,
+      removed,
       icon,
       onObjectChanged,
       propertiesChanged

@@ -35,7 +35,7 @@
               <dwf-edit-form-field-modal
                   :value="value"
                   :field-key="fieldKey"
-                  :schemas="{'optionalContainer' : settings.conditionalContainerSchema} "
+                  :schemas="{'optionalContainer' : settings.conditionalObjectContainerSchema} "
                   :generic-schema="settings.conditionalContainerSchema"
                   @saved="onContainerChanged"
               />
@@ -87,7 +87,7 @@ import {defineComponent, inject, set} from "vue";
 
 export default defineComponent({
   props: ['fieldKey', 'value'],
-  emits: ['input'],
+  emits: ['input', 'remove'],
   setup(props, {emit}) {
     const dragOptions = {
       animation: 200,
@@ -98,7 +98,7 @@ export default defineComponent({
     const settings = inject("builderSettings");
 
     const input = (value: any) => {
-      emit('inout', {
+      emit('input', {
         key: props.fieldKey,
         newKey: value.key,
         value: value

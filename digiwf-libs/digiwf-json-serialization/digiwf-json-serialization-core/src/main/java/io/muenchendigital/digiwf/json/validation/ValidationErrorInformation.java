@@ -16,4 +16,6 @@ public class ValidationErrorInformation {
 
     private Schema violatedSchema;
 
+    private String message;
+
 }

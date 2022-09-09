@@ -12,6 +12,7 @@
         <span class="flex-grow-0 text-right mr-10">{{ value.fieldType }}</span>
       </template>
       <template v-else>
+        <span class="flex-grow-1">{{ fieldKey }}</span>
         <span class="flex-grow-1">{{ value.title }}</span>
         <span class="flex-grow-0 text-right mr-10">{{ value.fieldType }}</span>
       </template>
@@ -73,7 +74,7 @@ export default defineComponent({
     }
 
     const removed = () => {
-      emit('removed', props.fieldKey);
+      emit('remove', props.fieldKey);
     }
 
     const onFieldChanged = (field: any) => {

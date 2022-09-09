@@ -58,12 +58,14 @@
 
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
-import {defineComponent, set} from "vue";
+import {defineComponent, ref} from "vue";
 
 export default defineComponent({
   props: ['properties', 'dragOptions'],
   emit: ['input'],
   setup(props, {emit}) {
+
+    const show = ref<boolean>(true);
 
     const input = (value: any) => {
       emit("input", value);
@@ -83,27 +85,20 @@ export default defineComponent({
     }
 
     const onDragChanged = (event: any): void => {
-      if (event && event.added) {
+      if (event && event.added && !event.added.element[1].key) {
         event.added.element[0] = generateUUID();
       }
       const properties: any = {};
       props.properties.forEach((property: any) => properties[property[0]] = property[1]);
-      input(properties);
-    }
 
-    const uuid = (optionalContainer: any): string => {
-      if (optionalContainer.key) return optionalContainer.key;
-      const key = generateUUID();
-      set(optionalContainer, "key", key);
-      input(props.properties);
-      return optionalContainer.key;
+      input(properties);
     }
 
     const onFieldRemoved = (key: string): any => {
       const relevantFields = props.properties.filter((el: any) => el[0] != key);
       const properties: any = {};
       relevantFields.forEach((property: any) => properties[property[0]] = property[1]);
-      input(props);
+      input(properties);
     }
 
     const onFormFieldChanged = (update: any) => {
@@ -112,6 +107,7 @@ export default defineComponent({
         const property = props.properties[i];
         if (property[0] === update.key) {
           properties[update.newKey] = update.value;
+          props.properties[i][1] = update.value;
         } else {
           properties[property[0]] = property[1];
         }
@@ -120,12 +116,12 @@ export default defineComponent({
     }
 
     return {
+      show,
       isObjectType,
       isOptionalContainer,
       isArrayObjectType,
       onFormFieldChanged,
       onFieldRemoved,
-      uuid,
       onDragChanged
     }
   }

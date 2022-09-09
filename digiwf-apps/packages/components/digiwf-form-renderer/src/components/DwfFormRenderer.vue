@@ -31,7 +31,9 @@ export default defineComponent({
         "required": "Dieses Feld ist ein Pflichtfeld",
         "preview": "Vorschau",
         "mdeGuide": "Dokumentation",
-        "continue": "weiter"
+        "continue": "weiter",
+        "minItems": "Mindestens {minItems} Einträge",
+        "maxItems": "Nicht mehr als {maxItems} Einträge"
       },
     };
     const formats = {

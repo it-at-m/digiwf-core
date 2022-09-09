@@ -99,7 +99,7 @@ export default defineComponent({
       emit("input", value);
     }
 
-    const remove = () => {
+    const removed = () => {
       emit("remove", currentValue.key);
     }
 
@@ -142,7 +142,7 @@ export default defineComponent({
       settings,
       dragOptions,
       input,
-      remove,
+      removed,
       onListChanged,
       uuid,
       onContainerChanged,

@@ -14,7 +14,7 @@
       >
         <dwf-form-renderer
             style="min-height: 400px;"
-            :value="{...value, key: fieldKey}"
+            :value="currentValue"
             :schema="schema"
             :options="{}"
             @input="onFormUpdate"
@@ -26,15 +26,16 @@
 
 <script lang="ts">
 import {DwfFormRenderer, FormField} from "@muenchen/digiwf-form-renderer";
-import {computed, defineComponent, reactive, ref} from "vue";
+import {computed, defineComponent, nextTick, reactive, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer},
   props: ['schemas', 'genericSchema', 'value', 'fieldKey'],
   emits: ['saved'],
-  setup(props, {emit, refs, root}) {
+  setup(props, {emit}) {
     const valid = ref(false);
     const dialog = ref(false);
+    const form = ref(null);
     let currentValue = reactive<FormField>({...props.value, key: props.fieldKey});
 
     const saved = () => {
@@ -42,10 +43,10 @@ export default defineComponent({
     }
 
     const onSaveForm = () => {
-      (refs.form as HTMLFormElement).validate();
+      (form.value as HTMLFormElement).validate();
       if (valid.value) {
         dialog.value = true;
-        root.$nextTick(() => {
+        nextTick(() => {
           dialog.value = false;
         });
         saved();
@@ -54,7 +55,7 @@ export default defineComponent({
 
     const onCancelForm = () => {
       dialog.value = true;
-      root.$nextTick(() => {
+      nextTick(() => {
         dialog.value = false;
       });
     }
@@ -70,6 +71,7 @@ export default defineComponent({
       dialog,
       valid,
       schema,
+      form,
       saved,
       onSaveForm,
       onCancelForm,

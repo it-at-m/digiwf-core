@@ -48,7 +48,6 @@
           </v-menu>
         </v-flex>
       </template>
-
       <dwf-properties-container @input="propertiesChanged" :dragOptions="dragOptions" :properties="properties"/>
     </v-list-group>
   </v-list-item>

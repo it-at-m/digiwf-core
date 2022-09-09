@@ -9,5 +9,11 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Menu: typeof import('./src/components/menu.vue')['default']
     VApp: typeof import('vuetify/lib')['VApp']
+    VBtn: typeof import('vuetify/lib')['VBtn']
+    VForm: typeof import('vuetify/lib')['VForm']
+    VTab: typeof import('vuetify/lib')['VTab']
+    VTabItem: typeof import('vuetify/lib')['VTabItem']
+    VTabs: typeof import('vuetify/lib')['VTabs']
+    VTabsItems: typeof import('vuetify/lib')['VTabsItems']
   }
 }

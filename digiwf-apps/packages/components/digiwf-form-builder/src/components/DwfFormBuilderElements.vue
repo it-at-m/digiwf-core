@@ -1,6 +1,6 @@
 <template>
   <v-card
-      elevation="1"
+      elevation="3"
       class="palette contentWrapper"
   >
     <h4 class="pl-5 pt-5">Sections</h4>
@@ -236,10 +236,8 @@ export default defineComponent({
 
 .palette {
   text-align: left;
-  margin-bottom: 8px;
-  height: 100% !important;
-  padding: 0;
-  min-width: 300px;
+  overflow-y: scroll;
+  min-width: 120px;
 }
 
 </style>

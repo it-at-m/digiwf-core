@@ -26,15 +26,16 @@
 
 <script lang="ts">
 import {DwfFormRenderer, FormFieldContainer} from "@muenchen/digiwf-form-renderer";
-import {defineComponent, reactive, ref} from "vue";
+import {defineComponent, nextTick, reactive, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer},
   props: ['schema', 'value'],
   emits: ['saved'],
-  setup(props, {emit, refs, root}) {
+  setup(props, {emit}) {
     const valid = ref(false);
     const dialog = ref(false);
+    const form = ref(null);
     let currentValue = reactive<FormFieldContainer>(props.value);
 
     const saved = () => {
@@ -42,10 +43,10 @@ export default defineComponent({
     }
 
     const onSaveForm = () => {
-      (refs.form as HTMLFormElement).validate();
+      (form.value as HTMLFormElement).validate();
       if (valid.value) {
         dialog.value = true;
-        root.$nextTick(() => {
+        nextTick(() => {
           dialog.value = false;
         });
         saved();
@@ -54,7 +55,7 @@ export default defineComponent({
 
     const onCancelForm = () => {
       dialog.value = true;
-      root.$nextTick(() => {
+      nextTick(() => {
         dialog.value = false;
       });
     }
@@ -67,6 +68,7 @@ export default defineComponent({
       currentValue,
       dialog,
       valid,
+      form,
       saved,
       onSaveForm,
       onCancelForm,
