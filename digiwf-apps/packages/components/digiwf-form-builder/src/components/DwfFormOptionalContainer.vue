@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
-import {defineComponent, inject, reactive, set} from "vue";
+import {defineComponent, inject, set} from "vue";
 import {Container} from "@muenchen/digiwf-form-renderer";
 import {FormBuilderSettings} from "@muenchen/digiwf-form-builder-settings";
 
@@ -93,46 +93,45 @@ export default defineComponent({
       group: "optionalContainer",
       disabled: false
     };
-    const currentValue = reactive(props.value);
 
     const input = (value: Container) => {
       emit("input", value);
     }
 
     const removed = () => {
-      emit("remove", currentValue.key);
+      emit("remove", props.value.key);
     }
 
     const onListChanged = () => {
-      input(currentValue);
+      input(props.value);
     }
 
     const uuid = (container: Container): string => {
       if (container.key) return container.key;
       set(container, "key", generateUUID());
-      input(currentValue);
+      input(props.value);
       return container.key;
     }
 
     const onContainerChanged = (container: Container) => {
       const newContainer = {
         ...container,
-        allOf: currentValue.allOf
+        allOf: props.value.allOf
       };
       input(newContainer);
     }
 
     const onItemRemoved = (key: string) => {
-      currentValue.allOf = currentValue.allOf.filter((el: any) => el.key != key);
-      input(currentValue);
+      props.value.allOf = props.value.allOf.filter((el: any) => el.key != key);
+      input(props.value);
     }
 
     const onItemChanged = (container: any) => {
-      for (let i = 0; i < currentValue.allOf.length; i++) {
-        if (currentValue.allOf[i].key === container.key) {
-          set(currentValue.allOf, i, container);
-          currentValue.allOf[i] = container;
-          input(currentValue);
+      for (let i = 0; i < props.value.allOf.length; i++) {
+        if (props.value.allOf[i].key === container.key) {
+          set(props.value.allOf, i, container);
+          props.value.allOf[i] = container;
+          input(props.value);
           return;
         }
       }

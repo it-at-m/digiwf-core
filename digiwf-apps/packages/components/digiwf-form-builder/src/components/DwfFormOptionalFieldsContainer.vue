@@ -95,13 +95,8 @@ export default defineComponent({
     };
     const settings = inject<FormBuilderSettings>("builderSettings")
 
-
     const input = (value: any) => {
-      emit('input', {
-        key: props.fieldKey,
-        newKey: value.key,
-        value: value
-      })
+      emit('input', value)
     }
 
     const removed = () => {
