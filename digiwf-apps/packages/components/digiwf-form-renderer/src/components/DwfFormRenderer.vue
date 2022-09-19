@@ -24,6 +24,7 @@ export default defineComponent({
       "disableSorting": true,
       "sectionsClass": "pl-0 col-12 pb-0 pt-0 pr-0",
       "objectContainerClass": "pl-0 pb-0 pt-0 pr-0",
+      dialogProps: {maxWidth: 1000},
       "timePickerProps": {
         "format": "24hr"
       },
