@@ -54,7 +54,7 @@
 
           <v-list-item-content>
             <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
-            <v-list-item-subtitle v-html="data.item.ou" />
+            <v-list-item-subtitle v-html="data.item.ou"/>
           </v-list-item-content>
         </template>
       </template>
@@ -109,7 +109,7 @@
   padding-top: 12px !important;
 }
 
-#top .v-input--is-readonly fieldset:nth-child(1){
+#top .v-input--is-readonly fieldset:nth-child(1) {
   border-color: #bbb;
 }
 
@@ -156,10 +156,10 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 import {VAutocomplete} from "vuetify/lib";
-import {SearchUserTO, UserRestControllerApiFactory, UserTO} from "@/api/api-client/api";
-import FetchUtils from "@/api/FetchUtils";
+import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from "@muenchen/digiwf-engine-api-internal";
 import {AxiosResponse} from "axios";
 import {mucatarURL} from "../../constants";
+import {ApiConfig} from "../../api/ApiConfig";
 
 @Component({
   components: {
@@ -233,7 +233,7 @@ export default class VMultiUserInput extends Vue {
   async loadInitialValue(id: string): Promise<void> {
     try {
       this.locked = true;
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       let res: AxiosResponse;
       //if number: search by objectId; if string: search by username
       if (id.match(/^-?\d+$/)) {
@@ -296,7 +296,7 @@ export default class VMultiUserInput extends Vue {
         ous: this.ldapGroups ? this.ldapGroups : undefined
       };
 
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await UserRestControllerApiFactory(cfg).getUsers(to);
 
       if (this.lastSearch === this.search.slice(0, 3)) {

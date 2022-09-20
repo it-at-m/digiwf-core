@@ -1,8 +1,12 @@
 import {ActionContext} from "vuex";
-import {RootState} from "@/store";
-import {TasksState} from "@/store/modules/tasks";
-import {ServiceDefinitionControllerApiFactory, ServiceDefinitionTO} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import {RootState} from "../index";
+import {TasksState} from "./tasks";
+import {
+  FetchUtils,
+  ServiceDefinitionControllerApiFactory,
+  ServiceDefinitionTO
+} from '@muenchen/digiwf-engine-api-internal';
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface ProcessDefinitionState {
   processDefinitions: ServiceDefinitionTO[];
@@ -44,7 +48,7 @@ export default {
         return;
       }
       //const processDefinitions = await ProcessService.loadProcesses();
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await ServiceDefinitionControllerApiFactory(cfg).getServiceDefinitions();

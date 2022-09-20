@@ -65,7 +65,7 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {ServiceDefinitionTO} from '@/api/api-client/api';
+import {ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
 
 @Component
 export default class ProcessDefinitionItem extends Vue {

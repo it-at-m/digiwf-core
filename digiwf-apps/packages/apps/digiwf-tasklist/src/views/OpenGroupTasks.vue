@@ -31,9 +31,9 @@ import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import GroupTaskItem from "@/components/task/GroupTaskItem.vue";
-import router from "@/router";
-import {HumanTaskRestControllerApiFactory, HumanTaskTO} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import router from "../router";
+import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {GroupTaskItem, TaskList, AppToast, AppViewLayout}
@@ -52,7 +52,7 @@ export default class OpenGroupTasks extends Vue {
   async assignTask(id: string): Promise<void> {
     try {
       //await TaskService.assignTask(id);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).assignTask(id);
 
       this.$store.dispatch('tasks/getTasks', true);

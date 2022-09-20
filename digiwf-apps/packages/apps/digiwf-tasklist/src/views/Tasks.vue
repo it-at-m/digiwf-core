@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator';
-import {HumanTaskTO} from '@/api/api-client/api';
+import {HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";

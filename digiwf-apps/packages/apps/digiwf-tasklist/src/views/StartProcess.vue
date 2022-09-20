@@ -52,14 +52,19 @@ import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "@/router";
-import SaveLeaveMixin from "@/mixins/saveLeaveMixin";
+import router from "../router";
+import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 
-import {ServiceDefinitionControllerApiFactory, ServiceDefinitionDetailTO, StartInstanceTO} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import {
+  FetchUtils,
+  ServiceDefinitionControllerApiFactory,
+  ServiceDefinitionDetailTO,
+  StartInstanceTO
+} from '@muenchen/digiwf-engine-api-internal';
 
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
@@ -79,7 +84,7 @@ export default class StartProcess extends SaveLeaveMixin {
   formContext: FormContext = {id: this.processKey, type: "start"}
 
   @Provide('apiEndpoint')
-  apiEndpoint = FetchUtils.base;
+  apiEndpoint = import.meta.env.VUE_APP_API_URL;
 
 
   created() {
@@ -97,7 +102,7 @@ export default class StartProcess extends SaveLeaveMixin {
       variables: model
     };
     try {
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await ServiceDefinitionControllerApiFactory(cfg).startInstance(request);
 
       this.errorMessage = "";
@@ -119,7 +124,7 @@ export default class StartProcess extends SaveLeaveMixin {
   }
 
   async loadProcess(): Promise<void> {
-    const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
     cfg.baseOptions.validateStatus = function (status: number) {
       return status >= 200 && status < 500;
     }; // override axios default impl. (holding back http statuses >= 300)

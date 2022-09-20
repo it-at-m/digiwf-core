@@ -1,7 +1,7 @@
 import {ActionContext} from "vuex";
-import {RootState} from "@/store";
-import {HumanTaskRestControllerApiFactory, HumanTaskTO} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import {RootState} from "../index";
+import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface TasksState {
   tasks: HumanTaskTO[];
@@ -50,7 +50,7 @@ export default {
       }
       //const tasks = await TaskService.getMyTasks();
 
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
 

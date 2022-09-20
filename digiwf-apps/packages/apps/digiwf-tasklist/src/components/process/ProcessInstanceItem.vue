@@ -90,7 +90,7 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {ServiceInstanceTO} from '@/api/api-client/api';
+import {ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
 import {DateTime} from "luxon";
 
 @Component

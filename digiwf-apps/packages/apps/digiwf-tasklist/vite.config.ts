@@ -6,29 +6,29 @@ import {VuetifyResolver} from "unplugin-vue-components/resolvers";
 import {fileURLToPath, URL} from "url";
 
 export default defineConfig({
-    plugins: [
-        createVuePlugin(/* options */),
-        Components({
-            transformer: 'vue2',
-            dts: true,
-            resolvers: [
-                VuetifyResolver()
-            ]
-        })
-    ],
-    server: {
-        port: 8081
+  plugins: [
+    createVuePlugin(/* options */),
+    Components({
+      transformer: 'vue2',
+      dts: true,
+      resolvers: [
+        VuetifyResolver()
+      ]
+    })
+  ],
+  server: {
+    port: 8081
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
     },
-    build: {
-        commonjsOptions: {
-            transformMixedEsModules: true,
-        },
-        minify: 'esbuild'
+    minify: 'esbuild'
+  },
+  resolve: {
+    alias: {
+      //@ts-ignore
+      "@": fileURLToPath(new URL("./src", import.meta.url))
     },
-    resolve: {
-        alias: {
-            //@ts-ignore
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
-    }
+  }
 })

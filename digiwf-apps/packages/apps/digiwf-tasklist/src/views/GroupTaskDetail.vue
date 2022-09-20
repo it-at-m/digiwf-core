@@ -79,10 +79,10 @@ import {Component, Prop, Provide, Vue} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "@/router";
-import {HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import router from "../router";
+import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
@@ -109,7 +109,7 @@ export default class MyTaskDetail extends Vue {
   async assignTask(): Promise<void> {
     try {
       //await TaskService.assignTask(this.id);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).assignTask(this.id);
 
       this.$store.dispatch('tasks/getTasks', true);
@@ -125,7 +125,7 @@ export default class MyTaskDetail extends Vue {
   async loadTask(): Promise<void> {
     const loadingTimeout = setTimeout(() => this.isLoading = true, 500);
     try {
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       cfg.baseOptions.validateStatus = function (status: number) {
         return status >= 200 && status < 500;
       }; // override axios default impl. (holding back http statuses >= 300)

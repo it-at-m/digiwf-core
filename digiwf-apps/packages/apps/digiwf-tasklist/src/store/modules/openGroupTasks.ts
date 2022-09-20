@@ -1,8 +1,8 @@
 import {ActionContext} from "vuex";
-import {RootState} from "@/store";
-import {TasksState} from "@/store/modules/tasks";
-import {HumanTaskRestControllerApiFactory, HumanTaskTO} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import {RootState} from "../index";
+import {TasksState} from "./tasks";
+import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface OpenGroupTasksState {
   tasks: HumanTaskTO[];
@@ -42,7 +42,7 @@ export default {
         return;
       }
       // const tasks = await TaskService.getOpenGroupTasks();
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       try {
         const res = await HumanTaskRestControllerApiFactory(cfg).getOpenGroupTasks();
         context.commit('setLastFetch', new Date().getTime());

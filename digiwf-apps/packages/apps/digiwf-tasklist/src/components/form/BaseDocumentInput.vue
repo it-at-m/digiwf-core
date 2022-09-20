@@ -62,7 +62,7 @@
             class="documentLink"
             :href="doc.url"
           >{{ doc.name }}</a>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             v-if="!readonly"
             class="removeButton"
@@ -128,8 +128,8 @@
 <script lang="ts">
 import {VInput} from "vuetify/lib";
 import {Vue} from "vue-property-decorator";
-import { DmsRestControllerApiFactory,GetMetadataTO,MetadataTO } from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+import {DmsRestControllerApiFactory, FetchUtils, GetMetadataTO, MetadataTO} from '@muenchen/digiwf-engine-api-internal';
+import {ApiConfig} from "../../api/ApiConfig";
 
 export default Vue.extend({
   name: 'BaseDocumentInput',
@@ -178,7 +178,7 @@ export default Vue.extend({
         const to: GetMetadataTO = {
           url: this.documentInput
         };
-        const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+        const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
         const res = await DmsRestControllerApiFactory(cfg).getMetaData(to);
 
         this.errorMessage = "";
@@ -198,10 +198,10 @@ export default Vue.extend({
     },
     removeDocument(url: string): void {
       // this.documents = this.documents.filter(doc => doc.url !== url);
-      for(let i = 0; i < this.documents.length; i++) {
-        if(this.documents[i].url == url) {
-            this.documents.splice(i, 1);
-            break; // #838: only remove first item
+      for (let i = 0; i < this.documents.length; i++) {
+        if (this.documents[i].url == url) {
+          this.documents.splice(i, 1);
+          break; // #838: only remove first item
         }
       }
       this.input();

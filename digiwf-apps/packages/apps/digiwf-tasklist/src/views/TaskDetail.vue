@@ -141,7 +141,7 @@
   right: 0;
 }
 
-@media only screen and (max-width: 1500px){
+@media only screen and (max-width: 1500px) {
   .buttonWrapper {
     right: 6em;
   }
@@ -154,21 +154,22 @@ import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "@/router";
-import SaveLeaveMixin from "@/mixins/saveLeaveMixin";
+import router from "../router";
+import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
 import {
   CompleteTO,
   DocumentRestControllerApiFactory,
+  FetchUtils,
   FollowUpTO,
   HumanTaskDetailTO,
   HumanTaskRestControllerApiFactory,
   SaveTO
-} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
+import {ApiConfig} from "../api/ApiConfig";
 
 
 @Component({
@@ -208,7 +209,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   formContext: FormContext = {id: this.id, type: "task"}
 
   @Provide('apiEndpoint')
-  apiEndpoint = FetchUtils.base;
+  apiEndpoint = import.meta.env.VUE_APP_API_URL;
 
   created() {
     this.loadTask();
@@ -235,7 +236,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     };
     try {
       //await TaskService.completeTask(request);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).completeTask(request);
 
       this.errorMessage = "";
@@ -265,7 +266,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     };
     try {
       //await TaskService.saveTask(request);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPUTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).saveTask(request);
 
       this.errorMessage = "";
@@ -284,7 +285,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   async loadTask(): Promise<void> {
     try {
       // this.task = await TaskService.getTaskDetail(this.id);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       cfg.baseOptions.validateStatus = function (status: number) {
         return status >= 200 && status < 500;
       }; // override axios default impl. (holding back http statuses >= 300)
@@ -317,7 +318,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   async followUpTask(request: FollowUpTO): Promise<void> {
     try {
       //await TaskService.followUpTask(request);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).followUpTask(request);
 
       this.errorMessage = "";
@@ -363,7 +364,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     const startTime = new Date().getTime();
     try {
       //await TaskService.cancelTask(this.id);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).cancelTask(this.id);
 
       this.errorMessage = "";
@@ -388,7 +389,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
     try {
       //const statusDoc = await DocumentService.getStatusDocument(this.id);
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(this.id);
 
       const fileURL = window.URL.createObjectURL(new Blob([this.base64ToArrayBuffer(res.data.data)], {type: 'application/pdf'}));

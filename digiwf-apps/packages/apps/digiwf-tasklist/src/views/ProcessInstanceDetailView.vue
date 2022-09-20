@@ -153,15 +153,16 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import {DateTime} from "luxon";
 import {
+  FetchUtils,
   HistoryTask,
   HumanTaskTO,
   ServiceInstanceControllerApiFactory,
   ServiceInstanceDetailTO,
   StatusConfigTO
-} from '@/api/api-client/api';
-import FetchUtils from "@/api/FetchUtils";
+} from '@muenchen/digiwf-engine-api-internal';
 import AppJsonRenderer from "@/components/schema/AppJsonRenderer.vue";
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {AppJsonRenderer, AppToast, AppViewLayout}
@@ -187,7 +188,7 @@ export default class ProcessInstanceDetailView extends Vue {
 
   async loadProcessInstanceDetail(): Promise<void> {
     try {
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await ServiceInstanceControllerApiFactory(cfg).getProcessInstanceDetail(this.processId);
       this.processInstanceDetail = res.data;
 

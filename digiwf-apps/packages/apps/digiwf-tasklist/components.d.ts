@@ -75,7 +75,6 @@ declare module '@vue/runtime-core' {
     VProgressCircular: typeof import('vuetify/lib')['VProgressCircular']
     VRow: typeof import('vuetify/lib')['VRow']
     VSimpleTable: typeof import('vuetify/lib')['VSimpleTable']
-    VSnackbar: typeof import('vuetify/lib')['VSnackbar']
     VSpacer: typeof import('vuetify/lib')['VSpacer']
     VSpeedDial: typeof import('vuetify/lib')['VSpeedDial']
     VStepper: typeof import('vuetify/lib')['VStepper']

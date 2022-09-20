@@ -114,7 +114,7 @@ import {Component, Vue} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {ServiceInstanceTO} from '@/api/api-client/api';
+import {ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
 

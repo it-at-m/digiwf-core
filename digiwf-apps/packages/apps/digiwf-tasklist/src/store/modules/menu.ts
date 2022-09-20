@@ -1,5 +1,5 @@
 import {ActionContext} from "vuex";
-import {RootState} from "@/store";
+import {RootState} from "../index";
 
 export interface MenuState {
   open: boolean;

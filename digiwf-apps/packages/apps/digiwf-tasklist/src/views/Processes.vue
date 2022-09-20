@@ -83,7 +83,7 @@ import {Component, Vue} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {ServiceDefinitionTO} from '@/api/api-client/api';
+import {ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 

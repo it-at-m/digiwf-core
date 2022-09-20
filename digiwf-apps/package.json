@@ -9,7 +9,8 @@
     "versioning": "lerna version --no-push --no-git-tag-version",
     "dev": "lerna run watch --stream --parallel",
     "serve": "npm run build && lerna run dev --stream --parallel",
-    "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example"
+    "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example",
+    "serve:tasklist": "lerna run dev --stream --scope=@muenchen/digiwf-tasklist"
   },
   "author": {
     "name": "Dominik horn",

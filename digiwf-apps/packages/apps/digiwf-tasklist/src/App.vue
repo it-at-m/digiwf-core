@@ -219,12 +219,9 @@ a {
 <script lang="ts">
 import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
-import TheSnackbar from "@/components/TheSnackbar.vue";
-import {HumanTaskTO, InfoTO, ServiceInstanceTO, UserTO,} from "@/api/api-client/api";
+import {HumanTaskTO, InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 
-@Component({
-  components: {TheSnackbar}
-})
+@Component()
 export default class App extends Vue {
   drawer = true;
   query = "";

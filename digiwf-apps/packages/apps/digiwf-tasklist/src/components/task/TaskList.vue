@@ -5,36 +5,36 @@
     </v-flex>
     <v-flex class="d-flex justify-space-between align-center searchField">
       <v-text-field
-        id="suchfeld"
-        v-model="filter"
-        flat
-        dense
-        outlined
-        hide-details
-        label="Aufgaben durchsuchen"
-        clearable
-        append-icon="mdi-magnify"
-        color="black"
-        style="max-width: 500px"
+          id="suchfeld"
+          v-model="filter"
+          flat
+          dense
+          outlined
+          hide-details
+          label="Aufgaben durchsuchen"
+          clearable
+          append-icon="mdi-magnify"
+          color="black"
+          style="max-width: 500px"
       />
       <div class="d-flex align-center">
         <v-btn
-          aria-label="Aufgaben aktualisieren"
-          text
-          color="primary"
-          large
-          @click="loadTasks"
+            aria-label="Aufgaben aktualisieren"
+            text
+            color="primary"
+            large
+            @click="loadTasks"
         >
           <div style="min-width: 30px">
             <v-progress-circular
-              v-if="isLoading"
-              :size="25"
-              width="2"
-              color="primary"
-              indeterminate
+                v-if="isLoading"
+                :size="25"
+                width="2"
+                color="primary"
+                indeterminate
             />
             <v-icon
-              v-else
+                v-else
             >
               mdi-refresh
             </v-icon>
@@ -45,8 +45,8 @@
     </v-flex>
     <v-flex v-if="errorMessage">
       <AppToast
-        :message="errorMessage"
-        type="error"
+          :message="errorMessage"
+          type="error"
       />
     </v-flex>
     <v-flex class="mt-10">
@@ -55,21 +55,21 @@
           Aufgabe
         </v-flex>
         <v-flex
-          v-if="showAssignee"
-          class="headerTitel"
-          style="max-width: 148px"
+            v-if="showAssignee"
+            class="headerTitel"
+            style="max-width: 148px"
         >
           Bearbeiter*in
         </v-flex>
         <v-flex
-          class="headerTitel"
-          style="max-width: 198px"
+            class="headerTitel"
+            style="max-width: 198px"
         >
           Vorgang
         </v-flex>
         <v-flex
-          class="headerTitel"
-          style="max-width: 80px"
+            class="headerTitel"
+            style="max-width: 80px"
         >
           Erstellt am
         </v-flex>
@@ -77,13 +77,13 @@
       <hr style="margin: 5px 0 0 0">
     </v-flex>
     <app-pageable-list
-      :items="filteredTasks"
-      found-data-text="Aufgaben gefunden"
-      no-data-text="Keine Aufgaben gefunden"
+        :items="filteredTasks"
+        found-data-text="Aufgaben gefunden"
+        no-data-text="Keine Aufgaben gefunden"
     >
       <template #default="props">
         <template v-for="item in props.items">
-          <slot :item=" {...item, searchInput: filter || ''}" />
+          <slot :item=" {...item, searchInput: filter || ''}"/>
         </template>
       </template>
     </app-pageable-list>
