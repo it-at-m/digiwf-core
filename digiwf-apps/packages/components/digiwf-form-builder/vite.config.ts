@@ -1,4 +1,4 @@
-import {createVuePlugin} from "vite-plugin-vue2";
+import vue from "@vitejs/plugin-vue2";
 import {defineConfig} from 'vite'
 import Components from 'unplugin-vue-components/vite'
 import {VuetifyResolver} from "unplugin-vue-components/resolvers";
@@ -6,41 +6,41 @@ import {VuetifyResolver} from "unplugin-vue-components/resolvers";
 import {fileURLToPath, URL} from "url";
 
 export default defineConfig({
-    plugins: [
-        createVuePlugin(),
-        Components({
-            transformer: 'vue2',
-            dts: true,
-            resolvers: [
-                VuetifyResolver()
-            ]
-        })
-    ],
-    resolve: {
-        alias: {
-            //@ts-ignore
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
+  plugins: [
+    vue(),
+    Components({
+      transformer: 'vue2',
+      dts: true,
+      resolvers: [
+        VuetifyResolver()
+      ]
+    })
+  ],
+  resolve: {
+    alias: {
+      //@ts-ignore
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    build: {
-        lib: {
-            entry: 'src/index.ts',
-            name: 'digiwf-form-renderer',
-        },
-        rollupOptions: {
-            external: [
-                'vue',
-                'vuex',
-                'vue-router',
-                /@vuetify\/.*/,
-                /@muenchen\/vjsf\/.*/
-            ],
-            output: {
-                globals: {
-                    vue: 'Vue'
-                }
-            }
-        },
-        minify: 'esbuild'
-    }
+  },
+  build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'digiwf-form-renderer',
+    },
+    rollupOptions: {
+      external: [
+        'vue',
+        'vuex',
+        'vue-router',
+        /@vuetify\/.*/,
+        /@muenchen\/vjsf\/.*/
+      ],
+      output: {
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    },
+    minify: 'esbuild'
+  }
 })

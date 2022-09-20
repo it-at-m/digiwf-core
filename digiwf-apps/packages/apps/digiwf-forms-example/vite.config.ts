@@ -1,4 +1,4 @@
-import {createVuePlugin} from "vite-plugin-vue2";
+import vue from "@vitejs/plugin-vue2";
 import {defineConfig} from 'vite'
 import Components from 'unplugin-vue-components/vite'
 import {VuetifyResolver} from "unplugin-vue-components/resolvers";
@@ -6,29 +6,29 @@ import {VuetifyResolver} from "unplugin-vue-components/resolvers";
 import {fileURLToPath, URL} from "url";
 
 export default defineConfig({
-    plugins: [
-        createVuePlugin(/* options */),
-        Components({
-            transformer: 'vue2',
-            dts: true,
-            resolvers: [
-                VuetifyResolver()
-            ]
-        })
-    ],
-    server: {
-        port: 8081
+  plugins: [
+    vue(/* options */),
+    Components({
+      transformer: 'vue2',
+      dts: true,
+      resolvers: [
+        VuetifyResolver()
+      ]
+    })
+  ],
+  server: {
+    port: 8081
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
     },
-    build: {
-        commonjsOptions: {
-            transformMixedEsModules: true,
-        },
-        minify: 'esbuild'
+    minify: 'esbuild'
+  },
+  resolve: {
+    alias: {
+      //@ts-ignore
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    resolve: {
-        alias: {
-            //@ts-ignore
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
-    }
+  }
 })
