@@ -54,6 +54,7 @@ export const formFieldPalette = [
         {
             fieldType: "boolean",
             title: "Checkbox",
+            "default": false,
             type: "boolean",
             ...basicOptions
         }
@@ -94,6 +95,7 @@ export const formFieldPalette = [
             "fieldType": "switch",
             title: "Switch",
             "x-display": "switch",
+            "default": false,
             type: "boolean",
             ...basicOptions
         }

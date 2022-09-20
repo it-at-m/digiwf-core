@@ -10,7 +10,7 @@ const basicSchema = {
 };
 
 const basicAttributes = {
-    "title": "General",
+    "title": "Allgemein",
     "type": "object",
     "properties": {
         "fieldType": {
@@ -35,7 +35,7 @@ const basicAttributes = {
         },
         "title": {
             "type": "string",
-            "title": "Title",
+            "title": "Titel",
             "x-props": {
                 "outlined": true,
                 "dense": true
@@ -46,7 +46,15 @@ const basicAttributes = {
         },
         "description": {
             "type": "string",
-            "title": "Description",
+            "title": "Beschreibung",
+            "x-props": {
+                "outlined": true,
+                "dense": true
+            }
+        },
+        "readOnly": {
+            "type": "boolean",
+            "title": "Readonly",
             "x-props": {
                 "outlined": true,
                 "dense": true
@@ -56,7 +64,7 @@ const basicAttributes = {
 };
 
 const basicOptions = {
-    "title": "Options",
+    "title": "Optionen",
     "type": "object",
     "properties": {
         "x-props": {
@@ -97,13 +105,13 @@ const basicOptions = {
             "type": "object",
             "properties": {
                 "fieldColProps": {
-                    "description": "Size (max. 12)",
+                    "description": "Größe (max. 12)",
                     "type": "object",
                     "properties":
                         {
                             "sm": {
                                 "type": "integer",
-                                "title": "Standard size",
+                                "title": "Standardgröße",
                                 "x-props": {
                                     "outlined": true,
                                     "dense": true
@@ -117,7 +125,7 @@ const basicOptions = {
                             },
                             "cols": {
                                 "type": "integer",
-                                "title": "Size on small devices",
+                                "title": "Größe auf kleinen Geräten",
                                 "x-props": {
                                     "outlined": true,
                                     "dense": true
@@ -168,7 +176,7 @@ const basicOptions = {
 };
 
 const basicValidation = {
-    "title": "Validation",
+    "title": "Validierung",
     "type": "object",
     "properties": {
         "pattern": {
@@ -181,7 +189,7 @@ const basicValidation = {
         },
         "x-rules": {
             "type": "array",
-            "title": "Further rules",
+            "title": "Weitere Regeln",
             "items": {
                 "type": "string",
                 "enum": [
@@ -193,12 +201,22 @@ const basicValidation = {
     }
 };
 
-
 const textFeldSchema = {
     ...basicSchema,
     allOf: [
         {
             ...basicAttributes,
+            "properties": {
+                ...basicAttributes.properties,
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
         },
         {
             ...basicOptions
@@ -209,7 +227,7 @@ const textFeldSchema = {
                 ...basicValidation.properties,
                 "minLength": {
                     "type": "integer",
-                    "title": "min. length",
+                    "title": "min. Länge",
                     "x-props": {
                         "outlined": true,
                         "dense": true
@@ -217,13 +235,43 @@ const textFeldSchema = {
                 },
                 "maxLength": {
                     "type": "integer",
-                    "title": "max. length",
+                    "title": "max. Länge",
                     "x-props": {
                         "outlined": true,
                         "dense": true
                     }
                 }
             }
+        }
+    ]
+};
+
+const markdownSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "const": "markdown"
+                },
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-display": "markdown",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
         }
     ]
 };
@@ -238,6 +286,15 @@ const textAreaSchema = {
                 "x-display": {
                     "const": "textarea"
                 },
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-display": "textarea",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
             }
         },
         {
@@ -249,7 +306,7 @@ const textAreaSchema = {
                 ...basicValidation.properties,
                 "minLength": {
                     "type": "integer",
-                    "title": "min. length",
+                    "title": "min. Länge",
                     "x-props": {
                         "outlined": true,
                         "dense": true
@@ -257,7 +314,7 @@ const textAreaSchema = {
                 },
                 "maxLength": {
                     "type": "integer",
-                    "title": "max. length",
+                    "title": "max. Länge",
                     "x-props": {
                         "outlined": true,
                         "dense": true
@@ -278,6 +335,16 @@ const switchSchema = {
                 "x-display": {
                     "const": "switch"
                 },
+                "default": {
+                    "type": "boolean",
+                    "title": "Default",
+                    "default": false,
+                    "x-display": "switch",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
             }
         },
         {
@@ -299,176 +366,13 @@ const dateSchema = {
                 "format": {
                     "const": "date"
                 },
-            }
-        },
-        {
-            ...basicOptions
-        },
-        {
-            ...basicValidation
-        }
-    ]
-};
-
-const checkboxSchema = {
-    ...basicSchema,
-    allOf: [
-        {
-            ...basicAttributes,
-            properties: {
-                ...basicAttributes.properties,
-                "x-display": {
+                "default": {
                     "type": "string",
-                    "title": "Display",
+                    "format": "date",
+                    "title": "Default",
                     "x-props": {
                         "outlined": true,
                         "dense": true
-                    },
-                    "x-options": {
-                        "fieldColProps": {
-                            "cols": 12,
-                            "sm": 6
-                        }
-                    }
-                }
-            }
-        },
-        {
-            ...basicOptions
-        },
-        {
-            ...basicValidation
-        }
-    ]
-};
-
-const selectSchema = {
-    ...basicSchema,
-    allOf: [
-        {
-            ...basicAttributes,
-            properties: {
-                ...basicAttributes.properties,
-                "x-display": {
-                    "type": "string",
-                    "title": "Display",
-                    "enum": [
-                        "",
-                        "radio"
-                    ],
-                    "x-options": {
-                        "fieldColProps": {
-                            "cols": 12,
-                            "sm": 6
-                        }
-                    },
-                    "x-props": {
-                        "outlined": true,
-                        "dense": true
-                    }
-                }
-            }
-        },
-        {
-            "title": "Selection",
-            "type": "object",
-            "properties": {
-                "anyOf": {
-                    "type": "array",
-                    "title": "Entries",
-                    "x-itemTitle": "title",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "title": {
-                                "type": "string",
-                                "title": "Title",
-                                "x-rules": [
-                                    "required"
-                                ]
-                            },
-                            "const": {
-                                "type": "string",
-                                "title": "Value",
-                                "x-rules": [
-                                    "required"
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        {
-            ...basicOptions
-        },
-        {
-            ...basicValidation
-        }
-    ]
-};
-
-const multiselectSchema = {
-    ...basicSchema,
-    allOf: [
-        {
-            ...basicAttributes,
-            properties: {
-                ...basicAttributes.properties,
-                "x-display": {
-                    "type": "string",
-                    "title": "Display",
-                    "enum": [
-                        "checkbox",
-                        "switch"
-                    ],
-                    "x-options": {
-                        "fieldColProps": {
-                            "cols": 12,
-                            "sm": 6
-                        }
-                    },
-                    "x-props": {
-                        "outlined": true,
-                        "dense": true
-                    }
-                }
-            }
-        },
-        {
-            "title": "Selection",
-            "type": "object",
-            "properties": {
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "const": "string"
-                        },
-                        "anyOf": {
-                            "type": "array",
-                            "title": "Entries",
-                            "x-itemTitle": "title",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "title": {
-                                        "type": "string",
-                                        "title": "Title",
-                                        "x-rules": [
-                                            "required"
-                                        ]
-                                    },
-                                    "const": {
-                                        "type": "string",
-                                        "title": "Value",
-                                        "x-rules": [
-                                            "required"
-                                        ]
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -518,7 +422,347 @@ const constSchema = {
             ]
         },
     }
-}
+};
+
+const objectInput = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "additionalProperties": {
+                    "const": false,
+                },
+            }
+        },
+        {
+            ...basicOptions
+        }
+    ]
+};
+
+const timeSchema = {
+        ...basicSchema,
+        allOf: [
+            {
+                ...basicAttributes,
+                properties: {
+                    ...basicAttributes.properties,
+                    "format": {
+                        "const": "time"
+                    },
+                    "default": {
+                        "type": "string",
+                        "format": "time",
+                        "title": "Default",
+                        "x-props": {
+                            "outlined": true,
+                            "dense": true
+                        }
+                    }
+
+                },
+            },
+            {
+                ...basicOptions,
+                "properties": {
+                    ...basicOptions.properties,
+                    "x-options": {
+                        "type": "object",
+                        "properties": {
+                            "timePickerProps": {
+                                "type": "object",
+                                "properties": {
+                                    "format": {
+                                        "const": "24hr"
+                                    }
+                                }
+                            },
+                            "fieldColProps": {
+                                "description": "Size (max. 12)",
+                                "type": "object",
+                                "properties":
+                                    {
+                                        "sm": {
+                                            "type": "integer",
+                                            "title": "default size",
+                                            "x-props": {
+                                                "outlined": true,
+                                                "dense": true
+                                            },
+                                            "x-options": {
+                                                "fieldColProps": {
+                                                    "cols": 12,
+                                                    "sm": 6
+                                                }
+                                            }
+                                        },
+                                        "cols": {
+                                            "type": "integer",
+                                            "title": "Size on small devices",
+                                            "x-props": {
+                                                "outlined": true,
+                                                "dense": true
+                                            },
+                                            "x-options": {
+                                                "fieldColProps": {
+                                                    "cols": 12,
+                                                    "sm": 6
+                                                }
+                                            }
+                                        },
+                                        "messages": {
+                                            "type": "object",
+                                            "description": "Messages",
+                                            "properties": {
+                                                "pattern": {
+                                                    "type": "string",
+                                                    "title": "Pattern (Error Message)",
+                                                    "x-props": {
+                                                        "outlined": true,
+                                                        "dense": true
+                                                    }
+                                                },
+                                                "minimum": {
+                                                    "type": "string",
+                                                    "title": "Minimum (Error Message)",
+                                                    "x-props": {
+                                                        "outlined": true,
+                                                        "dense": true
+                                                    }
+                                                },
+                                                "maximum": {
+                                                    "type": "string",
+                                                    "title": "Maximum (Error Message)",
+                                                    "x-props": {
+                                                        "outlined": true,
+                                                        "dense": true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                            },
+                        }
+                    }
+                }
+            },
+            {
+                ...basicValidation
+            }
+        ]
+    }
+;
+
+const checkboxSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "type": "string",
+                    "title": "Display",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    },
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 6
+                        }
+                    }
+                },
+                "default": {
+                    "type": "boolean",
+                    "title": "Default",
+                    "default": false,
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
+        }
+    ]
+};
+
+const selectSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "type": "string",
+                    "title": "Display",
+                    "enum": [
+                        "",
+                        "radio"
+                    ],
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 6
+                        }
+                    },
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                },
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
+        },
+        {
+            "title": "Select",
+            "type": "object",
+            "properties": {
+                "anyOf": {
+                    "type": "array",
+                    "title": "Entries",
+                    "x-itemTitle": "title",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "title": "Titel",
+                                "x-rules": [
+                                    "required"
+                                ]
+                            },
+                            "const": {
+                                "type": "string",
+                                "title": "Value",
+                                "x-rules": [
+                                    "required"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
+        }
+    ]
+};
+
+const multiselectSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "type": "string",
+                    "title": "Display",
+                    "enum": [
+                        "checkbox",
+                        "switch"
+                    ],
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 6
+                        }
+                    },
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                },
+                "default": {
+                    "type": "array",
+                    "title": "default",
+                    "items": {
+                        "type": "string"
+                    },
+                    "x-props": {
+                        "outlined": true,
+                    },
+                    "x-rules": [
+                        "required"
+                    ],
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "title": "Select",
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "const": "string"
+                        },
+                        "anyOf": {
+                            "type": "array",
+                            "title": "Entries",
+                            "x-itemTitle": "title",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "title": "Titel",
+                                        "x-rules": [
+                                            "required"
+                                        ]
+                                    },
+                                    "const": {
+                                        "type": "string",
+                                        "title": "Value",
+                                        "x-rules": [
+                                            "required"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
+        }
+    ]
+};
 
 const fileSchema = {
     ...basicSchema,
@@ -528,18 +772,15 @@ const fileSchema = {
             properties: {
                 ...basicAttributes.properties,
                 "x-display": {
-                    "const": "file"
+                    "const": "custom-multi-file-input"
                 },
                 "filePath": {
                     "type": "string",
-                    "title": "File path",
-                    "default": "/",
+                    "title": "Filepath",
                     "x-props": {
                         "outlined": true,
                     },
-                    "x-rules": [
-                        "required"
-                    ],
+                    "x-rules": [],
                     "x-options": {
                         "fieldColProps": {
                             "cols": 12,
@@ -553,7 +794,6 @@ const fileSchema = {
                 "uuidEnabled": {
                     "type": "boolean",
                     "title": "Unique identifier?",
-                    "description": "Creates an unique identifier that is appended to the file path. Should be used in object lists.",
                     "default": false,
                     "x-props": {
                         "outlined": true,
@@ -575,7 +815,7 @@ const fileSchema = {
             properties: {
                 "x-rules": {
                     "type": "array",
-                    "title": "Further rules",
+                    "title": "Regeln",
                     "items": {
                         "type": "string",
                         "enum": [
@@ -585,6 +825,111 @@ const fileSchema = {
                     "x-display": "checkbox"
                 }
             }
+        }
+    ]
+};
+
+const userinputSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "const": "custom-user-input"
+                },
+                "ldap-groups": {
+                    "type": "string",
+                    "title": "Ldap Gruppen",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    },
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 6
+                        }
+                    }
+                },
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
+        }
+    ]
+};
+
+const multiUserinputSchema = {
+    ...basicSchema,
+    allOf: [
+        {
+            ...basicAttributes,
+            properties: {
+                ...basicAttributes.properties,
+                "x-display": {
+                    "const": "custom-multi-user-input"
+                },
+                "ldap-groups": {
+                    "type": "string",
+                    "title": "Ldap Gruppen",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    },
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 6
+                        }
+                    }
+                },
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "const": "string"
+                        }
+                    }
+                },
+                "default": {
+                    "type": "array",
+                    "title": "default",
+                    "items": {
+                        "type": "string"
+                    },
+                    "x-props": {
+                        "outlined": true,
+                    },
+                    "x-rules": [
+                        "required"
+                    ],
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                        }
+                    }
+                }
+            }
+        },
+        {
+            ...basicOptions
+        },
+        {
+            ...basicValidation
         }
     ]
 };
@@ -611,27 +956,27 @@ const arrayInput = {
                                 "dense": true
                             }
                         }
-                    },
-
-                }
-            }
-        },
-        {
-            ...basicOptions
-        }
-    ]
-};
-
-const objectInput = {
-    ...basicSchema,
-    allOf: [
-        {
-            ...basicAttributes,
-            properties: {
-                ...basicAttributes.properties,
-                "additionalProperties": {
-                    "const": false,
+                    }
                 },
+                "default": {
+                    "type": "array",
+                    "title": "default",
+                    "items": {
+                        "type": "string"
+                    },
+                    "x-props": {
+                        "outlined": true,
+                    },
+                    "x-rules": [
+                        "required"
+                    ],
+                    "x-options": {
+                        "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                        }
+                    }
+                }
             }
         },
         {
@@ -660,7 +1005,6 @@ const arrayObjectInput = {
                             "type": "object"
                         }
                     },
-
                 }
             }
         },
@@ -696,6 +1040,17 @@ export const genericSchema = {
     allOf: [
         {
             ...basicAttributes,
+            "properties": {
+                ...basicAttributes.properties,
+                "default": {
+                    "type": "string",
+                    "title": "Default",
+                    "x-props": {
+                        "outlined": true,
+                        "dense": true
+                    }
+                }
+            }
         },
         {
             ...basicOptions
@@ -710,14 +1065,18 @@ export const schemaMap: any = {
     "textarea": textAreaSchema,
     "text": textFeldSchema,
     "date": dateSchema,
+    "time": timeSchema,
     "boolean": checkboxSchema,
     "select": selectSchema,
     "multiselect": multiselectSchema,
+    "file": fileSchema,
+    "user-input": userinputSchema,
+    "multi-user-input": multiUserinputSchema,
     "array": arrayInput,
     "arrayObject": arrayObjectInput,
-    "objectType": objectInput,
-    "object": objectInput,
     "switch": switchSchema,
+    "markdown": markdownSchema,
     "const": constSchema,
-    "file": fileSchema
+    "object": objectInput,
+    "objectType": objectInput,
 };

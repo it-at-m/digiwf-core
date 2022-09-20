@@ -338,6 +338,7 @@ const switchSchema = {
                 "default": {
                     "type": "boolean",
                     "title": "Default",
+                    "default": false,
                     "x-display": "switch",
                     "x-props": {
                         "outlined": true,
@@ -578,6 +579,7 @@ const checkboxSchema = {
                 "default": {
                     "type": "boolean",
                     "title": "Default",
+                    "default": false,
                     "x-props": {
                         "outlined": true,
                         "dense": true
