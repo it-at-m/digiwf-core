@@ -20,10 +20,7 @@
         <hazelcast.version>4.2.4</hazelcast.version>
     </properties>
 
-
-
     <dependencies>
-
         <!-- spring cloud gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
