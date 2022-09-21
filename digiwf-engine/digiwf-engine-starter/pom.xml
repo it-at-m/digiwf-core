@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-engine-task</artifactId>
+            <artifactId>digiwf-engine-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
