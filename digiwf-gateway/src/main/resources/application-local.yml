@@ -57,7 +57,7 @@ spring:
         registration:
           keycloak:
             client-id: frontend
-            client-secret: 0b67133e-f4e0-42f6-b05f-7b51175969e8
+            client-secret:
 
   mvc:
     log-request-details: on
