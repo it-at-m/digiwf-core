@@ -16,8 +16,8 @@
 
     <modules>
         <module>digiwf-engine-service</module>
-        <module>digiwf-engine-task</module>
-        <module>digiwf-engine-task-starter</module>
+        <module>digiwf-engine-core</module>
+        <module>digiwf-engine-starter</module>
     </modules>
 
 </project>

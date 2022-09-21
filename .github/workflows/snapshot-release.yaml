@@ -50,3 +50,10 @@ jobs:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
           tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }}
+
+      - name: Build and push gateway
+        uses: docker/build-push-action@v2
+        with:
+          context: ./digiwf-gateway
+          push: true
+          tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }}

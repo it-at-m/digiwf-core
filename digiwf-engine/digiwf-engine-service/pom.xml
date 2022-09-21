@@ -52,13 +52,7 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-engine-task-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-taskana-connector-starter</artifactId>
+            <artifactId>digiwf-engine-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
