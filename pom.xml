@@ -36,6 +36,7 @@
         <module>digiwf-task</module>
         <module>digiwf-libs</module>
         <module>digiwf-process</module>
+        <module>digiwf-gateway</module>
     </modules>
 
     <dependencyManagement>
