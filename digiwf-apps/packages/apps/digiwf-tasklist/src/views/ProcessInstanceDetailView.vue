@@ -177,10 +177,10 @@ export default class ProcessInstanceDetailView extends Vue {
   processId!: string;
 
   @Provide('formContext')
-  formContext: FormContext = {id: this.processId, type: "instance"}
+  get formContext(): FormContext { return {id: this.processId, type: "instance"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = FetchUtils.base;
+  get apiEndpoint() { return import.meta.env.VUE_APP_API_URL};
 
   created() {
     this.loadProcessInstanceDetail();

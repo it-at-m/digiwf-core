@@ -206,10 +206,10 @@ export default class TaskDetail extends SaveLeaveMixin {
   id!: string;
 
   @Provide('formContext')
-  formContext: FormContext = {id: this.id, type: "task"}
+  get formContext(): FormContext { return {id: this.id, type: "task"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = import.meta.env.VUE_APP_API_URL;
+  get apiEndpoint() { return import.meta.env.VUE_APP_API_URL};
 
   created() {
     this.loadTask();

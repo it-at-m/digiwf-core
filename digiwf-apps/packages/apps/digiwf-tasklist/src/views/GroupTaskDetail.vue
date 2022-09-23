@@ -97,10 +97,10 @@ export default class MyTaskDetail extends Vue {
   id!: string;
 
   @Provide('formContext')
-  formContext: FormContext = {id: this.id, type: "task"}
+  get formContext(): FormContext { return {id: this.id, type: "task"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = FetchUtils.base;
+  get apiEndpoint() { return import.meta.env.VUE_APP_API_URL};
 
   created() {
     this.loadTask();
