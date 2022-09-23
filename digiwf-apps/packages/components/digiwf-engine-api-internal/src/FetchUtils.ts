@@ -22,10 +22,9 @@ export class FetchUtils {
    */
   // eslint-disable-next-line
   static getDELETEConfig(): RequestInit {
-    const headers = FetchUtils.getHeaders();
     return {
       method: 'DELETE',
-      headers,
+      headers: this.getHeaders(),
       mode: 'cors',
       credentials: 'same-origin',
       redirect: "manual"
@@ -36,6 +35,22 @@ export class FetchUtils {
     const cfg = new Configuration();
     cfg.baseOptions = fetchConfig;
     return cfg;
+  }
+
+  /**
+     * Liefert eine default POST-Config für fetch
+     * @param body Optional zu übertragender Body
+     */
+    // eslint-disable-next-line
+    static getPOSTConfig(body: any): RequestInit {
+      return {
+          method: 'POST',
+          body: body ? JSON.stringify(body) : undefined,
+          headers: FetchUtils.getHeaders(),
+          mode: 'cors',
+          credentials: 'same-origin',
+          redirect: "manual"
+      };
   }
 
   /**
