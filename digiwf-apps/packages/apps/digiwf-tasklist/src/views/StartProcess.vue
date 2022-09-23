@@ -81,7 +81,7 @@ export default class StartProcess extends SaveLeaveMixin {
   processKey!: string;
 
   @Provide('formContext')
-  formContext: FormContext = {id: this.processKey, type: "start"}
+  get formContext(): FormContext { return {id: this.processKey, type: "start"}};
 
   @Provide('apiEndpoint')
   apiEndpoint = import.meta.env.VITE_VITE_VUE_APP_API_URL;
