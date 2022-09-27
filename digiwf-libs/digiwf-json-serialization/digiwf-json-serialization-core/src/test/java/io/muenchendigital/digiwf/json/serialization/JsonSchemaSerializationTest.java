@@ -3,35 +3,34 @@ package io.muenchendigital.digiwf.json.serialization;
 
 import io.muenchendigital.digiwf.json.serialization.serializer.JsonSerializer;
 import io.muenchendigital.digiwf.json.serialization.serializer.JsonSerializerImpl;
-import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.muenchendigital.digiwf.json.utils.JsonSchemaTestUtils.areEqual;
+import static io.muenchendigital.digiwf.json.utils.JsonSchemaTestUtils.getSchemaString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JsonSchemaSerializationServiceTest {
+public class JsonSchemaSerializationTest {
 
     private JsonSerializationService jsonSchemaSerializationService;
-    private JsonSerializer jsonSerializer;
 
     @BeforeEach
     private void setUp() {
-        this.jsonSerializer = new JsonSerializerImpl();
-        this.jsonSchemaSerializationService = new JsonSerializationService(this.jsonSerializer);
+        JsonSerializer jsonSerializer = new JsonSerializerImpl();
+        this.jsonSchemaSerializationService = new JsonSerializationService(jsonSerializer);
     }
 
     @Test
-    public void serializeSimpleData() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/simpleSchema.json");
+    public void serialize_and_filter_data_with_simple_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchema.json");
 
         final Map<String, Object> source = Map.of(
                 "stringProp1", "stringValue",
@@ -39,98 +38,96 @@ public class JsonSchemaSerializationServiceTest {
         );
 
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
-
         final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject());
 
-        Assertions.assertThat(serializedData).isEqualTo(Map.of(
+        Map<String, Object> expectedData = Map.of(
                 "stringProp1", "stringValue"
-        ));
+        );
+
+        assertThat(serializedData).isEqualTo(expectedData);
     }
 
     @Test
-    public void serializeData() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/schema.json");
+    public void serialize_and_filter_data_with_complex_allOf_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/schema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "stringProp1", "fsdafsda"
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "dateprop", "20"
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
 
-        final Map<String, Object> validData = new HashMap<>();
-
-        validData.put("stringProp1", "fsdafsda");
+        final Map<String, Object> expectedData = Map.of("stringProp1", "fsdafsda");
 
         //override all
-        Assertions.assertThat(serializedData).isEqualTo(validData);
+        assertThat(serializedData).isEqualTo(expectedData);
     }
 
 
     @Test
-    public void serializeDataAndUpdateWithReadonlyValues() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/simpleSchema.json");
+    public void serialize_data_and_ignore_readonly_values() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "stringProp1", "stringValue",
                 "numberProp1", 12
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "numberProp1", 100,
                 "stringProp2", "100"
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
 
-        final Map<String, Object> validData = new HashMap<>();
+        final Map<String, Object> expectedData = new HashMap<>();
 
-        validData.put("stringProp1", "stringValue");
-        validData.put("numberProp1", 100);
+        expectedData.put("stringProp1", "stringValue");
+        expectedData.put("numberProp1", 100);
 
         //override all
-        Assertions.assertThat(serializedData).isEqualTo(validData);
+        assertThat(serializedData).isEqualTo(expectedData);
     }
 
     @Test
-    public void serializeWithReadonlyValues() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/simpleSchema.json");
+    public void serialize_and_add_initialize_simple_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "stringProp1", "stringValue"
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
         );
 
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
-
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
         final JSONObject defaultValue = this.jsonSchemaSerializationService.initialize(new JSONObject(rawSchema).toString());
         final Map<String, Object> serializedDataWithDefaultValues = this.jsonSchemaSerializationService.merge(new JSONObject(serializedData), defaultValue);
 
-        final Map<String, Object> validData = new HashMap<>();
+        final Map<String, Object> expectedData = new HashMap<>();
 
-        validData.put("stringProp1", "stringValue");
-        validData.put("stringProp2", "");
+        expectedData.put("stringProp1", "stringValue");
+        expectedData.put("stringProp2", "");
 
         //override all
-        Assertions.assertThat(serializedDataWithDefaultValues).isEqualTo(validData);
+        assertThat(serializedDataWithDefaultValues).isEqualTo(expectedData);
     }
 
     @Test
-    public void serializeCombinedSchemaData() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/schema.json");
+    public void serialize_allOf_schema_and_igonre_readonly_values() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/schema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -138,29 +135,31 @@ public class JsonSchemaSerializationServiceTest {
                 "numberProp1", 12
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "numberProp1", 100
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
 
-        Assertions.assertThat(serializedData).isEqualTo(Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
                 "numberProp1", 100
-        ));
+        );
+
+        assertThat(serializedData).isEqualTo(expectedData);
     }
 
 
     @Test
-    public void serializeCombinedObjectSchemaData() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
+    public void serialize_allOf_object_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -171,15 +170,15 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "numberProp1", 100
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
 
-        final Map<String, Object> erg = Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -189,13 +188,13 @@ public class JsonSchemaSerializationServiceTest {
                         "stringProp1", "test"
                 ));
 
-        Assertions.assertThat(new JSONObject(serializedData).toString()).isEqualTo(new JSONObject(erg).toString());
+        assertThat(new JSONObject(serializedData).toString()).isEqualTo(new JSONObject(expectedData).toString());
     }
 
 
     @Test
-    public void filterObjectSchema() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
+    public void filter_unknown_values_in_allOf_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
         final Map<String, Object> source = Map.of(
                 "textarea1", "textAreaValue",
@@ -211,7 +210,7 @@ public class JsonSchemaSerializationServiceTest {
 
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
 
-        Assertions.assertThat(filteredData.toMap()).isEqualTo(Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -219,14 +218,16 @@ public class JsonSchemaSerializationServiceTest {
                 "objectProp", Map.of(
                         "stringProp1", "test"
                 )
-        ));
+        );
+
+        assertThat(filteredData.toMap()).isEqualTo(expectedData);
     }
 
     @Test
-    public void filterNullValues() throws IOException, URISyntaxException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
+    public void add_null_values_if_no_value_is_present() throws IOException, URISyntaxException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
-        final Map<String, Object> data = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -235,15 +236,15 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, data, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        Assertions.assertThat(filteredData.get("textarea1")).isEqualTo(null);
+        assertThat(filteredData.get("textarea1")).isEqualTo(null);
     }
 
     @Test
-    public void mergeObjectData() {
+    public void merge_complex_objects() {
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -252,7 +253,7 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -263,9 +264,9 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(new JSONObject(source), new JSONObject(target));
+        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(new JSONObject(actualData), new JSONObject(previousData));
 
-        Assertions.assertThat(mergedData).isEqualTo(Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -274,14 +275,16 @@ public class JsonSchemaSerializationServiceTest {
                         "stringProp1", "test",
                         "stringProp2", "test2"
                 )
-        ));
+        );
+
+        assertThat(mergedData).isEqualTo(expectedData);
     }
 
     @Test
-    public void filterAndMergeObjectData() throws IOException, URISyntaxException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
+    public void merge_complex_objects_with_schema() throws IOException, URISyntaxException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
-        final Map<String, Object> data = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -291,9 +294,8 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, data, true);
-
-        final Map<String, Object> target = Map.of(
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
+        final Map<String, Object> previousData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -305,9 +307,8 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
-
-        Assertions.assertThat(mergedData).isEqualTo(Map.of(
+        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
+        final Map<String, Object> expectedData = Map.of(
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
                 "stringProp1", "stringValue",
@@ -316,14 +317,16 @@ public class JsonSchemaSerializationServiceTest {
                         "stringProp1", "test",
                         "stringProp2", "test2"
                 )
-        ));
+        );
+
+        assertThat(mergedData).isEqualTo(expectedData);
     }
 
     @Test
-    public void serializeCombinedObjectSchemaDataWithPreviousData() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
+    public void serialize_combined_object_schema_with_previous_data() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
-        final Map<String, Object> source = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -334,18 +337,18 @@ public class JsonSchemaSerializationServiceTest {
                 )
         );
 
-        final Map<String, Object> target = Map.of(
+        final Map<String, Object> previousData = Map.of(
                 "numberProp1", 100,
                 "objectProp", Map.of(
                         "stringProp2", "test"
                 )
         );
 
-        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
 
-        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(target));
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(previousData));
 
-        final Map<String, Object> erg = Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
@@ -356,13 +359,13 @@ public class JsonSchemaSerializationServiceTest {
                         "stringProp2", "test"
                 ));
 
-        Assertions.assertThat(new JSONObject(serializedData).toString()).isEqualTo(new JSONObject(erg).toString());
+        assertThat(new JSONObject(serializedData).toString()).isEqualTo(new JSONObject(expectedData).toString());
     }
 
 
     @Test
-    public void serializeCustomTypes() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/customTypesSchema.json");
+    public void serialize_data_with_custom_type_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/customTypesSchema.json");
 
         final Map<String, Object> source = Map.of(
                 "FormField_Grusstext", "meinValue"
@@ -372,13 +375,13 @@ public class JsonSchemaSerializationServiceTest {
 
         final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject());
 
-        Assertions.assertThat(serializedData).isEqualTo(Map.of(
+        assertThat(serializedData).isEqualTo(Map.of(
                 "FormField_Grusstext", "meinValue"
         ));
     }
 
     @Test
-    public void serializeComplexObjectStructure() throws URISyntaxException, IOException {
+    public void serialize_complex_object_structure() throws URISyntaxException, IOException {
         final Map<String, Object> source = Map.of(
                 "textarea", "100",
                 "textfeld", "100",
@@ -387,7 +390,7 @@ public class JsonSchemaSerializationServiceTest {
                         "objektSchalter", true)
         );
 
-        final String rawSchema = this.getSchemaString("/schema/validation/complexObjectSchema.json");
+        final String rawSchema = getSchemaString("/schema/validation/complexObjectSchema.json");
 
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
 
@@ -400,16 +403,16 @@ public class JsonSchemaSerializationServiceTest {
                         "objektTextfeld", "fdsfsdafsdafadsfsadfsdafd",
                         "objektSchalter", true));
 
-        Assertions.assertThat(this.areEqual(erg, serializedData)).isEqualTo(true);
+        assertThat(areEqual(erg, serializedData)).isEqualTo(true);
     }
 
     @Test
-    public void checkConditionalSubSchema() throws URISyntaxException, IOException {
+    public void serialize_conditional_subschema() throws URISyntaxException, IOException {
         final Map<String, Object> source = Map.of(
                 "stringProp1", "100"
         );
 
-        final String rawSchema = this.getSchemaString("/schema/validation/conditionalSubSchema.json");
+        final String rawSchema = getSchemaString("/schema/validation/conditionalSubSchema.json");
 
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
         final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject());
@@ -417,41 +420,34 @@ public class JsonSchemaSerializationServiceTest {
         final Map<String, Object> erg = Map.of(
                 "stringProp1", "100");
 
-        Assertions.assertThat(this.areEqual(erg, serializedData)).isEqualTo(true);
+        assertThat(areEqual(erg, serializedData)).isEqualTo(true);
     }
 
     @Test
-    public void generateObjectStructure() {
+    public void generate_object_structure_from_json_pointer() {
         final JSONObject object = this.jsonSchemaSerializationService.generateValue("#/antragsdaten/datumAntragstellung/stringProp1", "testValue");
         assertEquals(object.toString(), "{\"antragsdaten\":{\"datumAntragstellung\":{\"stringProp1\":\"testValue\"}}}");
     }
 
     @Test
-    public void extractValue() {
+    public void extract_value_by_json_pointer() {
         final JSONObject object = new JSONObject("{\"antragsdaten\":{\"datumAntragstellung\":{\"stringProp1\":\"testValue\"}}}");
         final Object value = this.jsonSchemaSerializationService.extractValue(object.toMap(), "#/antragsdaten/datumAntragstellung/stringProp1");
         assertEquals(value, "testValue");
     }
 
     @Test
-    public void extractValueByKey() {
+    public void extract_value_by_json_pointer_not_present() {
         final JSONObject object = new JSONObject("{\"antragsdaten\":{\"datumAntragstellung\":{\"stringProp2\":\"testValue\"}}}");
         final Object value = this.jsonSchemaSerializationService.extractValue(object.toMap(), "#/antragsdaten/datumAntragstellung/stringProp1");
         assertNull(value);
     }
 
     @Test
-    public void extract() {
-        final JSONObject object = new JSONObject("{\"antragsdaten\":{\"datumAntragstellung\":{\"stringProp2\":\"testValue\"}}}");
-        final Object value = this.jsonSchemaSerializationService.extractValue(object.toMap(), "#/antragsdaten/datumAntragstellung/stringProp1");
-        assertNull(value);
-    }
+    public void initalize_and_merge_object_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/objectSchema.json");
 
-    @Test
-    public void initalizeAndMergeObjectSchema() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/objectSchema.json");
-
-        final Map<String, Object> newData = Map.of(
+        final Map<String, Object> actualData = Map.of(
                 "booleanprop", true,
                 "numberProp1", 12,
                 "objectProp", Map.of(
@@ -461,9 +457,9 @@ public class JsonSchemaSerializationServiceTest {
         );
 
         final JSONObject initializedObject = this.jsonSchemaSerializationService.initialize(rawSchema);
-        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(new JSONObject(newData), initializedObject);
+        final Map<String, Object> mergedData = this.jsonSchemaSerializationService.merge(new JSONObject(actualData), initializedObject);
 
-        Assertions.assertThat(mergedData).isEqualTo(Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "booleanprop", true,
                 "dateprop", "",
                 "numberProp1", 12,
@@ -473,41 +469,25 @@ public class JsonSchemaSerializationServiceTest {
                 ),
                 "stringProp1", "",
                 "textarea1", ""
-        ));
+        );
+
+        assertThat(mergedData).isEqualTo(expectedData);
     }
 
     @Test
-    public void initializeSimpleSchema() throws URISyntaxException, IOException {
-        final String rawSchema = this.getSchemaString("/schema/serialization/simpleSchema.json");
+    public void initialize_simple_schema() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchema.json");
 
         final JSONObject initializedObject = this.jsonSchemaSerializationService.initialize(rawSchema);
 
-        Assertions.assertThat(initializedObject.toMap()).isEqualTo(Map.of(
+        Map<String, Object> expectedData = Map.of(
                 "stringProp1", "",
                 "stringProp2", ""
-        ));
+        );
+
+        assertThat(initializedObject.toMap()).isEqualTo(expectedData);
     }
 
     //------------------------------------ Helper Methods ------------------------------------//
 
-    private String getSchemaString(final String path) throws IOException, URISyntaxException {
-        return new String(Files.readAllBytes(Paths.get(this.getClass().getResource(path).toURI())));
-    }
-
-    private boolean areEqual(final Map<String, Object> first, final Map<String, Object> second) {
-        if (first.size() != second.size()) {
-            return false;
-        }
-
-        return first.entrySet().stream()
-                .allMatch(e -> this.compareObject(e.getValue(), second.get(e.getKey())));
-    }
-
-    private boolean compareObject(final Object obj1, final Object obj2) {
-        if (obj1 instanceof JSONObject) {
-            return obj1.toString().equals(obj2.toString());
-        }
-
-        return obj1.equals(obj2);
-    }
 }
