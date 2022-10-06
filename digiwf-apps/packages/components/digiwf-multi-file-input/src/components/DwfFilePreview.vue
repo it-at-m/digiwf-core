@@ -51,6 +51,7 @@
 <script lang="ts">
 
 import {computed, defineComponent} from "vue";
+import {fileIcons} from "../util";
 
 export default defineComponent({
   props: ['document', 'readonly'],
@@ -59,53 +60,7 @@ export default defineComponent({
 
     const calcByteCharacters = computed(() => atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
 
-    const icon = computed(() => {
-      if (
-          props.document.type === "image/jpeg" ||
-          props.document.type === "image/png" ||
-          props.document.type === "image/gif" ||
-          props.document.type === "image/bmp"
-      ) {
-        return "mdi-image";
-      }
-      if (props.document.type === "application/pdf") {
-        return "mdi-file-pdf";
-      }
-      if (
-          props.document.type === "application/msword" ||
-          props.document.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-          props.document.type === "application/vnd.oasis.opendocument.text"
-      ) {
-        return "mdi-file-word";
-      }
-      if (
-          props.document.type === "application/vnd.ms-powerpoint" ||
-          props.document.type ===
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
-          props.document.type === "application/vnd.oasis.opendocument.presentation"
-      ) {
-        return "mdi-file-powerpoint";
-      }
-      if (
-          props.document.type === "application/vnd.ms-excel" ||
-          props.document.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-          props.document.type === "application/vnd.oasis.opendocument.spreadsheet"
-      ) {
-        return "mdi-file-excel";
-      }
-      if (
-          props.document.type === "application/xml" ||
-          props.document.type === "application/json" ||
-          props.document.type === "application/xhtml+xml" ||
-          props.document.type === "text/html" ||
-          props.document.type === "text/xml"
-      ) {
-        return "mdi-file-code";
-      }
-      return "mdi-file";
-    });
+    const icon = computed(() => fileIcons[props.document.type] ?? "mdi-file");
 
     const isImage = computed(() => props.document.type.toLowerCase() === "image/jpeg" || props.document.type.toLowerCase() === "image/png");
 
