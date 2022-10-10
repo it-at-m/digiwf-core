@@ -1,23 +1,24 @@
 <template>
   <dwf-dialog-list-item
-      cancel-button-text="Cancel"
-      save-button-text="Save"
-      title="Edit"
-      :dialog="dialog"
-      @cancel="onCancelForm"
-      @save="onSaveForm"
+    cancel-button-text="Cancel"
+    save-button-text="Save"
+    title="Edit"
+    :dialog="dialog"
+    @cancel="onCancelForm"
+    @save="onSaveForm"
   >
     <template #default>
       <v-form
-          ref="form"
-          v-model="valid"
+        ref="form"
+        v-model="valid"
       >
         <dwf-form-renderer
-            style="min-height: 400px;"
-            :value="value"
-            :schema="schema"
-            :options="{}"
-            @input="onFormUpdate"
+          v-if="!dialog"
+          style="min-height: 400px;"
+          :value="currentValue"
+          :schema="schema"
+          :options="{}"
+          @input="onFormUpdate"
         />
       </v-form>
     </template>
@@ -26,7 +27,7 @@
 
 <script lang="ts">
 import {DwfFormRenderer, FormFieldContainer} from "@muenchen/digiwf-form-renderer";
-import {defineComponent, nextTick, reactive, ref} from "vue";
+import {defineComponent, nextTick, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer},
@@ -36,10 +37,10 @@ export default defineComponent({
     const valid = ref(false);
     const dialog = ref(false);
     const form = ref(null);
-    let currentValue = reactive<FormFieldContainer>(props.value);
+    let currentValue = ref<FormFieldContainer>(props.value);
 
     const saved = () => {
-      emit("saved", currentValue);
+      emit("saved", currentValue.value);
     }
 
     const onSaveForm = () => {
@@ -54,6 +55,7 @@ export default defineComponent({
     }
 
     const onCancelForm = () => {
+      currentValue.value = {...props.value};
       dialog.value = true;
       nextTick(() => {
         dialog.value = false;
@@ -61,7 +63,7 @@ export default defineComponent({
     }
 
     const onFormUpdate = (value: FormFieldContainer) => {
-      currentValue = value;
+      currentValue.value = value;
     }
 
     return {

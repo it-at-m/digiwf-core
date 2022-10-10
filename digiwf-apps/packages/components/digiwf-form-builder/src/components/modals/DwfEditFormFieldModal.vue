@@ -1,23 +1,24 @@
 <template>
   <dwf-dialog-list-item
-      cancel-button-text="Cancel"
-      save-button-text="Save"
-      title="Edit"
-      :dialog="dialog"
-      @cancel="onCancelForm"
-      @save="onSaveForm"
+    cancel-button-text="Cancel"
+    save-button-text="Save"
+    title="Edit"
+    :dialog="dialog"
+    @cancel="onCancelForm"
+    @save="onSaveForm"
   >
     <template #default>
       <v-form
-          ref="form"
-          v-model="valid"
+        ref="form"
+        v-model="valid"
       >
         <dwf-form-renderer
-            style="min-height: 400px;"
-            :value="currentValue"
-            :schema="schema"
-            :options="{}"
-            @input="onFormUpdate"
+          v-if="!dialog"
+          style="min-height: 400px;"
+          :value="currentValue"
+          :schema="schema"
+          :options="{}"
+          @input="onFormUpdate"
         />
       </v-form>
     </template>
@@ -26,7 +27,7 @@
 
 <script lang="ts">
 import {DwfFormRenderer, FormField} from "@muenchen/digiwf-form-renderer";
-import {computed, defineComponent, nextTick, reactive, ref} from "vue";
+import {computed, defineComponent, nextTick, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer},
@@ -36,10 +37,10 @@ export default defineComponent({
     const valid = ref(false);
     const dialog = ref(false);
     const form = ref(null);
-    let currentValue = reactive<FormField>({...props.value, key: props.fieldKey});
+    let currentValue = ref<FormField>({...props.value, key: props.fieldKey});
 
     const saved = () => {
-      emit("saved", currentValue);
+      emit("saved", currentValue.value);
     }
 
     const onSaveForm = () => {
@@ -55,13 +56,14 @@ export default defineComponent({
 
     const onCancelForm = () => {
       dialog.value = true;
+      currentValue.value = {...props.value, key: props.fieldKey};
       nextTick(() => {
         dialog.value = false;
       });
     }
 
     const onFormUpdate = (value: FormField) => {
-      currentValue = value;
+      currentValue.value = value;
     }
 
     const schema = computed(() => props.schemas[props.value.fieldType.toString()] ?? props.genericSchema);

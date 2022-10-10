@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Jsf @input="input" v-model="currentValue" :schema="currentSchema" :options="currentOptions">
+    <Jsf @input="input" :value="value" :schema="currentSchema" :options="currentOptions">
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
       </template>
@@ -11,14 +11,13 @@
 <script lang="ts">
 //@ts-ignore
 import deepmerge from "deepmerge";
-import {computed, defineComponent, ref} from "vue";
+import {computed, defineComponent} from "vue";
 
 export default defineComponent({
   props: ['options', 'buttonText', 'value', 'schema'],
   emits: ['input'],
   setup(props, {emit}) {
 
-    const currentValue = ref({});
     const defaultOptions = {
       "editMode": "inline",
       "disableSorting": true,
@@ -51,7 +50,6 @@ export default defineComponent({
         return (!!v && v.length >= 1) || 'Dieses Feld ist ein Pflichfeld';
       }
     };
-    currentValue.value = props.value;
 
     const currentSchema = computed(() => {
       if (props.options && props.options.readOnly) {
@@ -71,12 +69,11 @@ export default defineComponent({
       }
     })
 
-    const input = () => {
-      emit('input', currentValue.value);
+    const input = (value: any) => {
+      emit('input', value);
     };
 
     return {
-      currentValue,
       currentSchema,
       input,
       currentOptions
@@ -85,7 +82,6 @@ export default defineComponent({
 })
 
 </script>
-
 
 <style>
 .v-input--is-disabled:not(.v-input--is-readonly) a {
