@@ -7,13 +7,15 @@ import {ApiConfig} from "../../api/ApiConfig";
 export interface ProcessInstancesState {
   processInstances: ServiceInstanceTO[];
   lastFetch: number;
+  filter: string;
 }
 
 export default {
   namespaced: true,
   state: {
     processInstances: new Array<ServiceInstanceTO>(),
-    lastFetch: 0
+    lastFetch: 0,
+    filter: ""
   } as ProcessInstancesState,
   getters: {
     shouldUpdate: (state: TasksState) => (): boolean => {
@@ -26,6 +28,9 @@ export default {
     },
     processInstances(state: ProcessInstancesState): ServiceInstanceTO[] {
       return state.processInstances.filter(Boolean).sort((a, b) => b.startTime!.localeCompare(a.startTime!));
+    },
+    filter(state: ProcessInstancesState): string | null {
+      return state.filter;
     }
   },
   mutations: {
@@ -34,6 +39,9 @@ export default {
     },
     setLastFetch(state: TasksState, date: number): void {
       state.lastFetch = date;
+    },
+    setFilter(state: ProcessInstancesState, filter: string): void {
+      state.filter = filter;
     }
   },
   actions: {

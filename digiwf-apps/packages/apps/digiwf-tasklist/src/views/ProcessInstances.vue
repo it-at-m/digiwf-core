@@ -110,7 +110,7 @@
 </style>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {Component, Vue, Watch} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
@@ -130,6 +130,7 @@ export default class ProcessInstances extends Vue {
 
   created(): void {
     this.loadMyProcessInstances();
+    this.loadFilter();
   }
 
   async loadMyProcessInstances(refresh = false): Promise<void> {
@@ -143,6 +144,15 @@ export default class ProcessInstances extends Vue {
       this.errorMessage = error.message;
     }
     setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+  }
+
+  loadFilter(): void {
+    this.filter = this.$store.getters["processInstances/filter"];
+  }
+
+  @Watch("filter")
+  onFilterChanged(filter: string) {
+    this.$store.commit('processInstances/setFilter', this.filter);
   }
 
   get filteredProcessInstances(): ServiceInstanceTO[] {

@@ -24,5 +24,8 @@
     "access": "public"
   },
   "types": "types/index.d.ts",
-  "gitHead": "47fcec12b321f6890de7729c98cd5f0ed7b1189d"
+  "gitHead": "47fcec12b321f6890de7729c98cd5f0ed7b1189d",
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.2.41"
+  }
 }
