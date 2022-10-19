@@ -18,6 +18,7 @@
     "types": [
       "vue",
       "vuetify",
+      "node",
       "vite/client"
     ],
     "paths": {
