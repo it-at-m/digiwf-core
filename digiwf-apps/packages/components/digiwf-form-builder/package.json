@@ -16,7 +16,6 @@
     "vuetify": "^2.6.0"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^2.7.0",
     "deepmerge": "^4.2.2"
   },
   "files": [
