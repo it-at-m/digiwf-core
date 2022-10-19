@@ -5,9 +5,9 @@
       view-name="Meine Aufgaben"
       :is-loading="isLoading"
       :error-message="errorMessage"
-      :filter="filter"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
-      @filterChanged="onFilterChanged"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <task-item

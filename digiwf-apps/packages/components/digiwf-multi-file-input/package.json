@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/mime": "^2.0.3",
+    "@vue/compiler-sfc": "^2.7.0",
     "axios": "^0.26.0",
     "mime": "^3.0.0",
     "uuid": "^8.3.2",

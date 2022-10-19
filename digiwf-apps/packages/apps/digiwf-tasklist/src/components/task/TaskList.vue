@@ -110,7 +110,7 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue, Watch} from 'vue-property-decorator';
+import {Component, Emit, Prop, PropSync, Vue, Watch} from 'vue-property-decorator';
 import {HumanTaskTO} from '@/api/api-client/api';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
@@ -122,8 +122,8 @@ import AppPageableList from "@/components/UI/AppPageableList.vue";
 })
 export default class TaskList extends Vue {
 
-  @Prop()
-  filter!: string
+  @PropSync('filter', { type: String })
+  syncedFilter!: string
 
   @Prop()
   errorMessage: string | undefined;
@@ -140,16 +140,9 @@ export default class TaskList extends Vue {
   @Prop()
   showAssignee: boolean | undefined;
 
-  syncedFilter: string = "";
-
   @Emit("loadTasks")
   loadTasks(): boolean {
     return true;
-  }
-
-  @Emit("filterChanged")
-  filterChanged(filter: string): string {
-    return filter;
   }
 
   get filteredTasks(): HumanTaskTO[] | undefined {
@@ -162,15 +155,6 @@ export default class TaskList extends Vue {
     }
 
     return this.tasks.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(this.syncedFilter.toLocaleLowerCase()));
-  }
-
-  created() {
-    this.syncedFilter = this.filter;
-  }
-
-  @Watch('syncedFilter')
-  watchFilter() {
-    this.filterChanged(this.syncedFilter);
   }
 
 }

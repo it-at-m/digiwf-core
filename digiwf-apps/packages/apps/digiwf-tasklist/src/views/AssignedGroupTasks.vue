@@ -7,9 +7,9 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :show-assignee="true"
-      :filter="filter"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
-      @filterChanged="onFilterChanged"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <group-task-item

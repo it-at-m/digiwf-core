@@ -6,9 +6,9 @@
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
       :is-loading="isLoading"
       :error-message="errorMessage"
-      :filter="filter"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
-      @filterChanged="onFilterChanged"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <group-task-item
