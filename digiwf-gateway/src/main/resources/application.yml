@@ -53,4 +53,3 @@ management:
     env:
       enabled: true
 info.application.name: ${spring.application.name}
-info.appswitcher.url: https://rbs-appswitcher.muenchen.de

@@ -53,7 +53,7 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: https://ssodev.muenchen.de/auth/realms/${spring.realm}
+            issuer-uri:
         registration:
           keycloak:
             client-id: frontend
