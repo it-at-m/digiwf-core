@@ -6,7 +6,18 @@
       :width="options.width"
       v-bind:style="{ zIndex: options.zIndex }"
     >
+  <v-card dark>
+    <v-card-title v-show="!!title">{{ title }}</v-card-title>
+    <v-card-text v-if="!!message">{{ message }}</v-card-text>
+    <v-card-text v-else>
       <slot></slot>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn @click="agree">Ja</v-btn>
+      <v-btn @click="cancel">Nein</v-btn>
+    </v-card-actions>
+  </v-card>
+
     </v-dialog>
   </div>
 </template>
@@ -15,6 +26,8 @@
 export default {
   name: "dlg-wrapper",
 
+  props: ["title", "message"],
+
   data: () => ({
     dialog: false,
     options: {
@@ -22,7 +35,8 @@ export default {
       zIndex: 200
     },
     resolve: null,
-    reject: null
+    reject: null,
+
   }),
 
   methods: {
@@ -42,10 +56,7 @@ export default {
       this.resolve(false);
       this.dialog = false;
     }
-  },
-
-  provide: function() {
-    return { agree: this.agree, cancel: this.cancel };
   }
+
 };
 </script>

@@ -41,13 +41,11 @@
       </v-btn>
     </v-flex>
 
-    <dlg-wrapper ref="dlg">
-      <dlg-frame title="Aufgabenzuweisung">
+    <yes-no-modal ref="dlg" title="Aufgabenzuweisung">
         Die Aufgabe ist aktuell folgender Person zugewiesen:
         <h3>{{task.assigneeFormatted}}</h3>
         Wollen Sie die Aufgabe übernehmen?
-      </dlg-frame>
-    </dlg-wrapper>
+    </yes-no-modal>
 
   </app-view-layout>
 </template>
@@ -92,11 +90,10 @@ import router from "../router";
 import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
-import DlgWrapper from "@/components/task/DlgWrapper.vue";
-import DlgFrame from "@/components/task/DlgFrame.vue";
+import YesNoModal from "@/components/task/YesNoModal.vue";
 
 @Component({
-  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, DlgWrapper, DlgFrame}
+  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, YesNoModal}
 })
 export default class MyTaskDetail extends Vue {
 

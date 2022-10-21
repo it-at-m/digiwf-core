@@ -20,8 +20,6 @@ declare module '@vue/runtime-core' {
     BaseLdapInput: typeof import('./src/components/form/BaseLdapInput.vue')['default']
     BaseMarkdownOutput: typeof import('./src/components/form/BaseMarkdownOutput.vue')['default']
     CsvOutput: typeof import('./src/components/form/CsvOutput.vue')['default']
-    DlgFrame: typeof import('./src/components/task/DlgFrame.vue')['default']
-    DlgWrapper: typeof import('./src/components/task/DlgWrapper.vue')['default']
     FileOutput: typeof import('./src/components/form/FileOutput.vue')['default']
     GroupTaskItem: typeof import('./src/components/task/GroupTaskItem.vue')['default']
     ImageOutput: typeof import('./src/components/form/ImageOutput.vue')['default']
@@ -86,5 +84,6 @@ declare module '@vue/runtime-core' {
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
     VTooltip: typeof import('vuetify/lib')['VTooltip']
     VUserInput: typeof import('./src/components/schema/VUserInput.vue')['default']
+    YesNoModal: typeof import('./src/components/task/YesNoModal.vue')['default']
   }
 }
