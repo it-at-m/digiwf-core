@@ -50,6 +50,19 @@
       </div>
     </yes-no-modal>
 
+    <!-- <app-yes-no-dialog v-if="task" ref="modal"
+      dialogtitle="Aufgabenzuweisung"
+      :value.sync="showModal"
+      timeout="10000"
+    >
+      <div>
+        Die Aufgabe ist aktuell folgender Person zugewiesen:
+        <h3>{{task.assigneeFormatted}}</h3>
+        <br>
+        Wollen Sie die Aufgabe übernehmen?
+      </div>
+    </app-yes-no-dialog> -->
+
   </app-view-layout>
 </template>
 
@@ -103,6 +116,7 @@ export default class MyTaskDetail extends Vue {
   task: HumanTaskDetailTO | null = null;
   isLoading = false;
   errorMessage = "";
+  showModal = false;
 
   @Ref()
   modal!: any;
@@ -128,6 +142,7 @@ export default class MyTaskDetail extends Vue {
       if (hasAssignee){
         const result = await this.modal.open();
         console.log("result: " + result);
+        this.showModal = false;
         if (!result){
           return;
         }
