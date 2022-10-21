@@ -41,11 +41,13 @@
       </v-btn>
     </v-flex>
 
-    <yes-no-modal v-if="task" ref="dlg" title="Aufgabenzuweisung">
+    <yes-no-modal v-if="task" ref="modal" title="Aufgabenzuweisung">
+      <div>
         Die Aufgabe ist aktuell folgender Person zugewiesen:
         <h3>{{task.assigneeFormatted}}</h3>
         <br>
         Wollen Sie die Aufgabe übernehmen?
+      </div>
     </yes-no-modal>
 
   </app-view-layout>
@@ -103,7 +105,7 @@ export default class MyTaskDetail extends Vue {
   errorMessage = "";
 
   @Ref()
-  dlg!: any;
+  modal!: any;
 
   @Prop()
   id!: string;
@@ -124,7 +126,7 @@ export default class MyTaskDetail extends Vue {
       const hasAssignee = await this.hasAssignee();
       console.log("hasAssignee: " + hasAssignee);
       if (hasAssignee){
-        const result = await this.dlg.open();
+        const result = await this.modal.open();
         console.log("result: " + result);
         if (!result){
           return;

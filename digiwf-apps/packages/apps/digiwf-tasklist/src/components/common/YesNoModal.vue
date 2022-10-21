@@ -6,15 +6,16 @@
       :width="options.width"
       v-bind:style="{ zIndex: options.zIndex }"
     >
-  <v-card dark>
+  <v-card>
     <v-card-title v-show="!!title">{{ title }}</v-card-title>
     <v-card-text v-if="!!message">{{ message }}</v-card-text>
     <v-card-text v-else>
       <slot></slot>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="agree">Ja</v-btn>
-      <v-btn @click="cancel">Nein</v-btn>
+        <v-spacer />
+      <v-btn text @click="cancel">Nein</v-btn>
+      <v-btn color="primary" @click="agree">Ja</v-btn>
     </v-card-actions>
   </v-card>
 
@@ -31,7 +32,7 @@ export default {
   data: () => ({
     dialog: false,
     options: {
-      width: 400,
+      width: 800,
       zIndex: 200
     },
     resolve: null,
