@@ -43,6 +43,7 @@ export default {
     open(options) {
       this.dialog = true;
       this.options = Object.assign(this.options, options);
+      setTimeout(() => this.dialog = false, 10000);
       return new Promise((resolve, reject) => {
         this.resolve = resolve;
         this.reject = reject;
