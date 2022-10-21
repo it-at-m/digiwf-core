@@ -84,6 +84,6 @@ declare module '@vue/runtime-core' {
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
     VTooltip: typeof import('vuetify/lib')['VTooltip']
     VUserInput: typeof import('./src/components/schema/VUserInput.vue')['default']
-    YesNoModal: typeof import('./src/components/task/YesNoModal.vue')['default']
+    YesNoModal: typeof import('./src/components/common/YesNoModal.vue')['default']
   }
 }

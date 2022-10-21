@@ -41,9 +41,10 @@
       </v-btn>
     </v-flex>
 
-    <yes-no-modal ref="dlg" title="Aufgabenzuweisung">
+    <yes-no-modal v-if="task" ref="dlg" title="Aufgabenzuweisung">
         Die Aufgabe ist aktuell folgender Person zugewiesen:
         <h3>{{task.assigneeFormatted}}</h3>
+        <br>
         Wollen Sie die Aufgabe übernehmen?
     </yes-no-modal>
 
@@ -90,7 +91,7 @@ import router from "../router";
 import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
-import YesNoModal from "@/components/task/YesNoModal.vue";
+import YesNoModal from "@/components/common/YesNoModal.vue";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, YesNoModal}
