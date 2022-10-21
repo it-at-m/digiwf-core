@@ -42,7 +42,11 @@
     </v-flex>
 
     <dlg-wrapper ref="dlg">
-      <dlg-frame title="Dialog" message="Message"></dlg-frame>
+      <dlg-frame title="Aufgabenzuweisung">
+        Die Aufgabe ist aktuell folgender Person zugewiesen:
+        <h3>{{task.assigneeFormatted}}</h3>
+        Wollen Sie die Aufgabe übernehmen?
+      </dlg-frame>
     </dlg-wrapper>
 
   </app-view-layout>
