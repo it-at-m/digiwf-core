@@ -40,6 +40,11 @@
         Bearbeiten
       </v-btn>
     </v-flex>
+
+    <dlg-wrapper ref="dlg">
+      <dlg-frame title="Dialog" message="Message"></dlg-frame>
+    </dlg-wrapper>
+
   </app-view-layout>
 </template>
 
@@ -75,7 +80,7 @@
 
 <script lang="ts">
 
-import {Component, Prop, Provide, Vue} from "vue-property-decorator";
+import {Component, Prop, Provide, Vue, Ref} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
@@ -83,15 +88,20 @@ import router from "../router";
 import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
+import DlgWrapper from "@/components/task/DlgWrapper.vue";
+import DlgFrame from "@/components/task/DlgFrame.vue";
 
 @Component({
-  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
+  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, DlgWrapper, DlgFrame}
 })
 export default class MyTaskDetail extends Vue {
 
   task: HumanTaskDetailTO | null = null;
   isLoading = false;
   errorMessage = "";
+
+  @Ref()
+  dlg!: any;
 
   @Prop()
   id!: string;
@@ -107,8 +117,20 @@ export default class MyTaskDetail extends Vue {
   }
 
   async assignTask(): Promise<void> {
+    console.log("assignTask");
     try {
-      //await TaskService.assignTask(this.id);
+      const hasAssignee = await this.hasAssignee();
+      console.log("hasAssignee: " + hasAssignee);
+      if (hasAssignee){
+        const result = await this.dlg.open();
+        console.log("result: " + result);
+        if (!result){
+          return;
+        }
+      }
+
+      console.log("api::assignTask");
+
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).assignTask(this.id);
 
@@ -120,6 +142,17 @@ export default class MyTaskDetail extends Vue {
     } catch (error) {
       this.errorMessage = 'Die Aufgabe konnte nicht zugewiesen werden.';
     }
+  }
+
+  async hasAssignee(): Promise<boolean> {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
+      if (res.status >= 200 && res.status < 300) { // as in axios default impl.
+        this.task = res.data;
+        console.log("assignee: " + this.task.assignee);
+        return (this.task.assignee) ? true : false;
+      }
+      return true;
   }
 
   async loadTask(): Promise<void> {
