@@ -75,9 +75,9 @@ export default defineComponent({
     let model = "";
     let fileValue = ref<File[] | null>(null);
     let data: any = {};
-    let documents: DocumentData[] = [];
+    let documents = ref<DocumentData[]>([]);
     let errorMessage = ref<string>("");
-    let isLoading = false;
+    let isLoading = ref<boolean>(false);
     let uuid = "";
 
     const apiEndpoint = inject<string>('apiEndpoint');
@@ -102,12 +102,12 @@ export default defineComponent({
           props.disabled ||
           props.readonly ||
           props.schema.readOnly ||
-          isLoading
+          isLoading.value
       );
     });
 
     const canAddDocument = computed(() => {
-      return documents.length < 10;
+      return documents.value.length < 10;
     });
 
     const filePath = computed(() => {
@@ -123,7 +123,7 @@ export default defineComponent({
 
     const loadInitialValues = async () => {
       try {
-        isLoading = true;
+        isLoading.value = true;
 
         // get filenames
         const filenames = await getFilenames();
@@ -131,16 +131,16 @@ export default defineComponent({
           await loadFile(filename);
         }
         errorMessage.value = "";
-        if (documents.length > 0) {
+        if (documents.value.length > 0) {
           // set dummy value to satisfy "required"-rule
           fileValue.value = [];
-          fileValue.value.push(new File([""], documents[0].name));
-          input(documents.length);
+          fileValue.value.push(new File([""], documents.value[0].name));
+          input(documents.value.length);
         }
       } catch (error) {
         errorMessage.value = "Die Dateien konnten nicht geladen werden.";
       }
-      isLoading = false;
+      isLoading.value = false;
     }
 
     const loadFile = async (filename: string) => {
@@ -161,7 +161,7 @@ export default defineComponent({
           base64OfString(content),
           size
       );
-      documents.push(doc);
+      documents.value.push(doc);
     }
 
     const getEncodedContentSize = (content: string): number => {
@@ -179,9 +179,9 @@ export default defineComponent({
 
     const addDocument = async (mydata: any, file: File): Promise<void> => {
       const startTime = new Date().getTime();
-      isLoading = true;
+      isLoading.value = true;
       try {
-        isLoading = true;
+        isLoading.value = true;
 
         validateFileSize(mydata);
         const presignedUrl = await getPresignedUrlForPost(file);
@@ -197,11 +197,11 @@ export default defineComponent({
             mydata.byteLength
         );
 
-        documents.push(doc);
+        documents.value.push(doc);
 
         errorMessage.value = "";
-        isLoading = false;
-        input(documents.length);
+        isLoading.value = false;
+        input(documents.value.length);
       } catch (error: any) {
         if (
             error.response &&
@@ -213,10 +213,10 @@ export default defineComponent({
           errorMessage.value = "Das Dokument konnte nicht hochgeladen werden.";
         }
         setTimeout(() => {
-          isLoading = false;
+          isLoading.value = false;
         }, Math.max(0, 5000 - (new Date().getTime() - startTime)));
       }
-      isLoading = false;
+      isLoading.value = false;
     }
 
     const validateFileSize = (mydata: ArrayBuffer) => {
@@ -390,15 +390,15 @@ export default defineComponent({
     }
 
     const removeDocument = async (document: DocumentData): Promise<void> => {
-      for (let i = 0; i < documents.length; i++) {
-        if (documents[i].name == document.name) {
+      for (let i = 0; i < documents.value.length; i++) {
+        if (documents.value[i].name == document.name) {
           try {
             const presignedDeleteUrl = await getPresignedUrlForDelete(
                 document.name
             );
             await globalAxios.delete(presignedDeleteUrl);
-            documents.splice(i, 1);
-            if (documents.length == 0) {
+            documents.value.splice(i, 1);
+            if (documents.value.length == 0) {
               // set null value to violate "required"-rule
               fileValue.value = null;
             }
@@ -408,7 +408,7 @@ export default defineComponent({
           }
         }
       }
-      input(documents.length);
+      input(documents.value.length);
     }
 
     const base64OfString = (content: string) => {
