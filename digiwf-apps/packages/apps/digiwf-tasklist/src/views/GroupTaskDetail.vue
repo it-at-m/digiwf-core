@@ -32,7 +32,7 @@
       <v-btn
         class="assignButton"
         color="primary"
-        @click="assignTask"
+        @click="checkTaskAssignment"
       >
         <v-icon left>
           mdi-pencil
@@ -41,19 +41,12 @@
       </v-btn>
     </v-flex>
 
-    <yes-no-modal v-if="task" ref="modal" title="Aufgabenzuweisung">
-      <div>
-        Die Aufgabe ist aktuell folgender Person zugewiesen:
-        <h3>{{task.assigneeFormatted}}</h3>
-        <br>
-        Wollen Sie die Aufgabe übernehmen?
-      </div>
-    </yes-no-modal>
-
-    <!-- <app-yes-no-dialog v-if="task" ref="modal"
+    <app-yes-no-dialog v-if="task" ref="modal"
       dialogtitle="Aufgabenzuweisung"
-      :value.sync="showModal"
+      :value="showModal"
       timeout="10000"
+      @yes="assignTask"
+      @no="showModal = false"
     >
       <div>
         Die Aufgabe ist aktuell folgender Person zugewiesen:
@@ -61,7 +54,7 @@
         <br>
         Wollen Sie die Aufgabe übernehmen?
       </div>
-    </app-yes-no-dialog> -->
+    </app-yes-no-dialog>
 
   </app-view-layout>
 </template>
@@ -107,6 +100,7 @@ import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import YesNoModal from "@/components/common/YesNoModal.vue";
+import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, YesNoModal}
@@ -134,21 +128,30 @@ export default class MyTaskDetail extends Vue {
     this.loadTask();
   }
 
-  async assignTask(): Promise<void> {
-    console.log("assignTask");
-    try {
+  async checkTaskAssignment(): Promise<void> {
+    console.log("checkTaskAssignment");
       const hasAssignee = await this.hasAssignee();
       console.log("hasAssignee: " + hasAssignee);
-      if (hasAssignee){
-        const result = await this.modal.open();
-        console.log("result: " + result);
-        this.showModal = false;
-        if (!result){
-          return;
+      let currentUser: UserTO = this.$store.getters['user/info'];
+      if (hasAssignee) {
+        if (this.task?.assignee != currentUser.lhmObjectId){
+          this.showModal = true;
+          setTimeout(() => this.showModal = false, 10000);
+        }
+        else {
+          console.log("push");
+          router.push({path: '/task/' + this.id});
         }
       }
+      else {
+        this.assignTask();
+      }
+  }
 
-      console.log("api::assignTask");
+  async assignTask(): Promise<void> {
+    console.log("assignTask");
+    this.showModal = false;
+    try {
 
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).assignTask(this.id);
@@ -157,6 +160,7 @@ export default class MyTaskDetail extends Vue {
       this.$store.dispatch('openGroupTasks/getTasks', true);
       this.$store.dispatch('assignedGroupTasks/getTasks', true);
       this.errorMessage = "";
+      console.log("push");
       router.push({path: '/task/' + this.id});
     } catch (error) {
       this.errorMessage = 'Die Aufgabe konnte nicht zugewiesen werden.';
@@ -164,14 +168,14 @@ export default class MyTaskDetail extends Vue {
   }
 
   async hasAssignee(): Promise<boolean> {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
-      if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-        this.task = res.data;
-        console.log("assignee: " + this.task.assignee);
-        return (this.task.assignee) ? true : false;
-      }
-      return true;
+    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+    const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
+    if (res.status >= 200 && res.status < 300) { // as in axios default impl.
+      this.task = res.data;
+      console.log("assignee: " + this.task.assignee);
+      return (this.task.assignee) ? true : false;
+    }
+    return true;
   }
 
   async loadTask(): Promise<void> {

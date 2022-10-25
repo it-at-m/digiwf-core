@@ -111,6 +111,7 @@ export default class AppYesNoDialog extends Vue {
   reject: any = null;
 
   open(options: any) {
+    console.log("open");
     this.syncedValue = true;
     this.options = Object.assign(this.options, options);
     if (this.timeout){
