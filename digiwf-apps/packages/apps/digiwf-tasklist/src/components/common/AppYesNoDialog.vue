@@ -60,7 +60,7 @@
 
 <script lang="ts">
 
-import {Component, Prop, Vue, PropSync} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 
 /**
  * Der YesNo-Dialog ist ein generischer Dialog zur binären Abfrage beim Nutzer.
@@ -95,45 +95,18 @@ export default class AppYesNoDialog extends Vue {
   dialogtitle!: string;
   @Prop()
   dialogtext!: string;
-  @Prop()
-  timeout: number | undefined;
   /**
    * Steuerflag für den Dialog
    */
-  @PropSync('value', { type: Boolean })
-  syncedValue!: boolean
+  @Prop()
+  value!: boolean;
 
-  options = {
-    width: 800,
-    zIndex: 200
-  };
-  resolve: any = null;
-  reject: any = null;
-
-  open(options: any) {
-    console.log("open");
-    this.syncedValue = true;
-    this.options = Object.assign(this.options, options);
-    if (this.timeout){
-      setTimeout(() => this.syncedValue = false, this.timeout);
-    }
-    return new Promise((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject = reject;
-    });
-  };
 
   no(): void {
-    if (this.resolve){
-      this.resolve(false);
-    }
     this.$emit('no');
   }
 
   yes(): void {
-    if (this.resolve){
-      this.resolve(true);
-    }
     this.$emit('yes');
   }
 

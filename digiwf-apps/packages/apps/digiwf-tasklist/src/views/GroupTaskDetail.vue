@@ -44,7 +44,6 @@
     <app-yes-no-dialog v-if="task" ref="modal"
       dialogtitle="Aufgabenzuweisung"
       :value="showModal"
-      timeout="10000"
       @yes="assignTask"
       @no="showModal = false"
     >
@@ -91,7 +90,7 @@
 
 <script lang="ts">
 
-import {Component, Prop, Provide, Vue, Ref} from "vue-property-decorator";
+import {Component, Prop, Provide, Vue} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
@@ -99,11 +98,10 @@ import router from "../router";
 import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
-import YesNoModal from "@/components/common/YesNoModal.vue";
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
-  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, YesNoModal}
+  components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
 })
 export default class MyTaskDetail extends Vue {
 
@@ -111,9 +109,6 @@ export default class MyTaskDetail extends Vue {
   isLoading = false;
   errorMessage = "";
   showModal = false;
-
-  @Ref()
-  modal!: any;
 
   @Prop()
   id!: string;
