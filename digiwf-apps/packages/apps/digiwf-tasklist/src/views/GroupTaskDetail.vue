@@ -41,7 +41,7 @@
       </v-btn>
     </v-flex>
 
-    <app-yes-no-dialog v-if="task" ref="modal"
+    <app-yes-no-dialog v-if="task"
       dialogtitle="Aufgabenzuweisung"
       :value="showModal"
       @yes="assignTask"
