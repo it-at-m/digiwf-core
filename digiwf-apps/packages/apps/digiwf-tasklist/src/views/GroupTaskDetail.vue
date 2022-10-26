@@ -124,27 +124,23 @@ export default class MyTaskDetail extends Vue {
   }
 
   async checkTaskAssignment(): Promise<void> {
-    console.log("checkTaskAssignment");
-      const hasAssignee = await this.hasAssignee();
-      console.log("hasAssignee: " + hasAssignee);
-      let currentUser: UserTO = this.$store.getters['user/info'];
-      if (hasAssignee) {
-        if (this.task?.assignee != currentUser.lhmObjectId){
-          this.showModal = true;
-          setTimeout(() => this.showModal = false, 10000);
-        }
-        else {
-          console.log("push");
-          router.push({path: '/task/' + this.id});
-        }
+    await this.loadTask();
+    if (this.task?.assignee) {
+      const currentUser: UserTO = this.$store.getters['user/info'];
+      if (this.task?.assignee != currentUser.lhmObjectId){
+        this.showModal = true;
+        setTimeout(() => this.showModal = false, 10000);
       }
       else {
-        this.assignTask();
+        router.push({path: '/task/' + this.id});
       }
+    }
+    else {
+      this.assignTask();
+    }
   }
 
   async assignTask(): Promise<void> {
-    console.log("assignTask");
     this.showModal = false;
     try {
 
@@ -155,22 +151,10 @@ export default class MyTaskDetail extends Vue {
       this.$store.dispatch('openGroupTasks/getTasks', true);
       this.$store.dispatch('assignedGroupTasks/getTasks', true);
       this.errorMessage = "";
-      console.log("push");
       router.push({path: '/task/' + this.id});
     } catch (error) {
       this.errorMessage = 'Die Aufgabe konnte nicht zugewiesen werden.';
     }
-  }
-
-  async hasAssignee(): Promise<boolean> {
-    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-    const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
-    if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-      this.task = res.data;
-      console.log("assignee: " + this.task.assignee);
-      return (this.task.assignee) ? true : false;
-    }
-    return true;
   }
 
   async loadTask(): Promise<void> {
