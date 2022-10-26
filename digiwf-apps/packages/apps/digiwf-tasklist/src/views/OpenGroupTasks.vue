@@ -6,7 +6,9 @@
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
       :is-loading="isLoading"
       :error-message="errorMessage"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <group-task-item
@@ -47,6 +49,11 @@ export default class OpenGroupTasks extends Vue {
 
   created(): void {
     this.loadTasks();
+    this.loadFilter();
+  }
+
+  loadFilter(): void {
+    this.filter = this.$store.getters["tasks/openGroupTasksFilter"];
   }
 
   async assignTask(id: string): Promise<void> {
@@ -75,6 +82,10 @@ export default class OpenGroupTasks extends Vue {
       this.errorMessage = error.message;
     }
     setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+  }
+
+  onFilterChanged(filter: string) {
+    this.$store.commit('tasks/setOpenGroupTasksFilter', filter);
   }
 
   @Watch('$store.state.openGroupTasks.tasks')

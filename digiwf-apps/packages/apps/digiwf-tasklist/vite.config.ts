@@ -7,11 +7,11 @@ import {fileURLToPath, URL} from "url";
 
 export default defineConfig({
   plugins: [
-    vue(/* options */),
+    vue(),
     Components({
-      transformer: 'vue2',
-      dts: true,
-      resolvers: [
+        transformer: 'vue2',
+        dts: true,
+        resolvers: [
         VuetifyResolver()
       ]
     })
@@ -30,5 +30,6 @@ export default defineConfig({
       //@ts-ignore
       "@": fileURLToPath(new URL("./src", import.meta.url))
     },
+    dedupe: ['vue']
   }
 })

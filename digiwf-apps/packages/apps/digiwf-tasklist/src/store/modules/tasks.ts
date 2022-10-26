@@ -7,6 +7,9 @@ export interface TasksState {
   tasks: HumanTaskTO[];
   followUp: boolean;
   lastFetch: number | null;
+  assignedGroupTasksFilter: string;
+  openGroupTasksFilter: string;
+  tasksFilter: string;
 }
 
 export default {
@@ -14,7 +17,10 @@ export default {
   state: {
     tasks: new Array<HumanTaskTO>(),
     followUp: false,
-    lastFetch: null
+    lastFetch: null,
+    assignedGroupTasksFilter: "",
+    openGroupTasksFilter: "",
+    tasksFilter: ""
   } as TasksState,
   getters: {
     shouldUpdate: (state: TasksState) => (): boolean => {
@@ -30,6 +36,15 @@ export default {
     },
     followUp(state: TasksState): boolean {
       return state.followUp;
+    },
+    assignedGroupTasksFilter(state: TasksState): string | undefined {
+      return state.assignedGroupTasksFilter;
+    },
+    openGroupTasksFilter(state: TasksState): string | undefined {
+      return state.openGroupTasksFilter;
+    },
+    tasksFilter(state: TasksState): string | undefined {
+      return state.tasksFilter;
     }
   },
   mutations: {
@@ -41,6 +56,15 @@ export default {
     },
     setFollowUp(state: TasksState, followUp: boolean): void {
       state.followUp = followUp;
+    },
+    setAssignedGroupTasksFilter(state: TasksState, filter: string): void {
+      state.assignedGroupTasksFilter = filter;
+    },
+    setOpenGroupTasksFilter(state: TasksState, filter: string): void {
+      state.openGroupTasksFilter = filter;
+    },
+    setTasksFilter(state: TasksState, filter: string): void {
+      state.tasksFilter = filter;
     }
   },
   actions: {

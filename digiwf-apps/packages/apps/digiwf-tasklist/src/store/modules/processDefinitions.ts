@@ -11,13 +11,15 @@ import {ApiConfig} from "../../api/ApiConfig";
 export interface ProcessDefinitionState {
   processDefinitions: ServiceDefinitionTO[];
   lastFetch: number;
+  filter: string;
 }
 
 export default {
   namespaced: true,
   state: {
     processDefinitions: new Array<ServiceDefinitionTO>(),
-    lastFetch: 0
+    lastFetch: 0,
+    filter: ""
   } as ProcessDefinitionState,
   getters: {
     shouldUpdate: (state: TasksState) => (): boolean => {
@@ -32,6 +34,9 @@ export default {
       return state.processDefinitions
         .map(obj => ({...obj, name: obj.name ?? "Unbekannt"}))
         .filter(Boolean).sort((a, b) => a.name.localeCompare(b.name));
+    },
+    filter(state: ProcessDefinitionState): string | null {
+      return state.filter;
     }
   },
   mutations: {
@@ -40,6 +45,9 @@ export default {
     },
     setLastFetch(state: TasksState, date: number): void {
       state.lastFetch = date;
+    },
+    setFilter(state: ProcessDefinitionState, filter: string): void {
+      state.filter = filter;
     }
   },
   actions: {

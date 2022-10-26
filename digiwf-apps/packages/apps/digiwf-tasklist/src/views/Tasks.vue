@@ -5,7 +5,9 @@
       view-name="Meine Aufgaben"
       :is-loading="isLoading"
       :error-message="errorMessage"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <task-item
@@ -59,6 +61,14 @@ export default class Tasks extends Vue {
     this.followUp = this.$store.getters['tasks/followUp'];
   }
 
+  created(): void {
+    this.loadFilter();
+  }
+
+  loadFilter(): void {
+    this.filter = this.$store.getters["tasks/tasksFilter"];
+  }
+
   async loadTasks(refresh = false): Promise<void> {
     this.reloadTasks();
     this.isLoading = true;
@@ -91,6 +101,10 @@ export default class Tasks extends Vue {
       tasks = tasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
     }
     this.tasks = tasks;
+  }
+
+  onFilterChanged(filter: string) {
+    this.$store.commit('tasks/setTasksFilter', filter);
   }
 
 }

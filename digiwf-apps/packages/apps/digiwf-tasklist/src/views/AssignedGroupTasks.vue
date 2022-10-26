@@ -7,7 +7,9 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :show-assignee="true"
+      :filter.sync="filter"
       @loadTasks="loadTasks(true)"
+      @update:filter="onFilterChanged"
     >
       <template #default="props">
         <group-task-item
@@ -49,6 +51,11 @@ export default class AssignedGroupTasks extends Vue {
 
   created(): void {
     this.loadTasks();
+    this.loadFilter();
+  }
+
+  loadFilter(): void {
+    this.filter = this.$store.getters["tasks/assignedGroupTasksFilter"];
   }
 
   async reassignTask(id: string): Promise<void> {
@@ -77,6 +84,10 @@ export default class AssignedGroupTasks extends Vue {
       this.errorMessage = error.message;
     }
     setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+  }
+
+  onFilterChanged(filter: string) {
+    this.$store.commit('tasks/setAssignedGroupTasksFilter', filter);
   }
 
   @Watch('$store.state.assignedGroupTasks.tasks')

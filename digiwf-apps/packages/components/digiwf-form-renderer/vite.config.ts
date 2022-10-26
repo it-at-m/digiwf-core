@@ -18,7 +18,7 @@ export default defineConfig({
         'vue',
         'vuex',
         'vue-router',
-        /@vuetify\/.*/,
+        /vuetify\/.*/,
         /@muenchen\/vjsf\/.*/
       ],
       output: {

@@ -6,7 +6,7 @@
     <v-flex class="d-flex justify-space-between align-center searchField">
       <v-text-field
           id="suchfeld"
-          v-model="filter"
+          v-model="syncedFilter"
           flat
           dense
           outlined
@@ -83,7 +83,7 @@
     >
       <template #default="props">
         <template v-for="item in props.items">
-          <slot :item=" {...item, searchInput: filter || ''}"/>
+          <slot :item=" {...item, searchInput: syncedFilter || ''}"/>
         </template>
       </template>
     </app-pageable-list>
@@ -110,7 +110,7 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
+import {Component, Emit, Prop, PropSync, Vue, Watch} from 'vue-property-decorator';
 import {HumanTaskTO} from '@/api/api-client/api';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
@@ -122,7 +122,8 @@ import AppPageableList from "@/components/UI/AppPageableList.vue";
 })
 export default class TaskList extends Vue {
 
-  filter = "";
+  @PropSync('filter', { type: String })
+  syncedFilter!: string
 
   @Prop()
   errorMessage: string | undefined;
@@ -145,7 +146,7 @@ export default class TaskList extends Vue {
   }
 
   get filteredTasks(): HumanTaskTO[] | undefined {
-    if (!this.filter) {
+    if (!this.syncedFilter) {
       return this.tasks;
     }
 
@@ -153,9 +154,8 @@ export default class TaskList extends Vue {
       return [];
     }
 
-    return this.tasks.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(this.filter.toLocaleLowerCase()));
+    return this.tasks.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(this.syncedFilter.toLocaleLowerCase()));
   }
-
 
 }
 </script>

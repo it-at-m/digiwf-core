@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^16.9.1",
+    "@types/node": "^16.16.0",
     "@vitejs/plugin-vue2": "^2.0.0",
     "eslint": "^8.21.0",
     "install": "^0.13.0",

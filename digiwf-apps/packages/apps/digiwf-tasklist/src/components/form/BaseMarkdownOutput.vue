@@ -4,9 +4,7 @@
     :cols="col"
   >
     <p>
-      <vue-markdown>
-        {{ description }}
-      </vue-markdown>
+      <div v-html="markdownToHtml"></div>
     </p>
   </v-col>
 </template>
@@ -18,12 +16,11 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 import {VAutocomplete} from "vuetify/lib";
-import VueMarkdown from 'vue-markdown';
+import {marked} from 'marked';
 
 @Component({
   components: {
-    VAutocomplete,
-    VueMarkdown
+    VAutocomplete
   }
 })
 export default class BaseMarkdownOutput extends Vue {
@@ -33,6 +30,10 @@ export default class BaseMarkdownOutput extends Vue {
 
   @Prop()
   description: string | undefined;
+
+ get markdownToHtml(){
+    return marked(this.description || '');
+  }
 
 }
 </script>
