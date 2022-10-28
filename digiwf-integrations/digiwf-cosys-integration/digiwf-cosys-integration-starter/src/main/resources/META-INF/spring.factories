@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.muenchendigital.digiwf.integration.cosys.configuration.CosysAutoConfiguration
