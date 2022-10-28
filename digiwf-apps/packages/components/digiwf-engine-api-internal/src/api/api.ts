@@ -199,6 +199,31 @@ export interface DeploymentStatusDto {
 /**
  * 
  * @export
+ * @interface FilterTO
+ */
+export interface FilterTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof FilterTO
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FilterTO
+     */
+    'filterString': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FilterTO
+     */
+    'pageId': string;
+}
+/**
+ * 
+ * @export
  * @interface FollowUpTO
  */
 export interface FollowUpTO {
@@ -1521,6 +1546,307 @@ export class DocumentRestControllerApi extends BaseAPI {
      */
     public getStatusDokumentForTask(id: string, options?: AxiosRequestConfig) {
         return DocumentRestControllerApiFp(this.configuration).getStatusDokumentForTask(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * FilterRestControllerApi - axios parameter creator
+ * @export
+ */
+export const FilterRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        _delete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('_delete', 'id', id)
+            const localVarPath = `/rest/filter/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilter: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getFilter', 'id', id)
+            const localVarPath = `/rest/filter/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilters: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rest/filter`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {FilterTO} filterTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveFilter: async (filterTO: FilterTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'filterTO' is not null or undefined
+            assertParamExists('saveFilter', 'filterTO', filterTO)
+            const localVarPath = `/rest/filter`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(filterTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FilterRestControllerApi - functional programming interface
+ * @export
+ */
+export const FilterRestControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FilterRestControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async _delete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator._delete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFilter(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilterTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFilter(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFilters(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FilterTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFilters(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {FilterTO} filterTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async saveFilter(filterTO: FilterTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilterTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveFilter(filterTO, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * FilterRestControllerApi - factory interface
+ * @export
+ */
+export const FilterRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FilterRestControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        _delete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp._delete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilter(id: string, options?: any): AxiosPromise<FilterTO> {
+            return localVarFp.getFilter(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilters(options?: any): AxiosPromise<Array<FilterTO>> {
+            return localVarFp.getFilters(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {FilterTO} filterTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveFilter(filterTO: FilterTO, options?: any): AxiosPromise<FilterTO> {
+            return localVarFp.saveFilter(filterTO, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FilterRestControllerApi - object-oriented interface
+ * @export
+ * @class FilterRestControllerApi
+ * @extends {BaseAPI}
+ */
+export class FilterRestControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilterRestControllerApi
+     */
+    public _delete(id: string, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration)._delete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilterRestControllerApi
+     */
+    public getFilter(id: string, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration).getFilter(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilterRestControllerApi
+     */
+    public getFilters(options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration).getFilters(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {FilterTO} filterTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilterRestControllerApi
+     */
+    public saveFilter(filterTO: FilterTO, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration).saveFilter(filterTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

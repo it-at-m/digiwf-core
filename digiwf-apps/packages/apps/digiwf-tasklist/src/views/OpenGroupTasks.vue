@@ -34,7 +34,7 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import GroupTaskItem from "@/components/task/GroupTaskItem.vue";
 import router from "../router";
-import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
+import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO, FilterTO} from '@muenchen/digiwf-engine-api-internal';
 import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
@@ -46,10 +46,12 @@ export default class OpenGroupTasks extends Vue {
   isLoading = false;
   filter = "";
   errorMessage = "";
+  persistentFilters: FilterTO[] = [];
 
   created(): void {
     this.loadTasks();
     this.loadFilter();
+    this.loadPersistentFilters();
   }
 
   loadFilter(): void {
@@ -77,6 +79,22 @@ export default class OpenGroupTasks extends Vue {
     const startTime = new Date().getTime();
     try {
       await this.$store.dispatch('openGroupTasks/getTasks', refresh);
+      this.errorMessage = "";
+    } catch (error) {
+      this.errorMessage = error.message;
+    }
+    setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+  }
+
+  async loadPersistentFilters(refresh = false): Promise<void> {
+    console.log("loadPersistentFilters");
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
+    //this.$store..getters.getTodoById(2)
+    //this.persistentFilters = this.$store.getters('filter/getFilters', 'opengrouptasks');
+    this.isLoading = true;
+    const startTime = new Date().getTime();
+    try {
+      await this.$store.dispatch('filters/getFilters', refresh);
       this.errorMessage = "";
     } catch (error) {
       this.errorMessage = error.message;
