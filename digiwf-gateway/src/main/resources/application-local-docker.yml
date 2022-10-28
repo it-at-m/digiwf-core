@@ -1,0 +1,40 @@
+spring:
+  # spring cloud gateway config
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          # The cors configuration to allow frontend developers cross origin request via this api gateway
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:8081"
+              - "http://127.0.0.1:8081"
+              - "http://172.17.0.1"
+              - "http://host.docker.internal"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      routes:
+        - id: sso
+          uri: https://ssodev.muenchen.de/
+          predicates:
+            - Path=/api/sso/userinfo
+          filters:
+            - RewritePath=/api/sso/userinfo, /auth/realms/${spring.realm}/protocol/openid-connect/userinfo
+        - id: backend
+          uri: http://host.docker.internal:39146/
+          predicates:
+            - Path=/api/digitalwf-backend-service/**
+          filters:
+            - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+        - id: frontend
+          uri: https://digiwf-tasklist:8080/
+          predicates:
+            - Path=/**
+      default-filters:
+        - RemoveResponseHeader=Expires
+        - RemoveRequestHeader=cookie
+        - RemoveRequestHeader=x-xsrf-token
+        - TokenRelay=
