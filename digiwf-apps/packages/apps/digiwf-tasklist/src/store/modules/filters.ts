@@ -45,16 +45,7 @@ export default {
       try {
 
         const res = await FilterRestControllerApiFactory(cfg).getFilters();
-        let filter1: FilterTO = {
-          id: "1",
-          pageId: 'opengrouptasks',
-          filterString: 'erleben'
-        }
-        let filters: FilterTO[] = [];
-        filters.push(filter1);
-
-        //context.commit('setFilters', res.data);
-        context.commit('setFilters', filters);
+        context.commit('setFilters', res.data);
         context.commit('setLastFetch');
       } catch (err) {
         FetchUtils.defaultCatchHandler(err, "Die Filter konnten nicht geladen werden. Bitte versuchen Sie es erneut.");

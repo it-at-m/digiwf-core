@@ -226,7 +226,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/FilterTO"
+                "$ref" : "#/components/schemas/SaveFilterTO"
               }
             }
           },
@@ -884,6 +884,35 @@
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/UserTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/user/groups/{id}" : {
+      "get" : {
+        "tags" : [ "UserRestController" ],
+        "operationId" : "getUserGroups",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
                 }
               }
             }
@@ -1638,8 +1667,19 @@
           }
         }
       },
+      "SaveFilterTO" : {
+        "required" : [ "filterString", "pageId" ],
+        "type" : "object",
+        "properties" : {
+          "filterString" : {
+            "type" : "string"
+          },
+          "pageId" : {
+            "type" : "string"
+          }
+        }
+      },
       "FilterTO" : {
-        "required" : [ "filterString", "id", "pageId" ],
         "type" : "object",
         "properties" : {
           "id" : {

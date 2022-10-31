@@ -16,6 +16,8 @@
         clearable
         color="black"
         style="max-width: 500px"
+        @input="onChangeFilter"
+        @input.native="onChangeFilter"
       >
         <template #append>
           <div class="v-input__icon">
@@ -33,7 +35,7 @@
               icon
               aria-label="Filter löschen"
               class="v-icon yellow--text"
-              @click="deletePersistentFilter()"
+              @click="savePersistentFilter()"
             >
               <v-icon color="yellow"> mdi-star-outline </v-icon>
             </v-btn>
@@ -191,14 +193,31 @@ export default class TaskList extends Vue {
     );
   }
 
+  onChangeFilter(e: any) {
+    if (!e) {
+        this.syncedFilter = '';
+    } else if (typeof e === 'string') {
+      this.syncedFilter = e;
+    } else if (typeof e === 'object') {
+      this.syncedFilter = e.srcElement.value
+    }
+  }
+
+  @Watch("syncedFilter") // TODO: remove
+  watchFilter(){
+    console.log("watch: " + this.syncedFilter);
+  }
+
   @Emit("savePersistentFilter")
-  savePersistentFilter() {
+  savePersistentFilter(): string {
     console.log("savePersistentFilter: " + this.syncedFilter);
+    return this.syncedFilter;
   }
 
   @Emit("deletePersistentFilter")
-  deletePersistentFilter() {
+  deletePersistentFilter(): string {
     console.log("deletePersistentFilter: " + this.syncedFilter);
+    return this.persistentFilters!.find((f: FilterTO) => f.filterString == this.syncedFilter)?.id!;
   }
 }
 </script>

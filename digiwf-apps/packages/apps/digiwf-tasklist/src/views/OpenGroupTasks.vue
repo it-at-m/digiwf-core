@@ -10,6 +10,7 @@
       :persistentFilters="persistentFilters"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
+      @savePersistentFilter="savePersistentFilter"
     >
       <template #default="props">
         <group-task-item
@@ -35,7 +36,7 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import GroupTaskItem from "@/components/task/GroupTaskItem.vue";
 import router from "../router";
-import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO, FilterTO} from '@muenchen/digiwf-engine-api-internal';
+import {FetchUtils, HumanTaskRestControllerApiFactory, FilterRestControllerApiFactory, HumanTaskTO, FilterTO, SaveFilterTO} from '@muenchen/digiwf-engine-api-internal';
 import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
@@ -103,6 +104,23 @@ export default class OpenGroupTasks extends Vue {
 
   onFilterChanged(filter: string) {
     this.$store.commit('tasks/setOpenGroupTasksFilter', filter);
+  }
+
+  async savePersistentFilter(filterString: string) {
+    console.log("savePersistentFilter");
+    const request: SaveFilterTO = {
+      pageId: "opengrouptasks",
+      filterString: filterString,
+    }
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
+      await FilterRestControllerApiFactory(cfg).saveFilter(request);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
+    }
   }
 
   @Watch('$store.state.openGroupTasks.tasks')

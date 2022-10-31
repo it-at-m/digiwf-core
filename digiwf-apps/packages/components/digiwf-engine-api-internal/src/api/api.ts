@@ -207,19 +207,19 @@ export interface FilterTO {
      * @type {string}
      * @memberof FilterTO
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof FilterTO
      */
-    'filterString': string;
+    'filterString'?: string;
     /**
      * 
      * @type {string}
      * @memberof FilterTO
      */
-    'pageId': string;
+    'pageId'?: string;
 }
 /**
  * 
@@ -763,6 +763,25 @@ export interface RuleTO {
      * @memberof RuleTO
      */
     'target'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SaveFilterTO
+ */
+export interface SaveFilterTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveFilterTO
+     */
+    'filterString': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveFilterTO
+     */
+    'pageId': string;
 }
 /**
  * 
@@ -1665,13 +1684,13 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * 
-         * @param {FilterTO} filterTO 
+         * @param {SaveFilterTO} saveFilterTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveFilter: async (filterTO: FilterTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'filterTO' is not null or undefined
-            assertParamExists('saveFilter', 'filterTO', filterTO)
+        saveFilter: async (saveFilterTO: SaveFilterTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'saveFilterTO' is not null or undefined
+            assertParamExists('saveFilter', 'saveFilterTO', saveFilterTO)
             const localVarPath = `/rest/filter`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1695,7 +1714,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(filterTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(saveFilterTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1743,12 +1762,12 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
         },
         /**
          * 
-         * @param {FilterTO} filterTO 
+         * @param {SaveFilterTO} saveFilterTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async saveFilter(filterTO: FilterTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilterTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.saveFilter(filterTO, options);
+        async saveFilter(saveFilterTO: SaveFilterTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilterTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveFilter(saveFilterTO, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1789,12 +1808,12 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
         },
         /**
          * 
-         * @param {FilterTO} filterTO 
+         * @param {SaveFilterTO} saveFilterTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveFilter(filterTO: FilterTO, options?: any): AxiosPromise<FilterTO> {
-            return localVarFp.saveFilter(filterTO, options).then((request) => request(axios, basePath));
+        saveFilter(saveFilterTO: SaveFilterTO, options?: any): AxiosPromise<FilterTO> {
+            return localVarFp.saveFilter(saveFilterTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1840,13 +1859,13 @@ export class FilterRestControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {FilterTO} filterTO 
+     * @param {SaveFilterTO} saveFilterTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilterRestControllerApi
      */
-    public saveFilter(filterTO: FilterTO, options?: AxiosRequestConfig) {
-        return FilterRestControllerApiFp(this.configuration).saveFilter(filterTO, options).then((request) => request(this.axios, this.basePath));
+    public saveFilter(saveFilterTO: SaveFilterTO, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration).saveFilter(saveFilterTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4922,6 +4941,43 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserGroups: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getUserGroups', 'id', id)
+            const localVarPath = `/rest/user/groups/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {SearchUserTO} searchUserTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5024,6 +5080,16 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserGroups(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserGroups(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {SearchUserTO} searchUserTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5068,6 +5134,15 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
          */
         getUserByUsername(username: string, options?: any): AxiosPromise<UserTO> {
             return localVarFp.getUserByUsername(username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserGroups(id: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getUserGroups(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5116,6 +5191,17 @@ export class UserRestControllerApi extends BaseAPI {
      */
     public getUserByUsername(username: string, options?: AxiosRequestConfig) {
         return UserRestControllerApiFp(this.configuration).getUserByUsername(username, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserRestControllerApi
+     */
+    public getUserGroups(id: string, options?: AxiosRequestConfig) {
+        return UserRestControllerApiFp(this.configuration).getUserGroups(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
