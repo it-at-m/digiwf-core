@@ -4,6 +4,7 @@
       <h1>{{ viewName }}</h1>
     </v-flex>
     <v-flex class="d-flex justify-space-between align-center searchField">
+      <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
       <v-combobox
         id="suchfeld"
         v-model="syncedFilter"
@@ -179,6 +180,7 @@ export default class TaskList extends Vue {
 
   get isFilterPersistent(): boolean {
     if (
+      !this.syncedFilter ||
       this.syncedFilter.length == 0 ||
       !this.persistentFilters ||
       this.persistentFilters!.length == 0
