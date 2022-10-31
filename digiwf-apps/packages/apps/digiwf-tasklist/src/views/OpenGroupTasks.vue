@@ -7,6 +7,7 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter.sync="filter"
+      :persistentFilters="persistentFilters"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
     >
@@ -89,8 +90,6 @@ export default class OpenGroupTasks extends Vue {
   async loadPersistentFilters(refresh = false): Promise<void> {
     console.log("loadPersistentFilters");
     this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
-    //this.$store..getters.getTodoById(2)
-    //this.persistentFilters = this.$store.getters('filter/getFilters', 'opengrouptasks');
     this.isLoading = true;
     const startTime = new Date().getTime();
     try {
@@ -109,6 +108,11 @@ export default class OpenGroupTasks extends Vue {
   @Watch('$store.state.openGroupTasks.tasks')
   setTasks(): void {
     this.tasks = this.$store.getters['openGroupTasks/tasks'];
+  }
+
+  @Watch('$store.state.filters.filters')
+  setPersistentFilters(): void {
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
   }
 
 }

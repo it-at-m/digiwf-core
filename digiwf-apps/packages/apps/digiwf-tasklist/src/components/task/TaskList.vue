@@ -4,86 +4,93 @@
       <h1>{{ viewName }}</h1>
     </v-flex>
     <v-flex class="d-flex justify-space-between align-center searchField">
-      <v-text-field
-          id="suchfeld"
-          v-model="syncedFilter"
-          flat
-          dense
-          outlined
-          hide-details
-          label="Aufgaben durchsuchen"
-          clearable
-          append-icon="mdi-magnify"
-          color="black"
-          style="max-width: 500px"
-      />
+      <v-combobox
+        id="suchfeld"
+        v-model="syncedFilter"
+        :items="persistentFilters.map((f) => f.filterString)"
+        flat
+        dense
+        outlined
+        hide-details
+        label="Aufgaben durchsuchen"
+        clearable
+        color="black"
+        style="max-width: 500px"
+      >
+        <template #append>
+          <div class="v-input__icon">
+            <v-btn
+              v-if="isFilterPersistent"
+              icon
+              aria-label="Filter speichern"
+              class="v-icon yellow--text"
+              @click="deletePersistentFilter()"
+            >
+              <v-icon color="yellow"> mdi-star </v-icon>
+            </v-btn>
+            <v-btn
+              v-else
+              icon
+              aria-label="Filter löschen"
+              class="v-icon yellow--text"
+              @click="deletePersistentFilter()"
+            >
+              <v-icon color="yellow"> mdi-star-outline </v-icon>
+            </v-btn>
+          </div>
+          <v-icon class="ml-2"> mdi-magnify </v-icon>
+        </template>
+      </v-combobox>
       <div class="d-flex align-center">
         <v-btn
-            aria-label="Aufgaben aktualisieren"
-            text
-            color="primary"
-            large
-            @click="loadTasks"
+          aria-label="Aufgaben aktualisieren"
+          text
+          color="primary"
+          large
+          @click="loadTasks"
         >
           <div style="min-width: 30px">
             <v-progress-circular
-                v-if="isLoading"
-                :size="25"
-                width="2"
-                color="primary"
-                indeterminate
+              v-if="isLoading"
+              :size="25"
+              width="2"
+              color="primary"
+              indeterminate
             />
-            <v-icon
-                v-else
-            >
-              mdi-refresh
-            </v-icon>
+            <v-icon v-else> mdi-refresh </v-icon>
           </div>
           Aktualisieren
         </v-btn>
       </div>
     </v-flex>
     <v-flex v-if="errorMessage">
-      <AppToast
-          :message="errorMessage"
-          type="error"
-      />
+      <AppToast :message="errorMessage" type="error" />
     </v-flex>
     <v-flex class="mt-10">
       <v-flex class="tableHeader">
-        <v-flex class="headerTitel">
-          Aufgabe
-        </v-flex>
+        <v-flex class="headerTitel"> Aufgabe </v-flex>
         <v-flex
-            v-if="showAssignee"
-            class="headerTitel"
-            style="max-width: 148px"
+          v-if="showAssignee"
+          class="headerTitel"
+          style="max-width: 148px"
         >
           Bearbeiter*in
         </v-flex>
-        <v-flex
-            class="headerTitel"
-            style="max-width: 198px"
-        >
-          Vorgang
-        </v-flex>
-        <v-flex
-            class="headerTitel"
-            style="max-width: 80px"
-        >
+        <v-flex class="headerTitel" style="max-width: 198px"> Vorgang </v-flex>
+        <v-flex class="headerTitel" style="max-width: 80px">
           Erstellt am
         </v-flex>
       </v-flex>
-      <hr style="margin: 5px 0 0 0">
+      <hr style="margin: 5px 0 0 0" />
     </v-flex>
     <app-pageable-list
-        :items="filteredTasks"
-        found-data-text="Aufgaben gefunden"
-        no-data-text="Keine Aufgaben gefunden"
+      :items="filteredTasks"
+      found-data-text="Aufgaben gefunden"
+      no-data-text="Keine Aufgaben gefunden"
     >
       <template #default="props">
         <template v-for="item in props.items">
-          <slot :item=" {...item, searchInput: syncedFilter || ''}"/>
+          <slot :item="{ ...item, searchInput: syncedFilter || '' }" />
         </template>
       </template>
     </app-pageable-list>
@@ -91,11 +98,9 @@
 </template>
 
 <style scoped>
-
 .tableHeader {
   display: flex;
   margin: 0.5rem 45px 0 12px;
-
 }
 
 .headerTitel {
@@ -110,20 +115,27 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, PropSync, Vue, Watch} from 'vue-property-decorator';
-import {HumanTaskTO} from '@/api/api-client/api';
+import {
+  Component,
+  Emit,
+  Prop,
+  PropSync,
+  Vue,
+  Watch,
+} from "vue-property-decorator";
+import { HumanTaskTO } from "@/api/api-client/api";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
+import { FilterTO } from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
-  components: {AppPageableList, TaskItem, AppToast, AppViewLayout}
+  components: { AppPageableList, TaskItem, AppToast, AppViewLayout },
 })
 export default class TaskList extends Vue {
-
-  @PropSync('filter', { type: String })
-  syncedFilter!: string
+  @PropSync("filter", { type: String })
+  syncedFilter!: string;
 
   @Prop()
   errorMessage: string | undefined;
@@ -140,6 +152,9 @@ export default class TaskList extends Vue {
   @Prop()
   showAssignee: boolean | undefined;
 
+  @Prop()
+  persistentFilters: FilterTO[] | undefined;
+
   @Emit("loadTasks")
   loadTasks(): boolean {
     return true;
@@ -154,8 +169,36 @@ export default class TaskList extends Vue {
       return [];
     }
 
-    return this.tasks.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(this.syncedFilter.toLocaleLowerCase()));
+    return this.tasks.filter((task) =>
+      JSON.stringify(Object.values(task))
+        .toLocaleLowerCase()
+        .includes(this.syncedFilter.toLocaleLowerCase())
+    );
   }
 
+  get isFilterPersistent(): boolean {
+    if (
+      this.syncedFilter.length == 0 ||
+      !this.persistentFilters ||
+      this.persistentFilters!.length == 0
+    ) {
+      return false;
+    }
+    return (
+      this.persistentFilters!.find(
+        (fl: FilterTO) => fl.filterString == this.syncedFilter
+      ) != undefined
+    );
+  }
+
+  @Emit("savePersistentFilter")
+  savePersistentFilter() {
+    console.log("savePersistentFilter: " + this.syncedFilter);
+  }
+
+  @Emit("deletePersistentFilter")
+  deletePersistentFilter() {
+    console.log("deletePersistentFilter: " + this.syncedFilter);
+  }
 }
 </script>
