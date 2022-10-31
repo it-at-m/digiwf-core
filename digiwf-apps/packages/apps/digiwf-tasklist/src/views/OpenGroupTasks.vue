@@ -11,6 +11,7 @@
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
       @savePersistentFilter="savePersistentFilter"
+      @deletePersistentFilter="deletePersistentFilter"
     >
       <template #default="props">
         <group-task-item
@@ -89,7 +90,6 @@ export default class OpenGroupTasks extends Vue {
   }
 
   async loadPersistentFilters(refresh = false): Promise<void> {
-    console.log("loadPersistentFilters");
     this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
     this.isLoading = true;
     const startTime = new Date().getTime();
@@ -107,7 +107,6 @@ export default class OpenGroupTasks extends Vue {
   }
 
   async savePersistentFilter(filterString: string) {
-    console.log("savePersistentFilter");
     const request: SaveFilterTO = {
       pageId: "opengrouptasks",
       filterString: filterString,
@@ -120,6 +119,18 @@ export default class OpenGroupTasks extends Vue {
       this.$store.dispatch('filters/getFilters', true);
     } catch (error) {
       this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
+    }
+  }
+
+  async deletePersistentFilter(id: string) {
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
+      await FilterRestControllerApiFactory(cfg)._delete(id);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
     }
   }
 

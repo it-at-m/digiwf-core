@@ -194,20 +194,13 @@ export default class TaskList extends Vue {
     );
   }
 
-  @Watch("syncedFilter") // TODO: remove
-  watchFilter(){
-    console.log("watch: " + this.syncedFilter);
-  }
-
   @Emit("savePersistentFilter")
   savePersistentFilter(): string {
-    console.log("savePersistentFilter: " + this.syncedFilter);
     return this.syncedFilter;
   }
 
   @Emit("deletePersistentFilter")
   deletePersistentFilter(): string {
-    console.log("deletePersistentFilter: " + this.syncedFilter);
     return this.persistentFilters!.find((f: FilterTO) => f.filterString == this.syncedFilter)?.id!;
   }
 }
