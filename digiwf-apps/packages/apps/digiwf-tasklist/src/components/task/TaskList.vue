@@ -16,8 +16,7 @@
         clearable
         color="black"
         style="max-width: 500px"
-        @input="onChangeFilter"
-        @input.native="onChangeFilter"
+        @input.native="syncedFilter=$event.srcElement.value"
       >
         <template #append>
           <div class="v-input__icon">
@@ -191,16 +190,6 @@ export default class TaskList extends Vue {
         (fl: FilterTO) => fl.filterString == this.syncedFilter
       ) != undefined
     );
-  }
-
-  onChangeFilter(e: any) {
-    if (!e) {
-        this.syncedFilter = '';
-    } else if (typeof e === 'string') {
-      this.syncedFilter = e;
-    } else if (typeof e === 'object') {
-      this.syncedFilter = e.srcElement.value
-    }
   }
 
   @Watch("syncedFilter") // TODO: remove
