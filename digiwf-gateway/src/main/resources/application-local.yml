@@ -33,7 +33,7 @@ spring:
         - id: backend
           uri: http://localhost:39146/
           predicates:
-            - Path=/api/digitalwf-backend-service/**
+            - Path=/api/digitalwf-backend-service/rest/**
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
