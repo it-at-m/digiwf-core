@@ -64,4 +64,4 @@ jobs:
         with:
           context: ./digiwf-integration/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
-          tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }}
