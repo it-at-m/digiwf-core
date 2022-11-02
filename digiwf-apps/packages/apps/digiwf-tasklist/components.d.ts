@@ -73,7 +73,6 @@ declare module '@vue/runtime-core' {
     VMessages: typeof import('vuetify/lib')['VMessages']
     VMultiUserInput: typeof import('./src/components/schema/VMultiUserInput.vue')['default']
     VNavigationDrawer: typeof import('vuetify/lib')['VNavigationDrawer']
-    VOverflowBtn: typeof import('vuetify/lib')['VOverflowBtn']
     VProgressCircular: typeof import('vuetify/lib')['VProgressCircular']
     VRow: typeof import('vuetify/lib')['VRow']
     VSimpleTable: typeof import('vuetify/lib')['VSimpleTable']

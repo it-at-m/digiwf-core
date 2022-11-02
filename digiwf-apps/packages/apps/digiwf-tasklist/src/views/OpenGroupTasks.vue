@@ -7,11 +7,9 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter.sync="filter"
-      :persistentFilters="persistentFilters"
+      pageId="opengrouptasks"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
-      @savePersistentFilter="savePersistentFilter"
-      @deletePersistentFilter="deletePersistentFilter"
     >
       <template #default="props">
         <group-task-item
@@ -37,7 +35,7 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import GroupTaskItem from "@/components/task/GroupTaskItem.vue";
 import router from "../router";
-import {FetchUtils, HumanTaskRestControllerApiFactory, FilterRestControllerApiFactory, HumanTaskTO, FilterTO, SaveFilterTO} from '@muenchen/digiwf-engine-api-internal';
+import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
 import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
@@ -49,12 +47,10 @@ export default class OpenGroupTasks extends Vue {
   isLoading = false;
   filter = "";
   errorMessage = "";
-  persistentFilters: FilterTO[] = [];
 
   created(): void {
     this.loadTasks();
     this.loadFilter();
-    this.loadPersistentFilters();
   }
 
   loadFilter(): void {
@@ -89,59 +85,13 @@ export default class OpenGroupTasks extends Vue {
     setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
   }
 
-  async loadPersistentFilters(refresh = false): Promise<void> {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
-    this.isLoading = true;
-    const startTime = new Date().getTime();
-    try {
-      await this.$store.dispatch('filters/getFilters', refresh);
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = error.message;
-    }
-    setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
-
   onFilterChanged(filter: string) {
     this.$store.commit('tasks/setOpenGroupTasksFilter', filter);
-  }
-
-  async savePersistentFilter(filterString: string) {
-    const request: SaveFilterTO = {
-      pageId: "opengrouptasks",
-      filterString: filterString,
-    }
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await FilterRestControllerApiFactory(cfg).saveFilter(request);
-
-      this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
-    } catch (error) {
-      this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
-    }
-  }
-
-  async deletePersistentFilter(id: string) {
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
-      await FilterRestControllerApiFactory(cfg)._delete(id);
-
-      this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
-    } catch (error) {
-      this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
-    }
   }
 
   @Watch('$store.state.openGroupTasks.tasks')
   setTasks(): void {
     this.tasks = this.$store.getters['openGroupTasks/tasks'];
-  }
-
-  @Watch('$store.state.filters.filters')
-  setPersistentFilters(): void {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'opengrouptasks');
   }
 
 }

@@ -123,14 +123,14 @@ import {
   Prop,
   PropSync,
   Vue,
-  Watch,
+  Watch
 } from "vue-property-decorator";
-import { HumanTaskTO } from "@/api/api-client/api";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
-import { FilterTO } from "@muenchen/digiwf-engine-api-internal";
+import { HumanTaskTO, FilterTO, SaveFilterTO, FilterRestControllerApiFactory, FetchUtils} from "@muenchen/digiwf-engine-api-internal";
+import {ApiConfig} from "../../api/ApiConfig";
 
 @Component({
   components: { AppPageableList, TaskItem, AppToast, AppViewLayout },
@@ -155,11 +155,17 @@ export default class TaskList extends Vue {
   showAssignee: boolean | undefined;
 
   @Prop()
-  persistentFilters: FilterTO[] | undefined;
+  pageId!: string;
+
+  persistentFilters: FilterTO[] = [];
 
   @Emit("loadTasks")
   loadTasks(): boolean {
     return true;
+  }
+
+  created(): void {
+    this.loadPersistentFilters();
   }
 
   get filteredTasks(): HumanTaskTO[] | undefined {
@@ -194,14 +200,49 @@ export default class TaskList extends Vue {
     );
   }
 
-  @Emit("savePersistentFilter")
-  savePersistentFilter(): string {
-    return this.syncedFilter;
+  async savePersistentFilter() {
+    const request: SaveFilterTO = {
+      pageId: this.pageId,
+      filterString: this.syncedFilter,
+    }
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
+      await FilterRestControllerApiFactory(cfg).saveFilter(request);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
+    }
   }
 
-  @Emit("deletePersistentFilter")
-  deletePersistentFilter(): string {
-    return this.persistentFilters!.find((f: FilterTO) => f.filterString == this.syncedFilter)?.id!;
+  async deletePersistentFilter() {
+    const id = this.persistentFilters!.find((f: FilterTO) => f.filterString == this.syncedFilter)?.id!
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
+      await FilterRestControllerApiFactory(cfg)._delete(id);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
+    }
   }
+
+  async loadPersistentFilters(refresh = false): Promise<void> {
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === this.pageId);
+    try {
+      await this.$store.dispatch('filters/getFilters', refresh);
+      this.errorMessage = "";
+    } catch (error) {
+      this.errorMessage = error.message;
+    }
+  }
+
+  @Watch('$store.state.filters.filters')
+  setPersistentFilters(): void {
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === this.pageId);
+  }
+
 }
 </script>
