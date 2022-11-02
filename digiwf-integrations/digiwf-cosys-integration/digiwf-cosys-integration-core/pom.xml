@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-spring-cloudstream-utils</artifactId>
+            <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
