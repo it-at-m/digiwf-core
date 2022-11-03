@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,11 +35,6 @@ public class GenerateDocument {
     private String role;
 
     /**
-     * Path where the document is stored, including the name and type
-     */
-    private String s3Path;
-
-    /**
      * The GUID of the target template to be filled
      */
     private String guid;
@@ -45,4 +43,11 @@ public class GenerateDocument {
      * All data to be filled into template
      */
     private Map<String, String> variables;
+
+    /**
+     * A list of presigned urls that are used to save the cosys documents in a s3 storage
+     */
+    @Valid
+    @Size(min = 1, max = 1)
+    private List<DocumentStorageUrls> documentStorageUrls;
 }

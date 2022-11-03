@@ -40,7 +40,7 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client</artifactId>
-            <version>0.0.4</version>
+            <version>0.1.1</version>
             <scope>provided</scope>
         </dependency>
 
