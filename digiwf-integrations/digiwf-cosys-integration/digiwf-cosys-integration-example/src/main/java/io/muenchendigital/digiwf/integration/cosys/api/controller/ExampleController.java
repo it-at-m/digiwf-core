@@ -36,7 +36,6 @@ public class ExampleController {
         return GenerateDocument.builder()
                 .client("9001")
                 .role("TESTER")
-                .s3Path("test/path/test.pdf")
                 .guid("519650b7-87c2-41a6-8527-7b095675b13f")
                 .variables(Map.of(
                         "FormField_Grusstext", "Hallo das ist mein Gruß",
