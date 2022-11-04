@@ -81,11 +81,14 @@ public class CosysService {
     private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
         try {
             for (final DocumentStorageUrl presignedUrl : generateDocument.getDocumentStorageUrls()) {
-                if (presignedUrl.getAction().equals("POST")) {
+                if (presignedUrl.getAction().equalsIgnoreCase("POST")) {
                     this.s3FileTransferRepository.saveFile(presignedUrl.getUrl(), data);
                 }
-                else if (presignedUrl.getAction().equals("PUT")) {
+                else if (presignedUrl.getAction().equalsIgnoreCase("PUT")) {
                     this.s3FileTransferRepository.updateFile(presignedUrl.getUrl(), data);
+                }
+                else {
+                    throw new RuntimeException("Document could not be saved.");
                 }
             }
         } catch (final DocumentStorageClientErrorException | DocumentStorageServerErrorException | DocumentStorageException ex) {
