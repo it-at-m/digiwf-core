@@ -15,9 +15,10 @@
     </parent>
 
     <modules>
-        <module>digiwf-engine-service</module>
+        <module>digiwf-engine-next-service</module>
         <module>digiwf-engine-core</module>
         <module>digiwf-engine-starter</module>
+        <module>digiwf-engine-service</module>
     </modules>
 
 </project>

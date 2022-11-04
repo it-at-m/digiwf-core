@@ -1,0 +1,68 @@
+{
+  "key": "Feature_Verification_Pruefen",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Daten",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Gruppe",
+            "description": "",
+            "containerType": "group",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_Subject": {
+                "fieldType": "text",
+                "title": "Betreff",
+                "type": "string",
+                "key": "FormField_Subject",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "verificationLink": {
+                "fieldType": "text",
+                "title": "Bestätigungslink",
+                "type": "string",
+                "key": "verificationLink",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              }
+
+            },
+            "key": "Feature_Verification_Pruefen"
+          }
+        ]
+      }
+    ]
+  }
+}

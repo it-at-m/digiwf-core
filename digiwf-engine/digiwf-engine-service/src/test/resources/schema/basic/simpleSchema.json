@@ -1,0 +1,12 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "numberProp1": {
+      "type": "number",
+      "readOnly": true
+    },
+    "stringProp1": {
+      "type": "string"
+    }
+  }
+}

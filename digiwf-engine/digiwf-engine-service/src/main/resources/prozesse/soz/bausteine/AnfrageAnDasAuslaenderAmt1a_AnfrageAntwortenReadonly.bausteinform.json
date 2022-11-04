@@ -1,0 +1,1669 @@
+    {
+      "label": "Fallmerkmale",
+      "schema": [
+        {
+          "key": "FormField_LISSA_Aktenzeichen_Check",
+          "label": "Aktenzeichen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_LISSA_Aktivitaet_ID_Check",
+          "label": "Aktivitäts-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+           {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Ordnungsmerkmal_Check",
+          "label": "Ordnungsmerkmal",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten des/der Betroffenen",
+      "schema": [
+        {
+          "key": "FormField_Vorname_Check",
+          "label": "Vorname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Name_Check",
+          "label": "Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Check",
+          "label": "Geburtsdatum",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Begruendung_Check",
+          "label": "Begründung, falls Geburtsdatum unbekannt",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_Geburtsdatum_Check"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_M_ID_Check",
+          "label": "M-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AZR_Nummer_Check",
+          "label": "AZR-Nummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Begruendung_Keine_AZR_Check",
+          "label": "Begründung, falls keine AZR-Nummer vorhanden",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_AZR_Nummer_Check"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten zur Anfrage",
+      "schema": [
+        {
+          "key": "FormField_Erstanfrage_Check",
+          "label": "Bei der Anfrage handelt es sich um eine ",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Erstanfrage",
+              "value": "Value_Erstanfrage"
+            },
+            {
+              "name": "Folgeanfrage",
+              "value": "Value_Folgeanfrage"
+            }
+          ]
+        },
+        {
+          "key": "FormField_DatumLetzteAnfrage_Check",
+          "label": "Datum der letzen Anfrage",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Folgeanfrage",
+              "target": "FormField_Erstanfrage_Check"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis",
+          "label": "Antwort erforderlich bis",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis_Begruendung",
+          "label": "Begründung für Antwort bis",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "",
+              "target": "FormField_Antwort_bis"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_AenderungenSeitDerLetztenAnfrage",
+          "label": "Haben sich seit der letzten Anfrage Änderungen ergeben?",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Folgeanfrage",
+              "target": "FormField_Erstanfrage_Check_Local"
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_StatusdokumentDerLetztenAnfrage_sDMS",
+          "label": "Protokoll der letzten Anfrage",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Nein",
+              "target": "FormField_AenderungenSeitDerLetztenAnfrage"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Ausländerrechtlicher Status/Titel",
+      "schema": [
+        {
+          "key": "FormField_StatusTitel",
+          "label": "Aktueller ausländerrechtlicher Status/Titel der betroffenen Person",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Gestattung (gemäß § 1 Abs. 1 Nr. 1 AsylbLG)",
+              "value": "FormField_Status_Gestattung"
+            },
+            {
+              "name": "Personen die ein Asylgesuch gestellt haben (gemäß § 1 Abs. 1 Nr. 1a AsybLG)",
+              "value": "FormField_Status_Asylgesuch"
+            },
+            {
+              "name": "Duldung nach § 60a  AufenthG (gemäß § 1 Abs. 1 Nr. 4 AsylbLG)",
+              "value": "FormField_Status_Duldung"
+            },
+            {
+              "name": "Ausreisepflichtige Person (gemäß § 1 Abs. 1 Nr. 5 AsylbLG)",
+              "value": "FormField_Status_Ausreiesepflichtig"
+            },
+            {
+              "name": "Familienangehöriger (gemäß § 1 Abs. 1 Nr. 6 AsylbLG ohne eigenem Status)",
+              "value": "FormField_Status_Familienangehoeriger"
+            },
+            {
+              "name": "Personen, die einen Folgeantrag bzw. einen Zweitantrag gestellt haben (gemäß § 1 Abs. 1 Nr. 7 AsylbLG)",
+              "value": "FormField_Status_Folgeantrag"
+            },
+            {
+              "name": "Sonstiger",
+              "value": "FormField_Status_Sonstige"
+            }
+          ]
+        },
+        {
+          "key": "FormField_StatusTitel_Sonstiger",
+          "label": "Sonstiger Status/Titel (falls oben nichts zutreffend)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "FormField_Status_Sonstige",
+              "target": "FormField_StatusTitel"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_NichtAusreiseSelbstverschuldet",
+          "label": "Sie hat die Missachtung der Ausreisepflicht nicht selbst zu vertreten.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Sie hat die nicht erfolgte Ausreise nicht selbst zu vertreten.",
+              "value": "Value_NichtSelbstverschuldet"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Ausreise_verhindert_Begruendung",
+          "label": "Rechtfertigunsgründe, die gegen das Vertretenmüssen stehen",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Beispiele: Reiseunfähigkeit aufgrund Krankheit, Abschiebestopps",
+          "readonly": true,
+          "col": "6",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_ausreisepflichtig_Nachweis_sDMS",
+          "label": "Bitte geben Sie Nachweise für diese Aussagen an (Ausreisepflicht)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Ja",
+              "target": "FormField_ausreisepflichtig"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Status_bis",
+          "label": "Ausländerrechtlicher Status/Titel gültig bis",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Status_ausgestellt_am",
+          "label": "Ausländerrechtlicher Status/Titel ausgestellt am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Aufenthaltsbeendende_Massnahmen",
+          "label": "Aufenthaltsbeendende Maßnahmen waren nicht möglich.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Tatbestandsmerkmale",
+      "schema": [
+        {
+          "key": "FormField_Tatbestandsmerkmale",
+          "label": "Liegen Tatbestandsmerkmale nach § 1a Abs. 1-4 AsylbLG * (also Anspruchseinschränkungen) vor?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Tatbestandsmerkmale_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+
+    {
+      "label": "§ 1a Abs. 2 - Leistungsmissbräuchliche Einreise",
+      "schema": [
+        {
+          "key": "FormField_Leistungsmissbrauch",
+          "label": "Es ist von einer leistungsmissbräuchlichen Einreise auszugehen, da der Leistungsbezug als prägender Motivator der Einreise anzusehen ist.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Leistungsmissbrauch_Nachweis_sDMS",
+          "label": "Bitte geben Sie die Nachweise an, aus denen hervorgeht, dass die Person Bedarf von Sozialhilfe, Krankenhilfe etc. anmeldet",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Sicherer Drittstaat",
+      "schema": [
+        {
+          "key": "FormField_Drittstaat",
+          "label": "Einreise über einen sicheren Drittstaat",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Drittstaat_Nachweis_sDMS",
+          "label": "Nachweise, die belegen, dass eine Einreise über einen Drittstaat erfolgte",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Mehrmalige Ablehnung",
+      "schema": [
+        {
+          "key": "FormField_mehrmalige_Ablehnung",
+          "label": "Mehrmalige Ablehnung der Asylanträge",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_mehrmalige_Ablehnung_Bemerkung",
+          "label": "Bitte ergänzen Sie hier ggf. auch sonstige Auffälligkeiten in diesem Zusammenhang ",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_mehrmalige_Ablehnung_Nachweis_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Ablehnung",
+      "schema": [
+        {
+          "key": "FormField_Ablehnung",
+          "label": "Ablehnung des Asylantrags als offensichtlich unbegründet",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Ablehnung_am",
+          "label": "Ablehnung des Asylantrags am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Ablehnung_Bemerkung",
+          "label": "Bemerkung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Ablehnung_Nachweis_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Anhoerung_BAMF_Bescheid_sDMS",
+          "label": "Kopie der Anhörung und des kompletten BAMF-Bescheids beifügen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Erwerbstätigkeit",
+      "schema": [
+        {
+          "key": "FormField_Erwerbstaetigkeit",
+          "label": "Angestrebte Erwerbstätigkeit ohne begründete Erfolgsaussicht",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Erwerbstaetigkeit_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Erwerbstaetigkeit_Nachweis_sDMS",
+          "label": "Kopie der Anhörung bzw. Dokumente, die dieses Tatbestandsmerkmal betreffen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Duldungserteilung",
+      "schema": [
+        {
+          "key": "FormField_Duldungserteilung",
+          "label": "Abs. 2: Antrag auf Duldungserteilung kurz nach Ablauf eines Besuchsvisums oder visumsfreien Kurzaufenthalts",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Duldungserteilung_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Duldungserteilung_Nachweis_sDMS",
+          "label": "Kopie der Anhörung bzw. Dokumente, die dieses Tatbestandsmerkmal betreffen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Einreise zu Leistungsempfänger",
+      "schema": [
+        {
+          "key": "FormField_Einreise_zu_Leistungsempfaenger",
+          "label": "Einreise zu einer Person, die bereits Leistungen nach dem AsylbLG bezieht.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Einreise_Leistungsempfaenger",
+          "label": "Vorname, Nachname, ggf. AZR-Nummer der Person zu der der/die Betroffene gezogen ist",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Einreise_Leistungsempfaenger_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Leistungsempfaenger_Nachweis_sDMS",
+          "label": "Kopie der Anhörung bzw. Dokumente, die das Tatbestandsmerkmal betreffen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Identitätszweifel",
+      "schema": [
+        {
+          "key": "FormField_Identitaetszweifel",
+          "label": "Abs. 2: Zweifel an der Identität des/der Betroffenen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Identitaetszweifel_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Identitaetszweifel_Nachweis_sDMS",
+          "label": "Kopie der Anhörung bzw. Dokumente, die das Tatbestandsmerkmal betreffen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 2 - Sozialleistungsbezugseinreise",
+      "schema": [
+        {
+          "key": "FormField_Sozialleistungsbezugseinreise",
+          "label": "Feststellung des Beweggrundes „Einreise zum Sozialleistungsbezug“ im BAMF-Bescheid",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Sozialleistungsbezugseinreise_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Sozialleistungsbezugseinreise_Nachweis_sDMS",
+          "label": "Kopie der Anhörung und des kompletten BAMF-Bescheids",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 3 - Keine Papiere",
+      "schema": [
+        {
+          "key": "FormField_keine_Papiere",
+          "label": "Die Person hat den Pass bzw. die Passersatzpapiere sowie sonstige Unterlagen, die zur Feststellung der Identität, Herkunft, Nationalität oder Staatsangehörtigkeit unterdrückt oder vernichtet.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_keine_Papiere_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_keine_Papiere_Nachweis_sDMS",
+          "label": "Nachweis (z.B. Bestätigung des Betroffenen)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 3 - Mitwirkungspflichten",
+      "schema": [
+        {
+          "key": "FormField_Mitwirkungspflichten",
+          "label": "Die Person kommt nicht ihren Mitwirkungspflichten (§ 82 AufenthG) bei der Beschaffung von Identitätspapieren oder erforderlichen Heimreisedokumenten nach.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Mitwirkungspflichten_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Mitwirkungspflichten_Nachweis_sDMS",
+          "label": "Nachweise der Mitwirkungsaufforderung der Ausländerbehörde und weitere Dokumente wie Anhörungsbögen",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 3 - Identitätsverschleierung",
+      "schema": [
+        {
+          "key": "FormField_Identitaetsverschleierung",
+          "label": "Die Person verschleiert ihre eigene Identität, Herkunft oder Staatsangehörigkeit.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Identitaetsverschleierung_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Identitaetsverschleierung_Nachweis_sDMS",
+          "label": "Nachweis (z.B. Anhörungs-Protokoll, Aufforderungsschreiben)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 3 - Widerstandshandlungen",
+      "schema": [
+        {
+          "key": "FormField_Widerstandshandlungen",
+          "label": "Die Person vereitelt die Abschiebung durch Widerstandshandlungen.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Widerstandshandlungen_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Widerstandshandlungen_Nachweis_sDMS",
+          "label": "Nachweis (z.B. Anhörungs-Protokoll, Bescheid)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 3 - Abschiebung",
+      "schema": [
+        {
+          "key": "FormField_Abschiebungsdatum",
+          "label": "Vollziehbarkeit der Abschiebungsandrohung bzw. Abschiebungsanordung",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Abschiebungsanordnung_sDMS",
+          "label": "Nachweise (z.B. Abschiebeandrohung bzw. Abschiebungsanordnung)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 4, Satz 1 - Verteilung",
+      "schema": [
+        {
+          "key": "FormField_Dublin_Verordnung",
+          "label": "Die Person soll in Abweichung von der Regelzuständigkeit nach der Dublin III-Verordnung (EU) Nr. 604/2013 in einen anderen EU-Mitgliedsstaat umgesiedelt werden. Es liegt eine Verteilungsentscheidung vor.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Verteilungsentscheidung_vom",
+          "label": "Verteilungsentscheidung vom",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "Bitte geben Sie den Tag an, an dem diese Verteilungsentscheidung von der zuständigen Behörde erging.",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Verteilung_nach",
+          "label": "Verteilung nach",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Bitte geben Sie an, wohin der/die Betroffene verteilt wurde.",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Verteilung_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 1a Abs. 4, Satz 2 - EU-Schutz",
+      "schema": [
+        {
+          "key": "FormField_EU_Schutz",
+          "label": "Der Person wurde bereits von einem anderen EU-Mitgliedsstaat oder einem Drittstaat die Flüchtlingseigenschaft oder subsidiärer Schutz zuerkannt oder aus anderen Gründen ein Aufenthaltsrecht gewährt und der internationale Schutz oder das aus anderen Gründen gewährte Aufenthaltsrecht besteht fort.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_EU_Schutz_Begruendung",
+          "label": "Begründung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_EU_Schutz"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_EU_Schutz_Nachweis_sDMS",
+          "label": "Nachweise (z.B. Aufenthaltsnachweis)",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_EU_Schutz"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Beschäftigung",
+      "schema": [
+        {
+          "key": "FormField_Beschaeftigung_Zustimmung",
+          "label": "Der Person wurde die Zustimmung zur Beschäftigung",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "nicht erteilt.",
+              "value": "Beschaeftigung_keine"
+            },
+            {
+              "name": "für bestimmten Arbeitgeber erteilt.",
+              "value": "Beschaeftigung_Arbeitgeber"
+            },
+            {
+              "name": "uneingeschränkt erteilt.",
+              "value": "Beschaeftigung_allgemein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Beschaeftigung_Zustimmungsdatum",
+          "label": "Zustimmung zur Beschäftigung von der zuständigen Behörde erteilt am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Beschaeftigung_Arbeitgeber; Beschaeftigung_allgemein",
+              "target": "FormField_Beschaeftigung_Zustimmung"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Beschaeftigung_Zustimmungsinhalt",
+          "label": "Inhalt der Zustimmung",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Beschaeftigung_Arbeitgeber; Beschaeftigung_allgemein",
+              "target": "FormField_Beschaeftigung_Zustimmung"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Beschaeftigung_keine_Zustimmung",
+          "label": "Die Zustimmung zur Aufnahme einer Beschäftigung ist erloschen, wurde widerrufen bzw. zurückgenommen.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Beschaeftigung_erloschen",
+          "label": "Erloschen/widerrufen/zurückgenommen am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_Beschaeftigung_keine_Zustimmung"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "§ 3a Abs. 3 - Inhaftierung",
+      "schema": [
+        {
+          "key": "FormField_Inhaftierung",
+          "label": "Die Person wurde inhaftiert und befindet sich derzeit in der JVA.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Inhaftierung_am",
+          "label": "Inhaftierung am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_Inhaftierung"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_leer",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Inhaftierung_Name",
+          "label": "Name der JVA",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_Inhaftierung"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Sonstige Abschiebehindernisse",
+      "schema": [
+        {
+          "key": "FormField_Abschiebung",
+          "label": "Es liegen sonstige Abschiebehindernisse vor.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Abschiebungsgruende",
+          "label": "Bitte hier alle Gründe aufführen, die Abschiebehindernis darstellen.",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_Abschiebung"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Bemerkungen",
+          "label": "Bemerkungen zu den Abschiebehindernissen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Ja",
+              "target": "FormField_Abschiebung"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Weitere Anmerkungen der zuständigen Ausländerbehörde",
+      "schema": [
+        {
+          "key": "FormField_WeitereAnmerkungenABH",
+          "label": "",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },

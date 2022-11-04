@@ -1,0 +1,46 @@
+{
+  "name": "Schriftstuecke laden",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckeLaden",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${kvrReadSchriftstueckeDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Benutzer DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstücke",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_schriftstuecke"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

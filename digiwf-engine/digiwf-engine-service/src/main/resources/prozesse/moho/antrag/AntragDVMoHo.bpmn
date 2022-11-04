@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1ekfjad" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="AntragDVMoHo" name="Antrag auf mobiles Arbeiten/Homeoffice (DV MoHo)" isExecutable="true" camunda:versionTag="12.0">
+    <bpmn:documentation>Der Antrag nach der DV MoHo unterstützt Sie bei der Möglichkeit im mobilen Office bzw. Homeoffice zu arbeiten.</bpmn:documentation>
+    <bpmn:endEvent id="Event_1tjkyd1" name="Prozess abgebrochen">
+      <bpmn:incoming>Flow_12phjes</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_AntragGenehmigen" name="Antrag genehmigen" camunda:formKey="AntragDVMoHo_AntragGenehmigen_V01" camunda:assignee="${FormField_antragsteller_vorgesetzter}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_task_description">${_emailBetreff}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0k4swkn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eyfenc</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1quvmlp" name="Sind alle Angaben korrekt?" default="Flow_1oe2114">
+      <bpmn:incoming>Flow_0eyfenc</bpmn:incoming>
+      <bpmn:incoming>Flow_1khz9vl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oe2114</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0kc8m2b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="Activity_0v7c64l" name="DMN für GL" camunda:resultVariable="dmn_result" camunda:decisionRef="Decision_dvmoho_gl" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="gl_candidategroup">${dmn_result.get('GL_CandidateGroup')}</camunda:outputParameter>
+          <camunda:outputParameter name="gl_mail">${dmn_result.get('GL_Mail')}</camunda:outputParameter>
+          <camunda:outputParameter name="pv_mail">${dmn_result.get('PV_Mail')}</camunda:outputParameter>
+          <camunda:outputParameter name="gl_candidateusers">${dmn_result.get('GL_CandidateUsers')}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1oe2114</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qklo4e</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:scriptTask id="Activity_1hvio0f" name="Variable für Bemerkung leer definieren" scriptFormat="javascript">
+      <bpmn:incoming>Flow_0rwbf5w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b462fs</bpmn:outgoing>
+      <bpmn:script>execution.setVariable('FormField_nichtOkFuehrungskraft_begruendung', "")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_1i02r9z" name="Antrag angenommen">
+      <bpmn:incoming>Flow_112f0lb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0wvydr7">
+      <bpmn:incoming>Flow_0fxr25x</bpmn:incoming>
+      <bpmn:incoming>Flow_135bwct</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gps1qc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1oprd33" name="Abteilung benachrichtigen?" default="Flow_0fxr25x">
+      <bpmn:incoming>Flow_0ozh2jx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fxr25x</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18fcr3b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Gateway_1i1o2fl">
+      <bpmn:incoming>Flow_1gps1qc</bpmn:incoming>
+      <bpmn:incoming>Flow_1bpn72x</bpmn:incoming>
+      <bpmn:incoming>Flow_0n5t0yv</bpmn:incoming>
+      <bpmn:incoming>Flow_059xm6r</bpmn:incoming>
+      <bpmn:outgoing>Flow_19jvwk9</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_0gpgqi0">
+      <bpmn:incoming>Flow_0gf2zr6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ozh2jx</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0gl8zoi</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0p16alz</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1hxpduh</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_0ego70r" name="Antrag genehmigt?" default="Flow_0gf2zr6">
+      <bpmn:incoming>Flow_021ad7q</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rwbf5w</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0gf2zr6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0gay7xy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_AblehnungFortfuehren" name="Ablehnung fortführen" camunda:asyncBefore="true" camunda:formKey="AntragDVMoHo_AblehnungFortfuehren_V01" camunda:candidateUsers="${gl_candidateusers}" camunda:candidateGroups="${gl_candidategroup}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">${_emailBetreff}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19fco5b</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ttwvy4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:parallelGateway id="Gateway_1xikx0v">
+      <bpmn:incoming>Flow_10mdei5</bpmn:incoming>
+      <bpmn:outgoing>Flow_19dg5t2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0j230vv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17l76e4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0cp07tg</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ui97pk</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:endEvent id="Event_0d5agdu" name="Antrag abgelehnt">
+      <bpmn:incoming>Flow_0a0itg2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="Gateway_0g8z5xn">
+      <bpmn:incoming>Flow_13x2w28</bpmn:incoming>
+      <bpmn:incoming>Flow_0h8dn31</bpmn:incoming>
+      <bpmn:incoming>Flow_0r4wsx4</bpmn:incoming>
+      <bpmn:incoming>Flow_0ufk5gz</bpmn:incoming>
+      <bpmn:incoming>Flow_0tvvr8e</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xm8uuv</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_0es6g7e">
+      <bpmn:incoming>Flow_1b462fs</bpmn:incoming>
+      <bpmn:incoming>Flow_1ttwvy4</bpmn:incoming>
+      <bpmn:outgoing>Flow_10mdei5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_083evbm" name="Hat Führungskraft zugestimmt?" default="Flow_19fco5b">
+      <bpmn:incoming>Flow_1due0mj</bpmn:incoming>
+      <bpmn:outgoing>Flow_19fco5b</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0wgs96j</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_GenehmigungFortfuehren" name="Genehmigung fortführen" camunda:asyncBefore="true" camunda:formKey="AntragDVMoHo_GenehmigungFortfuehren_V01" camunda:candidateUsers="${gl_candidateusers}" camunda:candidateGroups="${gl_candidategroup}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">${_emailBetreff}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0wgs96j</bpmn:incoming>
+      <bpmn:outgoing>Flow_021ad7q</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1d0n8ms">
+      <bpmn:incoming>Flow_00kbu8s</bpmn:incoming>
+      <bpmn:incoming>Flow_1fs6ty1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vtw8ij</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="Event_TelearbeitBeantragen" name="Telearbeit beantragen" camunda:formKey="AntragDVMoHo_Starten_V01">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var userObject = user.get(starterOfInstance);
+execution.setVariable("FormField_name", userObject.getSurname());
+execution.setVariable("FormField_vorname", userObject.getForename());
+execution.setVariable("FormField_organisationseinheit", userObject.getOu());
+
+process.setDescription("Antrag von: "+userObject.getForename()+ " "+userObject.getSurname())</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0kmxnzq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1n3abp3" sourceRef="Task_AntragstellerBenachrichtigen" targetRef="Event_15vvlma" />
+    <bpmn:sequenceFlow id="Flow_1oe2114" name="Ja" sourceRef="Gateway_1quvmlp" targetRef="Activity_0v7c64l" />
+    <bpmn:sequenceFlow id="Flow_0kc8m2b" name="Nein" sourceRef="Gateway_1quvmlp" targetRef="Event_0wiph99">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_okFuehrungskraft == "Value_nichtOkAenderungFuehrungskraft"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0qklo4e" sourceRef="Activity_0v7c64l" targetRef="Task_GeschaeftsfuehrungBenachrichtigen" />
+    <bpmn:sequenceFlow id="Flow_16ylt2i" sourceRef="Task_GeschaeftsfuehrungBenachrichtigen" targetRef="Event_00m1r6l" />
+    <bpmn:sequenceFlow id="Flow_0rwbf5w" name="nein" sourceRef="Gateway_0ego70r" targetRef="Activity_1hvio0f">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_okGL == "Value_nichtOkGL"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1b462fs" sourceRef="Activity_1hvio0f" targetRef="Gateway_0es6g7e" />
+    <bpmn:sequenceFlow id="Flow_19jvwk9" sourceRef="Gateway_1i1o2fl" targetRef="Event_0ck201f" />
+    <bpmn:sequenceFlow id="Flow_0fxr25x" name="nein" sourceRef="Gateway_1oprd33" targetRef="Gateway_0wvydr7" />
+    <bpmn:sequenceFlow id="Flow_135bwct" sourceRef="Task_AnnahmeMitteilenUebgergeordneteFK" targetRef="Gateway_0wvydr7" />
+    <bpmn:sequenceFlow id="Flow_1gps1qc" sourceRef="Gateway_0wvydr7" targetRef="Gateway_1i1o2fl" />
+    <bpmn:sequenceFlow id="Flow_0ozh2jx" sourceRef="Gateway_0gpgqi0" targetRef="Gateway_1oprd33" />
+    <bpmn:sequenceFlow id="Flow_18fcr3b" name="ja" sourceRef="Gateway_1oprd33" targetRef="Task_AnnahmeMitteilenUebgergeordneteFK">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_fk_benachrichtigen == "Value_abteilung_benachrichtigen"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0gl8zoi" sourceRef="Gateway_0gpgqi0" targetRef="Task_AnnahmeMitteilenFK" />
+    <bpmn:sequenceFlow id="Flow_1bpn72x" sourceRef="Task_AnnahmeMitteilenFK" targetRef="Gateway_1i1o2fl" />
+    <bpmn:sequenceFlow id="Flow_0p16alz" sourceRef="Gateway_0gpgqi0" targetRef="Task_AnnahmeMitteilenGF" />
+    <bpmn:sequenceFlow id="Flow_0n5t0yv" sourceRef="Task_AnnahmeMitteilenGF" targetRef="Gateway_1i1o2fl" />
+    <bpmn:sequenceFlow id="Flow_059xm6r" sourceRef="Task_AnnahmeMitteilenAS" targetRef="Gateway_1i1o2fl" />
+    <bpmn:sequenceFlow id="Flow_1hxpduh" sourceRef="Gateway_0gpgqi0" targetRef="Task_AnnahmeMitteilenAS" />
+    <bpmn:sequenceFlow id="Flow_0gf2zr6" name="ja" sourceRef="Gateway_0ego70r" targetRef="Gateway_0gpgqi0" />
+    <bpmn:sequenceFlow id="Flow_021ad7q" sourceRef="Task_GenehmigungFortfuehren" targetRef="Gateway_0ego70r" />
+    <bpmn:sequenceFlow id="Flow_19fco5b" name="nein" sourceRef="Gateway_083evbm" targetRef="Task_AblehnungFortfuehren" />
+    <bpmn:sequenceFlow id="Flow_1ttwvy4" sourceRef="Task_AblehnungFortfuehren" targetRef="Gateway_0es6g7e" />
+    <bpmn:sequenceFlow id="Flow_10mdei5" sourceRef="Gateway_0es6g7e" targetRef="Gateway_1xikx0v" />
+    <bpmn:sequenceFlow id="Flow_19dg5t2" sourceRef="Gateway_1xikx0v" targetRef="Task_AblehnungMitteilenPV" />
+    <bpmn:sequenceFlow id="Flow_0j230vv" sourceRef="Gateway_1xikx0v" targetRef="Task_AblehnungMitteilenFK" />
+    <bpmn:sequenceFlow id="Flow_17l76e4" sourceRef="Gateway_1xikx0v" targetRef="Task_AblehnungMitteilenAS" />
+    <bpmn:sequenceFlow id="Flow_0cp07tg" sourceRef="Gateway_1xikx0v" targetRef="Task_AblehnungMitteilenUebgergeordneteFK" />
+    <bpmn:sequenceFlow id="Flow_1ui97pk" sourceRef="Gateway_1xikx0v" targetRef="Task_AblehnungMitteilenGF" />
+    <bpmn:sequenceFlow id="Flow_1xm8uuv" sourceRef="Gateway_0g8z5xn" targetRef="Event_12iri47" />
+    <bpmn:sequenceFlow id="Flow_13x2w28" sourceRef="Task_AblehnungMitteilenPV" targetRef="Gateway_0g8z5xn" />
+    <bpmn:sequenceFlow id="Flow_0h8dn31" sourceRef="Task_AblehnungMitteilenFK" targetRef="Gateway_0g8z5xn" />
+    <bpmn:sequenceFlow id="Flow_0r4wsx4" sourceRef="Task_AblehnungMitteilenAS" targetRef="Gateway_0g8z5xn" />
+    <bpmn:sequenceFlow id="Flow_0ufk5gz" sourceRef="Task_AblehnungMitteilenUebgergeordneteFK" targetRef="Gateway_0g8z5xn" />
+    <bpmn:sequenceFlow id="Flow_0tvvr8e" sourceRef="Task_AblehnungMitteilenGF" targetRef="Gateway_0g8z5xn" />
+    <bpmn:sequenceFlow id="Flow_0wgs96j" name="ja" sourceRef="Gateway_083evbm" targetRef="Task_GenehmigungFortfuehren">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_okFuehrungskraft == "Value_okFuehrungskraft"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0kmxnzq" sourceRef="Event_TelearbeitBeantragen" targetRef="Event_12l1sh6" />
+    <bpmn:sequenceFlow id="Flow_0vtw8ij" sourceRef="Gateway_1d0n8ms" targetRef="Task_AntragstellerBenachrichtigen" />
+    <bpmn:sequenceFlow id="Flow_0eyfenc" sourceRef="Task_AntragGenehmigen" targetRef="Gateway_1quvmlp" />
+    <bpmn:userTask id="Task_DatenUeberarbeiten" name="Daten überarbeiten" camunda:formKey="AntragDVMoHo_DatenUeberarbeiten_V01" camunda:assignee="${starterOfInstance}" camunda:candidateUsers="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_task_description">${_emailBetreff}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rurely</bpmn:incoming>
+      <bpmn:outgoing>Flow_00kbu8s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Event_10a4lmr" attachedToRef="Task_DatenUeberarbeiten">
+      <bpmn:outgoing>Flow_12phjes</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1sg7q26" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_00kbu8s" sourceRef="Task_DatenUeberarbeiten" targetRef="Gateway_1d0n8ms" />
+    <bpmn:sequenceFlow id="Flow_12phjes" sourceRef="Event_10a4lmr" targetRef="Event_1tjkyd1" />
+    <bpmn:intermediateThrowEvent id="Event_15vvlma" name="Auf Genehmigung warten">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="OutputAntragstellerDatenNeu">Referat ${FormField_referat  == 'Value_referat_por' ? 'POR' : ''} ${FormField_referat  == 'Value_referat_rit-k' ? 'RIT Kernbereich' : ''} ${FormField_referat  == 'Value_referat_rit-itm' ? 'RIT it@m' : ''} 
+${FormField_vorname} ${FormField_name} ${FormField_organisationseinheit} 
+Startzeitpunkt ${FormField_gewuenschterStartzeitpunkt} 
+Geltungszeitraum ${FormField_geltungszeitraum  != 'Value_geltungszeitraum_befristet' ? 'unbefristet' : 'befristed'} 
+Geltungszeitraum bis ${FormField_geltungszeitraum_datum} 
+Abteil Home-Office  ${FormField_anteilHomeoffice} %
+Anteil Mobil ${FormField_anteilMobil} %
+Erreichbarkeit ${FormField_erreichbarkeit} 
+Ort Home-Office ${FormField_ortHomeoffice} 
+Kommunikationsmittel ${FormField_kommunikation  == 'Value_kommunikation_diensthandy' ? 'mit Diensthandy' : 'mit Privattelefon'} 
+Aufgaben ${FormField_abgrenzungInformation} 
+
+Vorgesetzter: ${user.firstname(FormField_antragsteller_vorgesetzter)} ${user.lastname(FormField_antragsteller_vorgesetzter)}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener expression="${process.setStatus(&#34;genehmigung&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1n3abp3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k4swkn</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0k4swkn" sourceRef="Event_15vvlma" targetRef="Task_AntragGenehmigen" />
+    <bpmn:intermediateThrowEvent id="Event_00m1r6l" name="Prüfung durch GL">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;pruefungGL&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16ylt2i</bpmn:incoming>
+      <bpmn:outgoing>Flow_1due0mj</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1due0mj" sourceRef="Event_00m1r6l" targetRef="Gateway_083evbm" />
+    <bpmn:intermediateThrowEvent id="Event_12l1sh6" name="Prozess gestartet">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;gestartet&#34;)}" event="start" />
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var betreff= "Antrag DV MoHo - "+user.firstname(starterOfInstance) +" "+user.lastname(starterOfInstance);
+
+execution.setVariable("_emailBetreff", betreff);</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0kmxnzq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fs6ty1</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1fs6ty1" sourceRef="Event_12l1sh6" targetRef="Gateway_1d0n8ms" />
+    <bpmn:intermediateThrowEvent id="Event_0wiph99" name="Prozess gestartet">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;gestartet&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0kc8m2b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rurely</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0rurely" sourceRef="Event_0wiph99" targetRef="Task_DatenUeberarbeiten" />
+    <bpmn:serviceTask id="Task_AntragstellerBenachrichtigen" name="Antragsteller benachrichtigen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte(r) ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)},
+
+Ihr Antrag "DV MoHo" wurde an Ihre(n) Vorgesetzte(n) ${user.salutation(FormField_antragsteller_vorgesetzter)} ${user.firstname(FormField_antragsteller_vorgesetzter)} ${user.lastname(FormField_antragsteller_vorgesetzter)} zur Genehmigung weitergeleitet.
+
+Nach Abschluß des Antrags werden Sie per E-Mail informiert.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vtw8ij</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n3abp3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_GeschaeftsfuehrungBenachrichtigen" name="GF benachrichtigen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplateWithLink" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateWithLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${gl_mail}@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+es liegt ein neuer Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice vor. 
+
+Bitte bearbeiten Sie die diesen entsprechend in Digital WF.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_LINK_TEXT">Öffnen</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_LINK_URL">${digitalwf.urlGruppenaufgaben()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qklo4e</bpmn:incoming>
+      <bpmn:outgoing>Flow_16ylt2i</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AnnahmeMitteilenUebgergeordneteFK" name="Übergeordnete Führungskraft Annahme mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(FormField_fk_abteilung)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+anbei befindet sich eine Kopie des genehmigten Antrags auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}).</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_18fcr3b</bpmn:incoming>
+      <bpmn:outgoing>Flow_135bwct</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AnnahmeMitteilenAS" name="Antragsteller*in Annahme mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+anbei befindet sich eine Kopie des genehmigten Antrags auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice.
+
+
+Erläuterung der Geschäftsführung:
+${FormField_weitereErlauterungen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hxpduh</bpmn:incoming>
+      <bpmn:outgoing>Flow_059xm6r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AnnahmeMitteilenFK" name="Führungskraft Annahme mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(FormField_antragsteller_vorgesetzter)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+anbei befindet sich eine Kopie des genehmigten Antrags auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}).
+
+Erläuterung der Geschäftsführung:
+${FormField_weitereErlauterungen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gl8zoi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bpn72x</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AnnahmeMitteilenGF" name="Geschäftsleitung - Annahme mittteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${gl_mail}@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+anbei befindet sich eine Kopie des genehmigten Antrags auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}).
+
+Bitte legen Sie den beiliegenden genehmigten Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice im Personalnebenakt ab.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0p16alz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n5t0yv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AblehnungMitteilenAS" name="Antragsteller*in Ablehnung mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+der Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice  wurde abgelehnt.
+
+
+Erläuterung des Vorgesetzten:
+${FormField_nichtOkFuehrungskraft_begruendung}
+
+Erläuterung der Geschäftsführung:
+${FormField_GL_weitereErlauterungen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_17l76e4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r4wsx4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AblehnungMitteilenFK" name="Führungskraft Ablehnung mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(FormField_antragsteller_vorgesetzter)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+der Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}) wurde abgelehnt.
+
+Erläuterung des Vorgesetzten:
+${FormField_nichtOkFuehrungskraft_begruendung}
+
+Erläuterung der Geschäftsführung:
+${FormField_GL_weitereErlauterungen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j230vv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h8dn31</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AblehnungMitteilenPV" name="PV Ablehnung mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${pv_mail}@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+der Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}) wurde abgelehnt.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19dg5t2</bpmn:incoming>
+      <bpmn:outgoing>Flow_13x2w28</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AblehnungMitteilenUebgergeordneteFK" name="Übergeordnete Führungskraft Ablehnung mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(FormField_fk_abteilung)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+der Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}) wurde abgelehnt.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0cp07tg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ufk5gz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_AblehnungMitteilenGF" name="Geschäftsleitung - Ablehnung mitteilen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplate" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${gl_mail}@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${_emailBetreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+der Antrag auf dauerhaftes und regelmäßiges mobiles Arbeiten und/oder Arbeiten im Homeoffice von Herrn/Frau ${user.firstname(starterOfInstance)} ${user.lastname(starterOfInstance)} (mailto:${user.email(starterOfInstance)}) wurde abgelehnt.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Antrag.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">Mit freundlichen Grüßen
+DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ui97pk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tvvr8e</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0gay7xy" name="Zurück zum Vorgesetzten" sourceRef="Gateway_0ego70r" targetRef="Event_0lrg28r">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_okGL == "Value_zurueckFK"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Task_GenehmigungUeberarbeiten" name="Genehmigung überarbeiten" camunda:formKey="AntragDVMoHo_GenehmigungUeberarbeiten_V01" camunda:assignee="${FormField_antragsteller_vorgesetzter}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_task_description">${_emailBetreff}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_08jy79y</bpmn:incoming>
+      <bpmn:outgoing>Flow_1khz9vl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_0lrg28r" name="Auf Genehmigung warten">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="OutputAntragstellerDatenNeu">Referat ${FormField_referat  == 'Value_referat_por' ? 'POR' : ''} ${FormField_referat  == 'Value_referat_rit-k' ? 'RIT Kernbereich' : ''} ${FormField_referat  == 'Value_referat_rit-itm' ? 'RIT it@m' : ''} 
+${FormField_vorname} ${FormField_name} ${FormField_organisationseinheit} 
+Startzeitpunkt ${FormField_gewuenschterStartzeitpunkt} 
+Geltungszeitraum ${FormField_geltungszeitraum  != 'Value_geltungszeitraum_befristet' ? 'unbefristet' : 'befristed'} 
+Geltungszeitraum bis ${FormField_geltungszeitraum_datum} 
+Abteil Home-Office  ${FormField_anteilHomeoffice} %
+Anteil Mobil ${FormField_anteilMobil} %
+Erreichbarkeit ${FormField_erreichbarkeit} 
+Ort Home-Office ${FormField_ortHomeoffice} 
+Kommunikationsmittel ${FormField_kommunikation  == 'Value_kommunikation_diensthandy' ? 'mit Diensthandy' : 'mit Privattelefon'} 
+Aufgaben ${FormField_abgrenzungInformation} 
+
+Vorgesetzter: ${user.firstname(FormField_antragsteller_vorgesetzter)} ${user.lastname(FormField_antragsteller_vorgesetzter)}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener expression="${process.setStatus(&#34;genehmigung&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gay7xy</bpmn:incoming>
+      <bpmn:outgoing>Flow_08jy79y</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_08jy79y" sourceRef="Event_0lrg28r" targetRef="Task_GenehmigungUeberarbeiten" />
+    <bpmn:sequenceFlow id="Flow_1khz9vl" sourceRef="Task_GenehmigungUeberarbeiten" targetRef="Gateway_1quvmlp" />
+    <bpmn:intermediateThrowEvent id="Event_0ck201f" name="Antrag abgeschlossen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;abgeschlossen&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19jvwk9</bpmn:incoming>
+      <bpmn:outgoing>Flow_112f0lb</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_112f0lb" sourceRef="Event_0ck201f" targetRef="Event_1i02r9z" />
+    <bpmn:intermediateThrowEvent id="Event_12iri47" name="Antrag abgeschlossen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;abgeschlossen&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xm8uuv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a0itg2</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0a0itg2" sourceRef="Event_12iri47" targetRef="Event_0d5agdu" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="AntragDVMoHo">
+      <bpmndi:BPMNEdge id="Flow_0a0itg2_di" bpmnElement="Flow_0a0itg2">
+        <di:waypoint x="2278" y="630" />
+        <di:waypoint x="2352" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_112f0lb_di" bpmnElement="Flow_112f0lb">
+        <di:waypoint x="2278" y="470" />
+        <di:waypoint x="2352" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1khz9vl_di" bpmnElement="Flow_1khz9vl">
+        <di:waypoint x="860" y="350" />
+        <di:waypoint x="860" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08jy79y_di" bpmnElement="Flow_08jy79y">
+        <di:waypoint x="1032" y="310" />
+        <di:waypoint x="910" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gay7xy_di" bpmnElement="Flow_0gay7xy">
+        <di:waypoint x="1640" y="445" />
+        <di:waypoint x="1640" y="310" />
+        <di:waypoint x="1068" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1220" y="276" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rurely_di" bpmnElement="Flow_0rurely">
+        <di:waypoint x="682" y="610" />
+        <di:waypoint x="620" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fs6ty1_di" bpmnElement="Flow_1fs6ty1">
+        <di:waypoint x="298" y="470" />
+        <di:waypoint x="365" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1due0mj_di" bpmnElement="Flow_1due0mj">
+        <di:waypoint x="1318" y="470" />
+        <di:waypoint x="1355" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k4swkn_di" bpmnElement="Flow_0k4swkn">
+        <di:waypoint x="638" y="470" />
+        <di:waypoint x="680" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12phjes_di" bpmnElement="Flow_12phjes">
+        <di:waypoint x="600" y="668" />
+        <di:waypoint x="600" y="726" />
+        <di:waypoint x="692" y="726" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00kbu8s_di" bpmnElement="Flow_00kbu8s">
+        <di:waypoint x="520" y="610" />
+        <di:waypoint x="390" y="610" />
+        <di:waypoint x="390" y="495" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eyfenc_di" bpmnElement="Flow_0eyfenc">
+        <di:waypoint x="780" y="470" />
+        <di:waypoint x="835" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vtw8ij_di" bpmnElement="Flow_0vtw8ij">
+        <di:waypoint x="415" y="470" />
+        <di:waypoint x="460" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kmxnzq_di" bpmnElement="Flow_0kmxnzq">
+        <di:waypoint x="198" y="470" />
+        <di:waypoint x="262" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wgs96j_di" bpmnElement="Flow_0wgs96j" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1405" y="470" />
+        <di:waypoint x="1470" y="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1428" y="452" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tvvr8e_di" bpmnElement="Flow_0tvvr8e">
+        <di:waypoint x="2106" y="996" />
+        <di:waypoint x="2166" y="996" />
+        <di:waypoint x="2166" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ufk5gz_di" bpmnElement="Flow_0ufk5gz">
+        <di:waypoint x="2106" y="906" />
+        <di:waypoint x="2166" y="906" />
+        <di:waypoint x="2166" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r4wsx4_di" bpmnElement="Flow_0r4wsx4">
+        <di:waypoint x="2106" y="630" />
+        <di:waypoint x="2141" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h8dn31_di" bpmnElement="Flow_0h8dn31">
+        <di:waypoint x="2106" y="726" />
+        <di:waypoint x="2166" y="726" />
+        <di:waypoint x="2166" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13x2w28_di" bpmnElement="Flow_13x2w28">
+        <di:waypoint x="2106" y="816" />
+        <di:waypoint x="2166" y="816" />
+        <di:waypoint x="2166" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xm8uuv_di" bpmnElement="Flow_1xm8uuv">
+        <di:waypoint x="2191" y="630" />
+        <di:waypoint x="2242" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ui97pk_di" bpmnElement="Flow_1ui97pk">
+        <di:waypoint x="1946" y="655" />
+        <di:waypoint x="1946" y="996" />
+        <di:waypoint x="2006" y="996" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cp07tg_di" bpmnElement="Flow_0cp07tg">
+        <di:waypoint x="1946" y="655" />
+        <di:waypoint x="1946" y="906" />
+        <di:waypoint x="2006" y="906" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17l76e4_di" bpmnElement="Flow_17l76e4">
+        <di:waypoint x="1971" y="630" />
+        <di:waypoint x="2006" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j230vv_di" bpmnElement="Flow_0j230vv">
+        <di:waypoint x="1946" y="655" />
+        <di:waypoint x="1946" y="726" />
+        <di:waypoint x="2006" y="726" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19dg5t2_di" bpmnElement="Flow_19dg5t2">
+        <di:waypoint x="1946" y="655" />
+        <di:waypoint x="1946" y="816" />
+        <di:waypoint x="2006" y="816" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10mdei5_di" bpmnElement="Flow_10mdei5">
+        <di:waypoint x="1875" y="630" />
+        <di:waypoint x="1921" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ttwvy4_di" bpmnElement="Flow_1ttwvy4">
+        <di:waypoint x="1570" y="760" />
+        <di:waypoint x="1850" y="760" />
+        <di:waypoint x="1850" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19fco5b_di" bpmnElement="Flow_19fco5b" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1380" y="495" />
+        <di:waypoint x="1380" y="760" />
+        <di:waypoint x="1470" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1412" y="743" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_021ad7q_di" bpmnElement="Flow_021ad7q">
+        <di:waypoint x="1570" y="470" />
+        <di:waypoint x="1615" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gf2zr6_di" bpmnElement="Flow_0gf2zr6" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1665" y="470" />
+        <di:waypoint x="1921" y="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1786" y="452" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hxpduh_di" bpmnElement="Flow_1hxpduh">
+        <di:waypoint x="1946" y="445" />
+        <di:waypoint x="1946" y="284" />
+        <di:waypoint x="2000" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_059xm6r_di" bpmnElement="Flow_059xm6r">
+        <di:waypoint x="2100" y="284" />
+        <di:waypoint x="2166" y="284" />
+        <di:waypoint x="2166" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n5t0yv_di" bpmnElement="Flow_0n5t0yv">
+        <di:waypoint x="2100" y="470" />
+        <di:waypoint x="2141" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p16alz_di" bpmnElement="Flow_0p16alz">
+        <di:waypoint x="1971" y="470" />
+        <di:waypoint x="2000" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bpn72x_di" bpmnElement="Flow_1bpn72x">
+        <di:waypoint x="2100" y="380" />
+        <di:waypoint x="2166" y="380" />
+        <di:waypoint x="2166" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gl8zoi_di" bpmnElement="Flow_0gl8zoi">
+        <di:waypoint x="1946" y="445" />
+        <di:waypoint x="1946" y="380" />
+        <di:waypoint x="2000" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18fcr3b_di" bpmnElement="Flow_18fcr3b" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1971" y="180" />
+        <di:waypoint x="2000" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1976" y="161" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ozh2jx_di" bpmnElement="Flow_0ozh2jx">
+        <di:waypoint x="1946" y="445" />
+        <di:waypoint x="1946" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gps1qc_di" bpmnElement="Flow_1gps1qc">
+        <di:waypoint x="2166" y="205" />
+        <di:waypoint x="2166" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_135bwct_di" bpmnElement="Flow_135bwct">
+        <di:waypoint x="2100" y="180" />
+        <di:waypoint x="2141" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fxr25x_di" bpmnElement="Flow_0fxr25x" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1946" y="155" />
+        <di:waypoint x="1946" y="100" />
+        <di:waypoint x="2166" y="100" />
+        <di:waypoint x="2166" y="155" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2039" y="83" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19jvwk9_di" bpmnElement="Flow_19jvwk9">
+        <di:waypoint x="2191" y="470" />
+        <di:waypoint x="2242" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b462fs_di" bpmnElement="Flow_1b462fs">
+        <di:waypoint x="1780" y="630" />
+        <di:waypoint x="1825" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rwbf5w_di" bpmnElement="Flow_0rwbf5w" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="1640" y="495" />
+        <di:waypoint x="1640" y="630" />
+        <di:waypoint x="1680" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1613" y="543" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16ylt2i_di" bpmnElement="Flow_16ylt2i">
+        <di:waypoint x="1220" y="470" />
+        <di:waypoint x="1282" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qklo4e_di" bpmnElement="Flow_0qklo4e">
+        <di:waypoint x="1060" y="470" />
+        <di:waypoint x="1120" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kc8m2b_di" bpmnElement="Flow_0kc8m2b" bioc:stroke="#000" bioc:fill="#fff">
+        <di:waypoint x="860" y="495" />
+        <di:waypoint x="860" y="610" />
+        <di:waypoint x="718" y="610" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="769" y="593" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oe2114_di" bpmnElement="Flow_1oe2114">
+        <di:waypoint x="885" y="470" />
+        <di:waypoint x="960" y="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="924" y="452" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n3abp3_di" bpmnElement="Flow_1n3abp3">
+        <di:waypoint x="560" y="470" />
+        <di:waypoint x="602" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1tjkyd1_di" bpmnElement="Event_1tjkyd1" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="692" y="708" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="687" y="752" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pk8zlz_di" bpmnElement="Task_AntragGenehmigen">
+        <dc:Bounds x="680" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1quvmlp_di" bpmnElement="Gateway_1quvmlp" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="835" y="445" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="875" y="416" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0v7c64l_di" bpmnElement="Activity_0v7c64l">
+        <dc:Bounds x="960" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hvio0f_di" bpmnElement="Activity_1hvio0f">
+        <dc:Bounds x="1680" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1i02r9z_di" bpmnElement="Event_1i02r9z" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="2352" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2336" y="496" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0wvydr7_di" bpmnElement="Gateway_0wvydr7" isMarkerVisible="true">
+        <dc:Bounds x="2141" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1oprd33_di" bpmnElement="Gateway_1oprd33" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="1921" y="155" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1838" y="136" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1i1o2fl_di" bpmnElement="Gateway_1i1o2fl">
+        <dc:Bounds x="2141" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0gpgqi0_di" bpmnElement="Gateway_0gpgqi0">
+        <dc:Bounds x="1921" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ego70r_di" bpmnElement="Gateway_0ego70r" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="1615" y="445" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1651" y="416" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hyit49_di" bpmnElement="Task_AblehnungFortfuehren" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1470" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1xikx0v_di" bpmnElement="Gateway_1xikx0v">
+        <dc:Bounds x="1921" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0d5agdu_di" bpmnElement="Event_0d5agdu" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="2352" y="612" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2329" y="655" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0g8z5xn_di" bpmnElement="Gateway_0g8z5xn">
+        <dc:Bounds x="2141" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0es6g7e_di" bpmnElement="Gateway_0es6g7e" isMarkerVisible="true">
+        <dc:Bounds x="1825" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_083evbm_di" bpmnElement="Gateway_083evbm" isMarkerVisible="true">
+        <dc:Bounds x="1355" y="445" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1336" y="408" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0viy43l_di" bpmnElement="Task_GenehmigungFortfuehren" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1470" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1d0n8ms_di" bpmnElement="Gateway_1d0n8ms" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="365" y="445" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="253" y="423" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0s0eqx6_di" bpmnElement="Event_TelearbeitBeantragen" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="162" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="495" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_130c2yv_di" bpmnElement="Task_DatenUeberarbeiten">
+        <dc:Bounds x="520" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15vvlma_di" bpmnElement="Event_15vvlma">
+        <dc:Bounds x="602" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="576" y="495" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00m1r6l_di" bpmnElement="Event_00m1r6l">
+        <dc:Bounds x="1282" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1256" y="495" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12l1sh6_di" bpmnElement="Event_12l1sh6">
+        <dc:Bounds x="262" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="237" y="495" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0wiph99_di" bpmnElement="Event_0wiph99">
+        <dc:Bounds x="682" y="592" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="657" y="635" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o6j3lr_di" bpmnElement="Task_AntragstellerBenachrichtigen">
+        <dc:Bounds x="460" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xukzz3_di" bpmnElement="Task_GeschaeftsfuehrungBenachrichtigen">
+        <dc:Bounds x="1120" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e85oyu_di" bpmnElement="Task_AnnahmeMitteilenUebgergeordneteFK">
+        <dc:Bounds x="2000" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wup1bf_di" bpmnElement="Task_AnnahmeMitteilenAS">
+        <dc:Bounds x="2000" y="244" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00uisp7_di" bpmnElement="Task_AnnahmeMitteilenFK">
+        <dc:Bounds x="2000" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dupxj6_di" bpmnElement="Task_AnnahmeMitteilenGF">
+        <dc:Bounds x="2000" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14e46i7_di" bpmnElement="Task_AblehnungMitteilenAS">
+        <dc:Bounds x="2006" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sftr89_di" bpmnElement="Task_AblehnungMitteilenFK">
+        <dc:Bounds x="2006" y="686" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y3tzsk_di" bpmnElement="Task_AblehnungMitteilenPV">
+        <dc:Bounds x="2006" y="776" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pvk7no_di" bpmnElement="Task_AblehnungMitteilenUebgergeordneteFK">
+        <dc:Bounds x="2006" y="866" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18k2mri_di" bpmnElement="Task_AblehnungMitteilenGF">
+        <dc:Bounds x="2006" y="956" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yccap0_di" bpmnElement="Task_GenehmigungUeberarbeiten">
+        <dc:Bounds x="810" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0lrg28r_di" bpmnElement="Event_0lrg28r">
+        <dc:Bounds x="1032" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1006" y="335" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ck201f_di" bpmnElement="Event_0ck201f">
+        <dc:Bounds x="2242" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2223" y="495" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12iri47_di" bpmnElement="Event_12iri47">
+        <dc:Bounds x="2242" y="612" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2223" y="655" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10a4lmr_di" bpmnElement="Event_10a4lmr">
+        <dc:Bounds x="582" y="632" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

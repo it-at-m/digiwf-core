@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0vft1jv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="TestProcessIncident" name="Test Incident" isExecutable="true" camunda:versionTag="1.0">
+    <bpmn:documentation>Testprozess zur Erzeugung eines Incidents im Cockpit</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent" name="Start" camunda:formKey="TestIncident_Start_V01">
+      <bpmn:outgoing>Flow_1rzem7c</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_Incident" name="Verzweigung" camunda:asyncBefore="true" default="Flow_030dtgs">
+      <bpmn:incoming>Flow_1rzem7c</bpmn:incoming>
+      <bpmn:outgoing>Flow_030dtgs</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1u6wbji</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1rzem7c" sourceRef="StartEvent" targetRef="Gateway_Verzweigend_Incident" />
+    <bpmn:endEvent id="EndEvent" name="Ende">
+      <bpmn:incoming>Flow_030dtgs</bpmn:incoming>
+      <bpmn:incoming>Flow_1u6wbji</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_030dtgs" sourceRef="Gateway_Verzweigend_Incident" targetRef="EndEvent" />
+    <bpmn:sequenceFlow id="Flow_1u6wbji" sourceRef="Gateway_Verzweigend_Incident" targetRef="EndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${entscheidung == 1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestProcessIncident">
+      <bpmndi:BPMNEdge id="Flow_1rzem7c_di" bpmnElement="Flow_1rzem7c">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="265" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_030dtgs_di" bpmnElement="Flow_030dtgs">
+        <di:waypoint x="315" y="177" />
+        <di:waypoint x="372" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u6wbji_di" bpmnElement="Flow_1u6wbji">
+        <di:waypoint x="290" y="152" />
+        <di:waypoint x="290" y="110" />
+        <di:waypoint x="390" y="110" />
+        <di:waypoint x="390" y="159" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="202" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0rbmvm9_di" bpmnElement="Gateway_Verzweigend_Incident" isMarkerVisible="true">
+        <dc:Bounds x="265" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="260" y="209" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bdq1cm_di" bpmnElement="EndEvent">
+        <dc:Bounds x="372" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="377" y="202" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,97 @@
+{
+  "key": "DigitalWFErleben_WasIstDigitalWF_V1",
+  "description": "Formular \"Was ist DigitalWF?\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Der Ausgangspunkt: Geschäftsprozesse",
+      "schema": [
+        {
+          "key": "FormField_Geschaeftsprozesse",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Wir alle sind bei unserer täglichen Arbeit Teil von Geschäftsprozessen. Egal ob es um einen Urlaubsantrag oder die Bearbeitung von Bürger*innenanfragen geht, stets werden Aufgaben in einer bestimmten Reihenfolge ausgeführt, um ein Ziel zu erreichen. Für die Bearbeitung der Aufgaben stehen uns Hilfsmittel zur Verfügung, um Informationen zu erstellen und weiterzuleiten. Dazu gehören beispielsweise Papierdokumente, digitale Formulare, Drucker, Fachanwendungen oder die Hauspost. ",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Digitalisierung von Geschäftsprozessen ",
+      "schema": [
+        {
+          "key": "FormField_Digitalisierung",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Digitalisierung bedeutet zunächst nichts anderes als all die Informationen, die nicht digital vorliegen, in die digitale Welt zu überführen. Aus dem Papierformular wird ein digitales Formular und aus dem Brief, der von der Hauspost transportiert wird, eine E-Mail. Doch E-Mails gibt es bereits, genauso wie digitale Formulare oder Fachanwendungen. Wozu also noch DigiWF?",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Wozu DigiWF?",
+      "schema": [
+        {
+          "key": "FormField_WozuDigiWF",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Nun, kennen Sie das auch? Informationen müssen per copy and paste aus einer Fachanwendung in eine E-Mail eingefügt werden, Empfänger*innen einer E-Mail müssen mühsam gesucht werden, Inhalte der E-Mail werden ebenfalls in eine Fachanwendung kopiert oder in ein weiteres Formular eingetragen? Dies sind weiße Flecken auf der Digitalisierungslandkarte. Es gibt sie in fast allen Prozessen. \n\nDigiWF hilft dabei diese weißen Flecken verschwinden zu lassen und erspart Ihnen dadurch viel Arbeit: Sie müssen nicht mehr selbst wissen, in welcher Reihenfolge die Aufgaben in einem Geschäftsprozess abgearbeitet werden. Das übernimmt DigiWF für Sie. Die Plattform sorgt dafür, dass die Aufgaben in der richtigen Reihenfolge abgearbeitet werden und dafür auch die notwendigen Informationen digital an der richtigen Stelle zur Verfügung stehen. Darüber hinaus stellt DigiWF auch Kennzahlen bereit und unterstützt so die kontinuierliche Verbesserung von Prozessen.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

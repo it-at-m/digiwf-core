@@ -1,0 +1,863 @@
+{
+  "key": "Reiseantrag_Antrag_aendern_V02",
+  "description": "Reiseantrag Antragsteller ändert Antrag auf Wunsch des VG",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Antrag erneut einreichen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Dokumentation"
+    }
+  },
+  "groups": [
+    {
+      "label": "Ergänzungen oder Änderungen",
+      "schema": [
+        {
+          "key": "AenderungenErwuenscht",
+          "label": "Was soll geändert werden?",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": null
+    },
+    {
+      "label": "Reisende",
+      "schema": [
+        {
+          "key": "AntragFuerDritte",
+          "label": "Wird der Antrag für andere Reisende gestellt?",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "Value_Nein",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Nein, ich als Antragsteller reise",
+              "value": "Value_Nein"
+            },
+            {
+              "name": "Ja, der Antrag wird für andere Reisende gestellt",
+              "value": "Value_Ja_NurDritte"
+            }
+          ]
+        },
+        {
+          "key": "Dritte",
+          "label": "Wenn der Antrag für andere Reisende gestellt wird, wer reist?",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Ja_NurDritte",
+              "target": "AntragFuerDritte"
+            }
+          ],
+          "items": []
+        }
+      ],
+      "description": null
+    },
+    {
+      "label": "Veranstaltungs-Ort und -Land",
+      "schema": [
+        {
+          "key": "ReiseortStrasse",
+          "label": "Straße und Hausnummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "ReiseOrt",
+          "label": "Ort",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "ReiseLand",
+          "label": "Reiseland",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Inland",
+              "value": "Value_Inland"
+            },
+            {
+              "name": "Europa",
+              "value": "Value_Europa"
+            },
+            {
+              "name": "Außereuropäisches Ausland",
+              "value": "Value_Welt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Reise-Zeitraum",
+      "schema": [
+        {
+          "key": "DatumAnreise",
+          "label": "Anreise",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "DatumAbreise",
+          "label": "Abreise",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Dienstgeschäft-Zeitraum",
+      "schema": [
+        {
+          "key": "BeginnDienstgeschaeftDatum",
+          "label": "Beginn des Dienstgeschäftes (Datum)",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "BeginnDienstgeschaeftUhrzeit",
+          "label": "Beginn des Dienstgeschäftes (Uhrzeit am ersten Tag)",
+          "type": "text",
+          "ext": "time",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "EndeDienstgeschaeftDatum",
+          "label": "Ende des Dienstgeschäftes (Datum)",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "EndeDienstgeschaeftUhrzeit",
+          "label": "Ende des Dienstgeschäftes (Uhrzeit am letzten Tag)",
+          "type": "text",
+          "ext": "time",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "KommentarPrivataufenthalt",
+          "label": "Angabe, falls Reisezeitraum vom Zeitraum des Dienstgeschäftes abweicht",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Beförderungsmittel",
+      "schema": [
+        {
+          "key": "Befoerderungsmittel",
+          "label": "Beförderungsmittel",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": true,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Bahn",
+              "value": "Value_Bahn"
+            },
+            {
+              "name": "MVV",
+              "value": "Value_MVV"
+            },
+            {
+              "name": "Bus/Reisebus",
+              "value": "Value_Bus"
+            },
+            {
+              "name": "Flugzeug",
+              "value": "Value_Flugzeug"
+            },
+            {
+              "name": "PKW als Fahrer*in",
+              "value": "Value_PKW_Fahrer"
+            },
+            {
+              "name": "PKW als Mitfahrer*in",
+              "value": "Value_PKW_Mitfahrer"
+            }
+          ]
+        },
+        {
+          "key": "BefoerderungsmittelKlasse",
+          "label": "Klasse (Bahn)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Reisegrund",
+      "schema": [
+        {
+          "key": "HinweiseBegruendung",
+          "label": "Hinweise zur Begründung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "Zusätzliche Angaben wie bspw. der Grund der Reise, die dringende dienstliche Notwendigkeit oder Mitfahrer*innen müssen hier benannt werden. Soweit der Antrag für eine andere Person gestellt wird, sollte dies ebenfalls hier ausgeführt werden.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "GrundDienstlNotwendigkeit",
+          "label": "Ausführliche Begründung ",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "WuenscheReisedetails",
+          "label": "Vorschläge zu Reisedetails",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Art der Reise",
+      "schema": [
+        {
+          "key": "ArtGenehmigung",
+          "label": "Art der Reise",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Dienstreise",
+              "value": "Value_Dienstreise"
+            },
+            {
+              "name": "Fortbildungsreise",
+              "value": "Value_Fortbildungsreise"
+            }
+          ]
+        },
+        {
+          "key": "kursNummer",
+          "label": "Kursnummer der Fortbildung (nur RIT & it@m)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "ohne",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Fortbildungsreise_Inland",
+              "target": "ArtGenehmigung"
+            },
+            {
+              "type": "requiredOn",
+              "value": "Value_Fortbildungsreise_Ausland",
+              "target": "ArtGenehmigung"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Gebühren und Zahlungsdetails",
+      "schema": [
+        {
+          "key": "Gebuehren",
+          "label": "Es liegen Angaben zu Teilnahme-/Kurs-/Tagungsgebühren vor.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "GebuehrenWert",
+          "label": "Gebührenhöhe",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "Zahlungsdetails",
+          "label": "Zahlungsdetails - Hinweise auf die Zahlung der Gebühren",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "KeineGebuehren",
+          "label": "Es liegen keine Angaben zu  Teilnahme-/Kurs-/Tagungsgebühren vor.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Übernahme von Reise- und Übernachtungskosten durch Dritte (nicht LHM)",
+      "schema": [
+        {
+          "key": "UebernahmeReiseVerwaltung",
+          "label": "durch die öffentliche Verwaltung (dann erlaubte Zuwendung nach § 4 Nr. 4 Antikorruptionsrichtlinie (AKR).)",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "UebernahmeReiseNichtVerwaltung",
+          "label": "durch Dritte außerhalb der öffentlichen Verwaltung für",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "BefoerderungsMittelBezahltDurchDritte",
+          "label": "Folgende Beförderungsmittel",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "BefoerderungsMittelBezahltDurchDritteWert",
+          "label": "(Geschätzter) Wert",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "UebernachtungBezahltDurchDritte",
+          "label": "Folgende Übernachtungen (Anzahl der Nächte / Unterkunft)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "UebernachtungBezahltDurchDritteWert",
+          "label": "(Geschätzter) Wert",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "HinweisUebernahmeKosten",
+          "label": "Hinweise zur Kostenübernahme",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "Warum erfolgt die Kostenübernahme durch den Dritten? Durch wen werden die Kosten übernommen?",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "BegruendungKostenuebernahme",
+          "label": "Begründung zur Übernahme von Reise- und Übernachtungsgebühr",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "Paragraph5AkrAntrag",
+          "label": "Ein Antrag auf Zustimmung zur Annahme einer Zuwendung nach § 5 AKR wird hiermit gestellt.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Vorgesetzte*r",
+      "schema": [
+        {
+          "key": "Vorgesetzter",
+          "label": "Name",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Umfrage zur Nutzung",
+      "schema": [
+        {
+          "key": "ZustimmungNutzerumfrage",
+          "label": "Ich stimme zu, dass ich zum Zweck einer späteren Nutzerumfrage per E-Mail kontaktiert werden darf.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Datenschutzhinweise nach Artikel 13 und 14 Datenschutzgrundverordnung (DSGVO)",
+      "schema": [
+        {
+          "key": "Datenschutzhinweis1 ",
+          "label": "Datenschutzhinweise",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "Verantwortlich für die Verarbeitung Ihrer personenbezogenen Daten ist die Landeshauptstadt München, 80313 München (E-Mail: personal@muenchen.de). Weitere Informationen über die Verarbeitung Ihrer personenbezogenen Daten und Ihre diesbezüglichen Rechte finden Sie im Internet unter https://www.muenchen.de/mitarbeiterservice. Alternativ erhalten Sie diese Informationen auch unter den obigen Kontaktdaten. Unsere behördliche Datenschutzbeauftragte können Sie unter Burgstraße 4, 80331 München (E Mail:  datenschutz@muenchen.de) kontaktieren.",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

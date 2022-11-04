@@ -1,0 +1,82 @@
+{
+  "name": "Schriftstück updaten",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdaten",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${updateSchriftstueckDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Prozess Id",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_prozess_id"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Cosys Guid",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_cosys_guid"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_schriftstueck_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück COO",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_schriftstueck_coo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

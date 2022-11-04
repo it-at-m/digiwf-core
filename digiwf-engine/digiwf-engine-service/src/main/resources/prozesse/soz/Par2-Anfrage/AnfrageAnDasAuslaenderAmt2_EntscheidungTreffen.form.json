@@ -1,0 +1,1594 @@
+{
+  "key": "AnfrageAnDasAuslaenderAmt2_EntscheidungTreffen_V2",
+  "description": "Formular zur Dokumentation der Entscheidungm über die Leistungskürzung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Allgemeine Bearbeitungshinweise",
+      "schema": [
+        {
+          "key": "FormField_WeiterfuehrendeInformationen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Weiterführende Informationen zu fachlichen Fragen der in diesem digitalen Workflow behandelten Sachverhalte finden Sie unter http://wikifarmp001.srv.muenchen.de/ahbsoz/index.php/Kategorie:AHB_AsylbLG.",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Fallmerkmale",
+      "schema": [
+        {
+          "key": "FormField_LISSA_Aktenzeichen",
+          "label": "Aktenzeichen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_LISSA_Aktivitaet_ID",
+          "label": "Aktivitäts-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten des/der Betroffenen",
+      "schema": [
+        {
+          "key": "FormField_Vorname_Check",
+          "label": "Vorname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Name_Check",
+          "label": "Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Check",
+          "label": "Geburtsdatum",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Begruendung_Check",
+          "label": "Begründung, falls Geburtsdatum unbekannt",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_M_ID_Check",
+          "label": "M-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Ordnungsmerkmal_Check",
+          "label": "Ordnungsmerkmal",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AZR_Nummer_Check",
+          "label": "AZR-Nummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Begruendung_Keine_AZR_Check",
+          "label": "Begründung, falls keine AZR-Nummer vorhanden",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_DatumEinreise_Check",
+          "label": "Wann war die Ersteinreise nach Deutschland?",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "FormField_DatumEinreise",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_DatumFristablauf_Check",
+          "label": "Wann sind die 18 Monate Aufenthalt in D vollendet?",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "FormField_DatumFristablauf",
+          "tooltip": "Bitte geben Sie hier an, seit wann die vom Gesetz vorgegebene Aufenthaltsdauer erreicht wurde",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AnmerkungenFristablauf",
+          "label": "Anmerkungen zum Fristablauf",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Bitte geben Sie hier Anmerkungen ein zum leistungsrechtlich relevanten Zeitraum!",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten zur Anfrage",
+      "schema": [
+        {
+          "key": "FormField_Erstanfrage_Check",
+          "label": "Bei der Anfrage handelt es sich um eine ",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Erstanfrage",
+              "value": "Value_Erstanfrage"
+            },
+            {
+              "name": "Folgeanfrage",
+              "value": "Value_Folgeanfrage"
+            }
+          ]
+        },
+        {
+          "key": "FormField_DatumLetzteAnfrage_Check",
+          "label": "Datum der letzen Anfrage",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis",
+          "label": "Antwort erforderlich bis",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis_Begruendung",
+          "label": "Begründung für Antwort bis",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_vorliegende_Dokumente",
+          "label": "Folgende Dokumente liegen bereits vor und müssen nicht noch einmal übermittelt werden",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Sachbearbeitung",
+          "label": "Zuständige Sachbearbeitung",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Im Sozialreferat zuständige Sachbearbeitung, d.h. wohin die Antwort zugeleitet werden soll. Bei leerem Feld erhalten sie die Antwort.",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AenderungenSeitDerLetztenAnfrage",
+          "label": "Haben sich seit der letzten Anfrage Änderungen ergeben?",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_StatusdokumentDerLetztenAnfrage_sDMS",
+          "label": "Protokoll der letzten Anfrage",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Ausländerrechtlicher Status/Titel",
+      "schema": [
+        {
+          "key": "FormField_StatusTitel",
+          "label": "Aktueller ausländerrechtlicher Status/Titel der betroffenen Person",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Erstanfrage",
+              "target": "FormField_Erstanfrage_Check"
+            }
+          ],
+          "items": [
+            {
+              "name": "Gestattung (gemäß § 1 Abs. 1 Nr. 1 AsylbLG)",
+              "value": "FormField_Status_Gestattung"
+            },
+            {
+              "name": "Personen die ein Asylgesuch gestellt haben (gemäß § 1 Abs. 1 Nr. 1a AsybLG)",
+              "value": "FormField_Status_Asylgesuch"
+            },
+            {
+              "name": "Duldung nach § 60a  AufenthG (gemäß § 1 Abs. 1 Nr. 4 AsylbLG)",
+              "value": "FormField_Status_Duldung"
+            },
+            {
+              "name": "Ausreisepflichtige Person (gemäß § 1 Abs. 1 Nr. 5 AsylbLG)",
+              "value": "FormField_Status_Ausreiesepflichtig"
+            },
+            {
+              "name": "Familienangehöriger (gemäß § 1 Abs. 1 Nr. 6 AsylbLG ohne eigenem Status)",
+              "value": "FormField_Status_Familienangehoeriger"
+            },
+            {
+              "name": "Personen, die einen Folgeantrag bzw. einen Zweitantrag gestellt haben (gemäß § 1 Abs. 1 Nr. 7 AsylbLG)",
+              "value": "FormField_Status_Folgeantrag"
+            },
+            {
+              "name": "Sonstiger",
+              "value": "FormField_Status_Sonstige"
+            }
+          ]
+        },
+        {
+          "key": "FormField_StatusTitel_Sonstiger",
+          "label": "Sonstiger Status/Titel (falls oben nichts zutreffend)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "FormField_Status_Sonstige",
+              "target": "FormField_StatusTitel"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Status_bis",
+          "label": "Ausländerrechtlicher Status/Titel gültig bis",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Status_ausgestellt_am",
+          "label": "Ausländerrechtlicher Status/Titel ausgestellt am",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Aufenthaltsbeendende_Massnahmen",
+          "label": "Aufenthaltsbeendende Maßnahmen waren NICHT möglich.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_NichtAusreiseSelbstverschuldet",
+          "label": "Die Person hat die Missachtung der Ausreisepflicht NICHT selbst zu vertreten.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Sie hat die nicht erfolgte Ausreise NICHT selbst zu vertreten.",
+              "value": "Value_NichtSelbstverschuldet"
+            }
+          ]
+        },
+        {
+          "key": "FormField_ausreisepflichtig_Nachweis",
+          "label": "Rechtfertigungsgründe gegen das Vertretenmüssen",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Beispiele: Reiseunfähigkeit aufgrund Krankheit, Abschiebestopps",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "FormField_Status_Ausreiesepflichtig",
+              "target": "FormField_StatusTitel"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "a) Zeitversetzte Asylantragstellung",
+      "schema": [
+        {
+          "key": "FormField_ZeitversetzteAntragstellung",
+          "label": "Erfolgte zeitversetzte Asylantragstellung innerhalb einer Familie, obwohl gleichzeitige Antragstellung möglich gewesen wäre",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_ZeitversetzeAntragstellung_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_ZeitversetzteAntragstellung_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "b) Wiederholte Folgeanträge, die nicht zur Durchführung eines weiteren Verfahrens führen",
+      "schema": [
+        {
+          "key": "FormField_WiederholteFolgeantraege",
+          "label": " Wurden wiederholte Folgeanträge gestellt, die nicht zur Durchführung eines weiteren Verfahrens führen?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_WiederholteFolgeantragstellung_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_WiederholteFolgeantraege_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "c) Asylantragstellung oder Einlegung einer Petition unmittelbar vor einer angekündigten Abschiebung",
+      "schema": [
+        {
+          "key": "FormField_AntragKurzVorAbschiebung",
+          "label": "Erfolgte Asylantragstellung oder Einlegung einer Petition unmittelbar vor einer angekündigten Abschiebung, obwohl hierfür zuvor ausreichend Zeit zur Verfügung gestanden hätte?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AntragKurzVorAbschiebung_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AntragKurzVorAbschiebung_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Bitte nur Nachweise, die belegen, dass eine solche Asylantragstellung oder Einlegung einer Petition erfolgte, hier hochladen",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "d) Nichterfüllung der Ausreisepflicht ",
+      "schema": [
+        {
+          "key": "FormField_Nichterfuellung_Ausreisepflicht",
+          "label": "Wurde die Ausreisepflicht trotz Möglichkeit und Zumutbarkeit der freiwilligen Ausreise nicht erfüllt?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_NichterfuellungAusreisepflicht_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_NichterfuellungAusreisepflicht_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "e) Behinderung der Durchführung des Asylverfahrens",
+      "schema": [
+        {
+          "key": "FormField_BehinderungAsylverfahren",
+          "label": "Wurde die Durchführung des Asylverfahrens behindert?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BehinderungAsylverfahren_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BehinderungAsylverfahren_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "f) Zeitversetzte, verspätete, offensichtlich aussichtslose oder bewusst in letzter Minute gestellte Anträge",
+      "schema": [
+        {
+          "key": "FormField_AussichtsloseAntraege",
+          "label": "Wurden zeitversetzte, verspätete, offensichtlich aussichtslose oder bewusst in letzter Minute gestellte Anträge gestellt?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AussichtsloseAntraege_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AussichtsloseAntraege_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Bitte hier nuir diese besonders gelagerten Nachweise hochladen - nicht die ohnehin bekannten",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "g) Vereitelung einer angekündigten Abschiebung durch Untertauchen oder Widerstand",
+      "schema": [
+        {
+          "key": "FormField_UntertauchenWiderstand",
+          "label": "Wurde eine angekündigte Abschiebung durch Untertauchen oder Widerstand vereitelt?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_UntertauchenWiderstand_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_UntertauchenWiderstand_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "H) Verstoß gegen Mitwirkungspflichten",
+      "schema": [
+        {
+          "key": "FormField_VerstossMitwirkungspflichten",
+          "label": "Wurde gegen Mitwirkungspflichten im o.g. maßgeblichen Zeitraum verstoßen?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "z.B. Verweigerung der Mitwirkung bei der Beschaffung eines Identi-tätspapiers, Verletzung der Mitwirkungspflicht nach §§ 48, 49, 82 Auf-enthG",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_VerstossMitwirkungspflichten_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_VerstossMitwirkungspflichten_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "i) Täuschung über die Identität oder Staatsangehörigkeit, Passvernichtung oder -unterdrückung",
+      "schema": [
+        {
+          "key": "FormField_TaeuschungIdentitaet",
+          "label": "Wurde über die Identität oder Staatsangehörigkeit getäuscht oder erfolgte Passvernichtung oder -unterdrückung?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_TaeuschungIdentitaet_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_TaeuschungIdentitaet_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Bitte nur Nachweise über diese Täuschung(en) hier anhängen.",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "j) Handlungen oder Unterlassungen des Leistungsberechtigten, die einem unverzüglichen Abschluss des Asylverfahrens oder einer Durchsetzung der Ausreisepflicht entgegenstehen?",
+      "schema": [
+        {
+          "key": "FormField_BehinderungAbschlussAsylV",
+          "label": "Erfolgten Handlungen oder Unterlassungen des Leistungsberechtigten, die einem unverzüglichen Abschluss des Asylverfahrens oder einer Durchsetzung der Ausreisepflicht entgegenstehen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BehinderungAbschlussAsylV_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BehinderungAbschlussAsylV_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "k) Anderes rechtsmissbräuchliches Verhalten",
+      "schema": [
+        {
+          "key": "FormField_AnderesRechtsmissbrVerhalten",
+          "label": "Wurde anderes rechtsmissbräuchliches Verhalten gezeigt?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AnderesRechtsmissbrVerhalten_Begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AnderesRechtsmissbrVerhalten_Nachweise_sDMS",
+          "label": "Nachweise",
+          "type": "document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Weitere Anmerkungen der zuständigen Ausländerbehörde",
+      "schema": [
+        {
+          "key": "FormField_WeitereAnmerkungenABH",
+          "label": "",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Plausibilität und (ggf. vorläufige) Entscheidung",
+      "schema": [
+        {
+          "key": "FormField_Anhoerung",
+          "label": "Plausibilität und (ggf. vorläufige) Entscheidung",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Eine Entscheidung kann nicht getroffen werden, AZR-Eintrag und Akte sind nicht plausibel.",
+              "value": "Value_NichtPlausibel"
+            },
+            {
+              "name": "Leistungen nach § 2 AsylbLG werden gewährt.",
+              "value": "Value_Gewaehrt"
+            },
+            {
+              "name": "Leistungen nach § 2 AsylbLG werden NICHT gewährt.",
+              "value": "Value_NichtGewaehrt"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Begruendung",
+          "label": "Begründung für die Gewährung/Nicht-Gewaehrung von Leistungen nach § 2 AsylbLG",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_WeitereInformationen",
+          "label": "Weitere Informationen",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [ ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Ergebnis der Anhörung",
+      "schema": [
+        {
+          "key": "FormField_ErgebnisAnhoerung",
+          "label": "Bitte geben Sie hier das Ergebnis der Anhörung ein.",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Dokument_Anhoerung",
+          "label": "Ablagepfad des Ergebnisses",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Eingabe: Pfad zum Dokument in der Ablage der Leistungssachbearbeitung.",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Fragen und Antworten",
+      "schema": [
+        {
+          "key": "FormField_Ruecklauf_Kommentar",
+          "label": "Rückfragen",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "2000",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Ruecklauf_Kommentar_Nachweise_sDMS",
+          "label": "Ergänzende Dokumente",
+          "type": "alw-document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Entscheidung nach Anhörung",
+      "schema": [
+        {
+          "key": "FormField_Leistungsgewaehrung",
+          "label": "Werden Leistungen nach § 2 AsylbLG gewährt?",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Gewaehrungsbegruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Wie geht es weiter?",
+      "schema": [
+        {
+          "key": "FormField_Wiegehtesweiter",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Wenn Sie „Abschließen“ klicken, legt das System die Aufgabe dem/der zuständigen Sachbearbeiter*in zur Dokumentation und weiteren Veranlassung vorgelegt.",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

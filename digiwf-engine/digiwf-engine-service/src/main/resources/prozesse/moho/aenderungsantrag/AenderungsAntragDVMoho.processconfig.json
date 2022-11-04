@@ -1,0 +1,21 @@
+{
+  "key": "AenderungsAntragDVMoHo",
+  "statusDokument": "99d7172f-2b7a-4269-89b4-2fbcd61f9b0a",
+  "statusConfig": [
+    {
+      "key": "gestartet",
+      "label": "Vorgang gestartet",
+      "position": 1
+    },
+    {
+      "key": "genehmigung",
+      "label": "Auf Genehmigung warten",
+      "position": 2
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Antrag abgeschlossen",
+      "position": 3
+    }
+  ]
+}

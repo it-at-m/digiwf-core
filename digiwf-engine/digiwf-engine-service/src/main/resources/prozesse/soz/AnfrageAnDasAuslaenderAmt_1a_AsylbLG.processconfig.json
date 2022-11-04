@@ -1,0 +1,36 @@
+{
+  "key": "AnfrageAnDasAuslaenderAmt1aAsylbLG",
+  "statusConfig": [
+    {
+      "key": "gestartet",
+      "label": "Anfrage gestartet",
+      "position": 1
+    },
+    {
+      "key": "zugeordnet",
+      "label": "Anfrage zugeordnet",
+      "position": 2
+    },
+    {
+      "key": "beantwortet",
+      "label": "Anfrage bearbeitet",
+      "position": 3
+    },
+    {
+      "key": "entscheidung",
+      "label": "Anfrage zur Entscheidung vorgelegt",
+      "position": 4
+    },
+    {
+      "key": "entschieden",
+      "label": "Anfrage entschieden",
+      "position": 5
+    },
+    {
+      "key": "zdagelegt",
+      "label": "Anfrage zu den Akten gelegt",
+      "position": 6
+    }
+  ],
+ "statusDokument" : "99551b37-0dd7-4915-9206-16f9e1cc012f"
+}

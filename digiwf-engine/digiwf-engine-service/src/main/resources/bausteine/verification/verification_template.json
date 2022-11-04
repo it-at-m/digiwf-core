@@ -1,0 +1,124 @@
+{
+  "name": "BürgerInnen-Bestätigung",
+  "id": "de.muenchen.digitalwf.templates.VerificationTemplateV01",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message (Link)",
+      "description": "Name der Nachricht für den Bestätigungslink",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "Hidden",
+      "value": "getVerificationLink",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prozessinstanz-ID",
+      "type": "Hidden",
+      "value": "${execution.getProcessInstanceId()}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "processInstanceId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message (Bestätigung)",
+      "description": "Name der Nachricht für die Bestätigung",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "messageName"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Ablaufdatum",
+      "description": "Datum des Gültigkeitsablaufs im ISO-Format",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "expiryTime"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Betreff",
+      "description": "Betreffsinformation für die Korrelation",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "subject"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Bestätigungslink",
+      "description": "Zielvariable des Bestätigungslinks",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "verificationLink"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

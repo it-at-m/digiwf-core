@@ -1,0 +1,33 @@
+{
+  "name": "Primärschlüssel erstellen (veraltet)",
+  "id": "de.muenchen.digitalisierung.templates.CreateBusinessKey",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${createBusinessKeyDelegate}",
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Variablen",
+      "type": "String",
+      "description": "Variablen für den BusinessKey, mit ; getrennt auflisten",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "digitalwf_business_key_variables"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

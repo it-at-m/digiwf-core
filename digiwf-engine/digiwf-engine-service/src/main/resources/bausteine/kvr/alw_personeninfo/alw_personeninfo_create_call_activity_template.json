@@ -1,0 +1,87 @@
+{
+  "name": "ALW Personeninfo",
+  "id": "de.muenchen.digitalwf.templates.AlwPersoneninfoTemplateV01",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "dwf-alw-dev",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "value": "correlateAlwPersoneninfo",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "value": "getAlwZustaendigkeitEventBus",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "AZR-Nummer",
+      "description": "AZR-Nummer",
+      "type": "String",
+      "value": "${azrNummer}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "azrNummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Zuständige Bearbeitergruppe",
+      "value": "alwZustaendigeGruppe",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "alwZustaendigeGruppe"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

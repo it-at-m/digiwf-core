@@ -1,0 +1,103 @@
+{
+  "name": "Mail Task",
+  "id": "de.muenchen.digitalwf.templates.MailTask",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${sendMailDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Empfänger E-Mail Adresse(n)",
+      "description": "Die Empfänger der E-Mail. Mehrere Adressen werden durch ein Komma voneinander separiert.",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_RECEIVERS"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Betreff",
+      "type": "String",
+      "description": "Der E-Mail Betreff.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_SUBJECT"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Text",
+      "description": "Der Inhalt der E-Mail. Prozessvariablen können wie gewohnt in der Schreibweise ${Variablenname} verwendet werden.",
+      "value": "Bitte geben Sie hier den Inhalt der E-Mail ein...",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_BODY"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antwort-An E-Mail Adresse",
+      "type": "String",
+      "description": "In dem Fall, dass ein Empfänger auf die E-Mail antwortet, wird die hier angegebene Adresse als Empfänger vorbelegt.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_REPLY_TO"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Prozessspezifisches Formular anhängen",
+      "type": "String",
+      "description": "Hier wird der eindeutige Bezeichner einer Vorlage (GUID) aus coSys erwartet.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_ATTACHMENT_GUID"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Name des prozessspezifischen Formulars",
+      "type": "String",
+      "description": "Falls ein prozessspezifisches Dokument angehängt wird, kann hier optional dessen Name eingetragen werden.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_ATTACHMENT_NAME"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Async senden?",
+      "type": "Boolean",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true,
+    "input-parameters": true,
+    "output-parameters": true
+  }
+}

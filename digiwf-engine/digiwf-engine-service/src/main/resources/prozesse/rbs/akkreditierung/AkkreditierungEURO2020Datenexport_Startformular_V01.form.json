@@ -1,0 +1,46 @@
+{
+  "key": "AkkreditierungEURO2020Datenexport_Startformular_V01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Export Starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Hinweis",
+      "schema": [
+        {
+          "key": "FormField_Information",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "0",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Mit diesem Workflow können Sie die Datenquelle für den Druck der Akkreditierungsausweise erzeugen und herunterladen. Starten Sie den Workflow und wechseln Sie anschließend zur Aufgabe 'Daten herunterladen'. Dort finden Sie einen Link zum Download der Datenquelle.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1f6fnr3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="FeatureAlwPersoneninfoStreaming" name="Feature AlwPersoneninfo (Streaming)" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="Feature_AlwPersoneninfo_StartenV01">
+      <bpmn:outgoing>Flow_1en2301</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1en2301" sourceRef="StartEvent_1" targetRef="Activity_1tm1cuh" />
+    <bpmn:userTask id="Activity_1w78p0t" name="Daten prüfen" camunda:formKey="Feature_AlwPersoneninfo_PruefenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_1k3r5nz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0waarb0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0yiscih">
+      <bpmn:incoming>Flow_0waarb0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0waarb0" sourceRef="Activity_1w78p0t" targetRef="Event_0yiscih" />
+    <bpmn:sequenceFlow id="Flow_1k3r5nz" sourceRef="Activity_1tm1cuh" targetRef="Activity_1w78p0t" />
+    <bpmn:callActivity id="Activity_1tm1cuh" name="ALW Personeninfo abfragen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.AlwPersoneninfoTemplateV01" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="correlateAlwPersoneninfo" target="app_message_name" />
+        <camunda:in sourceExpression="getAlwZustaendigkeitEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="${azrNummer}" target="azrNummer" />
+        <camunda:out source="alwZustaendigeGruppe" target="alwZustaendigeGruppe" />
+        <camunda:in sourceExpression="${eventTopic}" target="app_topic_name" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1en2301</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k3r5nz</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureAlwPersoneninfoStreaming">
+      <bpmndi:BPMNEdge id="Flow_1k3r5nz_di" bpmnElement="Flow_1k3r5nz">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0waarb0_di" bpmnElement="Flow_0waarb0">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="592" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1en2301_di" bpmnElement="Flow_1en2301">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14fsnu7_di" bpmnElement="Activity_1w78p0t">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yiscih_di" bpmnElement="Event_0yiscih">
+        <dc:Bounds x="592" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q2f0ba_di" bpmnElement="Activity_1tm1cuh">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

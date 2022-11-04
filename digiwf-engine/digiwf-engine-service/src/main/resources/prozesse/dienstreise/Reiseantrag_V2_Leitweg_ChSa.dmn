@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_Leitweg_V2" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="Decision_Reiseantrag_Leitweg_V2" name="GenehmigungLeitwegV2__" camunda:versionTag="2.0002">
+    <decisionTable id="decisionTable_1">
+      <input id="InputClause_045u1zj" label="Antragsteller_Referat">
+        <inputExpression id="LiteralExpression_1c0zmlg" typeRef="string">
+          <text>Antragsteller_Referat</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0r37ofe" label="fobitool" name="fobitool" typeRef="string" />
+      <output id="OutputClause_0bgstbu" label="responsible_ldap_object_id" name="responsible_ldap_object_id" typeRef="string" biodi:width="250" />
+      <output id="output_1" label="responsible_email" name="responsible_email" typeRef="string" biodi:width="269" />
+      <output id="OutputClause_03qznkd" label="akb_ldap_object_id" name="akb_ldap_object_id" typeRef="string" biodi:width="272" />
+      <output id="OutputClause_149dx5y" label="akb_email" name="akb_email" typeRef="string" biodi:width="297" />
+      <output id="OutputClause_0ex8y7w" label="zs_email" name="zs_email" typeRef="string" biodi:width="238" />
+      <output id="OutputClause_1jxt84s" label="zs_ldap_object_id" name="zs_ldap_object_id" typeRef="string" />
+      <rule id="DecisionRule_02ncv44">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0sn5lw2">
+          <text>"RIT"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1540jvn">
+          <text>"J"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05qpvse">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06z896w">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05wwnvs">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kkg79g">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y1r1vc">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03hjjlt">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g31py1">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0upo9m0">
+          <text>"ITM"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ndeizo">
+          <text>"J"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1rfom3m">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hl4vti">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cxn7d8">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qns6cs">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0x7s8qr">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kiwkug">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08zkbkr">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1py8fdq">
+          <text>"POR"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ll7jvt">
+          <text>"N"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gzcd6g">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1iyl4az">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xify47">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qyx8w1">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xv8c4c">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jemyfb">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zez262">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1g36213">
+          <text>"KVR"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tndujc">
+          <text>"N"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u6xydl">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u0o7zc">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yqjtjd">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0g262hr">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_118hrfi">
+          <text>"ext.dl.sandmann@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1twfq8d">
+          <text>"112048862, 112066523"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1mkz2i8">
+      <dmndi:DMNShape id="DMNShape_0wn2bws" dmnElementRef="Decision_Reiseantrag_Leitweg_V2">
+        <dc:Bounds height="80" width="180" x="160" y="90" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

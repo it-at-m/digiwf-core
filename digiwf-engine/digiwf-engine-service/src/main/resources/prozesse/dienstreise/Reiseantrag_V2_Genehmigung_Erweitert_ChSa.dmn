@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_Genehmigung_Erweitert_V2" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <decision id="Decision_Reiseantrag_Genehmigung_Erweitert_V2" name="Reiseantrag - Genehmigenden ermitteln" camunda:versionTag="2.0002">
+    <decisionTable id="decisionTable_1">
+      <input id="InputClause_045u1zj" label="Antragsteller_Referat">
+        <inputExpression id="LiteralExpression_1c0zmlg" typeRef="string">
+          <text>Antragsteller_Referat</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1hdcudg" label="ArtGenehmigung" biodi:width="258">
+        <inputExpression id="LiteralExpression_1s1xbmb" typeRef="string">
+          <text>ArtGenehmigung</text>
+        </inputExpression>
+      </input>
+      <input id="input_1" label="ReiseLand" biodi:width="150">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>ReiseLand</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_03qznkd" label="genehmigung_ldap_object_id" name="genehmigung_ldap_object_id" typeRef="string" biodi:width="301" />
+      <output id="OutputClause_0cbsqmd" label="emailprim" name="emailprim" typeRef="string" biodi:width="261" />
+      <output id="OutputClause_1yf98zz" label="emailsec" name="emailsec" typeRef="string" biodi:width="231" />
+      <rule id="DecisionRule_02ncv44">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0sn5lw2">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08702a2">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k7lfjv">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05wwnvs">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1a7ohmt">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s644dr">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d41elx">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0y59xcq">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c7lzsu">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0njuqhe">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05n261f">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m6bhm2">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nvv6or">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nk42yk">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_18sl2x0">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w7j5in">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wtl6as">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rfbi9g">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jvc9i1">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1m7vng7">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nsiq8q">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_04fh2gq">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nhcbn7">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dg6isy">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_140p62a">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0eillat">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cfpq76">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ofjkai">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0p0kp5k">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0128azm">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jo00nn">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m447wt">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hlcqcp">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bvg3eo">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05xkgld">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1a50d3v">
+          <text>"ITM"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0boeocr">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zzsmjr">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06t5s7s">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ynyrk5">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1333ngv">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0x4se3i">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0nzq1xc">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zvmy99">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ugg1r1">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wp0sfq">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lwvhrt">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1e31a6v">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lipsu3">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_08gfc1x">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07nznwq">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lg99yp">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16vyiy7">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0lm6l4g">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ut602f">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09tiz2k">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_01w2hwx">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11puw1s">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_027444p">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dx9gqw">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m1j6e0">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cskzh4">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gq1obm">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0uy8tw8">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05ndkpv">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sacszh">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qmfc6l">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0duua23">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1i4d145">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bxz8s5">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1x7htf6">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ctkdac">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sfw4p8">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jnc6c3">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1e9yipj">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lkkz0y">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15p9idx">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0cx6r9c">
+          <text>"RIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j1n6q6">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1x5q31m">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1w6t6sk">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15kape8">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pwceon">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0m3m6wd">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0p6ks52">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01ywqjg">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1irq28w">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09hoxqk">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xaj2b9">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xzd471">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cw0i9p">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_01kflbb">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1levqf2">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0brr7td">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_120262y">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xr5b18">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kdpt7y">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06mgowd">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_17lydst">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n90qkr">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hn5ha6">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11mef83">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o2pi22">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12t40zk">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0sxk9ih">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1j5iv1d">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ig7lxy">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01f70tr">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_082e06q">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pbodz6">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m1x45r">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_101jd3z">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0k7nynd">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14qinzu">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08bx4dp">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08qmfyk">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nxd2cg">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0e6zsva">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_00x0y6c">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0k9vnja">
+          <text>"POR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_197ij55">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0aojs6t">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xk2loa">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1thg58s">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0237nnl">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tt72vi">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_10v6vv7">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o9qds8">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zyefca">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rl69uw">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06dvzyg">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jymwsq">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nc5cft">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0eowajy">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b4lyix">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d0ex1p">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q2wy0l">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1e56jzq">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vk19qv">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jecb18">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_06mk1c2">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04zu466">
+          <text>"Value_Dienstreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15s1gmc">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0uaogro">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_168xm1v">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i5zefe">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1dsgez9">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_1azi5ib">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hj0obp">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hq4vcg">
+          <text>"Value_Inland"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xinsqz">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yijw5n">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pz1tqd">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_031rznj">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_0ozvhdv">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11wrpvu">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0afcd6e">
+          <text>"Value_Europa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i6v78u">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14xnh9e">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_149el9h">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u0ujfr">
+        <description>Test Sandmann</description>
+        <inputEntry id="UnaryTests_04nm9v6">
+          <text>"KVR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pm2l6p">
+          <text>"Value_Fortbildungsreise"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03lcqo6">
+          <text>"Value_Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vk4zjm">
+          <text>"112066523"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1v8z0vn">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pcke8f">
+          <text>"ext.dl.jacob@muenchen.de"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1mkz2i8">
+      <dmndi:DMNShape id="DMNShape_0wn2bws" dmnElementRef="Decision_Reiseantrag_Genehmigung_Erweitert_V2">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

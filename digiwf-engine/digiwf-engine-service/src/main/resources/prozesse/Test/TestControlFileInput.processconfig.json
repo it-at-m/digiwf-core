@@ -1,0 +1,38 @@
+{
+  "key": "TestControlFileInput",
+  "statusConfig": [
+    {
+      "key": "Offen",
+      "label": "Offen",
+      "position": 1
+    },
+    {
+      "key": "inBear",
+      "label": "In Bearbeitung",
+      "position": 2
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Abgeschlossen",
+      "position": 3
+    }
+  ],
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": "Documents/test4;Documents/test5;Documents/test6"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "Documents/test1;Documents/test2;Documents/test3"
+    },
+    {
+      "key": "app_instance_file_paths",
+      "value": "Documents"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "json_schema_fileinput1"
+    }
+  ]
+}

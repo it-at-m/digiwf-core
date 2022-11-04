@@ -1,0 +1,52 @@
+{
+  "key": "migration_taskinfo_start",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Gruppe",
+            "description": "",
+            "containerType": "group",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "textarea": {
+                "fieldType": "textarea",
+                "title": "Freitext",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "textarea",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "9f329ac8-bbd2-409d-94a5-ec6fa79289ad"
+          }
+        ]
+      }
+    ]
+  }
+}

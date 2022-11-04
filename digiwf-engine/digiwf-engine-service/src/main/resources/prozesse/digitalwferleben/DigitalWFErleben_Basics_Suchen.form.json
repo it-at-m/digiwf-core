@@ -1,0 +1,78 @@
+{
+  "key": "DigitalWFErleben_Suchen_V1",
+  "description": "Formular \"Suchen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Wie funktioniert die Suche?",
+      "schema": [
+        {
+          "key": "Text_Suchen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Das Suchfeld oberhalb der Aufgaben- und Vorgangslisten kann für die Freitextsuche nach Aufgaben und Vorgängen genutzt werden. Dies erleichtert bei langen Listen die Suche nach bestimmten Aufgaben oder Vorgängen. Sie können nach allen Eigenschaften von Aufgaben und Vorgängen suchen, die in der jeweiligen Liste angezeigt werden. Dazu zählen die Bezeichnung einer Aufgabe oder eines Vorgangs oder Informationen in der Aufgaben- oder Vorgangsbeschreibung.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/DieBasics_Suchen.png\" alt=\"Suchen\" title=\"Suchen\" width=\"75%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie die Suche doch selbst aus!",
+      "schema": [
+        {
+          "key": "Text_SucheAusprobieren",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "DigiWF hat für Sie eine Testaufgabe \"Lorem ipsum\" angelegt. Navigieren Sie zu `Meine Aufgaben`. Sie können dort in der Aufgabenliste nach dieser Aufgabe suchen, indem Sie bspw. nach \"Lorem\" oder nach \"dolor\" suchen. Achten Sie darauf wie sich die Aufgabenliste ändert während Sie suchen. \n\nWerden Sie kreativ! Bearbeiten Sie die Aufgabe, in dem Sie den Text im dafür vorgesehenen Eingabefeld fortsetzen! Wenn Sie fertig sind (oder Ihre Kreativität erschöpft ist), schließen Sie die Aufgabe ab. Wir haben die Aufgabe so gestaltet, dass Ihnen das Ergebnis Ihrer Kreativität danach per E-Mail zugesandt wird, so dass Sie es weiter verwenden können.\n\nKehren Sie danach zu dieser Aufgabe zurück und fahren Sie mit dem nächsten Thema fort, indem Sie auf den Button `Weiter mit dem nächsten Thema` klicken.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ]
+    }
+  ]
+}

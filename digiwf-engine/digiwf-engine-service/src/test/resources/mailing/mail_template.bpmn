@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_17npv5q" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="mail_template" isExecutable="true">
+    <bpmn:startEvent id="Event_TemplateGestartet" name="Email Template gestartet">
+      <bpmn:outgoing>Flow_18vgt4z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_18vgt4z" sourceRef="Event_TemplateGestartet" targetRef="Task_EmailSenden" />
+    <bpmn:serviceTask id="Task_EmailSenden" name="E-Mail senden" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.MailTask" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_BODY">Bitte geben Sie hier den Inhalt der E-Mail ein...</camunda:inputParameter>
+          <camunda:inputParameter name="replyAddress" />
+          <camunda:inputParameter name="guid" />
+          <camunda:inputParameter name="documentName" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">externer.dl.horn@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Das ist ein Template Test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_18vgt4z</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sics3i</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_Beendet" name="Beendet">
+      <bpmn:incoming>Flow_1sics3i</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1sics3i" sourceRef="Task_EmailSenden" targetRef="Event_Beendet" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mail_template">
+      <bpmndi:BPMNEdge id="Flow_18vgt4z_di" bpmnElement="Flow_18vgt4z">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sics3i_di" bpmnElement="Flow_1sics3i">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="432" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Event_TemplateGestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="122" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e4bwbb_di" bpmnElement="Task_EmailSenden">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1rkj9t2_di" bpmnElement="Event_Beendet">
+        <dc:Bounds x="432" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="429" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

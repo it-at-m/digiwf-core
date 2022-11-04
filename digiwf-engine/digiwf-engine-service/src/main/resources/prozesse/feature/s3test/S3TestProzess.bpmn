@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="S3-Test" name="S3-Test" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac">
+      <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_0owvu86" name="Kontrolle" camunda:asyncBefore="true" camunda:assignee="112092000">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">4560db7e-64a3-49fc-ab6f-3d308d86dd9a</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1cr9zd0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kdkl67</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_0b9z9pp">
+      <bpmn:incoming>Flow_0kdkl67</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0j2dujx" sourceRef="Activity_1eghwfu" targetRef="Activity_145b1ua" />
+    <bpmn:userTask id="Activity_1eghwfu" name="Test" camunda:assignee="112092000">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j2dujx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0vfi8jp" sourceRef="StartEvent_1" targetRef="Activity_1eghwfu" />
+    <bpmn:callActivity id="Activity_145b1ua" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
+        <camunda:in sourceExpression="GET" target="action" />
+        <camunda:in sourceExpression="lm-test/markdown-test" target="path" />
+        <camunda:in sourceExpression="GET" target="app_file_action" />
+        <camunda:out source="presignedUrls" target="presignedUrls" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="action">GET</camunda:inputParameter>
+          <camunda:inputParameter name="path">test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j2dujx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nf1mk3</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0kdkl67" sourceRef="Activity_0owvu86" targetRef="Event_0b9z9pp" />
+    <bpmn:sequenceFlow id="Flow_1nf1mk3" sourceRef="Activity_145b1ua" targetRef="Activity_0xjgh5j" />
+    <bpmn:sequenceFlow id="Flow_1cr9zd0" sourceRef="Activity_0xjgh5j" targetRef="Activity_0owvu86" />
+    <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receiversCc" />
+        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receiversBcc" />
+        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="replyTo" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receivers" />
+        <camunda:in sourceExpression="S3 Test" target="subject" />
+        <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
+        <camunda:in sourceExpression="Test" target="body" />
+        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="subject">S3 Test</camunda:inputParameter>
+          <camunda:inputParameter name="body">test</camunda:inputParameter>
+          <camunda:inputParameter name="attachments">presignedUrls</camunda:inputParameter>
+          <camunda:inputParameter name="receivers">ext.dl.moesle@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="app_topic_name">dwf-email-local-01</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1nf1mk3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cr9zd0</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:textAnnotation id="TextAnnotation_0k7rvi5">
+      <bpmn:text>S3 Integration erstellt presigned Urls für den Ordner/das File</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1excxu6" sourceRef="Activity_145b1ua" targetRef="TextAnnotation_0k7rvi5" />
+    <bpmn:textAnnotation id="TextAnnotation_0qskhpg">
+      <bpmn:text>Versendet eine Email mit den Dateien, die von den Presigned Urls heruntergeladen wurden</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0a3ccwm" sourceRef="Activity_0xjgh5j" targetRef="TextAnnotation_0qskhpg" />
+    <bpmn:textAnnotation id="TextAnnotation_0hv2vkr">
+      <bpmn:text>Formular zeigt readonly die s3 Konfiguration (sync &amp; async)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0bl8out" sourceRef="Activity_1eghwfu" targetRef="TextAnnotation_0hv2vkr" />
+    <bpmn:textAnnotation id="TextAnnotation_00dqlbp">
+      <bpmn:text>Formular zeigt erneut die S3 Konfiguration sowie ein Multifile Input Feld</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0d14muq" sourceRef="Activity_0owvu86" targetRef="TextAnnotation_00dqlbp" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="S3-Test">
+      <bpmndi:BPMNShape id="TextAnnotation_0hv2vkr_di" bpmnElement="TextAnnotation_0hv2vkr">
+        <dc:Bounds x="360" y="101" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0k7rvi5_di" bpmnElement="TextAnnotation_0k7rvi5">
+        <dc:Bounds x="490" y="94" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qskhpg_di" bpmnElement="TextAnnotation_0qskhpg">
+        <dc:Bounds x="660" y="80" width="100" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_00dqlbp_di" bpmnElement="TextAnnotation_00dqlbp">
+        <dc:Bounds x="840" y="87" width="100" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1cr9zd0_di" bpmnElement="Flow_1cr9zd0">
+        <di:waypoint x="660" y="277" />
+        <di:waypoint x="740" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nf1mk3_di" bpmnElement="Flow_1nf1mk3">
+        <di:waypoint x="490" y="277" />
+        <di:waypoint x="560" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kdkl67_di" bpmnElement="Flow_0kdkl67">
+        <di:waypoint x="840" y="277" />
+        <di:waypoint x="892" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
+        <di:waypoint x="183" y="278" />
+        <di:waypoint x="260" y="278" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j2dujx_di" bpmnElement="Flow_0j2dujx">
+        <di:waypoint x="360" y="278" />
+        <di:waypoint x="390" y="278" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tan7g5_di" bpmnElement="Activity_0owvu86">
+        <dc:Bounds x="740" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b9z9pp_di" bpmnElement="Event_0b9z9pp">
+        <dc:Bounds x="892" y="259" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eghwfu_di" bpmnElement="Activity_1eghwfu">
+        <dc:Bounds x="260" y="238" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qpnmbo_di" bpmnElement="Activity_145b1ua">
+        <dc:Bounds x="390" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s2xgf0_di" bpmnElement="Activity_0xjgh5j">
+        <dc:Bounds x="560" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0bl8out_di" bpmnElement="Association_0bl8out">
+        <di:waypoint x="335" y="238" />
+        <di:waypoint x="377" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1excxu6_di" bpmnElement="Association_1excxu6">
+        <di:waypoint x="464" y="237" />
+        <di:waypoint x="500" y="176" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0a3ccwm_di" bpmnElement="Association_0a3ccwm">
+        <di:waypoint x="632" y="237" />
+        <di:waypoint x="660" y="186" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0d14muq_di" bpmnElement="Association_0d14muq">
+        <di:waypoint x="813" y="237" />
+        <di:waypoint x="844" y="183" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

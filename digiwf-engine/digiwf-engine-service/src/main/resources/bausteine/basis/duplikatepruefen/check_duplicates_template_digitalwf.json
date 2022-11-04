@@ -1,0 +1,109 @@
+{
+  "name": "Duplikate prüfen (veraltet)",
+  "id": "de.muenchen.digitalisierung.templates.CheckBusinessKeyDelegateCallActivity",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "DuplikatePruefenV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Prozess Key",
+      "type": "String",
+      "description": "Die Id des Prozessmodells.",
+      "binding": {
+        "type": "camunda:in",
+        "target": "digitalwf_process_definition_key",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Business Key",
+      "type": "String",
+      "description": "Der Business Key, der geprüft werden soll",
+      "binding": {
+        "type": "camunda:in",
+        "target": "digitalwf_process_business_key",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prozessinstanz Id",
+      "type": "String",
+      "description": "Die Id der aktuellen Prozessinstanz.",
+      "binding": {
+        "type": "camunda:in",
+        "target": "digitalwf_process_instance_id",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Titel Duplikate prüfen",
+      "type": "String",
+      "description": "Der Titel für den Task, falls Duplikate vorhanden sind",
+      "binding": {
+        "type": "camunda:in",
+        "target": "digitalwf_duplicateCheckTitle",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Beschreibung Duplikate prüfen",
+      "type": "Text",
+      "description": "Der Beschreibungstext für den Task, falls Duplikate vorhanden sind",
+      "binding": {
+        "type": "camunda:in",
+        "target": "digitalwf_duplicateCheckDescription",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Starter of Instance",
+      "type": "Hidden",
+      "value": "${starterOfInstance}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "starterOfInstance",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Output: Prozess abbrechen",
+      "description": "Diese Variable enthält die Information, ob die Prozessinstanz abgebrochen werden soll.",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "FormField_CancelProcess"
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

@@ -1,0 +1,328 @@
+{
+  "key": "TestprozessBenachrichtigungen_TestsAuswaehlen_V1",
+  "description": "Formular zum Auswählen der Tests",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Tests starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Information",
+      "schema": [
+        {
+          "key": "FormField_Information",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Wählen Sie die Tests aus, die Sie durchführen möchten und geben Sie die notwendigen Daten ein!",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            }
+          ]
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Daten zu Benutzern und Gruppen",
+      "schema": [
+        {
+          "key": "FormField_Assignee",
+          "label": "Assignee",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_CandidateUser1",
+          "label": "Candidate User 1",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_CandidateUser2",
+          "label": "Candidate User 2",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_CandidateGroup",
+          "label": "Candidate Group",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Verhalten ohne Modellierung des Schalters testen",
+      "schema": [
+        {
+          "key": "FormField_BenachrichtigungAssigneeKeineAngabe",
+          "label": "Assignee benachrichtigen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BenachrichtigungCandidateUsersKeineAngabe",
+          "label": "Candidate Users benachrichtigen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BenachrichtigungCandidateGroupsKeineAngabe",
+          "label": "Candiate Groups benachrichtigen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Verhalten mit Modellierung des Schalters testen",
+      "schema": [
+        {
+          "key": "FormField_BenachrichtigungenModellierungTesten",
+          "label": "Benachrichtigungen mit modellierten Schaltern testen",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BenachrichtigungAssignee",
+          "label": "Benachrichtigung an den Assignee senden",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "false",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "true"
+            },
+            {
+              "name": "Nein",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "key": "FormField_BenachrichtigungCandidateUsers",
+          "label": "Candidate Users benachrichtigen",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "false",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "true"
+            },
+            {
+              "name": "Nein",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "key": "FormField_BenachrichtigungCandidateGroups",
+          "label": "Candidate Groups benachrichtigen",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "false",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "true"
+            },
+            {
+              "name": "Nein",
+              "value": "false"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

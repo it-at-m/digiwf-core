@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ypexpe" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="TestEaiAlwDms" name="Test EAI Alw-Dms" isExecutable="true" camunda:candidateStarterGroups="itm-km" camunda:versionTag="v1.0" camunda:historyTimeToLive="0">
+    <bpmn:documentation>Der Prozess unterstützt die Prüfung der Funktionsfähigkeit der Alw-DMS-EAI.</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Start" name="Gestartet" camunda:formKey="TestEaiAlwDms_Start_V01">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="Javascript">execution.setVariable("FormField_Schriftstueck", "[{\"name\":\"Nachweise E-Akte-Einführungsprojekt\",\"type\":\"PDF-Dokument\",\"url\":\"http://fake.muenchen.de/fsc/mx/COO.2150.9400.2.66044\",\"extension\":\"pdf\",\"contentSize\":\"158\"}]");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_03zd8d2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_03zd8d2" sourceRef="StartEvent_Start" targetRef="Event_Ende" />
+    <bpmn:endEvent id="Event_Ende" name="Beendet">
+      <bpmn:incoming>Flow_03zd8d2</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestEaiAlwDms">
+      <bpmndi:BPMNEdge id="Flow_03zd8d2_di" bpmnElement="Flow_03zd8d2">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="342" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Start">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="142" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1699oxx_di" bpmnElement="Event_Ende">
+        <dc:Bounds x="342" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="339" y="142" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

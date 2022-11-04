@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1kt6d5b" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="FeatureSchriftstueckeKopieren" name="Feature Schriftstuecke kopieren" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Schriftstücke kopieren zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="FeatureSchriftstueckeKopieren_StartenV01">
+      <bpmn:outgoing>Flow_0402jcg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0402jcg" sourceRef="StartEvent_Gestartet" targetRef="Task_SchriftstueckeKopieren" />
+    <bpmn:callActivity id="Task_SchriftstueckeKopieren" name="Schriftstücke kopieren" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SchriftstueckeKopierenTemplate" calledElement="SchriftstueckeKopierenV01">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_copy_schriftstuecke_coos">FormField_Nachweise1;FormField_Nachweise2</camunda:inputParameter>
+          <camunda:inputParameter name="dms_document_field_suffix">_copied</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in sourceExpression="${kvrDms.mapSchriftstuecke(dms_copy_schriftstuecke_coos)}" target="dms_schriftstuecke" />
+        <camunda:in sourceExpression="${FormField_Vorgang}" target="dms_copy_to_vorgang_coo" />
+        <camunda:in sourceExpression="Anlagen" target="dms_copy_document_name" />
+        <camunda:in sourceExpression="coo" target="dms_document_coo" />
+        <camunda:out source="dms_document_coo" target="dms_dokument_coo" />
+        <camunda:in sourceExpression="260" target="dms_copy_to_userlogin" />
+        <camunda:out local="true" variables="all" />
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">saveSchriftstueckeEndListener.execute(execution)</camunda:script>
+        </camunda:executionListener>
+        <camunda:in sourceExpression="${FormField_QuellDmsUser}" target="dms_copy_from_userlogin" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0402jcg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kbhf1v</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="EndEvent_Beendet" name="Beendet">
+      <bpmn:incoming>Flow_1ivuo8c</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0kbhf1v" sourceRef="Task_SchriftstueckeKopieren" targetRef="Task_KopieKontrollieren" />
+    <bpmn:sequenceFlow id="Flow_1ivuo8c" sourceRef="Task_KopieKontrollieren" targetRef="EndEvent_Beendet" />
+    <bpmn:userTask id="Task_KopieKontrollieren" name="Kopie kontrollieren" camunda:formKey="FeatureSchriftstueckeKopieren_KopieKontrollierenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_0kbhf1v</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ivuo8c</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureSchriftstueckeKopieren">
+      <bpmndi:BPMNEdge id="Flow_1ivuo8c_di" bpmnElement="Flow_1ivuo8c">
+        <di:waypoint x="550" y="117" />
+        <di:waypoint x="612" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kbhf1v_di" bpmnElement="Flow_0kbhf1v">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="450" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0402jcg_di" bpmnElement="Flow_0402jcg">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="142" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ktp9db_di" bpmnElement="Task_SchriftstueckeKopieren">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0iepepe_di" bpmnElement="EndEvent_Beendet">
+        <dc:Bounds x="612" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="609" y="142" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19m1v3z_di" bpmnElement="Task_KopieKontrollieren">
+        <dc:Bounds x="450" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

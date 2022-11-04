@@ -1,0 +1,72 @@
+{
+  "key": "TestStartProcessInstanceForm",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Daten",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Gruppe",
+            "description": "",
+            "containerType": "group",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_Text": {
+                "fieldType": "text",
+                "title": "Text",
+                "type": "string",
+                "key": "FormField_Text",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_Topic": {
+                "fieldType": "text",
+                "title": "Topic",
+                "type": "string",
+                "key": "FormField_Topic",
+                "default": "dwf-digiwf-engine-dev",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              }
+
+            },
+            "key": "TestStartInstanceForm"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_0i1kz3j" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <decision id="AnfrageAnDasAuslaenderamt1aAsylbLGGruppenleitungSOZErmitteln" name="Anfrage an das Ausländeramt nach §1a AsylbLG - Gruppenleitung Sozialreferat ermitteln" camunda:versionTag="2.0">
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
+      <input id="input_1" label="Mitarbeiter-OU">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>mitarbeiterOu</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Gruppenleitung Candidate Users" name="candidateUsers" typeRef="string" biodi:width="345" />
+      <output id="OutputClause_0x7tf84" label="Gruppenleitung Assignee" name="assignee" typeRef="string" biodi:width="337" />
+      <rule id="DecisionRule_03bguut">
+        <inputEntry id="UnaryTests_1hd3m7w">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08tbz1v">
+          <text>"12909, 13858, 13757, 111158466, 18146, 13885, 5767, 111171600"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1rxpc0b">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_14v5nc2">
+      <dmndi:DMNShape id="DMNShape_1pc7mst" dmnElementRef="AnfrageAnDasAuslaenderamt1aAsylbLGGruppenleitungSOZErmitteln">
+        <dc:Bounds height="80" width="180" x="150" y="150" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

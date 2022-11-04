@@ -1,0 +1,66 @@
+{
+  "key": "Feature_AlwPersoneninfo_StartenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abfrage starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "azrNummer",
+          "label": "AZR-Nummer (12-stellig)",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "AZR",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "eventTopic",
+          "label": "Topic",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "dwf-alw-dev",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

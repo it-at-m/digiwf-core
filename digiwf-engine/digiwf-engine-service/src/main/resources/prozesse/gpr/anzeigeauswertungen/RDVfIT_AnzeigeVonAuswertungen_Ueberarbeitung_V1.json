@@ -1,0 +1,419 @@
+{
+    "key": "RDVfIT_AnzeigeVonAuswertungen_Ueberarbeitung_V1",
+    "description": "",
+    "authorizedGroups": "",
+    "buttons": {
+        "complete": {
+            "showButton": false,
+            "buttonText": "Entscheidung abgeben"
+        },
+        "cancel": {
+            "showButton": false,
+            "buttonText": "Abbrechen"
+        },
+        "statusPdf": {
+            "showButton": false,
+            "buttonText": "Status PDF"
+        }
+    },
+    "groups": [
+        {
+            "label": "",
+            "schema": [
+                {
+                    "type": "markdown-output",
+                    "key": "",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Ihr Antrag wurde zur Überarbeitung weitergeleitet. Sie haben jetzt die folgenden Möglichkeiten:\n\n - Ihren Antrag anhand der Anmerkung überarbeiten und erneut stellen.   \n - Auf die Überarbeitung verzichten und Ihren Antrag zurückziehen.  \n\n<br/>Bitte wählen Sie entsprechende Option aus der Dropdown Liste am Ende dieser Seite aus. Und ggf. geben Sie Ihre Anmerkung zur Überarbeitung Ihres Antrages.",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Eckdaten ",
+            "schema": [
+                {
+                    "type": "text",
+                    "key": "FormField_BezeichnungDerAuswertung",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Bezeichnung der Auswertung",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Formfeld-Beschreibung",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "text",
+                    "key": "FormField_System",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "IT System",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "text",
+                    "key": "FormField_ZustaendigeDienststelle",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Dienststelle für Auswertungsroutine",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 6,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "ldap-input",
+                    "key": "FormField_AnsprechpersonFuerAuswertung",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Ansprechperson ",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 6,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "text",
+                    "key": "FormField_EmpfangsdienststelleFuerAuswerungen",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Dientststelle für Datenempfang",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 6,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "ldap-input",
+                    "key": "FormField_AnsprechpersonDerEmpfangsdienststelle",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Ansprechperson",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 6,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Einbindung Datenschutz",
+            "schema": [
+                {
+                    "type": "markdown-output",
+                    "key": "FormField_DatenschutzInfoFeld",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Die oder der zuständige Datenschutzbeauftragte wurde eingebunden:",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "ldap-input",
+                    "key": "FormField_AnsprechpersonDatenschutz",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Datenschutzbeauftragte",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                },
+                {
+                    "type": "checkbox",
+                    "key": "FormField_DatenschutzAnpassungNotwendig",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Die Auswertung kann datenschutzrechlich freigegeben werden",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 6,
+                    "col": 12,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Anmerkung von der Fachgruppe",
+            "schema": [
+                {
+                    "type": "textarea",
+                    "key": "FormField_AnmerkungFuerDieUeberarbeitung",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Anmerkung",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": true,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [
+                        {
+                            "type": "requiredOn",
+                            "value": "Value_Nein",
+                            "target": "FormField_Behandlungsfaehig"
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Überarbeitung des Antrages",
+            "schema": [
+                {
+                    "type": "select",
+                    "key": "FormField_Ueberarbeitung",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "Bitte auswählen",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Formfeld-Beschreibung",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [
+                        {
+                            "name": "Ich habe meinen Antrag überarbeitet und möchte ihn erneut stellen;",
+                            "value": "Value_ErneutStellen"
+                        },
+                        {
+                            "name": "Ich möchte meinen Antrag zurückziehen;",
+                            "value": "Value_Zurueckziehen"
+                        }
+                    ],
+                    "rules": [
+                        {
+                            "type": "required",
+                            "value": "",
+                            "target": ""
+                        }
+                    ],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Anmerkung von Antragsteller/-in",
+            "schema": [
+                {
+                    "type": "textarea",
+                    "key": "FormField_AnmerkungDesAntragstellers",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        }
+    ]
+}

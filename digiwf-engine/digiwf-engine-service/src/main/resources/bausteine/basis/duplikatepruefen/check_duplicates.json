@@ -1,0 +1,76 @@
+{
+  "name": "Duplikate prüfen",
+  "id": "de.muenchen.digitalisierung.templates.CheckBusinessKeyDelegateV02",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${checkBusinessKeyDelegateV02}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Prozess Key",
+      "type": "String",
+      "description": "Die Id des Prozessmodells.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_process_definition_key"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Business Key",
+      "type": "String",
+      "description": "Der Business Key, der geprüft werden soll",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_process_business_key"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prozessinstanz Id",
+      "type": "String",
+      "description": "Die Id der aktuellen Prozessinstanz.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_process_instance_id"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Output: Vorhandene Prozessinstanzen",
+      "description": "Diese Variable enthält die Informationen aller vorhandenen Prozessinstanzen",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${app_existing_process_instances}"
+      }
+    },
+    {
+      "label": "Output: Prozessinstanzen vorhanden",
+      "description": "Diese Varialbe ist true, wenn Prozessinstanzen vorhanden sind",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${app_processes_exist}"
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

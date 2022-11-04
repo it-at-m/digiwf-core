@@ -1,0 +1,69 @@
+{
+  "key": "FeatureLDAP_StartenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_Ldap_Alle",
+          "label": "Ldap Eingabe (Alle)",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ldapOus": "",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Ldap_KM8",
+          "label": "Ldap Eingabe (ITM-KM8)",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ldapOus": "itm-km8",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+
+      ]
+    }
+  ]
+}

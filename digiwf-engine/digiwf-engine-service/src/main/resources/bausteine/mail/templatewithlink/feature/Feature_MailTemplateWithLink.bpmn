@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="FeatureMailTemplateWithLink" name="Feature Mail Template mit Link" isExecutable="true">
+    <bpmn:documentation>Prozess um das Mail Template mit Link zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="FeatureMailTemplateWithLink_StartenV01">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_MailTemplate" />
+    <bpmn:endEvent id="EndEvent_beendet" name="Beendet">
+      <bpmn:incoming>Flow_0aecmf7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0aecmf7" sourceRef="Task_MailTemplate" targetRef="EndEvent_beendet" />
+    <bpmn:serviceTask id="Task_MailTemplate" name="Mail senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTaskTemplateWithLink" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailTemplateWithLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">${FormField_Betreff}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BOTTOM">${FormField_Gruss}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_REPLY_TO">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_LINK_TEXT">${FormField_LinkBezeichnung}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_LINK_URL">${FormField_LinkUrl}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">${FormField_Text}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aecmf7</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureMailTemplateWithLink">
+      <bpmndi:BPMNEdge id="Flow_0aecmf7_di" bpmnElement="Flow_0aecmf7">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="452" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="122" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_beendet">
+        <dc:Bounds x="452" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="449" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_191z328_di" bpmnElement="Task_MailTemplate">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

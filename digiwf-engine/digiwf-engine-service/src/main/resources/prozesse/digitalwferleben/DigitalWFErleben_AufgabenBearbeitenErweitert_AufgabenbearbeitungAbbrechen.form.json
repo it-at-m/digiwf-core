@@ -1,0 +1,78 @@
+{
+  "key": "DigitalWFErleben_AufgabenbearbeitungAbbrechen_V1",
+  "description": "Formular \"Andere Wege gehen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": true,
+      "buttonText": "Zurück zum Thema Statusdokument"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Aufgabenbearbeitung abbrechen - Was ist damit gemeint?",
+      "schema": [
+        {
+          "key": "FormField_AndereWegeGehen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "In einem Vorgang kann es sinnvoll sein, die Bearbeitung einer Aufgabe abzubrechen und nicht mit der nächsten Aufgabe im Ablauf fortzufahren. Bspw. kann es sinnvoll sein, zu einer vorhergehenden Aufgabe zurück zu gehen, wenn festgestellt wird, dass Daten dort nicht richtig erfasst wurden.\n\nDieses \"fachliche Abbrechen\" ist nicht in jeder Aufgabe verfügbar, da es nicht bei jeder Aufgabe sinnvoll ist. Wenn die Funktion zur Verfügung steht, dann erreichen Sie diese über den Button mit den drei senkrechten Punkten. Klicken Sie anschließend auf den Button mit dem Kreis und der diagonalen Linie. Die Benennung des Buttons variiert - um Ihnen zu zeigen, was passiert, wenn Sie auf diesen Button klicken.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/WeitereFunktionen_Abbrechen.png\" alt=\"Abbrechen - zurück zum vorhergehenden Thema\" title=\"Abbrechen - zurück zum vorhergehenden Thema\" width=\"26%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie es aus!",
+      "schema": [
+        {
+          "key": "FormField_Ausprobieren",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Klicken Sie auf den Button mit den drei senkrechten Punkten. Klicken Sie anschließend auf den Button `Zurück zum Thema Statusdokument`. Sie gelangen dann zur vorherigen Aufgabe, die sich mit dem Thema Statusdokument beschäftigt hat. Hier haben Sie die Gelegenheit, erneut ein Statusdokument mit individuellem Text zu erzeugen. Um wieder zur aktuellen Aufgabe zu gelangen, klicken Sie auf den Button `Weiter zum nächsten Thema`.\n\nWenn Sie hingegen in diesem Formular auf `Weiter zum nächsten Thema` klicken, setzen Sie den normalen Ablauf fort und gelangen zum nächsten Thema bzw. zum Ende des Tutorials.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ]
+    }
+  ]
+}

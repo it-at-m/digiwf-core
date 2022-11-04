@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_15on5sq" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="Decision_dvmoho_gl" name="Decision DV MoHo GL" camunda:versionTag="1.4">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" camunda:inputVariable="FormField_referat">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0trmgeo" label="GL_CandidateUsers" name="GL_CandidateUsers" typeRef="string" />
+      <output id="output_1" label="GL_CandidateGroup" name="GL_CandidateGroup" typeRef="string" />
+      <output id="OutputClause_0246ysw" label="GL_Mail" name="GL_Mail" typeRef="string" />
+      <output id="OutputClause_0crocui" label="PV_Mail" name="PV_Mail" typeRef="string" />
+      <rule id="DecisionRule_0vputtu">
+        <inputEntry id="UnaryTests_0rhv9cx">
+          <text>"Value_referat_por"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_019atb9">
+          <text>"-"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_119zjv7">
+          <text>"POR-GL1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lkiapp">
+          <text>"gl1.por"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kobg5z">
+          <text>"personalrat.por"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wvqqg0">
+        <inputEntry id="UnaryTests_15peqxs">
+          <text>"Value_referat_rit-k"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05jo7kx">
+          <text>"-"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_047zo3q">
+          <text>"ITM-GL12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dc5inq">
+          <text>"itm.gl12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1rbvc5m">
+          <text>"oepr.rit"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1frhp9d">
+        <inputEntry id="UnaryTests_1d2gt0w">
+          <text>"Value_referat_rit-itm"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tuod7i">
+          <text>"-"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s8pt1u">
+          <text>"ITM-GL12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_139xojh">
+          <text>"itm.gl12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14tybsf">
+          <text>"itm.oepr"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02rykkc">
+        <inputEntry id="UnaryTests_1fgb0g8">
+          <text>"Value_referat_plan"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uifv1x">
+          <text>"14933"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qt7v3i">
+          <text>"-"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fpi8jz">
+          <text>"ma.mueller"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_026hb4f">
+          <text>"ma.mueller"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0m6ycbx">
+      <dmndi:DMNShape id="DMNShape_0zq9g9n" dmnElementRef="Decision_dvmoho_gl">
+        <dc:Bounds height="80" width="180" x="157" y="81" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

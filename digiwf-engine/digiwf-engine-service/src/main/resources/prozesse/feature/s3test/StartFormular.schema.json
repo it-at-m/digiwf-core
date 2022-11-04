@@ -1,0 +1,71 @@
+{
+  "key": "32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "app_file_s3_async_config": {
+                "fieldType": "text",
+                "title": "S3 Config",
+                "type": "string",
+                "key": "app_file_s3_async_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "app_file_s3_sync_config": {
+                "fieldType": "text",
+                "title": "S3 HTTP Config",
+                "type": "string",
+                "key": "app_file_s3_sync_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "f393458d-db10-41ec-96e6-40e6a905093f"
+          }
+        ],
+        "key": "cc1d2542-daf4-4c9e-bd68-612ea617b0de"
+      }
+    ]
+  }
+}

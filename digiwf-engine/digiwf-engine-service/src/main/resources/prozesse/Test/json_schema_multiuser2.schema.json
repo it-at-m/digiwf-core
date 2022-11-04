@@ -1,0 +1,95 @@
+{
+  "key": "json_schema_multiuser2",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Eingangszahlung",
+        "type": "object",
+        "description": "Eingangszahlung",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Neue Gruppe",
+            "description": "",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "nameEinzahler": {
+                "fieldType": "text",
+                "title": "Name Einzahler",
+                "type": "string",
+                "key": "nameEinzahler",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_Empfaenger": {
+                "fieldType": "user-input",
+                "title": "Empfänger*in",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "key": "FormField_Empfaenger",
+                "ldap-groups": "ITM-KM82",
+                "x-display": "custom-multi-user-input",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "ibanEinzahler": {
+                "fieldType": "text",
+                "title": "IBAN Einzahler",
+                "type": "string",
+                "key": "ibanEinzahler",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            },
+            "key": "49b8a9af-82dd-4c8b-a40d-217015c761c8"
+          }
+        ]
+      }
+    ]
+  }
+}

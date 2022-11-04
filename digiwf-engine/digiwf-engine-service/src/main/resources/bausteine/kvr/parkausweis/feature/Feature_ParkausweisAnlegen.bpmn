@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:process id="FeatureCreateParkausweis" name="Feature Parkausweis erstellen" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Parkausweis erstellen zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="Feature_ParkausweisAnlegen_StartenV02">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_CreateParkausweis" />
+    <bpmn:endEvent id="EndEvent_beendet" name="Beendet">
+      <bpmn:incoming>Flow_12yvex9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0aecmf7" sourceRef="Task_CreateParkausweis" targetRef="Task_ParkausweisErstellungPruefen" />
+    <bpmn:sequenceFlow id="Flow_12yvex9" sourceRef="Task_ParkausweisErstellungPruefen" targetRef="EndEvent_beendet" />
+    <bpmn:userTask id="Task_ParkausweisErstellungPruefen" name="Parkausweis Erstellung prüfen" camunda:formKey="FeatureParkausweisAnlegen_PruefenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_0aecmf7</bpmn:incoming>
+      <bpmn:outgoing>Flow_12yvex9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:callActivity id="Task_CreateParkausweis" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CreateParkausweisTemplateV02" calledElement="CreateParkausweisTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="correlateParkausweisCreated" target="app_message_name" />
+        <camunda:in sourceExpression="createParkausweisv02" target="app_type_name" />
+        <camunda:in sourceExpression="${formatter.bool(quickcheck1)}" target="gueltigerFuehrerschein" />
+        <camunda:in sourceExpression="${formatter.bool(quickcheck2)}" target="gueltigerParkausweis" />
+        <camunda:in sourceExpression="${formatter.bool(quickcheck3)}" target="stellplatzVorhanden" />
+        <camunda:in sourceExpression="${quickcheck4}" target="bauartFahrzeug" />
+        <camunda:in sourceExpression="${begrundung}" target="begruendungParkausweis" />
+        <camunda:in sourceExpression="${quickcheck4}" target="bauartFahrzeug" />
+        <camunda:in sourceExpression="${antragsTyp}" target="antragsTyp" />
+        <camunda:in sourceExpression="lizenzdauer oder lizenzdauer2" target="lizenzdauer" />
+        <camunda:in sourceExpression="${parklizenzgebiet}" target="lizenzgebietname" />
+        <camunda:in sourceExpression="10" target="lizenzgebietnummer" />
+        <camunda:in sourceExpression="${vorname}" target="antragsteller_vorname" />
+        <camunda:in sourceExpression="${familienname}" target="antragsteller_familienname" />
+        <camunda:in sourceExpression="${geburtsdatum}" target="antragsteller_geburtsdatum" />
+        <camunda:in sourceExpression="${mailadresse_p_bk}" target="antragsteller_mailadresse" />
+        <camunda:in sourceExpression="${adresse}" target="antragsteller_strasse" />
+        <camunda:in sourceExpression="${adresse}" target="antragsteller_hausnummer" />
+        <camunda:in sourceExpression="${wohnort}" target="antragsteller_ort" />
+        <camunda:in sourceExpression="${postleitzahl}" target="antragsteller_postleitzahl" />
+        <camunda:in sourceExpression="${telefonnummer_np_bk}" target="antragsteller_telefonnummer" />
+        <camunda:in sourceExpression="${name_vermieter}" target="vermieter_name" />
+        <camunda:in sourceExpression="${adresse_vermieter}" target="vermieter_strasse" />
+        <camunda:in sourceExpression="${adresse_vermieter}" target="vermieter_hausnummer" />
+        <camunda:in sourceExpression="${postleitzahl_vermieter}" target="vermieter_postleitzahl" />
+        <camunda:in sourceExpression="${ort_vermieter}" target="vermieter_ort" />
+        <camunda:in sourceExpression="${formatter.bool(execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item1_deutsches_kennzeichen&#39;))}" target="fz1_deutschesKennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item1_fahrzeugkennzeichen_de_val_p&#39;)}" target="fz1_kennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item1_selbst_zugelassen&#39;)}" target="fz1_zulassung" />
+        <camunda:in sourceExpression="${formatter.bool(execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item2_deutsches_kennzeichen&#39;))}" target="fz2_deutschesKennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item2_fahrzeugkennzeichen_de_val_p&#39;)}" target="fz2_kennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item2_selbst_zugelassen&#39;)}" target="fz2_zulassung" />
+        <camunda:in sourceExpression="${formatter.bool(execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item3_deutsches_kennzeichen&#39;))}" target="fz3_deutschesKennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item3_fahrzeugkennzeichen_de_val_p&#39;)}" target="fz3_kennzeichen" />
+        <camunda:in sourceExpression="${execution.getVariable(&#39;fahrzeugdaten_fahrzeugdaten-item3_selbst_zugelassen&#39;)}" target="fz3_zulassung" />
+        <camunda:in sourceExpression="${erklaerung}" target="erklaerungWeiteresFahrzeug" />
+        <camunda:in sourceExpression="${formatter.bool(weiteres_fahrzeug_zugelassen)}" target="weiteresEigenesFahrzeug" />
+        <camunda:in sourceExpression="${formatter.bool(datenschutz2)}" target="datenschutzerklaerung" />
+        <camunda:in sourceExpression="${formatter.bool(datenschutz2)}" target="elektronischeKommunikation" />
+        <camunda:in sourceExpression="${formatter.bool(datenschutz3)}" target="datenverwendungBearbeitung" />
+        <camunda:in sourceExpression="${formatter.bool(datenschutz4)}" target="falscheAngaben" />
+        <camunda:out source="parkausweisId" target="parkausweisId" />
+        <camunda:in sourceExpression="dwf-parkausweis-dev" target="app_topic_name" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aecmf7</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureCreateParkausweis">
+      <bpmndi:BPMNEdge id="Flow_12yvex9_di" bpmnElement="Flow_12yvex9">
+        <di:waypoint x="530" y="97" />
+        <di:waypoint x="592" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0aecmf7_di" bpmnElement="Flow_0aecmf7">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="430" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="122" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_beendet">
+        <dc:Bounds x="592" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="589" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k35xiy_di" bpmnElement="Task_ParkausweisErstellungPruefen">
+        <dc:Bounds x="430" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mb9vhh_di" bpmnElement="Task_CreateParkausweis">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

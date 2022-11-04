@@ -1,0 +1,437 @@
+{
+  "key": "AntragDVMoHo_AblehnungFortfuehren_V01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "1. Daten der Antragstellerin/des Antragstellers",
+      "schema": [
+        {
+          "key": "FormField_vorname",
+          "label": "Vorname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_name",
+          "label": "Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_referat",
+          "label": "Referat",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            },
+            {
+              "name": "PLAN",
+              "value": "Value_referat_plan"
+            }
+          ],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_organisationseinheit",
+          "label": "Organisationseinheit",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "2. Startzeitpunkt",
+      "schema": [
+        {
+          "key": "FormField_gewuenschterStartzeitpunkt",
+          "label": "Startzeitpunkt",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_geltungszeitraum",
+          "label": "Geltungszeitraum",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "unbefristet",
+              "value": "Value_geltungszeitraum_unbefristet"
+            },
+            {
+              "name": "befristet mit der Möglichkeit der Verlängerung.",
+              "value": "Value_geltungszeitraum_befristet"
+            }
+          ],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_geltungszeitraum_datum",
+          "label": "Datum Ende der Befristung",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_geltungszeitraum_befristet",
+              "target": "FormField_geltungszeitraum"
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "3. Angaben zur Verteilung der regelmäßigen wöchentlichen Arbeitszeit",
+      "schema": [
+        {
+          "key": "FormField_anteilHomeoffice",
+          "label": "Homeoffice Anteil in %",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "0",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit im Homeoffice eingebrachter Anteil in %",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_anteilMobil",
+          "label": "Mobiles Arbeiten Anteil in %",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "0",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit für das mobile Arbeiten eingebrachter Anteil in %",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "4. Organisation",
+      "schema": [
+        {
+          "key": "FormField_erreichbarkeit",
+          "label": "Erreichbarkeit der Dienstkraft",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Erreichbarkeit der Dienstkraft (bitte Wochentag/Uhrzeit angeben) (analog Punkt 6 der Vereinbarung gemäß §10 der DV)",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_ortHomeoffice",
+          "label": "Adresse des Homeoffice / mögliche mobile Arbeitsorte",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Adresse des Homeoffice und/oder mögliche mobile Arbeitsorte (analog Punkt 3 der Vereinbarung gemäß §10 der DV)",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_kommunikation",
+          "label": "Dienstliche Kommunikation",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Die dienstliche Kommunikation im Rahmen des mobilen Arbeitens und/oder des Arbeitens im Homeoffice werde ich wie folgt abwickeln",
+          "readonly": true,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "mit einem bereits vorhandenen dienstlichen Mobiltelefon.",
+              "value": "Value_kommunikation_diensthandy"
+            },
+            {
+              "name": "unter Mitbenutzung des privaten Telefonanschlusses, da ich kein dienstlichen Mobiltelefon habe (ggf. gegen eine mtl. Telefonkostenpauschale gem. § 15 DV MoHo)",
+              "value": "Value_kommunikation_privathandy"
+            }
+          ],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "5. Definition und Abgrenzung der Aufgaben und Informationen, die mittels des mobilen Arbeitens und/oder des Arbeitens im Homeoffice bearbeitet werden sollen",
+      "schema": [
+        {
+          "key": "FormField_abgrenzungInformation",
+          "label": "Aufgaben",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "500",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "Antwort Vorgesetzter*in",
+      "schema": [
+        {
+          "key": "FormField_nichtOkFuehrungskraft_begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Antwort",
+      "schema": [
+        {
+          "key": "FormField_GL_weitereErlauterungen",
+          "label": "Weitere Erläuterungen zur Ablehnung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1foapfc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="DuplikatePruefenV02" name="Duplikate prüfen" isExecutable="true" camunda:candidateStarterGroups="nobody">
+    <bpmn:startEvent id="StartEvent_PruefungGestartet" name="Prüfung gestartet" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_0qfo2xm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0qfo2xm" sourceRef="StartEvent_PruefungGestartet" targetRef="Task_DuplikatePruefen" />
+    <bpmn:serviceTask id="Task_DuplikatePruefen" name="Duplikate prüfen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.CheckBusinessKeyDelegateV02" camunda:delegateExpression="${checkBusinessKeyDelegateV02}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_process_definition_key">${app_process_definition_key}</camunda:inputParameter>
+          <camunda:inputParameter name="app_process_business_key">${app_process_business_key}</camunda:inputParameter>
+          <camunda:inputParameter name="app_process_instance_id">${app_process_instance_id}</camunda:inputParameter>
+          <camunda:outputParameter name="existing_process_instances">${app_existing_process_instances}</camunda:outputParameter>
+          <camunda:outputParameter name="process_exist">${app_processes_exist}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qfo2xm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yzcho7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0xts8xh" name="Duplikate vorhanden?" default="Flow_1tfq5m2">
+      <bpmn:incoming>Flow_0yzcho7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pntwro</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1tfq5m2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0yzcho7" sourceRef="Task_DuplikatePruefen" targetRef="Gateway_0xts8xh" />
+    <bpmn:sequenceFlow id="Flow_0pntwro" name="Ja" sourceRef="Gateway_0xts8xh" targetRef="Task_DuplikatKontrollieren">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${process_exist}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_PruefeungBeendet" name="Prüfung beendet">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">if(!execution.hasVariable('FormField_CancelProcess')) {
+  execution.setVariable('FormField_CancelProcess', false);
+}</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_08qc1l3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1tfq5m2" sourceRef="Gateway_0xts8xh" targetRef="Gateway_08yxs3q" />
+    <bpmn:exclusiveGateway id="Gateway_08yxs3q">
+      <bpmn:incoming>Flow_1tfq5m2</bpmn:incoming>
+      <bpmn:incoming>Flow_0r0c0hs</bpmn:incoming>
+      <bpmn:outgoing>Flow_08qc1l3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_08qc1l3" sourceRef="Gateway_08yxs3q" targetRef="Event_PruefeungBeendet" />
+    <bpmn:sequenceFlow id="Flow_0r0c0hs" sourceRef="Task_DuplikatKontrollieren" targetRef="Gateway_08yxs3q" />
+    <bpmn:userTask id="Task_DuplikatKontrollieren" name="${app_duplicateCheckTitle}" camunda:formKey="DuplikatePruefen_KontrollierenV02" camunda:assignee="${starterOfInstance}" camunda:candidateUsers="${starterOfInstance}">
+      <bpmn:incoming>Flow_0pntwro</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r0c0hs</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="DuplikatePruefenV02">
+      <bpmndi:BPMNEdge id="Flow_0r0c0hs_di" bpmnElement="Flow_0r0c0hs">
+        <di:waypoint x="620" y="240" />
+        <di:waypoint x="700" y="240" />
+        <di:waypoint x="700" y="142" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08qc1l3_di" bpmnElement="Flow_08qc1l3">
+        <di:waypoint x="725" y="117" />
+        <di:waypoint x="802" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tfq5m2_di" bpmnElement="Flow_1tfq5m2">
+        <di:waypoint x="475" y="117" />
+        <di:waypoint x="675" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pntwro_di" bpmnElement="Flow_0pntwro">
+        <di:waypoint x="450" y="142" />
+        <di:waypoint x="450" y="240" />
+        <di:waypoint x="520" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="188" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yzcho7_di" bpmnElement="Flow_0yzcho7">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="425" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qfo2xm_di" bpmnElement="Flow_0qfo2xm">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_PruefungGestartet">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="154" y="142" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15y2de4_di" bpmnElement="Task_DuplikatePruefen">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xts8xh_di" bpmnElement="Gateway_0xts8xh" isMarkerVisible="true">
+        <dc:Bounds x="425" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="62" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rbcpib_di" bpmnElement="Event_PruefeungBeendet">
+        <dc:Bounds x="802" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="779" y="142" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_08yxs3q_di" bpmnElement="Gateway_08yxs3q" isMarkerVisible="true">
+        <dc:Bounds x="675" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ofjr8u_di" bpmnElement="Task_DuplikatKontrollieren">
+        <dc:Bounds x="520" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

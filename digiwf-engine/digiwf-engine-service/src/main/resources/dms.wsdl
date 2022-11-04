@@ -1,0 +1,2750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:fsc-svc="http://schemas.fabasoft.com/websvc/LHMBAI_15_1700_GIWSD/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension"
+	targetNamespace="http://schemas.fabasoft.com/websvc/LHMBAI_15_1700_GIWSD/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://schemas.fabasoft.com/websvc/LHMBAI_15_1700_GIWSD/"
+			xmlns:tns="http://schemas.fabasoft.com/websvc/LHMBAI_15_1700_GIWSD/"
+			elementFormDefault="qualified">
+			<xs:complexType name="ArrayOfstring">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded"
+						name="string" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ReadMetadataObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadMetadataObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objclass"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objcreatedat" type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objcreatedby" type="tns:ArrayOfstring" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objmodifiedat" type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objchangedby" type="tns:ArrayOfstring" />
+						<xs:element minOccurs="0" maxOccurs="1" name="ou"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="LHMBAI_15_1700_GIObjectType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objname" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objaddress" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType
+				name="ArrayOfLHMBAI_15_1700_GIObjectType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded"
+						name="LHMBAI_15_1700_GIObjectType"
+						type="tns:LHMBAI_15_1700_GIObjectType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="SearchObjNameGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchstring" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objclass"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SearchObjNameGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CancelObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CancelObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateAccessDefinitionObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaccdef" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="authinheritance" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateAccessDefinitionObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadApentryGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadApentryGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadSubjectAreaGIObjects">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadSubjectAreaGIObjectsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType
+				name="LHMBAI_15_1700_BusinessObjectType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objname" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objaddress" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objclass" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objcreatedat" type="xs:dateTime" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objcreatedby" type="tns:ArrayOfstring" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objmodifiedat" type="xs:dateTime" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objchangedby" type="tns:ArrayOfstring" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objowner" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objowngroup" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType
+				name="ArrayOfLHMBAI_15_1700_BusinessObjectType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded"
+						name="LHMBAI_15_1700_BusinessObjectType"
+						type="tns:LHMBAI_15_1700_BusinessObjectType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ReadSubjectAreaGIObjectsMetaData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element
+				name="ReadSubjectAreaGIObjectsMetaDataResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="businessobjecttype"
+							type="tns:ArrayOfLHMBAI_15_1700_BusinessObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadSubjectAreaFileGIObjects">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadSubjectAreaFileGIObjectsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadSubjectAreaFileGIObjectsMetaData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element
+				name="ReadSubjectAreaFileGIObjectsMetaDataResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="businessobjecttype"
+							type="tns:ArrayOfLHMBAI_15_1700_BusinessObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGIObjects">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGIObjectsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGIObjectsMetaData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGIObjectsMetaDataResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="businessobjecttype"
+							type="tns:ArrayOfLHMBAI_15_1700_BusinessObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadDocumentGIObjects">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadDocumentGIObjectsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadDocumentGIObjectsMetaData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadDocumentGIObjectsMetaDataResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="businessobjecttype"
+							type="tns:ArrayOfLHMBAI_15_1700_BusinessObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateSubjectAreaUnitGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="basenr"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subjareaspecreference" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortterm" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subjarchiveschedule" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subjschedule" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subjdispstate" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="fileaccessdefinition" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateSubjectAreaUnitGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateFileGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="apentry"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="apentrysearch" type="xs:boolean" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="fileouobj" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procedureaccdef" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateFileGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadFileGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadFileGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="apentry"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="fileouobj" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procedureaccdef" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateFileGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procedureaccdef" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateFileGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateProcedureGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procremark" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="proccostcenter" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filetype"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateProcedureGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadProcedureGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objdocstate" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="bostate"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objowngroup" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procremark" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="proccostcenter" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filetype"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateProcedureGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="procremark" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="proccostcenter" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filetype"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateProcedureGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="LHMBAI_15_1700_GIAttachmentType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_filename" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_fileextension" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_filecontent" type="xs:base64Binary" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType
+				name="ArrayOfLHMBAI_15_1700_GIAttachmentType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded"
+						name="LHMBAI_15_1700_GIAttachmentType"
+						type="tns:LHMBAI_15_1700_GIAttachmentType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="CreateIncomingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="foreignnr" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="documentremarks" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateIncomingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="LHMBAI_15_1700_GIMetadataType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objaddress" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_filename" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_fileextension" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objclass" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_contsize" type="xs:string" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objcreatedby" type="tns:ArrayOfstring" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objcreatedat" type="xs:dateTime" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objchangedby" type="tns:ArrayOfstring" />
+					<xs:element minOccurs="0" maxOccurs="1"
+						name="LHMBAI_15_1700_objmodifiedat" type="xs:dateTime" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType
+				name="ArrayOfLHMBAI_15_1700_GIMetadataType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded"
+						name="LHMBAI_15_1700_GIMetadataType"
+						type="tns:LHMBAI_15_1700_GIMetadataType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ReadIncomingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadIncomingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="delivery"
+							type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="foreignnr" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="documentremarks" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIMetadataType" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateIncomingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="foreignnr" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="delivery"
+							type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="documentremarks" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateIncomingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateOutgoingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referredincoming" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="outgoingdate" type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subfiletype" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="doctemplate" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateOutgoingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giobjecttype" type="tns:ArrayOfLHMBAI_15_1700_GIObjectType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadOutgoingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadOutgoingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referredincoming" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="outgoingdate" type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="subfiletype" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIMetadataType" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateOutgoingGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="accdef"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referredincoming" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="outgoingdate" type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateOutgoingGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadInboxGIObjects">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadInboxGIObjectsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype"
+							type="tns:ArrayOfLHMBAI_15_1700_GIMetadataType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateIncomingFromInboxGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="inboxid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="contentid" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="shortname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="foreignnr" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="filesubj"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="documentremarks" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="incattachments" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="searchalso" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objterms"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateIncomingFromInboxGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadContentObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadContentObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:LHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadContentObjectMetaDataGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadContentObjectMetaDataGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype" type="tns:LHMBAI_15_1700_GIMetadataType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateContentObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="giattachmenttype"
+							type="tns:LHMBAI_15_1700_GIAttachmentType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateContentObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="contentobjid" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="contentobjname" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FinalizeContentObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FinalizeContentObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype" type="tns:LHMBAI_15_1700_GIMetadataType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeFinalizeContentObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeFinalizeContentObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="referrednumber" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="gimetadatatype" type="tns:LHMBAI_15_1700_GIMetadataType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DepositObjectGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DepositObjectGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SetDisposalScheduleDateGI">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="userlogin" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="objaddress" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="offltscheduled" type="xs:dateTime" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SetDisposalScheduleDateGIResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="status"
+							type="xs:int" />
+						<xs:element minOccurs="0" maxOccurs="1"
+							name="errormessage" type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objid"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="objname"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="ReadMetadataObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadMetadataObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadMetadataObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadMetadataObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="SearchObjNameGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:SearchObjNameGI" />
+	</wsdl:message>
+	<wsdl:message name="SearchObjNameGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:SearchObjNameGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="CancelObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CancelObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="CancelObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CancelObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateAccessDefinitionObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateAccessDefinitionObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateAccessDefinitionObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateAccessDefinitionObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadApentryGISoapIn">
+		<wsdl:part name="parameters" element="fsc-svc:ReadApentryGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadApentryGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadApentryGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadSubjectAreaGIObjectsSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaGIObjects" />
+	</wsdl:message>
+	<wsdl:message name="ReadSubjectAreaGIObjectsSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaGIObjectsResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="ReadSubjectAreaGIObjectsMetaDataSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaGIObjectsMetaData" />
+	</wsdl:message>
+	<wsdl:message
+		name="ReadSubjectAreaGIObjectsMetaDataSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaGIObjectsMetaDataResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadSubjectAreaFileGIObjectsSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaFileGIObjects" />
+	</wsdl:message>
+	<wsdl:message name="ReadSubjectAreaFileGIObjectsSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaFileGIObjectsResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="ReadSubjectAreaFileGIObjectsMetaDataSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaFileGIObjectsMetaData" />
+	</wsdl:message>
+	<wsdl:message
+		name="ReadSubjectAreaFileGIObjectsMetaDataSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadSubjectAreaFileGIObjectsMetaDataResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGIObjectsSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGIObjects" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGIObjectsSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGIObjectsResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGIObjectsMetaDataSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGIObjectsMetaData" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGIObjectsMetaDataSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGIObjectsMetaDataResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadDocumentGIObjectsSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadDocumentGIObjects" />
+	</wsdl:message>
+	<wsdl:message name="ReadDocumentGIObjectsSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadDocumentGIObjectsResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadDocumentGIObjectsMetaDataSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadDocumentGIObjectsMetaData" />
+	</wsdl:message>
+	<wsdl:message name="ReadDocumentGIObjectsMetaDataSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadDocumentGIObjectsMetaDataResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateSubjectAreaUnitGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateSubjectAreaUnitGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateSubjectAreaUnitGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateSubjectAreaUnitGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateFileGISoapIn">
+		<wsdl:part name="parameters" element="fsc-svc:CreateFileGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateFileGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateFileGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadFileGISoapIn">
+		<wsdl:part name="parameters" element="fsc-svc:ReadFileGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadFileGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadFileGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateFileGISoapIn">
+		<wsdl:part name="parameters" element="fsc-svc:UpdateFileGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateFileGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateFileGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateProcedureGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateProcedureGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateProcedureGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateProcedureGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadProcedureGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadProcedureGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateProcedureGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateProcedureGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateProcedureGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateProcedureGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateIncomingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateIncomingGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateIncomingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateIncomingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadIncomingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadIncomingGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadIncomingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadIncomingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateIncomingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateIncomingGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateIncomingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateIncomingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateOutgoingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateOutgoingGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateOutgoingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateOutgoingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadOutgoingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadOutgoingGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadOutgoingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadOutgoingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateOutgoingGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateOutgoingGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateOutgoingGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateOutgoingGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadInboxGIObjectsSoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadInboxGIObjects" />
+	</wsdl:message>
+	<wsdl:message name="ReadInboxGIObjectsSoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadInboxGIObjectsResponse" />
+	</wsdl:message>
+	<wsdl:message name="CreateIncomingFromInboxGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateIncomingFromInboxGI" />
+	</wsdl:message>
+	<wsdl:message name="CreateIncomingFromInboxGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:CreateIncomingFromInboxGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadContentObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadContentObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadContentObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadContentObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReadContentObjectMetaDataGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadContentObjectMetaDataGI" />
+	</wsdl:message>
+	<wsdl:message name="ReadContentObjectMetaDataGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:ReadContentObjectMetaDataGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateContentObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateContentObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="UpdateContentObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:UpdateContentObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="FinalizeContentObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:FinalizeContentObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="FinalizeContentObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:FinalizeContentObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="DeFinalizeContentObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:DeFinalizeContentObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="DeFinalizeContentObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:DeFinalizeContentObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="DepositObjectGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:DepositObjectGI" />
+	</wsdl:message>
+	<wsdl:message name="DepositObjectGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:DepositObjectGIResponse" />
+	</wsdl:message>
+	<wsdl:message name="SetDisposalScheduleDateGISoapIn">
+		<wsdl:part name="parameters"
+			element="fsc-svc:SetDisposalScheduleDateGI" />
+	</wsdl:message>
+	<wsdl:message name="SetDisposalScheduleDateGISoapOut">
+		<wsdl:part name="parameters"
+			element="fsc-svc:SetDisposalScheduleDateGIResponse" />
+	</wsdl:message>
+	<wsdl:portType name="LHMBAI_15_1700_GIWSDSoap">
+		<wsdl:operation name="ReadMetadataObjectGI">
+			<wsdl:input message="fsc-svc:ReadMetadataObjectGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadMetadataObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SearchObjNameGI">
+			<wsdl:input message="fsc-svc:SearchObjNameGISoapIn" />
+			<wsdl:output message="fsc-svc:SearchObjNameGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelObjectGI">
+			<wsdl:input message="fsc-svc:CancelObjectGISoapIn" />
+			<wsdl:output message="fsc-svc:CancelObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAccessDefinitionObjectGI">
+			<wsdl:input
+				message="fsc-svc:UpdateAccessDefinitionObjectGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:UpdateAccessDefinitionObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadApentryGI">
+			<wsdl:input message="fsc-svc:ReadApentryGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadApentryGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjects">
+			<wsdl:input
+				message="fsc-svc:ReadSubjectAreaGIObjectsSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadSubjectAreaGIObjectsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjectsMetaData">
+			<wsdl:input
+				message="fsc-svc:ReadSubjectAreaGIObjectsMetaDataSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadSubjectAreaGIObjectsMetaDataSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaFileGIObjects">
+			<wsdl:input
+				message="fsc-svc:ReadSubjectAreaFileGIObjectsSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadSubjectAreaFileGIObjectsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation
+			name="ReadSubjectAreaFileGIObjectsMetaData">
+			<wsdl:input
+				message="fsc-svc:ReadSubjectAreaFileGIObjectsMetaDataSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadSubjectAreaFileGIObjectsMetaDataSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjects">
+			<wsdl:input message="fsc-svc:ReadProcedureGIObjectsSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadProcedureGIObjectsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjectsMetaData">
+			<wsdl:input
+				message="fsc-svc:ReadProcedureGIObjectsMetaDataSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadProcedureGIObjectsMetaDataSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjects">
+			<wsdl:input message="fsc-svc:ReadDocumentGIObjectsSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadDocumentGIObjectsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjectsMetaData">
+			<wsdl:input
+				message="fsc-svc:ReadDocumentGIObjectsMetaDataSoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadDocumentGIObjectsMetaDataSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateSubjectAreaUnitGI">
+			<wsdl:input
+				message="fsc-svc:CreateSubjectAreaUnitGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:CreateSubjectAreaUnitGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateFileGI">
+			<wsdl:input message="fsc-svc:CreateFileGISoapIn" />
+			<wsdl:output message="fsc-svc:CreateFileGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadFileGI">
+			<wsdl:input message="fsc-svc:ReadFileGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadFileGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateFileGI">
+			<wsdl:input message="fsc-svc:UpdateFileGISoapIn" />
+			<wsdl:output message="fsc-svc:UpdateFileGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateProcedureGI">
+			<wsdl:input message="fsc-svc:CreateProcedureGISoapIn" />
+			<wsdl:output message="fsc-svc:CreateProcedureGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGI">
+			<wsdl:input message="fsc-svc:ReadProcedureGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadProcedureGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateProcedureGI">
+			<wsdl:input message="fsc-svc:UpdateProcedureGISoapIn" />
+			<wsdl:output message="fsc-svc:UpdateProcedureGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingGI">
+			<wsdl:input message="fsc-svc:CreateIncomingGISoapIn" />
+			<wsdl:output message="fsc-svc:CreateIncomingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadIncomingGI">
+			<wsdl:input message="fsc-svc:ReadIncomingGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadIncomingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateIncomingGI">
+			<wsdl:input message="fsc-svc:UpdateIncomingGISoapIn" />
+			<wsdl:output message="fsc-svc:UpdateIncomingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateOutgoingGI">
+			<wsdl:input message="fsc-svc:CreateOutgoingGISoapIn" />
+			<wsdl:output message="fsc-svc:CreateOutgoingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadOutgoingGI">
+			<wsdl:input message="fsc-svc:ReadOutgoingGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadOutgoingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateOutgoingGI">
+			<wsdl:input message="fsc-svc:UpdateOutgoingGISoapIn" />
+			<wsdl:output message="fsc-svc:UpdateOutgoingGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadInboxGIObjects">
+			<wsdl:input message="fsc-svc:ReadInboxGIObjectsSoapIn" />
+			<wsdl:output message="fsc-svc:ReadInboxGIObjectsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingFromInboxGI">
+			<wsdl:input
+				message="fsc-svc:CreateIncomingFromInboxGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:CreateIncomingFromInboxGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectGI">
+			<wsdl:input message="fsc-svc:ReadContentObjectGISoapIn" />
+			<wsdl:output message="fsc-svc:ReadContentObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectMetaDataGI">
+			<wsdl:input
+				message="fsc-svc:ReadContentObjectMetaDataGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:ReadContentObjectMetaDataGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateContentObjectGI">
+			<wsdl:input message="fsc-svc:UpdateContentObjectGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:UpdateContentObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="FinalizeContentObjectGI">
+			<wsdl:input
+				message="fsc-svc:FinalizeContentObjectGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:FinalizeContentObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DeFinalizeContentObjectGI">
+			<wsdl:input
+				message="fsc-svc:DeFinalizeContentObjectGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:DeFinalizeContentObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="DepositObjectGI">
+			<wsdl:input message="fsc-svc:DepositObjectGISoapIn" />
+			<wsdl:output message="fsc-svc:DepositObjectGISoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SetDisposalScheduleDateGI">
+			<wsdl:input
+				message="fsc-svc:SetDisposalScheduleDateGISoapIn" />
+			<wsdl:output
+				message="fsc-svc:SetDisposalScheduleDateGISoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="LHMBAI_15_1700_GIWSDSoap"
+		type="fsc-svc:LHMBAI_15_1700_GIWSDSoap">
+		<stk:binding
+			xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension"
+			preferredEncoding="UTF-8" />
+		<soap:binding
+			xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+			transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="ReadMetadataObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadMetadataObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchObjNameGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_SearchObjNameGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CancelObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAccessDefinitionObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateAccessDefinitionObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadApentryGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadApentryGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjects">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjectsMetaData">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaFileGIObjects">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaFileGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="ReadSubjectAreaFileGIObjectsMetaData">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaFileGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjects">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjectsMetaData">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjects">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadDocumentGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjectsMetaData">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadDocumentGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateSubjectAreaUnitGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateSubjectAreaUnitGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateFileGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadFileGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateFileGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProcedureGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateProcedureGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadIncomingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateIncomingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateOutgoingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadOutgoingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateOutgoingGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadInboxGIObjects">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadInboxGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingFromInboxGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateIncomingFromInboxGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectMetaDataGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadContentObjectMetaDataGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateContentObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FinalizeContentObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_FinalizeContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeFinalizeContentObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_DeFinalizeContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DepositObjectGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_DepositObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetDisposalScheduleDateGI">
+			<soap:operation
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_SetDisposalScheduleDateGI"
+				style="document" />
+			<wsdl:input>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="LHMBAI_15_1700_GIWSDSoap12"
+		type="fsc-svc:LHMBAI_15_1700_GIWSDSoap">
+		<stk:binding
+			xmlns:stk="http://schemas.microsoft.com/soap-toolkit/wsdl-extension"
+			preferredEncoding="UTF-8" />
+		<soap12:binding
+			xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+			transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<wsdl:operation name="ReadMetadataObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadMetadataObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SearchObjNameGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_SearchObjNameGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CancelObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAccessDefinitionObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateAccessDefinitionObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadApentryGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadApentryGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjects">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaGIObjectsMetaData">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadSubjectAreaFileGIObjects">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaFileGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="ReadSubjectAreaFileGIObjectsMetaData">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadSubjectAreaFileGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjects">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGIObjectsMetaData">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjects">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadDocumentGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadDocumentGIObjectsMetaData">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadDocumentGIObjectsMetaData"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateSubjectAreaUnitGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateSubjectAreaUnitGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateFileGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadFileGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateFileGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateFileGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateProcedureGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadProcedureGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateProcedureGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateProcedureGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadIncomingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateIncomingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateIncomingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateOutgoingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadOutgoingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateOutgoingGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateOutgoingGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadInboxGIObjects">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadInboxGIObjects"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateIncomingFromInboxGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_CreateIncomingFromInboxGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadContentObjectMetaDataGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_ReadContentObjectMetaDataGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateContentObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_UpdateContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FinalizeContentObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_FinalizeContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeFinalizeContentObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_DeFinalizeContentObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DepositObjectGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_DepositObjectGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetDisposalScheduleDateGI">
+			<soap12:operation
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				soapAction="http://schemas.fabasoft.com/object/LHMBAI_15_1700_SetDisposalScheduleDateGI"
+				style="document" />
+			<wsdl:input>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body
+					xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="LHMBAI_15_1700_GIWSD">
+		<wsdl:port name="LHMBAI_15_1700_GIWSDSoap"
+			binding="fsc-svc:LHMBAI_15_1700_GIWSDSoap">
+			<soap:address
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				location="https://mucstest03.muenchen.de/fsc/fscdav/wsdl?WEBSVC=LHMBAI_15_1700_GIWSD" />
+		</wsdl:port>
+		<wsdl:port name="LHMBAI_15_1700_GIWSDSoap12"
+			binding="fsc-svc:LHMBAI_15_1700_GIWSDSoap12">
+			<soap12:address
+				xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				location="https://mucstest03.muenchen.de/fsc/fscdav/wsdl?WEBSVC=LHMBAI_15_1700_GIWSD" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,32 @@
+{
+  "key": "AnfrageAnDasAuslaenderAmtSpontanmeldung",
+  "statusConfig": [
+    {
+      "key": "gestartet",
+      "label": "Anfrage gestartet",
+      "position": 1
+    },
+    {
+      "key": "zugeordnet",
+      "label": "Anfrage zugeordnet",
+      "position": 2
+    },
+    {
+      "key": "beantwortet",
+      "label": "Anfrage bearbeitet",
+      "position": 3
+    },
+    {
+      "key": "beendet",
+      "label": "Anfrage entschieden",
+      "position": 4
+    },
+    {
+      "key": "zdagelegt",
+      "label": "Anfrage zu den Akten gelegt",
+      "position": 5
+    }
+  ],
+ "statusDokument" : "9bdab77f-801f-4d9e-a9b9-422ecde8cb98",
+   "configs": []
+}

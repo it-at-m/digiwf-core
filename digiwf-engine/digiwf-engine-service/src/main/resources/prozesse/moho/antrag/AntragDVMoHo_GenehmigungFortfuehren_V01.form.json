@@ -1,0 +1,494 @@
+{
+  "key": "AntragDVMoHo_GenehmigungFortfuehren_V01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "1. Daten der Antragstellerin/des Antragstellers",
+      "schema": [
+        {
+          "type": "text",
+          "key": "FormField_vorname",
+          "defaultValue": "",
+          "label": "Vorname",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "key": "FormField_name",
+          "defaultValue": "",
+          "label": "Name",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "key": "FormField_referat",
+          "defaultValue": "",
+          "label": "Referat",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            },
+            {
+              "name": "PLAN",
+              "value": "Value_referat_plan"
+            }
+          ],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "key": "FormField_organisationseinheit",
+          "defaultValue": "",
+          "label": "Organisationseinheit",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2. Startzeitpunkt",
+      "schema": [
+        {
+          "type": "text",
+          "key": "FormField_gewuenschterStartzeitpunkt",
+          "defaultValue": "",
+          "label": "Startzeitpunkt",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "date",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "key": "FormField_geltungszeitraum",
+          "defaultValue": "",
+          "label": "Geltungszeitraum",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [
+            {
+              "name": "unbefristet",
+              "value": "Value_geltungszeitraum_unbefristet"
+            },
+            {
+              "name": "befristet mit der Möglichkeit der Verlängerung.",
+              "value": "Value_geltungszeitraum_befristet"
+            }
+          ],
+          "rules": []
+        },
+        {
+          "type": "text",
+          "key": "FormField_geltungszeitraum_datum",
+          "defaultValue": "",
+          "label": "Datum Ende der Befristung",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "date",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_geltungszeitraum_befristet",
+              "target": "FormField_geltungszeitraum"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "3. Angaben zur Verteilung der regelmäßigen wöchentlichen Arbeitszeit",
+      "schema": [
+        {
+          "type": "text",
+          "key": "FormField_anteilHomeoffice",
+          "defaultValue": "0",
+          "label": "Homeoffice Anteil in %",
+          "prependIcon": "",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit im Homeoffice eingebrachter Anteil in %",
+          "ext": "number",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "key": "FormField_anteilMobil",
+          "defaultValue": "0",
+          "label": "Mobiles Arbeiten Anteil in %",
+          "prependIcon": "",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit für das mobile Arbeiten eingebrachter Anteil in %",
+          "ext": "number",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "4. Organisation",
+      "schema": [
+        {
+          "type": "text",
+          "key": "FormField_erreichbarkeit",
+          "defaultValue": "",
+          "label": "Erreichbarkeit der Dienstkraft",
+          "prependIcon": "",
+          "tooltip": "Erreichbarkeit der Dienstkraft (bitte Wochentag/Uhrzeit angeben) (analog Punkt 6 der Vereinbarung gemäß §10 der DV)",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "key": "FormField_ortHomeoffice",
+          "defaultValue": "",
+          "label": "Adresse des Homeoffice / mögliche mobile Arbeitsorte",
+          "prependIcon": "",
+          "tooltip": "Adresse des Homeoffice und/oder mögliche mobile Arbeitsorte (analog Punkt 3 der Vereinbarung gemäß §10 der DV)",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 6,
+          "items": [],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "key": "FormField_kommunikation",
+          "defaultValue": "",
+          "label": "Dienstliche Kommunikation",
+          "prependIcon": "",
+          "tooltip": "Die dienstliche Kommunikation im Rahmen des mobilen Arbeitens und/oder des Arbeitens im Homeoffice werde ich wie folgt abwickeln",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": true,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "items": [
+            {
+              "name": "mit einem bereits vorhandenen dienstlichen Mobiltelefon.",
+              "value": "Value_kommunikation_diensthandy"
+            },
+            {
+              "name": "unter Mitbenutzung des privaten Telefonanschlusses, da ich kein dienstlichen Mobiltelefon habe (ggf. gegen eine mtl. Telefonkostenpauschale gem. § 15 DV MoHo)",
+              "value": "Value_kommunikation_privathandy"
+            }
+          ],
+          "rules": []
+        }
+      ]
+    },
+    {
+      "label": "Antwort Vorgesetzter*in",
+      "schema": [
+        {
+          "key": "FormField_nichtOkFuehrungskraft_begruendung",
+          "label": "Begründung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Antwort",
+      "schema": [
+        {
+          "type": "select",
+          "key": "FormField_okGL",
+          "defaultValue": "",
+          "label": "Dem vorstehenden Antrag wird",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": false,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "items": [
+            {
+              "name": "zugestimmt",
+              "value": "Value_okGL"
+            },
+            {
+              "name": "nicht zugestimmt",
+              "value": "Value_nichtOkGL"
+            },
+            {
+              "name": "dem Vorgesetzten zur Überarbeitung zuweisen",
+              "value": "Value_zurueckFK"
+            }
+          ],
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "key": "FormField_GL_weitereErlauterungen",
+          "defaultValue": "",
+          "label": "Weitere Erläuterungen zur Ablehnung oder Überarbeitung",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": false,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "rows": 4,
+          "items": [],
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_nichtOkGL;Value_zurueckFK",
+              "target": "FormField_okGL"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "key": "FormField_aufwandspauschale",
+          "defaultValue": "",
+          "label": "Die Aufwandspauschale nach § 15 Abs. 1 DV MoHo/Lohnart 9280 (Gewährung nur, wenn gemäß Ziffer röm. I, 3 mindestens 20% der regelmäßigen wöchentlichen Arbeitszeit im Homeoffice eingebracht werden) wurde eingewiesen.",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": false,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "items": [],
+          "rules": []
+        },
+        {
+          "type": "checkbox",
+          "key": "FormField_privatTelefon",
+          "defaultValue": "",
+          "label": "Bei Nutzung des privaten Telefons wurde gem. § 15 Abs. 2 DV MoHo zusätzlich Lohnart 9281 (Gewährung nur , wenn gemäß Ziffer röm. I, 3 mindestens 20% der regelmäßigen wöchentlichen Arbeitszeit im Homeoffice eingebracht werden) eingewiesen.",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": false,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "items": [],
+          "rules": []
+        },
+        {
+          "type": "textarea",
+          "key": "FormField_weitereErlauterungen",
+          "defaultValue": "",
+          "label": "Weitere Erläuterungen, Einschränkungen, Auflagen",
+          "prependIcon": "",
+          "tooltip": "",
+          "ext": "",
+          "multiple": false,
+          "description": "",
+          "readonly": false,
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false,
+          "col": 12,
+          "rows": 4,
+          "items": [],
+          "rules": []
+        }
+      ]
+    }
+  ]
+}

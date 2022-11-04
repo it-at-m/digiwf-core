@@ -1,0 +1,78 @@
+{
+  "key": "DigitalWFErleben_WiedervorlagenSetzen_V1",
+  "description": "Formular \"Wiedervorlagen setzen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Wiedervorlagen",
+      "schema": [
+        {
+          "key": "FormField_Wiedervorlagen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Mit der Funktion Wiedervorlage können Sie eine Aufgabe auf Wiedervorlage legen. Die Aufgabe erscheint nur noch dann unter `Meine Aufgaben`, wenn Sie die Checkbox `Wiedervorlage anzeigen` aktivieren.\n\nUm eine Aufgabe auf Wiedervorlage zu legen, öffnen Sie die Aufgabe zur Bearbeitung. Klicken Sie auf den Button mit den drei senkrecht untereinander angeordneten Punkten und wählen Sie `Wiedervorlage bearbeiten`. Geben Sie anschließend das Datum ein, zu dem die Wiedervorlage erfolgen soll.\n\nUm eine Wiedervorlage zu entfernen, gehen Sie analog vor und entfernen Sie das Wiedervorlagedatum.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/WeitereFunktionen_Wiedervorlage.png\" alt=\"Erstellen einer Wiedervorlage\" title=\"Erstellen einer Wiedervorlage\" width=\"45%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie Wiedervorlagen selbst aus!",
+      "schema": [
+        {
+          "key": "FormField_Ausprobieren",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Setzen Sie eine Wiedervorlage für diese Aufgabe. Wechseln Sie in die Liste mit Ihren Aufgaben. Sie werden sehen, dass die Aufgabe dort nicht mehr vorhanden ist und erst wieder erscheint, wenn Sie die Checkbox `Wiedervorlagen anzeigen` aktivieren.\n\nWenn die Wiedervorlage abgelaufen ist, wird die Aufgabe wieder unter `Meine Aufgaben`angezeigt, auch wenn die Checkbox nicht aktiviert ist. Sie können das Wiedervorlagedatum auch manuell entfernen. Setzen Sie das Tutorial anschließend fort, indem Sie auf `Weiter zum nächsten Thema` klicken.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ]
+    }
+  ]
+}

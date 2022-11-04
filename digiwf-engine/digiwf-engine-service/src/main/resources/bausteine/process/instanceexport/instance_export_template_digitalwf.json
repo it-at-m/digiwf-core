@@ -1,0 +1,67 @@
+{
+  "name": "Instanz Export (veraltet)",
+  "id": "de.muenchen.digitalisierung.templates.process.InstanzExport",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${instanceExportDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Prozess Key",
+      "description": "Input - Key des Prozesses, dessen Instanzen exportiert",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "digitalwf_process_key"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Variablen für den Export",
+      "description": "Input - Variablen ; getrennt",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "digitalwf_variables"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Status Key",
+      "description": "Input - Status in denen sich die Instanzen befinden sollen",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "digitalwf_status_key"
+      }
+    },
+    {
+      "label": "Instanz Export",
+      "description": "Output - CSV als String",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${digitalwf_instance_export}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

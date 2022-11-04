@@ -1,0 +1,1711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1b797c5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:collaboration id="Collaboration_ReiseantragV2">
+    <bpmn:participant id="Participant_Teilnehmer_ReiseantragV2" processRef="ReiseantragV2" />
+  </bpmn:collaboration>
+  <bpmn:process id="ReiseantragV2" name="Reiseantrag" isExecutable="true" camunda:versionTag="2.3">
+    <bpmn:documentation>Dienstreisen und Fortbildungsreisen in RIT, it@M, POR, KVR</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_1ua29c6">
+      <bpmn:lane id="Lane_Genehmigungsebene2" name="2. Genehmigungsebene">
+        <bpmn:flowNodeRef>ExclusiveGateway_11udgpo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_freigegeben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Reiseantrag_freigeben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0l00r0o</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Ablehnung_Zweite_Ebene</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Ablehnung_Zweite_Ebene</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_zustaendige_Stelle" name="Zuständige Stelle">
+        <bpmn:flowNodeRef>ExclusiveGateway_04by4an</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AKR_genehmigen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Antikorruptionsbeauftragter" name="Antikorruptionsprüfung RIT /it@M">
+        <bpmn:flowNodeRef>ExclusiveGateway_0nzwquv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_0keiu7l</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Korruption_pruefen_AKB</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Status_Pruefen_AKR</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_1nt75sv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0u3at0y</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Ablehnung_AKB</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Ablehnung_AKB</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Genehmigung" name="Genehmiger*in">
+        <bpmn:flowNodeRef>ExclusiveGateway_11sh0qa</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1pundul</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0ykyq7g</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_0rgrytn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_17jywai</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Status_Genehmigt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Gestattung_Genehmiger</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Gestattung_Genehmiger</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Ablehnung_Genehmiger</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Ablehnung_Genehmiger</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BusinessRuleTask_Genehmiger_bestimmen_erweitert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Antrag_genehmigen_Reisesachbearbeitung</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_RIT_ITM_GL3" name="RIT ITM GL3">
+        <bpmn:flowNodeRef>ExclusiveGateway_014dn1p</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_03qic87</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Angaben_korrigieren_Reisesachbearbeitung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Rueckfrage_E-Mail_versenden</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_18gjcot</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AntragHaushalterischFreigeben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1scgbox</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_0e8rpml</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1mcy2rk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Ablehnung_ReiseSB</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Ablehnung_ReiseSB</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_07doyy5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_05t5qu8</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Vorgesetzter" name="Vorgesetzte/Vorgesetzter">
+        <bpmn:flowNodeRef>ExclusiveGateway_0l7hwd5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_Fortbildungsreise</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BusinessRuleTask_Leitweg_bestimmmen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_Fortbildungsreise_Abkuerzung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_gestattet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Status_Pruefen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Reiseantrag_pruefen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_0igx9wy</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1cul8sr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Referat_Ablehnung_VG</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_Antragsteller_Ablehnung_VG</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Antragsteller" name="AntragstellerIn">
+        <bpmn:flowNodeRef>StartEvent_Reise_notwendig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Status_Gestartet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ScriptTask_Prozessvariablen_setzen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Aenderungen_vornehmen_wg_VG</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Aenderungen_vornehmen_AKB</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0l7hwd5">
+      <bpmn:incoming>SequenceFlow_01p6qrv</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_Dienstreise</bpmn:incoming>
+      <bpmn:incoming>Flow_Genehmigung_offen</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1arqn99</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_Fortbildungsreise" name="Handelt es sich um eine Fortbildungsreise?" default="SequenceFlow_Dienstreise">
+      <bpmn:incoming>Flow_100838m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_Dienstreise</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_Fortbildungsreise</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="StartEvent_Reise_notwendig" name="Reise notwendig" camunda:formKey="Reiseantrag_Startformular_V02">
+      <bpmn:outgoing>SequenceFlow_00p7v1w</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_Status_Gestartet" name="Antrag gestellt">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;gestellt&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_00p7v1w</bpmn:incoming>
+      <bpmn:outgoing>Flow_008fnlg</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0zkrdpu" sourceRef="ServiceTask_Rueckfrage_E-Mail_versenden" targetRef="ExclusiveGateway_014dn1p" />
+    <bpmn:sequenceFlow id="Flow_00xx18q" sourceRef="ScriptTask_Prozessvariablen_setzen" targetRef="BusinessRuleTask_Leitweg_bestimmmen" />
+    <bpmn:sequenceFlow id="Flow_1roio8h" sourceRef="Event_Status_Pruefen" targetRef="ExclusiveGateway_gestattet" />
+    <bpmn:sequenceFlow id="Flow_008fnlg" sourceRef="Event_Status_Gestartet" targetRef="ScriptTask_Prozessvariablen_setzen" />
+    <bpmn:sequenceFlow id="SequenceFlow_Dienstreise" name="Dienstreise" sourceRef="ExclusiveGateway_Fortbildungsreise" targetRef="ExclusiveGateway_0l7hwd5" />
+    <bpmn:sequenceFlow id="SequenceFlow_1arqn99" sourceRef="ExclusiveGateway_0l7hwd5" targetRef="Task_Reiseantrag_pruefen" />
+    <bpmn:sequenceFlow id="SequenceFlow_Fortbildungsreise" name="Fortbildungsreise" sourceRef="ExclusiveGateway_Fortbildungsreise" targetRef="ExclusiveGateway_Fortbildungsreise_Abkuerzung">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ArtGenehmigung=='Value_Fortbildungsreise'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_01p6qrv" sourceRef="Task_Aenderungen_vornehmen_wg_VG" targetRef="ExclusiveGateway_0l7hwd5" />
+    <bpmn:sequenceFlow id="SequenceFlow_abgelehnt_Vorgesetzter" name="Ablehnen" sourceRef="ExclusiveGateway_gestattet" targetRef="ExclusiveGateway_0igx9wy">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VorgesetzterGestattet=='abgelehnt' || VorgesetzterGestattet=='aenderungNotwendig'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_keineWeitereGenehmigung" name="keine weitere Genehmigung" sourceRef="ExclusiveGateway_11udgpo" targetRef="ExclusiveGateway_014dn1p" />
+    <bpmn:sequenceFlow id="SequenceFlow_09muneu" sourceRef="Task_Reiseantrag_pruefen" targetRef="Event_Status_Pruefen" />
+    <bpmn:sequenceFlow id="SequenceFlow_gestattet_Vorgesetzter" name="Gestatten&#10;" sourceRef="ExclusiveGateway_gestattet" targetRef="ExclusiveGateway_11udgpo" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wxlux7" name="weitere Genehmigung" sourceRef="ExclusiveGateway_11udgpo" targetRef="Task_Reiseantrag_freigeben">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VorgesetzterGestattet=='gestattet'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1x5at09" sourceRef="ExclusiveGateway_014dn1p" targetRef="Task_Angaben_korrigieren_Reisesachbearbeitung" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ocij0t" sourceRef="Task_Angaben_korrigieren_Reisesachbearbeitung" targetRef="ExclusiveGateway_03qic87" />
+    <bpmn:sequenceFlow id="SequenceFlow_Ablehnen" name="Ablehnen" sourceRef="ExclusiveGateway_03qic87" targetRef="Gateway_05t5qu8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${AntragFreigeben == 'Value_Ablehnen'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_AKR_Pruefung_nein" name="nein" sourceRef="ExclusiveGateway_0e8rpml" targetRef="ExclusiveGateway_11sh0qa" />
+    <bpmn:sequenceFlow id="SequenceFlow_10tfi5i" name="Ändern" sourceRef="ExclusiveGateway_0igx9wy" targetRef="Task_Aenderungen_vornehmen_wg_VG">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VorgesetzterGestattet=='aenderungNotwendig'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0o54wea" name="Abbrechen" sourceRef="ExclusiveGateway_0igx9wy" targetRef="ServiceTask_Referat_Ablehnung_VG" />
+    <bpmn:sequenceFlow id="SequenceFlow_gestattet_Fuehrungskraft" name="Gestatten" sourceRef="ExclusiveGateway_freigegeben" targetRef="ExclusiveGateway_014dn1p" />
+    <bpmn:sequenceFlow id="SequenceFlow_0c1892g" sourceRef="Task_Reiseantrag_freigeben" targetRef="ExclusiveGateway_freigegeben" />
+    <bpmn:sequenceFlow id="SequenceFlow_abgelehnt_fuehrungskraft" name="Ablehnen" sourceRef="ExclusiveGateway_freigegeben" targetRef="ServiceTask_Referat_Ablehnung_Zweite_Ebene">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FuehrungskraftGestattet=='abgelehnt'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_Rueckfrage" name="Rückfrage stellen" sourceRef="ExclusiveGateway_03qic87" targetRef="ServiceTask_Rueckfrage_E-Mail_versenden">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${AntragFreigeben == 'Value_Rueckfrage'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_Freigabe" name="Freigeben" sourceRef="ExclusiveGateway_03qic87" targetRef="Gateway_18gjcot" />
+    <bpmn:sequenceFlow id="SequenceFlow_0phjtni" sourceRef="ExclusiveGateway_0nzwquv" targetRef="Task_Korruption_pruefen_AKB" />
+    <bpmn:sequenceFlow id="SequenceFlow_AKR_Pruefung_ja" name="ja" sourceRef="ExclusiveGateway_0e8rpml" targetRef="ExclusiveGateway_0nzwquv">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${UebernahmeReiseNichtVerwaltung || Paragraph5AkrAntrag}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_06ipdbw" sourceRef="Task_Aenderungen_vornehmen_AKB" targetRef="ExclusiveGateway_0nzwquv" />
+    <bpmn:sequenceFlow id="SequenceFlow_0knm55j" sourceRef="Task_Korruption_pruefen_AKB" targetRef="Event_Status_Pruefen_AKR" />
+    <bpmn:sequenceFlow id="SequenceFlow_1sef5ek" sourceRef="ExclusiveGateway_0keiu7l" targetRef="Task_AKR_genehmigen" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qj1ebs" name="Klärung AKB mit Antragsteller" sourceRef="ExclusiveGateway_0keiu7l" targetRef="Task_Aenderungen_vornehmen_AKB">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${AkbAenderungsWunsch=='AenderungNotwendig'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0x4zi2z" name="separate Genehmigung" sourceRef="ExclusiveGateway_04by4an" targetRef="ExclusiveGateway_1nt75sv" />
+    <bpmn:sequenceFlow id="SequenceFlow_AKR_ablehnen" name="Ablehnen" sourceRef="ExclusiveGateway_1nt75sv" targetRef="ServiceTask_Referat_Ablehnung_AKB">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ZsZustimmung == 'false'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_AKR_genehmigen" name="Genehmigen" sourceRef="ExclusiveGateway_1nt75sv" targetRef="ExclusiveGateway_11sh0qa" />
+    <bpmn:sequenceFlow id="SequenceFlow_0rfujea" sourceRef="ExclusiveGateway_11sh0qa" targetRef="BusinessRuleTask_Genehmiger_bestimmen_erweitert" />
+    <bpmn:sequenceFlow id="SequenceFlow_AKR_AbschliessendGenehmigen" name="Abschließend genehmigen" sourceRef="ExclusiveGateway_04by4an" targetRef="ExclusiveGateway_17jywai">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ZsZustimmung == 'abschliessend'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0hns9mk" sourceRef="Task_AKR_genehmigen" targetRef="ExclusiveGateway_04by4an" />
+    <bpmn:sequenceFlow id="SequenceFlow_1w3og5g" name="Abgelehnt" sourceRef="ExclusiveGateway_0rgrytn" targetRef="ServiceTask_Referat_Ablehnung_Genehmiger">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${GenehmigungsStatus == 'false'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0up8int" name="Genehmigt" sourceRef="ExclusiveGateway_0rgrytn" targetRef="ExclusiveGateway_17jywai" />
+    <bpmn:sequenceFlow id="Flow_1riutu4" sourceRef="Event_Status_Pruefen_AKR" targetRef="ExclusiveGateway_0keiu7l" />
+    <bpmn:sequenceFlow id="SequenceFlow_00p7v1w" sourceRef="StartEvent_Reise_notwendig" targetRef="Event_Status_Gestartet" />
+    <bpmn:sequenceFlow id="Flow_0iduh8i" sourceRef="Task_Antrag_genehmigen_Reisesachbearbeitung" targetRef="ExclusiveGateway_0rgrytn" />
+    <bpmn:sequenceFlow id="Flow_1hqvfsv" sourceRef="ExclusiveGateway_17jywai" targetRef="Event_Status_Genehmigt" />
+    <bpmn:sequenceFlow id="Flow_01l7jf7" sourceRef="Event_Status_Genehmigt" targetRef="ServiceTask_Referat_Gestattung_Genehmiger" />
+    <bpmn:sequenceFlow id="Flow_05j79vn" sourceRef="ServiceTask_Referat_Gestattung_Genehmiger" targetRef="ServiceTask_Antragsteller_Gestattung_Genehmiger" />
+    <bpmn:sequenceFlow id="Flow_1u3le5s" sourceRef="ServiceTask_Antragsteller_Gestattung_Genehmiger" targetRef="EndEvent_1pundul" />
+    <bpmn:sequenceFlow id="Flow_016auvw" sourceRef="ServiceTask_Antragsteller_Ablehnung_Genehmiger" targetRef="EndEvent_0ykyq7g" />
+    <bpmn:sequenceFlow id="Flow_02lnp0a" sourceRef="ServiceTask_Referat_Ablehnung_Genehmiger" targetRef="ServiceTask_Antragsteller_Ablehnung_Genehmiger" />
+    <bpmn:sequenceFlow id="Flow_15zv2a6" sourceRef="ServiceTask_Referat_Ablehnung_AKB" targetRef="ServiceTask_Antragsteller_Ablehnung_AKB" />
+    <bpmn:sequenceFlow id="Flow_0yhihsa" sourceRef="ServiceTask_Antragsteller_Ablehnung_AKB" targetRef="EndEvent_0u3at0y" />
+    <bpmn:sequenceFlow id="Flow_1xdyig4" sourceRef="ServiceTask_Referat_Ablehnung_ReiseSB" targetRef="ServiceTask_Antragsteller_Ablehnung_ReiseSB" />
+    <bpmn:sequenceFlow id="Flow_02zopjs" sourceRef="ServiceTask_Antragsteller_Ablehnung_ReiseSB" targetRef="EndEvent_1mcy2rk" />
+    <bpmn:sequenceFlow id="Flow_1bflgkp" sourceRef="ServiceTask_Referat_Ablehnung_Zweite_Ebene" targetRef="ServiceTask_Antragsteller_Ablehnung_Zweite_Ebene" />
+    <bpmn:sequenceFlow id="Flow_1t5r2rj" sourceRef="ServiceTask_Antragsteller_Ablehnung_Zweite_Ebene" targetRef="EndEvent_0l00r0o" />
+    <bpmn:sequenceFlow id="Flow_0k10tyo" sourceRef="ServiceTask_Referat_Ablehnung_VG" targetRef="ServiceTask_Antragsteller_Ablehnung_VG" />
+    <bpmn:sequenceFlow id="Flow_0wizxx4" sourceRef="ServiceTask_Antragsteller_Ablehnung_VG" targetRef="EndEvent_1cul8sr" />
+    <bpmn:sequenceFlow id="Flow_079u64y" sourceRef="BusinessRuleTask_Genehmiger_bestimmen_erweitert" targetRef="Task_Antrag_genehmigen_Reisesachbearbeitung" />
+    <bpmn:scriptTask id="ScriptTask_Prozessvariablen_setzen" name="Prozessvariablen setzen" camunda:asyncBefore="true" scriptFormat="javascript">
+      <bpmn:incoming>Flow_008fnlg</bpmn:incoming>
+      <bpmn:outgoing>Flow_00xx18q</bpmn:outgoing>
+      <bpmn:script>//**********************************************************
+//Antragsteller setzen
+execution.getVariable('starterOfInstance');
+execution.setVariable('Antragsteller_Vorname', user.firstname(starterOfInstance));
+execution.setVariable('Antragsteller_Nachname', user.lastname(starterOfInstance));
+execution.setVariable('Antragsteller_Email', user.email(starterOfInstance));
+
+
+//**********************************************************
+//Reisenden setzen
+var reisende = '';
+var reisendeObjectID = '';
+var ou = '';
+if (AntragFuerDritte == 'Value_Nein') {
+	reisendeObjectID = starterOfInstance;
+	ou = user.ou(starterOfInstance);
+	reisende = Antragsteller_Vorname + ' ' + Antragsteller_Nachname + ', ' + ou;
+}
+if (AntragFuerDritte == 'Value_Ja_NurDritte') {
+	reisendeObjectID = Dritte;
+	ou = user.ou(Dritte);
+	reisende = user.firstname(Dritte) + ' ' + user.lastname(Dritte) + ', ' + ou;
+}
+execution.setVariable('ReisendeInfo', reisende);
+execution.setVariable('ReisendeObjectID', reisendeObjectID);
+execution.setVariable('Antragsteller_Ou', ou);
+
+execution.setVariable('Antragsteller_Referat', '---');
+
+if (Antragsteller_Ou.toLowerCase().startsWith('itm')) {   execution.setVariable('Antragsteller_Referat', 'ITM')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('rit')) {  execution.setVariable('Antragsteller_Referat', 'RIT')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('por')) { execution.setVariable('Antragsteller_Referat', 'POR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('baed')) { execution.setVariable('Antragsteller_Referat', 'POR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('kvr')) {  execution.setVariable('Antragsteller_Referat', 'KVR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('bau')) { execution.setVariable('Antragsteller_Referat', 'BAU')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('gsr')) { execution.setVariable('Antragsteller_Referat', 'GSR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('kr')) { execution.setVariable('Antragsteller_Referat', 'KR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('kult')) {
+execution.setVariable('Antragsteller_Referat', 'KULT')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('mor')) {
+execution.setVariable('Antragsteller_Referat', 'MOR')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('raw')) {
+execution.setVariable('Antragsteller_Referat', 'RAW')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('rbs')) {
+execution.setVariable('Antragsteller_Referat', 'RBS')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('rku')) {
+execution.setVariable('Antragsteller_Referat', 'RKU')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('plan')) {
+execution.setVariable('Antragsteller_Referat', 'PLAN')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('s-')) {
+execution.setVariable('Antragsteller_Referat', 'SOZ')} else {};
+
+if (Antragsteller_Ou.toLowerCase().startsWith('ska')) {
+execution.setVariable('Antragsteller_Referat', 'SKA')} else {};
+
+var Antragsteller_Zeile = Antragsteller_Vorname + ' ' + Antragsteller_Nachname;
+
+execution.setVariable('AntragstellerInfo', Antragsteller_Zeile);
+
+execution.setVariable('akrMailPart', null);
+
+execution.setVariable('BefoerderungsmittelZusatz', '');
+if (execution.getVariable('BefoerderungsmittelKlasse') != '') {
+		execution.setVariable('BefoerderungsmittelZusatz', '; Klasse (Bahn): ' + BefoerderungsmittelKlasse + '\n');
+}
+
+execution.setVariable("ErgebnisdokumentDateiname", "Reiseantrag.pdf");
+
+var date_now = new Date();
+var month = '' + (date_now.getMonth() + 1);
+var day = '' + date_now.getDate();
+var year = 1900 + date_now.getYear();
+        
+if (month.length &lt; 2) 
+   month = '0' + month;
+if (day.length &lt; 2) 
+   day = '0' + day;
+
+var datum = [day, month, year].join('.');
+execution.setVariable('Antragsdatum', datum);
+
+
+//***********************************************************
+//Tasktitle setzen
+var taskTitle = 'Antragsteller*in: ' + AntragstellerInfo + ' | Reisende*r: ' + ReisendeInfo;
+execution.setVariable('TaskTitle', taskTitle);
+
+//***********************************************************
+//Prozessbeschreibung setzen
+var procDesc = 'Antragsteller*in: ' + AntragstellerInfo + ' | Reisende*r: ' + ReisendeInfo + ' | ' + ArtGenehmigung__detail_name + ' nach ' + ReiseOrt;
+process.setDescription(procDesc);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_100838m" sourceRef="BusinessRuleTask_Leitweg_bestimmmen" targetRef="ExclusiveGateway_Fortbildungsreise" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_Leitweg_bestimmmen" name="Leitweg bestimmen" camunda:resultVariable="dmn_Reiseantrag_Leitweg_result" camunda:decisionRef="Decision_Reiseantrag_Leitweg_V2" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="finanzen_object_id">${dmn_Reiseantrag_Leitweg_result.get('finanzen_object_id')}</camunda:outputParameter>
+          <camunda:outputParameter name="haushalterische_freigabe">${dmn_Reiseantrag_Leitweg_result.get('haushalterische_freigabe')}</camunda:outputParameter>
+          <camunda:outputParameter name="fobitool">${dmn_Reiseantrag_Leitweg_result.get('fobitool')}</camunda:outputParameter>
+          <camunda:outputParameter name="responsible_ldap_object_id">${dmn_Reiseantrag_Leitweg_result.get('responsible_ldap_object_id')}</camunda:outputParameter>
+          <camunda:outputParameter name="responsible_email">${dmn_Reiseantrag_Leitweg_result.get('responsible_email')}</camunda:outputParameter>
+          <camunda:outputParameter name="zs_ldap_object_id">${dmn_Reiseantrag_Leitweg_result.get('zs_ldap_object_id')}</camunda:outputParameter>
+          <camunda:outputParameter name="zs_email">${dmn_Reiseantrag_Leitweg_result.get('zs_email')}</camunda:outputParameter>
+          <camunda:outputParameter name="akb_ldap_object_id">${dmn_Reiseantrag_Leitweg_result.get('akb_ldap_object_id')}</camunda:outputParameter>
+          <camunda:outputParameter name="akb_email">${dmn_Reiseantrag_Leitweg_result.get('akb_email')}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00xx18q</bpmn:incoming>
+      <bpmn:outgoing>Flow_100838m</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_06w6ser" sourceRef="ExclusiveGateway_Fortbildungsreise_Abkuerzung" targetRef="ExclusiveGateway_014dn1p" />
+    <bpmn:sequenceFlow id="Flow_Genehmigung_offen" name="Genehmigung offen" sourceRef="ExclusiveGateway_Fortbildungsreise_Abkuerzung" targetRef="ExclusiveGateway_0l7hwd5">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${fobitool=='N'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_Fortbildungsreise_Abkuerzung" name="Ist Genehmigung vorab im Fobitool erteilt?" default="Flow_06w6ser">
+      <bpmn:incoming>SequenceFlow_Fortbildungsreise</bpmn:incoming>
+      <bpmn:outgoing>Flow_06w6ser</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Genehmigung_offen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_gestattet" name="Kann der Antrag gestattet werden?" default="SequenceFlow_gestattet_Vorgesetzter">
+      <bpmn:incoming>Flow_1roio8h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_gestattet_Vorgesetzter</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_abgelehnt_Vorgesetzter</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11udgpo" name="weitere Genehmigung?&#10;&#10;" default="SequenceFlow_keineWeitereGenehmigung">
+      <bpmn:incoming>SequenceFlow_gestattet_Vorgesetzter</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0wxlux7</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_keineWeitereGenehmigung</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:intermediateThrowEvent id="Event_Status_Pruefen" name="Prüfung">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;pruefen&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_09muneu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1roio8h</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:userTask id="Task_Reiseantrag_pruefen" name="Reiseantrag prüfen" camunda:formKey="Reiseantrag_Pruefen_Vorgesetzter_V02" camunda:assignee="${Vorgesetzter}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">if (ChefChef) {
+if (ChefChefVertretung) {
+execution.setVariable('ChefChefUndVertretung', ChefChef + ', ' + ChefChefVertretung);
+} else {
+execution.setVariable('ChefChefUndVertretung', ChefChef);
+}
+} else {
+if (ChefChefVertretung) {
+execution.setVariable('ChefChefUndVertretung', ChefChefVertretung);
+} else {
+execution.setVariable('ChefChefUndVertretung', responsible_ldap_object_id);
+}
+}</camunda:script>
+        </camunda:executionListener>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1arqn99</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09muneu</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0igx9wy" name="Soll eine Änderung vorgenommen werden?" default="SequenceFlow_0o54wea">
+      <bpmn:incoming>SequenceFlow_abgelehnt_Vorgesetzter</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o54wea</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_10tfi5i</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_014dn1p">
+      <bpmn:incoming>SequenceFlow_gestattet_Fuehrungskraft</bpmn:incoming>
+      <bpmn:incoming>Flow_0zkrdpu</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_keineWeitereGenehmigung</bpmn:incoming>
+      <bpmn:incoming>Flow_06w6ser</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1x5at09</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_freigegeben" name="Kann der Antrag freigegeben werden?" default="SequenceFlow_gestattet_Fuehrungskraft">
+      <bpmn:incoming>SequenceFlow_0c1892g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_gestattet_Fuehrungskraft</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_abgelehnt_fuehrungskraft</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_03qic87" name="Kann der Antrag freigeben werden?" default="SequenceFlow_Freigabe">
+      <bpmn:incoming>SequenceFlow_1ocij0t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_Ablehnen</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_Freigabe</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_Rueckfrage</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_Aenderungen_vornehmen_wg_VG" name="Reiseantrag Änderungen vornehmen" camunda:formKey="Reiseantrag_Antrag_aendern_V02" camunda:assignee="${starterOfInstance}" camunda:candidateUsers="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_10tfi5i</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_01p6qrv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Reiseantrag_freigeben" name="Reiseantrag prüfen" camunda:formKey="Reiseantrag_Freigeben_Entscheider_V02" camunda:candidateUsers="${ChefChefUndVertretung}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wxlux7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0c1892g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Angaben_korrigieren_Reisesachbearbeitung" name="Reiseantrag freigeben" camunda:formKey="Reiseantrag_Reisesachbearbeitung_V03" camunda:candidateUsers="${responsible_ldap_object_id}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="Javascript">//**********************************************************
+//Reisenden setzen
+var reisende = '';
+var reisendeObjectID = '';
+var ou = '';
+if (AntragFuerDritte == 'Value_Nein') {
+	reisende = Antragsteller_Vorname + ' ' + Antragsteller_Nachname;
+	reisendeObjectID = starterOfInstance;
+	ou = user.ou(starterOfInstance);
+}
+if (AntragFuerDritte == 'Value_Ja_NurDritte') {
+	reisende = user.firstname(Dritte) + ' ' + user.lastname(Dritte);
+	reisendeObjectID = Dritte;
+	ou = user.ou(Dritte);
+}
+execution.setVariable('ReisendeInfo', reisende);
+execution.setVariable('ReisendeObjectID', reisendeObjectID);
+execution.setVariable('Antragsteller_Ou', ou);
+
+//***********************************************************
+//Tasktitle setzen
+var taskTitle = 'Antragsteller*in: ' + AntragstellerInfo + ' | Reisende*r: ' + ReisendeInfo;
+execution.setVariable('TaskTitle', taskTitle);
+
+//***********************************************************
+//Prozessbeschreibung setzen
+var procDesc = 'Antragsteller*in: ' + AntragstellerInfo + ' | Ort: ' + ReiseOrt + ' | Art der Reise: ' + ArtGenehmigung__detail_name + ' | Reisende*r: ' + ReisendeInfo;
+process.setDescription(procDesc);</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1x5at09</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ocij0t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_Rueckfrage_E-Mail_versenden" name="Rückfrage-Email versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Dienstreiseantrag kann nur mit Änderungen freigegeben werden.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+
+Ihr Dienstreiseantrag kann nur mit Änderungen freigegeben werden.
+Bitte setzen sie sich mit ${user.firstname(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)} ${user.lastname(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)} in Verbindung:
+E-Mail: ${user.email(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)} 
+Telefon: ${user.phone(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)}
+
+
+${user.salutation(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)} ${user.lastname(Task_Angaben_korrigieren_Reisesachbearbeitung_complete_user)} hat folgenden Kommentar zum Änderungsbedarf angegeben: ${RueckfrageKommentar}
+
+
+Diese E-Mail wurde aus der Anwendung Digital WF 2 erstellt. Bitte antworten Sie nicht auf diese E-Mail. Antworten an diese E-Mail-Adresse werden nicht gelesen.
+
+
+Mit freundlichen Grüßen
+Ihre Sachbearbeitung</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_Rueckfrage</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zkrdpu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_18gjcot" default="Flow_0l0x57z">
+      <bpmn:incoming>SequenceFlow_Freigabe</bpmn:incoming>
+      <bpmn:outgoing>Flow_0o4ws8c</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0l0x57z</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0o4ws8c" sourceRef="Gateway_18gjcot" targetRef="Task_AntragHaushalterischFreigeben">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${haushalterische_freigabe == 'J'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0twm0x5" sourceRef="Gateway_1scgbox" targetRef="ExclusiveGateway_0e8rpml" />
+    <bpmn:sequenceFlow id="Flow_1dlr18q" sourceRef="Task_AntragHaushalterischFreigeben" targetRef="Gateway_07doyy5" />
+    <bpmn:sequenceFlow id="Flow_0l0x57z" sourceRef="Gateway_18gjcot" targetRef="Gateway_1scgbox" />
+    <bpmn:userTask id="Task_AntragHaushalterischFreigeben" name="Antrag haushalterisch freigeben" camunda:formKey="Reiseantrag_AntragHaushalterischFreigeben_V01" camunda:candidateGroups="${finanzen_object_id}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0o4ws8c</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dlr18q</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1scgbox">
+      <bpmn:incoming>Flow_0l0x57z</bpmn:incoming>
+      <bpmn:incoming>Flow_1wznp1n</bpmn:incoming>
+      <bpmn:outgoing>Flow_0twm0x5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0e8rpml" name="Korruptions-prüfung notwendig?" default="SequenceFlow_AKR_Pruefung_nein">
+      <bpmn:incoming>Flow_0twm0x5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_AKR_Pruefung_nein</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_AKR_Pruefung_ja</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0nzwquv">
+      <bpmn:incoming>SequenceFlow_AKR_Pruefung_ja</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_06ipdbw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0phjtni</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0keiu7l" default="SequenceFlow_1sef5ek">
+      <bpmn:incoming>Flow_1riutu4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1sef5ek</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0qj1ebs</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_Aenderungen_vornehmen_AKB" name="Reiseantrag Änderungen vornehmen" camunda:formKey="Reiseantrag_Antrag_aendern_AKR_V02" camunda:assignee="${starterOfInstance}" camunda:candidateUsers="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qj1ebs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06ipdbw</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Korruption_pruefen_AKB" name="Reiseantrag nach § 5 AKR prüfen" camunda:formKey="Reiseantrag_Antikorruptionsprüfung_V03" camunda:candidateUsers="${akb_ldap_object_id}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">if (AkbMitzeichnungsvermerk == 'mitzeichnen') {
+   execution.setVariable('AkrMitzeichnungsvermerkInfo', 'Der*die AKB zeichnet mit (Zustimmung zur Annahme von Zuwend. gem. § 5 der AKR).');
+} else {
+   execution.setVariable('AkrMitzeichnungsvermerkInfo', 'Der*die AKB zeichnet nicht mit (Zustimmung zur Annahme von Zuwend. gem. § 5 der AKR).');
+}</camunda:script>
+        </camunda:executionListener>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0phjtni</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0knm55j</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_Status_Pruefen_AKR" name="Prüfung AKR">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;pruefen_akr&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0knm55j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1riutu4</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1nt75sv" name="Kann aus Antikorruptions-sicht genehmigt werden?" default="SequenceFlow_AKR_genehmigen">
+      <bpmn:incoming>SequenceFlow_0x4zi2z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_AKR_ablehnen</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_AKR_genehmigen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11sh0qa">
+      <bpmn:incoming>SequenceFlow_AKR_Pruefung_nein</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_AKR_genehmigen</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0rfujea</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_04by4an" default="SequenceFlow_0x4zi2z">
+      <bpmn:incoming>SequenceFlow_0hns9mk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0x4zi2z</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_AKR_AbschliessendGenehmigen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_1mcy2rk" name="Antrag abgelehnt Reisesachbearbeitung">
+      <bpmn:incoming>Flow_02zopjs</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_1pundul" name="Antrag gestattet Genehmiger">
+      <bpmn:incoming>Flow_1u3le5s</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_0ykyq7g" name="Antrag abgelehnt Genehmiger">
+      <bpmn:incoming>Flow_016auvw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_0u3at0y" name="Antrag abgelehnt AKB">
+      <bpmn:incoming>Flow_0yhihsa</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_1cul8sr" name="Antrag abgelehnt VG">
+      <bpmn:incoming>Flow_0wizxx4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_0l00r0o" name="Antrag abgelehnt 2. Ebene">
+      <bpmn:incoming>Flow_1t5r2rj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0rgrytn" name="Genehmigt?" default="SequenceFlow_0up8int">
+      <bpmn:incoming>Flow_0iduh8i</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0up8int</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1w3og5g</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_17jywai">
+      <bpmn:incoming>SequenceFlow_0up8int</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_AKR_AbschliessendGenehmigen</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hqvfsv</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_AKR_genehmigen" name="Reiseantrag nach § 5 AKR zustimmen" camunda:formKey="Reiseantrag_Antikorruptionsprüfung_genehmigen_V03" camunda:candidateUsers="${zs_ldap_object_id}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="akrMailPart">Ihr Antrag auf Zustimmung zur Annahme einer Zuwendung nach § 5 AKR wurde ${ZsZustimmung  != 'false' ? 'genehmigt' : 'abgelehnt'}: 
+Beförderungsmittel: ${BefoerderungsMittelBezahltDurchDritte}  ${BefoerderungsMittelBezahltDurchDritteWert}
+Übernachtungen: ${UebernachtungBezahltDurchDritte}  ${UebernachtungBezahltDurchDritteWert} 
+Begründung: ${AkbBegruendung}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1sef5ek</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0hns9mk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_Status_Genehmigt" name="Genehmigung">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;genehmigt&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hqvfsv</bpmn:incoming>
+      <bpmn:outgoing>Flow_01l7jf7</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:serviceTask id="ServiceTask_Referat_Gestattung_Genehmiger" name="ServiceTask Referat Gestattung Genehmiger" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Gestattung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Gestattung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01l7jf7</bpmn:incoming>
+      <bpmn:outgoing>Flow_05j79vn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Gestattung_Genehmiger" name="ServiceTask Antragsteller Gestattung Genehmiger" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde genehmigt</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde genehmigt. Details Ihres Antrages: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05j79vn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u3le5s</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Referat_Ablehnung_Genehmiger" name="ServiceTask Referat Ablehnung Genehmiger" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Ablehnung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Ablehnung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo} 
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1w3og5g</bpmn:incoming>
+      <bpmn:outgoing>Flow_02lnp0a</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Ablehnung_Genehmiger" name="ServiceTask Antragsteller Ablehnung Genehmiger" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde abgelehnt. Details Ihres Antrages: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde abgelehnt</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02lnp0a</bpmn:incoming>
+      <bpmn:outgoing>Flow_016auvw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Referat_Ablehnung_AKB" name="RefeServiceTask Referat Ablehnung AKB" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Ablehnung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Ablehnung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_AKR_ablehnen</bpmn:incoming>
+      <bpmn:outgoing>Flow_15zv2a6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Ablehnung_AKB" name="ServiceTask Antragsteller Ablehnung AKB" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrem Ansprechpartner in der Sachbearbeitung in Verbindung</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrem Ansprechpartner in der Sachbearbeitung in Verbindung. Details Ihres Antrages:
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_15zv2a6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yhihsa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Referat_Ablehnung_ReiseSB" name="ServiceTask Referat Ablehnung ReiseSB" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Ablehnung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Ablehnung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1k2xq0m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xdyig4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Ablehnung_ReiseSB" name="ServiceTask Antragsteller Ablehnung ReiseSB" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit der Sachbearbeitung in Verbindung. Details Ihres Antrages:
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrem Ansprechpartner in der Sachbearbeitung in Verbindung</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xdyig4</bpmn:incoming>
+      <bpmn:outgoing>Flow_02zopjs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Referat_Ablehnung_Zweite_Ebene" name="ServiceTask Referat Ablehnung Zweite Ebene" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Ablehnung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Ablehnung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_abgelehnt_fuehrungskraft</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bflgkp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Ablehnung_Zweite_Ebene" name="ServiceTask Antragsteller Ablehnung Zweite Ebene" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrer Führungskraft / EntscheiderIn in Verbindung</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrer Führungskraft  in Verbindung. Details Ihres Antrages:
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bflgkp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t5r2rj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Referat_Ablehnung_VG" name="ServiceTask Referat Ablehnung VG" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Dokumentation einer Ablehnung für einen Reiseantrag</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${responsible_email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+im Anhang finden Sie die vollständige Dokumentation einer Ablehnung für einen Reiseantrag als PDF.
+
+Wesentliche Details zum Antrag: 
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0o54wea</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k10tyo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Antragsteller_Ablehnung_VG" name="ServiceTask Antragsteller Ablehnung VG" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${Antragsteller_Email}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${processconfig.getStatusDokument()}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">${ErgebnisdokumentDateiname}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrer Führungskraft in Verbindung</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Sehr geehrte*r Kolleg*in,
+
+Ihr Reiseantrag wurde abgelehnt. Bitte setzen Sie sich bei Fragen mit Ihrer Führungskraft  in Verbindung. Details Ihres Antrages:
+
+Antragsteller*in: ${AntragstellerInfo} 
+Reisende*r: ${ReisendeInfo}
+Veranstaltungsort: ${ReiseortStrasse}, ${ReiseOrt}
+Anreise: ${DatumAnreise__detail_format}
+Abreise: ${DatumAbreise__detail_format}
+Beginn des Dienstgeschäftes: ${BeginnDienstgeschaeftDatum__detail_format}, ${BeginnDienstgeschaeftUhrzeit}
+Ende des Dienstgeschäftes: ${EndeDienstgeschaeftDatum__detail_format}, ${EndeDienstgeschaeftUhrzeit}
+
+Angabe, falls Reisezeitraum von Zeitraum des Dienstgeschäftes abweicht: ${KommentarPrivataufenthalt}
+Beförderungsmittel: ${Befoerderungsmittel__detail_name}${BefoerderungsmittelZusatz}
+Art der Reise: ${ArtGenehmigung__detail_name}
+${akrMailPart}
+
+Mit freundlichem Gruß
+Digital WF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0k10tyo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wizxx4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="BusinessRuleTask_Genehmiger_bestimmen_erweitert" name="Genehmiger*in bestimmen" camunda:resultVariable="dmn_genehmigung_result" camunda:decisionRef="Decision_Reiseantrag_Genehmigung_Erweitert_V2" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="emailsec">${dmn_genehmigung_result.get('emailsec')}</camunda:outputParameter>
+          <camunda:outputParameter name="emailprim">${dmn_genehmigung_result.get('emailprim')}</camunda:outputParameter>
+          <camunda:outputParameter name="genehmigung_ldap_object_id">${dmn_genehmigung_result.get('genehmigung_ldap_object_id')}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0rfujea</bpmn:incoming>
+      <bpmn:outgoing>Flow_079u64y</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:userTask id="Task_Antrag_genehmigen_Reisesachbearbeitung" name="Reiseantrag genehmigen" camunda:formKey="Reiseantrag_final_genehmigen_V03" camunda:candidateUsers="${genehmigung_ldap_object_id}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="javascript">//TaskTitle setzen
+task_title_ui = TaskTitle;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_079u64y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iduh8i</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_07doyy5" default="Flow_1wznp1n">
+      <bpmn:incoming>Flow_1dlr18q</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wznp1n</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16av5vr</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1wznp1n" sourceRef="Gateway_07doyy5" targetRef="Gateway_1scgbox" />
+    <bpmn:exclusiveGateway id="Gateway_05t5qu8">
+      <bpmn:incoming>SequenceFlow_Ablehnen</bpmn:incoming>
+      <bpmn:incoming>Flow_16av5vr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k2xq0m</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1k2xq0m" sourceRef="Gateway_05t5qu8" targetRef="ServiceTask_Referat_Ablehnung_ReiseSB" />
+    <bpmn:sequenceFlow id="Flow_16av5vr" sourceRef="Gateway_07doyy5" targetRef="Gateway_05t5qu8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${AntragHaushalterischFreigegeben == 'Value_Nein'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_ReiseantragV2">
+      <bpmndi:BPMNShape id="Participant_0rlbphg_di" bpmnElement="Participant_Teilnehmer_ReiseantragV2" isHorizontal="true">
+        <dc:Bounds x="152" y="85" width="5146" height="2035" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_14ri7vz_di" bpmnElement="Lane_Antragsteller" isHorizontal="true">
+        <dc:Bounds x="182" y="85" width="5116" height="230" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0tm5t0v_di" bpmnElement="Lane_Vorgesetzter" isHorizontal="true">
+        <dc:Bounds x="182" y="315" width="5116" height="290" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0j6eo6w_di" bpmnElement="Lane_RIT_ITM_GL3" isHorizontal="true">
+        <dc:Bounds x="182" y="862" width="5116" height="535" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_01u1y72_di" bpmnElement="Lane_Genehmigung" isHorizontal="true">
+        <dc:Bounds x="182" y="1397" width="5116" height="330" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1xdp8y8_di" bpmnElement="Lane_Antikorruptionsbeauftragter" isHorizontal="true">
+        <dc:Bounds x="182" y="1727" width="5116" height="245" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0hbhvrc_di" bpmnElement="Lane_zustaendige_Stelle" isHorizontal="true">
+        <dc:Bounds x="182" y="1972" width="5116" height="148" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1mrwuka_di" bpmnElement="Lane_Genehmigungsebene2" isHorizontal="true">
+        <dc:Bounds x="182" y="605" width="5116" height="257" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_16av5vr_di" bpmnElement="Flow_16av5vr">
+        <di:waypoint x="2490" y="1127" />
+        <di:waypoint x="2490" y="952" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k2xq0m_di" bpmnElement="Flow_1k2xq0m">
+        <di:waypoint x="2515" y="927" />
+        <di:waypoint x="4850" y="927" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wznp1n_di" bpmnElement="Flow_1wznp1n">
+        <di:waypoint x="2515" y="1152" />
+        <di:waypoint x="2595" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l0x57z_di" bpmnElement="Flow_0l0x57z">
+        <di:waypoint x="2180" y="1127" />
+        <di:waypoint x="2180" y="1040" />
+        <di:waypoint x="2620" y="1040" />
+        <di:waypoint x="2620" y="1127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dlr18q_di" bpmnElement="Flow_1dlr18q">
+        <di:waypoint x="2380" y="1152" />
+        <di:waypoint x="2465" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0twm0x5_di" bpmnElement="Flow_0twm0x5">
+        <di:waypoint x="2645" y="1152" />
+        <di:waypoint x="2741" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o4ws8c_di" bpmnElement="Flow_0o4ws8c">
+        <di:waypoint x="2205" y="1152" />
+        <di:waypoint x="2280" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14qbd7j_di" bpmnElement="Flow_Genehmigung_offen">
+        <di:waypoint x="537" y="580" />
+        <di:waypoint x="682" y="580" />
+        <di:waypoint x="682" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="605" y="546" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06w6ser_di" bpmnElement="Flow_06w6ser">
+        <di:waypoint x="512" y="605" />
+        <di:waypoint x="512" y="1152" />
+        <di:waypoint x="1569" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_100838m_di" bpmnElement="Flow_100838m">
+        <di:waypoint x="512" y="410" />
+        <di:waypoint x="512" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_079u64y_di" bpmnElement="Flow_079u64y">
+        <di:waypoint x="4160" y="1462" />
+        <di:waypoint x="4290" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wizxx4_di" bpmnElement="Flow_0wizxx4">
+        <di:waypoint x="5100" y="485" />
+        <di:waypoint x="5162" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k10tyo_di" bpmnElement="Flow_0k10tyo">
+        <di:waypoint x="4950" y="485" />
+        <di:waypoint x="5000" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t5r2rj_di" bpmnElement="Flow_1t5r2rj">
+        <di:waypoint x="5100" y="725" />
+        <di:waypoint x="5162" y="725" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bflgkp_di" bpmnElement="Flow_1bflgkp">
+        <di:waypoint x="4950" y="725" />
+        <di:waypoint x="5000" y="725" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02zopjs_di" bpmnElement="Flow_02zopjs">
+        <di:waypoint x="5100" y="927" />
+        <di:waypoint x="5162" y="927" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xdyig4_di" bpmnElement="Flow_1xdyig4">
+        <di:waypoint x="4950" y="927" />
+        <di:waypoint x="5000" y="927" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yhihsa_di" bpmnElement="Flow_0yhihsa">
+        <di:waypoint x="5100" y="1867" />
+        <di:waypoint x="5162" y="1867" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15zv2a6_di" bpmnElement="Flow_15zv2a6">
+        <di:waypoint x="4950" y="1867" />
+        <di:waypoint x="5000" y="1867" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02lnp0a_di" bpmnElement="Flow_02lnp0a">
+        <di:waypoint x="4950" y="1632" />
+        <di:waypoint x="5000" y="1632" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_016auvw_di" bpmnElement="Flow_016auvw">
+        <di:waypoint x="5100" y="1632" />
+        <di:waypoint x="5162" y="1632" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u3le5s_di" bpmnElement="Flow_1u3le5s">
+        <di:waypoint x="5100" y="1462" />
+        <di:waypoint x="5162" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05j79vn_di" bpmnElement="Flow_05j79vn">
+        <di:waypoint x="4940" y="1462" />
+        <di:waypoint x="5000" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01l7jf7_di" bpmnElement="Flow_01l7jf7">
+        <di:waypoint x="4778" y="1462" />
+        <di:waypoint x="4840" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hqvfsv_di" bpmnElement="Flow_1hqvfsv">
+        <di:waypoint x="4711" y="1462" />
+        <di:waypoint x="4742" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iduh8i_di" bpmnElement="Flow_0iduh8i">
+        <di:waypoint x="4390" y="1462" />
+        <di:waypoint x="4511" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_00p7v1w_di" bpmnElement="SequenceFlow_00p7v1w">
+        <di:waypoint x="298" y="185" />
+        <di:waypoint x="372" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1riutu4_di" bpmnElement="Flow_1riutu4">
+        <di:waypoint x="3258" y="1867" />
+        <di:waypoint x="3341" y="1867" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0up8int_di" bpmnElement="SequenceFlow_0up8int">
+        <di:waypoint x="4561" y="1462" />
+        <di:waypoint x="4661" y="1462" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4569" y="1444" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1w3og5g_di" bpmnElement="SequenceFlow_1w3og5g">
+        <di:waypoint x="4536" y="1487" />
+        <di:waypoint x="4536" y="1632" />
+        <di:waypoint x="4850" y="1632" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4592" y="1825" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hns9mk_di" bpmnElement="SequenceFlow_0hns9mk">
+        <di:waypoint x="3610" y="2060" />
+        <di:waypoint x="3731" y="2060" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0uxu89a_di" bpmnElement="SequenceFlow_AKR_AbschliessendGenehmigen">
+        <di:waypoint x="3781" y="2060" />
+        <di:waypoint x="4686" y="2060" />
+        <di:waypoint x="4686" y="1487" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3834" y="2022" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rfujea_di" bpmnElement="SequenceFlow_0rfujea">
+        <di:waypoint x="3965" y="1462" />
+        <di:waypoint x="4060" y="1462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0u43rgy_di" bpmnElement="SequenceFlow_AKR_genehmigen">
+        <di:waypoint x="3890" y="1842" />
+        <di:waypoint x="3890" y="1462" />
+        <di:waypoint x="3915" y="1462" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3898" y="1805" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1y9cwlw_di" bpmnElement="SequenceFlow_AKR_ablehnen">
+        <di:waypoint x="3915" y="1867" />
+        <di:waypoint x="4850" y="1867" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4012" y="1875" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0x4zi2z_di" bpmnElement="SequenceFlow_0x4zi2z">
+        <di:waypoint x="3756" y="2035" />
+        <di:waypoint x="3756" y="1867" />
+        <di:waypoint x="3865" y="1867" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3681" y="1986" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qj1ebs_di" bpmnElement="SequenceFlow_0qj1ebs">
+        <di:waypoint x="3366" y="1842" />
+        <di:waypoint x="3366" y="185" />
+        <di:waypoint x="3056" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3316" y="146" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1sef5ek_di" bpmnElement="SequenceFlow_1sef5ek">
+        <di:waypoint x="3366" y="1892" />
+        <di:waypoint x="3366" y="2060" />
+        <di:waypoint x="3510" y="2060" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0knm55j_di" bpmnElement="SequenceFlow_0knm55j">
+        <di:waypoint x="3120" y="1867" />
+        <di:waypoint x="3222" y="1867" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_06ipdbw_di" bpmnElement="SequenceFlow_06ipdbw">
+        <di:waypoint x="2956" y="185" />
+        <di:waypoint x="2866" y="185" />
+        <di:waypoint x="2866" y="1842" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_07pfwm3_di" bpmnElement="SequenceFlow_AKR_Pruefung_ja">
+        <di:waypoint x="2766" y="1177" />
+        <di:waypoint x="2766" y="1867" />
+        <di:waypoint x="2841" y="1867" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2793" y="1203" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0phjtni_di" bpmnElement="SequenceFlow_0phjtni">
+        <di:waypoint x="2891" y="1867" />
+        <di:waypoint x="3020" y="1867" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0sopp70_di" bpmnElement="SequenceFlow_Freigabe">
+        <di:waypoint x="2055" y="1152" />
+        <di:waypoint x="2155" y="1152" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2051" y="1134" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1i41nbj_di" bpmnElement="SequenceFlow_Rueckfrage">
+        <di:waypoint x="2030" y="1177" />
+        <di:waypoint x="2030" y="1270" />
+        <di:waypoint x="1980" y="1270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2037" y="1195" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1svs2yc_di" bpmnElement="SequenceFlow_abgelehnt_fuehrungskraft">
+        <di:waypoint x="1479" y="725" />
+        <di:waypoint x="4850" y="725" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1596" y="707" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0c1892g_di" bpmnElement="SequenceFlow_0c1892g">
+        <di:waypoint x="1320" y="725" />
+        <di:waypoint x="1429" y="725" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_15lio2v_di" bpmnElement="SequenceFlow_gestattet_Fuehrungskraft">
+        <di:waypoint x="1454" y="750" />
+        <di:waypoint x="1454" y="1152" />
+        <di:waypoint x="1569" y="1152" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1460" y="808" width="48" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o54wea_di" bpmnElement="SequenceFlow_0o54wea">
+        <di:waypoint x="1803" y="485" />
+        <di:waypoint x="4850" y="485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1950" y="467" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_10tfi5i_di" bpmnElement="SequenceFlow_10tfi5i">
+        <di:waypoint x="1778" y="460" />
+        <di:waypoint x="1778" y="185" />
+        <di:waypoint x="1496" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1711" y="148" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_04ukf5d_di" bpmnElement="SequenceFlow_AKR_Pruefung_nein">
+        <di:waypoint x="2791" y="1152" />
+        <di:waypoint x="3940" y="1152" />
+        <di:waypoint x="3940" y="1437" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2840" y="1134" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1drq1gf_di" bpmnElement="SequenceFlow_Ablehnen">
+        <di:waypoint x="2030" y="1127" />
+        <di:waypoint x="2030" y="927" />
+        <di:waypoint x="2465" y="927" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2060" y="632" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ocij0t_di" bpmnElement="SequenceFlow_1ocij0t">
+        <di:waypoint x="1850" y="1152" />
+        <di:waypoint x="2005" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1x5at09_di" bpmnElement="SequenceFlow_1x5at09">
+        <di:waypoint x="1619" y="1152" />
+        <di:waypoint x="1750" y="1152" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wxlux7_di" bpmnElement="SequenceFlow_0wxlux7">
+        <di:waypoint x="1071" y="725" />
+        <di:waypoint x="1220" y="725" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1105" y="686" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s9efyd_di" bpmnElement="SequenceFlow_gestattet_Vorgesetzter">
+        <di:waypoint x="1046" y="510" />
+        <di:waypoint x="1046" y="700" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1056" y="545" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_09muneu_di" bpmnElement="SequenceFlow_09muneu">
+        <di:waypoint x="900" y="485" />
+        <di:waypoint x="942" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ba6nyh_di" bpmnElement="SequenceFlow_keineWeitereGenehmigung">
+        <di:waypoint x="1046" y="750" />
+        <di:waypoint x="1046" y="1152" />
+        <di:waypoint x="1569" y="1152" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1065" y="796" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hmj61e_di" bpmnElement="SequenceFlow_abgelehnt_Vorgesetzter">
+        <di:waypoint x="1071" y="485" />
+        <di:waypoint x="1753" y="485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1394" y="458" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_01p6qrv_di" bpmnElement="SequenceFlow_01p6qrv">
+        <di:waypoint x="1396" y="185" />
+        <di:waypoint x="682" y="185" />
+        <di:waypoint x="682" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rzidms_di" bpmnElement="SequenceFlow_Fortbildungsreise">
+        <di:waypoint x="512" y="510" />
+        <di:waypoint x="512" y="555" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="548" y="523" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1arqn99_di" bpmnElement="SequenceFlow_1arqn99">
+        <di:waypoint x="707" y="485" />
+        <di:waypoint x="800" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0je2izm_di" bpmnElement="SequenceFlow_Dienstreise">
+        <di:waypoint x="537" y="485" />
+        <di:waypoint x="657" y="485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="467" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_008fnlg_di" bpmnElement="Flow_008fnlg">
+        <di:waypoint x="408" y="185" />
+        <di:waypoint x="512" y="185" />
+        <di:waypoint x="512" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1roio8h_di" bpmnElement="Flow_1roio8h">
+        <di:waypoint x="978" y="485" />
+        <di:waypoint x="1021" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00xx18q_di" bpmnElement="Flow_00xx18q">
+        <di:waypoint x="512" y="300" />
+        <di:waypoint x="512" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zkrdpu_di" bpmnElement="Flow_0zkrdpu">
+        <di:waypoint x="1880" y="1270" />
+        <di:waypoint x="1594" y="1270" />
+        <di:waypoint x="1594" y="1177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0l7hwd5_di" bpmnElement="ExclusiveGateway_0l7hwd5" isMarkerVisible="true">
+        <dc:Bounds x="657" y="460" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1wzrpn1_di" bpmnElement="ExclusiveGateway_Fortbildungsreise" isMarkerVisible="true">
+        <dc:Bounds x="487" y="460" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="389" y="468" width="85" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Reise_notwendig">
+        <dc:Bounds x="262" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="239" y="143" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0v9hhqk_di" bpmnElement="Event_Status_Gestartet" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="372" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="356" y="148" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sq76j2_di" bpmnElement="ScriptTask_Prozessvariablen_setzen">
+        <dc:Bounds x="462" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hmq7gd_di" bpmnElement="BusinessRuleTask_Leitweg_bestimmmen">
+        <dc:Bounds x="462" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1fe58pg_di" bpmnElement="ExclusiveGateway_Fortbildungsreise_Abkuerzung" isMarkerVisible="true">
+        <dc:Bounds x="487" y="555" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="391" y="560" width="84" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1pmjcp7_di" bpmnElement="ExclusiveGateway_gestattet" isMarkerVisible="true">
+        <dc:Bounds x="1021" y="460" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1000" y="421" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_11udgpo_di" bpmnElement="ExclusiveGateway_11udgpo" isMarkerVisible="true">
+        <dc:Bounds x="1021" y="700" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="928" y="715" width="76" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1umaxgl_di" bpmnElement="Event_Status_Pruefen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="942" y="467" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="941" y="448" width="39" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0utq8z1_di" bpmnElement="Task_Reiseantrag_pruefen">
+        <dc:Bounds x="800" y="445" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0igx9wy_di" bpmnElement="ExclusiveGateway_0igx9wy" isMarkerVisible="true">
+        <dc:Bounds x="1753" y="460" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1745" y="518" width="70" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_014dn1p_di" bpmnElement="ExclusiveGateway_014dn1p" isMarkerVisible="true">
+        <dc:Bounds x="1569" y="1127" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1vvwi3d_di" bpmnElement="ExclusiveGateway_freigegeben" isMarkerVisible="true">
+        <dc:Bounds x="1429" y="700" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1414" y="645" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_03qic87_di" bpmnElement="ExclusiveGateway_03qic87" isMarkerVisible="true">
+        <dc:Bounds x="2005" y="1127" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1939" y="1083" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1f6nmz0_di" bpmnElement="Task_Aenderungen_vornehmen_wg_VG">
+        <dc:Bounds x="1396" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0la6yb0_di" bpmnElement="Task_Reiseantrag_freigeben">
+        <dc:Bounds x="1220" y="685" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1oh3i84_di" bpmnElement="Task_Angaben_korrigieren_Reisesachbearbeitung">
+        <dc:Bounds x="1750" y="1112" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1iffw8j_di" bpmnElement="ServiceTask_Rueckfrage_E-Mail_versenden">
+        <dc:Bounds x="1880" y="1230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_18gjcot_di" bpmnElement="Gateway_18gjcot" isMarkerVisible="true">
+        <dc:Bounds x="2155" y="1127" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05w9ls3_di" bpmnElement="Task_AntragHaushalterischFreigeben">
+        <dc:Bounds x="2280" y="1112" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1scgbox_di" bpmnElement="Gateway_1scgbox" isMarkerVisible="true">
+        <dc:Bounds x="2595" y="1127" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0e8rpml_di" bpmnElement="ExclusiveGateway_0e8rpml" isMarkerVisible="true">
+        <dc:Bounds x="2741" y="1127" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2735" y="1082" width="61" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0nzwquv_di" bpmnElement="ExclusiveGateway_0nzwquv" isMarkerVisible="true">
+        <dc:Bounds x="2841" y="1842" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0keiu7l_di" bpmnElement="ExclusiveGateway_0keiu7l" isMarkerVisible="true">
+        <dc:Bounds x="3341" y="1842" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1g3z2vw_di" bpmnElement="Task_Aenderungen_vornehmen_AKB">
+        <dc:Bounds x="2956" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1mfk8ac_di" bpmnElement="Task_Korruption_pruefen_AKB">
+        <dc:Bounds x="3020" y="1827" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sxrr5k_di" bpmnElement="Event_Status_Pruefen_AKR" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3222" y="1849" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3210" y="1830" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1nt75sv_di" bpmnElement="ExclusiveGateway_1nt75sv" isMarkerVisible="true">
+        <dc:Bounds x="3865" y="1842" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3851" y="1899" width="78" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_11sh0qa_di" bpmnElement="ExclusiveGateway_11sh0qa" isMarkerVisible="true">
+        <dc:Bounds x="3915" y="1437" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_04by4an_di" bpmnElement="ExclusiveGateway_04by4an" isMarkerVisible="true">
+        <dc:Bounds x="3731" y="2035" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1sw0f56_di" bpmnElement="EndEvent_1mcy2rk">
+        <dc:Bounds x="5162" y="909" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5137" y="952" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1pundul_di" bpmnElement="EndEvent_1pundul">
+        <dc:Bounds x="5162" y="1444" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5141" y="1487" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0ykyq7g_di" bpmnElement="EndEvent_0ykyq7g">
+        <dc:Bounds x="5162" y="1614" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5138" y="1657" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0ppeh4w_di" bpmnElement="EndEvent_0u3at0y">
+        <dc:Bounds x="5162" y="1849" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5138" y="1892" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_110cawc_di" bpmnElement="EndEvent_1cul8sr">
+        <dc:Bounds x="5162" y="467" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5138" y="510" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0l00r0o_di" bpmnElement="EndEvent_0l00r0o">
+        <dc:Bounds x="5162" y="707" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5138" y="750" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0rgrytn_di" bpmnElement="ExclusiveGateway_0rgrytn" isMarkerVisible="true">
+        <dc:Bounds x="4511" y="1437" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4507" y="1415" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_17jywai_di" bpmnElement="ExclusiveGateway_17jywai" isMarkerVisible="true">
+        <dc:Bounds x="4661" y="1437" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0xxex99_di" bpmnElement="Task_AKR_genehmigen">
+        <dc:Bounds x="3510" y="2020" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09a2122_di" bpmnElement="Event_Status_Genehmigt" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="4742" y="1444" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4725" y="1487" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19iubkb_di" bpmnElement="ServiceTask_Referat_Gestattung_Genehmiger">
+        <dc:Bounds x="4840" y="1422" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a4gpwk_di" bpmnElement="ServiceTask_Antragsteller_Gestattung_Genehmiger">
+        <dc:Bounds x="5000" y="1422" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rmugmi_di" bpmnElement="ServiceTask_Referat_Ablehnung_Genehmiger">
+        <dc:Bounds x="4850" y="1592" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1icn3cq_di" bpmnElement="ServiceTask_Antragsteller_Ablehnung_Genehmiger">
+        <dc:Bounds x="5000" y="1592" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10zx2ni_di" bpmnElement="ServiceTask_Referat_Ablehnung_AKB">
+        <dc:Bounds x="4850" y="1827" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16gsrzk_di" bpmnElement="ServiceTask_Antragsteller_Ablehnung_AKB">
+        <dc:Bounds x="5000" y="1827" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pg7f2n_di" bpmnElement="ServiceTask_Referat_Ablehnung_ReiseSB">
+        <dc:Bounds x="4850" y="887" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qqrpzz_di" bpmnElement="ServiceTask_Antragsteller_Ablehnung_ReiseSB">
+        <dc:Bounds x="5000" y="887" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gmu594_di" bpmnElement="ServiceTask_Referat_Ablehnung_Zweite_Ebene">
+        <dc:Bounds x="4850" y="685" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k59woh_di" bpmnElement="ServiceTask_Antragsteller_Ablehnung_Zweite_Ebene">
+        <dc:Bounds x="5000" y="685" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oh1gqw_di" bpmnElement="ServiceTask_Referat_Ablehnung_VG">
+        <dc:Bounds x="4850" y="445" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vdwubj_di" bpmnElement="ServiceTask_Antragsteller_Ablehnung_VG">
+        <dc:Bounds x="5000" y="445" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0f3u2fh_di" bpmnElement="BusinessRuleTask_Genehmiger_bestimmen_erweitert">
+        <dc:Bounds x="4060" y="1422" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08a5o9r_di" bpmnElement="Task_Antrag_genehmigen_Reisesachbearbeitung">
+        <dc:Bounds x="4290" y="1422" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_07doyy5_di" bpmnElement="Gateway_07doyy5" isMarkerVisible="true">
+        <dc:Bounds x="2465" y="1127" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_05t5qu8_di" bpmnElement="Gateway_05t5qu8" isMarkerVisible="true">
+        <dc:Bounds x="2465" y="902" width="50" height="50" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

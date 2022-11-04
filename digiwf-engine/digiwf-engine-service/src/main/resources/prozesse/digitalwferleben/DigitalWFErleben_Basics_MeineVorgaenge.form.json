@@ -1,0 +1,134 @@
+{
+  "key": "DigitalWFErleben_MeineVorgaenge_V1",
+  "description": "Formular \"Meine Vorgaenge\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Statusnachverfolgung von Vorgängen",
+      "schema": [
+        {
+          "key": "FormField_Nachverfolgung",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "In Ihrer Arbeit mit DigiWF werden Sie eine Vielzahl von Vorgängen starten oder einfach an diesen Vorgängen beteiligt sein. Damit Sie den Überblick über all diese Vorgänge behalten, sehen Sie all diese Vorgänge in der Liste `Meine Vorgänge`.\n\nAuch kann es sehr lange dauern bis ein Vorgang, den Sie gestartet oder den Sie bearbeitet haben, wieder bei Ihnen ankommt. Damit Sie nachverfolgen können wo sich der Vorgang befindet, können Sie sich den Bearbeitungsverlauf anzeigen lassen.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ],
+      "description": null
+    },
+    {
+      "label": "Überblick über gestartete Vorgänge",
+      "schema": [
+        {
+          "key": "FormField_GestarteteVorgaenge",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Unter `Meine Vorgänge`sehe Sie eine Liste aller Vorgänge, die Sie gestartet haben oder an denen Sie beteiligt sind weil Sie eine Aufgabe bearbeitet haben. Sie sehen in der Liste den **Namen** des Vorgangs, eine nähere **Beschreibung** zum Vorgang, **Datum** und **Uhrzeit** an denen der Vorgang erstellt wurde und den **Status** des Vorgangs. Die Beschreibung variiert i.d.R. von Vorgang zu Vorgang, ebenso sind auch die möglichen Status i.d.R. von Vorgang zur Vorgang unterschiedlich.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/DieBasics_Vorgaenge_Uebersicht.png\" alt=\"Vorgangsübersicht\" title=\"Vorgangsübersicht\" width=\"100%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "Bearbeitungsverlauf",
+      "schema": [
+        {
+          "key": "FormField_Bearbeitungsverlauf",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "In den Bearbeitungsverlauf eines Vorgangs gelangen Sie, wenn sie auf den Button `Anzeigen` klicken. Der Bearbeitungsverlauf setzt sich aus zwei Bereichen zusammen: Im oberen Bereich sehen Sie den aktuellen Status des Vorgangs und die Status, die bereits abgeschlossen wurden. Die Status sind linear angeordnet um eine einfache und schnell verständliche Darstellung zu erhalten. Wiederholungen oder Verzweigungen im Vorgang sind daher nicht ersichtlich.\n\nIm unteren Bereich sind die Aufgaben ersichtlich die bereits bearbeitet wurden. Zu jeder Aufgabe werden das Datum und die Uhrzeit der abschließenden Bearbeitung angezeigt. Auch hier sind Wiederholungen nicht ersichtlich - es wird jede Aufgabe nur einmal und mit Datum und Uhrzeit der jeweils letzten abschließenden Bearbeitung angezeigt.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/DieBasics_Vorgaenge_Details.png\" alt=\"Details zum Vorgang\" title=\"Details zum Vorgang\" width=\"75%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "Probieren Sie die Funktion aus!",
+      "schema": [
+        {
+          "key": "FormField_ProbierenSieEsAus",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Klicken Sie auf `Meine Vorgänge` und lassen Sie sich Ihre Vorgänge anzeigen. Sie sehen mind. den Vorgang **DigiWF erleben**, in dem Sie sich ja gerade befinden. Klicken Sie auf den Button `Anzeigen` um sich den Bearbeitungsverlauf anzeigen zu lassen. Bedenken Sie, dass auch Themen die Sie ausgelassen haben, als bearbeitet angezeigt werden. Der Bearbeitungsverlauf ist linear!\n\nKehren Sie anschließend zu dieser Aufgabe zurück und setzen Sie das Tutorial fort indem Sie auf den Button `Weiter zum nächsten Thema klicken`.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    }
+  ]
+}

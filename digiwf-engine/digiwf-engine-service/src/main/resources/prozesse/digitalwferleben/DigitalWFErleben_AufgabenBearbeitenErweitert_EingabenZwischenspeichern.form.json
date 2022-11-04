@@ -1,0 +1,101 @@
+{
+  "key": "DigitalWFErleben_EingabenZwischenspeichern_V1",
+  "description": "Formular \"Eingaben zwischenspeichern\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Zwischenspeichern - nicht abschließen!",
+      "schema": [
+        {
+          "key": "FormField_Zwischenspeichern",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Gerade bei komplexeren Formularen kann es passieren, dass Sie Ihre Arbeit am Formular unterbrechen müssen bevor Sie es abschließen. Damit Sie die bis dahin eingegebenen Daten nicht verlieren, bietet DigiWF eine Funktion zum Zwischenspeichern der Daten an.\n\nKlicken Sie auf den Button mit den drei senkrechten Punkten und klicke Sie anschließend auf den Button `Zwischenspeichern`. Anschließend können Sie das Formular verlassen und die Aufgabe in Ihrer Aufgabenliste erneut aufrufen. Die bereits eingegebenen Daten sind dann wieder vorhanden .",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie es aus!",
+      "schema": [
+        {
+          "key": "FormField_AusprobierenAnleitung",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Geben Sie im Formularfeld einen beliebigen Text ein. Speichern Sie Ihre Arbeit zwischen und verlassen Sie das Formular. Rufen Sie anschließend die Aufgabe wieder auf. Sie werden sehen, dass Ihre Eingabe erhalten geblieben ist. Fahren Sie danach mit dem nächsten Thema fort indem Sie auf `Weiter zum nächsten Thema` klicken.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        },
+        {
+          "key": "FormField_AusprobierenTexteingabe",
+          "label": "Geben Sie einen beliebigen Text ein",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "key": "GenerischerMaskentestProzess_Startformular_V1",
+  "description": "Startformular",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Starten"
+    },
+    "cancel": {
+      "showButton": true,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "",
+      "schema": [
+        {
+          "key": "FormField_Beschreibung",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Start me up...",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            }
+          ]
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    }
+  ]
+}

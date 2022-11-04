@@ -1,0 +1,333 @@
+{
+  "key": "DigitalWFErleben_DatenKorrektErfassenValidierungen_V1",
+  "description": "Formular \"Daten korrekt erfassen - Validierungen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Validierungen",
+      "schema": [
+        {
+          "key": "FormField_Validierungen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Validierungen von Eingaben dienen dazu, die Daten so zu erfassen wie Sie im Vorgang benötigt werden. ",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie es aus!",
+      "schema": [
+        {
+          "key": "FormField_ErklaerungPflichtfeld",
+          "label": "Pflichtfelder",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Ein Pflichtfeld muss Daten enthalten, sonst können Sie das Formular nicht abschließen. Dabei ist es unerheblich, um welche Art von Feld es sich handelt. Jedes Feld kann zu einem Pflichtfeld gemacht werden.\n\nProbieren Sie es aus, wenn einer oder beide der nachfolgenden Felder leer sind und Sie auf den Button `Weiter zum nächsten Thema` klicken, so werden die leeren Felder rot markiert und es erscheint der Hinweis, dass es sich um Pflichtfelder handelt.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Pflichtfeld",
+          "label": "Ich bin ein Pflichtfeld...",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Dieses Feld ist ein Pflichtfeld. Ohne Dateneingabe kann das Formular nicht abgeschlossen werden.",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Pflichtfeld2",
+          "label": "...ich auch!",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Wähle mich!",
+              "value": "Value_1"
+            },
+            {
+              "name": "Nein, wähle mich!",
+              "value": "Value_2"
+            }
+          ]
+        },
+        {
+          "key": "FormField_ErklaerungAbhaengigesPflichtfeld",
+          "label": "Abhängige Pflichtfelder",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Ein Feld kann auch in Abhängigkeit der Eingaben eines anderen Formularfelds zum Pflichtfeld werden. Betrachten Sie die nachfolgenden Felder: Wenn Sie kein Geburtsdatum angeben, so müssen Sie eine Begründung angeben, warum Sie das nicht getan haben. Im zweiten Fall wird eine Mailadresse von Ihnen verlangt, wenn Sie weitere Informationen wünschen.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_OnFeld",
+          "label": "Geburtsdatum",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_GeburtsdatumBegruendung",
+          "label": "Begründung für unbekanntes Geburtsdatum",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_OnFeld"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_WeitereInformationen",
+          "label": "Wünschen Sie weitere Informationen?",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_MailWeitereInformationen",
+          "label": "E-Mailadresse",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "true",
+              "target": "FormField_WeitereInformationen"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_MinMax",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Für Textfelder können minimale und maximale Längen spezifiziert werden, für Felder mit Zahlen minimale und maximale Werte. Mit den beiden nachfolgenden Feldern können Sie das ausprobieren.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_TextfeldMinMax",
+          "label": "Text mit minimaler Länge von 3 Zeichen, maximal 10 Zeichen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Geben Sie einen Text ein, der mind. 3, max. 10 Zeichen enthält.",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "minLength",
+              "value": "3",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "10",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_ZahlMinMax",
+          "label": "Zahl zwischen 10 und 20",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Geben Sie eine Zahl zwischen 10 und 20 ein.",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "min",
+              "value": "10",
+              "target": ""
+            },
+            {
+              "type": "max",
+              "value": "20",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

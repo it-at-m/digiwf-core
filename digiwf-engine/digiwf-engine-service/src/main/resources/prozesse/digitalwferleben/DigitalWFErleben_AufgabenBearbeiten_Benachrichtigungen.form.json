@@ -1,0 +1,77 @@
+{
+    "key": "DigitalWFErleben_Benachrichtigungen_V1",
+    "description": "Formular \"Benachrichtigungen\"",
+    "authorizedGroups": "",
+    "buttons": {
+        "complete": {
+            "showButton": false,
+            "buttonText": "Weiter zum nächsten Thema"
+        },
+        "cancel": {
+            "showButton": false,
+            "buttonText": "Abbrechen"
+        },
+        "statusPdf": {
+            "showButton": false,
+            "buttonText": "Status PDF"
+        }
+    },
+    "groups": [
+        {
+            "label": "Ein klares **Jein**!",
+            "schema": [
+                {
+                    "type": "markdown-output",
+                    "key": "FormField_WasSindBenachrichtigungen",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Mit der Funktion Benachrichtigungen können Sie informiert werden, wenn Aufgaben zur Bearbeitung bereit liegen. Der Prozessverantwortliche hat die Möglichkeit zu bestimmen, wer wann benachrichtigt werden soll. Es können der Bearbeiter einer Aufgabe oder alle potentiellen Bearbeiter benachrichtigt werden. Welche Benachrichtigung gewählt wird hängt von der konkreten Situation im Vorgang ab.\n\nSie als Benutzer*in erhalten die Benachrichtigung in Form einer E-Mail. In der E-Mail befindet sich ein Link über den Sie direkt zur Aufgabe gelangen, der Sie als Bearbeiter bzw. als potentieller Bearbeiter zugeordnet sind.",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        },
+        {
+            "label": "Probieren Sie es aus!",
+            "schema": [
+                {
+                    "type": "markdown-output",
+                    "key": "FormField_Ausprobieren",
+                    "defaultValue": "",
+                    "defaultValueField": "",
+                    "label": "",
+                    "prependIcon": "",
+                    "tooltip": "",
+                    "ext": "",
+                    "multiple": false,
+                    "description": "Sie haben per Mail eine Benachrichtigung erhalten, dass diese Aufgabe zur Bearbeitung vorliegt. Verlassen Sie die Aufgabenbearbeitung, in dem Sie im Menü `Meinen Aufgaben` auswählen (bitte nicht auf `Weiter zum nächsten Thema` klicken). Öffnen Sie anschließend Ihr E-Mailpostfach, suchen Sie die E-Mail mit der Benachrichtigung und klicken Sie auf den Link in der E-Mail. Sie gelangen wieder zu dieser Aufgabe. Fahren Sie anschließend mit dem nächsten Thema fort.",
+                    "ldapOus": "",
+                    "imageHeight": "",
+                    "imageWidth": "",
+                    "readonly": false,
+                    "rows": 4,
+                    "col": 12,
+                    "items": [],
+                    "rules": [],
+                    "itemText": "name",
+                    "itemValue": "value",
+                    "returnObject": false
+                }
+            ]
+        }
+    ]
+}

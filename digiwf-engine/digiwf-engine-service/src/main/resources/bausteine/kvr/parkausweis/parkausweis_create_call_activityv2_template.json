@@ -1,0 +1,580 @@
+{
+  "name": "Parkausweis erstellen V2",
+  "id": "de.muenchen.digitalwf.templates.CreateParkausweisTemplateV02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "CreateParkausweisTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "dwf-parkausweis-local-01",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "value": "correlateParkausweisCreated",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "value": "createParkausweisv02",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Gültiger Führerschein",
+      "type": "String",
+      "value": "${formatter.bool(quickcheck1)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "gueltigerFuehrerschein"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Gültiger Parkausweis",
+      "type": "String",
+      "value": "${formatter.bool(quickcheck2)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "gueltigerParkausweis"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Stellplatz vorhanden",
+      "type": "String",
+      "value": "${formatter.bool(quickcheck3)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "stellplatzVorhanden"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Bauart Fahrzeug",
+      "type": "String",
+      "value": "${quickcheck4}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "bauartFahrzeug"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Begründung Parkausweis",
+      "type": "String",
+      "value": "${begrundung}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "begruendungParkausweis"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Bauart des Fahrzeugs",
+      "type": "String",
+      "value": "${quickcheck4}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "bauartFahrzeug"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antrags Typ",
+      "type": "String",
+      "value": "${antragsTyp}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsTyp"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Lizenzdauer",
+      "type": "String",
+      "value": "lizenzdauer oder lizenzdauer2",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "lizenzdauer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Lizenzgebietname",
+      "type": "String",
+      "value": "${parklizenzgebiet}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "lizenzgebietname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Lizenzgebietnummer",
+      "type": "String",
+      "value": "10",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "lizenzgebietnummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antragsteller Vorname",
+      "type": "String",
+      "value": "${vorname}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_vorname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Familienname",
+      "type": "String",
+      "value": "${familienname}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_familienname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Geburtsdatum",
+      "type": "String",
+      "value": "${geburtsdatum}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_geburtsdatum"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Mailadresse",
+      "type": "String",
+      "value": "${mailadresse_p_bk}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_mailadresse"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Strasse",
+      "type": "String",
+      "value": "${adresse}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_strasse"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Hausnummer",
+      "type": "String",
+      "value": "${adresse}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_hausnummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Wohnort",
+      "type": "String",
+      "value": "${wohnort}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_ort"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Postleitzahl",
+      "type": "String",
+      "value": "${postleitzahl}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_postleitzahl"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Telefonnummer",
+      "type": "String",
+      "value": "${telefonnummer_np_bk}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragsteller_telefonnummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Name Vermieter",
+      "type": "String",
+      "value": "${name_vermieter}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vermieter_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Straße Vermieter",
+      "type": "String",
+      "value": "${adresse_vermieter}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vermieter_strasse"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Hausnummer Vermieter",
+      "type": "String",
+      "value": "${adresse_vermieter}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vermieter_hausnummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "PLZ Vermieter",
+      "type": "String",
+      "value": "${postleitzahl_vermieter}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vermieter_postleitzahl"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Ort Vermieter",
+      "type": "String",
+      "value": "${ort_vermieter}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vermieter_ort"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "1. Fahrzeug Deutsches Kennzeichen?",
+      "type": "String",
+      "value": "${formatter.bool(execution.getVariable('fahrzeugdaten_fahrzeugdaten-item1_deutsches_kennzeichen'))}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz1_deutschesKennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "1. Fahrzeug Deutsches Kennzeichen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item1_fahrzeugkennzeichen_de_val_p')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz1_kennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "1. Fahrzeug Zugelassen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item1_selbst_zugelassen')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz1_zulassung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "2. Fahrzeug Deutsches Kennzeichen?",
+      "type": "String",
+      "value": "${formatter.bool(execution.getVariable('fahrzeugdaten_fahrzeugdaten-item2_deutsches_kennzeichen'))}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz2_deutschesKennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "2. Fahrzeug Deutsches Kennzeichen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item2_fahrzeugkennzeichen_de_val_p')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz2_kennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "2. Fahrzeug Zugelassen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item2_selbst_zugelassen')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz2_zulassung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "3. Fahrzeug Deutsches Kennzeichen?",
+      "type": "String",
+      "value": "${formatter.bool(execution.getVariable('fahrzeugdaten_fahrzeugdaten-item3_deutsches_kennzeichen'))}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz3_deutschesKennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "3. Fahrzeug Deutsches Kennzeichen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item3_fahrzeugkennzeichen_de_val_p')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz3_kennzeichen"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "3. Fahrzeug Zugelassen",
+      "type": "String",
+      "value": "${execution.getVariable('fahrzeugdaten_fahrzeugdaten-item3_selbst_zugelassen')}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fz3_zulassung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Weiteres Fahrzeug Erklärung",
+      "type": "String",
+      "value": "${erklaerung}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "erklaerungWeiteresFahrzeug"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Weiteres Fahrzeug zugelassen?",
+      "type": "String",
+      "value": "${formatter.bool(weiteres_fahrzeug_zugelassen)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "weiteresEigenesFahrzeug"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Datenschutzerklärung",
+      "type": "String",
+      "value": "${formatter.bool(datenschutz2)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "datenschutzerklaerung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Elektronische Kommuniktaion",
+      "type": "String",
+      "value": "${formatter.bool(datenschutz2)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "elektronischeKommunikation"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Datenverwendung Bearbeitung",
+      "type": "String",
+      "value": "${formatter.bool(datenschutz3)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "datenverwendungBearbeitung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Falschangaben",
+      "type": "String",
+      "value": "${formatter.bool(datenschutz4)}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "falscheAngaben"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "ParkausweisId",
+      "value": "parkausweisId",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "parkausweisId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="FeatureSchriftstueckeUpdaten" name="Feature Schriftstücke Updaten" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Schriftstücke updaten zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="FeatureSchriftstueckUpdaten_StartenV01">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_SchriftstueckUpdaten" />
+    <bpmn:callActivity id="Task_SchriftstueckUpdaten" name="Schriftstück Updaten" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdatenTemplate" calledElement="SchriftstueckUpdatenV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${execution.getProcessInstance().getId()}" target="dms_prozess_id" />
+        <camunda:in sourceExpression="${FormField_SchriftstueckCOO}" target="dms_schriftstueck_coo" />
+        <camunda:in sourceExpression="Vorgang der gepserrt ist" target="dms_vorgang_titel" />
+        <camunda:in sourceExpression="${FormField_SchriftstueckName}" target="dms_schriftstueck_name" />
+        <camunda:in sourceExpression="${user.email(starterOfInstance)}" target="dms_error_receiver_mail" />
+        <camunda:in sourceExpression="${starterOfInstance}" target="dms_fehlerhandling_user" />
+        <camunda:in sourceExpression="7c95ec15-e68c-4b77-9432-7ba2aa5792c9" target="dms_cosys_guid" />
+        <camunda:in sourceExpression="${starterOfInstance}" target="dms_user_login" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_11dx332</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="EndEvent_Beendet" name="Beendet">
+      <bpmn:incoming>Flow_11dx332</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_11dx332" sourceRef="Task_SchriftstueckUpdaten" targetRef="EndEvent_Beendet" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureSchriftstueckeUpdaten">
+      <bpmndi:BPMNEdge id="Flow_11dx332_di" bpmnElement="Flow_11dx332">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="432" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="122" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d9wg8b_di" bpmnElement="Task_SchriftstueckUpdaten">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_Beendet">
+        <dc:Bounds x="432" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="429" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

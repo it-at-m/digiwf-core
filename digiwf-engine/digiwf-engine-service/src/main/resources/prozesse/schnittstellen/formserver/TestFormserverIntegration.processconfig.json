@@ -1,0 +1,19 @@
+{
+  "key": "TestFormserverIntegration",
+  "statusConfig": [],
+  "statusDokument" : "0d9492d8-1210-4475-8f7b-c90545a76382",
+  "configs": [
+    {
+      "key": "ignore_fields_on_start",
+      "value": "1"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "FormField_Datei"
+    },
+    {
+      "key": "app_instance_file_paths",
+      "value": "FormField_Datei"
+    }
+  ]
+}

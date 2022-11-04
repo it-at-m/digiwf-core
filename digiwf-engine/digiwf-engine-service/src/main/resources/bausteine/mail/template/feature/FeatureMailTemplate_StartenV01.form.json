@@ -1,0 +1,89 @@
+{
+  "key": "FeatureMailTemplate_StartenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Mail versenden"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_Betreff",
+          "label": "Betreff",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "Hier steht der Betreff",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Text",
+          "label": "E-Mail Text",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "Das ist ein E-Mail Text",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Gruss",
+          "label": "E-Mail Gruß",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "Viele Grüße",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

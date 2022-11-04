@@ -1,0 +1,106 @@
+{
+  "key": "DigitalWFErleben_StatusdokumentHerunterladen_V1",
+  "description": "Formular \"Statusdokument herunterladen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Statusdokument"
+    }
+  },
+  "groups": [
+    {
+      "label": "Statusdokumente",
+      "schema": [
+        {
+          "key": "FormField_Statusdokument",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Statusdokumente bieten eine einfache und bequeme Möglichkeit den Ablauf eines Vorgangs zu dokumentieren. Statusdokumente werden mit Hilfe von Vorlagen mittels des Basisdienstes `cosys` erzeugt. Als Ergebnis erhalten Sie ein PDF, das den Verlauf des Vorgangs wiedergibt.\n\nSie können das Statusdokument herunterladen indem Sie auf den Button mit den drei senkrechten Punkten klicken und anschließend auf den Button `Statusdokument` klicken. Bitte beachten Sie, dass der Button in anderen Vorgängen anders benannt sein kann (bspw. Protokoll). Der Browser lädt dann das Statusdokument herunter und Sie können es öffnen. Bitte beachten Sie auch, dass der Button nicht in allen Aufgaben sichtbar ist: Ein Prozessverantwortlicher kann festlegen für welche Aufgaben in einem Vorgang der Button angezeigt werden soll.\n\n<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/WeitereFunktionen_Statusdokument.png\" alt=\"Stausdokument herunterladen\" title=\"Statusdokument herunterladen\" width=\"13%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    },
+    {
+      "label": "Probieren Sie es aus!",
+      "schema": [
+        {
+          "key": "FormField_Ausprobieren",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Geben Sie im Feld unten einen Text ein, der im Statusdokument erscheinen soll. Klicken Sie auf den Button mit den drei senkrechten Punkten und dann zunächst auf den Button `Zwischenspeichern`. Ein zwischenspeichern ist erforderlich, da nur die Daten abgeschlossener oder zwischengespeicherter Aufgaben für die Erzeugung des Dokuments genutzt werden können.\n\nKlicken Sie danach auf den Button `Statusdokument`. Der Download startet und Sie können anschließend das Dokument öffnen. Schließen Sie danach die Aufgabe ab und fahren Sie mit dem nächsten Thema fort.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        },
+        {
+          "key": "FormField_TextStatusdokument",
+          "label": "Ihr Text für das Statusdokument",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "3",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "1999",
+              "target": ""
+            }
+          ],
+          "items": [],
+          "itemText": "name",
+          "itemValue": "value",
+          "returnObject": false
+        }
+      ]
+    }
+  ]
+}

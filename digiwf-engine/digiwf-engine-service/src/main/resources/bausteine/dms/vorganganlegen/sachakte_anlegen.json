@@ -1,0 +1,70 @@
+{
+  "name": "Sachakte anlegen",
+  "id": "de.muenchen.digitalisierung.templates.dms.SachakteAnlegen",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${createSachakteDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Sachakte Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_sachakte_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Aktenplan Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_aktenplan_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${dms_sachakte_coo}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

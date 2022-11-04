@@ -1,0 +1,99 @@
+{
+  "key": "AnfrageProzess_AnfrageBearbeiten_V02",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Genehmigung starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Daten zum Besteller",
+      "schema": [
+        {
+          "key": "FormField_Besteller_Name",
+          "label": "Vorname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Hier bitte den Vornamen des Bestellers eintragen.",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Maennlich",
+              "target": "FormField_Geschlecht"
+            },
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_Nachname"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Nachname",
+          "label": "Nachname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Geschlecht",
+          "label": "Geschlecht",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Männlich",
+              "value": "Value_Maennlich"
+            },
+            {
+              "name": "Weiblich",
+              "value": "Value_Weiblich"
+            },
+            {
+              "name": "Divers",
+              "value": "Value_Divers"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

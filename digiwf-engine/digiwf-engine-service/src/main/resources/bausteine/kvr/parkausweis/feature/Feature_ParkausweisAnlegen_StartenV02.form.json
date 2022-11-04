@@ -1,0 +1,1041 @@
+{
+  "key": "Feature_ParkausweisAnlegen_StartenV02",
+  "description": "Formular zum Prüfen eines Antrags durch die Sachbearbeitung",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Antrag absenden"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Personendaten",
+      "description": "Persönliche Daten",
+      "schema": [
+        {
+          "key": "antragsTyp",
+          "label": "Antrags Typ",
+          "type": "text",
+          "defaultValue": "Neuantrag",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "80",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "vorname",
+          "label": "Vorname",
+          "type": "text",
+          "defaultValue": "Max",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "80",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "familienname",
+          "label": "Familienname",
+          "type": "text",
+          "defaultValue": "Mustermann",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "120",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "geburtsdatum",
+          "label": "Geburtsdatum",
+          "type": "text",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "date",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "col": "6",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "adresse",
+          "label": "Straße und Hausnummer",
+          "type": "text",
+          "defaultValue": "Maxstraße 101",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "62",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "postleitzahl",
+          "label": "Postleitzahl",
+          "type": "text",
+          "defaultValue": "80335",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "2",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "5",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "wohnort",
+          "label": "Wohnort",
+          "type": "text",
+          "defaultValue": "München",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "10",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "44",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "mailadresse_p_bk",
+          "label": "Mailadresse",
+          "type": "text",
+          "defaultValue": "max.mustermann@muenchen.de",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "256",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "telefonnummer_np_bk",
+          "label": "Telefonnummer",
+          "type": "text",
+          "defaultValue": "0156 254897898",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "18",
+              "target": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Daten zu Führerschein, Parkausweisen und Stellplätzen",
+      "description": "",
+      "schema": [
+        {
+          "key": "quickcheck1",
+          "label": "Besitzen Sie einen gültigen Führerschein?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "quickcheck2",
+          "label": "Haben Sie bereits einen gültigen Parkausweis?",
+          "type": "select",
+          "defaultValue": "Nein",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "quickcheck3",
+          "label": "Verfügen Sie über einen anderen Stellplatz auf Privatflächen oder in einer Garage im Parklizenzbereich oder in einem angrenzenden Gebiet?",
+          "type": "select",
+          "defaultValue": "Nein",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown10",
+          "col": "12",
+          "description": "*Wenn ein Stellplatz vorhanden ist*",
+          "rules": []
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown20",
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "begrundung",
+          "label": "Begründung",
+          "type": "textarea",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "11",
+          "rows": "4",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Ja",
+              "target": "quick-check_quickcheck3"
+            },
+            {
+              "type": "maxLength",
+              "value": "1000",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown30",
+          "col": "12",
+          "description": "*Wenn kein Stellplatz vorhanden ist, Daten des Vermieters*",
+          "rules": []
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown40",
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "name_vermieter",
+          "label": "Name",
+          "type": "text",
+          "defaultValue": "Max Musterhaus",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "11",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Nein",
+              "target": "quick-check_quickcheck3"
+            },
+            {
+              "type": "maxLength",
+              "value": "120",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown50",
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "adresse_vermieter",
+          "label": "Straße und Hausnummer",
+          "type": "text",
+          "defaultValue": "Prinzstraße 7",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "11",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Nein",
+              "target": "quick-check_quickcheck3"
+            },
+            {
+              "type": "maxLength",
+              "value": "62",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown60",
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "postleitzahl_vermieter",
+          "label": "Postleitzahl",
+          "type": "text",
+          "defaultValue": "80331",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "2",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "5",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "ort_vermieter",
+          "label": "Wohnort",
+          "type": "text",
+          "defaultValue": "München",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "9",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Nein",
+              "target": "quickcheck3"
+            },
+            {
+              "type": "maxLength",
+              "value": "44",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "quickcheck4",
+          "label": "Bauart des Fahrzeugs",
+          "type": "select",
+          "defaultValue": "Ich möchte einen PKW oder ein Motorrad in den Parkausweis eintragen.",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ich möchte einen PKW oder ein Motorrad in den Parkausweis eintragen.",
+              "value": "Ich möchte einen PKW oder ein Motorrad in den Parkausweis eintragen."
+            },
+            {
+              "name": "Ich möchte ein aufgrund der Bauart vorrangig zur gewerblichen Nutzung vorgesehenes Fahrzeug in den Parkausweis eintragen.",
+              "value": "Ich möchte ein aufgrund der Bauart vorrangig zur gewerblichen Nutzung vorgesehenes Fahrzeug in den Parkausweis eintragen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Parklizenzgebiet und Parklizenz",
+      "description": "Persönliche Daten",
+      "schema": [
+        {
+          "key": "parklizenzgebiet",
+          "label": "Name des Parklizenzgebiets",
+          "type": "text",
+          "defaultValue": "München Hauptbahnhof",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "In einem anderen Parklizenzgebiet",
+              "target": "lizenzgebiet"
+            },
+            {
+              "type": "maxLength",
+              "value": "2000",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "lizenzdauer1",
+          "label": "Lizenzdauer und Gebühr (Altstadt)",
+          "type": "select",
+          "defaultValue": "6 Monate - 56 Euro",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "In der Altstadt",
+              "target": "lizenzgebiet"
+            }
+          ],
+          "items": [
+            {
+              "name": "6 Monate - 56 Euro",
+              "value": "6 Monate - 56 Euro"
+            },
+            {
+              "name": "12 Monate - 102 Euro",
+              "value": "12 Monate - 102 Euro"
+            },
+            {
+              "name": "24 Monate - 204 Euro",
+              "value": "24 Monate - 204 Euro"
+            }
+          ]
+        },
+        {
+          "key": "lizenzdauer2",
+          "label": "Lizenzdauer und Gebühr (Hauptbahnhof/andere)",
+          "type": "select",
+          "defaultValue": "12 Monate - 30 Euro",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Am Hauptbahnhof",
+              "target": "lizenzgebiet"
+            },
+            {
+              "type": "requiredOn",
+              "value": "In einem anderen Parklizenzgebiet",
+              "target": "lizenzgebiet"
+            }
+          ],
+          "items": [
+            {
+              "name": "12 Monate - 30 Euro",
+              "value": "12 Monate - 30 Euro"
+            },
+            {
+              "name": "24 Monate - 60 Euro",
+              "value": "24 Monate - 60 Euro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Fahrzeuge",
+      "description": "Fahrzeuge",
+      "schema": [
+        {
+          "type": "markdown-output",
+          "key": "markdown100",
+          "col": "12",
+          "description": "***Erstes Fahrzeug***",
+          "rules": []
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item1_deutsches_kennzeichen",
+          "label": "Hat Ihr Fahrzeug ein deutsches Kennzeichen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item1_fahrzeugkennzeichen_de_val_p",
+          "label": "Deutsches Fahrzeugkennzeichen",
+          "type": "text",
+          "defaultValue": "M-LH-42",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "10",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item1_bestaetigung_zollamt",
+          "label": "Haben Sie eine Bestätigung vom Hauptzollamt München?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item1_selbst_zugelassen",
+          "label": "Ist das Fahrzeug auf Sie zugelassen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown3402",
+          "readonly": true,
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown200",
+          "col": "12",
+          "description": "***Zweites Fahrzeug***",
+          "rules": []
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item2_deutsches_kennzeichen",
+          "label": "Hat Ihr Fahrzeug ein deutsches Kennzeichen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item2_fahrzeugkennzeichen_de_val_p",
+          "label": "Deutsches Fahrzeugkennzeichen",
+          "type": "text",
+          "defaultValue": "M-LH-42",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "10",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item2_bestaetigung_zollamt",
+          "label": "Haben Sie eine Bestätigung vom Hauptzollamt München?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item2_selbst_zugelassen",
+          "label": "Ist das Fahrzeug auf Sie zugelassen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown3403",
+          "readonly": true,
+          "col": "1",
+          "description": " ",
+          "rules": []
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item3_deutsches_kennzeichen",
+          "label": "Hat Ihr Fahrzeug ein deutsches Kennzeichen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item3_fahrzeugkennzeichen_de_val_p",
+          "label": "Deutsches Fahrzeugkennzeichen",
+          "type": "text",
+          "defaultValue": "M-LH-42",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "ext": "",
+          "prependIcon": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "10",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item3_bestaetigung_zollamt",
+          "label": "Haben Sie eine Bestätigung vom Hauptzollamt München?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "fahrzeugdaten_fahrzeugdaten-item3_selbst_zugelassen",
+          "label": "Ist das Fahrzeug auf Sie zugelassen?",
+          "type": "select",
+          "defaultValue": "Ja",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "type": "markdown-output",
+          "key": "markdown3401",
+          "readonly": true,
+          "col": "1",
+          "description": " ",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "label": "Weiteres Fahrzeug",
+      "description": "Weiteres Fahrzeug",
+      "schema": [
+        {
+          "key": "weiteres_fahrzeug_zugelassen",
+          "label": "Ist ein anderes, hier nicht aufgelistetes Fahrzeug auf Sie zugelassen?",
+          "type": "select",
+          "defaultValue": "Nein",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "multiple": false,
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Nein"
+            }
+          ]
+        },
+        {
+          "key": "erklaerung",
+          "label": "Erklärung",
+          "type": "textarea",
+          "defaultValue": "-",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "rows": "4",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Ja",
+              "target": "fahrzeugdaten2_weiteres_fahrzeug_zugelassen"
+            },
+            {
+              "type": "maxLength",
+              "value": "1000",
+              "target": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Erklärungen",
+      "description": "",
+      "schema": [
+        {
+          "key": "datenschutz1",
+          "label": "Ich habe die Datenschutzerklärung und die Hinweise zur elektronischen Kommunikation (www.muenchen.de/rathaus/Kontakt/Elektronische-Kommunikation.html) zur Kenntnis genommen.",
+          "type": "checkbox",
+          "defaultValue": "true",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "datenschutz2",
+          "label": "Mir ist bewusst, dass die elektronische Kommunikation risikobehaftet ist, ich möchte aber dennoch, dass mir die Antragsbestätigung per E-Mail zugesendet wird. Wenn keine Zustimmung erteilt wird, muss die Antragsbestätigung postalisch zugesendet werden.",
+          "type": "checkbox",
+          "defaultValue": "true",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rules": []
+        },
+        {
+          "key": "datenschutz3",
+          "label": "Hiermit bin ich damit einverstanden, dass meine eingegebenen Daten für die Bearbeitung des Antrages verwendet werden.",
+          "type": "checkbox",
+          "defaultValue": "true",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        },
+        {
+          "key": "datenschutz4",
+          "label": "Mir ist bewusst, dass falsche Angaben die kostenpflichtige Rücknahme des Bewohnerparkausweises zur Folge haben können.",
+          "type": "checkbox",
+          "defaultValue": "true",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

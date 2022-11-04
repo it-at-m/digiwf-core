@@ -1,0 +1,67 @@
+{
+  "name": "Instanz Export",
+  "id": "de.muenchen.digitalisierung.templates.process.InstanzExportV02",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${instanceExportDelegateV02}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Prozess Key",
+      "description": "Input - Key des Prozesses, dessen Instanzen exportiert",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_process_key"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Variablen für den Export",
+      "description": "Input - Variablen ; getrennt",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_variables"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Status Key",
+      "description": "Input - Status in denen sich die Instanzen befinden sollen",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_status_key"
+      }
+    },
+    {
+      "label": "Instanz Export",
+      "description": "Output - CSV als String",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${app_instance_export}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

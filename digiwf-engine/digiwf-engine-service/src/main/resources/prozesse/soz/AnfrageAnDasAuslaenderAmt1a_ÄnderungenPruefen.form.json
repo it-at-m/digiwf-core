@@ -1,0 +1,400 @@
+{
+  "key": "AnfrageAnDasAuslaenderAmt1a_AenderungenPruefen_V0.1",
+  "description": "Formular für die Prüfung, ob sich Änderungen ergeben haben",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Bearbeitungshinweis",
+      "schema": [
+        {
+          "key": "FormField_hinweis",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Bitte prüfen Sie die Fallmerkmale, die Daten des/der Betroffenen sowie die Daten zur Anfrage. Bitte ermitteln Sie im Falle einer Folgeanfrage, ob sich Änderungen ergeben haben. Sollten sich keine Änderungen ergeben haben, stellen Sie dem Sozialreferat bitte das Protokoll der letzten Anfrage zur Verfügung.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Fallmerkmale",
+      "schema": [
+        {
+          "key": "FormField_LISSA_Aktenzeichen_Check_Local",
+          "label": "Aktenzeichen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_LISSA_Aktivitaet_ID_Check_Local",
+          "label": "Aktivitäts-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Ordnungsmerkmal_Check_Local",
+          "label": "Ordnungsmerkmal",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten des/der Betroffenen",
+      "schema": [
+        {
+          "key": "FormField_Vorname_Check_Local",
+          "label": "Vorname",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Name_Check_Local",
+          "label": "Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Check_Local",
+          "label": "Geburtsdatum",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Geburtsdatum_Begruendung_Check_Local",
+          "label": "Begründung, falls Geburtsdatum unbekannt",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "rows": "1",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_Geburtsdatum_Check_Local"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_M_ID_Check_Local",
+          "label": "M-ID",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AZR_Nummer_Check_Local",
+          "label": "AZR-Nummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Begruendung_Keine_AZR_Check_Local",
+          "label": "Begründung, falls keine AZR-Nummer vorhanden",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOnEmpty",
+              "value": "",
+              "target": "FormField_AZR_Nummer_Check_Local"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Daten zur Anfrage",
+      "schema": [
+        {
+          "key": "FormField_Erstanfrage_Check_Local",
+          "label": "Bei der Anfrage handelt es sich um eine ",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "Erstanfrage",
+              "value": "Value_Erstanfrage"
+            },
+            {
+              "name": "Folgeanfrage",
+              "value": "Value_Folgeanfrage"
+            }
+          ]
+        },
+        {
+          "key": "FormField_DatumLetzteAnfrage_Check_Local",
+          "label": "Datum der letzen Anfrage",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Folgeanfrage",
+              "target": "FormField_Erstanfrage_Check_Local"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis",
+          "label": "Antwort erforderlich bis",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Antwort_bis_Begruendung",
+          "label": "Begründung für Antwort bis",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "1",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "",
+              "target": "FormField_Antwort_bis"
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_AenderungenSeitDerLetztenAnfrage",
+          "label": "Haben sich seit der letzten Anfrage Änderungen ergeben?",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Folgeanfrage",
+              "target": "FormField_Erstanfrage_Check_Local"
+            }
+          ],
+          "items": [
+            {
+              "name": "Ja",
+              "value": "Value_Ja"
+            },
+            {
+              "name": "Nein",
+              "value": "Value_Nein"
+            }
+          ]
+        },
+        {
+          "key": "FormField_StatusdokumentDerLetztenAnfrage",
+          "label": "Protokoll der letzten Anfrage",
+          "type": "alw-document-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_Nein",
+              "target": "FormField_AenderungenSeitDerLetztenAnfrage"
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

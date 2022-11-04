@@ -1,0 +1,67 @@
+{
+  "key": "TestEaiAlwDms_Start_V01",
+  "description": "Formular zum Starten der Prüfung der mucs DMS EAI auf Funktionstüchtigkeit",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Test beenden"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "FormField_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zum Alw-DMS. Tragen Sie in das Formularfeld den Wert http://alwdmstest02.muenchen.de/fsc/mx/COO.2150.9400.2.66044 ein und betätigen Sie den \"+\"-Button daneben. Diese Aktion löst die Suche nach einem Dokument im DMS aus, welches bei erfolgreicher Verbindung als Eintrag an die Dokumentenliste angehangen wird. Im Fehlerfall erscheint die Meldung \"Das Dokument/Schriftstück konnte nicht geladen werden\".",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Schriftstueck",
+          "label": "Schriftstueck aus dem ALW-DMS",
+          "type": "alw-document-input",
+          "ext": "",
+          "defaultValue": "http://dmsalw.muenchen.de/fsc/mx/COO.2150.9400.2.66044",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": null
+    }
+  ]
+}

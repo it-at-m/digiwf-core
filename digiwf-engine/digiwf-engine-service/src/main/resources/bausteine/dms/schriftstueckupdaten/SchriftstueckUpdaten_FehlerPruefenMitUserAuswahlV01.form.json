@@ -1,0 +1,79 @@
+{
+  "key": "SchriftstueckUpdaten_FehlerPruefenMitUserAuswahlV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_Meldung",
+          "label": "Meldung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "2",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Handlungsanweisung",
+          "label": "Handlungsanweisung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": "2",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Neue_Sachbearbeitung",
+          "label": "Neue Sachbearbeitung",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

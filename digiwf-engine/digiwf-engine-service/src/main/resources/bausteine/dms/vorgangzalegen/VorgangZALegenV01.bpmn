@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:collaboration id="Collaboration_12iu3ip">
+    <bpmn:participant id="Participant_LHM" name="LHM" processRef="VorgangZALegenV01" />
+  </bpmn:collaboration>
+  <bpmn:process id="VorgangZALegenV01" name="Vorgang z.A. legen Template V01" isExecutable="true" camunda:versionTag="1.0.1">
+    <bpmn:laneSet id="LaneSet_1bbrvcv">
+      <bpmn:lane id="Lane_DigitalWF" name="DigitalWF">
+        <bpmn:flowNodeRef>StartEvent_VorgangZuDenAktenZuLegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_VorgangZuDenAktenLegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0wll9wn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_14ipdfd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_VorgangZuDenAktenGelegt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Error_Adresse</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Error_Fehlende_Berechtigung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Error_Vorgang_Gesperrt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Error_Sonstige</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1enqfqo</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Kuemmerer" name="Kümmerer">
+        <bpmn:flowNodeRef>Task_VorgangManuellZuDenAktenLegen</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_VorgangZuDenAktenZuLegen" name="Vorgang zu den Akten zu legen">
+      <bpmn:outgoing>Flow_0vq6htj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0vq6htj" sourceRef="StartEvent_VorgangZuDenAktenZuLegen" targetRef="Task_VorgangZuDenAktenLegen" />
+    <bpmn:boundaryEvent id="Event_Error_Sonstige" name="Sonstiger Grund" attachedToRef="Task_VorgangZuDenAktenLegen">
+      <bpmn:outgoing>Flow_1ukhedw</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0oecy0a" errorRef="Error_0btj1ra" camunda:errorMessageVariable="depositVorgangErrorMessage" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_Error_Vorgang_Gesperrt" name="Vorgang gesperrt" attachedToRef="Task_VorgangZuDenAktenLegen">
+      <bpmn:outgoing>Flow_0cmos1u</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_11gr71k" errorRef="Error_045i53j" camunda:errorMessageVariable="depositVorgangErrorMessage" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_Error_Fehlende_Berechtigung" name="Fehlende Berechtigung" attachedToRef="Task_VorgangZuDenAktenLegen">
+      <bpmn:outgoing>Flow_1cybljb</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0jpub1j" errorRef="Error_19vqy3b" camunda:errorMessageVariable="depositVorgangErrorMessage" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_Error_Adresse" name="Ungültige Adresse" attachedToRef="Task_VorgangZuDenAktenLegen">
+      <bpmn:outgoing>Flow_1cc4bw0</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0gwckxs" errorRef="Error_1vr8x8x" camunda:errorMessageVariable="depositVorgangErrorMessage" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Task_VorgangZuDenAktenLegen" name="Vorgang zu den Akten legen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.VorgangZAAnlegen" camunda:asyncBefore="true" camunda:delegateExpression="${depositVorgangDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_vorgang_coo">${dms_vorgang_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vq6htj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jaqvqp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ukhedw" sourceRef="Event_Error_Sonstige" targetRef="Gateway_14ipdfd" />
+    <bpmn:sequenceFlow id="Flow_0cmos1u" sourceRef="Event_Error_Vorgang_Gesperrt" targetRef="Gateway_0wll9wn" />
+    <bpmn:sequenceFlow id="Flow_1cybljb" sourceRef="Event_Error_Fehlende_Berechtigung" targetRef="Gateway_0wll9wn" />
+    <bpmn:sequenceFlow id="Flow_1cc4bw0" sourceRef="Event_Error_Adresse" targetRef="Gateway_0wll9wn" />
+    <bpmn:sequenceFlow id="Flow_0jaqvqp" sourceRef="Task_VorgangZuDenAktenLegen" targetRef="Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt" />
+    <bpmn:sequenceFlow id="Flow_0dzv8v3" sourceRef="Gateway_14ipdfd" targetRef="Activity_1enqfqo" />
+    <bpmn:sequenceFlow id="Flow_01uoitt" sourceRef="Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt" targetRef="EndEvent_VorgangZuDenAktenGelegt" />
+    <bpmn:sequenceFlow id="Flow_1vo9n65" sourceRef="Task_VorgangManuellZuDenAktenLegen" targetRef="Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt" />
+    <bpmn:exclusiveGateway id="Gateway_0wll9wn">
+      <bpmn:incoming>Flow_1cybljb</bpmn:incoming>
+      <bpmn:incoming>Flow_0cmos1u</bpmn:incoming>
+      <bpmn:incoming>Flow_1cc4bw0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0647onl</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_14ipdfd">
+      <bpmn:incoming>Flow_0647onl</bpmn:incoming>
+      <bpmn:incoming>Flow_1ukhedw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dzv8v3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0647onl" sourceRef="Gateway_0wll9wn" targetRef="Gateway_14ipdfd" />
+    <bpmn:endEvent id="EndEvent_VorgangZuDenAktenGelegt" name="Vorgang zu den Akten gelegt">
+      <bpmn:incoming>Flow_01uoitt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt">
+      <bpmn:incoming>Flow_0jaqvqp</bpmn:incoming>
+      <bpmn:incoming>Flow_1vo9n65</bpmn:incoming>
+      <bpmn:outgoing>Flow_01uoitt</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_VorgangManuellZuDenAktenLegen" name="Vorgang manuell zu den Akten legen" camunda:asyncBefore="true" camunda:formKey="VorgangZALegen_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte legen Sie den Vorgang manuell zu den Akten. Sollten es häufig notwendig sein, Vorgänge manuell zu den Akten zu legen, infornieren Sie bitte auch den Support.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Der Vorgang konnte nicht automatisiert zu den Akten gelegt werden. Grund: ${depositVorgangErrorMessage}</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">task_title_ui = dms_task_title_manuell;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uetbey</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vo9n65</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1uetbey" sourceRef="Activity_1enqfqo" targetRef="Task_VorgangManuellZuDenAktenLegen" />
+    <bpmn:serviceTask id="Activity_1enqfqo" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_BODY">Hallo,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei Dokumentablage bei Vorgang ${dms_task_title_manuell}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dzv8v3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uetbey</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_0btj1ra" name="Error_DMSAktenablageFehlgeschlagen" errorCode="AKTENABLAGE_FEHLGESCHLAGEN" />
+  <bpmn:error id="Error_045i53j" name="Error_DMSObjektGesperrt" errorCode="OBJEKT_GESPERRT" />
+  <bpmn:error id="Error_19vqy3b" name="Error_DMSFehlendeBerechtigung" errorCode="FEHLENDE_BERECHTIGUNG" />
+  <bpmn:error id="Error_1vr8x8x" name="Error_DMSUngueltigeAdresse" errorCode="UNGUELTIGE_ADRESSE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_12iu3ip">
+      <bpmndi:BPMNShape id="Participant_01itnlq_di" bpmnElement="Participant_LHM" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="1111" height="600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1t235ib_di" bpmnElement="Lane_Kuemmerer" isHorizontal="true" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="159" y="500" width="1081" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_127e0t2_di" bpmnElement="Lane_DigitalWF" isHorizontal="true">
+        <dc:Bounds x="159" y="80" width="1081" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
+        <di:waypoint x="820" y="410" />
+        <di:waypoint x="850" y="410" />
+        <di:waypoint x="850" y="590" />
+        <di:waypoint x="880" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0647onl_di" bpmnElement="Flow_0647onl">
+        <di:waypoint x="555" y="410" />
+        <di:waypoint x="595" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vo9n65_di" bpmnElement="Flow_1vo9n65">
+        <di:waypoint x="980" y="590" />
+        <di:waypoint x="1020" y="590" />
+        <di:waypoint x="1020" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01uoitt_di" bpmnElement="Flow_01uoitt" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="1045" y="250" />
+        <di:waypoint x="1102" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dzv8v3_di" bpmnElement="Flow_0dzv8v3">
+        <di:waypoint x="645" y="410" />
+        <di:waypoint x="720" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jaqvqp_di" bpmnElement="Flow_0jaqvqp" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="530" y="250" />
+        <di:waypoint x="995" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cc4bw0_di" bpmnElement="Flow_1cc4bw0">
+        <di:waypoint x="530" y="308" />
+        <di:waypoint x="530" y="385" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cybljb_di" bpmnElement="Flow_1cybljb">
+        <di:waypoint x="481" y="308" />
+        <di:waypoint x="481" y="410" />
+        <di:waypoint x="505" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cmos1u_di" bpmnElement="Flow_0cmos1u">
+        <di:waypoint x="430" y="308" />
+        <di:waypoint x="430" y="480" />
+        <di:waypoint x="530" y="480" />
+        <di:waypoint x="530" y="435" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ukhedw_di" bpmnElement="Flow_1ukhedw">
+        <di:waypoint x="548" y="210" />
+        <di:waypoint x="620" y="210" />
+        <di:waypoint x="620" y="385" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vq6htj_di" bpmnElement="Flow_0vq6htj" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="278" y="250" />
+        <di:waypoint x="430" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_VorgangZuDenAktenZuLegen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="242" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="222" y="275" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x6m7kr_di" bpmnElement="Task_VorgangZuDenAktenLegen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="430" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0wll9wn_di" bpmnElement="Gateway_0wll9wn" isMarkerVisible="true">
+        <dc:Bounds x="505" y="385" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_14ipdfd_di" bpmnElement="Gateway_14ipdfd" isMarkerVisible="true">
+        <dc:Bounds x="595" y="385" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0q2y3lz_di" bpmnElement="EndEvent_VorgangZuDenAktenGelegt" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1102" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1082" y="275" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_10f19rw_di" bpmnElement="Gateway_Zusammenfuehrend_VorgangZuDenAktenGelegt" isMarkerVisible="true" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="995" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mb4obw_di" bpmnElement="Task_VorgangManuellZuDenAktenLegen">
+        <dc:Bounds x="880" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gufs89_di" bpmnElement="Activity_1enqfqo">
+        <dc:Bounds x="720" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1kq9xa6_di" bpmnElement="Event_Error_Adresse">
+        <dc:Bounds x="512" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="545" y="306" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17dzceu_di" bpmnElement="Event_Error_Fehlende_Berechtigung">
+        <dc:Bounds x="463" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="449" y="315" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hr5jun_di" bpmnElement="Event_Error_Vorgang_Gesperrt">
+        <dc:Bounds x="412" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="327" y="306" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hi55h3_di" bpmnElement="Event_Error_Sonstige">
+        <dc:Bounds x="512" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="162" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

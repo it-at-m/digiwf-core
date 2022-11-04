@@ -1,0 +1,119 @@
+{
+  "key": "4560db7e-64a3-49fc-ab6f-3d308d86dd9a",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "app_file_s3_async_config": {
+                "fieldType": "text",
+                "title": "S3 Config",
+                "type": "string",
+                "key": "app_file_s3_async_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "app_file_s3_sync_config": {
+                "fieldType": "text",
+                "title": "S3 HTTP Config",
+                "type": "string",
+                "key": "app_file_s3_sync_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "presignedUrls": {
+                "fieldType": "text",
+                "title": "presignedUrls",
+                "type": "string",
+                "key": "presignedUrls",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "file_upload": {
+                "fieldType": "file",
+                "title": "Dateien",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "uuidEnabled": false,
+                "filePath": "test",
+                "key": "file_upload",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "03d9bc45-bd0e-4878-8338-79656c87a294"
+          }
+        ],
+        "key": "9eb08876-d94f-456d-a0df-d7f3f9723632"
+      }
+    ]
+  }
+}

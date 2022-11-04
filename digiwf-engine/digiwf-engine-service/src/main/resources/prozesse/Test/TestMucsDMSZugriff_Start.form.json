@@ -1,0 +1,45 @@
+{
+  "key": "TestMucsDMSZugriff_Start_V01",
+  "description": "Erläuterung zum Test-Prozess für das Mucs-DMS",
+  "buttons": {
+    "complete": {
+      "buttonText": "Test starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Was passiert jetzt?",
+      "schema": [
+        {
+          "key": "FormField_wiegehtsweiter",
+          "label": "Hinweis",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Dieser Workflow dient dem Test in P, ob eine Verbindung zum Mucs-DMS besteht. Dazu wird versucht, eine Akte zu lesen. Es wird ein Benutzer verwendet, der keine Zugriffsrechte besitzt. Erwartet wird also ein Incident mit der Fehlermeldung vom DMS, dass der Benutzer unbekannt ist. Prüfen Sie bittem im Cockpit, ob dieses Ergebnis eintritt.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}
