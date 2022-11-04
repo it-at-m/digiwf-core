@@ -12,10 +12,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableScheduling
-public class MicroServiceApplication {
+public class EngineServiceApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(MicroServiceApplication.class, args);
+        SpringApplication.run(EngineServiceApplication.class, args);
     }
 
 }

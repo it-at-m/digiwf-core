@@ -41,8 +41,6 @@ import java.util.stream.Collectors;
  * @see HttpServletRequest#getPart(String)
  * @see HttpServletRequest#getParts()
  */
-@Component
-@ApplicationScope
 public class NfcRequestFilter extends OncePerRequestFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(NfcRequestFilter.class);
