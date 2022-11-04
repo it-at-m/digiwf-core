@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.integration.cosys.domain.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,9 +9,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Data
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class DocumentStorageUrls {
+public class DocumentStorageUrl {
 
     /**
      * Url to the s3 service.
@@ -29,7 +31,7 @@ public class DocumentStorageUrls {
      * Note: Only POST and PUT is supported.
      */
     @NotBlank(message = "Action is mandatory")
-    @Pattern(regexp = "^(POST|PUT)$", message = "Only action POST is supported")
+    @Pattern(regexp = "^(POST|PUT)$", message = "Only action POST or PUT is supported")
     private String action;
 
 }

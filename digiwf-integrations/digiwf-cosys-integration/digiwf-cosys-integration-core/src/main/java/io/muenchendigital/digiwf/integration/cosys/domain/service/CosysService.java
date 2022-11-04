@@ -3,7 +3,7 @@ package io.muenchendigital.digiwf.integration.cosys.domain.service;
 import io.muenchendigital.digiwf.integration.cosys.configuration.CosysConfiguration;
 import io.muenchendigital.digiwf.integration.cosys.configuration.RestTemplateFactory;
 import io.muenchendigital.digiwf.integration.cosys.domain.mapper.GenerateDocumentRequestMapper;
-import io.muenchendigital.digiwf.integration.cosys.domain.model.DocumentStorageUrls;
+import io.muenchendigital.digiwf.integration.cosys.domain.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocument;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocumentRequest;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
@@ -80,7 +80,7 @@ public class CosysService {
 
     private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
         try {
-            for (final DocumentStorageUrls presignedUrl : generateDocument.getDocumentStorageUrls()) {
+            for (final DocumentStorageUrl presignedUrl : generateDocument.getDocumentStorageUrls()) {
                 if (presignedUrl.getAction().equals("POST")) {
                     this.s3FileTransferRepository.saveFile(presignedUrl.getUrl(), data);
                 }

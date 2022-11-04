@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,19 @@ public class GenerateDocument {
     /**
      * Client that is used in cosys
      */
+    @NotBlank(message = "client is mandatory")
     private String client;
 
     /**
      * Role that is used in cosys
      */
+    @NotBlank(message = "role is mandatory")
     private String role;
 
     /**
      * The GUID of the target template to be filled
      */
+    @NotBlank(message = "guid is mandatory")
     private String guid;
 
     /**
@@ -49,5 +53,5 @@ public class GenerateDocument {
      */
     @Valid
     @Size(min = 1, max = 1)
-    private List<DocumentStorageUrls> documentStorageUrls;
+    private List<DocumentStorageUrl> documentStorageUrls;
 }
