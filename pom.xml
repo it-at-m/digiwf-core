@@ -41,15 +41,20 @@
         <module>digiwf-integrations</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>camunda-bpm-nexus-ee</id>
-            <name>camunda-bpm-nexus</name>
-            <url>
-                https://artifacts.camunda.com/artifactory/private/
-            </url>
-        </repository>
-    </repositories>
+    <profiles>
+        <profile>
+            <id>camunda-ee</id>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>
+                        https://artifacts.camunda.com/artifactory/private/
+                    </url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
