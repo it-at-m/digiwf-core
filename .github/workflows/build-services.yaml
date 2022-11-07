@@ -35,7 +35,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           server-id: camunda-bpm-nexus-ee
-          server-username: CAMUNDA_USER
-          server-password: CAMUNDA_USER_PASSWORD
+          server-username:  ${{ secrets.CAMUNDA_USER }}
+          server-password: ${{ secrets.CAMUNDA_USER_PASSWORD }}
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
