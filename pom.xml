@@ -41,21 +41,6 @@
         <module>digiwf-integrations</module>
     </modules>
 
-    <profiles>
-        <profile>
-            <id>camunda-ee</id>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>
-                        https://artifacts.camunda.com/artifactory/private/
-                    </url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -148,6 +133,18 @@
 
     <profiles>
         <!-- Deployment profile (required so these plugins are only used when deploying) -->
+        <profile>
+            <id>camunda-ee</id>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>
+                        https://artifacts.camunda.com/artifactory/private/
+                    </url>
+                </repository>
+            </repositories>
+        </profile>
         <profile>
             <id>deploy</id>
             <build>
