@@ -82,5 +82,36 @@ io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
 
 ## Usage
 
-To create a document asynchronously, simply create a GenerateDocument object, set the TYPE-Header
-to ``createCosysDocument`` and send it to the corresponding kafka topic. That's it!
+To create a cosys document asynchronously, simply create a `GenerateDocument` object, set the TYPE-Header
+to `createCosysDocument` and send it to the corresponding kafka topic.
+
+```json
+{
+  "client": "",
+  "role": "",
+  "guid": "",
+  "variables": {},
+  "documentStorageUrls": [
+    {
+      "url": "",
+      "path": "",
+      "action": ""
+    }
+  ]
+}
+```
+
+The cosys integration will generate a cosys document with the variables given and save it in a s3 storage.
+Therefore, you have to pass a valid presigned url for document creation (action `POST` or `PUT`) within the `documentStorageUrls` variable.
+
+The cosys integration only accepts a single presigned url in the `documentStorageUrls` variable with the action `POST` or `PUT`.
+The action `POST` is used for the creation of new files in the s3 storage and the action `PUT` to override an already existing document.
+
+**Usage in bpmn processes**
+
+Create a *Callactivity*, use on of our Element-Templates and fill it with the required information:
+
+* [Cosys all data](../element-templates/cosys-alle-daten.json)
+* [Cosys create document](../element-templates/cosys-dokument-erstellen.json)
+
+To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](../element-templates/s3_create_presigned_url_template.json) and pass the results to the cosys integration.

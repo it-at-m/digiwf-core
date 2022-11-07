@@ -44,7 +44,7 @@ public class MessageProcessor {
     }
 
     /**
-     * Function to emit a reponse using the correlateMessageService of digiwf-spring-cloudstream-utils
+     * Function to emit a response using the correlateMessageService of digiwf-spring-cloudstream-utils
      *
      * @param messageHeaders The MessageHeaders of the incoming message you want to correlate your answer to
      * @param status         true when the e-mail has been sent, false when an error occured
