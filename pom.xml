@@ -135,6 +135,9 @@
         <!-- Deployment profile (required so these plugins are only used when deploying) -->
         <profile>
             <id>camunda-ee</id>
+            <properties>
+                <camunda.version>7.17.3-ee</camunda.version>
+            </properties>
             <repositories>
                 <repository>
                     <id>camunda-bpm-nexus-ee</id>
@@ -145,6 +148,7 @@
                 </repository>
             </repositories>
         </profile>
+
         <profile>
             <id>deploy</id>
             <build>
