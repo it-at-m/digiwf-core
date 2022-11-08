@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>digiwf-s3-integration</artifactId>
+    <version>0.12.0-SNAPSHOT</version>
+    <name>digiwf-s3-integration</name>
+    <packaging>pom</packaging>
+    <description>S3 integration used by DigiWF</description>
+
+    <parent>
+        <groupId>io.muenchendigital.digiwf</groupId>
+        <artifactId>digiwf-integrations</artifactId>
+        <version>0.12.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <minio.version>8.3.9</minio.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+    </properties>
+
+    <modules>
+        <module>digiwf-s3-integration-core</module>
+        <module>digiwf-s3-integration-starter</module>
+        <module>digiwf-s3-integration-client</module>
+        <module>digiwf-s3-integration-client-starter</module>
+        <module>digiwf-s3-integration-example</module>
+        <module>digiwf-s3-integration-client-example</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+        <!-- Spring Cloud Stream -->
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--apache-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+    </dependencies>
+</project>

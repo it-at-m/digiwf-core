@@ -90,6 +90,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -138,6 +139,12 @@
             <id>deploy</id>
             <build>
                 <plugins>
+                    <!-- maven versions plugin-->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.13.0</version>
+                    </plugin>
                     <!-- Source plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -210,6 +217,14 @@
     </distributionManagement>
 
     <developers>
+        <developer>
+            <name>Alexander Boxhorn</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/boal</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
         <developer>
             <name>Dominik Horn</name>
             <organization>Miragon GmbH</organization>

@@ -16,6 +16,7 @@
 
     <modules>
         <module>digiwf-cosys-integration</module>
+        <module>digiwf-s3-integration</module>
     </modules>
 
 </project>

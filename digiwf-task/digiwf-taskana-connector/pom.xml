@@ -17,6 +17,4 @@
         <module>digiwf-taskana-connector-core</module>
         <module>digiwf-taskana-connector-starter</module>
     </modules>
-
-
 </project>

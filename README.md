@@ -51,7 +51,7 @@ See the [open issues](#) for a full list of proposed features (and known issues)
 
 ## Set up
 
-*how can i start and fly this project*
+*how can I start and fly this project*
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -59,11 +59,26 @@ See the [open issues](#) for a full list of proposed features (and known issues)
 
 ### Building a new maven version
 
-- execute `Update version: ``mvn versions:set -DnewVersion='0.13.0-SNAPSHOT'``
+For updating the version of the project we use maven-versions plugin.
+
+#### update new patch version
+
+1. run `mvn versions:set -DprocessAllModules -DnewVersion=<your version>`
+2. check if update is correct
+3. if update is correct, run `mvn versions:commit` otherwise run `mvn versions:revert`
+
+#### update to a specific version
+
+1. run `mvn versions:set -DprocessAllModules -DnextSnapshot`
+2. check if update is correct
+3. if update is correct, run `mvn versions:commit` otherwise run `mvn versions:revert`
+
+### Deploy a new maven version
+
 - Execute the release pipeline manually and set `Release services (y/n)?` to `y`
 - `-SNAPSHOT` will be removed automatically by the pipeline if `Snapshot build (y/n)?` is set to `n`
 
-### Building a new app library version
+### Deploy a new apps version
 
 - execute `npm run versioning` in the digiwf-apps folder
 - Execute the release pipeline manually and set `Release apps (y/n)?` to `y`
