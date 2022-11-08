@@ -8,6 +8,10 @@ on:
         description: 'Snapshot build (y/n)?'
         required: true
         default: 'y'
+      release-tag:
+        description: 'Release Tag (only if not snapshot)'
+        required: false
+        default: 'services_XXX_apps_XXX'
       apps:
         description: 'Release apps (y/n)?'
         required: true
@@ -96,7 +100,7 @@ jobs:
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        run: mvn --batch-mode install
+        run: mvn --batch-mode -Pcamunda-ee install
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
@@ -178,29 +182,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          server-id: camunda-bpm-nexus-ee
-          server-username: CAMUNDA_USER_REF
-          server-password: CAMUNDA_TOKEN_REF
-
-      - name: Install Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'n'
-        run: |
-          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
-
-      - name: Set release version env variable
-        run: |
-          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -208,8 +189,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: services_${{ env.RELEASE_VERSION }}
-          release_name: Release Services ${{ env.RELEASE_VERSION }}
+          tag_name: ${{ github.event.inputs.release-tag }}
+          release_name: Release ${{ github.event.inputs.release-tag }}
           draft: false
           prerelease: false
 
