@@ -8,6 +8,10 @@ on:
         description: 'Snapshot build (y/n)?'
         required: true
         default: 'y'
+      test-build:
+        description: 'Test build (y/n)?'
+        required: true
+        default: 'y'
 
 jobs:
   release-services:
