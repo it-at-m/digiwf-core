@@ -143,13 +143,13 @@ jobs:
           run: |
             echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: services_${{ env.RELEASE_VERSION }}
-          release_name: Release Services ${{ env.RELEASE_VERSION }}
-          draft: false
-          prerelease: false
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: services_${{ env.RELEASE_VERSION }}
+            release_name: Release Services ${{ env.RELEASE_VERSION }}
+            draft: false
+            prerelease: false
