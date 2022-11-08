@@ -118,7 +118,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Install Java and Maven
         uses: actions/setup-java@v3
         with:
@@ -128,28 +127,28 @@ jobs:
           server-username: CAMUNDA_USER_REF
           server-password: CAMUNDA_TOKEN_REF
 
-        - name: Install Java and Maven
-          uses: actions/setup-java@v3
-          with:
-            java-version: '11'
-            distribution: 'adopt'
+      - name: Install Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
 
-        - name: Remove SNAPSHOT
-          if: github.event.inputs.snapshot-build == 'n'
-          run: |
-            mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+      - name: Remove SNAPSHOT
+        if: github.event.inputs.snapshot-build == 'n'
+        run: |
+          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
-        - name: Set release version env variable
-          run: |
-            echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Set release version env variable
+        run: |
+          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: services_${{ env.RELEASE_VERSION }}
-            release_name: Release Services ${{ env.RELEASE_VERSION }}
-            draft: false
-            prerelease: false
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: services_${{ env.RELEASE_VERSION }}
+          release_name: Release Services ${{ env.RELEASE_VERSION }}
+          draft: false
+          prerelease: false
