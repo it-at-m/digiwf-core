@@ -2,6 +2,12 @@ name: release services
 
 # Run workflow on commits to the `main` branch
 on:
+  workflow_dispatch:
+    inputs:
+      snapshot-build:
+        description: 'Snapshot build (y/n)?'
+        required: true
+        default: 'y'
   push:
     tags:
       - 'core_*.*.*'
@@ -14,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Java and Maven
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
 
@@ -41,8 +47,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Set Release version env variable
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'n'
         run: |
           echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      - name: Set Release version env variable
+        if: github.event.inputs.snapshot-build == 'y'
+        run: |
+          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-SNAPSHOT" >> $GITHUB_ENV
 
       - name: Build and push connector
         uses: docker/build-push-action@v2
