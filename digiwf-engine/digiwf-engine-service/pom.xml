@@ -54,7 +54,7 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>0.12.0</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Streaming -->
