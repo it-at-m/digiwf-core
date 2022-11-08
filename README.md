@@ -60,13 +60,14 @@ See the [open issues](#) for a full list of proposed features (and known issues)
 ### Building a new maven version
 
 - execute `Update version: ``mvn versions:set -DnewVersion='0.13.0-SNAPSHOT'``
-- create a new tag with `core_` prefix
-- `-SNAPSHOT` will be removed automatically by the pipeline
+- Execute the release pipeline manually and set `Release services (y/n)?` to `y`
+- `-SNAPSHOT` will be removed automatically by the pipeline if `Snapshot build (y/n)?` is set to `n`
 
 ### Building a new app library version
 
 - execute `npm run versioning` in the digiwf-apps folder
-- create a new tag with `apps_` prefix
+- Execute the release pipeline manually and set `Release apps (y/n)?` to `y`
+- `-SNAPSHOT` suffix will be set if `Snapshot build (y/n)?` is set to `y`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
