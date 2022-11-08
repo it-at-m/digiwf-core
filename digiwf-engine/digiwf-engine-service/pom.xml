@@ -27,7 +27,6 @@
         <jaxws.version>2.3.0</jaxws.version>
     </properties>
 
-
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
