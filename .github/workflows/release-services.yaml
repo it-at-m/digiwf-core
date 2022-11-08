@@ -8,13 +8,18 @@ on:
         description: 'Snapshot build (y/n)?'
         required: true
         default: 'y'
-      test-build:
-        description: 'Test build (y/n)?'
+      apps:
+        description: 'Release apps (y/n)?'
+        required: true
+        default: 'y'
+      services:
+        description: 'Release services (y/n)?'
         required: true
         default: 'y'
 
 jobs:
   release-services:
+    if: github.event.inputs.services == 'y'
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -70,6 +75,7 @@ jobs:
           tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }}
 
   release-services-camunda-ee:
+    if: github.event.inputs.services == 'y'
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -116,6 +122,55 @@ jobs:
           push: true
           tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }}
 
+  release-apps:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.apps == 'y'
+    defaults:
+      run:
+        working-directory: ./digiwf-apps
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - run: npm install && lerna bootstrap --ci
+      - run: npm run build
+      - run: lerna publish from-package --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_KEY }}
+
+      - name: Set Release version env variable
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'n'
+        run: |
+          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
+
+      - name: Set Snapshot Release version env variable
+        if: github.event.inputs.snapshot-build == 'y'
+        run: |
+          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
+
+      - name: Build and push tasklist
+        uses: docker/build-push-action@v2
+        with:
+          context: ./digiwf-apps/packages/apps/digiwf-tasklist
+          push: true
+          tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }}
+
   github-release:
     name: Create Release
     if: github.event.inputs.snapshot-build == 'n'
@@ -157,3 +212,4 @@ jobs:
           release_name: Release Services ${{ env.RELEASE_VERSION }}
           draft: false
           prerelease: false
+
