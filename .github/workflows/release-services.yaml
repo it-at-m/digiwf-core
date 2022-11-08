@@ -1,4 +1,4 @@
-name: release services
+name: release
 
 # Run workflow on commits to the `main` branch
 on:
