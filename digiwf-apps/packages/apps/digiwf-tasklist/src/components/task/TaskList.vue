@@ -201,13 +201,13 @@ export default class TaskList extends Vue {
   }
 
   async savePersistentFilter() {
-    const request: SaveFilterTO = {
+    const persistentFilter: SaveFilterTO = {
       pageId: this.pageId,
       filterString: this.syncedFilter,
     }
     try {
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await FilterRestControllerApiFactory(cfg).saveFilter(request);
+      await FilterRestControllerApiFactory(cfg).saveFilter(persistentFilter);
 
       this.errorMessage = "";
       this.$store.dispatch('filters/getFilters', true);
