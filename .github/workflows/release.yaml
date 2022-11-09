@@ -81,7 +81,7 @@ jobs:
       - name: Build and push cosys
         uses: docker/build-push-action@v2
         with:
-          context: ./digiwf-integrations/digiwf-cosys-integration-service
+          context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
           tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
 
