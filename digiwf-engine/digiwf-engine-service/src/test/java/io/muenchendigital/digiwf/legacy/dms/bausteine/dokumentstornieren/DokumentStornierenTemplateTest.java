@@ -2,13 +2,13 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.legacy.dms.bausteine.dokumentstornieren;
+package io.muenchendigital.digiwf.legacy.dms.bausteine.dokumentstornieren;
 
-import de.muenchen.digitalwf.engine.basis.process.DigitalWFFunctions;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.service.DmsService;
-import de.muenchen.digitalwf.legacy.dms.muc.process.canceldokument.CancelDokumentDelegate;
-import de.muenchen.digitalwf.legacy.mailing.process.TestSendMailDelegate;
-import de.muenchen.digitalwf.shared.properties.DigitalWFProperties;
+import io.muenchendigital.digiwf.engine.basis.process.DigitalWFFunctions;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.canceldokument.CancelDokumentDelegate;
+import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
+import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.test.mock.Mocks;

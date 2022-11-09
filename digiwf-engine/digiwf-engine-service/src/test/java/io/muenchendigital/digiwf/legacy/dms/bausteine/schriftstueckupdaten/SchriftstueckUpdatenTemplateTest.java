@@ -2,16 +2,16 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.legacy.dms.bausteine.schriftstueckupdaten;
+package io.muenchendigital.digiwf.legacy.dms.bausteine.schriftstueckupdaten;
 
-import de.muenchen.digitalwf.engine.basis.process.DigitalWFFunctions;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.service.DmsService;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSException;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSStatusCode;
-import de.muenchen.digitalwf.legacy.dms.muc.process.updateschriftstueck.UpdateSchriftstueckDelegate;
-import de.muenchen.digitalwf.legacy.document.domain.DocumentService;
-import de.muenchen.digitalwf.legacy.mailing.process.TestSendMailDelegate;
-import de.muenchen.digitalwf.legacy.user.process.UserFunctions;
+import io.muenchendigital.digiwf.engine.basis.process.DigitalWFFunctions;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSException;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.updateschriftstueck.UpdateSchriftstueckDelegate;
+import io.muenchendigital.digiwf.legacy.document.domain.DocumentService;
+import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
+import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.test.mock.Mocks;

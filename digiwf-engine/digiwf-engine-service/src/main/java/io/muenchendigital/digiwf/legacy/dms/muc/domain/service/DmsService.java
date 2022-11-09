@@ -1,12 +1,11 @@
 package io.muenchendigital.digiwf.legacy.dms.muc.domain.service;
 
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.*;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.*;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.client.DmsClient;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSObjectClass;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSSearchResult;
 import io.muenchendigital.digiwf.legacy.dms.muc.properties.DmsProperties;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

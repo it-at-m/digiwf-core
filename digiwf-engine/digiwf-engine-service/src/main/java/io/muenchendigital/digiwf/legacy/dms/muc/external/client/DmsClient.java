@@ -5,7 +5,6 @@
 package io.muenchendigital.digiwf.legacy.dms.muc.external.client;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.*;
 import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.*;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.mapper.DMSSearchResultMapper;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSException;

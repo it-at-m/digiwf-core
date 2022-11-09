@@ -1,4 +1,4 @@
-package de.muenchen.digitalwf.jsonschema;
+package io.muenchendigital.digiwf.jsonschema;
 
 import lombok.extern.slf4j.Slf4j;
 import org.everit.json.schema.ReadWriteContext;

@@ -1,4 +1,4 @@
-package de.muenchen.digitalwf.engine.mapper;
+package io.muenchendigital.digiwf.engine.mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.variable.Variables;

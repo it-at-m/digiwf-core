@@ -2,23 +2,23 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.legacy.dms.bausteine.vorganganlegen;
+package io.muenchendigital.digiwf.legacy.dms.bausteine.vorganganlegen;
 
-import de.muenchen.digitalwf.engine.basis.process.DigitalWFFunctions;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Dokument;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Sachakte;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Schriftstueck;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Vorgang;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.service.DmsService;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSException;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSStatusCode;
-import de.muenchen.digitalwf.legacy.dms.muc.process.createdokument.CreateDokumentDelegate;
-import de.muenchen.digitalwf.legacy.dms.muc.process.createsachakte.CreateSachakteDelegate;
-import de.muenchen.digitalwf.legacy.dms.muc.process.createvorgang.CreateVorgangDelegate;
-import de.muenchen.digitalwf.legacy.dms.muc.process.searchsachakte.SearchSachakteDelegate;
-import de.muenchen.digitalwf.legacy.document.domain.DocumentService;
-import de.muenchen.digitalwf.legacy.mailing.process.TestSendMailDelegate;
-import de.muenchen.digitalwf.legacy.user.process.UserFunctions;
+import io.muenchendigital.digiwf.engine.basis.process.DigitalWFFunctions;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Dokument;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Sachakte;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Schriftstueck;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Vorgang;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSException;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.createdokument.CreateDokumentDelegate;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.createsachakte.CreateSachakteDelegate;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.createvorgang.CreateVorgangDelegate;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.searchsachakte.SearchSachakteDelegate;
+import io.muenchendigital.digiwf.legacy.document.domain.DocumentService;
+import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
+import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.test.mock.Mocks;

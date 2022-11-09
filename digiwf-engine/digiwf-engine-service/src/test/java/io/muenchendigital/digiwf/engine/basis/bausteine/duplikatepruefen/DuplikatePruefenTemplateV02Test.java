@@ -2,10 +2,10 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.engine.basis.bausteine.duplikatepruefen;
+package io.muenchendigital.digiwf.engine.basis.bausteine.duplikatepruefen;
 
-import de.muenchen.digitalwf.engine.basis.process.businesskeyerstellen.CreateBusinessKeyDelegateV02;
-import de.muenchen.digitalwf.engine.basis.process.duplikatepruefen.CheckBusinessKeyDelegateV02;
+import io.muenchendigital.digiwf.engine.basis.process.businesskeyerstellen.CreateBusinessKeyDelegateV02;
+import io.muenchendigital.digiwf.engine.basis.process.duplikatepruefen.CheckBusinessKeyDelegateV02;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.test.mock.Mocks;

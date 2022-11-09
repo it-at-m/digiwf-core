@@ -2,15 +2,15 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.legacy.dms.bausteine.vorgangzalegen;
+package io.muenchendigital.digiwf.legacy.dms.bausteine.vorgangzalegen;
 
-import de.muenchen.digitalwf.engine.basis.process.DigitalWFFunctions;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.service.DmsService;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSException;
-import de.muenchen.digitalwf.legacy.dms.muc.external.transport.DMSStatusCode;
-import de.muenchen.digitalwf.legacy.dms.muc.process.depositvorgang.DepositVorgangDelegate;
-import de.muenchen.digitalwf.legacy.mailing.process.TestSendMailDelegate;
-import de.muenchen.digitalwf.legacy.user.process.UserFunctions;
+import io.muenchendigital.digiwf.engine.basis.process.DigitalWFFunctions;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSException;
+import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.depositvorgang.DepositVorgangDelegate;
+import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
+import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.test.mock.Mocks;

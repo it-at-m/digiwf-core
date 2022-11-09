@@ -2,18 +2,18 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package de.muenchen.digitalwf.legacy.dms.bausteine.schriftstueckekopieren;
+package io.muenchendigital.digiwf.legacy.dms.bausteine.schriftstueckekopieren;
 
-import de.muenchen.digitalwf.legacy.dms.alwdms.domain.model.AlwSchriftstueck;
-import de.muenchen.digitalwf.legacy.dms.alwdms.domain.service.AlwDmsService;
-import de.muenchen.digitalwf.legacy.dms.alwdms.process.KvrDmsFunctions;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Dokument;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.EinAusgehend;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.model.Schriftstueck;
-import de.muenchen.digitalwf.legacy.dms.muc.domain.service.DmsService;
-import de.muenchen.digitalwf.legacy.dms.muc.process.mapper.MetadataProcessDataMapper;
-import de.muenchen.digitalwf.legacy.dms.muc.process.saveschriftstuecke.SaveSchriftstueckeEndListener;
-import de.muenchen.digitalwf.legacy.dms.process.CopySchriftstueckeAlwToMucDelegate;
+import io.muenchendigital.digiwf.legacy.dms.alwdms.domain.model.AlwSchriftstueck;
+import io.muenchendigital.digiwf.legacy.dms.alwdms.domain.service.AlwDmsService;
+import io.muenchendigital.digiwf.legacy.dms.alwdms.process.KvrDmsFunctions;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Dokument;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.EinAusgehend;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.model.Schriftstueck;
+import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.mapper.MetadataProcessDataMapper;
+import io.muenchendigital.digiwf.legacy.dms.muc.process.saveschriftstuecke.SaveSchriftstueckeEndListener;
+import io.muenchendigital.digiwf.legacy.dms.process.CopySchriftstueckeAlwToMucDelegate;
 
 import lombok.val;
 import org.camunda.bpm.engine.test.Deployment;

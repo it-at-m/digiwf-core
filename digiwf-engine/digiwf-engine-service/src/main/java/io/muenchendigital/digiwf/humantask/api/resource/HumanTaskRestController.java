@@ -5,7 +5,6 @@
 package io.muenchendigital.digiwf.humantask.api.resource;
 
 import io.muenchendigital.digiwf.humantask.api.mapper.HumanTaskApiMapper;
-import de.muenchen.digitalwf.humantask.api.transport.*;
 import io.muenchendigital.digiwf.humantask.api.transport.*;
 import io.muenchendigital.digiwf.humantask.domain.service.HumanTaskService;
 import io.muenchendigital.digiwf.shared.security.AppAuthenticationProvider;

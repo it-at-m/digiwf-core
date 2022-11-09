@@ -2,7 +2,7 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
  * der Landeshauptstadt München, 2021
  */
-package de.muenchen.digitalwf.humantask.process.listener;
+package io.muenchendigital.digiwf.humantask.process.listener;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,11 +23,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import de.muenchen.digitalwf.legacy.mailing.domain.model.MailTemplate;
-import de.muenchen.digitalwf.legacy.mailing.domain.service.MailingService;
-import de.muenchen.digitalwf.shared.properties.DigitalWFProperties;
-import de.muenchen.digitalwf.legacy.user.domain.model.User;
-import de.muenchen.digitalwf.legacy.user.domain.service.UserService;
+import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
+import io.muenchendigital.digiwf.legacy.mailing.domain.service.MailingService;
+import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
+import io.muenchendigital.digiwf.legacy.user.domain.model.User;
+import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
 
 /**
  * Tests for UserTaskNotificationListener.
