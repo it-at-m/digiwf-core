@@ -56,6 +56,11 @@
             <artifactId>digiwf-json-serialization-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Streaming -->
         <dependency>
@@ -180,11 +185,7 @@
             <artifactId>springdoc-openapi-security</artifactId>
             <version>${springdoc.openapi.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-s3-integration-client-starter</artifactId>
-            <version>0.0.6</version>
-        </dependency>
+
 
         <!-- Validation -->
         <dependency>
