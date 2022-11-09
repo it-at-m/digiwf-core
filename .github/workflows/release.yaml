@@ -69,14 +69,21 @@ jobs:
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
-          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-connector-service:dev
 
       - name: Build and push gateway
         uses: docker/build-push-action@v2
         with:
           context: ./digiwf-gateway
           push: true
-          tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }},itatm/digiwf-gateway:dev
+
+      - name: Build and push cosys
+        uses: docker/build-push-action@v2
+        with:
+          context: ./digiwf-integrations/digiwf-cosys-integration-service
+          push: true
+          tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
 
   release-services-camunda-ee:
     if: github.event.inputs.services == 'y'
@@ -124,7 +131,7 @@ jobs:
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
-          tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service:dev
 
   release-apps:
     runs-on: ubuntu-latest
@@ -173,7 +180,7 @@ jobs:
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
-          tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }}
+          tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist:dev
 
   github-release:
     name: Create Release
