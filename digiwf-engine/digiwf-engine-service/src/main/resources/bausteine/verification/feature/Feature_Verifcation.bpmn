@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1f6fnr3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="FeatureVerification" name="Feature BürgerInnen Bestätigung" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="Feature_Verification_Start">
+      <bpmn:outgoing>Flow_1en2301</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1en2301" sourceRef="StartEvent_1" targetRef="Activity_020ov7x" />
+    <bpmn:endEvent id="Event_0yiscih">
+      <bpmn:incoming>Flow_0g061b3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0g061b3" sourceRef="Activity_04c7h09" targetRef="Event_0yiscih" />
+    <bpmn:userTask id="Activity_04c7h09" name="Bestätigung prüfen" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">Feature_Verification_Pruefen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mk7wu5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0g061b3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0mk7wu5" sourceRef="Event_1ciq9io" targetRef="Activity_04c7h09" />
+    <bpmn:intermediateCatchEvent id="Event_1ciq9io" name="Email bestätigt" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0m8pvh8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mk7wu5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_17taa46" messageRef="Message_0zwly2g" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0m8pvh8" sourceRef="Activity_020ov7x" targetRef="Event_1ciq9io" />
+    <bpmn:callActivity id="Activity_020ov7x" name="Bestätigungslink holen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.VerificationTemplateV01" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="getVerificationLink" target="app_type_name" />
+        <camunda:in sourceExpression="${execution.getProcessInstanceId()}" target="processInstanceId" />
+        <camunda:in sourceExpression="${FormField_Topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="${FormField_Subject}" target="subject" />
+        <camunda:out source="verificationLink" target="verificationLink" />
+        <camunda:in sourceExpression="2023-01-01T00:00:00" target="expiryTime" />
+        <camunda:in sourceExpression="getVerificationLink" target="app_message_name" />
+        <camunda:in sourceExpression="emailVerified" target="messageName" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1en2301</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m8pvh8</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmn:message id="Message_0zwly2g" name="emailVerified" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureVerification">
+      <bpmndi:BPMNEdge id="Flow_0mk7wu5_di" bpmnElement="Flow_0mk7wu5">
+        <di:waypoint x="448" y="117" />
+        <di:waypoint x="500" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g061b3_di" bpmnElement="Flow_0g061b3">
+        <di:waypoint x="600" y="117" />
+        <di:waypoint x="642" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1en2301_di" bpmnElement="Flow_1en2301">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="260" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m8pvh8_di" bpmnElement="Flow_0m8pvh8">
+        <di:waypoint x="360" y="117" />
+        <di:waypoint x="412" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yiscih_di" bpmnElement="Event_0yiscih">
+        <dc:Bounds x="642" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15wu606_di" bpmnElement="Activity_04c7h09">
+        <dc:Bounds x="500" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ztnnza_di" bpmnElement="Event_1ciq9io">
+        <dc:Bounds x="412" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="394" y="142" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13llq1m_di" bpmnElement="Activity_020ov7x">
+        <dc:Bounds x="260" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

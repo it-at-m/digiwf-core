@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="FeatureDuplikatePruefen" name="Feature Duplikate Prüfen" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Duplikate Prüfen zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="FeatureDuplikatePruefen_StartenV01">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_BusinessKeyErstellen" />
+    <bpmn:endEvent id="EndEvent_beendet" name="Beendet">
+      <bpmn:incoming>Flow_1scm3w6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_11dx332" sourceRef="Activity_DokumentDuplikatePruefen" targetRef="Gateway_1r40glk" />
+    <bpmn:sequenceFlow id="Flow_0vjjnie" sourceRef="Task_BusinessKeyErstellen" targetRef="Activity_DokumentDuplikatePruefen" />
+    <bpmn:serviceTask id="Task_BusinessKeyErstellen" name="BusinessKey erstellen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.CreateBusinessKey" camunda:delegateExpression="${createBusinessKeyDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_business_key_variables">FormField_Variable1;FormField_Variable2</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vjjnie</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1scm3w6" sourceRef="Task_DuplikatePruefenAbschliessen" targetRef="EndEvent_beendet" />
+    <bpmn:userTask id="Task_DuplikatePruefenAbschliessen" name="Duplikate prüfen abschließen" camunda:formKey="FeatureDuplikatePruefen_AbschliessenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_1t61etv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1scm3w6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:callActivity id="Activity_DokumentDuplikatePruefen" name="Duplikate prüfen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.CheckBusinessKeyDelegateCallActivity" calledElement="DuplikatePruefenV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${starterOfInstance}" target="starterOfInstance" />
+        <camunda:in sourceExpression="FeatureDuplikatePruefen" target="digitalwf_process_definition_key" />
+        <camunda:in sourceExpression="${execution.getProcessBusinessKey()}" target="digitalwf_process_business_key" />
+        <camunda:in sourceExpression="${execution.getProcessInstanceId()}" target="digitalwf_process_instance_id" />
+        <camunda:in sourceExpression="Duplikate für den Feature Prozess prüfen" target="digitalwf_duplicateCheckTitle" />
+        <camunda:out source="FormField_CancelProcess" target="cancelProcess" />
+        <camunda:in sourceExpression="Bitte prüfen Sie die Duplikate zum Feature Prozess" target="digitalwf_duplicateCheckDescription" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vjjnie</bpmn:incoming>
+      <bpmn:outgoing>Flow_11dx332</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_1r40glk" name="Prozess abbrechen?">
+      <bpmn:incoming>Flow_11dx332</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t61etv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1e7jd4s</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1t61etv" name="Nein" sourceRef="Gateway_1r40glk" targetRef="Task_DuplikatePruefenAbschliessen">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!cancelProcess}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_End_Error" name="Abgebrochen">
+      <bpmn:incoming>Flow_1e7jd4s</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1e7jd4s" name="Ja" sourceRef="Gateway_1r40glk" targetRef="Event_End_Error">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${cancelProcess}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureDuplikatePruefen">
+      <bpmndi:BPMNEdge id="Flow_1e7jd4s_di" bpmnElement="Flow_1e7jd4s">
+        <di:waypoint x="570" y="172" />
+        <di:waypoint x="570" y="260" />
+        <di:waypoint x="712" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="579" y="213" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t61etv_di" bpmnElement="Flow_1t61etv">
+        <di:waypoint x="595" y="147" />
+        <di:waypoint x="710" y="147" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="641" y="129" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1scm3w6_di" bpmnElement="Flow_1scm3w6">
+        <di:waypoint x="810" y="147" />
+        <di:waypoint x="862" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vjjnie_di" bpmnElement="Flow_0vjjnie">
+        <di:waypoint x="330" y="147" />
+        <di:waypoint x="390" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11dx332_di" bpmnElement="Flow_11dx332">
+        <di:waypoint x="490" y="147" />
+        <di:waypoint x="545" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="188" y="147" />
+        <di:waypoint x="230" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="152" y="129" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="147" y="172" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_beendet">
+        <dc:Bounds x="862" y="129" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="859" y="172" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lhhbrc_di" bpmnElement="Task_BusinessKeyErstellen">
+        <dc:Bounds x="230" y="107" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dc78a3_di" bpmnElement="Task_DuplikatePruefenAbschliessen">
+        <dc:Bounds x="710" y="107" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nabzzv_di" bpmnElement="Activity_DokumentDuplikatePruefen">
+        <dc:Bounds x="390" y="107" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1r40glk_di" bpmnElement="Gateway_1r40glk" isMarkerVisible="true">
+        <dc:Bounds x="545" y="122" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="86" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_029gtgu_di" bpmnElement="Event_End_Error">
+        <dc:Bounds x="712" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="698" y="285" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,324 @@
+{
+  "key": "DigitalWFErleben_DatenInFormularenErfassen_V1",
+  "description": "Formular \"Daten in Formularen erfassen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Formulare",
+      "schema": [
+        {
+          "key": "FormField_Formulare",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Formulare dienen der Anzeige und der Eingabe von Daten durch Benutzer*innen. Sie beinhalten einzelnen Felder, in denen verschiedene Arten von Daten, wie bspw. Zahlen, Zeichenketten, Datumswerte usw. erfasst werden können. Nachfolgend finden Sie einige Beispiele für Formularfelder, die Sie gerne ausprobieren können.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Probieren Sie es aus!",
+      "schema": [
+        {
+          "key": "FormField_EinzeiligerText",
+          "label": "Einzeiliger Text",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Ein einzeiliges Textfeld, dass die gesamte verfügbare Breite des Formulars einnimmt.",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_MehrzeiligerText",
+          "label": "MehrzeiligerText",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Hier können Sie viel Text eingeben: Ein mehrzeiliges Textfeld, dass sich Ihren Eingaben anpasst.",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "2",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "maxLength",
+              "value": "2000",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Datum",
+          "label": "Datum...",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Ein Datumsfeld. Das Datum kann entweder mit der Tastatur oder mit dem Selektor eingegeben werden. Ein Datum braucht nicht so viel Platz, deshalb ist dieses Feld nicht so breit.",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Uhrzeit",
+          "label": "...und Uhrzeit",
+          "type": "text",
+          "ext": "time",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "In diesem Feld können Sie eine Uhrzeit erfassen. Uhrzeiten sind noch kürzer als Datumswerte...",
+          "readonly": false,
+          "col": "2",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Zahlen",
+          "label": "Eingabe von Zahlen",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Hier können Sie nur Zahlen eingeben. Sie können die Zahl mit der Tastatur eingeben oder die Button am Ende des Felds benutzen. Zahlen brauchen auch nicht so viel Platz...",
+          "readonly": false,
+          "col": "4",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Checkbox",
+          "label": "Ein Feld zum Ankreuzen: Ich habe die AGB gelesen und verstanden.",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Ja oder nein, das ist hier Frage. ",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_Einfachauswahl",
+          "label": "Auswahl aus (beliebig) vielen Elementen",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Dieses Formularfeld ermöglicht die Anzeige (beliebig) vieler Elemente zur Auswahl. Es kann genau ein Element ausgewählt werden.",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Erstes Element zur Auswahl",
+              "value": "Value_1"
+            },
+            {
+              "name": "Zweites Element zur Auswahl",
+              "value": "Value_2"
+            },
+            {
+              "name": "Drittes Element zur Auswahl",
+              "value": "Value_3"
+            }
+          ]
+        },
+        {
+          "key": "FormField_Mehrfachauswahl",
+          "label": "Mehrfachauswahl aus (beliebig) vielen Elementen",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Ein Feld, bei dem nicht nur eines, sondern beliebig viele Elemente ausgewählt werden können.",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": true,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "Erstes Element zur Auswahl",
+              "value": "Value_1"
+            },
+            {
+              "name": "Zweites Element zur Auswahl",
+              "value": "Value_2"
+            },
+            {
+              "name": "Drittes Element zur Auswahl",
+              "value": "Value_3"
+            }
+          ]
+        },
+        {
+          "key": "FormKey_Benutzersuche",
+          "label": "Benutzer*innen suchen und auswählen",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Mit diesem Feld können Benutzer*innen von DigiWF ausgewählt werden, bspw. um ihnen eine nachfolgende Aufgabe zuzuordnen. Die Suche funktioniert ganz einfach - fangen Sie einfach an den Vor- oder Nachnamen zu tippen. DigiWF sucht im Hintergrund für Sie und zeigt Ihnen als Ergebnis eine Auswahlliste an.",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_BeschreibungDokInput",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Mit dem nachfolgenden Formularfeld können Dokumente aus einem Dokumentenmanagementsystem ausgewählt werden. Tragen Sie bitte die Adresse http://alwdmstest02.muenchen.de/fsc/mx/COO.2150.9400.2.1106097 oder die Adresse http://alwdmstest02.muenchen.de/fsc/mx/COO.2150.9400.2.66044 in das Feld ein. Wenn Sie den Button zum Hinzufügen eines Schriftstücks klicken wird der Name des Dokuments aus dem Dokumentenmanagementsystem geladen und als Link angezeigt. Sie können weitere Dokumente hinzufgen. Wenn Sie einen ungültigen Link eingeben, so wird ein Fehler angezeigt.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormKey_AlwDokumenteAuswaehlen",
+          "label": "Dokumente aus dem Dokumentenmanagementsystem auswählen",
+          "type": "alw-document-input",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "Mit diesem Feld können Dokumente aus dem Dokumentenmanagementsystem ausgewählt werden.",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_FormatierteTextausgabe",
+          "label": "Formatierten Text ausgeben",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Mit diesem Feld können Informationen angezeigt werden. Es gibt eine Vielzahl an Formatierungsmöglichkeiten, bspw. kann Text *kursiv*, **fett** oder ***unterstrichen*** dargestellt werden. Auch können im Text Links wie bspw. [DigiWF WILMA-Arbeitsraum](https://wilma.muenchen.de/workspaces/digi-wf-digitale-workflows/apps/wiki/ueberblick/list/view/6d7ce3be-fc22-4ade-af6e-7dd22a57259b \"Treten Sie dem Arbeitsraum bei!\") angezeigt werden.\n   \nEs stehen auch Listen stehen zur Verfügung. Ein Beispiel:\n*Meine Aufgaben, um mit DigiWF in Kontakt zu bleiben:*\n* *DigiWF-Arbeitsraum beitreten (siehe Link oben)*\n* *DigiWF Meet&Greet-Gruppe beitreten: [https://go.muenchen.de/meetgreetdigitalwf](https://go.muenchen.de/meetgreetdigitalwf)*\n   \nAuch Überschriften können dargestellt werden:\n# Überschrift 1\n## Überschrift 2\n### Überschrift 3\n \n",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "key": "FeatureInstanzExport_DownloadenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Export Ergebnis",
+      "schema": [
+        {
+          "key": "FormField_ProcessKey",
+          "label": "Prozess Key",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "rows": "0",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Variables",
+          "label": "Prozess Key",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "rows": "0",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_StatusKey",
+          "label": "Status Key",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "rows": "0",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        },
+        {
+          "key": "instanceExport",
+          "label": "Download",
+          "type": "csv-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "rows": "2",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

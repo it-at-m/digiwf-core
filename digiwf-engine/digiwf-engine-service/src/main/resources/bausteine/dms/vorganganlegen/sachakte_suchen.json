@@ -1,0 +1,70 @@
+{
+  "name": "Sachakte suchen",
+  "id": "de.muenchen.digitalisierung.templates.dms.SachakteSuchen",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${searchSachakteDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Untergruppe",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_untergruppe"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_sachakte_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${execution.hasVariable('dms_sachakte_coo') ? dms_sachakte_coo : ''}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

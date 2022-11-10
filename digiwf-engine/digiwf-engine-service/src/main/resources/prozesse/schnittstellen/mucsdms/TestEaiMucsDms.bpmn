@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1bdrhvi" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="TestEaiMucsDms" name="Test EAI Mucs DMS" isExecutable="true" camunda:candidateStarterGroups="itm-km8" camunda:versionTag="v1.0" camunda:historyTimeToLive="0">
+    <bpmn:documentation>Der Prozess unterstützt die Prüfung der Funktionsfähigkeit der mucs DMS-EAI.</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_1" name="Gestartet" camunda:formKey="TestEaiMucsDms_Start_V01">
+      <bpmn:outgoing>SequenceFlow_1oy0vc9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1oy0vc9" sourceRef="StartEvent_1" targetRef="Task_SachakteSuchen" />
+    <bpmn:sequenceFlow id="SequenceFlow_1nhqwkn" sourceRef="Task_SachakteSuchen" targetRef="Task_SuchePruefen" />
+    <bpmn:userTask id="Task_SuchePruefen" name="Suche prüfen" camunda:formKey="TestEaiMucsDms_SuchePruefen_V01" camunda:assignee="${starterOfInstance}">
+      <bpmn:documentation>Überprüfung des Suchergebnisses</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_SachakteCoo">${dms_sachakte_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_description">Aufgabe zur Überprüfung des Suchergebnisses</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1nhqwkn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04s1i9j</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_SachakteSuchen" name="Sachakte suchen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SachakteSuchen" camunda:delegateExpression="${searchSachakteDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_user_login">${starterOfInstance}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_sachakte_name">${FormField_SachakteName}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_untergruppe">${FormField_Untergruppe}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${dms_sachakte_coo}</camunda:outputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${execution.hasVariable('dms_sachakte_coo') ? dms_sachakte_coo : ''}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1oy0vc9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nhqwkn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_19yl9mo" name="Beendet">
+      <bpmn:incoming>SequenceFlow_04s1i9j</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_04s1i9j" sourceRef="Task_SuchePruefen" targetRef="EndEvent_19yl9mo" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestEaiMucsDms">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="142" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1oy0vc9_di" bpmnElement="SequenceFlow_1oy0vc9">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="320" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nhqwkn_di" bpmnElement="SequenceFlow_1nhqwkn">
+        <di:waypoint x="420" y="117" />
+        <di:waypoint x="500" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_08puks4_di" bpmnElement="Task_SuchePruefen">
+        <dc:Bounds x="500" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1saymvl_di" bpmnElement="Task_SachakteSuchen">
+        <dc:Bounds x="320" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_19yl9mo_di" bpmnElement="EndEvent_19yl9mo">
+        <dc:Bounds x="682" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="679" y="142" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04s1i9j_di" bpmnElement="SequenceFlow_04s1i9j">
+        <di:waypoint x="600" y="117" />
+        <di:waypoint x="682" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

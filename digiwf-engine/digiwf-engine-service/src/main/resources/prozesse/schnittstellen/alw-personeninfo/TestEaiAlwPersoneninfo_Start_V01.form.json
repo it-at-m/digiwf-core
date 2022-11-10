@@ -1,0 +1,71 @@
+{
+  "key": "TestEaiAlwPersoneninfo_Start_V01",
+  "description": "Formular zum Starten der Prüfung der EAI AlwPersoneninfo auf Funktionstüchtigkeit",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abfrage starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "FormField_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zur AlwPersoneninfo. Der Button \"Prüfung starten\" löst die Abfrage einer zuständigen Gruppe aus, als Input dienen die Daten im nächsten Abschnitt. Die gesuchte AZR-Nr. ist in der AlwPersoneninfo von OK.Visa vorhanden, die Abfrage sollte also erfolgreich sein.\nZur Überprüfung des Abfrageergebnisses wird dem Prozessstarter eine neue Aufgabe \"Personengruppe prüfen\" eingestellt. ",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_AZRNummer",
+          "label": "AZR-Nummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "200731000166",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

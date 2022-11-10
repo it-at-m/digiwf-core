@@ -1,0 +1,6 @@
+Camunda Scripts:
+https://github.com/camunda/camunda-bpm-platform
+-> \engine\src\main\resources\org\camunda\bpm\engine\db\create
+
+Camunda patch scripts:
+https://docs.camunda.org/manual/latest/update/patch-level/#database-patches

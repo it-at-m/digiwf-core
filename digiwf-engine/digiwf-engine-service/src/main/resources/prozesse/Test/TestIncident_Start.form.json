@@ -1,0 +1,45 @@
+{
+  "key": "TestIncident_Start_V01",
+  "description": "Erläuterung zum TestIncident-Workflow",
+  "buttons": {
+    "complete": {
+      "buttonText": "Test starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Was passiert jetzt?",
+      "schema": [
+        {
+          "key": "FormField_wiegehtsweiter",
+          "label": "Hinweis",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Dieser Workflow dient der Erzeugung eines Incidents im camunda Cockpit. Damit können die dem  Auftreten eines Incidents nachgelagerten internen DigiWF-Prozesse angestoßen werden.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

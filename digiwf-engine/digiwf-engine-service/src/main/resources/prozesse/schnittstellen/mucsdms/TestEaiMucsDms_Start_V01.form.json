@@ -1,0 +1,131 @@
+{
+  "key": "TestEaiMucsDms_Start_V01",
+  "description": "Formular zum Starten der Prüfung der mucs DMS EAI auf Funktionstüchtigkeit",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Suche starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "FormField_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zum mucs DMS. Der Button \"Suche starten\" löst die Suche einer Sachakte im DMS aus, als Input dienen die Daten im nächsten Abschnitt. Die gesuchte Sachakte ist im DMS vorhanden, die Suche sollte also erfolgreich sein.\nZur Überprüfung des Suchergebnisses wird dem Prozessstarter eine neue Aufgabe \"Suche prüfen\" eingestellt. \nIm Fehlerfall erscheint die Meldung \"Der Vorgang konnte nicht gestartet werden\" oder das Suchergebnis bleibt leer.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Daten",
+      "schema": [
+        {
+          "key": "FormField_Untergruppe",
+          "label": "Sachakte Untergruppe",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "4164.999",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_AktenplanName",
+          "label": "Aktenplan Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "4164.999/S-III-MF/A/WH/DigitalWF-Ablage",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_SachakteName",
+          "label": "Sachakte Name",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "5060/demo-final",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "8",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ],
+      "description": null
+    }
+  ]
+}

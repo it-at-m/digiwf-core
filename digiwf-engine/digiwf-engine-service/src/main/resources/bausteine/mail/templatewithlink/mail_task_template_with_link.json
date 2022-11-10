@@ -1,0 +1,142 @@
+{
+  "name": "Mail senden mit Link",
+  "id": "de.muenchen.digitalwf.templates.MailTaskTemplateWithLink",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${sendMailTemplateWithLinkDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Empfänger",
+      "description": "Der Empfänger der E-Mail.",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_RECEIVERS"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Betreff",
+      "type": "String",
+      "description": "Der E-Mail Betreff.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_SUBJECT"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Text",
+      "description": "Text der E-Mail",
+      "value": "Bitte geben Sie hier den Inhalt der E-Mail ein...",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_BODY"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Gruß",
+      "description": "Standard: Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
+      "value": "",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_BOTTOM"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Link Bezeichnung",
+      "description": "Bezeichnung des Links, auf den geklickt werden kann",
+      "value": "",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_LINK_TEXT"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Link URL",
+      "description": "URL des Links, auf den geklickt werden kann",
+      "value": "",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_LINK_URL"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antwort-An E-Mail Adresse",
+      "type": "String",
+      "description": "E-Mail Adresse, an die geantwortet wird",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_REPLY_TO"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Prozessspezifisches Formular anhängen",
+      "type": "String",
+      "description": "Hier wird der eindeutige Bezeichner einer Vorlage (GUID) aus coSys erwartet.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_ATTACHMENT_GUID"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Name des prozessspezifischen Formulars",
+      "type": "String",
+      "description": "Falls ein prozessspezifisches Dokument angehängt wird, kann hier optional dessen Name eingetragen werden.",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "MAILING_ATTACHMENT_NAME"
+      },
+      "constraints": {
+      }
+    },
+    {
+      "label": "Async senden?",
+      "type": "Boolean",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true,
+    "input-parameters": true,
+    "output-parameters": true
+  }
+}

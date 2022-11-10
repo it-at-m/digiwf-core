@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="TestEaiAlwPersoneninfo" name="Test EAI AlwPersoneninfo" isExecutable="true" camunda:candidateStarterGroups="itm-km8" camunda:versionTag="v1.0" camunda:historyTimeToLive="0">
+    <bpmn:documentation>Der Prozess unterstützt die Prüfung der Funktionsfähigkeit der AlwPersoneninfo-EAI.</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="TestEaiAlwPersoneninfo_Start_V01">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_AlwPersonenInfo" />
+    <bpmn:endEvent id="EndEvent_beendet" name="Beendet">
+      <bpmn:incoming>Flow_1rt8vim</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0aecmf7" sourceRef="Task_AlwPersonenInfo" targetRef="Task_PersonengruppeKontrollieren" />
+    <bpmn:serviceTask id="Task_AlwPersonenInfo" name="Alw Personeninfo" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.kvr.AlwPersoneninfo" camunda:delegateExpression="${kvrPersonenInfoDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="kvr_azr_nummer">${FormField_AZRNummer}</camunda:inputParameter>
+          <camunda:outputParameter name="ergebnisGruppe">${kvr_responsible_group}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aecmf7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1rt8vim" sourceRef="Task_PersonengruppeKontrollieren" targetRef="EndEvent_beendet" />
+    <bpmn:userTask id="Task_PersonengruppeKontrollieren" name="Personengruppe kontrollieren" camunda:formKey="TestEaiAlwPersoneninfo_GruppeKontrollieren_V01" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description">Aufgabe zur Überprüfung des Abfrageergebnisses</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0aecmf7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rt8vim</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestEaiAlwPersoneninfo">
+      <bpmndi:BPMNEdge id="Flow_1rt8vim_di" bpmnElement="Flow_1rt8vim">
+        <di:waypoint x="540" y="97" />
+        <di:waypoint x="592" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0aecmf7_di" bpmnElement="Flow_0aecmf7">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="440" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="122" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_beendet">
+        <dc:Bounds x="592" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="589" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u10b6x_di" bpmnElement="Task_AlwPersonenInfo">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qigrqs_di" bpmnElement="Task_PersonengruppeKontrollieren">
+        <dc:Bounds x="440" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

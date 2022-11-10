@@ -1,0 +1,87 @@
+{
+  "name": "Dokument stornieren",
+  "id": "de.muenchen.digitalisierung.templates.dms.DokumentStornierenTemplate",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "DokumentStornierenV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Dokument COO",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_document_coo",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_user_login",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang Titel",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_vorgang_titel",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_fehlerhandling_user",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling E-Mail Adresse",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_error_receiver_mail",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:collaboration id="Collaboration_12iu3ip">
+    <bpmn:participant id="Participant_LHM" name="LHM" processRef="DokumentStornierenV01" />
+  </bpmn:collaboration>
+  <bpmn:process id="DokumentStornierenV01" name="Dokument stornieren Template V01" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1bbrvcv">
+      <bpmn:lane id="Lane_DigitalWF" name="DigitalWF">
+        <bpmn:flowNodeRef>StartEvent_DokumentStornieren</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_17ne6fs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_DokumentStorniert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BenachrichtigungVersenden</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DokumentStornieren</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_17dzceu</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Kuemmerer" name="Kümmerer">
+        <bpmn:flowNodeRef>Task_DokumentManuellStornieren</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_1uetbey" sourceRef="Task_BenachrichtigungVersenden" targetRef="Task_DokumentManuellStornieren" />
+    <bpmn:sequenceFlow id="Flow_1sest2s" sourceRef="Event_17dzceu" targetRef="Task_BenachrichtigungVersenden" />
+    <bpmn:sequenceFlow id="Flow_0kwama8" sourceRef="Task_DokumentStornieren" targetRef="Gateway_17ne6fs" />
+    <bpmn:sequenceFlow id="Flow_1bk25nf" sourceRef="StartEvent_DokumentStornieren" targetRef="Task_DokumentStornieren" />
+    <bpmn:sequenceFlow id="Flow_0uc0w0a" sourceRef="Gateway_17ne6fs" targetRef="EndEvent_DokumentStorniert" />
+    <bpmn:sequenceFlow id="Flow_0k1tg5g" sourceRef="Task_DokumentManuellStornieren" targetRef="Gateway_17ne6fs" />
+    <bpmn:startEvent id="StartEvent_DokumentStornieren" name="Dokument stornieren" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_1bk25nf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_17ne6fs">
+      <bpmn:incoming>Flow_0kwama8</bpmn:incoming>
+      <bpmn:incoming>Flow_0k1tg5g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uc0w0a</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_DokumentStorniert" name="Dokument storniert">
+      <bpmn:incoming>Flow_0uc0w0a</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_BenachrichtigungVersenden" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Hallo,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei Dokumentablage bei Vorgang ${dms_vorgang_titel}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sest2s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uetbey</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Task_DokumentManuellStornieren" name="Dokument manuell stornieren" camunda:asyncBefore="true" camunda:formKey="DokumentStornieren_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte stornieren Sie das Dokument manuell.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Das Dokument konnte nicht automatisch storniert werden. Grund: ${dmsMeldung}</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">digitalwf_task_description = execution.getVariable("dms_vorgang_titel");</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
+task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uetbey</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k1tg5g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Event_17dzceu" name="Fehler" attachedToRef="Task_DokumentStornieren">
+      <bpmn:outgoing>Flow_1sest2s</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0jpub1j" camunda:errorMessageVariable="dmsMeldung" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Task_DokumentStornieren" name="Dokument storneiren" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.DokumentStornieren" camunda:delegateExpression="${cancelDokumentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_document_coo">${dms_document_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bk25nf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kwama8</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_0btj1ra" name="Error_DMSAktenablageFehlgeschlagen" errorCode="AKTENABLAGE_FEHLGESCHLAGEN" />
+  <bpmn:error id="Error_045i53j" name="Error_DMSObjektGesperrt" errorCode="OBJEKT_GESPERRT" />
+  <bpmn:error id="Error_19vqy3b" />
+  <bpmn:error id="Error_1vr8x8x" name="Error_DMSUngueltigeAdresse" errorCode="UNGUELTIGE_ADRESSE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_12iu3ip">
+      <bpmndi:BPMNShape id="Participant_01itnlq_di" bpmnElement="Participant_LHM" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="819" height="480" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1t235ib_di" bpmnElement="Lane_Kuemmerer" isHorizontal="true" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="159" y="410" width="789" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_127e0t2_di" bpmnElement="Lane_DigitalWF" isHorizontal="true">
+        <dc:Bounds x="159" y="80" width="789" height="330" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0k1tg5g_di" bpmnElement="Flow_0k1tg5g">
+        <di:waypoint x="710" y="490" />
+        <di:waypoint x="740" y="490" />
+        <di:waypoint x="740" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uc0w0a_di" bpmnElement="Flow_0uc0w0a">
+        <di:waypoint x="765" y="180" />
+        <di:waypoint x="832" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bk25nf_di" bpmnElement="Flow_1bk25nf">
+        <di:waypoint x="278" y="180" />
+        <di:waypoint x="380" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
+        <di:waypoint x="480" y="180" />
+        <di:waypoint x="715" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
+        <di:waypoint x="400" y="238" />
+        <di:waypoint x="400" y="320" />
+        <di:waypoint x="420" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
+        <di:waypoint x="520" y="320" />
+        <di:waypoint x="550" y="320" />
+        <di:waypoint x="550" y="490" />
+        <di:waypoint x="610" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_DokumentStornieren" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="242" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="235" y="205" width="52" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_17ne6fs_di" bpmnElement="Gateway_17ne6fs" isMarkerVisible="true">
+        <dc:Bounds x="715" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0q2y3lz_di" bpmnElement="EndEvent_DokumentStorniert" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="832" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="825" y="205" width="52" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gufs89_di" bpmnElement="Task_BenachrichtigungVersenden">
+        <dc:Bounds x="420" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mb4obw_di" bpmnElement="Task_DokumentManuellStornieren">
+        <dc:Bounds x="610" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1b36a35_di" bpmnElement="Task_DokumentStornieren">
+        <dc:Bounds x="380" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17dzceu_di" bpmnElement="Event_17dzceu">
+        <dc:Bounds x="382" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="403" y="243" width="33" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

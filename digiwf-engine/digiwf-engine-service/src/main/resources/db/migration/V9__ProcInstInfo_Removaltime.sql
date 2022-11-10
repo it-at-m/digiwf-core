@@ -1,0 +1,2 @@
+alter table DWF_PROCESS_INSTANCE_INFO
+add removaltime_ date;

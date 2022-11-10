@@ -1,0 +1,87 @@
+{
+  "name": "Vorgang z.A. anlegen",
+  "id": "de.muenchen.digitalisierung.templates.dms.VorgangZAAnlegenTemplateV02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "VorgangZALegenV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Vorgang COO",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_vorgang_coo",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_user_login",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Manueller Task Titel",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_task_title_manuell",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_fehlerhandling_user",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling E-Mail Adresse",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_error_receiver_mail",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

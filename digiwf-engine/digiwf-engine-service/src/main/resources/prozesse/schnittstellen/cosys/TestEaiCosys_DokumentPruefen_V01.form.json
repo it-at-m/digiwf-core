@@ -1,0 +1,46 @@
+{
+  "key": "TestEaiCosys_DokumentPruefen_V01",
+  "description": "Formular zur Überprüfung der Dokumentenerstellung",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "Formfield_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Mit dieser Aufgabe können Sie überprüfen, ob die Erstellung des Statusdokuments erfolgreich ist. Dazu betätigen Sie einfach den Download-Button für das Status PDF hinter dem Speed-Dialer. Öffnet sich das PDF, war der Test erfolgreich. Im Fehlerfall erscheint die Meldung \"Das Statusdokument konnte nicht erstellt/geladen werden\".",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

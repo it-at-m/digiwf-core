@@ -1,0 +1,126 @@
+{
+  "name": "Schriftstück updaten",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdatenTemplate",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "SchriftstueckUpdatenV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Prozess Id",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_prozess_id",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Cosys Guid",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_cosys_guid",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_schriftstueck_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück COO",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_schriftstueck_coo",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang Titel",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_vorgang_titel",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_user_login",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_fehlerhandling_user",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling E-Mail Adresse",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_error_receiver_mail",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

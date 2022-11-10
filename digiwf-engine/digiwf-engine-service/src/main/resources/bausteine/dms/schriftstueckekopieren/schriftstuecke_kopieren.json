@@ -1,0 +1,106 @@
+{
+  "name": "Schriftstuecke kopieren",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckeKopieren",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${copySchriftstueckeAlwToMucDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "Benutzer ALW DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login_alw"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstücke",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_schriftstuecke"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Benutzer MUC DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_user_login_muc"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang COO",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_vorgang_coo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dokument Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_document_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dokument COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${dms_document_coo}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstücke Metadata",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${dms_save_schriftstuecke_result}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

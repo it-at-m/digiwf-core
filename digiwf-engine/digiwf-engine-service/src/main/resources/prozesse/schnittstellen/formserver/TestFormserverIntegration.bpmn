@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_11bu1ox" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="TestFormserverIntegration" name="Test Formserver Integration" isExecutable="true">
+    <bpmn:documentation>Der Prozess unterstützt die Prüfung der Funktionsfähigkeit der CIT Formserver Integration.</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="a25b8fbf-0ff1-4ed4-962e-1656f14f3df9">
+      <bpmn:outgoing>Flow_1tqabrh</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1tqabrh" sourceRef="StartEvent_1" targetRef="Activity_0yyp328" />
+    <bpmn:userTask id="Activity_0yyp328" name="Formulardaten prüfen" camunda:candidateGroups="ITM-KM8">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_file_paths">FormField_Datei</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">a25b8fbf-0ff1-4ed4-962e-1656f14f3df9</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tqabrh</bpmn:incoming>
+      <bpmn:outgoing>Flow_00kbe5d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1gwiob9">
+      <bpmn:incoming>Flow_00kbe5d</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_00kbe5d" sourceRef="Activity_0yyp328" targetRef="Event_1gwiob9" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestFormserverIntegration">
+      <bpmndi:BPMNEdge id="Flow_00kbe5d_di" bpmnElement="Flow_00kbe5d">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="432" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tqabrh_di" bpmnElement="Flow_1tqabrh">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oeeitn_di" bpmnElement="Activity_0yyp328">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gwiob9_di" bpmnElement="Event_1gwiob9">
+        <dc:Bounds x="432" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

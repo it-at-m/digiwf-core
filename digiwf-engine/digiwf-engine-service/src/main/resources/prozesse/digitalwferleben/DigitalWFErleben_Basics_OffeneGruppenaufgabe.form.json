@@ -1,0 +1,66 @@
+{
+  "key": "DigitalWFErleben_OffeneGruppenaufgabe_V1",
+  "description": "Formular für eine offene Gruppenaufgabe",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "",
+      "schema": [
+        {
+          "key": "FormField_Beschreibung",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Ich bin eine offenen Gruppenaufgabe. Wenn Sie mich in Bearbeitung nehmen, werde ich zu Ihrer Aufgabe und zugleich zu einer Gruppenaufgabe in Bearbeitung.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            }
+          ]
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    }
+  ]
+}

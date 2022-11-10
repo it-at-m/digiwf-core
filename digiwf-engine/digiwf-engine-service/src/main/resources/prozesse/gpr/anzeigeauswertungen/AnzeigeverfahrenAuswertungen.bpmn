@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1idhudh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:collaboration id="Collaboration_">
+    <bpmn:participant id="Participant_" name="LHM" processRef="AnzeigeverfahrenAuswertungen" />
+  </bpmn:collaboration>
+  <bpmn:process id="AnzeigeverfahrenAuswertungen" name="Anzeigeverfahren Auswertungen gemäß RDVfIT" isExecutable="false" camunda:versionTag="0.1" camunda:isStartableInTasklist="false">
+    <bpmn:laneSet id="LaneSet_17m2x1i">
+      <bpmn:lane id="Lane_Fachgruppe" name="Fachgruppe RDVfIT">
+        <bpmn:flowNodeRef>Task_AntragVorpruefen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AntragUeberarbeiten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AntragBehandlungsfaehig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AntragBehandeln</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AnzeigeOderBekanntgabe</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AnzeigeBehandeln</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zulaessig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_UeberarbeitungDesAntrags</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AntragDemGPRVorlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Verzweigend_Zustimmung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Mitteilung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_MitteilungAnAntragsteller</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_EndEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Antragsteller" name="Antragsteller/ -in">
+        <bpmn:flowNodeRef>Gateway_ErneuteAntragstellung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AntragUeberarbeiten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AntragNeustellung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_AntragVerworfen</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:task id="Task_AntragVorpruefen" name="Antrag vorprüfen">
+      <bpmn:incoming>Flow_0kzjp06</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nudtni</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_ErneuteAntragstellung">
+      <bpmn:incoming>Flow_0nklx1u</bpmn:incoming>
+      <bpmn:incoming>Flow_1qgfnuw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kzjp06</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="StartEvent_1" name="Antrag ausfüllen">
+      <bpmn:outgoing>Flow_0nklx1u</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_AntragUeberarbeiten">
+      <bpmn:incoming>Flow_0stnhqa</bpmn:incoming>
+      <bpmn:incoming>Flow_0asacht</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vw3jg7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_AntragBehandlungsfaehig" name="Antrag behandlungsfähig?">
+      <bpmn:incoming>Flow_1nudtni</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v14n8j</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0stnhqa</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_AntragUeberarbeiten" name="Antrag überarbeiten">
+      <bpmn:incoming>Flow_1vw3jg7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wokvab</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_AntragBehandeln" name="Antrag behandeln">
+      <bpmn:incoming>Flow_1v14n8j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ijydvh</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_AntragNeustellung" name="Antrag erneut stellen?">
+      <bpmn:incoming>Flow_0wokvab</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ance87</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1qgfnuw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_AnzeigeOderBekanntgabe" name="Anzeige oder Bekanntgabe?">
+      <bpmn:incoming>Flow_1ijydvh</bpmn:incoming>
+      <bpmn:outgoing>Flow_14xv4uc</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1l89pyk</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_AnzeigeBehandeln" name="Anzeige behandeln">
+      <bpmn:incoming>Flow_14xv4uc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lg4gbp</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_Zulaessig" name="Zulässig?">
+      <bpmn:incoming>Flow_1lg4gbp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xtzdsj</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12e9yzs</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_UeberarbeitungDesAntrags">
+      <bpmn:incoming>Flow_1xtzdsj</bpmn:incoming>
+      <bpmn:incoming>Flow_1g072dp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0asacht</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_AntragDemGPRVorlegen" name="Antrag dem GPR zur Entscheidung vorlegen">
+      <bpmn:incoming>Flow_12e9yzs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1e17p5l</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_Zustimmung" name="Zustimmung?">
+      <bpmn:incoming>Flow_1e17p5l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ohccrv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1g072dp</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Mitteilung">
+      <bpmn:incoming>Flow_1l89pyk</bpmn:incoming>
+      <bpmn:incoming>Flow_0ohccrv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ke680m</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_MitteilungAnAntragsteller" name="Mitteilung an Antragsteller/-in verschicken">
+      <bpmn:incoming>Flow_0ke680m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lp6xff</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Event_EndEvent" name="Antrag abgeschlossen">
+      <bpmn:incoming>Flow_0lp6xff</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_AntragVerworfen" name="Antrag verworfen">
+      <bpmn:incoming>Flow_1ance87</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0nklx1u" sourceRef="StartEvent_1" targetRef="Gateway_ErneuteAntragstellung" />
+    <bpmn:sequenceFlow id="Flow_1qgfnuw" name="ja" sourceRef="Gateway_AntragNeustellung" targetRef="Gateway_ErneuteAntragstellung" />
+    <bpmn:sequenceFlow id="Flow_1ance87" name="nein" sourceRef="Gateway_AntragNeustellung" targetRef="Event_AntragVerworfen" />
+    <bpmn:sequenceFlow id="Flow_0wokvab" sourceRef="Task_AntragUeberarbeiten" targetRef="Gateway_AntragNeustellung" />
+    <bpmn:sequenceFlow id="Flow_0lp6xff" sourceRef="Task_MitteilungAnAntragsteller" targetRef="Event_EndEvent" />
+    <bpmn:sequenceFlow id="Flow_0ke680m" sourceRef="Gateway_Mitteilung" targetRef="Task_MitteilungAnAntragsteller" />
+    <bpmn:sequenceFlow id="Flow_0ohccrv" name="ja" sourceRef="Gateway_Verzweigend_Zustimmung" targetRef="Gateway_Mitteilung" />
+    <bpmn:sequenceFlow id="Flow_1e17p5l" sourceRef="Task_AntragDemGPRVorlegen" targetRef="Gateway_Verzweigend_Zustimmung" />
+    <bpmn:sequenceFlow id="Flow_12e9yzs" name="ja" sourceRef="Gateway_Zulaessig" targetRef="Task_AntragDemGPRVorlegen" />
+    <bpmn:sequenceFlow id="Flow_1lg4gbp" sourceRef="Task_AnzeigeBehandeln" targetRef="Gateway_Zulaessig" />
+    <bpmn:sequenceFlow id="Flow_1l89pyk" name="Bekanntgabe" sourceRef="Gateway_AnzeigeOderBekanntgabe" targetRef="Gateway_Mitteilung" />
+    <bpmn:sequenceFlow id="Flow_14xv4uc" name="Anzeige" sourceRef="Gateway_AnzeigeOderBekanntgabe" targetRef="Task_AnzeigeBehandeln" />
+    <bpmn:sequenceFlow id="Flow_1ijydvh" sourceRef="Task_AntragBehandeln" targetRef="Gateway_AnzeigeOderBekanntgabe" />
+    <bpmn:sequenceFlow id="Flow_1v14n8j" name="ja" sourceRef="Gateway_AntragBehandlungsfaehig" targetRef="Task_AntragBehandeln" />
+    <bpmn:sequenceFlow id="Flow_0asacht" sourceRef="Gateway_UeberarbeitungDesAntrags" targetRef="Gateway_AntragUeberarbeiten" />
+    <bpmn:sequenceFlow id="Flow_1g072dp" name="nein" sourceRef="Gateway_Verzweigend_Zustimmung" targetRef="Gateway_UeberarbeitungDesAntrags" />
+    <bpmn:sequenceFlow id="Flow_1xtzdsj" name="nein" sourceRef="Gateway_Zulaessig" targetRef="Gateway_UeberarbeitungDesAntrags" />
+    <bpmn:sequenceFlow id="Flow_1vw3jg7" sourceRef="Gateway_AntragUeberarbeiten" targetRef="Task_AntragUeberarbeiten" />
+    <bpmn:sequenceFlow id="Flow_1nudtni" sourceRef="Task_AntragVorpruefen" targetRef="Gateway_AntragBehandlungsfaehig" />
+    <bpmn:sequenceFlow id="Flow_0kzjp06" sourceRef="Gateway_ErneuteAntragstellung" targetRef="Task_AntragVorpruefen" />
+    <bpmn:sequenceFlow id="Flow_0stnhqa" name="nein" sourceRef="Gateway_AntragBehandlungsfaehig" targetRef="Gateway_AntragUeberarbeiten" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_">
+      <bpmndi:BPMNShape id="Participant_1rjz09d_di" bpmnElement="Participant_" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1660" height="640" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0z9o23y_di" bpmnElement="Lane_Antragsteller" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1630" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0q0n033_di" bpmnElement="Lane_Fachgruppe" isHorizontal="true">
+        <dc:Bounds x="190" y="330" width="1630" height="390" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0stnhqa_di" bpmnElement="Flow_0stnhqa">
+        <di:waypoint x="530" y="585" />
+        <di:waypoint x="530" y="425" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="535" y="530" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kzjp06_di" bpmnElement="Flow_0kzjp06">
+        <di:waypoint x="370" y="175" />
+        <di:waypoint x="370" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nudtni_di" bpmnElement="Flow_1nudtni">
+        <di:waypoint x="420" y="610" />
+        <di:waypoint x="505" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vw3jg7_di" bpmnElement="Flow_1vw3jg7">
+        <di:waypoint x="530" y="375" />
+        <di:waypoint x="530" y="240" />
+        <di:waypoint x="600" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xtzdsj_di" bpmnElement="Flow_1xtzdsj">
+        <di:waypoint x="1070" y="485" />
+        <di:waypoint x="1070" y="425" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1075" y="452" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g072dp_di" bpmnElement="Flow_1g072dp">
+        <di:waypoint x="1360" y="485" />
+        <di:waypoint x="1360" y="400" />
+        <di:waypoint x="1095" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1365" y="440" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0asacht_di" bpmnElement="Flow_0asacht">
+        <di:waypoint x="1045" y="400" />
+        <di:waypoint x="555" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v14n8j_di" bpmnElement="Flow_1v14n8j">
+        <di:waypoint x="555" y="610" />
+        <di:waypoint x="630" y="610" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="566" y="592" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ijydvh_di" bpmnElement="Flow_1ijydvh">
+        <di:waypoint x="730" y="610" />
+        <di:waypoint x="795" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14xv4uc_di" bpmnElement="Flow_14xv4uc">
+        <di:waypoint x="820" y="585" />
+        <di:waypoint x="820" y="510" />
+        <di:waypoint x="880" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="825" y="563" width="39" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l89pyk_di" bpmnElement="Flow_1l89pyk">
+        <di:waypoint x="845" y="610" />
+        <di:waypoint x="1425" y="610" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="867" y="622" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lg4gbp_di" bpmnElement="Flow_1lg4gbp">
+        <di:waypoint x="980" y="510" />
+        <di:waypoint x="1045" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12e9yzs_di" bpmnElement="Flow_12e9yzs">
+        <di:waypoint x="1095" y="510" />
+        <di:waypoint x="1160" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1106" y="492" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e17p5l_di" bpmnElement="Flow_1e17p5l">
+        <di:waypoint x="1260" y="510" />
+        <di:waypoint x="1335" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ohccrv_di" bpmnElement="Flow_0ohccrv">
+        <di:waypoint x="1385" y="510" />
+        <di:waypoint x="1450" y="510" />
+        <di:waypoint x="1450" y="585" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1396" y="492" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ke680m_di" bpmnElement="Flow_0ke680m">
+        <di:waypoint x="1475" y="610" />
+        <di:waypoint x="1550" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lp6xff_di" bpmnElement="Flow_0lp6xff">
+        <di:waypoint x="1650" y="610" />
+        <di:waypoint x="1722" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wokvab_di" bpmnElement="Flow_0wokvab">
+        <di:waypoint x="700" y="240" />
+        <di:waypoint x="765" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ance87_di" bpmnElement="Flow_1ance87">
+        <di:waypoint x="815" y="240" />
+        <di:waypoint x="872" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="819" y="223" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qgfnuw_di" bpmnElement="Flow_1qgfnuw">
+        <di:waypoint x="790" y="215" />
+        <di:waypoint x="790" y="150" />
+        <di:waypoint x="395" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="776" y="178" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nklx1u_di" bpmnElement="Flow_0nklx1u">
+        <di:waypoint x="288" y="150" />
+        <di:waypoint x="345" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0e4inwo_di" bpmnElement="Task_AntragVorpruefen">
+        <dc:Bounds x="320" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12ufw8j_di" bpmnElement="Gateway_ErneuteAntragstellung" isMarkerVisible="true">
+        <dc:Bounds x="345" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="252" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="230" y="108" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0je3ta0_di" bpmnElement="Gateway_AntragUeberarbeiten" isMarkerVisible="true">
+        <dc:Bounds x="505" y="375" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1u24tam_di" bpmnElement="Gateway_AntragBehandlungsfaehig" isMarkerVisible="true">
+        <dc:Bounds x="505" y="585" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492" y="642" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0htzkir_di" bpmnElement="Task_AntragUeberarbeiten">
+        <dc:Bounds x="600" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04mrsk8_di" bpmnElement="Task_AntragBehandeln">
+        <dc:Bounds x="630" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0jzl0yc_di" bpmnElement="Gateway_AntragNeustellung" isMarkerVisible="true">
+        <dc:Bounds x="765" y="215" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="756" y="274.5" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0y7ixdt_di" bpmnElement="Gateway_AnzeigeOderBekanntgabe" isMarkerVisible="true">
+        <dc:Bounds x="795" y="585" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="785" y="645" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p46y47_di" bpmnElement="Task_AnzeigeBehandeln">
+        <dc:Bounds x="880" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_00zg99z_di" bpmnElement="Gateway_Zulaessig" isMarkerVisible="true">
+        <dc:Bounds x="1045" y="485" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1048" y="542" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ydconh_di" bpmnElement="Gateway_UeberarbeitungDesAntrags" isMarkerVisible="true">
+        <dc:Bounds x="1045" y="375" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1134" y="355" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nub4wl_di" bpmnElement="Task_AntragDemGPRVorlegen">
+        <dc:Bounds x="1160" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1kiet6c_di" bpmnElement="Gateway_Verzweigend_Zustimmung" isMarkerVisible="true">
+        <dc:Bounds x="1335" y="485" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1327" y="545" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0z8ms9o_di" bpmnElement="Gateway_Mitteilung" isMarkerVisible="true">
+        <dc:Bounds x="1425" y="585" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0q64efy_di" bpmnElement="Task_MitteilungAnAntragsteller">
+        <dc:Bounds x="1550" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1i7s18f_di" bpmnElement="Event_EndEvent">
+        <dc:Bounds x="1722" y="592" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1707" y="635" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l3pe7k_di" bpmnElement="Event_AntragVerworfen">
+        <dc:Bounds x="872" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="848" y="271" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

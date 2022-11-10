@@ -1,0 +1,429 @@
+{
+  "key": "AntragDVMoHo_Starten_V01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Hinweise",
+      "schema": [
+        {
+          "key": "",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "(1) Wenn nur gelegentliches mobiles Arbeiten und/oder Arbeiten im Homeoffice gemäß § 8 Abs. 3 DV MoHo gewünscht ist, ist kein formaler Antrag notwendig. Siehe hierzu <a href=\"https://wilma.muenchen.de/pages/telearbeit2/apps/blog/beantragung\" target=\"_blank\">Hinweise zur gelegentlichen Mobilarbeit/Homoffice</a>\n\n(2) Wenn eine bloße Änderung des zeitlichen Rahmens der genehmigten Telearbeit oder ergänzendes mobiles Arbeiten gewünscht wird, siehe hierzu <a href=\"https://wilma.muenchen.de/pages/telearbeit2/apps/blog/beantragung\" target=\"_blank\">Hinweise zur Übergangsregelung gemäß § 19 DV MoHo</a>\n\n**Datenschutzhinweise**\nVerantwortlich für die Verarbeitung Ihrer personenbezogenen Daten ist die Landeshauptstadt München, 80313 München.  Weitere Informationen über die Verarbeitung Ihrer personenbezogenen Daten und Ihre diesbezüglichen Rechte finden Sie im Internet unter <a href=\"https://www.muenchen.de/mitarbeiterservice\" target=\"_blank\">https://www.muenchen.de/mitarbeiterservice.</a> Unsere behördliche Datenschutzbeauftragte können Sie unter Burgstraße 4, 80331 München (<a href=\"mailto:datenschutz@muenchen.de\">datenschutz@muenchen.de</a>) kontaktieren.",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "1. Daten der Antragstellerin/des Antragstellers",
+      "schema": [
+        {
+          "key": "FormField_referat",
+          "label": "Referat",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": [
+            {
+              "name": "POR",
+              "value": "Value_referat_por"
+            },
+            {
+              "name": "RIT-Kernbereich",
+              "value": "Value_referat_rit-k"
+            },
+            {
+              "name": "RIT-it@M",
+              "value": "Value_referat_rit-itm"
+            },
+            {
+              "name": "PLAN",
+              "value": "Value_referat_plan"
+            }
+          ]
+        },
+        {
+          "key": "FormField_antragsteller_vorgesetzter",
+          "label": "Vorgesetzter",
+          "type": "ldap-input",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "2. Startzeitpunkt",
+      "schema": [
+        {
+          "key": "FormField_gewuenschterStartzeitpunkt",
+          "label": "Startzeitpunkt wählen",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_geltungszeitraum",
+          "label": "Geltungszeitraum",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "unbefristet",
+              "value": "Value_geltungszeitraum_unbefristet"
+            },
+            {
+              "name": "befristet mit der Möglichkeit der Verlängerung.",
+              "value": "Value_geltungszeitraum_befristet"
+            }
+          ]
+        },
+        {
+          "key": "FormField_geltungszeitraum_datum",
+          "label": "Datum Ende der Befristung",
+          "type": "text",
+          "ext": "date",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "requiredOn",
+              "value": "Value_geltungszeitraum_befristet",
+              "target": "FormField_geltungszeitraum"
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "3. Angaben zur Verteilung der regelmäßigen wöchentlichen Arbeitszeit",
+      "schema": [
+        {
+          "key": "FormField_anteilHomeoffice",
+          "label": "Homeoffice Anteil in %",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "0",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit im Homeoffice eingebrachter Anteil in %",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_anteilMobil",
+          "label": "Mobiles Arbeiten Anteil in %",
+          "type": "text",
+          "ext": "number",
+          "defaultValue": "0",
+          "tooltip": "Von der regelmäßigen wöchentlichen Arbeitszeit für das mobile Arbeiten eingebrachter Anteil in %",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "4. Organisation",
+      "schema": [
+        {
+          "key": "FormField_erreichbarkeit",
+          "label": "Erreichbarkeit der Dienstkraft",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Erreichbarkeit der Dienstkraft (bitte Wochentag/Uhrzeit angeben) (analog Punkt 6 der Vereinbarung gemäß §10 der DV)",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_ortHomeoffice",
+          "label": "Adresse des Homeoffice / mögliche mobile Arbeitsorte",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Adresse des Homeoffice und/oder mögliche mobile Arbeitsorte (analog Punkt 3 der Vereinbarung gemäß §10 der DV)",
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_kommunikation",
+          "label": "Dienstliche Kommunikation",
+          "type": "select",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "Die dienstliche Kommunikation im Rahmen des mobilen Arbeitens und/oder des Arbeitens im Homeoffice werde ich wie folgt abwickeln",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": [
+            {
+              "name": "mit einem bereits vorhandenen dienstlichen Mobiltelefon.",
+              "value": "Value_kommunikation_diensthandy"
+            },
+            {
+              "name": "unter Mitbenutzung des privaten Telefonanschlusses, da ich kein dienstlichen Mobiltelefon habe (ggf. gegen eine mtl. Telefonkostenpauschale gem. § 15 DV MoHo)",
+              "value": "Value_kommunikation_privathandy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "5. Definition und Abgrenzung der Aufgaben und Informationen, die mittels des mobilen Arbeitens und/oder des Arbeitens im Homeoffice bearbeitet werden sollen",
+      "schema": [
+        {
+          "key": "FormField_abgrenzungInformation",
+          "label": "Bitte Aufgaben angeben",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "rows": 5,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            },
+            {
+              "type": "maxLength",
+              "value": "500",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "6. Kenntnis der Rahmenbedingungen der DV Mobiles Arbeiten/Homeoffice",
+      "schema": [
+        {
+          "key": "",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Ich kenne und akzeptiere die Inhalte der DV MoHo sowie der \"Ergänzenden Information für Antragstellerinnen und Antragsteller\".",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_RB_6th",
+          "label": "Ich stimme zu",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "7. Erklärung zu Datenschutz und IT-Sicherheit ",
+      "schema": [
+        {
+          "key": "",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Ich verpflichte mich, die einschlägigen Vorschriften der Datenschutz-Grundverordnung, des Bayerischen Datenschutzgesetzes(BayDSG) alle spezialgesetzlichen Vorschriften zum Datenschutz, der städtischen DS-GAM und des Regelwerks der IT-Sicherheit der Landeshauptstadt München einzuhalten, inbesondere die IT-Sicherheitsrichtlinie \"IT-Nutzer\", die IT-Sicherheitsregel \"Klassifikation digitaler Informationen\" und die jeweils aktuell gültigen Nutzungsvereinbarungen der in Anspruch genommmenen IT-Business-Services. Ich bin darüber informiert, dass Verstöße gegen die obigen Regelungen zu dienstaufsichtlichen Konzesquenzen und gegebenenfalls Schadensersatzforderungen führen können.",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_DSIS_7th",
+          "label": "Ich stimme zu",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "8. Kenntnis über den Arbeitschutz und der \"Prüfliste für die Gestaltung von Homeoffice\"",
+      "schema": [
+        {
+          "key": "",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "Mit der Antragstellung verpflichtet sich die Dienstkraft die einschlägigen Arbeitsschutzvorschriften am Homeoffice Arbeitsplatz einzuhalten. Speziell zu nennen sind hier das Arbeitsschutzgesetz, die Arbeitsstättenverordnung, die Betriebssicherheitsverordnung. Als Handlungshilfe zur Überprüfung eines Telearbeitsplatzes steht die „Prüfliste für die Gestaltung von Homeoffice“ zur Verfügung, zu finden unter diesem <a target=\"_blank\" href=\" https://wilma.muenchen.de/files/6eaa1db2-a988-4914-949e-a3ddd5ade38b/2218cfa6-3456-4bbd-bdeb-411c022c73e0/Pruefliste_Homeoffice-Arbeitsplatz%20ott\">Link</a>. Zur weiteren Hilfestellung dient die DGUV 215 – 410 „Bildschirm- und Büroarbeitsplätze – Leitfaden für die Gestaltung“. Bei Bedarf steht der Betriebsärztliche Dienst/Fachdienst für Arbeitssicherheit beratend zur Verfügung. Darüber hinaus besteht die Möglichkeit zum Besuch einer entsprechenden Schulung (§12). Aus ausdrücklichen Wunsch der Dienstkraft kann eine Begehung durch den Betriebsärztlichen Dienst/Fachdienst für Arbeitssicherheit erfolgen.",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "FormField_AS_8th",
+          "label": "Ich stimme zu",
+          "type": "checkbox",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "col": "12",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

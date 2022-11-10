@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1748ti2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="UpdateRemovaltime" name="Update Removaltime" isExecutable="true" camunda:candidateStarterGroups="ITM-KM8,ITM-KM55">
+    <bpmn:documentation>Administrationsprozess zum übergreifenden Setzen der Removaltime über alle abgeschlossenen Prozessinstanzen ohne aktuellen Wert</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="UpdateRemovaltimeStart">
+      <bpmn:outgoing>Flow_1f9wmwc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_0w5f9s7">
+      <bpmn:incoming>Flow_1rk4m3n</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0wbtjl1" sourceRef="Activity_1vk56e8" targetRef="Activity_1hqdru9" />
+    <bpmn:serviceTask id="Activity_1vk56e8" name="Updates durchführen" camunda:asyncBefore="true" camunda:delegateExpression="${updateRemovaltimeDelegate}">
+      <bpmn:incoming>Flow_0q174ot</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wbtjl1</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${assembled_update_removaltime_batches}" camunda:elementVariable="assembled_update_removaltime_batch" />
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1f9wmwc" sourceRef="StartEvent_1" targetRef="Event_1skv50z" />
+    <bpmn:sequenceFlow id="Flow_1rk4m3n" sourceRef="Activity_1hqdru9" targetRef="Event_0w5f9s7" />
+    <bpmn:userTask id="Activity_1hqdru9" name="Ergebnis prüfen" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">UpdateRemovaltimeCheck</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0wbtjl1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rk4m3n</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1krlna2" name="Update-Batches zusammen-stellen" camunda:asyncBefore="true" camunda:delegateExpression="${assembleUpdateRemovaltimeBatchesDelegate}">
+      <bpmn:incoming>Flow_0u2d855</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q174ot</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0q174ot" sourceRef="Activity_1krlna2" targetRef="Activity_1vk56e8" />
+    <bpmn:intermediateCatchEvent id="Event_1skv50z" name="Update Zeitpunkt">
+      <bpmn:incoming>Flow_1f9wmwc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u2d855</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_053hv1q">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">${FormField_CleanupDatetime}</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0u2d855" sourceRef="Event_1skv50z" targetRef="Activity_1krlna2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="UpdateRemovaltime">
+      <bpmndi:BPMNEdge id="Flow_0u2d855_di" bpmnElement="Flow_0u2d855">
+        <di:waypoint x="298" y="117" />
+        <di:waypoint x="340" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q174ot_di" bpmnElement="Flow_0q174ot">
+        <di:waypoint x="440" y="117" />
+        <di:waypoint x="500" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rk4m3n_di" bpmnElement="Flow_1rk4m3n">
+        <di:waypoint x="780" y="117" />
+        <di:waypoint x="822" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f9wmwc_di" bpmnElement="Flow_1f9wmwc">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="262" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wbtjl1_di" bpmnElement="Flow_0wbtjl1">
+        <di:waypoint x="600" y="117" />
+        <di:waypoint x="680" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0w5f9s7_di" bpmnElement="Event_0w5f9s7">
+        <dc:Bounds x="822" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02110w4_di" bpmnElement="Activity_1vk56e8">
+        <dc:Bounds x="500" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xekshh_di" bpmnElement="Activity_1hqdru9">
+        <dc:Bounds x="680" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1krlna2_di" bpmnElement="Activity_1krlna2">
+        <dc:Bounds x="340" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1skv50z_di" bpmnElement="Event_1skv50z">
+        <dc:Bounds x="262" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="239" y="142" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

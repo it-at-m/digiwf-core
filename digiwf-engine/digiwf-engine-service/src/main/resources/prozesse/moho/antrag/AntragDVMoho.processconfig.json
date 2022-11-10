@@ -1,0 +1,26 @@
+{
+  "key": "AntragDVMoHo",
+  "statusDokument": "d2d36a26-2df9-4044-8889-69bca2a2a715",
+  "statusConfig": [
+    {
+      "key": "gestartet",
+      "label": "Vorgang gestartet",
+      "position": 1
+    },
+    {
+      "key": "genehmigung",
+      "label": "Auf Genehmigung warten",
+      "position": 2
+    },
+    {
+      "key": "pruefungGL",
+      "label": "Prüfung durch Geschäftsleitung",
+      "position": 3
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Antrag abgeschlossen",
+      "position": 4
+    }
+  ]
+}

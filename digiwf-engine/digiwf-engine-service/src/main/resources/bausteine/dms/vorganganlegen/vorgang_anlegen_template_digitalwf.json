@@ -1,0 +1,176 @@
+{
+  "name": "Vorgang anlegen (veraltet)",
+  "id": "de.muenchen.digitalisierung.templates.dms.VorgangAnlegenTemplate",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "VorgangAnlegenV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_user_login",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang Titel",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_vorgang_title",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prozess Id",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_prozess_id",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte Untergruppe",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_untergruppe",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_sachakte_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Aktenplan Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_aktenplan_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_schriftstueck_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstück Cosys Guid",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_cosys_guid",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_fehlerhandling_user",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Fehlerhandling E-Mail Adresse",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_error_receiver_mail",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "dms_vorgang_coo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Erstelltes Schrifstück",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "dms_created_schriftstueck"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

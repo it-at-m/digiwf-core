@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1a2rosm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="SchriftstueckeKopierenV01" name="Schriftstuecke Kopieren Template V01" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Schriftstücke kopieren gestartet" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_0iq3eja</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0iq3eja" sourceRef="StartEvent_Gestartet" targetRef="Activity_1rmn2yx" />
+    <bpmn:endEvent id="Event_1t51ccq" name="Schriftstücke kopiert">
+      <bpmn:incoming>Flow_1o7in07</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1o7in07" sourceRef="Activity_1rmn2yx" targetRef="Event_1t51ccq" />
+    <bpmn:serviceTask id="Activity_1rmn2yx" name="Schriftstuecke kopieren" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SchriftstueckeKopieren" camunda:delegateExpression="${copySchriftstueckeAlwToMucDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_user_login_alw">${dms_copy_from_userlogin}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login_muc">${dms_copy_to_userlogin}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_vorgang_coo">${dms_copy_to_vorgang_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_document_name">${dms_copy_document_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_schriftstuecke">${dms_schriftstuecke}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_document_coo">${dms_document_coo}</camunda:outputParameter>
+          <camunda:outputParameter name="dms_saved_schriftstuecke">${dms_save_schriftstuecke_result}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0iq3eja</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o7in07</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SchriftstueckeKopierenV01">
+      <bpmndi:BPMNEdge id="Flow_1o7in07_di" bpmnElement="Flow_1o7in07">
+        <di:waypoint x="410" y="97" />
+        <di:waypoint x="492" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iq3eja_di" bpmnElement="Flow_0iq3eja">
+        <di:waypoint x="228" y="97" />
+        <di:waypoint x="310" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="192" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="122" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0co8dep_di" bpmnElement="Activity_1rmn2yx">
+        <dc:Bounds x="310" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1t51ccq_di" bpmnElement="Event_1t51ccq">
+        <dc:Bounds x="492" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="479" y="122" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1vph55m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="GenerischerFornulartestProzess" name="Generischer Formulartestprozess" isExecutable="true" camunda:versionTag="0.1">
+    <bpmn:startEvent id="StartEvent_Formulartest" name="Start Formulartest" camunda:formKey="GenerischerMaskentestProzess_Startformular_V1">
+      <bpmn:outgoing>Flow_1p3bbv2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1p3bbv2" sourceRef="StartEvent_Formulartest" targetRef="Task_Formular1Bearbeiten" />
+    <bpmn:sequenceFlow id="Flow_13uym0t" sourceRef="Task_Formular1Bearbeiten" targetRef="Task_Formular2Bearbeiten" />
+    <bpmn:endEvent id="EndEvent_Formulartest" name="Ende Formulartest">
+      <bpmn:incoming>Flow_1pymvdn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1pymvdn" sourceRef="Task_Formular2Bearbeiten" targetRef="EndEvent_Formulartest" />
+    <bpmn:userTask id="Task_Formular1Bearbeiten" name="Formular 1 bearbeiten" camunda:formKey="GenerischerMaskentestProzess_Formular1_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1p3bbv2</bpmn:incoming>
+      <bpmn:incoming>Flow_1sf8bfa</bpmn:incoming>
+      <bpmn:outgoing>Flow_13uym0t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Formular2Bearbeiten" name="Formular 2 bearbeiten" camunda:formKey="GenerischerMaskentestProzess_Formular2_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13uym0t</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pymvdn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1sf8bfa" sourceRef="Event_0rn2bfu" targetRef="Task_Formular1Bearbeiten" />
+    <bpmn:boundaryEvent id="Event_0rn2bfu" attachedToRef="Task_Formular2Bearbeiten">
+      <bpmn:outgoing>Flow_1sf8bfa</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0qc1su8" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GenerischerFornulartestProzess">
+      <bpmndi:BPMNEdge id="Flow_1sf8bfa_di" bpmnElement="Flow_1sf8bfa">
+        <di:waypoint x="460" y="175" />
+        <di:waypoint x="460" y="210" />
+        <di:waypoint x="320" y="210" />
+        <di:waypoint x="320" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pymvdn_di" bpmnElement="Flow_1pymvdn">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="592" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13uym0t_di" bpmnElement="Flow_13uym0t">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1p3bbv2_di" bpmnElement="Flow_1p3bbv2">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Formulartest">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="142" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0haz58i_di" bpmnElement="EndEvent_Formulartest">
+        <dc:Bounds x="592" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="579" y="142" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1492cfh_di" bpmnElement="Task_Formular1Bearbeiten">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_079mzbf_di" bpmnElement="Task_Formular2Bearbeiten">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13ohfxq_di" bpmnElement="Event_0rn2bfu">
+        <dc:Bounds x="442" y="139" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

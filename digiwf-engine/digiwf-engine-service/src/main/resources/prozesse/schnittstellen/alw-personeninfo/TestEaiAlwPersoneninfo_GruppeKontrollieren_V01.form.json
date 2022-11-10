@@ -1,0 +1,99 @@
+{
+  "key": "TestEaiAlwPersoneninfo_GruppeKontrollieren_V01",
+  "description": "Formular zur Überprüfung des Aufrufergebnisses",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "Formfield_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Mit dieser Aufgabe können Sie überprüfen, ob die Abfrage der zuständigen Gruppe in der AlwPersoneninfo von OK.Visa erfolgreich war. Finden Sie im nächsten Abschnitt eine Gruppe, war die Abfrage erfolgreich.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Ergebnis",
+      "schema": [
+        {
+          "key": "FormField_AZRNummer",
+          "label": "AZR-Nummer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        },
+        {
+          "key": "ergebnisGruppe",
+          "label": "Gruppen",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ],
+      "description": null
+    }
+    
+  ]
+}

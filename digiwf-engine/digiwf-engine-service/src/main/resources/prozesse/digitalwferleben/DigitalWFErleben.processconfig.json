@@ -1,0 +1,36 @@
+{
+  "key": "DigitalWFErleben",
+  "statusConfig": [
+    {
+      "key": "wasistdigitalwf",
+      "label": "Was ist DigiWF",
+      "position": 1
+    },
+    {
+      "key": "diebasics",
+      "label": "Die Basics",
+      "position": 2
+    },
+    {
+      "key": "aufgabenbearbeiten",
+      "label": "Aufgaben bearbeiten",
+      "position": 3
+    },
+    {
+      "key": "erweiterteaufgabenbearbeitung",
+      "label": "Erweiterte Aufgabenbearbeitung",
+      "position": 4
+    },
+    {
+      "key": "verabschiedung",
+      "label": "Verabschiedung",
+      "position": 5
+    },
+    {
+      "key": "beendet",
+      "label": "Beendet",
+      "position": 6
+    }
+  ],
+ "statusDokument" : "cccaad96-6bbc-4525-aac5-fdff5d1d717c"
+}

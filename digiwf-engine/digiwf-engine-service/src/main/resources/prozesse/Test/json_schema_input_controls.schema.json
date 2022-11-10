@@ -1,0 +1,69 @@
+{
+  "key": "json_schema_input_controls",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "",
+        "type": "object",
+        "description": "",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Neue Gruppe",
+            "description": "",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "name": {
+                "fieldType": "text",
+                "title": "Name",
+                "description": "Name",
+                "type": "string",
+                "key": "name",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "test": {
+                "fieldType": "text",
+                "title": "Test",
+                "type": "string",
+                "key": "test",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              }
+            },
+            "key": "49b8a9af-82dd-4c8b-a40d-217015c761c8"
+          }
+        ]
+      }
+    ]
+  }
+}

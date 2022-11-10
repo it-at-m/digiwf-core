@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gcrv2p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="FeatureInstanzExport" name="Feature Instanz Export" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Instanz Export zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:asyncBefore="true" camunda:formKey="FeatureInstanzExport_StartenV01">
+      <bpmn:outgoing>Flow_1e8ihlw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ihlw" sourceRef="StartEvent_Gestartet" targetRef="Task_InstanzExport" />
+    <bpmn:endEvent id="EndEvent_beendet" name="Beendet">
+      <bpmn:incoming>Flow_1rt8vim</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0aecmf7" sourceRef="Task_InstanzExport" targetRef="Task_Downloaden" />
+    <bpmn:sequenceFlow id="Flow_1rt8vim" sourceRef="Task_Downloaden" targetRef="EndEvent_beendet" />
+    <bpmn:userTask id="Task_Downloaden" name="Instanzen downloaden" camunda:formKey="FeatureInstanzExport_DownloadenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_0aecmf7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rt8vim</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_InstanzExport" name="Instanzen exportieren" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.process.InstanzExport" camunda:delegateExpression="${instanceExportDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_process_key">${FormField_ProcessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_variables">${FormField_Variables}</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_status_key">${FormField_StatusKey}</camunda:inputParameter>
+          <camunda:outputParameter name="instanceExport">${digitalwf_instance_export}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e8ihlw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aecmf7</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureInstanzExport">
+      <bpmndi:BPMNEdge id="Flow_1rt8vim_di" bpmnElement="Flow_1rt8vim">
+        <di:waypoint x="540" y="97" />
+        <di:waypoint x="592" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0aecmf7_di" bpmnElement="Flow_0aecmf7">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="440" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ihlw_di" bpmnElement="Flow_1e8ihlw">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="122" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lt8q8i_di" bpmnElement="EndEvent_beendet">
+        <dc:Bounds x="592" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="589" y="122" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qigrqs_di" bpmnElement="Task_Downloaden">
+        <dc:Bounds x="440" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t8614l_di" bpmnElement="Task_InstanzExport">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

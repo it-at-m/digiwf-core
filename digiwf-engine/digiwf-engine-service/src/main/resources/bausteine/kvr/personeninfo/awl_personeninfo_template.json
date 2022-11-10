@@ -1,0 +1,46 @@
+{
+  "name": "Alw Personeninfo",
+  "id": "de.muenchen.digitalisierung.templates.kvr.AlwPersoneninfo",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Delegate Expression",
+      "type": "Hidden",
+      "value": "${kvrPersonenInfoDelegate}",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "name": "camunda:delegateExpression"
+      }
+    },
+    {
+      "label": "AZR Nummer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "kvr_azr_nummer"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Verantwortliche Gruppe",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${kvr_responsible_group}"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

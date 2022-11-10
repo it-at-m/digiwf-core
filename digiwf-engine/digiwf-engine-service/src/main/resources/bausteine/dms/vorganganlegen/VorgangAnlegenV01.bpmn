@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_08sskhp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:error id="Error_0quvroc" name="Error_FehlendeBerechtigung" errorCode="FEHLENDE_BERECHTIGUNG" />
+  <bpmn:error id="Error_0plukuv" name="Error_ObjektGesperrt" errorCode="OBJEKT_GESPERRT" />
+  <bpmn:error id="Error_05sje43" name="Error_MehrAls1000UntergeordneteObjekte" errorCode="MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE" />
+  <bpmn:collaboration id="Collaboration_1j7ktdv">
+    <bpmn:participant id="Participant_00c42at" processRef="VorgangAnlegenV01" />
+  </bpmn:collaboration>
+  <bpmn:process id="VorgangAnlegenV01" name="Vorgang anlegen Template V01" isExecutable="true" camunda:isStartableInTasklist="false">
+    <bpmn:laneSet id="LaneSet_1u8lfx9">
+      <bpmn:lane id="Lane_0zwtepx" name="Kümmerer">
+        <bpmn:flowNodeRef>Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SperreAkteAufheben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_FehlerVorgangAnlegen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1uelczl" name="DiigtalWF">
+        <bpmn:flowNodeRef>Task_SachakteSuchen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0yl932a</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_SachakteAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_VorgangAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_FehlerSachakteSuchen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>VorgangAnlegenV1_SachakteAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ZusammenfuehrendFehlerSachakteAnlegen2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_VorgangAngelegt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_VorgangAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DokumentUndSchriftstueckAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_SachakteAnlegen_BetreffseinheitGesperrt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_SachakteAnlegen_KeineBetreffseinheitVerfuegbar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_SachakteAnlegen_FehlendesSchreibrecht</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_SachakteSuchen_FehlendeBerechtigung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_VorgangAnlegen_FehlendesSchreibrecht</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_VorgangGesperrt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_SachakteVoll</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_05tivus</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_00sr5ju</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_00expxb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1rfx9rz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_11koisy</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1atltxx</bpmn:flowNodeRef>
+        <bpmn:childLaneSet id="LaneSet_0f5gwau" />
+      </bpmn:lane>
+      <bpmn:lane id="Lane_0z097p9" name="Kümmerer">
+        <bpmn:flowNodeRef>Task_SperreBetreffseinheitAufheben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BetreffseinheitenAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SachakteZustaendikeitAendernOderVergabeVonSchreibrechtenBeauftragen</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_0cbhnmv" sourceRef="BoundaryEvent_SachakteVoll" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen" />
+    <bpmn:sequenceFlow id="Flow_0fwmpnd" sourceRef="BoundaryEvent_VorgangGesperrt" targetRef="Activity_05tivus" />
+    <bpmn:sequenceFlow id="Flow_1osdoab" sourceRef="Task_SachakteZustaendikeitAendernOderVergabeVonSchreibrechtenBeauftragen" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen" />
+    <bpmn:sequenceFlow id="Flow_0hmisg9" sourceRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1" />
+    <bpmn:sequenceFlow id="Flow_0ub9ado" sourceRef="BoundaryEvent_SachakteAnlegen_FehlendesSchreibrecht" targetRef="Activity_1rfx9rz" />
+    <bpmn:sequenceFlow id="Flow_0yxmsnj" sourceRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1" targetRef="Gateway_ZusammenfuehrendFehlerSachakteAnlegen2" />
+    <bpmn:sequenceFlow id="Flow_0uei7yf" sourceRef="Gateway_Zusammenfuehrend_FehlerVorgangAnlegen" targetRef="Gateway_Zusammenfuehrend_SachakteAnlegen" />
+    <bpmn:sequenceFlow id="Flow_0movvlr" sourceRef="BoundaryEvent_VorgangAnlegen_FehlendesSchreibrecht" targetRef="Activity_00sr5ju" />
+    <bpmn:sequenceFlow id="Flow_1i9tk5n" sourceRef="Task_BetreffseinheitenAnlegen" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen" />
+    <bpmn:sequenceFlow id="Flow_1cy56gu" sourceRef="BoundaryEvent_SachakteAnlegen_KeineBetreffseinheitVerfuegbar" targetRef="Activity_11koisy" />
+    <bpmn:sequenceFlow id="Flow_1ow3dhc" sourceRef="Task_SperreBetreffseinheitAufheben" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1" />
+    <bpmn:sequenceFlow id="Flow_0ifeizh" sourceRef="BoundaryEvent_SachakteAnlegen_BetreffseinheitGesperrt" targetRef="Activity_1atltxx" />
+    <bpmn:sequenceFlow id="Flow_1tcefae" sourceRef="Gateway_ZusammenfuehrendFehlerSachakteAnlegen2" targetRef="VorgangAnlegenV1_SachakteAnlegen" />
+    <bpmn:sequenceFlow id="Flow_0nw59h8" sourceRef="Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteSuchen" />
+    <bpmn:sequenceFlow id="Flow_1g3q7vx" sourceRef="Gateway_Zusammenfuehrend_FehlerSachakteSuchen" targetRef="Task_SachakteSuchen" />
+    <bpmn:sequenceFlow id="Flow_07q1yjr" sourceRef="BoundaryEvent_SachakteSuchen_FehlendeBerechtigung" targetRef="Activity_00expxb" />
+    <bpmn:sequenceFlow id="Flow_0aw74fk" sourceRef="Task_DokumentUndSchriftstueckAnlegen" targetRef="EndEvent_VorgangAngelegt" />
+    <bpmn:sequenceFlow id="Flow_0mjr4ld" sourceRef="Task_VorgangAnlegen" targetRef="Task_DokumentUndSchriftstueckAnlegen" />
+    <bpmn:sequenceFlow id="Flow_1gdft8e" sourceRef="VorgangAnlegenV1_SachakteAnlegen" targetRef="Gateway_Zusammenfuehrend_SachakteAnlegen" />
+    <bpmn:sequenceFlow id="Flow_10e7o2a" sourceRef="Gateway_Zusammenfuehrend_SachakteAnlegen" targetRef="Task_VorgangAnlegen" />
+    <bpmn:sequenceFlow id="Flow_0m9sla5" name="Nein" sourceRef="Gateway_0yl932a" targetRef="Gateway_ZusammenfuehrendFehlerSachakteAnlegen2" />
+    <bpmn:sequenceFlow id="Flow_0j82fwo" name="Ja" sourceRef="Gateway_0yl932a" targetRef="Gateway_Zusammenfuehrend_SachakteAnlegen">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("dms_sachakte_coo") &amp;&amp; dms_sachakte_coo != ''}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0gkndk0" sourceRef="Task_SachakteSuchen" targetRef="Gateway_0yl932a" />
+    <bpmn:sequenceFlow id="Flow_14vmc8e" sourceRef="StartEvent_VorgangAnlegen" targetRef="Gateway_Zusammenfuehrend_FehlerSachakteSuchen" />
+    <bpmn:userTask id="Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen" name="Zuständigkeit ändern oder Vergabe von Rechten beauftragen" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenMitUserAuswahlV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="Javascript">sozSachbearbeitung = task.execution.getVariable("FormField_Neue_Sachbearbeitung");
+task.execution.setVariable("dms_user_login",sozSachbearbeitung);</camunda:script>
+        </camunda:taskListener>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte geben Sie eine andere zuständige Sachbearbeitung an. Bitte stellen Sie sicher, dass die Sachbearbeitung einen Account im Dokumentenmanagementsystem besitzt und über ausreichende Berechtigungen verfügt.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Die Suche nach einer Akte im Dokumentenmanagementsystem konnte nicht durchgeführt werden. Grund: Die zuständige Sachbearbeitung ${user.firstname(dms_user_login)} ${user.lastname(dms_user_login)}, ${user.ou(dms_user_login)},  verfügt nicht über ausreichende Berechtigungen.</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vmy34l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nw59h8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_SperreAkteAufheben" name="Sperre der Akte aufheben" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte entsperren Sie die Akte und setzen Sie danach den Prozess fort, indem Sie diese Aufgabe abschließen.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Es konnte kein Vorgang angelegt werden. Grund: "${dmsAkteGesperrtMeldung}"</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ev9jp4</bpmn:incoming>
+      <bpmn:outgoing>Flow_05905hu</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen" name="Zuständigkeit ändern oder Vergabe von Schreibrechten beauftragen" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenMitUserAuswahlV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte geben Sie eine andere zuständige Sachbearbeitung an. Bitte stellen Sie sicher, dass die Sachbearbeitung einen Account im Dokumentenmanagementsystem besitzt und über ausreichende Berechtigungen verfügt.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Der Vorgang konnte nicht im Dokumentenmanagementsystem angelegt werden. Grund: Die zuständige Sachbearbeitung ${user.firstname(dms_user_login)} ${user.lastname(dms_user_login)}, ${user.ou(dms_user_login)},  besitzt keine ausreichenden Berechtigungen.</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="Javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
+task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_04n2yku</bpmn:incoming>
+      <bpmn:outgoing>Flow_13pls1d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_FehlerVorgangAnlegen">
+      <bpmn:incoming>Flow_13pls1d</bpmn:incoming>
+      <bpmn:incoming>Flow_05905hu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uei7yf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_05905hu" sourceRef="Task_SperreAkteAufheben" targetRef="Gateway_Zusammenfuehrend_FehlerVorgangAnlegen" />
+    <bpmn:sequenceFlow id="Flow_13pls1d" sourceRef="Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen" targetRef="Gateway_Zusammenfuehrend_FehlerVorgangAnlegen" />
+    <bpmn:serviceTask id="Task_SachakteSuchen" name="Sachakte suchen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SachakteSuchen" camunda:asyncBefore="true" camunda:delegateExpression="${searchSachakteDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_untergruppe">${dms_untergruppe}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_sachakte_name">${dms_sachakte_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${execution.hasVariable('dms_sachakte_coo') ? dms_sachakte_coo : ''}</camunda:outputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${dms_sachakte_coo}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1g3q7vx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gkndk0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0yl932a" name="Sachakte vorhanden?" default="Flow_0m9sla5">
+      <bpmn:incoming>Flow_0gkndk0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j82fwo</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0m9sla5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_SachakteAnlegen">
+      <bpmn:incoming>Flow_0j82fwo</bpmn:incoming>
+      <bpmn:incoming>Flow_1gdft8e</bpmn:incoming>
+      <bpmn:incoming>Flow_0uei7yf</bpmn:incoming>
+      <bpmn:outgoing>Flow_10e7o2a</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_VorgangAnlegen" name="Vorgang anlegen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.VorgangAnlegen" camunda:asyncBefore="true" camunda:delegateExpression="${createVorgangDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_vorgang_title">${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_sachakte_coo">${dms_sachakte_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_vorgang_coo">${execution.hasVariable('dms_vorgang_coo') ? dms_vorgang_coo : ''}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_10e7o2a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mjr4ld</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_FehlerSachakteSuchen">
+      <bpmn:incoming>Flow_14vmc8e</bpmn:incoming>
+      <bpmn:incoming>Flow_0nw59h8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g3q7vx</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="VorgangAnlegenV1_SachakteAnlegen" name="Sachakte anlegen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SachakteAnlegen" camunda:asyncBefore="true" camunda:delegateExpression="${createSachakteDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_sachakte_name">${dms_sachakte_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_aktenplan_name">${dms_aktenplan_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${dms_sachakte_coo}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tcefae</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gdft8e</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_ZusammenfuehrendFehlerSachakteAnlegen2">
+      <bpmn:incoming>Flow_0m9sla5</bpmn:incoming>
+      <bpmn:incoming>Flow_0yxmsnj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tcefae</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_VorgangAngelegt" name="Vorgang angelegt">
+      <bpmn:incoming>Flow_0aw74fk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_VorgangAnlegen" name="Vorgang anlagen gestartet" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_14vmc8e</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_DokumentUndSchriftstueckAnlegen" name="Dokument und Schriftstück anlegen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.DokumentAnlegen" camunda:asyncBefore="true" camunda:delegateExpression="${createDokumentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_vorgang_coo">${dms_vorgang_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_cosys_guid">${dms_cosys_guid}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_prozess_id">${dms_prozess_id}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_schriftstueck_name">${dms_schriftstueck_name}</camunda:inputParameter>
+          <camunda:outputParameter name="dms_created_schriftstueck">${dms_created_schriftstueck}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mjr4ld</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aw74fk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_SachakteAnlegen_BetreffseinheitGesperrt" name="Betreffseinheit gesperrt" attachedToRef="VorgangAnlegenV1_SachakteAnlegen">
+      <bpmn:outgoing>Flow_0ifeizh</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1hdhv59" errorRef="Error_0plukuv" camunda:errorMessageVariable="dmsBetreffseinheitGesperrt" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_SachakteAnlegen_KeineBetreffseinheitVerfuegbar" name="Keine Betreffseinheit verfügbar" attachedToRef="VorgangAnlegenV1_SachakteAnlegen">
+      <bpmn:outgoing>Flow_1cy56gu</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_02v80lx" errorRef="Error_05sje43" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_SachakteAnlegen_FehlendesSchreibrecht" name="Fehlendes Schreibrecht" attachedToRef="VorgangAnlegenV1_SachakteAnlegen">
+      <bpmn:outgoing>Flow_0ub9ado</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0911tkf" errorRef="Error_0quvroc" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_SachakteSuchen_FehlendeBerechtigung" name="Fehlende Berechtigung oder DigitalWF-Knoten nicht gefunden" attachedToRef="Task_SachakteSuchen">
+      <bpmn:outgoing>Flow_07q1yjr</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1v1gun4" errorRef="Error_0quvroc" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_VorgangAnlegen_FehlendesSchreibrecht" name="Fehlendes Schreibrecht" attachedToRef="Task_VorgangAnlegen">
+      <bpmn:outgoing>Flow_0movvlr</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0oi8zxu" errorRef="Error_0quvroc" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_VorgangGesperrt" name="Vorgang gesperrt" attachedToRef="Task_VorgangAnlegen">
+      <bpmn:outgoing>Flow_0fwmpnd</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1uo53cr" errorRef="Error_0plukuv" camunda:errorMessageVariable="dmsAkteGesperrtMeldung" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_SachakteVoll" name="Sachakte voll" attachedToRef="Task_VorgangAnlegen">
+      <bpmn:outgoing>Flow_0cbhnmv</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0seo97y" errorRef="Error_05sje43" />
+    </bpmn:boundaryEvent>
+    <bpmn:userTask id="Task_SperreBetreffseinheitAufheben" name="Sperre der Betreffseinheit aufheben" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Entsperren Sie die Betreffseinheit und versuchen Sie es erneut, indem Sie diese Aufgabe abschließen.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Die Sachakte konnte nicht angelegt werden. Grund: ${dmsBetreffseinheitGesperrt}</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16pj8j2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ow3dhc</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_BetreffseinheitenAnlegen" name="Betreffseinheiten anlegen" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Legen Sie neue Betreffseinheiten an und setzen Sie anschließend den Prozess fort, indem Sie diese Aufgabe abschließen.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Die Sachakte konnte nicht angelegt werden. Grund: Es steht keine freie Betreffseinheit zur Verfügung.</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z7qhk5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i9tk5n</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1">
+      <bpmn:incoming>Flow_1ow3dhc</bpmn:incoming>
+      <bpmn:incoming>Flow_0hmisg9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yxmsnj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen">
+      <bpmn:incoming>Flow_1i9tk5n</bpmn:incoming>
+      <bpmn:incoming>Flow_1osdoab</bpmn:incoming>
+      <bpmn:incoming>Flow_0cbhnmv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hmisg9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_SachakteZustaendikeitAendernOderVergabeVonSchreibrechtenBeauftragen" name="Zuständigkeit ändern oder Vergabe von Scheibrechten beauftragen" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenMitUserAuswahlV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="Javascript">sozSachbearbeitung = task.execution.getVariable("FormField_Neue_Sachbearbeitung");
+task.execution.setVariable("dms_user_login", sozSachbearbeitung);</camunda:script>
+        </camunda:taskListener>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte geben Sie eine andere zuständige Sachbearbeitung an. Bitte stellen Sie sicher, dass die Sachbearbeitung einen Account im Dokumentenmanagementsystem besitzt und über ausreichende Berechtigungen verfügt.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Die Sacakte konnte nicht angelegt werden. Grund: Die zuständige Sachbearbeitung ${user.firstname(dms_user_login)} ${user.lastname(dms_user_login)}, ${user.ou(dms_user_login)},  besitzt keine ausreichenden Berechtigungen.</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">//TaskTitle formatieren
+task_title_ui = dms_vorgang_title;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0tbe4ty</bpmn:incoming>
+      <bpmn:outgoing>Flow_1osdoab</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_04n2yku" sourceRef="Activity_00sr5ju" targetRef="Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen" />
+    <bpmn:serviceTask id="Activity_05tivus" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0fwmpnd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ev9jp4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ev9jp4" sourceRef="Activity_05tivus" targetRef="Task_SperreAkteAufheben" />
+    <bpmn:serviceTask id="Activity_00sr5ju" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0movvlr</bpmn:incoming>
+      <bpmn:outgoing>Flow_04n2yku</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_00expxb" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07q1yjr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vmy34l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0vmy34l" sourceRef="Activity_00expxb" targetRef="Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen" />
+    <bpmn:sequenceFlow id="Flow_0tbe4ty" sourceRef="Activity_1rfx9rz" targetRef="Task_SachakteZustaendikeitAendernOderVergabeVonSchreibrechtenBeauftragen" />
+    <bpmn:serviceTask id="Activity_1rfx9rz" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ub9ado</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tbe4ty</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0z7qhk5" sourceRef="Activity_11koisy" targetRef="Task_BetreffseinheitenAnlegen" />
+    <bpmn:serviceTask id="Activity_11koisy" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1cy56gu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z7qhk5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1atltxx" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei der Dokumentablage - Vorgang ${dms_vorgang_title}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Guten Tag,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ifeizh</bpmn:incoming>
+      <bpmn:outgoing>Flow_16pj8j2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_16pj8j2" sourceRef="Activity_1atltxx" targetRef="Task_SperreBetreffseinheitAufheben" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1j7ktdv">
+      <bpmndi:BPMNShape id="Participant_00c42at_di" bpmnElement="Participant_00c42at" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1208" height="1390" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0z097p9_di" bpmnElement="Lane_0z097p9" isHorizontal="true" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="190" y="1090" width="1178" height="380" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1uelczl_di" bpmnElement="Lane_1uelczl" isHorizontal="true">
+        <dc:Bounds x="190" y="300" width="1178" height="790" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0zwtepx_di" bpmnElement="Lane_0zwtepx" isHorizontal="true" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="190" y="80" width="1178" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_16pj8j2_di" bpmnElement="Flow_16pj8j2">
+        <di:waypoint x="818" y="1050" />
+        <di:waypoint x="818" y="1180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z7qhk5_di" bpmnElement="Flow_0z7qhk5">
+        <di:waypoint x="998" y="1050" />
+        <di:waypoint x="998" y="1180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tbe4ty_di" bpmnElement="Flow_0tbe4ty">
+        <di:waypoint x="1148" y="1050" />
+        <di:waypoint x="1148" y="1180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vmy34l_di" bpmnElement="Flow_0vmy34l">
+        <di:waypoint x="488" y="360" />
+        <di:waypoint x="488" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ev9jp4_di" bpmnElement="Flow_1ev9jp4">
+        <di:waypoint x="958" y="360" />
+        <di:waypoint x="958" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04n2yku_di" bpmnElement="Flow_04n2yku">
+        <di:waypoint x="1112" y="360" />
+        <di:waypoint x="1112" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13pls1d_di" bpmnElement="Flow_13pls1d" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1112" y="170" />
+        <di:waypoint x="1112" y="120" />
+        <di:waypoint x="838" y="120" />
+        <di:waypoint x="838" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05905hu_di" bpmnElement="Flow_05905hu" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="908" y="210" />
+        <di:waypoint x="863" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14vmc8e_di" bpmnElement="Flow_14vmc8e" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="278" y="600" />
+        <di:waypoint x="333" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gkndk0_di" bpmnElement="Flow_0gkndk0" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="538" y="600" />
+        <di:waypoint x="603" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j82fwo_di" bpmnElement="Flow_0j82fwo" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="653" y="600" />
+        <di:waypoint x="813" y="600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="732" y="582" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m9sla5_di" bpmnElement="Flow_0m9sla5">
+        <di:waypoint x="628" y="625" />
+        <di:waypoint x="628" y="785" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="636" y="686" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10e7o2a_di" bpmnElement="Flow_10e7o2a" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="863" y="600" />
+        <di:waypoint x="932" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gdft8e_di" bpmnElement="Flow_1gdft8e">
+        <di:waypoint x="838" y="770" />
+        <di:waypoint x="838" y="625" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mjr4ld_di" bpmnElement="Flow_0mjr4ld" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="1032" y="600" />
+        <di:waypoint x="1110" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0aw74fk_di" bpmnElement="Flow_0aw74fk" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="1210" y="600" />
+        <di:waypoint x="1292" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07q1yjr_di" bpmnElement="Flow_07q1yjr" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="488" y="542" />
+        <di:waypoint x="488" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g3q7vx_di" bpmnElement="Flow_1g3q7vx" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="383" y="600" />
+        <di:waypoint x="438" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nw59h8_di" bpmnElement="Flow_0nw59h8" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="438" y="210" />
+        <di:waypoint x="358" y="210" />
+        <di:waypoint x="358" y="575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tcefae_di" bpmnElement="Flow_1tcefae">
+        <di:waypoint x="653" y="810" />
+        <di:waypoint x="788" y="810" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ifeizh_di" bpmnElement="Flow_0ifeizh" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="818" y="868" />
+        <di:waypoint x="818" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ow3dhc_di" bpmnElement="Flow_1ow3dhc" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="768" y="1220" />
+        <di:waypoint x="653" y="1220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cy56gu_di" bpmnElement="Flow_1cy56gu" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="886" y="850" />
+        <di:waypoint x="998" y="850" />
+        <di:waypoint x="998" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i9tk5n_di" bpmnElement="Flow_1i9tk5n" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="998" y="1260" />
+        <di:waypoint x="998" y="1315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0movvlr_di" bpmnElement="Flow_0movvlr" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1012" y="542" />
+        <di:waypoint x="1012" y="500" />
+        <di:waypoint x="1112" y="500" />
+        <di:waypoint x="1112" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uei7yf_di" bpmnElement="Flow_0uei7yf" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="838" y="235" />
+        <di:waypoint x="838" y="575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yxmsnj_di" bpmnElement="Flow_0yxmsnj" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="628" y="1195" />
+        <di:waypoint x="628" y="835" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ub9ado_di" bpmnElement="Flow_0ub9ado" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="906" y="810" />
+        <di:waypoint x="1148" y="810" />
+        <di:waypoint x="1148" y="970" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hmisg9_di" bpmnElement="Flow_0hmisg9" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="973" y="1340" />
+        <di:waypoint x="628" y="1340" />
+        <di:waypoint x="628" y="1245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1osdoab_di" bpmnElement="Flow_1osdoab" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1148" y="1260" />
+        <di:waypoint x="1148" y="1340" />
+        <di:waypoint x="1023" y="1340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fwmpnd_di" bpmnElement="Flow_0fwmpnd">
+        <di:waypoint x="958" y="542" />
+        <di:waypoint x="958" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cbhnmv_di" bpmnElement="Flow_0cbhnmv">
+        <di:waypoint x="988" y="658" />
+        <di:waypoint x="988" y="740" />
+        <di:waypoint x="1228" y="740" />
+        <di:waypoint x="1228" y="1420" />
+        <di:waypoint x="998" y="1420" />
+        <di:waypoint x="998" y="1365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1os4vho_di" bpmnElement="Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="438" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q5gow2_di" bpmnElement="Task_SperreAkteAufheben" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="908" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nbmq6i_di" bpmnElement="Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1062" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0adpy4t_di" bpmnElement="Gateway_Zusammenfuehrend_FehlerVorgangAnlegen" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="813" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09zyec3_di" bpmnElement="Task_SachakteSuchen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="438" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yl932a_di" bpmnElement="Gateway_0yl932a" isMarkerVisible="true" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="603" y="575" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="599" y="546" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1hgeryb_di" bpmnElement="Gateway_Zusammenfuehrend_SachakteAnlegen" isMarkerVisible="true" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="813" y="575" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0csx7t5_di" bpmnElement="Task_VorgangAnlegen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="932" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0br0b2h_di" bpmnElement="Gateway_Zusammenfuehrend_FehlerSachakteSuchen" isMarkerVisible="true" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="333" y="575" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rjpiyo_di" bpmnElement="VorgangAnlegenV1_SachakteAnlegen">
+        <dc:Bounds x="788" y="770" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1h3jwxj_di" bpmnElement="Gateway_ZusammenfuehrendFehlerSachakteAnlegen2" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="603" y="785" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1399asf_di" bpmnElement="EndEvent_VorgangAngelegt" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1292" y="582" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1267" y="625" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_VorgangAnlegen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="242" y="582" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="220" y="625" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sxh7hf_di" bpmnElement="Task_DokumentUndSchriftstueckAnlegen" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1110" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12c5yrt_di" bpmnElement="Task_SperreBetreffseinheitAufheben" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="768" y="1180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mtwl2b_di" bpmnElement="Task_BetreffseinheitenAnlegen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="948" y="1180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0rveitp_di" bpmnElement="Gateway_Zusammenfuehrend_FehlerSachakteAnlegen1" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="603" y="1195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_14qjnwu_di" bpmnElement="Gateway_Zusammenfuehrend_FehlerSachakteAnlegenVorgangAnlegen" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="973" y="1315" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j3ze1t_di" bpmnElement="Task_SachakteZustaendikeitAendernOderVergabeVonSchreibrechtenBeauftragen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1098" y="1180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05tivus_di" bpmnElement="Activity_05tivus">
+        <dc:Bounds x="908" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y566sq_di" bpmnElement="Activity_00sr5ju">
+        <dc:Bounds x="1062" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00expxb_di" bpmnElement="Activity_00expxb">
+        <dc:Bounds x="438" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rfx9rz_di" bpmnElement="Activity_1rfx9rz">
+        <dc:Bounds x="1098" y="970" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11koisy_di" bpmnElement="Activity_11koisy">
+        <dc:Bounds x="948" y="970" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1atltxx_di" bpmnElement="Activity_1atltxx">
+        <dc:Bounds x="768" y="970" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1b7r19o_di" bpmnElement="BoundaryEvent_SachakteVoll">
+        <dc:Bounds x="970" y="622" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="905" y="653" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0m1kfnl_di" bpmnElement="BoundaryEvent_VorgangGesperrt">
+        <dc:Bounds x="940" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="855" y="523" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1s9e62n_di" bpmnElement="BoundaryEvent_VorgangAnlegen_FehlendesSchreibrecht" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="994" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1030" y="526" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0h20mqk_di" bpmnElement="BoundaryEvent_SachakteSuchen_FehlendeBerechtigung" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="470" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="399" y="487" width="77" height="66" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xdiw3v_di" bpmnElement="BoundaryEvent_SachakteAnlegen_FehlendesSchreibrecht" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="870" y="792" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="896" y="766" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08knx7f_di" bpmnElement="BoundaryEvent_SachakteAnlegen_KeineBetreffseinheitVerfuegbar" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="850" y="832" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="872" y="862" width="72" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09a6ck2_di" bpmnElement="BoundaryEvent_SachakteAnlegen_BetreffseinheitGesperrt" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="800" y="832" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="742" y="875" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_142i84j" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="DigitalWFErleben" name="DigiWF erleben" isExecutable="true" camunda:versionTag="1.1">
+    <bpmn:documentation>Das Online-Tutorial für Benutzer*innen von DigiWF</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_TutorialGestartet" name="Tutorial gestartet" camunda:formKey="DigitalWFErleben_Startformular_V1">
+      <bpmn:outgoing>Flow_045smcw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0t0kqku" sourceRef="Gateway_Verzweigend_NichtsAusgewaehlt" targetRef="Gateway_Zusammenfuehrend_NichtsAusgewaehlt" />
+    <bpmn:sequenceFlow id="Flow_0524t8p" sourceRef="Gateway_Verzweigend_WasIstDigiWF" targetRef="Task_WasIstDigiWF">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Alles || FormField_WasIstDigitalWF}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0nrpw65" sourceRef="Task_WasIstDigiWF" targetRef="Gateway_Zusammenfuehrend_WasIstDigiWF" />
+    <bpmn:userTask id="Task_KeineAuswahl" name="Auf Wiedersehen bei DigiWF!" camunda:formKey="DigitalWFErleben_AufWiedersehen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Tutorial "DigiWF erleben" beenden</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1obeem5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r2v1ty</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_WasIstDigiWF" name="Was ist DigiWF?" camunda:formKey="DigitalWFErleben_WasIstDigitalWF_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Erfahren Sie, was DigiWF ist und wie es sich in die IT-Landschaft der LHM einbettet</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0524t8p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nrpw65</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1gxe4xb" sourceRef="Gateway_Verzweigend_DieBasics" targetRef="Task_AufbauOberflaeche">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Alles || FormField_DieBasics}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_16x7sea" sourceRef="Task_AufbauOberflaeche" targetRef="Gateway_1t11ayc" />
+    <bpmn:userTask id="Task_AufbauOberflaeche" name="Die Basics von DigiWF (1/4): Die Oberfläche" camunda:formKey="DigitalWFErleben_AufbauOberflaeche_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Erfahren Sie Grundlegendes zur Oberfläche von DigitalWF</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gxe4xb</bpmn:incoming>
+      <bpmn:outgoing>Flow_16x7sea</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Suchen" name="Die Basics von DigiWF (2/4): Suchen" camunda:formKey="DigitalWFErleben_Suchen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Suchen und Finden von Aufgaben und Vorgängen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0fh227i</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ipooyp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_06dxk22" name="Die Basics von DigiWF (3/4): Meine Vorgänge" camunda:formKey="DigitalWFErleben_MeineVorgaenge_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Überblick über meine Vorgänge und Statusinformationen zu Vorgängen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ipooyp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wkjqlz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:parallelGateway id="Gateway_1t11ayc">
+      <bpmn:incoming>Flow_16x7sea</bpmn:incoming>
+      <bpmn:outgoing>Flow_0d655i4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0fh227i</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="Task_LoremIpsum" name="Die Basics von DigiWF (2/4): Lorem ipsum..." camunda:formKey="DigitalWFErleben_LoremIpsum_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">...dolor sit amet...</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0d655i4</bpmn:incoming>
+      <bpmn:outgoing>Flow_06pxbc0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_LoremIpsum" name="Lorem Ipsum beendet">
+      <bpmn:incoming>Flow_1qxuck8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_06pxbc0" sourceRef="Task_LoremIpsum" targetRef="Task_MailSenden" />
+    <bpmn:sequenceFlow id="Flow_1qxuck8" sourceRef="Task_MailSenden" targetRef="EndEvent_LoremIpsum" />
+    <bpmn:serviceTask id="Task_MailSenden" name="Mail senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_SUBJECT">Das Ergebnis Ihrer Kreativität</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">${Text_LoremIpsumFortsetzung}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_REPLY_TO">itm.digitalwf@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${user.email(starterOfInstance)}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06pxbc0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qxuck8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_WasIstDigiWF" name="Was ist DigiWF?" default="Flow_1y6wge6">
+      <bpmn:incoming>Flow_0q3kr1b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0524t8p</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1y6wge6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_WasIstDigiWF">
+      <bpmn:incoming>Flow_0nrpw65</bpmn:incoming>
+      <bpmn:incoming>Flow_1y6wge6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pt7udy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1y6wge6" sourceRef="Gateway_Verzweigend_WasIstDigiWF" targetRef="Gateway_Zusammenfuehrend_WasIstDigiWF" />
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_DieBasics" name="Die Basics?" default="Flow_1ronixy">
+      <bpmn:incoming>Flow_0ck07ia</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gxe4xb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ronixy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_DieBasics">
+      <bpmn:incoming>Flow_1ronixy</bpmn:incoming>
+      <bpmn:incoming>Flow_080skjb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s1tm7v</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1ronixy" sourceRef="Gateway_Verzweigend_DieBasics" targetRef="Gateway_Zusammenfuehrend_DieBasics" />
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_AufgabenBearbeiten" name="Aufgaben bearbeiten?" default="Flow_1giiqq7">
+      <bpmn:incoming>Flow_09mq0ce</bpmn:incoming>
+      <bpmn:outgoing>Flow_1giiqq7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0pk67lc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_AufgabenBearbeiten">
+      <bpmn:incoming>Flow_1giiqq7</bpmn:incoming>
+      <bpmn:incoming>Flow_1kxixrm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zwa6z8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1giiqq7" sourceRef="Gateway_Verzweigend_AufgabenBearbeiten" targetRef="Gateway_Zusammenfuehrend_AufgabenBearbeiten" />
+    <bpmn:sequenceFlow id="Flow_0d655i4" sourceRef="Gateway_1t11ayc" targetRef="Task_LoremIpsum" />
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_NichtsAusgewaehlt" default="Flow_0t0kqku">
+      <bpmn:incoming>Flow_19yh8v7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q3kr1b</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0t0kqku</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0q3kr1b" sourceRef="Gateway_Verzweigend_NichtsAusgewaehlt" targetRef="Gateway_Verzweigend_WasIstDigiWF">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Alles || FormField_WasIstDigitalWF || FormField_DieBasics || FormField_AufgabenBearbeiten || FormField_AufgabenBearbeitenErweitert}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_045smcw" sourceRef="StartEvent_TutorialGestartet" targetRef="Event_StatusGestartetUndBeschreibungSetzen" />
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_NichtsAusgewaehlt">
+      <bpmn:incoming>Flow_0t0kqku</bpmn:incoming>
+      <bpmn:incoming>Flow_0e8bh1t</bpmn:incoming>
+      <bpmn:outgoing>Flow_1obeem5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1obeem5" sourceRef="Gateway_Zusammenfuehrend_NichtsAusgewaehlt" targetRef="Task_KeineAuswahl" />
+    <bpmn:sequenceFlow id="Flow_1r2v1ty" sourceRef="Task_KeineAuswahl" targetRef="Event_1n3gmi8" />
+    <bpmn:userTask id="Task_Gruppenaufgaben" name="Die Basics von DigiWF (4/4): Gruppenaufgaben" camunda:formKey="DigitalWFErleben_Gruppenaufgaben_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Was sind Gruppenaufgaben und wie bearbeite ich sie?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0b72gmf</bpmn:incoming>
+      <bpmn:outgoing>Flow_080skjb</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0fh227i" sourceRef="Gateway_1t11ayc" targetRef="Task_Suchen" />
+    <bpmn:sequenceFlow id="Flow_1ipooyp" sourceRef="Task_Suchen" targetRef="Activity_06dxk22" />
+    <bpmn:sequenceFlow id="Flow_0wkjqlz" sourceRef="Activity_06dxk22" targetRef="Gateway_1e5brkx" />
+    <bpmn:sequenceFlow id="Flow_080skjb" sourceRef="Task_Gruppenaufgaben" targetRef="Gateway_Zusammenfuehrend_DieBasics" />
+    <bpmn:sequenceFlow id="Flow_1ouvytg" sourceRef="Task_WiedervorlagenSetzen" targetRef="Task_EingabenZwischenspeichern" />
+    <bpmn:sequenceFlow id="Flow_0xkiphi" sourceRef="Task_EingabenZwischenspeichern" targetRef="Task_StatusdokumentHerunterladen" />
+    <bpmn:sequenceFlow id="Flow_0zhg6nz" sourceRef="Task_StatusdokumentHerunterladen" targetRef="Task_AufgabenbearbeitungAbbrechen" />
+    <bpmn:sequenceFlow id="Flow_0pk67lc" sourceRef="Gateway_Verzweigend_AufgabenBearbeiten" targetRef="Task_Benachrichtigungen">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Alles || FormField_AufgabenBearbeiten}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ihbxcl" sourceRef="Task_AufgabenbearbeitungAbbrechen" targetRef="Gateway_Zusammenfuehrend_ErweiterteBearbeitungVonAufgaben" />
+    <bpmn:exclusiveGateway id="Gateway_Verzweigend_ErweiterteBearbeitungVonAufgaben" name="Erweiterte Bearbeitung von Aufgaben?" default="Flow_0a7xvlg">
+      <bpmn:incoming>Flow_0fvxfrt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a7xvlg</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0gj09vj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0a7xvlg" sourceRef="Gateway_Verzweigend_ErweiterteBearbeitungVonAufgaben" targetRef="Gateway_Zusammenfuehrend_ErweiterteBearbeitungVonAufgaben" />
+    <bpmn:exclusiveGateway id="Gateway_Zusammenfuehrend_ErweiterteBearbeitungVonAufgaben">
+      <bpmn:incoming>Flow_0a7xvlg</bpmn:incoming>
+      <bpmn:incoming>Flow_1ihbxcl</bpmn:incoming>
+      <bpmn:outgoing>Flow_198to9r</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0gj09vj" sourceRef="Gateway_Verzweigend_ErweiterteBearbeitungVonAufgaben" targetRef="Task_WiedervorlagenSetzen">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Alles || FormField_AufgabenBearbeitenErweitert}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_19cypvz" sourceRef="Task_DatenInFormularenErfassen" targetRef="Task_DatenKorrektErfassenValidierungen" />
+    <bpmn:sequenceFlow id="Flow_1kxixrm" sourceRef="Task_DatenKorrektErfassenValidierungen" targetRef="Gateway_Zusammenfuehrend_AufgabenBearbeiten" />
+    <bpmn:sequenceFlow id="Flow_06wazjz" sourceRef="Task_Benachrichtigungen" targetRef="Task_DatenInFormularenErfassen" />
+    <bpmn:userTask id="Task_Benachrichtigungen" name="Aufgaben bearbeiten (1/3): Benachrichtigungen" camunda:formKey="DigitalWFErleben_Benachrichtigungen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Werde ich bei neuen Aufgaben benachrichtigt?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pk67lc</bpmn:incoming>
+      <bpmn:outgoing>Flow_06wazjz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_DatenInFormularenErfassen" name="Aufgaben bearbeiten (2/3): Daten in Formularen erfassen" camunda:formKey="DigitalWFErleben_DatenInFormularenErfassen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Wie erfasse ich Daten in Formularen?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06wazjz</bpmn:incoming>
+      <bpmn:outgoing>Flow_19cypvz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_DatenKorrektErfassenValidierungen" name="Aufgaben bearbeiten (3/3): Daten korrekt erfassen - Validierungen" camunda:formKey="DigitalWFErleben_DatenKorrektErfassenValidierungen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Validierungen helfen dabei, eine hohe Datenqualität zu erreichen. Wie funktionieren Validierungen in DigitalWF?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19cypvz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kxixrm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_BenutzerSuchen" name="Benutzer*innen suchen" camunda:formKey="DigitalWFErleben_BenutzerSuchen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Wie kann ich Benutzer*innen in DigitalWF suchen?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_WiedervorlagenSetzen" name="Weitere Funktionen zur Aufgabenbearbeitung (1/4): Wiedervorlagen setzen" camunda:formKey="DigitalWFErleben_WiedervorlagenSetzen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Ich kann eine Aufgabe nicht abschließend bearbeiten - Wiedervorlagen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gj09vj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ouvytg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_EingabenZwischenspeichern" name="Weitere Funktionen zur Aufgabenbearbeitung (2/4): Eingaben zwischenspeichern" camunda:formKey="DigitalWFErleben_EingabenZwischenspeichern_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Wie kann ich Eingaben speichern wenn ich eine Aufgabe nicht abschließen kann?</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ouvytg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xkiphi</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_StatusdokumentHerunterladen" name="Weitere Funktionen zur Aufgabenbearbeitung (3/4): Statusdokument herunterladen" camunda:formKey="DigitalWFErleben_StatusdokumentHerunterladen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Informationen zum Prozessstatus - Das Statusdokument herunterladen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xkiphi</bpmn:incoming>
+      <bpmn:incoming>Flow_0qwjirc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zhg6nz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_AufgabenbearbeitungAbbrechen" name="Weitere Funktionen zur Aufgabenbearbeitung (4/4): Aufgabenbearbeitung abbrechen" camunda:formKey="DigitalWFErleben_AufgabenbearbeitungAbbrechen_V1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Es gibt auch ein Zurück...</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0zhg6nz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ihbxcl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0b72gmf" sourceRef="Gateway_1e5brkx" targetRef="Task_Gruppenaufgaben" />
+    <bpmn:parallelGateway id="Gateway_1e5brkx">
+      <bpmn:incoming>Flow_0wkjqlz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0b72gmf</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1302i9p</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_1302i9p" sourceRef="Gateway_1e5brkx" targetRef="Task_OffeneGruppenaufgabe" />
+    <bpmn:endEvent id="EndEvent_OffeneGruppenaufgabeBeendet" name="Offene Gruppenaufgabe beendet">
+      <bpmn:incoming>Flow_06qbv75</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_06qbv75" sourceRef="Task_OffeneGruppenaufgabe" targetRef="EndEvent_OffeneGruppenaufgabeBeendet" />
+    <bpmn:userTask id="Task_OffeneGruppenaufgabe" name="Die Basics von DigiWF (4/4): Eine offene Gruppenaufgabe" camunda:formKey="DigitalWFErleben_OffeneGruppenaufgabe_V1" camunda:candidateUsers="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">Bearbeiten Sie mich!</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1302i9p</bpmn:incoming>
+      <bpmn:outgoing>Flow_06qbv75</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="ErrorBoundaryEvent_AbbrechenUndZurueck" name="Abbrechen und zurück" attachedToRef="Task_AufgabenbearbeitungAbbrechen">
+      <bpmn:outgoing>Flow_0qwjirc</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0gfwfzr" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0qwjirc" sourceRef="ErrorBoundaryEvent_AbbrechenUndZurueck" targetRef="Task_StatusdokumentHerunterladen" />
+    <bpmn:intermediateThrowEvent id="Event_StatusGestartetUndBeschreibungSetzen" name="Status &#34;Gestartet&#34; und Beschreibung setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">var startername = user.lastname(execution.getVariable("starterOfInstance"));
+var startervorname = user.firstname(execution.getVariable("starterOfInstance"));
+process.setDescription("Tutorial von: " + startervorname + " " + startername);
+process.setStatus("wasistdigitalwf");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_045smcw</bpmn:incoming>
+      <bpmn:outgoing>Flow_19yh8v7</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_19yh8v7" sourceRef="Event_StatusGestartetUndBeschreibungSetzen" targetRef="Gateway_Verzweigend_NichtsAusgewaehlt" />
+    <bpmn:intermediateThrowEvent id="Event_StatusBasics" name="Status &#34;Basics&#34; setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;diebasics&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pt7udy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ck07ia</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_StatusAufgabenBearbeiten" name="Status &#34;Aufgaben bearbeiten&#34; setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;aufgabenbearbeiten&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1s1tm7v</bpmn:incoming>
+      <bpmn:outgoing>Flow_09mq0ce</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_StatusErweiterteAufgabenbearbeitung" name="Status &#34;Erweiterte Aufgabenbearbeitung&#34; setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;erweiterteaufgabenbearbeitung&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0zwa6z8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fvxfrt</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_1n3gmi8" name="Status &#34;Beendet&#34; setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;beendet&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1r2v1ty</bpmn:incoming>
+      <bpmn:outgoing>Flow_1co5i8m</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1co5i8m" sourceRef="Event_1n3gmi8" targetRef="EndEvent_TutorialBeendet" />
+    <bpmn:sequenceFlow id="Flow_0pt7udy" sourceRef="Gateway_Zusammenfuehrend_WasIstDigiWF" targetRef="Event_StatusBasics" />
+    <bpmn:sequenceFlow id="Flow_0ck07ia" sourceRef="Event_StatusBasics" targetRef="Gateway_Verzweigend_DieBasics" />
+    <bpmn:sequenceFlow id="Flow_1s1tm7v" sourceRef="Gateway_Zusammenfuehrend_DieBasics" targetRef="Event_StatusAufgabenBearbeiten" />
+    <bpmn:sequenceFlow id="Flow_09mq0ce" sourceRef="Event_StatusAufgabenBearbeiten" targetRef="Gateway_Verzweigend_AufgabenBearbeiten" />
+    <bpmn:sequenceFlow id="Flow_0zwa6z8" sourceRef="Gateway_Zusammenfuehrend_AufgabenBearbeiten" targetRef="Event_StatusErweiterteAufgabenbearbeitung" />
+    <bpmn:sequenceFlow id="Flow_0fvxfrt" sourceRef="Event_StatusErweiterteAufgabenbearbeitung" targetRef="Gateway_Verzweigend_ErweiterteBearbeitungVonAufgaben" />
+    <bpmn:intermediateThrowEvent id="Event_Verabschiedung" name="Status &#34;Verabschiedung&#34; setzen">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#34;verabschiedung&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_198to9r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e8bh1t</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_198to9r" sourceRef="Gateway_Zusammenfuehrend_ErweiterteBearbeitungVonAufgaben" targetRef="Event_Verabschiedung" />
+    <bpmn:sequenceFlow id="Flow_0e8bh1t" sourceRef="Event_Verabschiedung" targetRef="Gateway_Zusammenfuehrend_NichtsAusgewaehlt" />
+    <bpmn:endEvent id="EndEvent_TutorialBeendet" name="Tutorial beendet">
+      <bpmn:incoming>Flow_1co5i8m</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_096sjqe" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="DigitalWFErleben">
+      <bpmndi:BPMNEdge id="Flow_0e8bh1t_di" bpmnElement="Flow_0e8bh1t">
+        <di:waypoint x="4298" y="170" />
+        <di:waypoint x="4365" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_198to9r_di" bpmnElement="Flow_198to9r">
+        <di:waypoint x="4195" y="170" />
+        <di:waypoint x="4262" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fvxfrt_di" bpmnElement="Flow_0fvxfrt">
+        <di:waypoint x="3348" y="170" />
+        <di:waypoint x="3415" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zwa6z8_di" bpmnElement="Flow_0zwa6z8">
+        <di:waypoint x="3235" y="170" />
+        <di:waypoint x="3312" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09mq0ce_di" bpmnElement="Flow_09mq0ce">
+        <di:waypoint x="2308" y="170" />
+        <di:waypoint x="2405" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s1tm7v_di" bpmnElement="Flow_1s1tm7v">
+        <di:waypoint x="2195" y="170" />
+        <di:waypoint x="2272" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ck07ia_di" bpmnElement="Flow_0ck07ia">
+        <di:waypoint x="1008" y="170" />
+        <di:waypoint x="1085" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pt7udy_di" bpmnElement="Flow_0pt7udy">
+        <di:waypoint x="895" y="170" />
+        <di:waypoint x="972" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1co5i8m_di" bpmnElement="Flow_1co5i8m">
+        <di:waypoint x="4688" y="170" />
+        <di:waypoint x="4772" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19yh8v7_di" bpmnElement="Flow_19yh8v7">
+        <di:waypoint x="338" y="170" />
+        <di:waypoint x="415" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qwjirc_di" bpmnElement="Flow_0qwjirc">
+        <di:waypoint x="4030" y="228" />
+        <di:waypoint x="4030" y="290" />
+        <di:waypoint x="3880" y="290" />
+        <di:waypoint x="3880" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06qbv75_di" bpmnElement="Flow_06qbv75">
+        <di:waypoint x="2070" y="320" />
+        <di:waypoint x="2162" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1302i9p_di" bpmnElement="Flow_1302i9p">
+        <di:waypoint x="1880" y="195" />
+        <di:waypoint x="1880" y="320" />
+        <di:waypoint x="1970" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b72gmf_di" bpmnElement="Flow_0b72gmf">
+        <di:waypoint x="1905" y="170" />
+        <di:waypoint x="1970" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06wazjz_di" bpmnElement="Flow_06wazjz">
+        <di:waypoint x="2610" y="170" />
+        <di:waypoint x="2670" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kxixrm_di" bpmnElement="Flow_1kxixrm">
+        <di:waypoint x="2940" y="170" />
+        <di:waypoint x="3185" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19cypvz_di" bpmnElement="Flow_19cypvz">
+        <di:waypoint x="2770" y="170" />
+        <di:waypoint x="2840" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gj09vj_di" bpmnElement="Flow_0gj09vj">
+        <di:waypoint x="3465" y="170" />
+        <di:waypoint x="3530" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a7xvlg_di" bpmnElement="Flow_0a7xvlg">
+        <di:waypoint x="3440" y="145" />
+        <di:waypoint x="3440" y="80" />
+        <di:waypoint x="4170" y="80" />
+        <di:waypoint x="4170" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ihbxcl_di" bpmnElement="Flow_1ihbxcl">
+        <di:waypoint x="4080" y="170" />
+        <di:waypoint x="4145" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pk67lc_di" bpmnElement="Flow_0pk67lc">
+        <di:waypoint x="2455" y="170" />
+        <di:waypoint x="2510" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zhg6nz_di" bpmnElement="Flow_0zhg6nz">
+        <di:waypoint x="3930" y="170" />
+        <di:waypoint x="3980" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xkiphi_di" bpmnElement="Flow_0xkiphi">
+        <di:waypoint x="3780" y="170" />
+        <di:waypoint x="3830" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ouvytg_di" bpmnElement="Flow_1ouvytg">
+        <di:waypoint x="3630" y="170" />
+        <di:waypoint x="3680" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_080skjb_di" bpmnElement="Flow_080skjb">
+        <di:waypoint x="2070" y="170" />
+        <di:waypoint x="2145" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wkjqlz_di" bpmnElement="Flow_0wkjqlz">
+        <di:waypoint x="1750" y="170" />
+        <di:waypoint x="1855" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ipooyp_di" bpmnElement="Flow_1ipooyp">
+        <di:waypoint x="1580" y="170" />
+        <di:waypoint x="1650" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fh227i_di" bpmnElement="Flow_0fh227i">
+        <di:waypoint x="1415" y="170" />
+        <di:waypoint x="1480" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r2v1ty_di" bpmnElement="Flow_1r2v1ty">
+        <di:waypoint x="4580" y="170" />
+        <di:waypoint x="4652" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1obeem5_di" bpmnElement="Flow_1obeem5">
+        <di:waypoint x="4415" y="170" />
+        <di:waypoint x="4480" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_045smcw_di" bpmnElement="Flow_045smcw">
+        <di:waypoint x="218" y="170" />
+        <di:waypoint x="302" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q3kr1b_di" bpmnElement="Flow_0q3kr1b">
+        <di:waypoint x="465" y="170" />
+        <di:waypoint x="545" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0d655i4_di" bpmnElement="Flow_0d655i4">
+        <di:waypoint x="1390" y="195" />
+        <di:waypoint x="1390" y="320" />
+        <di:waypoint x="1480" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1giiqq7_di" bpmnElement="Flow_1giiqq7">
+        <di:waypoint x="2430" y="145" />
+        <di:waypoint x="2430" y="80" />
+        <di:waypoint x="3210" y="80" />
+        <di:waypoint x="3210" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ronixy_di" bpmnElement="Flow_1ronixy">
+        <di:waypoint x="1110" y="145" />
+        <di:waypoint x="1110" y="80" />
+        <di:waypoint x="2170" y="80" />
+        <di:waypoint x="2170" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y6wge6_di" bpmnElement="Flow_1y6wge6">
+        <di:waypoint x="570" y="145" />
+        <di:waypoint x="570" y="80" />
+        <di:waypoint x="870" y="80" />
+        <di:waypoint x="870" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qxuck8_di" bpmnElement="Flow_1qxuck8">
+        <di:waypoint x="1750" y="320" />
+        <di:waypoint x="1822" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06pxbc0_di" bpmnElement="Flow_06pxbc0">
+        <di:waypoint x="1580" y="320" />
+        <di:waypoint x="1650" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16x7sea_di" bpmnElement="Flow_16x7sea">
+        <di:waypoint x="1310" y="170" />
+        <di:waypoint x="1365" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gxe4xb_di" bpmnElement="Flow_1gxe4xb">
+        <di:waypoint x="1135" y="170" />
+        <di:waypoint x="1210" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nrpw65_di" bpmnElement="Flow_0nrpw65">
+        <di:waypoint x="770" y="170" />
+        <di:waypoint x="845" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0524t8p_di" bpmnElement="Flow_0524t8p">
+        <di:waypoint x="595" y="170" />
+        <di:waypoint x="670" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t0kqku_di" bpmnElement="Flow_0t0kqku">
+        <di:waypoint x="440" y="195" />
+        <di:waypoint x="440" y="430" />
+        <di:waypoint x="4390" y="430" />
+        <di:waypoint x="4390" y="195" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_TutorialGestartet">
+        <dc:Bounds x="182" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="195" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vf2ezp_di" bpmnElement="Task_KeineAuswahl">
+        <dc:Bounds x="4480" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oibeyu_di" bpmnElement="Task_WasIstDigiWF">
+        <dc:Bounds x="670" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0fwkt68_di" bpmnElement="Task_AufbauOberflaeche">
+        <dc:Bounds x="1210" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ao10az_di" bpmnElement="Task_Suchen">
+        <dc:Bounds x="1480" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wokc7k_di" bpmnElement="Activity_06dxk22">
+        <dc:Bounds x="1650" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_095hsue_di" bpmnElement="Gateway_1t11ayc">
+        <dc:Bounds x="1365" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00xfnp7_di" bpmnElement="Task_LoremIpsum">
+        <dc:Bounds x="1480" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10mudbf_di" bpmnElement="EndEvent_LoremIpsum">
+        <dc:Bounds x="1822" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1807" y="345" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a06r49_di" bpmnElement="Task_MailSenden">
+        <dc:Bounds x="1650" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_17u8085_di" bpmnElement="Gateway_Verzweigend_WasIstDigiWF" isMarkerVisible="true">
+        <dc:Bounds x="545" y="145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="532" y="202" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0zb2zrf_di" bpmnElement="Gateway_Zusammenfuehrend_WasIstDigiWF" isMarkerVisible="true">
+        <dc:Bounds x="845" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_07nk5ux_di" bpmnElement="Gateway_Verzweigend_DieBasics" isMarkerVisible="true">
+        <dc:Bounds x="1085" y="145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1081" y="202" width="59" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_075xj36_di" bpmnElement="Gateway_Zusammenfuehrend_DieBasics" isMarkerVisible="true">
+        <dc:Bounds x="2145" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0t9eu01_di" bpmnElement="Gateway_Verzweigend_AufgabenBearbeiten" isMarkerVisible="true">
+        <dc:Bounds x="2405" y="145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2401" y="202" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0bo2ujf_di" bpmnElement="Gateway_Zusammenfuehrend_AufgabenBearbeiten" isMarkerVisible="true">
+        <dc:Bounds x="3185" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1pwir23_di" bpmnElement="Gateway_Verzweigend_NichtsAusgewaehlt" isMarkerVisible="true">
+        <dc:Bounds x="415" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0a4j1iz_di" bpmnElement="Gateway_Zusammenfuehrend_NichtsAusgewaehlt" isMarkerVisible="true">
+        <dc:Bounds x="4365" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lop56v_di" bpmnElement="Task_Gruppenaufgaben">
+        <dc:Bounds x="1970" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0s0jm8a_di" bpmnElement="Gateway_Verzweigend_ErweiterteBearbeitungVonAufgaben" isMarkerVisible="true">
+        <dc:Bounds x="3415" y="145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3402" y="202" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1sn2xg7_di" bpmnElement="Gateway_Zusammenfuehrend_ErweiterteBearbeitungVonAufgaben" isMarkerVisible="true">
+        <dc:Bounds x="4145" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13fthsk_di" bpmnElement="Task_Benachrichtigungen">
+        <dc:Bounds x="2510" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1t7tpn4_di" bpmnElement="Task_DatenInFormularenErfassen">
+        <dc:Bounds x="2670" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rkjsds_di" bpmnElement="Task_DatenKorrektErfassenValidierungen">
+        <dc:Bounds x="2840" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yhz6jz_di" bpmnElement="Task_BenutzerSuchen">
+        <dc:Bounds x="3010" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hw0wfv_di" bpmnElement="Task_WiedervorlagenSetzen">
+        <dc:Bounds x="3530" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0woh8no_di" bpmnElement="Task_EingabenZwischenspeichern">
+        <dc:Bounds x="3680" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07rdcj0_di" bpmnElement="Task_StatusdokumentHerunterladen">
+        <dc:Bounds x="3830" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cqqltv_di" bpmnElement="Task_AufgabenbearbeitungAbbrechen">
+        <dc:Bounds x="3980" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ynzijp_di" bpmnElement="Gateway_1e5brkx">
+        <dc:Bounds x="1855" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dgbkdl_di" bpmnElement="EndEvent_OffeneGruppenaufgabeBeendet">
+        <dc:Bounds x="2162" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2139" y="345" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kez3ro_di" bpmnElement="Task_OffeneGruppenaufgabe">
+        <dc:Bounds x="1970" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xd4rk4_di" bpmnElement="Event_StatusGestartetUndBeschreibungSetzen">
+        <dc:Bounds x="302" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="284" y="195" width="75" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1509mlz_di" bpmnElement="Event_StatusBasics">
+        <dc:Bounds x="972" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="953" y="195" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sagsjq_di" bpmnElement="Event_StatusAufgabenBearbeiten">
+        <dc:Bounds x="2272" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2248" y="195" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0h9467w_di" bpmnElement="Event_StatusErweiterteAufgabenbearbeitung">
+        <dc:Bounds x="3312" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3288" y="195" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n3gmi8_di" bpmnElement="Event_1n3gmi8">
+        <dc:Bounds x="4652" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4630" y="195" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07lmb8u_di" bpmnElement="Event_Verabschiedung">
+        <dc:Bounds x="4262" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4239" y="195" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ej8t49_di" bpmnElement="EndEvent_TutorialBeendet">
+        <dc:Bounds x="4772" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4750" y="195" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fcgn4s_di" bpmnElement="ErrorBoundaryEvent_AbbrechenUndZurueck">
+        <dc:Bounds x="4012" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4043" y="226" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

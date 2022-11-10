@@ -1,0 +1,67 @@
+{
+  "key": "TestAlwDMSZugriff_Start_V01",
+  "description": "Erläuterung zum Test-Prozess für das ALW-DMS",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Test beenden"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": true,
+      "buttonText": "Protokoll"
+    }
+  },
+  "groups": [
+    {
+      "label": "Was ist zu tun?",
+      "schema": [
+        {
+          "key": "FormField_wiegehtsweiter",
+          "label": "Hinweis",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "Dieser Workflow dient dem Test in P, ob eine Verbindung zum ALW-DMS besteht. Es wird ein Benutzer verwendet, der keine Zugriffsrechte besitzt. Tragen Sie bitte die Adresse http://dmsalw.muenchen.de/fsc/mx/COO.2150.202.14.2668883 in das Feld ein. Wenn Sie den Button zum Hinzufügen eines Schriftstücks klicken wird eine Fehlermeldung vom DMS erwartet. Bitte prüfen Sie in den Logs, ob das DMS meldet, dass der Benutzer unbekannt ist. Tritt ein anderer Fehler auf, so prüfen Sie bitte, woran das liegt.",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Schriftstueck",
+          "label": "Schriftstueck aus dem ALW-DMS",
+          "type": "alw-document-input",
+          "ext": "",
+          "defaultValue": "http://dmsalw.muenchen.de/fsc/mx/COO.2150.202.14.2668883",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": null
+    }
+  ]
+}

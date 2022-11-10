@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:collaboration id="Collaboration_12iu3ip">
+    <bpmn:participant id="Participant_LHM" name="LHM" processRef="SchriftstueckUpdatenV01" />
+  </bpmn:collaboration>
+  <bpmn:process id="SchriftstueckUpdatenV01" name="Schriftstück updaten Template V01" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1bbrvcv">
+      <bpmn:lane id="Lane_DigitalWF" name="DigitalWF">
+        <bpmn:flowNodeRef>StartEvent_SchriftstueckUpdaten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BenachrichtigungVersendenNeueSachbearbeitung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1g470oc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SchriftstueckGeupdated</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SchriftstueckUpdaten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Error_FehlendeBerechtigung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_ErrorGesperrt</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Kuemmerer" name="Kümmerer">
+        <bpmn:flowNodeRef>Task_SachbearbeitungAuswaehlen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SperreAufheben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BenachrichtigungVersenden</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_SchriftstueckUpdaten" name="Schriftstück updaten" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_0vq6htj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0vq6htj" sourceRef="StartEvent_SchriftstueckUpdaten" targetRef="Gateway_1g470oc" />
+    <bpmn:sequenceFlow id="Flow_1uetbey" sourceRef="Task_BenachrichtigungVersendenNeueSachbearbeitung" targetRef="Task_SachbearbeitungAuswaehlen" />
+    <bpmn:sequenceFlow id="Flow_1sest2s" sourceRef="Event_Error_FehlendeBerechtigung" targetRef="Task_BenachrichtigungVersendenNeueSachbearbeitung" />
+    <bpmn:serviceTask id="Task_BenachrichtigungVersendenNeueSachbearbeitung" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_BODY">Hallo,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei Dokumentablage bei Vorgang ${dms_vorgang_titel}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sest2s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uetbey</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0yxsf8j" sourceRef="Event_ErrorGesperrt" targetRef="Task_BenachrichtigungVersenden" />
+    <bpmn:sequenceFlow id="Flow_08blmjk" sourceRef="Task_BenachrichtigungVersenden" targetRef="Task_SperreAufheben" />
+    <bpmn:exclusiveGateway id="Gateway_1g470oc">
+      <bpmn:incoming>Flow_0vq6htj</bpmn:incoming>
+      <bpmn:incoming>Flow_0mng1oi</bpmn:incoming>
+      <bpmn:incoming>Flow_1k35r3h</bpmn:incoming>
+      <bpmn:outgoing>Flow_019cchd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_019cchd" sourceRef="Gateway_1g470oc" targetRef="Task_SchriftstueckUpdaten" />
+    <bpmn:userTask id="Task_SachbearbeitungAuswaehlen" name="Neue Sachbearbeitung auswählen" camunda:asyncBefore="true" camunda:formKey="SchriftstueckUpdaten_FehlerPruefenMitUserAuswahlV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte geben Sie eine andere zuständige Sachbearbeitung an. Bitte stellen Sie sicher, dass die Sachbearbeitung einen Account im Dokumentenmanagementsystem besitzt und über ausreichende Berechtigungen verfügt.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Das Statusdokument konnte nicht aktualisiert werden. Grund: Die zuständige Sachbearbeitung ${user.firstname(dms_user_login)} ${user.lastname(dms_user_login)}, ${user.ou(dms_user_login)}, besitzt keine ausreichenden Berechtigungen.</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">digitalwf_task_description = dms_vorgang_titel;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
+task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uetbey</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mng1oi</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_SperreAufheben" name="Sperre aufheben" camunda:asyncBefore="true" camunda:formKey="SchriftstueckUpdaten_FehlerPruefenV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte entsperren Sie das Dokument und setzen Sie danach den Prozess fort, indem Sie diese Aufgabe abschließen.</camunda:inputParameter>
+          <camunda:inputParameter name="FormField_Meldung">Das Protokoll konnte nicht aktualisiert werden. Grund: "${dmsDokumentGesperrtMessage}"</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">
+            <camunda:script scriptFormat="Javascript">digitalwf_task_description= dms_vorgang_titel;</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_08blmjk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k35r3h</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_BenachrichtigungVersenden" name="Benachrichtigung versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_REPLY_TO" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID" />
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME" />
+          <camunda:inputParameter name="MAILING_BODY">Hallo,
+
+bei der Ablage von Dokumenten im Dokumentenmanagementsystem ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre offenen Gruppenaufgaben und bearbeiten Sie die Aufgabe zum o.g. Vorgang:
+
+         ${digitalwf.urlGruppenaufgaben()}
+
+Viele Grüße
+Ihr DigitalWF-Team
+
+Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese E-Mail.</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${dms_error_receiver_mail}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Fehler bei Dokumentablage bei Vorgang ${dms_vorgang_titel}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0yxsf8j</bpmn:incoming>
+      <bpmn:outgoing>Flow_08blmjk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0mng1oi" sourceRef="Task_SachbearbeitungAuswaehlen" targetRef="Gateway_1g470oc" />
+    <bpmn:sequenceFlow id="Flow_1k35r3h" sourceRef="Task_SperreAufheben" targetRef="Gateway_1g470oc" />
+    <bpmn:sequenceFlow id="Flow_0kwama8" sourceRef="Task_SchriftstueckUpdaten" targetRef="EndEvent_SchriftstueckGeupdated" />
+    <bpmn:endEvent id="EndEvent_SchriftstueckGeupdated" name="Schriftstück geupdated">
+      <bpmn:incoming>Flow_0kwama8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_SchriftstueckUpdaten" name="Schriftstück Updaten" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdaten" camunda:delegateExpression="${updateSchriftstueckDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_prozess_id">${dms_prozess_id}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_cosys_guid">${dms_cosys_guid}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_schriftstueck_name">${dms_schriftstueck_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_schriftstueck_coo">${dms_schriftstueck_coo}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_019cchd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kwama8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="Event_Error_FehlendeBerechtigung" name="Fehlende Berechtigung" attachedToRef="Task_SchriftstueckUpdaten">
+      <bpmn:outgoing>Flow_1sest2s</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0jpub1j" errorRef="Error_19vqy3b" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_ErrorGesperrt" name="Gesperrt" attachedToRef="Task_SchriftstueckUpdaten">
+      <bpmn:outgoing>Flow_0yxsf8j</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_11gr71k" errorRef="Error_045i53j" camunda:errorMessageVariable="dmsDokumentGesperrtMessage" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_0btj1ra" name="Error_DMSAktenablageFehlgeschlagen" errorCode="AKTENABLAGE_FEHLGESCHLAGEN" />
+  <bpmn:error id="Error_045i53j" name="Error_DMSObjektGesperrt" errorCode="OBJEKT_GESPERRT" />
+  <bpmn:error id="Error_19vqy3b" name="Error_DMSFehlendeBerechtigung" errorCode="FEHLENDE_BERECHTIGUNG" />
+  <bpmn:error id="Error_1vr8x8x" name="Error_DMSUngueltigeAdresse" errorCode="UNGUELTIGE_ADRESSE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_12iu3ip">
+      <bpmndi:BPMNShape id="Participant_01itnlq_di" bpmnElement="Participant_LHM" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="941" height="680" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1t235ib_di" bpmnElement="Lane_Kuemmerer" isHorizontal="true" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="159" y="500" width="911" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_127e0t2_di" bpmnElement="Lane_DigitalWF" isHorizontal="true">
+        <dc:Bounds x="159" y="80" width="911" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
+        <di:waypoint x="530" y="250" />
+        <di:waypoint x="822" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k35r3h_di" bpmnElement="Flow_1k35r3h">
+        <di:waypoint x="890" y="670" />
+        <di:waypoint x="920" y="670" />
+        <di:waypoint x="920" y="730" />
+        <di:waypoint x="350" y="730" />
+        <di:waypoint x="350" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mng1oi_di" bpmnElement="Flow_0mng1oi">
+        <di:waypoint x="890" y="560" />
+        <di:waypoint x="970" y="560" />
+        <di:waypoint x="970" y="750" />
+        <di:waypoint x="350" y="750" />
+        <di:waypoint x="350" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_019cchd_di" bpmnElement="Flow_019cchd">
+        <di:waypoint x="375" y="250" />
+        <di:waypoint x="430" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08blmjk_di" bpmnElement="Flow_08blmjk">
+        <di:waypoint x="720" y="670" />
+        <di:waypoint x="790" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yxsf8j_di" bpmnElement="Flow_0yxsf8j">
+        <di:waypoint x="430" y="308" />
+        <di:waypoint x="430" y="670" />
+        <di:waypoint x="620" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
+        <di:waypoint x="530" y="308" />
+        <di:waypoint x="530" y="410" />
+        <di:waypoint x="620" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
+        <di:waypoint x="720" y="410" />
+        <di:waypoint x="750" y="410" />
+        <di:waypoint x="750" y="560" />
+        <di:waypoint x="790" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vq6htj_di" bpmnElement="Flow_0vq6htj" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="278" y="250" />
+        <di:waypoint x="325" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_SchriftstueckUpdaten" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="242" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="232" y="275" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gufs89_di" bpmnElement="Task_BenachrichtigungVersendenNeueSachbearbeitung">
+        <dc:Bounds x="620" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1g470oc_di" bpmnElement="Gateway_1g470oc" isMarkerVisible="true">
+        <dc:Bounds x="325" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mb4obw_di" bpmnElement="Task_SachbearbeitungAuswaehlen">
+        <dc:Bounds x="790" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jb179o_di" bpmnElement="Task_SperreAufheben">
+        <dc:Bounds x="790" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0fmwhhn_di" bpmnElement="Task_BenachrichtigungVersenden">
+        <dc:Bounds x="620" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0q2y3lz_di" bpmnElement="EndEvent_SchriftstueckGeupdated" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="822" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="275" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1666p61_di" bpmnElement="Task_SchriftstueckUpdaten">
+        <dc:Bounds x="430" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hr5jun_di" bpmnElement="Event_ErrorGesperrt">
+        <dc:Bounds x="412" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="378" y="306" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17dzceu_di" bpmnElement="Event_Error_FehlendeBerechtigung">
+        <dc:Bounds x="512" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="547" y="299" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

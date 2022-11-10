@@ -1,0 +1,97 @@
+{
+  "key": "DigitalWFErleben_Gruppenaufgaben_V1",
+  "description": "Formular \"Gruppenaufgaben\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Arten von Gruppenaufgaben",
+      "schema": [
+        {
+          "key": "FormField_ArtenVonGruppenaufgaben",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "DigiWF kennt zwei verschiedene Arten von Gruppenaufgaben:\n* **Offene Gruppenaufgaben**: Dies sind Aufgaben, die von mehreren Benutzer*innen bearbeitet werden können aber noch keinen Bearbeiter haben.\n* **Gruppenaufgaben in Bearbeitung**: Bei dieser Art von Aufgaben können ebenfalls mehrere Benutzer*innen eine Aufgabe bearbeiten. Im Unterschied zu offenen Gruppenaufgaben ist hier jedoch schon ein Bearbeiter zugeordnet. Der zugeordnete Bearbeiter sieht die Aufgabe auch in seinen Aufgaben.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Gruppenaufgaben zuordnen",
+      "schema": [
+        {
+          "key": "FormField_AufgabeZuordnen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Beide Arten von Aufgaben können Sie sich selbst zur Bearbeitung zuordnen: Klicken Sie in der Liste der offenen Gruppenaufgaben auf den Button `Bearbeiten`. Die Aufgabe wird Ihnen zugeordnet und erscheint zukünftig in der Liste der Gruppenaufgaben in Bearbeitung und nicht mehr in den offenen Gruppenaufgaben.\n\nDas Vorgehen zur Zuordnung einer Gruppenaufgabe in Bearbeitung ist identisch. Sie sollten jedoch beachten, dass in diesem Fall die Aufgabe dem bisherigen Bearbeiter \"entzogen\" wird.\n\nFür beide Arten von Aufgaben gilt: Wenn Sie sich die Aufgabe zunächst ansehen wollen, so klicken Sie auf den Button `Anzeigen`. Sie erhalten eine Voransicht des Formulars zur Bearbeitung der Aufgabe, eine Zuordnung findet jedoch nicht statt. Wenn Sie sich die Aufgabe in der Voransicht zuordnen wollen, so klicken Sie auf den Button `Bearbeiten`.\n\n <center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/DieBasics_Gruppenaufgaben.png\" alt=\"Anzeigen und Bearbeiten von Gruppenaufgaben\" title=\"Anzeigen und Bearbeiten von Gruppenaufgaben\" width=\"100%\"\/><\/center>",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    },
+    {
+      "label": "Probieren Sie es selbst aus!",
+      "schema": [
+        {
+          "key": "FormField_Ausprobieren",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "DigiWF hat eine offene Gruppenaufgabe erzeugt, die Sie sich zuordnen können. Gehen Sie dazu in die Liste der offenen Gruppenaufgaben und lassen Sie sich die Aufgabe zunächst anzeigen. Wenn Sie erneut in die Liste der offenen Gruppenaufgaben wechseln, werden Sie sehen, dass sich die Aufgabe noch dort befindet. Erst wenn Sie sie bearbeiten (Button `Bearbeiten`) wird die Aufgaben Ihnen zugeordnet und erscheint dann in Ihren Aufgaben und den Gruppenaufgaben in Bearbeitung.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

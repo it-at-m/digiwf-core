@@ -1,0 +1,133 @@
+{
+  "name": "Prozessinstanz starten (mit Businesskey)",
+  "id": "de.muenchen.digitalwf.templates.StartInstanceTemplateV01",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "Hidden",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "dwf-digiwf-engine-local-01",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "Hidden",
+      "value": "startProcessV01",
+      "editable": false,
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Responseless",
+      "type": "Hidden",
+      "value": "true",
+      "editable": false,
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_responseless"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "Hidden",
+      "value": "startProcessV01",
+      "editable": false,
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prozessdefinition-Id",
+      "description": "Id der Prozessdefinition",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "key"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Starter der Prozessinstanz",
+      "description": "Die Id, die als starterOfInstance geführt wird",
+      "type": "String",
+      "value": "${starterOfInstance}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "starterOfInstance"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Übergebene Daten",
+      "description": "Daten, die an den zu startenden Prozess übergeben werden",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "data"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Businesskey",
+      "description": "An den zu startenden Prozess übergebener Businesskey",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "businessKey"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

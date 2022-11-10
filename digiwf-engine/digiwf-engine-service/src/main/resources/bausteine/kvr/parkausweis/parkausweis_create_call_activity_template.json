@@ -1,0 +1,217 @@
+{
+  "name": "Parkausweis erstellen",
+  "id": "de.muenchen.digitalwf.templates.CreateParkausweisTemplateV01",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "CreateParkausweisTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "dwf-parkausweis-local-01",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "value": "correlateParkausweisCreated",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "value": "createParkausweisv01",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antrags Typ",
+      "description": "Der Typ des Antrags",
+      "type": "String",
+      "value": "${antragstyp}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "antragstyp"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorname",
+      "type": "String",
+      "value": "${vorname}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "vorname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Familienname",
+      "type": "String",
+      "value": "${familienname}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "familienname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Geburtsdatum",
+      "type": "String",
+      "value": "${geburtsdatum}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "geburtsdatum"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail",
+      "type": "String",
+      "value": "${buergerkontaktmail}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "buergerkontaktmail"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Adresse",
+      "type": "String",
+      "value": "${adresse}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "adresse"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Wohnort",
+      "type": "String",
+      "value": "${wohnort}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "wohnort"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Postleitzahl",
+      "type": "String",
+      "value": "${postleitzahl}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "postleitzahl"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Begründung",
+      "type": "String",
+      "value": "${begrundung}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "begruendung"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Lizenzdauer 1",
+      "type": "String",
+      "value": "${lizenzdauer1}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "lizenzdauer1"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Lizenzdauer 2",
+      "type": "String",
+      "value": "${lizenzdauer2}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "lizenzdauer2"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "ParkausweisId",
+      "value": "parkausweisId",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "parkausweisId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

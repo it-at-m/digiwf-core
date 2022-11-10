@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_06wnkvq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="TestMucsDMSZugriff" name="Testprozess für Zugriff auf das MucsDMS" isExecutable="true" camunda:versionTag="0.1">
+    <bpmn:startEvent id="StartEvent_Start" name="Start" camunda:formKey="TestMucsDMSZugriff_Start_V01">
+      <bpmn:outgoing>Flow_1yyx7cp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_VerbindungTesten" name="Verbindung testen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.SachakteSuchen" camunda:asyncBefore="true" camunda:delegateExpression="${searchSachakteDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="dms_untergruppe">4164.999</camunda:inputParameter>
+          <camunda:inputParameter name="dms_sachakte_name">DigitalWF_Test</camunda:inputParameter>
+          <camunda:inputParameter name="dms_user_login">999999999</camunda:inputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${execution.hasVariable('dms_sachakte_coo') ? dms_sachakte_coo : ''}</camunda:outputParameter>
+          <camunda:outputParameter name="dms_sachakte_coo">${dms_sachakte_coo}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yyx7cp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c8hmx5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="Event_02vrsfa" name="Fehlende Berechtigung oder DigitalWF-Knoten nicht gefunden" attachedToRef="Task_VerbindungTesten">
+      <bpmn:outgoing>Flow_125b5sc</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_05an9n9" errorRef="Error_1jsxgwm" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1yyx7cp" sourceRef="StartEvent_Start" targetRef="Task_VerbindungTesten" />
+    <bpmn:endEvent id="Event_Ende" name="Ende">
+      <bpmn:incoming>Flow_125b5sc</bpmn:incoming>
+      <bpmn:incoming>Flow_1c8hmx5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1c8hmx5" sourceRef="Task_VerbindungTesten" targetRef="Event_Ende" />
+    <bpmn:sequenceFlow id="Flow_125b5sc" sourceRef="Event_02vrsfa" targetRef="Event_Ende" />
+  </bpmn:process>
+  <bpmn:error id="Error_1jsxgwm" name="Error_FehlendeBerechtigung" errorCode="FEHLENDE_BERECHTIGUNG" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestMucsDMSZugriff">
+      <bpmndi:BPMNEdge id="Flow_125b5sc_di" bpmnElement="Flow_125b5sc">
+        <di:waypoint x="350" y="119" />
+        <di:waypoint x="350" y="80" />
+        <di:waypoint x="500" y="80" />
+        <di:waypoint x="500" y="159" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c8hmx5_di" bpmnElement="Flow_1c8hmx5">
+        <di:waypoint x="400" y="177" />
+        <di:waypoint x="482" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yyx7cp_di" bpmnElement="Flow_1yyx7cp">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="300" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Start">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="202" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0adt701_di" bpmnElement="Task_VerbindungTesten" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="300" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0eyq7ms_di" bpmnElement="Event_Ende">
+        <dc:Bounds x="482" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="487" y="202" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_02vrsfa_di" bpmnElement="Event_02vrsfa" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="332" y="119" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="261" y="64" width="77" height="66" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

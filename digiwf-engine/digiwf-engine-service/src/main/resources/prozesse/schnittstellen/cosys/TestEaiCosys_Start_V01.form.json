@@ -1,0 +1,45 @@
+{
+  "key": "TestEaiCosys_Start_V01",
+  "description": "Formular zum Starten der Prüfung der Cosys EAI auf Funktionstüchtigkeit",
+  "buttons": {
+    "complete": {
+      "buttonText": "Prüfung starten"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Beschreibung",
+      "schema": [
+        {
+          "key": "FormField_beschreibung",
+          "label": "Beschreibung",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zu Cosys. Der Button \"Prüfung starten\" erstellt eine neue Aufgabe mit aktiviertem Button zum Download eines Statusdokuments. Die dazu verwendete GUID ist in der Prozess-Konfiguration hinterlegt.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "key": "DigitalWFErleben_AufbauOberflaeche_V1",
+  "description": "Formular \"Aufbau der DigiWF-Oberflaeche\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Aufbau von DigiWF",
+      "schema": [
+        {
+          "key": "Text_Aufbau",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "<center><img  src=\"http:\/\/digiwf-modellierungshandbuch-latest.apps-test.muenchen.de\/images\/workflows\/digiwferleben\/DieBasics_Oberflaeche.png\" alt=\"Aufbau der Oberfläche\" title=\"Aufbau der Oberfläche\" width=\"100%\"\/><\/center>\n\nDie Oberfläche von DigiWF umfasst drei Bereiche: \n1. Die Titelleiste: In der Titelleiste finden Sie den `Burger-Button` (drei waagerechte Striche), mit dem Sie das Menü (vgl. 2.) ein- und ausblenden können. Außerdem wird in der Titelliste der Name der aktuell angemeldeten Benutzer*in dargestellt.\n2. Mit dem Menü können Sie sowohl zu Ihren Aufgaben oder Vorgängen navigieren als auch auch Vorgänge starten.\n3. Im Arbeitsbereich in der Mitte werden Aufgaben, Vorgänge oder Formulare zur Bearbeitung von Aufgaben angezeigt.\n\n",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ],
+      "description": "Gruppenbeschreibung"
+    },
+    {
+      "label": "Machen Sie sich mit dem Menü vertraut",
+      "schema": [
+        {
+          "key": "Text_VertrautMachen",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Probieren Sie die Oberfläche doch gleich einmal aus. Klicken Sie im Menü links auf `Meine Vorgänge`. Sie sehen dann alle von Ihnen bisher gestarteten Vorgänge, u.a. dieses Tutorial. Wechseln Sie zu den Gruppenaufgaben und auch zum Menüpunkt `Vorgang starten`. Probieren Sie das Ein- und Ausblenden des Menüs aus in dem Sie den `Burger-Button` nutzen. \n\nNavigieren Sie anschließend zurück zu \"Meine Aufgaben\" und öffnen Sie diese Aufgabe erneut zur Bearbeitung.",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": [],
+          "itemText": null,
+          "itemValue": null,
+          "returnObject": null
+        }
+      ]
+    },
+    {
+      "label": "Weiter gehts zum nächsten Thema",
+      "schema": [
+        {
+          "key": "Text_NaechstesThema",
+          "label": "",
+          "type": "markdown-output",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "ldapOus": "",
+          "description": "Wenn Sie zum nächsten Thema wechseln wollen, klicken Sie bitte unten auf den Button \"Weiter zum nächsten Thema\".",
+          "imageHeight": "",
+          "imageWidth": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

@@ -18,9 +18,7 @@ jobs:
         with:
           policy: GeekMasher/security-queries
           policy-path: policies/default.yml
-
           token: ${{ secrets.ACCESS_TOKEN }}
-
           argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
 
   build-maven:
@@ -33,5 +31,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+          server-id: camunda-bpm-nexus-ee
+          server-username: CAMUNDA_USER_REF
+          server-password: CAMUNDA_TOKEN_REF
+
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
+        env:
+          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
+          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
+

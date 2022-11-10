@@ -1,0 +1,73 @@
+{
+  "key": "DuplikatePruefen_KontrollierenV02",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "app_duplicateCheckDescription",
+          "label": "Beschreibung",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        },
+        {
+          "key": "existing_process_instances",
+          "label": "Vorhandene Prozesse",
+          "type": "textarea",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "12",
+          "rows": 4,
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_CancelProcess",
+          "label": "Prozess abbrechen?",
+          "type": "checkbox",
+          "ext": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

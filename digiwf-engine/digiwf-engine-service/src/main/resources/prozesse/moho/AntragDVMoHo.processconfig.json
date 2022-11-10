@@ -1,0 +1,26 @@
+{
+"key": "AntragDVMoHo",
+"statusConfig": [
+{
+"key": "gestartet",
+"label": "Antrag gestellt",
+"position": 1
+},
+{
+"key": "genehmigung",
+"label": "Auf Genehmigung warten",
+"position": 2
+},
+{
+"key": "pruefungGL",
+"label": "Prüfung durch Geschäftsleitung",
+"position": 3
+},
+{
+"key": "fertig",
+"label": "Antrag abgeschlossen",
+"position": 4
+}
+],
+"configs": null
+}

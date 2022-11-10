@@ -1,0 +1,115 @@
+{
+  "key": "custom_field_types",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Gruppe",
+            "description": "",
+            "containerType": "group",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "benutzerauswahl": {
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "key": "benutzerauswahl",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "files": {
+                "fieldType": "file",
+                "title": "Datei",
+                "x-display": "custom-file-input",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "key": "files",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "multifiles": {
+                "fieldType": "file",
+                "title": "Dateien",
+                "description": "Dies ist ein Datei-Upload",
+                "x-display": "custom-multi-file-input",
+                "type": "string",
+                "key": "files",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "textfeld": {
+                "fieldType": "text",
+                "title": "Textfeld",
+                "type": "string",
+                "key": "textfeld",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "a3621a90-f03c-49c5-8f03-a48c654a456f"
+          }
+        ]
+      }
+    ]
+  }
+}

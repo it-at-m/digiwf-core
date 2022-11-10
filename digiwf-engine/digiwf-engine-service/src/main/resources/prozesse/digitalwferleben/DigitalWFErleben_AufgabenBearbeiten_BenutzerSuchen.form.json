@@ -1,0 +1,26 @@
+{
+  "key": "DigitalWFErleben_BenutzerSuchen_V1",
+  "description": "Formular \"Benutzer suchen\"",
+  "authorizedGroups": "",
+  "buttons": {
+    "complete": {
+      "showButton": false,
+      "buttonText": "Weiter zum nächsten Thema"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Benutzer*innen suchen...",
+      "schema": [],
+      "description": "Gruppenbeschreibung"
+    }
+  ]
+}

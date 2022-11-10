@@ -1,0 +1,73 @@
+{
+  "key": "Feature_Verification_Start",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Daten",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Gruppe",
+            "description": "",
+            "containerType": "group",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_Subject": {
+                "fieldType": "text",
+                "title": "Betreff",
+                "type": "string",
+                "key": "FormField_Subject",
+                "default": "email",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_Topic": {
+                "fieldType": "text",
+                "title": "Topic",
+                "type": "string",
+                "key": "FormField_Topic",
+                "default": "dwf-verification-local",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              }
+
+            },
+            "key": "Feature_Verification_Start"
+          }
+        ]
+      }
+    ]
+  }
+}

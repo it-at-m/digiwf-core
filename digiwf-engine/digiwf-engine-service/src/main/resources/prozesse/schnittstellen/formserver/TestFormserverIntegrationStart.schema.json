@@ -1,0 +1,86 @@
+{
+  "key": "TestFormserverIntegrationStart",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "",
+        "type": "object",
+        "description": "",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "title": "Neue Gruppe",
+            "description": "",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "nameEinzahler": {
+                "fieldType": "text",
+                "title": "Name Einzahler",
+                "description": "Eingabe des Einzahlernamens",
+                "type": "string",
+                "key": "nameEinzahler",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_Datei": {
+                "title": "Datei",
+                "description": "Dies ist ein Datei-Upload",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "readOnly": false,
+                "uuidEnabled": true,
+                "filePath": "FormField_Datei",
+                "key": "FormField_Datei",
+                "x-display": "custom-multi-file-input",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            },
+            "key": "49b8a9af-82dd-4c8b-a40d-217015c761c9"
+          }
+        ]
+      }
+    ]
+  }
+}

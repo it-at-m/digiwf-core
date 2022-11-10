@@ -3,9 +3,13 @@ package io.muenchendigital.digiwf.integration.cosys.domain.service;
 import io.muenchendigital.digiwf.integration.cosys.configuration.CosysConfiguration;
 import io.muenchendigital.digiwf.integration.cosys.configuration.RestTemplateFactory;
 import io.muenchendigital.digiwf.integration.cosys.domain.mapper.GenerateDocumentRequestMapper;
+import io.muenchendigital.digiwf.integration.cosys.domain.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocument;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocumentRequest;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +22,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,7 +35,7 @@ public class CosysService {
 
     private final RestTemplate restTemplate;
     private final CosysConfiguration cosysConfiguration;
-    private final DocumentStorageFileRepository documentStorageFileRepository;
+    private final S3FileTransferRepository s3FileTransferRepository;
     private final GenerateDocumentRequestMapper generateDocumentRequestMapper;
 
 
@@ -42,26 +47,26 @@ public class CosysService {
     static final String ATTRIBUTE_VALIDITY = "validity";
 
 
-    public CosysService(final RestTemplateFactory restTemplateFactory, final CosysConfiguration cosysConfiguration, final DocumentStorageFileRepository documentStorageFileRepository, final GenerateDocumentRequestMapper generateDocumentRequestMapper) {
+    public CosysService(final RestTemplateFactory restTemplateFactory, final CosysConfiguration cosysConfiguration, final S3FileTransferRepository s3FileTransferRepository, final GenerateDocumentRequestMapper generateDocumentRequestMapper) {
         this.restTemplate = restTemplateFactory.authenticatedRestTemplate();
         this.cosysConfiguration = cosysConfiguration;
-        this.documentStorageFileRepository = documentStorageFileRepository;
+        this.s3FileTransferRepository = s3FileTransferRepository;
         this.generateDocumentRequestMapper = generateDocumentRequestMapper;
     }
 
     /**
-     * Generate a Document in Cosys and save it in S3 Path.
+     * Generate a Document in Cosys and save it in S3 using given presigned urls.
      *
      * @param generateDocument Data for generating documents
      */
-    public void createDocument(final GenerateDocument generateDocument) {
-        final byte[] data = this.generateDocument(generateDocument);
-        this.saveDocument(generateDocument, data);
+    public void createDocument(@Valid final GenerateDocument generateDocument) {
+        final byte[] data = this.generateCosysDocument(generateDocument);
+        this.saveDocumentInS3(generateDocument, data);
     }
 
     //------------------------------ helper methods ------------------------------//
 
-    private byte[] generateDocument(final GenerateDocument generateDocument) {
+    private byte[] generateCosysDocument(final GenerateDocument generateDocument) {
         try {
             final GenerateDocumentRequest generateDocumentRequest = this.generateDocumentRequestMapper.map(generateDocument);
             final String url = this.createCosysUrl(generateDocumentRequest);
@@ -73,11 +78,21 @@ public class CosysService {
         }
     }
 
-    private void saveDocument(final GenerateDocument generateDocument, final byte[] data) {
+    private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
         try {
-            this.documentStorageFileRepository.saveFile(generateDocument.getS3Path(), data, 3, null);
-        } catch (final Exception ex) {
-            log.error("Document could not be saved", ex);
+            for (final DocumentStorageUrl presignedUrl : generateDocument.getDocumentStorageUrls()) {
+                if (presignedUrl.getAction().equalsIgnoreCase("POST")) {
+                    this.s3FileTransferRepository.saveFile(presignedUrl.getUrl(), data);
+                }
+                else if (presignedUrl.getAction().equalsIgnoreCase("PUT")) {
+                    this.s3FileTransferRepository.updateFile(presignedUrl.getUrl(), data);
+                }
+                else {
+                    throw new RuntimeException("Document could not be saved.");
+                }
+            }
+        } catch (final DocumentStorageClientErrorException | DocumentStorageServerErrorException | DocumentStorageException ex) {
+            log.error("Document could not be saved.", ex);
             throw new RuntimeException("Document could not be saved.");
         }
     }

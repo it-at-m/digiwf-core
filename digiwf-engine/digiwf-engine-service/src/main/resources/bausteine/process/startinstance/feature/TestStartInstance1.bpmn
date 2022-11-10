@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_14ajz3h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="TestStartInstance1" name="TestStartInstance1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="TestStartProcessInstanceForm">
+      <bpmn:outgoing>Flow_0t268jq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0t268jq" sourceRef="StartEvent_1" targetRef="Activity_0k6la98" />
+    <bpmn:userTask id="Activity_1h8r8th" name="Check instance1" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">TestStartProcessInstanceForm</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ff4ikv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pc13u1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0hcbboc">
+      <bpmn:incoming>Flow_0pc13u1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0pc13u1" sourceRef="Activity_1h8r8th" targetRef="Event_0hcbboc" />
+    <bpmn:sequenceFlow id="Flow_1697isx" sourceRef="Activity_0k6la98" targetRef="Activity_024d1ti" />
+    <bpmn:scriptTask id="Activity_0k6la98" name="Build data" scriptFormat="javascript">
+      <bpmn:incoming>Flow_0t268jq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1697isx</bpmn:outgoing>
+      <bpmn:script>var mydata1 = {
+"FormField_Text": execution.getVariable("FormField_Text")
+}
+execution.setVariable('mydata2', S(JSON.stringify(mydata1)));
+execution.setVariable('blank', "");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0ff4ikv" sourceRef="Activity_024d1ti" targetRef="Activity_1h8r8th" />
+    <bpmn:callActivity id="Activity_024d1ti" name="Create instance2" camunda:modelerTemplate="de.muenchen.digitalwf.templates.StartInstanceTemplateV01" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="startProcessV01" target="app_message_name" />
+        <camunda:in sourceExpression="true" target="app_responseless" />
+        <camunda:in sourceExpression="startProcessV01" target="app_type_name" />
+        <camunda:in sourceExpression="${starterOfInstance}" target="starterOfInstance" />
+        <camunda:in sourceExpression="TestStartInstance2" target="key" />
+        <camunda:in sourceExpression="${mydata2}" target="data" />
+        <camunda:in sourceExpression="${FormField_Text}" target="businessKey" />
+        <camunda:in sourceExpression="${FormField_Topic}" target="app_topic_name" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1697isx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ff4ikv</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestStartInstance1">
+      <bpmndi:BPMNEdge id="Flow_0ff4ikv_di" bpmnElement="Flow_0ff4ikv">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="600" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1697isx_di" bpmnElement="Flow_1697isx">
+        <di:waypoint x="360" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pc13u1_di" bpmnElement="Flow_0pc13u1">
+        <di:waypoint x="700" y="117" />
+        <di:waypoint x="762" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t268jq_di" bpmnElement="Flow_0t268jq">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="260" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wzw9yv_di" bpmnElement="Activity_1h8r8th">
+        <dc:Bounds x="600" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hcbboc_di" bpmnElement="Event_0hcbboc">
+        <dc:Bounds x="762" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1y7a6q2_di" bpmnElement="Activity_0k6la98">
+        <dc:Bounds x="260" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sgceex_di" bpmnElement="Activity_024d1ti">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

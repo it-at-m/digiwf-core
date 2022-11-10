@@ -1,0 +1,135 @@
+{
+  "name": "Schriftstuecke kopieren",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckeKopierenTemplate",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "SchriftstueckeKopierenV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Benutzer Quell-DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_copy_from_userlogin",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Benutzer Ziel-DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_copy_to_userlogin",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang Ziel-DMS",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_copy_to_vorgang_coo",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Schriftstücke",
+      "description": "Input - Mehrere Felder mit ; trennen",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_copy_schriftstuecke_coos"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dokument Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_copy_document_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Feld Suffix",
+      "description": "Input - Suffix der allen Input Feldern angehängt wird",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_document_field_suffix"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dokument COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "dms_document_coo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "type": "Hidden",
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local"
+      }
+    },
+    {
+      "value": "saveSchriftstueckeEndListener.execute(execution)",
+      "type": "Hidden",
+      "binding": {
+        "type": "camunda:executionListener",
+        "event": "end",
+        "scriptFormat": "javascript"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${kvrDms.mapSchriftstuecke(dms_copy_schriftstuecke_coos)}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_schriftstuecke",
+        "expression": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true
+  }
+}

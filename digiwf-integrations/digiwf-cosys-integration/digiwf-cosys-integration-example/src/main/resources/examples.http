@@ -1,0 +1,20 @@
+### /test/document
+POST http://localhost:8080/test/document
+Content-Type: application/json
+
+{
+    "url": "",
+    "path": "test/example-cosys-document.pdf",
+    "action": "PUT"
+}
+
+### /testEventBus
+
+POST http://localhost:8080/testEventBus
+Content-Type: application/json
+
+{
+  "url": "",
+  "path": "test/example-cosys-document.pdf",
+  "action": "PUT"
+}
