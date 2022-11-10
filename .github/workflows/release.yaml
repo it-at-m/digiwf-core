@@ -85,6 +85,13 @@ jobs:
           push: true
           tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
 
+      - name: Build and push alw-integration
+        uses: docker/build-push-action@v2
+        with:
+          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
+          push: true
+          tags: itatm/digiwf-alw-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-alw-integration-service:dev
+
   release-services-camunda-ee:
     if: github.event.inputs.services == 'y'
     runs-on: ubuntu-latest
