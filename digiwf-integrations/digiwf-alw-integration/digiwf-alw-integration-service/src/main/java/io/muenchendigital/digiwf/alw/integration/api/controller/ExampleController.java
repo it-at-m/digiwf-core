@@ -1,4 +1,4 @@
-package de.muenchen.digiwf.alw.integration.api.controller;
+package io.muenchendigital.digiwf.alw.integration.api.controller;
 
 import io.muenchendigital.digiwf.alw.integration.domain.exception.AlwException;
 import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoRequest;
@@ -32,13 +32,14 @@ public class ExampleController {
             if (ex.getCause() != null && ex.getCause() instanceof HttpClientErrorException){
                 final HttpClientErrorException cause = (HttpClientErrorException) ex.getCause();
                 if (HttpStatus.NOT_FOUND.value() == cause.getRawStatusCode()){
-                    log.info("Ping successful");
+                    log.info("Request successful");
                     return;
                 }
             }
-            log.error("Request ping failed", ex);
+            log.error("Request failed", ex);
             throw ex;
         }
+        log.info("Request successful");
     }
 
 }

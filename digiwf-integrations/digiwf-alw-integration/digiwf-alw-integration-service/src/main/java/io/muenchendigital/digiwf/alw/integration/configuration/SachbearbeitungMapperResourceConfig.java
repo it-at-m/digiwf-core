@@ -2,7 +2,7 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
  * der Landeshauptstadt München, 2020
  */
-package de.muenchen.digiwf.alw.integration.configuration;
+package io.muenchendigital.digiwf.alw.integration.configuration;
 
 import io.muenchendigital.digiwf.alw.integration.configuration.SachbearbeitungMapperConfig;
 import lombok.extern.slf4j.Slf4j;
