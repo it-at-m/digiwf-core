@@ -397,4 +397,4 @@ gradle-app.setting
 **/target/
 /digiwf-schema-registry/digiwf-schema-registry-client/.swagger-codegen-ignore
 **/pom.xml.versionsBackup
-/digiwf-engine/digiwf-engine-service/src/main/resources/application-internal.properties
+/digiwf-engine/digiwf-engine-service/src/main/resources/application-internal.*
