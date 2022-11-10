@@ -8,6 +8,7 @@
       :error-message="errorMessage"
       :show-assignee="true"
       :filter.sync="filter"
+      pageId="assignedgrouptasks"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
     >

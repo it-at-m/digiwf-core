@@ -8,6 +8,7 @@ import openGroupTasks, {OpenGroupTasksState} from "../store/modules/openGroupTas
 import assignedGroupTasks, {AssignedGroupTasksState} from "../store/modules/assignedGroupTasks";
 import menu, {MenuState} from "../store/modules/menu";
 import info, {InfoState} from "../store/modules/info";
+import filters, { FiltersState } from './modules/filters';
 
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== 'production';
@@ -21,6 +22,7 @@ export interface RootState {
   assignedGroupTasksState: AssignedGroupTasksState;
   menuState: MenuState;
   infoState: InfoState;
+  filtersState: FiltersState;
 }
 
 export default new Vuex.Store<RootState>({
@@ -32,7 +34,8 @@ export default new Vuex.Store<RootState>({
     openGroupTasks,
     assignedGroupTasks,
     menu,
-    info
+    info,
+    filters
   },
   strict: debug
 });

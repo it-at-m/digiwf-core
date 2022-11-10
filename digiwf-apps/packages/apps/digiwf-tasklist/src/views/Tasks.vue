@@ -6,6 +6,7 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter.sync="filter"
+      pageId="tasks"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
     >

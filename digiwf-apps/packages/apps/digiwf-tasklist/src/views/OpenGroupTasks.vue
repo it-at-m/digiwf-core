@@ -7,6 +7,7 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter.sync="filter"
+      pageId="opengrouptasks"
       @loadTasks="loadTasks(true)"
       @update:filter="onFilterChanged"
     >

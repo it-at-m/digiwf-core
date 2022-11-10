@@ -39,6 +39,9 @@
     "name" : "SchemaRestController",
     "description" : "API to handle json schemas"
   }, {
+    "name" : "FilterRestController",
+    "description" : "API to load user filters and perform actions on them"
+  }, {
     "name" : "ServiceInstanceFileRestController",
     "description" : "API to perform actions on service instance files"
   }, {
@@ -189,6 +192,53 @@
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/FormTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/filter" : {
+      "get" : {
+        "tags" : [ "FilterRestController" ],
+        "operationId" : "getFilters",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FilterTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "FilterRestController" ],
+        "operationId" : "saveFilter",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SaveFilterTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FilterTO"
                 }
               }
             }
@@ -841,6 +891,35 @@
         }
       }
     },
+    "/rest/user/groups/{id}" : {
+      "get" : {
+        "tags" : [ "UserRestController" ],
+        "operationId" : "getUserGroups",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/rest/task/{id}" : {
       "get" : {
         "tags" : [ "HumanTaskRestController" ],
@@ -1282,6 +1361,49 @@
         }
       }
     },
+    "/rest/filter/{id}" : {
+      "get" : {
+        "tags" : [ "FilterRestController" ],
+        "operationId" : "getFilter",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FilterTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "FilterRestController" ],
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/rest/document/task/{id}" : {
       "get" : {
         "tags" : [ "DocumentRestController" ],
@@ -1541,6 +1663,32 @@
             "type" : "string"
           },
           "target" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SaveFilterTO" : {
+        "required" : [ "filterString", "pageId" ],
+        "type" : "object",
+        "properties" : {
+          "filterString" : {
+            "type" : "string"
+          },
+          "pageId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FilterTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "filterString" : {
+            "type" : "string"
+          },
+          "pageId" : {
             "type" : "string"
           }
         }

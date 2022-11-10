@@ -5,19 +5,46 @@
         <h1>Vorgänge</h1>
       </v-flex>
       <v-flex class="d-flex justify-space-between align-center searchField">
-        <v-text-field
-          id="suchfeld"
-          v-model="filter"
-          flat
-          dense
-          outlined
-          hide-details
-          label="Vorgänge durchsuchen"
-          clearable
-          append-icon="mdi-magnify"
-          color="black"
-          style="max-width: 500px"
-        />
+      <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
+      <v-combobox
+        id="suchfeld"
+        v-model="filter"
+        :items="persistentFilters.map((f) => f.filterString)"
+        flat
+        dense
+        outlined
+        hide-details
+        label="Aufgaben durchsuchen"
+        clearable
+        color="black"
+        style="max-width: 500px"
+        @input.native="filter=$event.srcElement.value"
+      >
+        <template #append>
+          <div class="v-input__icon">
+            <v-btn
+              v-if="isFilterPersistent"
+              icon
+              aria-label="Filter speichern"
+              class="v-icon yellow--text"
+              @click="deletePersistentFilter()"
+            >
+              <v-icon color="yellow"> mdi-star </v-icon>
+            </v-btn>
+            <v-btn
+              v-else
+              icon
+              aria-label="Filter löschen"
+              class="v-icon yellow--text"
+              @click="savePersistentFilter()"
+            >
+              <v-icon color="yellow"> mdi-star-outline </v-icon>
+            </v-btn>
+          </div>
+          <v-icon class="ml-2"> mdi-magnify </v-icon>
+        </template>
+      </v-combobox>
+
         <div class="d-flex align-center">
           <v-btn
             aria-label="Vorgänge aktualisieren"
@@ -83,9 +110,10 @@ import {Component, Vue, Watch} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
+import {ServiceDefinitionTO, FilterTO, SaveFilterTO, FilterRestControllerApiFactory, FetchUtils} from '@muenchen/digiwf-engine-api-internal';
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {PageableList: AppPageableList, ProcessDefinitionItem, TaskItem, AppToast, AppViewLayout}
@@ -96,10 +124,12 @@ export default class Processes extends Vue {
   isLoading = false;
   filter = "";
   errorMessage = "";
+  persistentFilters: FilterTO[] = [];
 
   created(): void {
     this.loadProcesses();
     this.loadFilter();
+    this.loadPersistentFilters();
   }
 
   async loadProcesses(refresh = false): Promise<void> {
@@ -120,7 +150,7 @@ export default class Processes extends Vue {
   }
 
   @Watch("filter")
-  onFilterChanged(filter: string) {
+  onFilterChanged() {
     this.$store.commit('processDefinitions/setFilter', this.filter);
   }
 
@@ -132,6 +162,68 @@ export default class Processes extends Vue {
     return this.processDefinitions.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(this.filter.toLocaleLowerCase()));
   }
 
+  get isFilterPersistent(): boolean {
+    if (
+      !this.filter ||
+      this.filter.length == 0 ||
+      !this.persistentFilters ||
+      this.persistentFilters!.length == 0
+    ) {
+      return false;
+    }
+    return (
+      this.persistentFilters!.find(
+        (fl: FilterTO) => fl.filterString == this.filter
+      ) != undefined
+    );
+  }
+
+  async savePersistentFilter() {
+    if (!this.filter){
+      return;
+    }
+    const request: SaveFilterTO = {
+      pageId: "processes",
+      filterString: this.filter,
+    }
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
+      await FilterRestControllerApiFactory(cfg).saveFilter(request);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
+    }
+  }
+
+  async deletePersistentFilter() {
+    const id = this.persistentFilters!.find((f: FilterTO) => f.filterString == this.filter)?.id!
+    try {
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
+      await FilterRestControllerApiFactory(cfg)._delete(id);
+
+      this.errorMessage = "";
+      this.$store.dispatch('filters/getFilters', true);
+    } catch (error) {
+      this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
+    }
+  }
+
+  async loadPersistentFilters(refresh = false): Promise<void> {
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === "processes");
+    try {
+      await this.$store.dispatch('filters/getFilters', refresh);
+      this.errorMessage = "";
+    } catch (error) {
+      this.errorMessage = error.message;
+    }
+  }
+
+  @Watch('$store.state.filters.filters')
+  setPersistentFilters(): void {
+    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'processes');
+  }
 
 }
 </script>

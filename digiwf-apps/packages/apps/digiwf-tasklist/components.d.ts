@@ -46,6 +46,7 @@ declare module '@vue/runtime-core' {
     VCheckbox: typeof import('vuetify/lib')['VCheckbox']
     VChip: typeof import('vuetify/lib')['VChip']
     VCol: typeof import('vuetify/lib')['VCol']
+    VCombobox: typeof import('vuetify/lib')['VCombobox']
     VContainer: typeof import('vuetify/lib')['VContainer']
     VDataIterator: typeof import('vuetify/lib')['VDataIterator']
     VDatePicker: typeof import('vuetify/lib')['VDatePicker']
