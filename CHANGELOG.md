@@ -4,6 +4,7 @@
 
 ### Added
 
+- (tasklist): persistent filters
 - (digiwf-form-builder): validation of list items
 
 ### Fixed
