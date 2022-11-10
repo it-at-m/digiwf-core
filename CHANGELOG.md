@@ -5,6 +5,8 @@
 ### Added
 
 - (digiwf-form-builder): validation of list items
+- (digiwf-s3-integration):  supports creation of presigned urls for multiple file paths
+- (digiwf-cosys-integration): allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 
 ### Fixed
 
