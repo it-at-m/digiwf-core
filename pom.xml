@@ -226,6 +226,14 @@
             </roles>
         </developer>
         <developer>
+            <name>axd4</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/axd4</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
             <name>Dominik Horn</name>
             <organization>Miragon GmbH</organization>
             <url>https://github.com/dominikhorn93</url>

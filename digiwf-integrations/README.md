@@ -2,6 +2,22 @@
 
 In this module, you can find all integrations for the communication with other services or modules.
 
+## digiwf-email-integration
+
+This is a Spring Boot Starter library to send e-mails in the DigiWF environment.
+It can be used to send mails asynchronously through a spring cloud stream compatible event broker.<br>For attachments to not clutter the EventBus,
+paths to file locations on the S3-Filer are expected. The file is then grabbed by this library to avoid sending
+large files repeatedly through the EventBus.
+
+The goal of this library is enabling async mail dispatching with a EventBus and a S3-Filer as your environment.
+
+Features:
+
+* Can be used to dispatch emails asynchronously through an eventbus.
+* Can inform the receiver through an eventbus if the email has been sent or if there was a problem.
+* Can get attachment files from an S3-Filer, no need to get them yourself and send it through the EventBus several
+  times. Less clutter in your EventBus!
+
 ## digiwf-s3-integration
 
 There are several ways to store files in S3 compatible storage. Each project often has to implement the same

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>digiwf-email-integration</name>
+    <artifactId>digiwf-email-integration</artifactId>
+    <version>0.13.0-SNAPSHOT</version>
+    <description>E-Mail integration used by DigiWF</description>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>io.muenchendigital.digiwf</groupId>
+        <artifactId>digiwf-integrations</artifactId>
+        <version>0.13.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <digiwf.spring.cloudstream.utils.version>0.10.0</digiwf.spring.cloudstream.utils.version>
+        <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
+        <!-- tika parsers -->
+        <jbig2-imageio.version>3.0.1</jbig2-imageio.version>
+        <jai-imageio-jpeg2000.version>1.3.0</jai-imageio-jpeg2000.version>
+    </properties>
+
+    <modules>
+        <module>digiwf-email-integration-core</module>
+        <module>digiwf-email-integration-starter</module>
+        <module>digiwf-email-integration-example</module>
+        <module>digiwf-email-integration-service</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

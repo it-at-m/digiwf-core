@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - mailhog_network
+
+networks:
+  mailhog_network:
+    driver: bridge
