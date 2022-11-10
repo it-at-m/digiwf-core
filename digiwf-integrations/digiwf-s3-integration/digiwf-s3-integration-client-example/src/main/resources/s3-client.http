@@ -1,0 +1,9 @@
+# get presigned url
+POST http://localhost:8081/presignedurl
+Content-Type: application/json
+Accept: application/json
+
+{
+  "path": "folder/first.txt;folder/second.txt;folder/third.txt",
+  "action": "GET"
+}

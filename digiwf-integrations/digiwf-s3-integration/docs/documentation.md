@@ -126,6 +126,8 @@ storage.
 If you request a file directly you just get the presigned url for the file.
 If you request presigned urls for a directory presigned urls for all files inside the directory are created.
 
+In the `path` you can specify multiple file paths by concatenating them with a semicolon `;` (e.g. `folder/first.txt;folder/second.txt;folder/third.txt`).
+
 _For more examples, please refer to
 the [example-s3-integration](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration)
 and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration-client)
