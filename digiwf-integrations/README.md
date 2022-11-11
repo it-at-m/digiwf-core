@@ -17,3 +17,7 @@ Of course, one service is not suitable for all projects, as your needs may be di
 provide a Spring Boot Starter library for an integration service that can be easily customized.
 Additionally, a second starter library is included, which serves as a client library to handle files and folders
 with the above-mentioned starter.
+
+## digiwf-verification-integration
+
+The goal of this library is to provide a service able to get a verification registered and return a verification link which later can be used to verify any data by confirmation.
