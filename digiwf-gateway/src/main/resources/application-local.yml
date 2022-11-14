@@ -47,5 +47,17 @@ spring:
         - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
 
+  # security config
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri:
+        registration:
+          keycloak:
+            client-id:
+            client-secret:
+
   mvc:
     log-request-details: on
