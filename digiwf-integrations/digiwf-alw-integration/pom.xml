@@ -15,9 +15,6 @@
     <packaging>pom</packaging>
     <description>Integration of the ALW-System used by DigiWF</description>
 
-    <properties>
-        <digiwf-spring-cloudstream-utils.version>0.0.1</digiwf-spring-cloudstream-utils.version>
-    </properties>
 
     <modules>
         <module>digiwf-alw-integration-core</module>
