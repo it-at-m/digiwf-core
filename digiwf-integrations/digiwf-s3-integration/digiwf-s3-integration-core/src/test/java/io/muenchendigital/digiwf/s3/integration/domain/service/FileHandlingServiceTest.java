@@ -85,7 +85,7 @@ class FileHandlingServiceTest {
                 Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFile)).thenReturn(Set.of(pathToFile));
                 Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
-                final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToFile, action, expiresInMinutes);
+                final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(List.of(pathToFile), action, expiresInMinutes);
 
                 Assertions.assertEquals(1, presignedUrls.size());
                 presignedUrls.forEach(presignedUrl -> {
@@ -103,7 +103,7 @@ class FileHandlingServiceTest {
         // special case POST is converted to PUT
         Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
-        final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToFile, Method.POST, expiresInMinutes);
+        final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(List.of(pathToFile), Method.POST, expiresInMinutes);
 
         Assertions.assertEquals(1, presignedUrls.size());
         presignedUrls.forEach(presignedUrl -> {
@@ -130,7 +130,7 @@ class FileHandlingServiceTest {
                     Mockito.when(this.s3Repository.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
                 }
 
-                final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToDirectory, action, expiresInMinutes);
+                final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(List.of(pathToDirectory), action, expiresInMinutes);
 
                 Assertions.assertEquals(2, presignedUrls.size());
                 presignedUrls.forEach(presignedUrl -> {
@@ -148,13 +148,58 @@ class FileHandlingServiceTest {
         // special case POST is converted to PUT
         Mockito.when(this.s3Repository.getPresignedUrl(pathToDirectory, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
-        final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToDirectory, Method.POST, expiresInMinutes);
+        final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(List.of(pathToDirectory), Method.POST, expiresInMinutes);
 
         Assertions.assertEquals(1, presignedUrls.size());
         presignedUrls.forEach(presignedUrl -> {
             Assertions.assertEquals(presignedUrl.getUrl(), examplePresignedUrl);
             Assertions.assertEquals(presignedUrl.getAction(), Method.PUT.toString());
             Assertions.assertEquals(presignedUrl.getPath(), pathToDirectory);
+        });
+    }
+
+    @Test
+    void getPresignedUrlsForMultipleFiles() throws S3AccessException, FileExistanceException {
+        final List<String> pathToFiles = List.of("folder/first.txt", "folder/second.txt", "folder/third.txt");
+        final int expiresInMinutes = 5;
+        final List<Method> actions = List.of(Method.GET, Method.PUT, Method.DELETE);
+
+        final String examplePresignedUrl = "some-presigned-url";
+
+        // GET, PUT, DELETE
+        actions.forEach(action -> {
+            try {
+                for (String file : pathToFiles) {
+                    Mockito.when(this.s3Repository.getFilePathsFromFolder(file)).thenReturn(Set.of(file));
+                    Mockito.when(this.s3Repository.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
+                }
+
+                final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToFiles, action, expiresInMinutes);
+
+                Assertions.assertEquals(3, presignedUrls.size());
+                presignedUrls.forEach(presignedUrl -> {
+                    Assertions.assertEquals(presignedUrl.getUrl(), examplePresignedUrl);
+                    Assertions.assertEquals(presignedUrl.getAction(), action.toString());
+                });
+                Mockito.reset();
+            } catch (final FileExistanceException | S3AccessException e) {
+                Assertions.fail(e.getMessage());
+            }
+        });
+
+        // POST
+        // special case POST is converted to PUT
+        for (String file : pathToFiles) {
+            Mockito.when(this.s3Repository.getPresignedUrl(file, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
+        }
+
+        final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(pathToFiles, Method.POST, expiresInMinutes);
+
+        Assertions.assertEquals(3, presignedUrls.size());
+        presignedUrls.forEach(presignedUrl -> {
+            Assertions.assertEquals(presignedUrl.getUrl(), examplePresignedUrl);
+            Assertions.assertEquals(presignedUrl.getAction(), Method.PUT.toString());
+            Assertions.assertTrue(pathToFiles.stream().anyMatch(file -> file.equals(presignedUrl.getPath())));
         });
     }
 

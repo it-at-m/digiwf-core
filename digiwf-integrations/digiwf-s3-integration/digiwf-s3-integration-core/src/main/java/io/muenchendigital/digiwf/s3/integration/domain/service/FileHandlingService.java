@@ -31,18 +31,38 @@ public class FileHandlingService {
     private final FileRepository fileRepository;
 
     /**
-     * Get a list of presigned urls for all files in the path.
+     * Get a list of presigned urls for all files in the paths.
      * If the path is a file the presigned url for the file is returned.
      *
-     * @param path             path to file or folder
+     * @param paths            list of paths to files and/or folders
      * @param action           http method for the presigned url
      * @param expiresInMinutes presigned url expiration time
      * @return
      * @throws S3AccessException
      * @throws FileExistanceException
      */
-    public List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes) throws S3AccessException, FileExistanceException {
-        return this.getPresignedUrls(path, action, expiresInMinutes, Optional.empty());
+    public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes) throws S3AccessException, FileExistanceException {
+        return this.getPresignedUrls(paths, action, expiresInMinutes, Optional.empty());
+    }
+
+    /**
+     * Get a list of presigned urls for all files in the paths.
+     * If the path is a file the presigned url for the file is returned.
+     *
+     * @param paths            list of paths to files and/or folders
+     * @param action           http method for the presigned url
+     * @param expiresInMinutes presigned url expiration time
+     * @param endOfLife        the files endOfLife
+     * @return
+     * @throws S3AccessException
+     * @throws FileExistanceException
+     */
+    public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, final Optional<LocalDate> endOfLife) throws S3AccessException, FileExistanceException {
+        final List<PresignedUrl> presignedUrls = new ArrayList<>();
+        for (String p : paths) {
+            presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes, endOfLife));
+        }
+        return presignedUrls;
     }
 
     /**
