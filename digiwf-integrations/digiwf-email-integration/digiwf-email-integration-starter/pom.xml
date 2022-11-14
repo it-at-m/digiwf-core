@@ -42,7 +42,7 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
-            <version>${digiwf.s3.integration.client.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- streaming -->
@@ -57,7 +57,5 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
-
 </project>
