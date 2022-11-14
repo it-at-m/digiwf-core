@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-alw-integration-parent</artifactId>
-        <version>0.12.0-SNAPSHOT</version>
+        <artifactId>digiwf-alw-integration</artifactId>
+        <version>0.13.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-alw-integration-service</artifactId>
-    <name>digiwf_alw_integration_service</name>
+    <name>digiwf-alw-integration-service</name>
 
     <properties>
         <logstash.encoder>7.0.1</logstash.encoder>
