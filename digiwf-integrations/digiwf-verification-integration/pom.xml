@@ -15,10 +15,6 @@
         <version>0.13.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <digiwf.spring.cloudstream.utils.version>0.12.0</digiwf.spring.cloudstream.utils.version>
-    </properties>
-
     <modules>
         <module>digiwf-verification-integration-core</module>
         <module>digiwf-verification-integration-starter</module>
