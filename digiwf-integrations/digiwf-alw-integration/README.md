@@ -8,7 +8,6 @@ Features:
 * Can inform the receiver through an eventbus if the request was successful or if there was a problem.
 * Performs a functional ping to the ALW System to check connectivity.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
