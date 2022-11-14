@@ -4,6 +4,7 @@
 
 ### Added
 
+- (alw-integration): alw integration modules added 
 - (tasklist): persistent filters
 - (digiwf-form-builder): validation of list items
 - (digiwf-s3-integration):  supports creation of presigned urls for multiple file paths
