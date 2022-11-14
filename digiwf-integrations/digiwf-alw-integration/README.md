@@ -1,32 +1,3 @@
-<div id="top"></div>
-
-<!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-
-<!-- END OF PROJECT SHIELDS -->
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="#">
-    <img src="/images/logo.png" alt="Logo" height="200">
-  </a>
-
-<h3 align="center">DigiWF ALW-Integration</h3>
-
-  <p align="center">
-    Spring-Boot-Starter project to integrate the ALW-System into DigiWF
-    <br /><a href="https://github.com/it-at-m/digiwf-alw-integration/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/it-at-m/digiwf-alw-integration/issues">Request Feature</a>
-  </p>
-</div>
-
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your environment.
