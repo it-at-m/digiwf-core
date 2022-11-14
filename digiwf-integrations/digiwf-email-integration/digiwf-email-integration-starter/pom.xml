@@ -49,7 +49,7 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-            <version>${digiwf.spring.cloudstream.utils.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
