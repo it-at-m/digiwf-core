@@ -8,7 +8,7 @@ import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoReq
 import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoResponse;
 import io.muenchendigital.digiwf.alw.integration.domain.service.AlwPersoneninfoService;
 import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.service.CorrelateMessageService;
+import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.function.context.MessageRoutingCallback;
