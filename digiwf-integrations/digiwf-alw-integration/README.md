@@ -19,15 +19,6 @@ The documentation project is built with technologies we use in our projects:
 * Spring-Cloud-Stream
 * Apache Kafka
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](#) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ## Set up
 Follow these steps to use the starter in your application:
 
