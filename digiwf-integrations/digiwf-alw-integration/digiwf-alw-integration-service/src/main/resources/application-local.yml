@@ -1,0 +1,9 @@
+# spring cloud
+#spring.cloud.stream.kafka.binder.configuration.security.protocol=SSL
+spring.cloud.stream.kafka.binder.brokers: "localhost:9092"
+
+# streaming
+io.muenchendigital.digiwf.alw:
+  topic: "dwf-alw-local"
+  group: "dwf-alw-local"
+  engineTopic: "dwf-digiwf-engine-local-01"
