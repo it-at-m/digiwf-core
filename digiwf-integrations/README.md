@@ -18,6 +18,10 @@ provide a Spring Boot Starter library for an integration service that can be eas
 Additionally, a second starter library is included, which serves as a client library to handle files and folders
 with the above-mentioned starter.
 
+## digiwf-alw-integration
+
+The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your environment.
+
 ## digiwf-verification-integration
 
 The goal of this library is to provide a service able to get a verification registered and return a verification link which later can be used to verify any data by confirmation.

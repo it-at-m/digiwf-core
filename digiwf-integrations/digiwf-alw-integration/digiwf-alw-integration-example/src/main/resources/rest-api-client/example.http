@@ -1,0 +1,4 @@
+### testGetAlwZustaendigkeit
+GET http://{{host}}/testGetAlwZustaendigkeit
+### testGetAlwZustaendigkeitEventBus
+GET http://{{host}}/testGetAlwZustaendigkeitEventBus
