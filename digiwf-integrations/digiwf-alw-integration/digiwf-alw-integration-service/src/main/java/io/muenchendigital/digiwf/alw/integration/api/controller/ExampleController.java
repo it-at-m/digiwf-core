@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.alw.integration.api.controller;
 
 import io.muenchendigital.digiwf.alw.integration.domain.exception.AlwException;
 import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoRequest;
+import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoResponse;
 import io.muenchendigital.digiwf.alw.integration.domain.service.AlwPersoneninfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,22 +25,24 @@ public class ExampleController {
     private final AlwPersoneninfoService alwPersoneninfoService;
 
     @GetMapping(value = "/getZustaendigkeit")
-    public void getZustaendigkeit(@RequestParam final String azrNumber) throws AlwException {
+    public String getZustaendigkeit(@RequestParam final String azrNumber) throws AlwException {
         log.debug("Incoming request");
+        AlwPersoneninfoResponse response;
         try {
-            alwPersoneninfoService.getZustaendigkeit(new AlwPersoneninfoRequest(azrNumber));
+            response = alwPersoneninfoService.getZustaendigkeit(new AlwPersoneninfoRequest(azrNumber));
         } catch (final Exception ex){
             if (ex.getCause() != null && ex.getCause() instanceof HttpClientErrorException){
                 final HttpClientErrorException cause = (HttpClientErrorException) ex.getCause();
                 if (HttpStatus.NOT_FOUND.value() == cause.getRawStatusCode()){
-                    log.info("Request successful");
-                    return;
+                    log.info("Connection successful");
+                    return "Not found";
                 }
             }
             log.error("Request failed", ex);
             throw ex;
         }
         log.info("Request successful");
+        return response.getZustaendigeGruppe();
     }
 
 }
