@@ -84,14 +84,21 @@ jobs:
           context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
           tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
-
+          
       - name: Build and push email integration
         uses: docker/build-push-action@v2
         with:
           context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
           push: true
           tags: itatm/digiwf-email-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-email-integration-service:dev
-
+          
+      - name: Build and push alw-integration
+        uses: docker/build-push-action@v2
+        with:
+          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
+          push: true
+          tags: itatm/digiwf-alw-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-alw-integration-service:dev
+          
   release-services-camunda-ee:
     if: github.event.inputs.services == 'y'
     runs-on: ubuntu-latest

@@ -3,7 +3,7 @@ server:
 spring:
 
   # Define the local keycloak realm here
-  realm: <YOUR_LOCAL_REALM>
+  realm: P82
 
   # spring cloud gateway config
   cloud:
@@ -56,7 +56,7 @@ spring:
             issuer-uri:
         registration:
           keycloak:
-            client-id: frontend
+            client-id:
             client-secret:
 
   mvc:
