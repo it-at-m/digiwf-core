@@ -17,3 +17,7 @@ Of course, one service is not suitable for all projects, as your needs may be di
 provide a Spring Boot Starter library for an integration service that can be easily customized.
 Additionally, a second starter library is included, which serves as a client library to handle files and folders
 with the above-mentioned starter.
+
+## digiwf-alw-integration
+
+The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your environment.
