@@ -54,7 +54,7 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client</artifactId>
-            <version>0.0.6</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 
