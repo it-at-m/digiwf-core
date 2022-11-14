@@ -97,7 +97,6 @@ There you can:
 * Make a http request to the configured test endpoints from <i>[ExampleController](https://github.com/it-at-m/digiwf-alw-integration/blob/dev/example-digiwf-alw-integration/src/main/java/io/muenchendigital/digiwf/alw/integration/api/controller/ExampleController.java) </i> on http://localhost:10006/testGetAlwZustaendigkeitEventBus
 * Observe the output in the console
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Documentation
 For a detailed documentation see [docs](docs)
