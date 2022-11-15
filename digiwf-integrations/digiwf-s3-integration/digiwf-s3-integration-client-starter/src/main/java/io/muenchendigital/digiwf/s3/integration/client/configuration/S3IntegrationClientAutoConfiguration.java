@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @ComponentScan(
         basePackages = {
@@ -40,19 +40,18 @@ public class S3IntegrationClientAutoConfiguration {
 
     /**
      * Creates a bean with name "apiClientFactory" of {@link ApiClientFactory}.
-     *
+     * <p>
      * This factory class is providing either the preconfigured {@link FileApiApi} or {@link FileApiApi}.
      *
-     * @param restTemplate to create rest requests.
-     *                     If the S3 integration service is secured via Oauth2,
-     *                     the OAuth2RestTemplate can be used here, for example.
+     * @param webClient to create rest requests.
+     *                  If the S3 integration service is secured via Oauth2,
      * @return the {@link ApiClientFactory}.
      */
     @Bean
-    public ApiClientFactory apiClientFactory(final RestTemplate restTemplate) {
+    public ApiClientFactory apiClientFactory(final WebClient webClient) {
         return new ApiClientFactory(
                 this.s3IntegrationClientProperties.getDocumentStorageUrl(),
-                restTemplate
+                webClient
         );
     }
 

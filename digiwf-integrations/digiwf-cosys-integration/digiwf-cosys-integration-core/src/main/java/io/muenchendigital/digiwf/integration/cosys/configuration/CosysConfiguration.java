@@ -11,10 +11,4 @@ public class CosysConfiguration {
 
     private String url;
 
-    private String ssoTokenRequestUrl;
-
-    private String ssoTokenClientId;
-
-    private String ssoTokenClientSecret;
-
 }

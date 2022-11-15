@@ -4,8 +4,8 @@
  */
 package io.muenchendigital.digiwf.integration.cosys.domain.mapper;
 
+import com.google.gson.Gson;
 import io.muenchendigital.digiwf.integration.cosys.configuration.CosysConfiguration;
-import io.muenchendigital.digiwf.integration.cosys.domain.model.DocumentXml;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocument;
 import io.muenchendigital.digiwf.integration.cosys.domain.model.GenerateDocumentRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Map the input model for the generatedocument interface
@@ -26,12 +27,9 @@ public class GenerateDocumentRequestMapper {
     private final CosysConfiguration configuration;
 
     public GenerateDocumentRequest map(final GenerateDocument model) throws IOException {
-        final DocumentXml data = new DocumentXml();
-        model.getVariables().forEach(data::addProcessVariable);
-
         final GenerateDocumentRequest request = new GenerateDocumentRequest();
         request.setClient(model.getClient());
-        request.setData(data.toXml().getBytes());
+        request.setData(new Gson().toJson(model.getVariables()).getBytes(StandardCharsets.UTF_8));
         request.setGuid(model.getGuid());
         request.setMerge(this.configuration.getMergeOptions());
         request.setRole(model.getRole());

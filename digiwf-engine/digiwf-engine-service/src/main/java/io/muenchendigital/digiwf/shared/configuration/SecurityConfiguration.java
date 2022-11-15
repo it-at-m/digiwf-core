@@ -13,12 +13,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * The central class for configuration of all security aspects.
@@ -64,6 +70,27 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
     @Bean
     public OAuth2RestTemplate oauth2RestTemplate(final OAuth2ProtectedResourceDetails resource, final OAuth2ClientContext context) {
         return new OAuth2RestTemplate(resource, context);
+    }
+
+    @Bean
+    public WebClient webClient(
+            final ClientRegistrationRepository clientRegistrationRepository,
+            final OAuth2AuthorizedClientService authorizedClientService
+    ) {
+        final var oauth = new ServletOAuth2AuthorizedClientExchangeFilterFunction(
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                        clientRegistrationRepository, authorizedClientService
+                )
+        );
+        oauth.setDefaultClientRegistrationId("cosys");
+        return WebClient.builder()
+                .exchangeStrategies(ExchangeStrategies.builder()
+                        .codecs(configurer -> configurer
+                                .defaultCodecs()
+                                .maxInMemorySize(32 * 1024 * 1024))
+                        .build())
+                .apply(oauth.oauth2Configuration())
+                .build();
     }
 
     @Bean

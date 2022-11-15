@@ -1,0 +1,1838 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This application provides the routing for calls from Fachanwendungen to coSys.",
+    "version": "2.1.5-SNAPSHOT",
+    "title": "cosys-eai",
+    "contact": {
+      "name": "coSys EAI GIT Repository",
+      "url": "https://git.muenchen.de/cosys/cosys-eai"
+    }
+  },
+  "host": "cosys-dev.muenchen.de",
+  "basePath": "/cosys-eai/rest",
+  "tags": [
+    {
+      "name": "generation"
+    },
+    {
+      "name": "datapool"
+    },
+    {
+      "name": "dataprovider"
+    },
+    {
+      "name": "webform"
+    },
+    {
+      "name": "pdf"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/analyseTemplate/{guid}": {
+      "get": {
+        "summary": "Analyzes a template for used fields and other information",
+        "operationId": "analyseTemplate",
+        "produces": [
+          "application/json;mode=DATA_SUPPLY",
+          "application/json;mode=FIELD_DEFINITION",
+          "application/json;mode=SYNTAX"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The guid of the template",
+            "required": true,
+            "type": "string",
+            "x-example": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "The type of the template.",
+            "required": true,
+            "type": "string",
+            "x-example": "DATA_SUPPLY",
+            "enum": [
+              "DATA_SUPPLY",
+              "FIELD_DEFINITION",
+              "SYNTAX"
+            ]
+          },
+          {
+            "name": "stateFilter",
+            "in": "query",
+            "description": "Release state of the template version",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RELEASED_ONLY",
+              "RELEASED_OR_TEST",
+              "ALL",
+              "TEST_ONLY"
+            ]
+          },
+          {
+            "name": "validity",
+            "in": "query",
+            "description": "Validity date to select a specific template version. Date must be in ISO 8601, e.g. 2020-04-09T13:49:55.000Z. Default value current date/time",
+            "required": false,
+            "type": "string",
+            "format": "data-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Used fields and other information of the template",
+            "examples": {
+              "application/json;mode=DATA_SUPPLY": "{   \"funktionsbeispiele_cosys.BeispielH\":null,   \"funktionsbeispiele_cosys.BeispielCDEValue\":null,   \"funktionsbeispiele_cosys.BeispielI\":null,   \"funktionsbeispiele_cosys.BeispielF\":null,   \"funktionsbeispiele_cosys.BeispielG\":null,   \"funktionsbeispiele_cosys.Text\":null,   \"BeispielCDE\":null,   \"funktionsbeispiele_cosys.BeispielB\":null,   \"funktionsbeispiele_cosys.BeispielA\":null,   \"funktionsbeispiele_cosys.Bild2\":null,   \"funktionsbeispiele_cosys_tabelle\":[      {         \"funktionsbeispiele_cosys_tabelle.Spalte2\":null,         \"funktionsbeispiele_cosys_tabelle.Spalte1\":null      }   ],   \"funktionsbeispiele_cosys.Bild\":null }",
+              "application/json;mode=FIELD_DEFINITION": "[   {      \"name\":\"funktionsbeispiele_cosys.BeispielA\",      \"fieldInstruction\":\"funktionsbeispiele_cosys.BeispielA\"   },   {      \"name\":\"funktionsbeispiele_cosys.BeispielF\",      \"type\":\"date\",      \"format\":\"HH:mm\",      \"size\":\"10\",      \"testvalue\":\"11:00\",      \"expandAttributes\":\"<cib-formfield type=\\\"date\\\" format=\\\"HH:mm\\\" size=\\\"10\\\" testvalue=\\\"11:00\\\" />\",      \"fieldInstruction\":\"funktionsbeispiele_cosys.BeispielF\\\\* <cib-formfield type=\\\"date\\\" format=\\\"HH:mm\\\" size=\\\"10\\\" testvalue=\\\"11:00\\\" /> \\\\@ \\\"HH:mm\\\"\"   }]",
+              "application/json;mode=SYNTAX": "[[\"114\",\"null\"],[\"116\",\"nested-table:0\"],[\"46\",\"null\"],[\"4600\",\"funktionsbeispiele_cosys.BeispielA\"],[\"1046\",\"funktionsbeispiele_cosys.BeispielA\"],[\"17\",\"null\"],[\"112\",\"null\"],[\"1112\",\"funktionsbeispiele_cosys_BeispielB\"],[\"113\",\"null\"],[\"46\",\"null\"],[\"4600\",\"funktionsbeispiele_cosys.BeispielB\"],[\"1046\",\"funktionsbeispiele_cosys.BeispielB\"],[\"1113\",\"null\"],[\"1017\",\"null\"],[\"0\",\"null\"],[\"99\",\"=UPPER\"],[\"1000\",\"null\"],[\"17\",\"null\"],[\"112\",\"null\"],[\"1112\",\"funktionsbeispiele_cosys_BeispielCDEValue\"],[\"113\",\"null\"],[\"46\",\"null\"],[\"4600\",\"funktionsbeispiele_cosys.BeispielCDEValue\"],[\"1046\",\"funktionsbeispiele_cosys.BeispielCDEValue\"],[\"1113\",\"null\"],[\"1017\",\"null\"],[\"17\",\"null\"],[\"112\",\"null\"],[\"1112\",\"BeispielCDE\"],[\"113\",\"null\"],[\"0\",\"null\"],[\"99\",\"=TOKENIZE\"],[\"1000\",\"null\"],[\"0\",\"null\"],[\"99\",\"=TOKENIZE\"],[\"1000\",\"null\"],[\"0\",\"null\"],[\"99\",\"=TOKENIZE\"],[\"1101\",\"null\"],[\"1063\",\"null\"],[\"103\",\"null\"],[\"1116\",\"null\"],[\"1114\",\"null\"],[\"115\",\"pages-count:2\"],[\"212\",\"{Arial;11,12,14;normal,bold;}\"],[\"213\",\"{Arial;11,12,14;normal,bold;}\"],[\"216\",\"null\"],[\"502\",\"297mm,210mm;portrait\"],[\"504\",\"297mm,210mm;portrait;\"],[\"502\",\"297mm,210mm;portrait\"],[\"504\",\"297mm,210mm;portrait;\"]]"
+            },
+            "schema": {
+              "$ref": "#/definitions/AnalyseTemplateOutput"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "coSys instance could not be reached or the template (version) does not exist"
+          },
+          "500": {
+            "description": "An unexpected system error occured. Response body might contain ZIP file that can be used for further error analysis."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-analyseTemplate"
+      }
+    },
+    "/coSysUrl": {
+      "get": {
+        "summary": "Returns the cosys url.",
+        "operationId": "getCoSysUrl",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "query",
+            "description": "The guid of the template.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in.",
+            "required": false,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used.",
+            "required": false,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "TO",
+              "TESTER",
+              "SB"
+            ]
+          },
+          {
+            "name": "templateName",
+            "in": "query",
+            "description": "The name of the template.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "templateId",
+            "in": "query",
+            "description": "The identifier (form number) of the template.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "templateType",
+            "in": "query",
+            "description": "The type of the template.",
+            "required": false,
+            "type": "string",
+            "default": "TEMPLATE_DYNAMIC",
+            "enum": [
+              "TEMPLATE_DYNAMIC",
+              "TEMPLATE_STATIC",
+              "TEMPLATE_PAPER"
+            ]
+          },
+          {
+            "name": "templateSearchparameter",
+            "in": "query",
+            "description": "The template search parameter.\n\n\n*Example:* `{ \"cib_keyWords\": \"test\" }`",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "datapoolid",
+            "in": "query",
+            "description": "The data pool id.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hideTree",
+            "in": "query",
+            "description": "Hides the template tree.",
+            "required": false,
+            "type": "string",
+            "x-example": "true",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "hideTemplateSearch",
+            "in": "query",
+            "description": "Hides the template search.",
+            "required": false,
+            "type": "string",
+            "x-example": "true",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "hideDraftTab",
+            "in": "query",
+            "description": "Hides the draft tab.",
+            "required": false,
+            "type": "string",
+            "x-example": "true",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "lockDatacontext",
+            "in": "query",
+            "description": "Locks the data context.",
+            "required": false,
+            "type": "string",
+            "x-example": "true",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "receiverName",
+            "in": "query",
+            "description": "The receiver name.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "receiverMail",
+            "in": "query",
+            "description": "The receiver mail.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "receiverOrg",
+            "in": "query",
+            "description": "The receiver org.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "firstTabSelector",
+            "in": "query",
+            "description": "The tab selector.",
+            "required": false,
+            "type": "string",
+            "x-example": "url",
+            "enum": [
+              "tom",
+              "url"
+            ]
+          },
+          {
+            "name": "firstTab",
+            "in": "query",
+            "description": "The first tab.\n0 - information of the template, 1 - next visible tab after information, 2 - receiver, 3 - contact person, 4 - signer, 5 - rest data acquisition, 6 - document creation, 7 - data supply small serial letter, 8 - data supply serial letter, 9 - partner",
+            "required": false,
+            "type": "integer",
+            "x-example": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The cosys url.",
+            "examples": {
+              "text/plain": "https://cosys-dev.muenchen.de/webdesk?j_user_company=0002&j_role=TESTER&j_template_guid=973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-coSysUrl"
+      },
+      "post": {
+        "summary": "Returns the cosys url.",
+        "operationId": "createCoSysUrl",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CosysUrlParameter"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The cosys url.",
+            "examples": {
+              "text/plain": "https://cosys-dev.muenchen.de/webdesk?j_user_company=0002&j_role=TESTER&j_template_guid=973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-coSysUrl-post"
+      }
+    },
+    "/guidByTemplateId": {
+      "get": {
+        "summary": "Returns the GUID for the template identifier.",
+        "operationId": "getGuidByTemplateId",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "templateId",
+            "in": "query",
+            "description": "The identifier (form number) of the template.",
+            "required": true,
+            "type": "string",
+            "x-example": "Funktionsbeispiele_coSys"
+          },
+          {
+            "name": "templateType",
+            "in": "query",
+            "description": "The type of the template.",
+            "required": false,
+            "type": "string",
+            "default": "TEMPLATE_DYNAMIC",
+            "enum": [
+              "TEMPLATE_DYNAMIC",
+              "TEMPLATE_STATIC",
+              "TEMPLATE_PAPER"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The GUID for the template identifier.",
+            "examples": {
+              "text/plain": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Template not found."
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-getGuidByTemplateId"
+      }
+    },
+    "/searchTemplates": {
+      "get": {
+        "summary": "Returns a list of template information for the given search parameters.",
+        "operationId": "searchTemplates",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "templateName",
+            "in": "query",
+            "description": "The name of the template.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "templateId",
+            "in": "query",
+            "description": "The identifier (form number) of the template.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "templateType",
+            "in": "query",
+            "description": "The type of the template.",
+            "required": false,
+            "type": "string",
+            "default": "TEMPLATE_DYNAMIC",
+            "enum": [
+              "TEMPLATE_DYNAMIC",
+              "TEMPLATE_STATIC",
+              "TEMPLATE_PAPER"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of template information.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SearchResult"
+              }
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-searchTemplates"
+      }
+    },
+    "/generation/{guid}/pdf": {
+      "post": {
+        "tags": [
+          "generation"
+        ],
+        "summary": "Creates a PDF document from a template",
+        "operationId": "generatePdf",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The guid of the template",
+            "required": true,
+            "type": "string",
+            "x-example": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "The data that is merged into the template. Allowed mime types are: application/xml, application/json and text/csv",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "merge",
+            "in": "formData",
+            "description": "The parameter for the merge module as application/json. If no parameter file is provided the default value is used.\n\n*Default value:*\n```\n{\r\n    \"--prefix-delimiter\":\".\",\r\n    \"--datafile\":\"//multi\",\r\n    \"--input-language\":\"Deutsch\",\r\n    \"--output-language\":\"Deutsch\",\r\n    \"-@1\":\"\",\r\n    \"--logfile\":\"merge.log\"\r\n}\r\n\n```",
+            "required": false,
+            "type": "file",
+            "format": "application/json"
+          },
+          {
+            "name": "resource",
+            "in": "formData",
+            "description": "Additional files (e.g. images) included from the template",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "file"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "description": "The parameter for the format module as application/json. This controls the PDF generation. If not set, the default parameters for the output format will be used.\n\n*Example:*\n```\n{\r\n    \"OutputFormat\": \"FormatPdfA\",\r\n    \"PdfVersion\": \"PDF/A-3b\"\r\n}\n```",
+            "required": false,
+            "type": "file",
+            "format": "application/json"
+          },
+          {
+            "name": "outputFormat",
+            "in": "query",
+            "description": "The output format of the PDF.",
+            "required": false,
+            "type": "string",
+            "default": "FormatPdfA",
+            "enum": [
+              "FormatPdfA",
+              "FormatPdfUA",
+              "FormatPdf",
+              "FormatPdfFormular"
+            ]
+          },
+          {
+            "name": "stateFilter",
+            "in": "query",
+            "description": "Release state of the template version",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RELEASED_ONLY",
+              "RELEASED_OR_TEST",
+              "ALL",
+              "TEST_ONLY"
+            ]
+          },
+          {
+            "name": "validity",
+            "in": "query",
+            "description": "Validity date to select a specific template version. Date must be in ISO 8601, e.g. 2020-04-09T13:49:55.000Z. Default value current date/time",
+            "required": false,
+            "type": "string",
+            "format": "data-time"
+          },
+          {
+            "name": "dataProviderInput",
+            "in": "query",
+            "description": "Input for the data provider.\n\n*Example:*\n```\n{\n  \"name\" : \"Fridolin Fröhlich\"\n}\n```",
+            "required": false,
+            "type": "object",
+            "format": "DataProviderInput"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User id (lhmObjectId) of the selected sender as input for data provider. If the input for the provider is set and the userId isn't set, then the user id from login is used.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "noStatistic",
+            "in": "query",
+            "description": "Disable statistics. This parameter should only be used for testing. The default is false.",
+            "required": false,
+            "type": "boolean",
+            "default": false,
+            "x-example": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created PDF file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "coSys instance could not be reached or the template (version) does not exist"
+          },
+          "412": {
+            "description": "Precondition failed. Used fields in template and provided data don't match. Response body contains information about the error."
+          },
+          "500": {
+            "description": "An unexpected system error occured. Response body might contain ZIP file that can be used for further error analysis."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-pdfDocumentGeneration"
+      }
+    },
+    "/generation/{guid}/rtf": {
+      "post": {
+        "tags": [
+          "generation"
+        ],
+        "summary": "Creates a RTF document from a template",
+        "operationId": "generateRtf",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The guid of the template",
+            "required": true,
+            "type": "string",
+            "x-example": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "The data that is merged into the template. Allowed mime types are: application/xml, application/json and text/csv",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "merge",
+            "in": "formData",
+            "description": "The parameter for the merge module as application/json. If no parameter file is provided the default value is used.\n\n*Default value:*\n```\n{\n    \"--prefix-delimiter\":\".\",\n    \"--datafile\":\"//multi\",\n    \"--input-language\":\"Deutsch\",\n    \"--output-language\":\"Deutsch\",\n    \"-@1\":\"\",\n    \"--logfile\":\"merge.log\",\n    \"--remove-hidden-text\":\"\"\n}\n\n```",
+            "required": false,
+            "type": "file",
+            "format": "application/json"
+          },
+          {
+            "name": "resource",
+            "in": "formData",
+            "description": "Additional files (e.g. images) included from the template",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "file"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "stateFilter",
+            "in": "query",
+            "description": "Release state of the template version",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RELEASED_ONLY",
+              "RELEASED_OR_TEST",
+              "ALL",
+              "TEST_ONLY"
+            ]
+          },
+          {
+            "name": "validity",
+            "in": "query",
+            "description": "Validity date to select a specific template version. Date must be in ISO 8601, e.g. 2020-04-09T13:49:55.000Z. Default value current date/time",
+            "required": false,
+            "type": "string",
+            "format": "data-time"
+          },
+          {
+            "name": "dataProviderInput",
+            "in": "query",
+            "description": "Input for the data provider.\n\n*Example:*\n```\n{\n  \"name\" : \"Fridolin Fröhlich\"\n}\n```",
+            "required": false,
+            "type": "object",
+            "format": "DataProviderInput"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User id (lhmObjectId) of the selected sender as input for data provider. If the input for the provider is set and the userId isn't set, then the user id from login is used.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "noStatistic",
+            "in": "query",
+            "description": "Disable statistics. This parameter should only be used for testing. The default is false.",
+            "required": false,
+            "type": "boolean",
+            "default": false,
+            "x-example": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created RTF file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "coSys instance could not be reached or the template (version) does not exist"
+          },
+          "412": {
+            "description": "Precondition failed. Used fields in template and provided data don't match. Response body contains information about the error."
+          },
+          "500": {
+            "description": "An unexpected system error occured. Response body might contain ZIP file that can be used for further error analysis."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-rtfDocumentGeneration"
+      }
+    },
+    "/datapool": {
+      "post": {
+        "tags": [
+          "datapool"
+        ],
+        "summary": "Creates a new data pool and returns the id.",
+        "operationId": "createDataPool",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "guid",
+            "in": "query",
+            "description": "The guid of the template",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "The data pool. Allowed mime types are: application/xml and application/json",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "parameter",
+            "in": "formData",
+            "description": "The configuration parameter for the data pool as application/json.\n\n*Default value:*\n```\n{\n  \"userInformation\" : null,\n  \"resultCallbackUrl\" : null,\n  \"outputFormat\" : \"PDF\",\n  \"processingHint\" : \"mapViaDataSupplySchemaWithPassThrough\",\n  \"deleteAfterCommit\" : false\n}\n```\n\n*Example:*\n```\n{\n  \"userInformation\" : \"Wohnen in München\",\n  \"resultCallbackUrl\" : \"https://example.com/uploadDocument\",\n  \"outputFormat\" : \"PDF, RTF\",\n  \"processingHint\" : \"passThroughToDocGen\",\n  \"deleteAfterCommit\" : true\n}\n```",
+            "required": false,
+            "type": "file",
+            "format": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ID of the created data pool or the cosys url if the guid is set.\nWith this ID you can call coSys:\nhttps://cosys-dev.muenchen.de/webdesk?j_user_company=0002&j_role=TESTER&j_template_guid={GUID}&j_datapoolid={ID}",
+            "examples": {
+              "application/json": "0002655aae3a-4baf-4320-9112-e01ad01bf097V1"
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The data pool does not exist"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-createDataPool"
+      }
+    },
+    "/datapool/{dataPoolId}": {
+      "delete": {
+        "tags": [
+          "datapool"
+        ],
+        "summary": "Deletes the data pool.",
+        "operationId": "deleteDataPool",
+        "parameters": [
+          {
+            "name": "dataPoolId",
+            "in": "path",
+            "description": "The id of the data pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data pool was deleted"
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The data pool does not exist"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-deleteDataPool"
+      }
+    },
+    "/dataprovider/{guid}": {
+      "post": {
+        "tags": [
+          "dataprovider"
+        ],
+        "summary": "Gets the document provider data for given the template id",
+        "operationId": "getProviderData",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The guid of the template",
+            "required": true,
+            "type": "string",
+            "x-example": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "stateFilter",
+            "in": "query",
+            "description": "Release state of the template version",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RELEASED_ONLY",
+              "RELEASED_OR_TEST",
+              "ALL",
+              "TEST_ONLY"
+            ]
+          },
+          {
+            "name": "validity",
+            "in": "query",
+            "description": "Validity date to select a specific template version. Date must be in ISO 8601, e.g. 2020-04-09T13:49:55.000Z. Default value current date/time",
+            "required": false,
+            "type": "string",
+            "format": "data-time"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User id (lhmObjectId) of the selected sender. By default the user id from login is used.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "outputFormat",
+            "in": "query",
+            "description": "Output format of the document provider data.",
+            "required": false,
+            "type": "string",
+            "default": "JSON",
+            "enum": [
+              "JSON",
+              "JSON_FILTERED",
+              "XML"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataProviderInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON or XML that contains the data",
+            "examples": {
+              "application/json": "{ \"funktionsbeispiele_cosys\": {\"BeispielA\": \"Hallo Welt\"} }",
+              "application/xml": "<root>\r\n    <multi>\r\n        <funktionsbeispiele_cosys>XML:$(inline);//data</funktionsbeispiele_cosys>\r\n    </multi>\r\n    <data>\r\n        <BeispielA>Hallo Welt</BeispielA>\r\n    </data>\r\n</root>\r\n"
+            },
+            "schema": {
+              "$ref": "#/definitions/DataProviderOutput"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "coSys instance could not be reached or the template does not available"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-getProviderData"
+      }
+    },
+    "/webform/{guid}": {
+      "post": {
+        "tags": [
+          "webform"
+        ],
+        "summary": "Prepares a web form for a template and returns the id",
+        "operationId": "prepareWebform",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The guid of the template",
+            "required": true,
+            "type": "string",
+            "x-example": "973fe61e-f6c4-4e00-bf12-62d5027f3ec1"
+          },
+          {
+            "name": "client",
+            "in": "query",
+            "description": "The number of the client the template is located in",
+            "required": true,
+            "type": "string",
+            "x-example": "0002"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used",
+            "required": true,
+            "type": "string",
+            "x-example": "TESTER",
+            "enum": [
+              "SB",
+              "TESTER"
+            ]
+          },
+          {
+            "name": "stateFilter",
+            "in": "query",
+            "description": "Release state of the template version",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RELEASED_ONLY",
+              "RELEASED_OR_TEST",
+              "ALL",
+              "TEST_ONLY"
+            ]
+          },
+          {
+            "name": "validity",
+            "in": "query",
+            "description": "Validity date to select a specific template version. Date must be in ISO 8601, e.g. 2020-04-09T13:49:55.000Z. Default value current date/time",
+            "required": false,
+            "type": "string",
+            "format": "data-time"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Generator"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON that contains the formId",
+            "schema": {
+              "$ref": "#/definitions/WebformResponse"
+            }
+          },
+          "403": {
+            "description": "Client does not exist, Role TO is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "coSys instance could not be reached or the template (version) does not exist"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "security": [
+          {
+            "basicAuthSecurityDefintion": []
+          },
+          {
+            "accessTokenSecurityDefintion": []
+          }
+        ],
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-generateWebform"
+      }
+    },
+    "/pdf/concatPdf": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Concat multiple PDF files",
+        "operationId": "concatPdf",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Multiple PDF files which will be joined to one PDF.",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "file"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Joined PDF file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-concatPdf"
+      }
+    },
+    "/pdf/convertPdfToPdfa": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Convert a PDF to a PDF/A-3b",
+        "operationId": "convertPdfToPdfa",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "PDF file which will be converted to a PDF/A-3b file",
+            "required": true,
+            "type": "file",
+            "format": "application/pdf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF/A-3b file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-convertPdfToPdfa"
+      }
+    },
+    "/pdf/convertToPdf": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Convert a file to a PDF file",
+        "operationId": "convertToPdf",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Input file which will be converted to a PDF file.\nSupported formats: RTF(text/rtf), PDF, Images (jpeg, png, git, tiff), txt-Format\nCurrently not supported: all ODF (odt, ott, docx ...)",
+            "required": true,
+            "type": "file",
+            "format": "binary"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created PDF file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-convertToPdf"
+      }
+    },
+    "/pdf/encryptPdf": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Encrypt a PDF file with a password",
+        "operationId": "encryptPdf",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "PDF file which will be encrypted",
+            "required": true,
+            "type": "file",
+            "format": "application/pdf"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Password that will be used to encrypt the PDF file",
+            "required": true,
+            "type": "string",
+            "format": "password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Encrypted PDF file",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-encryptPdf"
+      }
+    },
+    "/pdf/fillPdfFields": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Fill values into the fields of a PDF",
+        "operationId": "fillPdfFields",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "PDF file into which the values will be written",
+            "required": true,
+            "type": "file",
+            "format": "application/pdf"
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "Values as key value map as JSON object",
+            "required": true,
+            "type": "file",
+            "format": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF with values in fields",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-fillPdfFields"
+      }
+    },
+    "/pdf/readPdfFields": {
+      "post": {
+        "tags": [
+          "pdf"
+        ],
+        "summary": "Read the fields of a PDF",
+        "operationId": "readPdfFields",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "PDF file from which the field values will be read",
+            "required": true,
+            "type": "file",
+            "format": "application/pdf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "field values in XML format",
+            "examples": {
+              "application/xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\r\n<xfdf xml:space=\"preserve\"\r\n      xmlns=\"http://ns.adobe.com/xfdf/\">\r\n    <fields>\r\n        <field name=\"funktionsbeispiele_cosys.BeispielA\"/>\r\n        <field name=\"funktionsbeispiele_cosys.BeispielF\">\r\n            <value>11:00</value>\r\n        </field>\r\n        <field name=\"funktionsbeispiele_cosys.BeispielG\">\r\n            <value>0,3492</value>\r\n        </field>\r\n        <field name=\"funktionsbeispiele_cosys.BeispielH\">\r\n            <value>0,3492</value>\r\n        </field>\r\n        <field name=\"funktionsbeispiele_cosys.Text\"/>\r\n        <field name=\"funktionsbeispiele_cosys_tabelle.Spalte1\"/>\r\n        <field name=\"funktionsbeispiele_cosys_tabelle.Spalte2\"/>\r\n        <field name=\"funktionsbeispiele_cosys.Bild\"/>\r\n    </fields>\r\n    <annots/>\r\n</xfdf>"
+            },
+            "schema": {
+              "$ref": "#/definitions/ReadPdfFieldsOutput"
+            }
+          },
+          "415": {
+            "description": "Input not supported"
+          },
+          "404": {
+            "description": "coSys instance could not be reached"
+          },
+          "500": {
+            "description": "An unexpected system error occured."
+          }
+        },
+        "x-camelContextId": "camel-1",
+        "x-routeId": "rest-readPdfFields"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "accessTokenSecurityDefintion": {
+      "description": "This API uses OAuth 2 client credentials flow. [More info](https://api.example.com/docs/auth)\n\nIn your application use the\nToken URL: https://ssotest.muenchen.de/auth/realms/intra/protocol/openid-connect/token\n",
+      "type": "oauth2",
+      "tokenUrl": "https://cosys-dev.muenchen.de/cosys-eai/rest/auth-token",
+      "flow": "application"
+    },
+    "basicAuthSecurityDefintion": {
+      "description": "This API uses Basic Auth flow. [More info](https://api.example.com/docs/auth)",
+      "type": "basic"
+    }
+  },
+  "definitions": {
+    "AnalyseTemplateOutput": {
+      "type": "object",
+      "description": "AnalyseTemplateOutput as json (map to string)",
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.AnalyseTemplateOutput"
+      }
+    },
+    "CosysUrlParameter": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "description": "The guid of the template."
+        },
+        "client": {
+          "type": "string",
+          "example": "0002",
+          "description": "The number of the client the template is located in."
+        },
+        "role": {
+          "type": "string",
+          "example": "TESTER",
+          "description": "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used.",
+          "enum": [
+            "TO",
+            "TESTER",
+            "SB"
+          ]
+        },
+        "templateName": {
+          "type": "string",
+          "description": "The name of the template."
+        },
+        "templateId": {
+          "type": "string",
+          "description": "The identifier(form number) of the template."
+        },
+        "templateType": {
+          "type": "string",
+          "description": "The type of the template.",
+          "enum": [
+            "TEMPLATE_STATIC",
+            "TEMPLATE_DYNAMIC",
+            "TEMPLATE_PAPER"
+          ]
+        },
+        "templateSearchparameter": {
+          "type": "object",
+          "description": "The template search parameter."
+        },
+        "datapoolid": {
+          "type": "string",
+          "description": "The data pool id."
+        },
+        "hideTree": {
+          "type": "boolean",
+          "example": true,
+          "description": "Hides the template tree.",
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "hideTemplateSearch": {
+          "type": "boolean",
+          "example": true,
+          "description": "Hides the template search.",
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "hideDraftTab": {
+          "type": "boolean",
+          "example": true,
+          "description": "Hides the draft tab.",
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "lockDatacontext": {
+          "type": "boolean",
+          "example": true,
+          "description": "Locks the data context.",
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "receiverName": {
+          "type": "string",
+          "description": "The receiver name."
+        },
+        "receiverMail": {
+          "type": "string",
+          "description": "The receiver mail."
+        },
+        "receiverOrg": {
+          "type": "string",
+          "description": "The receiver org."
+        },
+        "firstTabSelector": {
+          "type": "string",
+          "example": "url",
+          "description": "The tab selector.",
+          "enum": [
+            "tom",
+            "url"
+          ]
+        },
+        "firstTab": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5,
+          "description": "The first tab."
+        }
+      },
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.CosysUrlParameter"
+      }
+    },
+    "SearchResult": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "templateId": {
+          "type": "string"
+        },
+        "templateName": {
+          "type": "string"
+        },
+        "templateType": {
+          "type": "string",
+          "enum": [
+            "TEMPLATE_STATIC",
+            "TEMPLATE_DYNAMIC",
+            "TEMPLATE_PAPER"
+          ]
+        },
+        "lastChange": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        }
+      },
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.SearchResult"
+      }
+    },
+    "DataProviderInput": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User id (lhmObjectId) of the receiver."
+        },
+        "name": {
+          "type": "string",
+          "example": "Fridolin Fröhlich",
+          "description": "The name of receiver or a part part of it."
+        },
+        "mail": {
+          "type": "string",
+          "example": "tb.00cosys01@muenchen.de",
+          "description": "Email of the receiver."
+        },
+        "org": {
+          "type": "string",
+          "description": "Office of the receiver."
+        },
+        "dataPoolId": {
+          "type": "string",
+          "description": "The data pool id."
+        }
+      },
+      "description": "Representing JSON with individual content.",
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.DataProviderInput"
+      }
+    },
+    "DataProviderOutput": {
+      "type": "object",
+      "description": "DataProviderOutput as json or xml (map to string)",
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.DataProviderOutput"
+      }
+    },
+    "Generator": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "de.cib.cosys.rest.DynamicJsGenerator",
+          "description": "The type of the form generator."
+        },
+        "headIncludes": {
+          "type": "array",
+          "example": "[\"<script src=\\\"../../webjars/webform/postmessage.js\\\"></script>\"]",
+          "description": "Includes for head of generated html.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Selected generator class and its specific options",
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.GeneratorParameter"
+      }
+    },
+    "WebformResponse": {
+      "type": "object",
+      "properties": {
+        "formId": {
+          "type": "string",
+          "example": "582c5131cd6304674c3229079d1ec690",
+          "description": "The formId of the prepared webform."
+        },
+        "fields": {
+          "type": "object",
+          "description": "Fields in the webform template.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "events": {
+          "type": "object",
+          "description": "Events in the webform template.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.WebformResponse"
+      }
+    },
+    "Field": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the field."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the fields."
+        }
+      },
+      "description": "PDF field"
+    },
+    "ReadPdfFieldsOutput": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "array",
+          "description": "List of fields.",
+          "items": {
+            "$ref": "#/definitions/Field"
+          }
+        }
+      },
+      "description": "PDF field",
+      "x-className": {
+        "type": "string",
+        "format": "de.muenchen.cosys.eai.cosys.ReadPdfFieldsOutput"
+      }
+    }
+  }
+}

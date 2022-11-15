@@ -24,7 +24,7 @@ public interface PresignedUrlAdapter {
      *
      * @param documentStorageUrl is the url for the s3 integration service
      * @param pathToFile
-     * @param expireInMinutes specifies how long the presigned url will be valid
+     * @param expireInMinutes    specifies how long the presigned url will be valid
      * @return
      * @throws HttpServerErrorException
      */

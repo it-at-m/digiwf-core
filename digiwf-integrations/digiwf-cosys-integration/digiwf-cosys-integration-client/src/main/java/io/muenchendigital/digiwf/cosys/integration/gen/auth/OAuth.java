@@ -1,8 +1,9 @@
-package io.muenchendigital.digiwf.s3.integration.gen.auth;
+package io.muenchendigital.digiwf.cosys.integration.gen.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:02:59.654770900+01:00[Europe/Berlin]")
 public class OAuth implements Authentication {
     private String accessToken;
 
@@ -15,7 +16,7 @@ public class OAuth implements Authentication {
     }
 
     @Override
-    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         if (accessToken != null) {
             headerParams.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
         }
