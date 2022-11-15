@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   PresignedUrlDto.JSON_PROPERTY_URL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:00:55.238500500+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:40:01.662246900+01:00[Europe/Berlin]")
 public class PresignedUrlDto {
   public static final String JSON_PROPERTY_URL = "url";
   private String url;

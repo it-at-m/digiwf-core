@@ -135,12 +135,6 @@
                             <generateSupportingFiles>false</generateSupportingFiles>
 
 
-                            <environmentVariables>
-                                <supportingFiles>
-                                    ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
-                                </supportingFiles>
-                            </environmentVariables>
-
                         </configuration>
                     </execution>
                 </executions>

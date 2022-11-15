@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileDataDto.JSON_PROPERTY_EXPIRES_IN_MINUTES,
   FileDataDto.JSON_PROPERTY_END_OF_LIFE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:00:55.238500500+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:40:01.662246900+01:00[Europe/Berlin]")
 public class FileDataDto {
   public static final String JSON_PROPERTY_PATH_TO_FILE = "pathToFile";
   private String pathToFile;

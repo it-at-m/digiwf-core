@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataProviderInput.JSON_PROPERTY_ORG,
   DataProviderInput.JSON_PROPERTY_DATA_POOL_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:02:59.654770900+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:41:43.010537700+01:00[Europe/Berlin]")
 public class DataProviderInput {
   public static final String JSON_PROPERTY_UID = "uid";
   private String uid;

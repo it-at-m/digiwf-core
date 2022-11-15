@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Generator.JSON_PROPERTY_TYPE,
   Generator.JSON_PROPERTY_HEAD_INCLUDES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:02:59.654770900+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:41:43.010537700+01:00[Europe/Berlin]")
 public class Generator {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;
