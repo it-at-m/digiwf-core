@@ -3,7 +3,7 @@ package io.muenchendigital.digiwf.cosys.integration.gen.auth;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T17:02:59.654770900+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OAuth implements Authentication {
     private String accessToken;
 

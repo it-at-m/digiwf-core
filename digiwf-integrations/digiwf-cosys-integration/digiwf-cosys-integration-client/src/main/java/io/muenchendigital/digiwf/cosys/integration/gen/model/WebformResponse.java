@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   WebformResponse.JSON_PROPERTY_FIELDS,
   WebformResponse.JSON_PROPERTY_EVENTS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-16T12:07:37.098975400+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class WebformResponse {
   public static final String JSON_PROPERTY_FORM_ID = "formId";
   private String formId;

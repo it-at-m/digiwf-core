@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CosysUrlParameter.JSON_PROPERTY_FIRST_TAB_SELECTOR,
   CosysUrlParameter.JSON_PROPERTY_FIRST_TAB
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-16T12:07:37.098975400+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CosysUrlParameter {
   public static final String JSON_PROPERTY_GUID = "guid";
   private String guid;
