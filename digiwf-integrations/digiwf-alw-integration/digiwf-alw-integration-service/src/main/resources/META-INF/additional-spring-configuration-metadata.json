@@ -1,0 +1,20 @@
+{"properties": [
+  {
+    "name": "refarch.gracefulshutdown.pre-wait-seconds",
+    "type": "java.lang.Integer",
+    "description": "Die Wartezeit um der Openshift Readiness Probe über den Endpunkt /actuator/health zu ermöglichen, den Shutdown des Pods der Springboot-Anwendung zu erkennen.",
+    "defaultValue": "20"
+  },
+  {
+    "name": "refarch.gracefulshutdown.shutdown-wait-seconds",
+    "type": "java.lang.Integer",
+    "description": "Die maximale Abarbeitungszeit um die im Tomcat ausstehende Reponses zu bedienen.",
+    "defaultValue": "20"
+  },
+  {
+    "name": "refarch.gracefulshutdown.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Kann zur Deaktivierung des Graceful Shutdown Mechanismus in der Entwicklungsumgebung verwendet werden.",
+    "defaultValue": "true"
+  }
+]}

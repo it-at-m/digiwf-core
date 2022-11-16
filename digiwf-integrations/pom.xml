@@ -16,7 +16,10 @@
 
     <modules>
         <module>digiwf-cosys-integration</module>
+        <module>digiwf-email-integration</module>
         <module>digiwf-s3-integration</module>
+        <module>digiwf-alw-integration</module>
+        <module>digiwf-verification-integration</module>
     </modules>
 
 </project>

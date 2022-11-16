@@ -27,9 +27,11 @@
     - generate open api client
     - allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 - digiwf-email-integration
-    - integration modules added
+    - modules added
 - digiwf-verification-integration
     - verification integration modules added
+- alw-integration
+  - modules added 
 
 ### Fixed
 

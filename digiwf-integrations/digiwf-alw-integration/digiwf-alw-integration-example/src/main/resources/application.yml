@@ -1,0 +1,42 @@
+server:
+  port: 10006
+
+logging.level.io.muenchendigital.digiwf: DEBUG
+
+spring:
+
+  # config for digiwf-spring-cloudstream-utils
+  # see [digiwf-spring-cloudstream-utils#getting-started](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started)
+  ## binder config
+  cloud.stream.kafka.binder.consumerProperties.key.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  cloud.stream.kafka.binder.consumerProperties.value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  cloud.stream.kafka.binder.producerProperties.key.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  cloud.stream.kafka.binder.producerProperties.value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka.consumer.properties.spring.json.trusted.packages: "*"
+  cloud.stream.kafka.binder.consumerProperties.auto.offset.reset: latest
+  cloud.stream.kafka.binder.configuration.security.protocol: SSL
+  cloud.function.definition: functionRouter;sendMessage;sendCorrelateMessage;
+  cloud.stream.kafka.binder.brokers: <YOUR KAFKA BROKER>
+  kafka.ssl.key-store-location: <YOUR KEYSTORE>
+  kafka.ssl.trust-store-location: <YOUR TRUSTSTORE>
+  kafka.ssl.key-store-password: <YOUR KEYSTORE PASSWORD>
+  kafka.ssl.trust-store-password: <YOUR TRUSTSTORE PASSWORD>
+  kafka.ssl.key-password: <YOUR KEY PASSWORD>
+  ## function routing config
+  cloud.stream.bindings.functionRouter-in-0.group: @project.artifactId@
+  cloud.stream.bindings.functionRouter-in-0.destination: <YOUR MESSAGE TOPIC>
+
+  # kafka config
+  cloud.stream.bindings.sendMessage-out-0.destination: <YOUR MESSAGE TOPIC>
+  cloud.stream.bindings.sendCorrelateMessage-out-0.destination: <YOUR CORRELATION TOPIC>
+
+# DigiWF config
+digiwf.alw.personeninfo:
+  base-url: <YOUR ALW SYSTEM URL>
+  rest-endpoint: <YOUR PERSONENINFO ENDPOINT>
+  timeout: 1500
+  username: <YOUR BASIC AUTH USER>
+  password: <YOUR BASIC AUTH PASSWORD>
+  functional-ping:
+    enabled: true
+    azr-number: <YOUR SAMPLE AZR NUMBER>
