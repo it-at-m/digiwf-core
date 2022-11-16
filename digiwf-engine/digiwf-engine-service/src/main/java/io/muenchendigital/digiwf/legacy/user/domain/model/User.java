@@ -4,8 +4,10 @@
 package io.muenchendigital.digiwf.legacy.user.domain.model;
 
 import io.muenchendigital.digiwf.legacy.user.external.mapper.UserAttributesMapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
@@ -13,6 +15,8 @@ import java.util.Set;
  * The class is used by the {@link UserAttributesMapper} to consolidate the found
  * ldap attributes.
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @EqualsAndHashCode
 public class User {
