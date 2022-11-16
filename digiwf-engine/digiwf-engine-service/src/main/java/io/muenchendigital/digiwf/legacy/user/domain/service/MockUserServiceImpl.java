@@ -24,7 +24,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceNoLdap implements UserService {
+public class MockUserServiceImpl implements UserService {
 
     private final List<String> groups = List.of("group1");
     private final User user = new User(
