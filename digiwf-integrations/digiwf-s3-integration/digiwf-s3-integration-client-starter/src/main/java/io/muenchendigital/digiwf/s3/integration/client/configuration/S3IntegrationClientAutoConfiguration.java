@@ -6,6 +6,7 @@ import io.muenchendigital.digiwf.s3.integration.gen.ApiClient;
 import io.muenchendigital.digiwf.s3.integration.gen.api.FileApiApi;
 import io.muenchendigital.digiwf.s3.integration.gen.api.FolderApiApi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -42,21 +43,22 @@ public class S3IntegrationClientAutoConfiguration {
 
     public final S3IntegrationClientProperties s3IntegrationClientProperties;
 
-    /**
-     * Creates a bean with name "apiClientFactory" of {@link ApiClientFactory}.
-     * <p>
-     * This factory class is providing either the preconfigured {@link FileApiApi} or {@link FileApiApi}.
-     * <p>
-     * If the S3 integration service is secured via Oauth2,
-     *
-     * @return the {@link ApiClientFactory}.
-     */
     @Bean
-    public ApiClientFactory apiClientFactory(final ClientRegistrationRepository clientRegistrationRepository,
-                                             final OAuth2AuthorizedClientService authorizedClientService) {
+    @ConditionalOnProperty(prefix = "io.muenchendigital.digiwf.s3.client", name = "securityEnabled", havingValue = "true")
+    public ApiClientFactory securedApiClientFactory(final ClientRegistrationRepository clientRegistrationRepository,
+                                                    final OAuth2AuthorizedClientService authorizedClientService) {
         return new ApiClientFactory(
                 this.s3IntegrationClientProperties.getDocumentStorageUrl(),
                 this.webClient(clientRegistrationRepository, authorizedClientService)
+        );
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "io.muenchendigital.digiwf.s3.client", name = "securityEnabled", havingValue = "false", matchIfMissing = true)
+    public ApiClientFactory apiClientFactory() {
+        return new ApiClientFactory(
+                this.s3IntegrationClientProperties.getDocumentStorageUrl(),
+                WebClient.builder().build()
         );
     }
 

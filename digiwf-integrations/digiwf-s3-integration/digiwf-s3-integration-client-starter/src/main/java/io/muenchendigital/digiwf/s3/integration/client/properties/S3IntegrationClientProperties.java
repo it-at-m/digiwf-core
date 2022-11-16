@@ -12,5 +12,6 @@ import org.springframework.validation.annotation.Validated;
 public class S3IntegrationClientProperties {
 
     private String documentStorageUrl;
+    private boolean enableSecurity;
 
 }
