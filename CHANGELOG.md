@@ -25,6 +25,8 @@
 
 ### Fixed
 
+- (digiwf-engine) added a `no-ldap` profile for development
+
 ## [core 0.11.0] - 2022-08-30
 
 ### Added
