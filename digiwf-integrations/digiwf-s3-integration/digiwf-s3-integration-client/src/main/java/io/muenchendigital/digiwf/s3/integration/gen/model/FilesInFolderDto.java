@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   FilesInFolderDto.JSON_PROPERTY_PATH_TO_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:40:01.662246900+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FilesInFolderDto {
   public static final String JSON_PROPERTY_PATH_TO_FILES = "pathToFiles";
   private Set<String> pathToFiles = null;

@@ -114,7 +114,7 @@
                 <version>${openapi-generator-version}</version>
                 <executions>
                     <execution>
-                        <id>document-storage-api</id>
+                        <id>cosys-api</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -133,7 +133,15 @@
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>
+                            <configOptions>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                            </configOptions>
 
+                            <globalProperties>
+                                <supportingFiles>
+                                    ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
+                                </supportingFiles>
+                            </globalProperties>
 
                         </configuration>
                     </execution>

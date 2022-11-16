@@ -69,7 +69,7 @@ import io.muenchendigital.digiwf.s3.integration.gen.auth.HttpBasicAuth;
 import io.muenchendigital.digiwf.s3.integration.gen.auth.HttpBearerAuth;
 import io.muenchendigital.digiwf.s3.integration.gen.auth.ApiKeyAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-15T19:40:01.662246900+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
