@@ -14,6 +14,7 @@
 - digiwf-form-builder:
     - move field to nested objects
     - general styling issues
+    - reactivity when updating schema
 
 ## [services Unreleased] - yyyy-mm-dd
 
@@ -34,6 +35,9 @@
   - modules added 
 
 ### Fixed
+
+- (digiwf-engine) added a `no-ldap` profile for development
+- (digiwf-engine) cannot resolve identifier 'app_file_s3_async_config' on process start bug
 
 ## [core 0.11.0] - 2022-08-30
 
