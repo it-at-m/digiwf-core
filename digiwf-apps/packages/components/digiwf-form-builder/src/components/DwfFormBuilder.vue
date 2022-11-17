@@ -66,7 +66,7 @@ export default defineComponent({
     }
 
     const onSectionChanged = (section: Section) => {
-      for (let i = 0; i < currentValue.allOf.length; i++) {
+      for (let i = 0; i < currentValue.value.allOf.length; i++) {
         if (currentValue.value.allOf[i].key === section.key) {
           set(currentValue.value.allOf, i, section);
           input();
