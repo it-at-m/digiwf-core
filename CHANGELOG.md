@@ -11,6 +11,7 @@
 - (digiwf-cosys-integration): allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 - (email-integration): email integration modules added
 - (digiwf-verification-integration): verification integration modules added
+- (digiwf-camunda-prometheus): prometheus modules added
 
 ### Fixed
 
