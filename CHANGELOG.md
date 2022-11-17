@@ -16,6 +16,7 @@
 
 - (digiwf-form-builder): move field to nested objects
 - (digiwf-form-builder): general styling issues
+- (digiwf-form-builder): reactivity when updating schema
 
 ## [core Unreleased] - yyyy-mm-dd
 
