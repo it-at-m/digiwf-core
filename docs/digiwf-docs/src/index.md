@@ -11,5 +11,4 @@ features:
   details: mit Json Schema & Vuetify
 - title: Systemintegration
   details: mit Spring Cloud Stream & Kafka
-footer: Made by  with ❤️ in munich
 ---

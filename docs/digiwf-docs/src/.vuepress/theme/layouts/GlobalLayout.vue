@@ -5,10 +5,19 @@
       <div class="footer">
         <NavLink :item="privacy"/>
         <NavLink :item="imprint"/>
+        <div class="muc-footer">
+          Made with ❤️ in munich
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.muc-footer {
+  margin-top: 30px;
+}
+</style>
 
 <script>
 import GlobalLayout from '@vuepress/core/lib/client/components/GlobalLayout.vue'
