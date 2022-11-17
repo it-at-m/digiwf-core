@@ -4,13 +4,14 @@
 
 ### Added
 
-- (alw-integration): alw integration modules added 
+- (alw-integration): alw integration modules added
 - (tasklist): persistent filters
 - (digiwf-form-builder): validation of list items
 - (digiwf-s3-integration):  supports creation of presigned urls for multiple file paths
 - (digiwf-cosys-integration): allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 - (email-integration): email integration modules added
 - (digiwf-verification-integration): verification integration modules added
+- (tasklist): save filter as url query param
 
 ### Fixed
 
