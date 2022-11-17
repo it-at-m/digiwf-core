@@ -1,0 +1,20 @@
+{
+  "name": "digiwf",
+  "version": "0.0.1",
+  "description": "Documentation of the DigiWF automation platform",
+  "main": "index.js",
+  "authors": {
+    "name": "",
+    "email": ""
+  },
+  "repository": "https://github.com/it-at-m/digiwf-project.git/digiwf",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "markdown-it-footnote": "^3.0.3",
+    "vuepress": "^1.5.3"
+  }
+}
