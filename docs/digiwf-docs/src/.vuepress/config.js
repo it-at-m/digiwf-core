@@ -166,10 +166,11 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
-                                'mail',
-                                'ewo',
-                                's3',
-                                'cosys',
+                                'digiwf-alw-integration/',
+                                'digiwf-cosys-integration/',
+                                'digiwf-mail-integration/',
+                                'digiwf-s3-integration/',
+                                'digiwf-verification-integration/'
                             ]
                         },
                     ],
