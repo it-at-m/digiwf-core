@@ -3,7 +3,9 @@ package io.muenchendigital.digiwf.humantask.domain.service;
 import io.muenchendigital.digiwf.humantask.domain.mapper.TaskInfoMapper;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfoUpdate;
+import io.muenchendigital.digiwf.humantask.infrastructure.entity.ActRuTaskEntity;
 import io.muenchendigital.digiwf.humantask.infrastructure.entity.TaskInfoEntity;
+import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuTaskRepository;
 import io.muenchendigital.digiwf.humantask.infrastructure.repository.TaskInfoRepository;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
 import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionService;
@@ -13,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -49,9 +53,9 @@ public class TaskInfoService {
 
         taskIdLists.forEach(taskIdList -> {
             taskInfoMap.putAll(
-                this.taskInfoRepository.findAllById(taskIdList).stream()
-                    .map(this.taskInfoMapper::map2Model)
-                    .collect(Collectors.toMap(TaskInfo::getId, t -> t))
+                    this.taskInfoRepository.findAllById(taskIdList).stream()
+                            .map(this.taskInfoMapper::map2Model)
+                            .collect(Collectors.toMap(TaskInfo::getId, t -> t))
             );
         });
 
@@ -98,5 +102,4 @@ public class TaskInfoService {
     private ProcessDefinition getProcessDefinition(final DelegateTask task) {
         return this.serviceDefinitionService.getServiceDefinition(task.getProcessDefinitionId());
     }
-
 }

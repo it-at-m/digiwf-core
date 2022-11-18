@@ -11,6 +11,9 @@ import io.muenchendigital.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,9 +48,11 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping
-    public ResponseEntity<List<HumanTaskTO>> getTasks() {
-        val tasks = this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId());
-        return ResponseEntity.ok(this.taskMapper.map2TO(tasks));
+    public Page<HumanTaskTO> getTasks(
+            final Pageable pageable
+    ) {
+        val tasks = this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), pageable);
+        return new PageImpl<HumanTaskTO>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
     }
 
     /**

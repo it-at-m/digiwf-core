@@ -5,18 +5,17 @@
 package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.humantask.domain.mapper.HumanTaskMapper;
+import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
+import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.muenchendigital.digiwf.legacy.form.domain.model.Form;
 import io.muenchendigital.digiwf.legacy.form.domain.service.FormService;
-import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionService;
 import io.muenchendigital.digiwf.shared.exception.IllegalResourceAccessException;
 import io.muenchendigital.digiwf.shared.exception.ObjectNotFoundException;
-import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -24,6 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.camunda.bpm.engine.task.Task;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -43,10 +45,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class HumanTaskService {
 
-    private final ServiceDefinitionService processDefinitionService;
-    private final UserService userService;
     private final HumanTaskDataService humanTaskDataService;
     private final TaskInfoService taskInfoService;
+    private final ActRuTaskService actRuTaskService;
 
     //outdated form handling
     private final FormService formService;
@@ -114,16 +115,18 @@ public class HumanTaskService {
      * @param userId Id of the user
      * @return The tasks
      */
-    public List<HumanTask> getTasksForUser(final String userId) {
-        val tasks = this.taskService.createTaskQuery()
-                .taskAssignee(userId)
-                .list();
-        return this.getHumanTasks(tasks);
+    public Page<HumanTask> getTasksForUser(final String userId, final Pageable pageable) {
+        // FIXME: find an better solution to merge database queries
+        val actTasksPage = this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, pageable);
+        val actTasks = actTasksPage.getContent();
+        val taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(actTasks.stream().map(ActRuTask::getId).collect(Collectors.toList()));
+        final List<HumanTask> humanTasks = actTasks.stream().map(actTask -> this.humanTaskMapper.map2Model(actTask, taskInfos.get(actTask.getId()))).collect(Collectors.toList());
+        return new PageImpl<>(humanTasks, actTasksPage.getPageable(), humanTasks.size());
     }
 
     /**
      * Returns the group tasks for the given userId and groups that are not assigned.
-     *
+     * FIXME: adding pagination
      * @param userId Id of the user
      * @param groups Assigned groups of the user
      * @return The open group tasks
@@ -139,12 +142,12 @@ public class HumanTaskService {
         val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
         val groupTasks = this.queryTaskByCandidateGroup(groups, false);
         groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        return this.getHumanTasks(tasks);
+        return this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
     }
 
     /**
      * Returns the group tasks for the given userId and groups that are assigned.
-     *
+     * FIXME: pagination
      * @param userId Id of the user
      * @param groups Assigned groups of the user
      * @return The assigned group tasks
@@ -161,7 +164,7 @@ public class HumanTaskService {
         val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
         val groupTasks = this.queryTaskByCandidateGroup(groups, true);
         groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        return this.getHumanTasks(tasks);
+        return this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
     }
 
     /**
@@ -299,27 +302,24 @@ public class HumanTaskService {
 
     //--------------------------------------------------------------- helper methods ---------------------------------------------------------------//
 
-    private List<HumanTask> getHumanTasks(final List<Task> tasks) {
-        log.debug("Found {} tasks", tasks.size());
+    private List<HumanTask> getHumanTasks(final List<String> taskIds) {
+        log.debug("Found {} tasks", taskIds.size());
 
-        if (tasks.isEmpty()) {
+        if (taskIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        final List<String> taskIds = tasks.stream()
-                .map(Task::getId)
-                .collect(Collectors.toList());
-
+        final List<ActRuTask> actTasks = this.actRuTaskService.getActRuTasksIds(taskIds);
         final Map<String, TaskInfo> taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(taskIds);
 
         // If a camunda task does not exist in the dwf task info table log an error
         // See: https://wiki.muenchen.de/betriebshandbuch/index.php/DigiWF#Backend -> Task is missing in TaskInfo database table
-        taskIds.stream()
-                .filter(taskId -> !taskInfos.containsKey(taskId))
-                .forEach(taskId -> log.error("Task with id {} is missing in TaskInfo database table", taskId));
+        actTasks.stream()
+                .filter(actTask -> !taskInfos.containsKey(actTask.getId()))
+                .forEach(actTask -> log.error("Task with id {} is missing in TaskInfo database table", actTask.getId()));
 
-        return tasks.stream()
-                .filter(task -> taskInfos.containsKey(task.getId()))
+        return actTasks.stream()
+                .filter(actTask -> taskInfos.containsKey(actTask.getId()))
                 .map(task -> this.humanTaskMapper.map2Model(task, taskInfos.get(task.getId())))
                 .collect(Collectors.toList());
     }

@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.humantask.domain.mapper;
 
+import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
@@ -16,17 +17,17 @@ import java.util.Optional;
 public interface HumanTaskMapper {
 
     default HumanTask map2Model(
-            final Task task,
+            final ActRuTask actRuTask,
             final TaskInfo taskInfoEntity) {
 
         return HumanTask.builder()
-                .id(task.getId())
-                .assignee(task.getAssignee())
+                .id(actRuTask.getId())
+                .assignee(actRuTask.getAssignee())
                 .assigneeFormatted(taskInfoEntity.getAssignee())
-                .creationTime(task.getCreateTime())
-                .name(task.getName())
+                .creationTime(actRuTask.getCreatedAt())
+                .name(actRuTask.getName())
                 .description(taskInfoEntity.getDescription())
-                .followUpDate(this.mapDate(task.getFollowUpDate()))
+                .followUpDate(this.mapDate(actRuTask.getFollowUpDate()))
                 .processName(taskInfoEntity.getDefinitionName() != null ? taskInfoEntity.getDefinitionName() : "")
                 .build();
     }
