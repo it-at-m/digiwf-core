@@ -7,7 +7,7 @@ Features:
 * Can be used to create documents in cosys and save them in a s3 compatible storage
 * Can inform the receiver through an event if the creation was successful or if there was a problem
 
-Checkout the source code [here](../../digiwf-integrations/digiwf-cosys-integration).
+Checkout the source code [here](../../../../../digiwf-integrations/digiwf-cosys-integration).
 
 ## Getting started
 
@@ -111,7 +111,7 @@ The action `POST` is used for the creation of new files in the s3 storage and th
 
 Create a *Callactivity*, use on of our Element-Templates and fill it with the required information:
 
-* [Cosys all data](../element-templates/cosys-alle-daten.json)
-* [Cosys create document](../element-templates/cosys-dokument-erstellen.json)
+* [Cosys all data](../../../../element-templates/cosys-alle-daten.json)
+* [Cosys create document](../../../../element-templates/cosys-dokument-erstellen.json)
 
-To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](../element-templates/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
+To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](../../../../element-templates/s3_create_presigned_url_template.json) and pass the results to the cosys integration.

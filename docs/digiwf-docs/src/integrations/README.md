@@ -9,8 +9,8 @@ Jede Digiwf Integration folgt unserem Integrationskonzept (Spring Boot Starter) 
 
 ## Verfügbare Integrationen
 
-- [DigiWF ALW Integration](src/integrations/ALW/README.md)
-- [DigiWF Cosys Integration](cosys.md)
-- [DigiWF Mail Integration](mail.md)
-- [DigiWF S3 Integration](s3.md)
-- [DigiWF Verification Integration](verification.md)
+- [DigiWF ALW Integration](digiwf-alw-integration/README.md)
+- [DigiWF Cosys Integration](digiwf-cosys-integration/README.md)
+- [DigiWF Mail Integration](digiwf-mail-integration/README.md)
+- [DigiWF S3 Integration](digiwf-s3-integration/README.md)
+- [DigiWF Verification Integration](digiwf-verification-integration/README.md)
