@@ -1,8 +1,8 @@
-# Mail
+# Digiwf Mail Integration
 
 ## Architektur
 
-![Mail Architecture](~@source/images/platform//integrations/mail/architecture.png)
+![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)
 
 ## Dokumentation
 
@@ -22,7 +22,7 @@ Below is an example of how you can install and set up your service.
 
 With Maven:
 
-```
+```xml
    <dependency>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-email-integration-starter</artifactId>
@@ -32,7 +32,7 @@ With Maven:
 
 With Gradle:
 
-```
+```gradle
 implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
 ```
 
@@ -41,7 +41,7 @@ implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-email-integrati
 
 Maven:
 
- ```
+ ```xml
      <dependency>
          <groupId>org.springframework.cloud</groupId>
          <artifactId>spring-cloud-stream-binder-kafka</artifactId>
@@ -50,7 +50,7 @@ Maven:
 
 Gradle:
 
-```
+```gradle
 implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka'
 ```
 
@@ -64,7 +64,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 
 5. Configure your application
 
-```
+```yml
 spring:
   mail:
     host: mail.example.com
@@ -89,4 +89,45 @@ spring:
 You can also use digiwf.mail.fromAddress to define a mail address when not using smtp.auth.
 
 6. Define a RestTemplate. For an example, please refer to
-   the [example project](https://github.com/it-at-m/digiwf-email-integration/tree/dev/example-digiwf-email-integration).
+   the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-example/).
+
+## Usage
+
+The digiwf-email-integration is a generic integration artifact to send email from processes.
+
+To send an email through the event bus you have to send a *Mail* event with the TYPE-Header `sendMailFromEventBus`
+to the event bus topic specified in `io.muenchendigital.digiwf.email.topic`.
+
+````json
+{
+  "receivers": "receivers@example.com",
+  "receiversCc": "receivers-on-cc@example.com",
+  "receiversBcc": "receivers-on-bcc@example.com",
+  "subject": "My important email",
+  "body": "Some text I want to send",
+  "replyTo": "replyto@example.com",
+  "attachments": [
+    {
+      "url": "http://localhost:9000/s3-bucket/some/path/to/file/image.png",
+      "path": "path/to/file/in/s3",
+      "action": "GET"
+    }
+  ]
+}
+````
+
+### Send Mail with file attachments
+
+You can attach files from a s3 storage to the emails you are sending.
+Therefore, you have to obtain presigned urls from the s3 integration artifact and pass them in the attachment section
+of the *Mail* event to the digiwf-email-integration.
+The email integration will download the files and attach them to the email before sending it.
+
+**Note**: The digiwf-email-integration only supports presigned urls created with the **GET** action.
+All other file action will not work and result in an error.
+
+### Element Template
+
+To speed up process development you can use the element template [sendMail.json](sendMail.json) to define a call
+activity
+that uses this integration.

@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="/images/logo.png" alt="Logo" height="200">
+    <img src="images/logo.png" alt="Logo" height="200">
   </a>
 
 <h3 align="center">DigiWF <i>Core</i></h3>
@@ -25,7 +25,8 @@
 
 ## About The Project
 
-*Add a description from your project here.*
+This Project is the landing page of DigiWF. For more information and facts about the development of our project - the DigiWF workflow automation and integration platform - please visit tbd.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
@@ -39,50 +40,17 @@ The documentation project is built with technologies we use in our projects:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- ROADMAP -->
-
-## Roadmap
-
-*if you have a ROADMAP for your project add this here*
-
-See the [open issues](#) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ## Set up
 
-*how can I start and fly this project*
+Checkout [dev.md](dev.md) to learn more about our projects technical setup.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Documentation
+## Releases
 
-### Building a new maven version
+Release page tbd.
 
-For updating the version of the project we use maven-versions plugin.
-
-#### update new patch version
-
-1. run `mvn versions:set -DprocessAllModules -DnextSnapshot`
-2. check if update is correct
-3. if update is correct, run `mvn versions:commit` otherwise run `mvn versions:revert`
-
-#### update to a specific version
-
-1. run `mvn versions:set -DprocessAllModules -DnewVersion=<your version>`
-2. check if update is correct
-3. if update is correct, run `mvn versions:commit` otherwise run `mvn versions:revert`
-
-### Deploy a new maven version
-
-- Execute the release pipeline manually and set `Release services (y/n)?` to `y`
-- `-SNAPSHOT` will be removed automatically by the pipeline if `Snapshot build (y/n)?` is set to `n`
-
-### Deploy a new apps version
-
-- execute `npm run versioning` in the digiwf-apps folder
-- Execute the release pipeline manually and set `Release apps (y/n)?` to `y`
-- `-SNAPSHOT` suffix will be set if `Snapshot build (y/n)?` is set to `y`
+More information on *how we release new versions* checkout [dev.md](dev.md#Release-a-new-version).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
