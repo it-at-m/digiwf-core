@@ -54,7 +54,11 @@ export default class OpenGroupTasks extends Vue {
   }
 
   loadFilter(): void {
-    this.filter = this.$store.getters["tasks/openGroupTasksFilter"];
+    this.filter = this.$route.query.filter as string ?? "";
+    if (!this.filter) {
+      this.filter = this.$store.getters["tasks/openGroupTasksFilter"];
+      this.$router.replace({query: {filter: this.filter}});
+    }
   }
 
   async assignTask(id: string): Promise<void> {
@@ -86,6 +90,7 @@ export default class OpenGroupTasks extends Vue {
   }
 
   onFilterChanged(filter: string) {
+    this.$router.replace({query: {filter: filter}});
     this.$store.commit('tasks/setOpenGroupTasksFilter', filter);
   }
 

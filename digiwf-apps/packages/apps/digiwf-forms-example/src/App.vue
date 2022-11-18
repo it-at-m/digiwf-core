@@ -15,14 +15,14 @@
         <div style="padding: 30px">
           <v-form ref="form">
             <dwf-form-renderer :options="{}" @input="valueChanged" :value="value"
-                               :schema="schema"></dwf-form-renderer>
+                               :schema="schema" :key="componentKey"></dwf-form-renderer>
           </v-form>
           <v-btn @click="validate">Validate</v-btn>
         </div>
       </v-tab-item>
     </v-tabs>
-    {{ schema }}
-    {{ value }}
+    <label>Schema</label><textarea :value="JSON.stringify(schema, undefined, 4)" style="height: 800px;"></textarea>
+    <label>Value</label><textarea :value="JSON.stringify(value, undefined, 4)" style="height: 800px;"></textarea>
   </v-app>
 </template>
 
@@ -41,6 +41,8 @@ import {defineComponent, provide, ref} from "vue";
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder},
   setup() {
+    const componentKey = ref(0);
+
     const form = ref(null);
 
     const value = ref({});
@@ -72,6 +74,7 @@ export default defineComponent({
       }]
     });
     const changed = (newSchema: any) => {
+      componentKey.value += 1;
       schema.value = newSchema;
     };
 
@@ -93,6 +96,7 @@ export default defineComponent({
     }
 
     return {
+      componentKey,
       changed,
       validate,
       value,

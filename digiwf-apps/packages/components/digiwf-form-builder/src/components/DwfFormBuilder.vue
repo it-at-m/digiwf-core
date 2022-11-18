@@ -37,13 +37,13 @@
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
 import {Form, Section} from "@muenchen/digiwf-form-renderer";
-import {defineComponent, provide, reactive, set} from "vue";
+import {defineComponent, provide, ref, set} from "vue";
 
 export default defineComponent({
   props: ['value', 'name', 'description', 'schema', 'builderSettings'],
   emits: ['input'],
   setup(props, {emit}) {
-    const currentValue = reactive<Form>(props.value);
+    const currentValue = ref<Form>(props.value);
     const dragOptions = {
       animation: 200,
       group: "section",
@@ -66,9 +66,9 @@ export default defineComponent({
     }
 
     const onSectionChanged = (section: Section) => {
-      for (let i = 0; i < currentValue.allOf.length; i++) {
-        if (currentValue.allOf[i].key === section.key) {
-          set(currentValue.allOf, i, section);
+      for (let i = 0; i < currentValue.value.allOf.length; i++) {
+        if (currentValue.value.allOf[i].key === section.key) {
+          set(currentValue.value.allOf, i, section);
           input();
           return;
         }
@@ -76,7 +76,7 @@ export default defineComponent({
     }
 
     const onSectionRemoved = (key: string) => {
-      currentValue.allOf = currentValue.allOf.filter((el: Section) => el.key != key);
+      currentValue.value.allOf = currentValue.value.allOf.filter((el: Section) => el.key != key);
       input();
     }
 
