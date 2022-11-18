@@ -55,8 +55,10 @@ const router = new Router({
       props: true
     },
     {
-      path: '/instance/',
-      component: ProcessInstances
+      path: '/instance',
+      component: ProcessInstances,
+      props: true
+
     },
     {
       path: '/instance/:processId',
@@ -64,7 +66,7 @@ const router = new Router({
       props: true
     },
     {
-      path: '/opengrouptask/',
+      path: '/opengrouptask',
       component: OpenGroupTasks
     },
     {
@@ -73,7 +75,7 @@ const router = new Router({
       props: true
     },
     {
-      path: '/assignedgrouptask/',
+      path: '/assignedgrouptask',
       component: AssignedGroupTasks
     },
     {
