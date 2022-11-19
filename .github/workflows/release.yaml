@@ -23,7 +23,7 @@ on:
 
 jobs:
   release-services:
-    if: github.event.inputs.services
+    if: ${{ github.event.inputs.services }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -36,7 +36,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Remove SNAPSHOT
-        if: !github.event.inputs.snapshot-build
+        if: !${{ github.event.inputs.snapshot-build }}
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -107,7 +107,7 @@ jobs:
           tags: itatm/digiwf-verification-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-verification-integration:dev
 
   release-services-camunda-ee:
-    if: github.event.inputs.services
+    if: ${{ github.event.inputs.services }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -123,7 +123,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: !github.event.inputs.snapshot-build
+        if: !${{ github.event.inputs.snapshot-build }}
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -156,7 +156,7 @@ jobs:
 
   release-apps:
     runs-on: ubuntu-latest
-    if: github.event.inputs.apps
+    if: ${{ github.event.inputs.apps }}
     defaults:
       run:
         working-directory: ./digiwf-apps
@@ -187,7 +187,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Set Release version env variable
-        if: startsWith(github.ref, 'refs/tags/') || !github.event.inputs.snapshot-build
+        if: startsWith(github.ref, 'refs/tags/') || !${{ github.event.inputs.snapshot-build }}
         run: |
           echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
 
@@ -205,7 +205,7 @@ jobs:
 
   github-release:
     name: Create Release
-    if: !github.event.inputs.snapshot-build
+    if: !${{ github.event.inputs.snapshot-build }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
