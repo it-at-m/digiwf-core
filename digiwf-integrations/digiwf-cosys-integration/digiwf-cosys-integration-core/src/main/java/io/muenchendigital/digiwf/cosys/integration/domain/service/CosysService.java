@@ -26,6 +26,9 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class CosysService {
 
+    public static final String DATA_FILE_NAME = "data";
+    public static final String MERGE_FILE_NAME = "merge";
+
     private final S3FileTransferRepository s3FileTransferRepository;
     private final CosysConfiguration configuration;
     private final GenerationApi generationApi;
@@ -52,14 +55,14 @@ public class CosysService {
                     generateDocument.getGuid(),
                     generateDocument.getClient(),
                     generateDocument.getRole(),
-                    this.createFile("data", new Gson().toJson(generateDocument.getVariables()).getBytes(StandardCharsets.UTF_8)),
+                    this.createFile(DATA_FILE_NAME, new Gson().toJson(generateDocument.getVariables()).getBytes(StandardCharsets.UTF_8)),
                     null,
                     null,
                     null,
                     null,
                     null,
                     false,
-                    this.createFile("merge", this.configuration.getMergeOptions()),
+                    this.createFile(MERGE_FILE_NAME, this.configuration.getMergeOptions()),
                     null,
                     null
             );
@@ -69,13 +72,13 @@ public class CosysService {
         }
     }
 
+    //------------------------------------------ helper methods ------------------------------------------//
+
     private File createFile(final String name, final byte[] content) throws IOException {
         final Path tempFile = Files.createTempFile(name, ".json");
         Files.write(tempFile, content);
         return tempFile.toFile();
     }
-
-    //------------------------------------------ helper methods ------------------------------------------//
 
     private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
         try {

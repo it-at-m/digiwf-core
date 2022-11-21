@@ -39,12 +39,6 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
-            <version>1.6.12</version>
-        </dependency>
-
         <!-- DigiWF -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>

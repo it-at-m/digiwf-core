@@ -26,6 +26,7 @@
         <maven.surfire.plugin.version>2.22.2</maven.surfire.plugin.version>
         <camunda.version>7.18.0</camunda.version>
         <taskana.version>1.13.0</taskana.version>
+        <springdoc.openapi.webflux.version>1.6.12</springdoc.openapi.webflux.version>
         <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
         <tika.version>1.28.1</tika.version>
     </properties>
