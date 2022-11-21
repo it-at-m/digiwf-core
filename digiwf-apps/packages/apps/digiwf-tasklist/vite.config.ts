@@ -17,7 +17,9 @@ export default defineConfig({
     })
   ],
   server: {
-    port: 8081
+    port: 8081,
+    strictPort: true,
+    hmr: {clientPort : 8081}
   },
   build: {
     commonjsOptions: {

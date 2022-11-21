@@ -36,6 +36,8 @@
   - modules added
 - digiwf-camunda-prometheus
   - modules added
+- digiwf-cosys-integration
+  - error handling added
 
 ### Fixed
 

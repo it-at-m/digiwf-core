@@ -1,0 +1,54 @@
+{
+  "key": "CosysGenerateDocumentTest_Start",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Start",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you can create yourself a greeting cart genereted by **Cosys**. \n\nYou will first receive a user task *\"Input data\"* to fill out the card's text and a second one to check the result and download your generated card.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "f393458d-db10-41ec-96e6-40e6a905093f"
+          }
+        ],
+        "key": "cc1d2542-daf4-4c9e-bd68-612ea617b0de"
+      }
+    ]
+  }
+}

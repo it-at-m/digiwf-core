@@ -5,7 +5,7 @@
   "configs": [
     {
       "key": "app_file_s3_async_config",
-      "value": "dwf-s3-demo"
+      "value": "dwf-s3-dev"
     },
     {
       "key": "app_file_s3_sync_config",

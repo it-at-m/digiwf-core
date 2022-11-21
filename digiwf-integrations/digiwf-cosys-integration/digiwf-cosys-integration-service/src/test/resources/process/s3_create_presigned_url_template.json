@@ -1,5 +1,5 @@
 {
-  "name": "S3: Presigned Url erstellen",
+  "name": "S3: Create presigned urls",
   "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01",
   "appliesTo": [
     "bpmn:CallActivity"
@@ -61,7 +61,7 @@
       }
     },
     {
-      "label": "Dateipfad",
+      "label": "File path",
       "type": "String",
       "value": "",
       "binding": {
@@ -75,7 +75,7 @@
       }
     },
     {
-      "label": "Datei Aktion",
+      "label": "File action",
       "type": "String",
       "value": "",
       "binding": {
@@ -89,7 +89,7 @@
       }
     },
     {
-      "label": "Out: PresignedUrls",
+      "label": "Out: Presigned urls",
       "type": "String",
       "binding": {
         "type": "camunda:out",

@@ -1,6 +1,6 @@
 {
-  "name": "S3: Presigned Url erstellen",
-  "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01",
+  "name": "Cosys: GenerateDocumentTest",
+  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -18,11 +18,9 @@
     {
       "label": "Event Topic",
       "type": "String",
-      "editable": false,
-      "value": "${app_file_s3_async_config}",
+      "value": "dwf-cosys-local",
       "binding": {
         "type": "camunda:in",
-        "name": "app_topic_name",
         "target": "app_topic_name",
         "expression": true
       },
@@ -33,12 +31,11 @@
     {
       "label": "Event Message",
       "type": "String",
-      "editable": false,
-      "value": "createPresignedUrl",
+	  "editable": false,
+      "value": "cosysMessage",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "app_message_name",
         "target": "app_message_name"
       },
       "constraints": {
@@ -48,12 +45,11 @@
     {
       "label": "Event Type",
       "type": "String",
-      "editable": false,
-      "value": "createPresignedUrl",
+	  "editable": false,
+      "value": "createCosysDocument",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "app_type_name",
         "target": "app_type_name"
       },
       "constraints": {
@@ -61,39 +57,65 @@
       }
     },
     {
-      "label": "Dateipfad",
+      "label": "Client",
       "type": "String",
-      "value": "",
+      "value": "9001",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "path",
-        "target": "path"
+        "target": "client"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Datei Aktion",
+      "label": "Role",
       "type": "String",
-      "value": "",
+      "value": "TESTER",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "action",
-        "target": "action"
+        "target": "role"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Out: PresignedUrls",
+      "label": "S3 Path",
       "type": "String",
+      "value": "${app_file_context}/test/doc.pdf",
       "binding": {
-        "type": "camunda:out",
-        "source": "presignedUrls"
+        "type": "camunda:in",
+        "expression": true,
+        "target": "s3Path"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Guid",
+      "type": "String",
+      "value": "519650b7-87c2-41a6-8527-7b095675b13f",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "guid"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Data",
+      "type": "String",
+      "value": "${cosysData}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "variables"
       },
       "constraints": {
         "notEmpty": true
