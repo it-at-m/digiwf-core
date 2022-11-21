@@ -39,6 +39,7 @@
         <module>digiwf-process</module>
         <module>digiwf-gateway</module>
         <module>digiwf-integrations</module>
+        <module>digiwf-camunda-prometheus</module>
     </modules>
 
     <dependencyManagement>
