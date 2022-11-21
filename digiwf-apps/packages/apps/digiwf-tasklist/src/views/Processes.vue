@@ -5,45 +5,45 @@
         <h1>Vorgänge</h1>
       </v-flex>
       <v-flex class="d-flex justify-space-between align-center searchField">
-      <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
-      <v-combobox
-        id="suchfeld"
-        v-model="filter"
-        :items="persistentFilters.map((f) => f.filterString)"
-        flat
-        dense
-        outlined
-        hide-details
-        label="Aufgaben durchsuchen"
-        clearable
-        color="black"
-        style="max-width: 500px"
-        @input.native="filter=$event.srcElement.value"
-      >
-        <template #append>
-          <div class="v-input__icon">
-            <v-btn
-              v-if="isFilterPersistent"
-              icon
-              aria-label="Filter speichern"
-              class="v-icon yellow--text"
-              @click="deletePersistentFilter()"
-            >
-              <v-icon color="yellow"> mdi-star </v-icon>
-            </v-btn>
-            <v-btn
-              v-else
-              icon
-              aria-label="Filter löschen"
-              class="v-icon yellow--text"
-              @click="savePersistentFilter()"
-            >
-              <v-icon color="yellow"> mdi-star-outline </v-icon>
-            </v-btn>
-          </div>
-          <v-icon class="ml-2"> mdi-magnify </v-icon>
-        </template>
-      </v-combobox>
+        <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
+        <v-combobox
+          id="suchfeld"
+          v-model="filter"
+          :items="persistentFilters.map((f) => f.filterString)"
+          flat
+          dense
+          outlined
+          hide-details
+          label="Aufgaben durchsuchen"
+          clearable
+          color="black"
+          style="max-width: 500px"
+          @input.native="onFilterChanged"
+        >
+          <template #append>
+            <div class="v-input__icon">
+              <v-btn
+                v-if="isFilterPersistent"
+                icon
+                aria-label="Filter speichern"
+                class="v-icon"
+                @click="deletePersistentFilter()"
+              >
+                <v-icon color="primary"> mdi-star</v-icon>
+              </v-btn>
+              <v-btn
+                v-else-if="filter"
+                icon
+                aria-label="Filter löschen"
+                class="v-icon"
+                @click="savePersistentFilter()"
+              >
+                <v-icon color="primary"> mdi-star-outline</v-icon>
+              </v-btn>
+            </div>
+            <v-icon class="ml-2"> mdi-magnify</v-icon>
+          </template>
+        </v-combobox>
 
         <div class="d-flex align-center">
           <v-btn
@@ -110,7 +110,13 @@ import {Component, Vue, Watch} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {ServiceDefinitionTO, FilterTO, SaveFilterTO, FilterRestControllerApiFactory, FetchUtils} from '@muenchen/digiwf-engine-api-internal';
+import {
+  FetchUtils,
+  FilterRestControllerApiFactory,
+  FilterTO,
+  SaveFilterTO,
+  ServiceDefinitionTO
+} from '@muenchen/digiwf-engine-api-internal';
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 import {ApiConfig} from "../api/ApiConfig";
@@ -146,12 +152,18 @@ export default class Processes extends Vue {
   }
 
   loadFilter(): void {
-    this.filter = this.$store.getters["processDefinitions/filter"];
+    this.filter = this.$route.query.filter as string ?? "";
+    if (!this.filter) {
+      this.filter = this.$store.getters["processDefinitions/filter"];
+      this.$router.replace({query: {filter: this.filter}});
+    }
   }
 
-  @Watch("filter")
-  onFilterChanged() {
+  onFilterChanged(event: Event) {
+    const el = event.target as HTMLInputElement
+    this.filter = el.value;
     this.$store.commit('processDefinitions/setFilter', this.filter);
+    this.$router.replace({path: "process", query: {filter: el.value}})
   }
 
   get filteredProcesses(): ServiceDefinitionTO[] {
@@ -179,7 +191,7 @@ export default class Processes extends Vue {
   }
 
   async savePersistentFilter() {
-    if (!this.filter){
+    if (!this.filter) {
       return;
     }
     const request: SaveFilterTO = {

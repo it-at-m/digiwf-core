@@ -56,7 +56,11 @@ export default class AssignedGroupTasks extends Vue {
   }
 
   loadFilter(): void {
-    this.filter = this.$store.getters["tasks/assignedGroupTasksFilter"];
+    this.filter = this.$route.query.filter as string ?? "";
+    if (!this.filter) {
+      this.filter = this.$store.getters["tasks/assignedGroupTasksFilter"];
+      this.$router.replace({query: {filter: this.filter}});
+    }
   }
 
   async reassignTask(id: string): Promise<void> {
@@ -88,6 +92,7 @@ export default class AssignedGroupTasks extends Vue {
   }
 
   onFilterChanged(filter: string) {
+    this.$router.replace({query: {filter: filter}});
     this.$store.commit('tasks/setAssignedGroupTasksFilter', filter);
   }
 

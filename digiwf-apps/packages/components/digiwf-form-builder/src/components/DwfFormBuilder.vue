@@ -36,14 +36,17 @@
 
 <script lang="ts">
 import {generateUUID} from "@/utils/UUIDGenerator";
-import {Form, Section} from "@muenchen/digiwf-form-renderer";
-import {defineComponent, provide, ref, set} from "vue";
+import {Section} from "@muenchen/digiwf-form-renderer";
+import {computed, defineComponent, provide, set} from "vue";
 
 export default defineComponent({
   props: ['value', 'name', 'description', 'schema', 'builderSettings'],
   emits: ['input'],
   setup(props, {emit}) {
-    const currentValue = ref<Form>(props.value);
+    const currentValue = computed(() => {
+      return props.value;
+    });
+
     const dragOptions = {
       animation: 200,
       group: "section",
@@ -53,7 +56,7 @@ export default defineComponent({
     provide("builderSettings", props.builderSettings);
 
     const input = () => {
-      emit("input", currentValue)
+      emit("input", currentValue.value)
     };
 
     const uuid = (section: Section): string => {

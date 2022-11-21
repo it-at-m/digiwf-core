@@ -67,7 +67,11 @@ export default class Tasks extends Vue {
   }
 
   loadFilter(): void {
-    this.filter = this.$store.getters["tasks/tasksFilter"];
+    this.filter = this.$route.query.filter as string ?? "";
+    if (!this.filter) {
+      this.filter = this.$store.getters["tasks/tasksFilter"];
+      this.$router.replace({query: {filter: this.filter}});
+    }
   }
 
   async loadTasks(refresh = false): Promise<void> {
@@ -105,6 +109,7 @@ export default class Tasks extends Vue {
   }
 
   onFilterChanged(filter: string) {
+    this.$router.replace({query: {filter: filter}})
     this.$store.commit('tasks/setTasksFilter', filter);
   }
 

@@ -5,34 +5,37 @@
 ### Added
 
 - tasklist
-    - persistent filters
+  - persistent filters
+  - save filter as url query param
 - digiwf-form-builder
-    - validation of list items
+  - validation of list items
 
 ### Fixed
 
 - digiwf-form-builder:
-    - move field to nested objects
-    - general styling issues
-    - reactivity when updating schema
+  - move field to nested objects
+  - general styling issues
+  - reactivity when updating schema
 
 ## [services Unreleased] - yyyy-mm-dd
 
 ### Added
 
 - digiwf-libs
-    - add functionality to extract error information in json serialization
+  - add functionality to extract error information in json serialization
 - digiwf-s3-integration
-    - supports creation of presigned urls for multiple file paths
-    - switch to webClient
-    - generate open api client
-    - allow to use any s3 storage with the cosys integration (domain specific s3 storage)
+  - supports creation of presigned urls for multiple file paths
+  - switch to webClient
+  - generate open api client
+  - allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 - digiwf-email-integration
-    - modules added
+  - modules added
 - digiwf-verification-integration
-    - verification integration modules added
+  - verification integration modules added
 - alw-integration
-  - modules added 
+  - modules added
+- digiwf-camunda-prometheus
+  - modules added
 
 ### Fixed
 

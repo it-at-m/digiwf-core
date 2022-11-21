@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <menu></menu>
+    <button @click="undo">undo</button>
     <v-tabs>
       <v-tab>
         builder
@@ -95,7 +96,37 @@ export default defineComponent({
       value.value = test;
     }
 
+    const undo = () => {
+      schema.value = {
+        "type": "object",
+        "x-display": "tabs",
+        "allOf": [{
+          "key": "sectionKey1",
+          "title": "Allgemeine Angaben",
+          "type": "object",
+          "x-options": {"sectionsTitlesClasses": []},
+          "allOf": [{
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {"childrenClass": "pl-0"},
+            "properties": {
+              "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
+                "fieldType": "boolean",
+                "title": "Checkbox",
+                "type": "boolean",
+                "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
+                "x-props": {"outlined": true, "dense": true}
+              }
+            },
+            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
+          }]
+        }]
+      }
+    }
+
     return {
+      undo,
       componentKey,
       changed,
       validate,
