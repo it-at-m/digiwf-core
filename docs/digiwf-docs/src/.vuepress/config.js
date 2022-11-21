@@ -40,7 +40,7 @@ module.exports = {
      * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
      */
     themeConfig: {
-        repo: '',
+        repo: 'https://github.com/it-at-m/digiwf-core',
         editLinks: false,
         docsDir: '',
         editLinkText: '',
@@ -51,7 +51,10 @@ module.exports = {
                 label: 'Deutsch',
                 ariaLabel: 'Sprachen',
                 nav: [
-
+                    {
+                        text: 'Features',
+                        link: '/features/'
+                    },
                     {
                         text: 'Modellierung',
                         link: '/modeling/'
@@ -114,6 +117,22 @@ module.exports = {
                             ]
                         }
                     ],
+                    '/features/': [
+                        {
+                            title: 'Features',
+                            collapsable: false,
+                            children: [
+                                '',
+                            ]
+                        },
+                        {
+                            title: 'Changes',
+                            collapsable: false,
+                            children: [
+                                'changes/',
+                            ]
+                        },
+                    ],
                     '/modeling/': [
                         {
                             title: 'Modellierung',
@@ -141,6 +160,14 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'guides/modeling-first-process/',
+                            ]
+                        },
+                        {
+                            title: 'Vorlagen',
+                            collapsable: false,
+                            children: [
+                                'templates/element-templates/',
+                                'templates/examples/'
                             ]
                         }
                     ],
