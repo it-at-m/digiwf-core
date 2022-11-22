@@ -29,10 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +41,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class HumanTaskService {
-
     private final HumanTaskDataService humanTaskDataService;
     private final TaskInfoService taskInfoService;
     private final ActRuTaskService actRuTaskService;
@@ -111,60 +107,75 @@ public class HumanTaskService {
 
     /**
      * Returns the assigned tasks for the given userId
+     * In case of a missing task info there is an incomplete page content. The number of total items are the number of ActRuTask items.
      *
      * @param userId Id of the user
+     * @param pageable object for pagination
      * @return The tasks
      */
     public Page<HumanTask> getTasksForUser(final String userId, final Pageable pageable) {
         // FIXME: find an better solution to merge database queries
         val actTasksPage = this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, pageable);
+
         val actTasks = actTasksPage.getContent();
         val taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(actTasks.stream().map(ActRuTask::getId).collect(Collectors.toList()));
-        final List<HumanTask> humanTasks = actTasks.stream().map(actTask -> this.humanTaskMapper.map2Model(actTask, taskInfos.get(actTask.getId()))).collect(Collectors.toList());
-        return new PageImpl<>(humanTasks, actTasksPage.getPageable(), humanTasks.size());
+
+        val humanTasks = actTasks.stream().map(actTask -> {
+                    val taskInfo = taskInfos.get(actTask.getId());
+                    if (taskInfo == null) {
+                        log.warn(String.format("There is no TaskInfo entry for id %s", actTask.getId()));
+                        return null;
+                    }
+                    return this.humanTaskMapper.map2Model(actTask, taskInfo);
+                }
+        ).filter(Objects::nonNull).collect(Collectors.toList());
+        return new PageImpl<>(humanTasks, actTasksPage.getPageable(), actTasksPage.getTotalElements());
     }
 
     /**
      * Returns the group tasks for the given userId and groups that are not assigned.
-     * FIXME: adding pagination
+     *
      * @param userId Id of the user
      * @param groups Assigned groups of the user
      * @return The open group tasks
      */
-    public List<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups) {
+    public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getOpenGroupTasks: user {}", userId);
 
-        val tasks = this.taskService.createTaskQuery()
+        val allTasks = this.taskService.createTaskQuery()
                 .taskCandidateUser(userId)
                 .taskUnassigned()
                 .list();
 
+        val tasks = this.getSublistOfTasks(allTasks, pageable.getPageNumber(), pageable.getPageSize());
         val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
         val groupTasks = this.queryTaskByCandidateGroup(groups, false);
         groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        return this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
+        val humanTasks = this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
+        return new PageImpl<>(humanTasks, pageable, allTasks.size());
     }
 
     /**
      * Returns the group tasks for the given userId and groups that are assigned.
-     * FIXME: pagination
+     *
      * @param userId Id of the user
      * @param groups Assigned groups of the user
      * @return The assigned group tasks
      */
-    public List<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups) {
+    public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getAssignedGroupTasks: user {}", userId);
 
-        val tasks = this.taskService.createTaskQuery()
+        val allTasks = this.taskService.createTaskQuery()
                 .taskCandidateUser(userId)
                 .includeAssignedTasks()
                 .taskAssigned()
                 .list();
 
+        val tasks = this.getSublistOfTasks(allTasks, pageable.getPageNumber(), pageable.getPageSize());
         val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
         val groupTasks = this.queryTaskByCandidateGroup(groups, true);
         groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        return this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
+        return new PageImpl<>(this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList())), pageable, tasks.size());
     }
 
     /**
@@ -324,9 +335,16 @@ public class HumanTaskService {
                 .collect(Collectors.toList());
     }
 
+    private List<Task> getSublistOfTasks(final List<Task> allTasks, final Integer pageIndex, final Integer pageSize) {
+        val startIndex = Math.min(pageIndex * pageSize, allTasks.size());
+        val stopIndex = Math.min((pageIndex + 1) * pageSize, allTasks.size());
+
+        return allTasks.subList(startIndex, stopIndex);
+    }
     //TODO create a HumanTask Access Service for the following methods
 
     private List<Task> queryTaskByCandidateGroup(final List<String> ous, final boolean assigned) {
+        // FIXME: replace it
         // select assigned OR unassigned tasks
         final String assigneeExpression = assigned ? "T1.ASSIGNEE_ IS NOT NULL" : "T1.ASSIGNEE_ IS NULL";
 
@@ -344,5 +362,4 @@ public class HumanTaskService {
                 .sql(query)
                 .list();
     }
-
 }

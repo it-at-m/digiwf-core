@@ -2,7 +2,6 @@ package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapper;
 import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
-import io.muenchendigital.digiwf.humantask.infrastructure.entity.ActRuTaskEntity;
 import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuTaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +24,10 @@ public class ActRuTaskService {
 
     public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
         val result = this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable);
-        return new PageImpl<ActRuTask>(result.getContent().stream().map(actRuTaskMapper::mapModel).collect(Collectors.toList()), result.getPageable(), result.getTotalElements());
+        return new PageImpl<ActRuTask>(result.getContent().stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList()), result.getPageable(), result.getTotalElements());
     }
 
     public List<ActRuTask> getActRuTasksIds(List<String> taskIds) {
-        return this.actRuTaskRepository.findAllById(taskIds).stream().map(actRuTaskMapper::mapModel).collect(Collectors.toList());
+        return this.actRuTaskRepository.findAllById(taskIds).stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList());
     }
 }

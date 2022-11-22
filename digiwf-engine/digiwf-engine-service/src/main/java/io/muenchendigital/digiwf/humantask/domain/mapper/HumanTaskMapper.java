@@ -5,21 +5,20 @@ import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
 import org.camunda.bpm.engine.task.Task;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
+// FIXME: add tests
+@Component
+public class HumanTaskMapper {
 
-@Mapper
-public interface HumanTaskMapper {
-
-    default HumanTask map2Model(
+    public HumanTask map2Model(
             final ActRuTask actRuTask,
             final TaskInfo taskInfoEntity) {
-
         return HumanTask.builder()
                 .id(actRuTask.getId())
                 .assignee(actRuTask.getAssignee())
@@ -32,7 +31,7 @@ public interface HumanTaskMapper {
                 .build();
     }
 
-    default HumanTaskDetail map2Model(
+    public HumanTaskDetail map2Model(
             final Task task,
             final TaskInfo taskInfoEntity,
             final Map<String, Object> variables
@@ -51,7 +50,7 @@ public interface HumanTaskMapper {
                 .build();
     }
 
-    default String mapDate(final Date date) {
+    public String mapDate(final Date date) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return Optional.ofNullable(date)
                 .map(dateFormat::format)

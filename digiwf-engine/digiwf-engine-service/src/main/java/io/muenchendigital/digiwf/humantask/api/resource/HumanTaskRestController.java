@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 
 /**
@@ -43,16 +42,14 @@ public class HumanTaskRestController {
     private final HumanTaskApiMapper taskMapper;
 
     /**
-     * Returns all tasks assigned to the authenticated user.
+     * Returns a pafe  tasks assigned to the authenticated user.
      *
      * @return tasks
      */
     @GetMapping
-    public Page<HumanTaskTO> getTasks(
-            final Pageable pageable
-    ) {
+    public Page<HumanTaskTO> getTasks(final Pageable pageable) {
         val tasks = this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), pageable);
-        return new PageImpl<HumanTaskTO>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
+        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
     }
 
     /**
@@ -61,9 +58,9 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping("/group/open")
-    public ResponseEntity<List<HumanTaskTO>> getOpenGroupTasks() {
-        val tasks = this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups());
-        return ResponseEntity.ok(this.taskMapper.map2TO(tasks));
+    public Page<HumanTaskTO> getOpenGroupTasks(final Pageable pageable) {
+        val tasks = this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable);
+        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
     }
 
     /**
@@ -72,9 +69,9 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping("/group/assigned")
-    public ResponseEntity<List<HumanTaskTO>> getAssignedGroupTasks() {
-        val tasks = this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups());
-        return ResponseEntity.ok(this.taskMapper.map2TO(tasks));
+    public Page<HumanTaskTO> getAssignedGroupTasks(final Pageable pageable) {
+        val tasks = this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable);
+        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
     }
 
     /**

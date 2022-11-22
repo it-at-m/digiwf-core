@@ -4,15 +4,10 @@ import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.infrastructure.entity.ActRuTaskEntity;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ActRuTaskMapper {
-    default ActRuTask mapModel(final ActRuTaskEntity entity) {
-        return ActRuTask.builder()
-                .id(entity.getId())
-                .assignee(entity.getAssignee())
-                .name(entity.getName())
-                .createdAt(entity.getCreatedAt())
-                .followUpDate(entity.getFollowUpDate())
-                .build();
-    }
+    List<ActRuTask> map2Model(List<ActRuTaskEntity> list);
+    ActRuTask map2Model(ActRuTaskEntity entity);
 }
