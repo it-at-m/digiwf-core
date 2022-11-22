@@ -17,7 +17,7 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.i
 @RequiredArgsConstructor
 public class IncidentService {
 
-    private static final String MESSAGE_TYPE = "incident";
+    private static final String MESSAGE_TYPE = "createIncident";
 
     private final Sinks.Many<Message<String>> incidentSink;
 
@@ -33,7 +33,7 @@ public class IncidentService {
                 .withPayload(errorMessage)
                 .setHeader(StreamingHeaders.TYPE, MESSAGE_TYPE)
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
-                .setHeader(DIGIWF_MESSAGE_NAME, messageHeaders.get(DIGIWF_MESSAGE_NAME))
+                .setHeader(DIGIWF_MESSAGE_NAME, "createIncident")
                 .build();
 
         final Sinks.EmitResult emitResult = this.incidentSink.tryEmitNext(message);

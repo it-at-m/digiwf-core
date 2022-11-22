@@ -1,6 +1,6 @@
 {
   "name": "Cosys: GenerateDocumentTest",
-  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest",
+  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest2",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV02",
+      "value": "StreamingTemplateV03",
       "binding": {
         "type": "property",
         "name": "calledElement"
