@@ -20,6 +20,10 @@ on:
         description: 'Release services (y/n)?'
         required: true
         default: 'y'
+      docs:
+        description: 'Release docs (y/n)?'
+        required: true
+        default: 'y'
 
 jobs:
   release-services:
@@ -202,6 +206,24 @@ jobs:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
           tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist:dev
+
+  release-docs:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.docs == 'y'
+    defaults:
+      run:
+        working-directory: ./docs
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./docs/package-lock.json"
+      - run: npm install
+      - run: npm run build
+      # tbd. publish to github pages
 
   github-release:
     name: Create Release
