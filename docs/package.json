@@ -4,8 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/it-at-m/digiwf-core.git/digiwf",
   "scripts": {
-    "dev": "digiwf-docs/node_modules/.bin/vuepress dev src",
-    "build": "digiwf-docs/node_modules/.bin/vuepress build src"
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
   },
   "license": "MIT",
   "devDependencies": {
