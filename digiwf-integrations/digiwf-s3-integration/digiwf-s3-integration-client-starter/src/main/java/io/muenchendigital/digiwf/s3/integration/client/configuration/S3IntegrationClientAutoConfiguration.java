@@ -6,11 +6,16 @@ import io.muenchendigital.digiwf.s3.integration.gen.ApiClient;
 import io.muenchendigital.digiwf.s3.integration.gen.api.FileApiApi;
 import io.muenchendigital.digiwf.s3.integration.gen.api.FolderApiApi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @ComponentScan(
         basePackages = {
@@ -38,22 +43,38 @@ public class S3IntegrationClientAutoConfiguration {
 
     public final S3IntegrationClientProperties s3IntegrationClientProperties;
 
-    /**
-     * Creates a bean with name "apiClientFactory" of {@link ApiClientFactory}.
-     *
-     * This factory class is providing either the preconfigured {@link FileApiApi} or {@link FileApiApi}.
-     *
-     * @param restTemplate to create rest requests.
-     *                     If the S3 integration service is secured via Oauth2,
-     *                     the OAuth2RestTemplate can be used here, for example.
-     * @return the {@link ApiClientFactory}.
-     */
     @Bean
-    public ApiClientFactory apiClientFactory(final RestTemplate restTemplate) {
+    @ConditionalOnProperty(prefix = "io.muenchendigital.digiwf.s3.client", name = "securityEnabled", havingValue = "true")
+    public ApiClientFactory securedApiClientFactory(final ClientRegistrationRepository clientRegistrationRepository,
+                                                    final OAuth2AuthorizedClientService authorizedClientService) {
         return new ApiClientFactory(
                 this.s3IntegrationClientProperties.getDocumentStorageUrl(),
-                restTemplate
+                this.webClient(clientRegistrationRepository, authorizedClientService)
         );
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "io.muenchendigital.digiwf.s3.client", name = "securityEnabled", havingValue = "false", matchIfMissing = true)
+    public ApiClientFactory apiClientFactory() {
+        return new ApiClientFactory(
+                this.s3IntegrationClientProperties.getDocumentStorageUrl(),
+                WebClient.builder().build()
+        );
+    }
+
+    private WebClient webClient(
+            final ClientRegistrationRepository clientRegistrationRepository,
+            final OAuth2AuthorizedClientService authorizedClientService
+    ) {
+        final var oauth = new ServletOAuth2AuthorizedClientExchangeFilterFunction(
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                        clientRegistrationRepository, authorizedClientService
+                )
+        );
+        oauth.setDefaultClientRegistrationId("s3");
+        return WebClient.builder()
+                .apply(oauth.oauth2Configuration())
+                .build();
     }
 
 }

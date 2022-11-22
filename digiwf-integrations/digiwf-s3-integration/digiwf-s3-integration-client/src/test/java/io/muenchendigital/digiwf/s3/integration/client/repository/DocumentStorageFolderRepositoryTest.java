@@ -20,8 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
@@ -47,7 +48,7 @@ class DocumentStorageFolderRepositoryTest {
         Mockito.reset(this.folderApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
-        Mockito.doNothing().when(this.folderApi).delete(pathToFolder);
+        Mockito.when(this.folderApi.delete(pathToFolder)).thenReturn(Mono.empty());
         this.documentStorageFolderRepository.deleteFolder(pathToFolder);
         Mockito.verify(this.folderApi, Mockito.times(1)).delete(pathToFolder);
 
@@ -78,12 +79,12 @@ class DocumentStorageFolderRepositoryTest {
         final String pathToFolder = "folder";
 
         final FilesInFolderDto filesInFolderDto = new FilesInFolderDto();
-        filesInFolderDto.setPathToFiles(List.of("folder/file.txt"));
+        filesInFolderDto.setPathToFiles(Set.of("folder/file.txt"));
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
-        Mockito.when(this.folderApi.getAllFilesInFolderRecursively(pathToFolder)).thenReturn(filesInFolderDto);
+        Mockito.when(this.folderApi.getAllFilesInFolderRecursively(pathToFolder)).thenReturn(Mono.just(filesInFolderDto));
         this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder);
         Mockito.verify(this.folderApi, Mockito.times(1)).getAllFilesInFolderRecursively(pathToFolder);
 

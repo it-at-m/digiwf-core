@@ -31,7 +31,7 @@ public class ClientFolderUsageController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public void getAllFilesInFolderRecursively() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        this.documentStorageFolderRepository.getAllFilesInFolderRecursively(FOLDER).forEach(log::info);
+        this.documentStorageFolderRepository.getAllFilesInFolderRecursively(FOLDER).block().forEach(log::info);
     }
 
 }

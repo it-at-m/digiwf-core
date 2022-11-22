@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 
@@ -56,10 +57,10 @@ class PresignedUrlRepositoryTest {
         Mockito.reset(this.fileApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFileApiForDocumentStorageUrl("url")).thenReturn(this.fileApi);
-        Mockito.when(this.fileApi.get(pathToFile, expireInMinutes)).thenReturn(expected);
-        final String result = this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes);
+        Mockito.when(this.fileApi.get(pathToFile, expireInMinutes)).thenReturn(Mono.just(expected));
+        final Mono<String> result = this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes);
         Mockito.verify(this.fileApi, Mockito.times(1)).get(pathToFile, expireInMinutes);
-        assertThat(result, is(expected.getUrl()));
+        assertThat(result.block(), is(expected.getUrl()));
         Mockito.reset(this.fileApi);
     }
 
@@ -107,7 +108,7 @@ class PresignedUrlRepositoryTest {
         Mockito.reset(this.fileApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFileApiForDocumentStorageUrl("url")).thenReturn(this.fileApi);
-        Mockito.when(this.fileApi.save(fileDataDto)).thenReturn(expected);
+        Mockito.when(this.fileApi.save(fileDataDto)).thenReturn(Mono.just(expected));
 
         final String result = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, endOfLife);
         Mockito.verify(this.fileApi, Mockito.times(1)).save(fileDataDto);
@@ -164,7 +165,7 @@ class PresignedUrlRepositoryTest {
         Mockito.reset(this.fileApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFileApiForDocumentStorageUrl("url")).thenReturn(this.fileApi);
-        Mockito.when(this.fileApi.update(fileDataDto)).thenReturn(expected);
+        Mockito.when(this.fileApi.update(fileDataDto)).thenReturn(Mono.just(expected));
 
         final String result = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, endOfLife);
         Mockito.verify(this.fileApi, Mockito.times(1)).update(fileDataDto);
@@ -215,7 +216,7 @@ class PresignedUrlRepositoryTest {
         Mockito.reset(this.fileApi, this.apiClientFactory);
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFileApiForDocumentStorageUrl("url")).thenReturn(this.fileApi);
-        Mockito.when(this.fileApi.delete1(pathToFile, expireInMinutes)).thenReturn(expected);
+        Mockito.when(this.fileApi.delete1(pathToFile, expireInMinutes)).thenReturn(Mono.just(expected));
 
         final String result = this.presignedUrlRepository.getPresignedUrlDeleteFile(pathToFile, expireInMinutes);
         Mockito.verify(this.fileApi, Mockito.times(1)).delete1(pathToFile, expireInMinutes);

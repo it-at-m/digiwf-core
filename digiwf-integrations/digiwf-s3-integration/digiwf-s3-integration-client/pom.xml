@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <swagger.codegen.version>3.0.33</swagger.codegen.version>
+        <openapi-generator-version>6.2.1</openapi-generator-version>
         <wiremock.version>2.32.0</wiremock.version>
     </properties>
 
@@ -22,7 +22,7 @@
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <artifactId>spring-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,8 +42,23 @@
         <!-- openApi -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.openapi.version}</version>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <version>${springdoc.openapi.webflux.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
         </dependency>
 
         <!-- testing libraries-->
@@ -88,20 +103,11 @@
 
     <build>
         <plugins>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <!--
-                    Docs:
-                    https://openapi-generator.tech/docs/generators/java
-                    https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md#general-configuration-parameters
-                -->
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>${swagger.codegen.version}</version>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-version}</version>
                 <executions>
                     <execution>
                         <id>document-storage-api</id>
@@ -110,8 +116,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
-                            <language>java</language>
-                            <library>resttemplate</library>
+                            <library>webclient</library>
+                            <generatorName>java</generatorName>
                             <output>${project.basedir}</output>
 
                             <apiPackage>io.muenchendigital.digiwf.s3.integration.gen.api</apiPackage>
@@ -123,29 +129,15 @@
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>
-
-                            <environmentVariables>
-                                <supportingFiles>
-                                    ApiClient.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,RFC3339DateFormat.java
-                                </supportingFiles>
-                            </environmentVariables>
-
-                            <typeMappings>
-                                <typeMapping>DateTime=java.time.LocalDateTime</typeMapping>
-                                <typeMapping>Date=java.time.LocalDate</typeMapping>
-                            </typeMappings>
-
-                            <additionalProperties>
-                                <additionalProperty>performBeanValidation=true</additionalProperty>
-                                <additionalProperty>useBeanValidation=true</additionalProperty>
-                            </additionalProperties>
-
                             <configOptions>
-                                <dateLibrary>Java8</dateLibrary>
-                                <java8>true</java8>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <sourceFolder>src/main/java/</sourceFolder>
                             </configOptions>
+                            <globalProperties>
+                                <supportingFiles>
+                                    ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
+                                </supportingFiles>
+                            </globalProperties>
+
                         </configuration>
                     </execution>
                 </executions>

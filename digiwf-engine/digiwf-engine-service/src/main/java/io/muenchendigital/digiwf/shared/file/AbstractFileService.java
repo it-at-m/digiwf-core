@@ -1,15 +1,16 @@
 package io.muenchendigital.digiwf.shared.file;
 
+import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import io.muenchendigital.digiwf.service.config.process.ProcessConfigFunctions;
 import io.muenchendigital.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import io.muenchendigital.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapter;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,9 +41,9 @@ public abstract class AbstractFileService {
     public List<String> getFileNames(final String filePath, final String fileContext, final Optional<String> documentStorageUrl) {
         try {
             if (documentStorageUrl.isPresent()) {
-                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl.get()));
+                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl.get()).block());
             }
-            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath));
+            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath).block());
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed: {}", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
@@ -69,7 +70,7 @@ public abstract class AbstractFileService {
 
     //---------------------------------------- helper methods ---------------------------------------- //
 
-    private List<String> removeFolderFromPaths(final List<String> fileList) {
+    private List<String> removeFolderFromPaths(final Set<String> fileList) {
         return fileList.stream()
                 .map(file -> file.substring(file.lastIndexOf("/") + 1))
                 .collect(Collectors.toList());

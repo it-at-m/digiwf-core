@@ -2,31 +2,32 @@ package io.muenchendigital.digiwf.s3.integration.gen.api;
 
 import io.muenchendigital.digiwf.s3.integration.gen.ApiClient;
 
-import java.util.Date;
 import io.muenchendigital.digiwf.s3.integration.gen.model.FileDataDto;
+import java.time.LocalDate;
 import io.muenchendigital.digiwf.s3.integration.gen.model.PresignedUrlDto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
-@Component("io.muenchendigital.digiwf.s3.integration.gen.api.FileApiApi")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileApiApi {
     private ApiClient apiClient;
 
@@ -51,245 +52,392 @@ public class FileApiApi {
      * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param expiresInMinutes  (required)
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
      * @return PresignedUrlDto
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public PresignedUrlDto delete1(String pathToFile, Integer expiresInMinutes) throws RestClientException {
-        return delete1WithHttpInfo(pathToFile, expiresInMinutes).getBody();
+    private ResponseSpec delete1RequestCreation(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        Object postBody = null;
+        // verify the required parameter 'pathToFile' is set
+        if (pathToFile == null) {
+            throw new WebClientResponseException("Missing the required parameter 'pathToFile' when calling delete1", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // verify the required parameter 'expiresInMinutes' is set
+        if (expiresInMinutes == null) {
+            throw new WebClientResponseException("Missing the required parameter 'expiresInMinutes' when calling delete1", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
+
+        final String[] localVarAccepts = { 
+            "*/*"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return apiClient.invokeAPI("/file", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
      * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param expiresInMinutes  (required)
-     * @return ResponseEntity&lt;PresignedUrlDto&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return PresignedUrlDto
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<PresignedUrlDto> delete1WithHttpInfo(String pathToFile, Integer expiresInMinutes) throws RestClientException {
-        Object postBody = null;
-        // verify the required parameter 'pathToFile' is set
-        if (pathToFile == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pathToFile' when calling delete1");
-        }
-        // verify the required parameter 'expiresInMinutes' is set
-        if (expiresInMinutes == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'expiresInMinutes' when calling delete1");
-        }
-        String path = UriComponentsBuilder.fromPath("/file").build().toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
+    public Mono<PresignedUrlDto> delete1(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return delete1RequestCreation(pathToFile, expiresInMinutes).bodyToMono(localVarReturnType);
+    }
 
-        final String[] accepts = { 
-            "*/*"
-         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+    /**
+     * 
+     * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return ResponseEntity&lt;PresignedUrlDto&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<PresignedUrlDto>> delete1WithHttpInfo(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return delete1RequestCreation(pathToFile, expiresInMinutes).toEntity(localVarReturnType);
+    }
 
-        String[] authNames = new String[] {  };
-
-        ParameterizedTypeReference<PresignedUrlDto> returnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
-        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    /**
+     * 
+     * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec delete1WithResponseSpec(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        return delete1RequestCreation(pathToFile, expiresInMinutes);
     }
     /**
      * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param expiresInMinutes  (required)
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
      * @return PresignedUrlDto
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public PresignedUrlDto get(String pathToFile, Integer expiresInMinutes) throws RestClientException {
-        return getWithHttpInfo(pathToFile, expiresInMinutes).getBody();
+    private ResponseSpec getRequestCreation(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        Object postBody = null;
+        // verify the required parameter 'pathToFile' is set
+        if (pathToFile == null) {
+            throw new WebClientResponseException("Missing the required parameter 'pathToFile' when calling get", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // verify the required parameter 'expiresInMinutes' is set
+        if (expiresInMinutes == null) {
+            throw new WebClientResponseException("Missing the required parameter 'expiresInMinutes' when calling get", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
+
+        final String[] localVarAccepts = { 
+            "*/*"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return apiClient.invokeAPI("/file", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
      * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param expiresInMinutes  (required)
-     * @return ResponseEntity&lt;PresignedUrlDto&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return PresignedUrlDto
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<PresignedUrlDto> getWithHttpInfo(String pathToFile, Integer expiresInMinutes) throws RestClientException {
-        Object postBody = null;
-        // verify the required parameter 'pathToFile' is set
-        if (pathToFile == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pathToFile' when calling get");
-        }
-        // verify the required parameter 'expiresInMinutes' is set
-        if (expiresInMinutes == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'expiresInMinutes' when calling get");
-        }
-        String path = UriComponentsBuilder.fromPath("/file").build().toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
+    public Mono<PresignedUrlDto> get(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return getRequestCreation(pathToFile, expiresInMinutes).bodyToMono(localVarReturnType);
+    }
 
-        final String[] accepts = { 
-            "*/*"
-         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+    /**
+     * 
+     * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return ResponseEntity&lt;PresignedUrlDto&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<PresignedUrlDto>> getWithHttpInfo(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return getRequestCreation(pathToFile, expiresInMinutes).toEntity(localVarReturnType);
+    }
 
-        String[] authNames = new String[] {  };
-
-        ParameterizedTypeReference<PresignedUrlDto> returnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    /**
+     * 
+     * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param expiresInMinutes The expiresInMinutes parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec getWithResponseSpec(String pathToFile, Integer expiresInMinutes) throws WebClientResponseException {
+        return getRequestCreation(pathToFile, expiresInMinutes);
     }
     /**
      * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
-     * @param body  (required)
+     * @param fileDataDto The fileDataDto parameter
      * @return PresignedUrlDto
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public PresignedUrlDto save(FileDataDto body) throws RestClientException {
-        return saveWithHttpInfo(body).getBody();
+    private ResponseSpec saveRequestCreation(FileDataDto fileDataDto) throws WebClientResponseException {
+        Object postBody = fileDataDto;
+        // verify the required parameter 'fileDataDto' is set
+        if (fileDataDto == null) {
+            throw new WebClientResponseException("Missing the required parameter 'fileDataDto' when calling save", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "*/*"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return apiClient.invokeAPI("/file", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
      * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
-     * @param body  (required)
-     * @return ResponseEntity&lt;PresignedUrlDto&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<PresignedUrlDto> saveWithHttpInfo(FileDataDto body) throws RestClientException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling save");
-        }
-        String path = UriComponentsBuilder.fromPath("/file").build().toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-
-        final String[] accepts = { 
-            "*/*"
-         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { 
-            "application/json"
-         };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
-
-        String[] authNames = new String[] {  };
-
-        ParameterizedTypeReference<PresignedUrlDto> returnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    }
-    /**
-     * 
-     * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
-     * <p><b>200</b> - OK
-     * @param body  (required)
+     * @param fileDataDto The fileDataDto parameter
      * @return PresignedUrlDto
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public PresignedUrlDto update(FileDataDto body) throws RestClientException {
-        return updateWithHttpInfo(body).getBody();
+    public Mono<PresignedUrlDto> save(FileDataDto fileDataDto) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return saveRequestCreation(fileDataDto).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * 
+     * Creates a presigned URL to store the file specified in the parameter within the S3 storage
+     * <p><b>200</b> - OK
+     * @param fileDataDto The fileDataDto parameter
+     * @return ResponseEntity&lt;PresignedUrlDto&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<PresignedUrlDto>> saveWithHttpInfo(FileDataDto fileDataDto) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return saveRequestCreation(fileDataDto).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * Creates a presigned URL to store the file specified in the parameter within the S3 storage
+     * <p><b>200</b> - OK
+     * @param fileDataDto The fileDataDto parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec saveWithResponseSpec(FileDataDto fileDataDto) throws WebClientResponseException {
+        return saveRequestCreation(fileDataDto);
+    }
+    /**
+     * 
+     * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
+     * <p><b>200</b> - OK
+     * @param fileDataDto The fileDataDto parameter
+     * @return PresignedUrlDto
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec updateRequestCreation(FileDataDto fileDataDto) throws WebClientResponseException {
+        Object postBody = fileDataDto;
+        // verify the required parameter 'fileDataDto' is set
+        if (fileDataDto == null) {
+            throw new WebClientResponseException("Missing the required parameter 'fileDataDto' when calling update", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "*/*"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return apiClient.invokeAPI("/file", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
      * 
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
-     * @param body  (required)
+     * @param fileDataDto The fileDataDto parameter
+     * @return PresignedUrlDto
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<PresignedUrlDto> update(FileDataDto fileDataDto) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return updateRequestCreation(fileDataDto).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * 
+     * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
+     * <p><b>200</b> - OK
+     * @param fileDataDto The fileDataDto parameter
      * @return ResponseEntity&lt;PresignedUrlDto&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<PresignedUrlDto> updateWithHttpInfo(FileDataDto body) throws RestClientException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling update");
-        }
-        String path = UriComponentsBuilder.fromPath("/file").build().toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+    public Mono<ResponseEntity<PresignedUrlDto>> updateWithHttpInfo(FileDataDto fileDataDto) throws WebClientResponseException {
+        ParameterizedTypeReference<PresignedUrlDto> localVarReturnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
+        return updateRequestCreation(fileDataDto).toEntity(localVarReturnType);
+    }
 
-        final String[] accepts = { 
-            "*/*"
-         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { 
-            "application/json"
-         };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
-
-        String[] authNames = new String[] {  };
-
-        ParameterizedTypeReference<PresignedUrlDto> returnType = new ParameterizedTypeReference<PresignedUrlDto>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    /**
+     * 
+     * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
+     * <p><b>200</b> - OK
+     * @param fileDataDto The fileDataDto parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updateWithResponseSpec(FileDataDto fileDataDto) throws WebClientResponseException {
+        return updateRequestCreation(fileDataDto);
     }
     /**
      * 
      * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
      * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param endOfLife  (required)
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @param pathToFile The pathToFile parameter
+     * @param endOfLife The endOfLife parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void updateEndOfLife(String pathToFile, java.time.LocalDate endOfLife) throws RestClientException {
-        updateEndOfLifeWithHttpInfo(pathToFile, endOfLife);
-    }
-
-    /**
-     * 
-     * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
-     * <p><b>200</b> - OK
-     * @param pathToFile  (required)
-     * @param endOfLife  (required)
-     * @return ResponseEntity&lt;Void&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Void> updateEndOfLifeWithHttpInfo(String pathToFile, java.time.LocalDate endOfLife) throws RestClientException {
+    private ResponseSpec updateEndOfLifeRequestCreation(String pathToFile, LocalDate endOfLife) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'pathToFile' is set
         if (pathToFile == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pathToFile' when calling updateEndOfLife");
+            throw new WebClientResponseException("Missing the required parameter 'pathToFile' when calling updateEndOfLife", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'endOfLife' is set
         if (endOfLife == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'endOfLife' when calling updateEndOfLife");
+            throw new WebClientResponseException("Missing the required parameter 'endOfLife' when calling updateEndOfLife", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-        String path = UriComponentsBuilder.fromPath("/file").build().toUriString();
-        
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "endOfLife", endOfLife));
 
-        final String[] accepts = {  };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/file", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param endOfLife The endOfLife parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> updateEndOfLife(String pathToFile, LocalDate endOfLife) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return updateEndOfLifeRequestCreation(pathToFile, endOfLife).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * 
+     * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param endOfLife The endOfLife parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> updateEndOfLifeWithHttpInfo(String pathToFile, LocalDate endOfLife) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return updateEndOfLifeRequestCreation(pathToFile, endOfLife).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
+     * <p><b>200</b> - OK
+     * @param pathToFile The pathToFile parameter
+     * @param endOfLife The endOfLife parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updateEndOfLifeWithResponseSpec(String pathToFile, LocalDate endOfLife) throws WebClientResponseException {
+        return updateEndOfLifeRequestCreation(pathToFile, endOfLife);
     }
 }

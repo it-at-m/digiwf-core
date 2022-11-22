@@ -13,8 +13,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Repository
@@ -26,7 +27,7 @@ public class DocumentStorageFolderRepository {
     /**
      * Deletes the folder with all containing files on document storage.
      *
-     * @param pathToFolder    which defines the folder in the document storage.
+     * @param pathToFolder which defines the folder in the document storage.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned directly to the document storage.
@@ -42,7 +43,7 @@ public class DocumentStorageFolderRepository {
     /**
      * Deletes the folder with all containing files on document storage.
      *
-     * @param pathToFolder    which defines the folder in the document storage.
+     * @param pathToFolder       which defines the folder in the document storage.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
@@ -70,13 +71,13 @@ public class DocumentStorageFolderRepository {
     /**
      * Returns all files within a folder given in the parameter from document storage.
      *
-     * @param pathToFolder    which defines the folder in the document storage.
+     * @param pathToFolder which defines the folder in the document storage.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned directly to the document storage.
      * @throws PropertyNotSetException             if the property "io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl" is not set.
      */
-    public List<String> getAllFilesInFolderRecursively(final String pathToFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
+    public Mono<Set<String>> getAllFilesInFolderRecursively(final String pathToFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
         return this.getAllFilesInFolderRecursively(
                 pathToFolder,
                 this.apiClientFactory.getDefaultDocumentStorageUrl()
@@ -86,17 +87,17 @@ public class DocumentStorageFolderRepository {
     /**
      * Returns all files within a folder given in the parameter from document storage.
      *
-     * @param pathToFolder    which defines the folder in the document storage.
+     * @param pathToFolder       which defines the folder in the document storage.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned directly to the document storage.
      */
-    public List<String> getAllFilesInFolderRecursively(final String pathToFolder, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public Mono<Set<String>> getAllFilesInFolderRecursively(final String pathToFolder, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FolderApiApi folderApi = this.apiClientFactory.getFolderApiForDocumentStorageUrl(documentStorageUrl);
-            final FilesInFolderDto filesInFolderDto = folderApi.getAllFilesInFolderRecursively(pathToFolder);
-            return filesInFolderDto.getPathToFiles();
+            final Mono<FilesInFolderDto> filesInFolderDto = folderApi.getAllFilesInFolderRecursively(pathToFolder);
+            return filesInFolderDto.mapNotNull(FilesInFolderDto::getPathToFiles);
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get all files within a folder failed %s.", exception.getStatusCode());
             log.error(message);
