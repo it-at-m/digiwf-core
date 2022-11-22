@@ -17,7 +17,7 @@ This list may be published as release notes and is the summary of the CHANGELOG.
 > The main peer group of the CHANGELOG.md are software developers that use (components of) the DigiWF plattform
 > and need detailed information about every change.
 
-## Adding element-templates and examples
+### Adding element-templates and examples
 
 You can add element-templates and example processes to [src/.vuepress/public](src/.vuepress/public)
 and list them in the according files under [src/modeling/templates](src/modeling/templates).

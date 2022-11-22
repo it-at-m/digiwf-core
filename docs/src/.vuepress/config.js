@@ -1,4 +1,4 @@
-const {description} = require('../../package')
+const {description} = require('../../package.json')
 
 module.exports = {
     base: "/digiwf-docs/",
@@ -70,10 +70,6 @@ module.exports = {
                     {
                         text: 'APIs',
                         link: '/apis/',
-                    },
-                    {
-                        text: 'GitHub',
-                        link: 'https://github.com/it-at-m/digiwf-core'
                     }
                 ],
                 sidebar: {
