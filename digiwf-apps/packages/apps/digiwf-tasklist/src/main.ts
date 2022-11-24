@@ -1,4 +1,4 @@
-import Vue, {VNode} from 'vue';
+import Vue, {provide, VNode} from 'vue';
 import vuetify from "./plugins/vuetify";
 import store from './store';
 import App from './App.vue';
@@ -44,6 +44,9 @@ Vue.filter('highlight', function (words: any, query: any) {
 
 new Vue({
   router,
+  setup() {
+    provide("store", store);
+  },
   store: store,
   vuetify,
   render: (h): VNode => h(App),
