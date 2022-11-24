@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: itm_logo.png
-tagline: Dokumentation der DigIWF Automatisierungsplattform
+tagline: Dokumentation der DigIWF Digitalisierungsplattform
 actionText: Plattform →
 actionLink: /documentation/
 features:
