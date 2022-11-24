@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
@@ -32,6 +32,7 @@
       "label": "Event Message",
       "type": "String",
       "value": "cosysMessage",
+      "editable": "false",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -45,6 +46,7 @@
       "label": "Event Type",
       "type": "String",
       "value": "createCosysDocument",
+      "editable": "false",
       "binding": {
         "type": "camunda:in",
         "expression": true,

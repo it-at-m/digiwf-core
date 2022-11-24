@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV03",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"

@@ -1,5 +1,5 @@
 {
-  "key": "CosysGenerateDocumentTest_Input",
+  "key": "CosysGenerateDocumentTest_InputV02",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -22,6 +22,27 @@
               "childrenClass": "pl-0"
             },
             "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you can create yourself a greeting cart genereted by **Cosys**. \n\nYou will first receive a user task *\"Input data\"* to fill out the card's text and a second one to check the result and download your generated card.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "app_file_s3_async_config": {
                 "fieldType": "text",
                 "title": "S3 Config",

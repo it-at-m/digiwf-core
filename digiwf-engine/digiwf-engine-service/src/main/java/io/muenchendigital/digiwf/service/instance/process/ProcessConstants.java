@@ -22,5 +22,12 @@ public class ProcessConstants {
     public static final String PROCESS_S3_ASYNC_CONFIG = "app_file_s3_async_config";
     public static final String PROCESS_S3_SYNC_CONFIG = "app_file_s3_sync_config";
 
+    public static final String PROCESS_MESSAGE_BPMN_ERROR = "bpmnError";
+
+    public static final String PROCESS_ERROR_CODE = "errorCode";
+
+    public static final String PROCESS_ERROR_MESSAGE = "errorMessage";
+
+
 
 }
