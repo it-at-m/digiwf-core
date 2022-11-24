@@ -64,7 +64,6 @@ export default defineComponent({
     const reloadTasks = (): void => {
       let loadedTasks = store.getters['tasks/tasks'];
       const followUp = store.getters['tasks/followUp'];
-      console.log(tasks);
 
       if (!followUp) {
         loadedTasks = loadedTasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
@@ -98,11 +97,11 @@ export default defineComponent({
       store.commit('tasks/setTasksFilter', filter);
     };
 
-    watch(store.getters['tasks/tasks'], (tasks, prevTasks) => {
+    watch(store.getters['tasks/tasks'], () => {
       reloadTasks();
     });
 
-    watch(followUp, (followUp, prevFollowUp) => {
+    watch(followUp, (followUp) => {
       store.dispatch('tasks/setFollowUp', followUp);
       reloadTasks();
     });
