@@ -2,11 +2,9 @@ package io.muenchendigital.digiwf.humantask.infrastructure.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +20,7 @@ public class ActRuTaskEntity {
     @Column(name = "id_", unique = true, nullable = false, length = 64)
     private String id;
 
-    @Column(name = "assignee_", nullable = false, length = 255)
+    @Column(name = "assignee_", nullable = true, length = 255)
     private String assignee;
 
     @Column(name = "name_", nullable = false, length = 255)
@@ -32,4 +30,7 @@ public class ActRuTaskEntity {
     private Date createdAt;
     @Column(name = "follow_up_data_")
     private Date followUpDate;
+
+    @OneToMany(mappedBy = "actRuTaskEntity")
+    private List<ActRuIdentityLinkEntity> actRuIdentities;
 }

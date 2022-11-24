@@ -27,7 +27,17 @@ public class ActRuTaskService {
         return new PageImpl<ActRuTask>(result.getContent().stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList()), result.getPageable(), result.getTotalElements());
     }
 
-    public List<ActRuTask> getActRuTasksIds(List<String> taskIds) {
+    public List<ActRuTask> getActRuTasksIds(final List<String> taskIds) {
         return this.actRuTaskRepository.findAllById(taskIds).stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList());
+    }
+
+    public Page<ActRuTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
+        val lowerCaseGroups = groups.stream().map(String::toLowerCase).collect(Collectors.toList());
+        return this.actRuTaskRepository.findAllAssignedTasksByGroupIds(userId, lowerCaseGroups, pageable).map(actRuTaskMapper::map2Model);
+    }
+
+    public Page<ActRuTask> getUnassignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
+        val lowerCaseGroups = groups.stream().map(String::toLowerCase).collect(Collectors.toList());
+        return this.actRuTaskRepository.findAllUnAssignedTasksByGroupIds(userId, lowerCaseGroups, pageable).map(actRuTaskMapper::map2Model);
     }
 }

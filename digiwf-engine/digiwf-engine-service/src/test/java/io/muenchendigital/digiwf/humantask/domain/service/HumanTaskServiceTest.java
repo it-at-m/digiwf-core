@@ -142,6 +142,14 @@ public class HumanTaskServiceTest {
     /*
     tests for getOpenGroupTasks
      */
+    @Test
+    public void shouldReturnTasksOfGroupsFromUser() {
+
+    }
+@Test
+    public void shouldReturnEmptyPageContentIfPageDoesNotExist(){
+
+    }
 
     /*
     tests for getAssignedGroupTasks

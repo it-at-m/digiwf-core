@@ -141,18 +141,9 @@ public class HumanTaskService {
      */
     public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getOpenGroupTasks: user {}", userId);
-
-        val allTasks = this.taskService.createTaskQuery()
-                .taskCandidateUser(userId)
-                .taskUnassigned()
-                .list();
-
-        val tasks = this.getSublistOfTasks(allTasks, pageable.getPageNumber(), pageable.getPageSize());
-        val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
-        val groupTasks = this.queryTaskByCandidateGroup(groups, false);
-        groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        val humanTasks = this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList()));
-        return new PageImpl<>(humanTasks, pageable, allTasks.size());
+        val groupTasks = this.actRuTaskService.getUnassignedGroupTasks(userId, groups, pageable);
+        val humanTasks = this.getHumanTasksFromActRuTasks(groupTasks.getContent());
+        return new PageImpl<>(humanTasks, pageable, groupTasks.getTotalElements());
     }
 
     /**
@@ -164,18 +155,9 @@ public class HumanTaskService {
      */
     public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getAssignedGroupTasks: user {}", userId);
-
-        val allTasks = this.taskService.createTaskQuery()
-                .taskCandidateUser(userId)
-                .includeAssignedTasks()
-                .taskAssigned()
-                .list();
-
-        val tasks = this.getSublistOfTasks(allTasks, pageable.getPageNumber(), pageable.getPageSize());
-        val taskMap = tasks.stream().collect(Collectors.toMap(Task::getId, t -> t));
-        val groupTasks = this.queryTaskByCandidateGroup(groups, true);
-        groupTasks.stream().filter(task -> !taskMap.containsKey(task.getId())).forEach(tasks::add);
-        return new PageImpl<>(this.getHumanTasks(tasks.stream().map(Task::getId).collect(Collectors.toList())), pageable, tasks.size());
+        val groupTasks = this.actRuTaskService.getAssignedGroupTasks(userId, groups, pageable);
+        val humanTasks = this.getHumanTasksFromActRuTasks(groupTasks.getContent());
+        return new PageImpl<>(humanTasks, pageable, groupTasks.getTotalElements());
     }
 
     /**
@@ -321,21 +303,30 @@ public class HumanTaskService {
         }
 
         final List<ActRuTask> actTasks = this.actRuTaskService.getActRuTasksIds(taskIds);
-        final Map<String, TaskInfo> taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(taskIds);
+
+        return this.getHumanTasksFromActRuTasks(actTasks);
+    }
+    private List<HumanTask> getHumanTasksFromActRuTasks(final List<ActRuTask> actRuTasks) {
+        log.debug("Found {} tasks", actRuTasks.size());
+
+        if (actRuTasks.isEmpty()) {
+            return Collections.emptyList();
+        }
+        final Map<String, TaskInfo> taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(actRuTasks.stream().map(ActRuTask::getId).collect(Collectors.toList()));
 
         // If a camunda task does not exist in the dwf task info table log an error
         // See: https://wiki.muenchen.de/betriebshandbuch/index.php/DigiWF#Backend -> Task is missing in TaskInfo database table
-        actTasks.stream()
+        actRuTasks.stream()
                 .filter(actTask -> !taskInfos.containsKey(actTask.getId()))
                 .forEach(actTask -> log.error("Task with id {} is missing in TaskInfo database table", actTask.getId()));
 
-        return actTasks.stream()
+        return actRuTasks.stream()
                 .filter(actTask -> taskInfos.containsKey(actTask.getId()))
                 .map(task -> this.humanTaskMapper.map2Model(task, taskInfos.get(task.getId())))
                 .collect(Collectors.toList());
     }
 
-    private List<Task> getSublistOfTasks(final List<Task> allTasks, final Integer pageIndex, final Integer pageSize) {
+    private <T> List<T> getSublistOfTasks(final List<T> allTasks, final Integer pageIndex, final Integer pageSize) {
         val startIndex = Math.min(pageIndex * pageSize, allTasks.size());
         val stopIndex = Math.min((pageIndex + 1) * pageSize, allTasks.size());
 
@@ -343,7 +334,8 @@ public class HumanTaskService {
     }
     //TODO create a HumanTask Access Service for the following methods
 
-    private List<Task> queryTaskByCandidateGroup(final List<String> ous, final boolean assigned) {
+    private List<Task> queryTaskByCandidateGroup(final List<String> groups, final boolean assigned) {
+
         // FIXME: replace it
         // select assigned OR unassigned tasks
         final String assigneeExpression = assigned ? "T1.ASSIGNEE_ IS NOT NULL" : "T1.ASSIGNEE_ IS NULL";
@@ -355,7 +347,7 @@ public class HumanTaskService {
                 + "SELECT TASK_ID_"
                 + " FROM ACT_RU_IDENTITYLINK I1"
                 + " WHERE I1.TYPE_ = 'candidate'"
-                + "AND (" + ous.stream().map(ou -> "lower(I1.GROUP_ID_) = lower('" + ou + "')").collect(Collectors.joining(" OR ")) + ")"
+                + "AND (" + groups.stream().map(group -> "lower(I1.GROUP_ID_) = lower('" + group + "')").collect(Collectors.joining(" OR ")) + ")"
                 + ")";
 
         return this.taskService.createNativeTaskQuery()
