@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-form-renderer",
   "description": "Form renderer",
-  "version": "0.20.2",
+  "version": "0.21.0",
   "module": "dist/digiwf-form-renderer.mjs",
   "scripts": {
     "build": "vite build",
