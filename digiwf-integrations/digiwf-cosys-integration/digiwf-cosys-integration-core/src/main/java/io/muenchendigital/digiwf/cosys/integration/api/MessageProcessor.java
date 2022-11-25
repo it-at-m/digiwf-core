@@ -63,14 +63,5 @@ public class MessageProcessor {
 
     private boolean emitIncident(final MessageHeaders messageHeaders, final String errorMessage) {
         return this.incidentService.sendIncident(messageHeaders, errorMessage);
-        // This doesnt work (no createIncidentDelegate bean) -> StreamingTempl/other bpmns not working
-//        final Map<String, Object> correlatePayload = new HashMap<>();
-//        final Map map2 = new HashMap();
-//        for (final Map.Entry e : messageHeaders.entrySet()){
-//            map2.put(e.getKey(), e.getValue());
-//        }
-//        map2.put(DIGIWF_MESSAGE_NAME, "incident");
-//        final MessageHeaders messageHeaders2 = new MessageHeaders(map2);
-//        return correlateMessageService.sendCorrelateMessage(messageHeaders2, correlatePayload);
     }
 }

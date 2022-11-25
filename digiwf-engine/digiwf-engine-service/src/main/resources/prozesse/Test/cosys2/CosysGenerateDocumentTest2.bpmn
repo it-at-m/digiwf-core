@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
   <bpmn:process id="CosysGenerateDocumentTest2" name="Cosys GenerateDocument Test2" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" camunda:formKey="CosysGenerateDocumentTest_InputV02">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="CosysGenerateDocumentTest_InputV03">
       <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:intermediateThrowEvent id="Event_0b9z9pp">
@@ -10,7 +10,7 @@
     <bpmn:userTask id="Activity_1eghwfu" name="Input data" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_InputV02</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_InputV03</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>

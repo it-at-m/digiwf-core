@@ -1,5 +1,5 @@
 {
-  "key": "CosysGenerateDocumentTest_InputV02",
+  "key": "CosysGenerateDocumentTest_InputV03",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -143,7 +143,7 @@
                 "title": "Cosys Event topic",
                 "type": "string",
                 "key": "FormField_CosysEventTopic",
-                "default": "dwf-cosys-local",
+                "default": "dwf-cosys-local-01",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 7,
