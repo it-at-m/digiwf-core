@@ -33,7 +33,8 @@ public class IncidentService {
                 .withPayload(errorMessage)
                 .setHeader(StreamingHeaders.TYPE, MESSAGE_TYPE)
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
-                .setHeader(DIGIWF_MESSAGE_NAME, "createIncident")
+                .setHeader(DIGIWF_MESSAGE_NAME, "incident")
+                .setHeader("processInstanceId", messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
                 .build();
 
         final Sinks.EmitResult emitResult = this.incidentSink.tryEmitNext(message);

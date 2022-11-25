@@ -63,7 +63,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
         <camunda:in sourceExpression="${FormField_CosysClient}" target="client" />
         <camunda:in sourceExpression="${FormField_CosysRole}" target="role" />
         <camunda:in sourceExpression="${FormField_CosysGuid}" target="guid" />
-        <camunda:in sourceExpression="${app_file_context}/test/example-cosys-document.pdf" target="documentStorageUrls" />
+        <camunda:in sourceExpression="${presignedUrls}" target="documentStorageUrls" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1glyvru</bpmn:incoming>
       <bpmn:outgoing>Flow_09g0k6g</bpmn:outgoing>

@@ -26,8 +26,8 @@ public class IncidentConsumer {
     public Consumer<Message<?>> createIncident() {
         return correlation -> {
 
-            final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get("processInstanceId")).map(Object::toString);
-            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get("messageName")).map(Object::toString);
+            final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get("digiwf.processinstanceid")).map(Object::toString);
+            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get("digiwf.messagename")).map(Object::toString);
 
             if (processInstanceId.isEmpty()) {
                 log.error("No process instance id present. Cannot create an incident");

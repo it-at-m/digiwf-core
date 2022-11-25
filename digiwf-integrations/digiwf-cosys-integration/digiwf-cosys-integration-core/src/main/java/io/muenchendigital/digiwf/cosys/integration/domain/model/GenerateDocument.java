@@ -28,19 +28,19 @@ public class GenerateDocument {
     /**
      * Client that is used in cosys
      */
-    @NotBlank(message = "client is mandatory")
+//    @NotBlank(message = "client is mandatory")
     private String client;
 
     /**
      * Role that is used in cosys
      */
-    @NotBlank(message = "role is mandatory")
+//    @NotBlank(message = "role is mandatory")
     private String role;
 
     /**
      * The GUID of the target template to be filled
      */
-    @NotBlank(message = "guid is mandatory")
+//    @NotBlank(message = "guid is mandatory")
     private String guid;
 
     /**
@@ -51,7 +51,7 @@ public class GenerateDocument {
     /**
      * A list of presigned urls that are used to save the cosys documents in a s3 storage
      */
-    @Valid
-    @Size(min = 1, max = 1)
+//    @Valid
+//    @Size(min = 1, max = 1)
     private List<DocumentStorageUrl> documentStorageUrls;
 }
