@@ -12,14 +12,15 @@ import org.camunda.community.rest.client.invoker.ApiException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class IncidentServiceImpl implements IncidentService {
+
+    private static final String INCIDENT_TYPE = "integrationError";
+    private static final String EVENT_TYPE = "message";
 
     private final ExecutionApi executionApi;
     private final EventSubscriptionApi eventSubscriptionApi;
@@ -36,10 +37,11 @@ public class IncidentServiceImpl implements IncidentService {
             //                    .findFirst()
             //                    .findFirst()
             //                    .map(EventSubscriptionDto::getExecutionId)
-            List<EventSubscriptionDto> executionId = this.eventSubscriptionApi.getEventSubscriptions(
+            //                    .collect(Collectors.toList());
+            final String executionId = this.eventSubscriptionApi.getEventSubscriptions(
                     null,
                     messageName,
-                    "message",
+                    EVENT_TYPE,
                     null,
                     processInstanceId,
                     null,
@@ -51,20 +53,23 @@ public class IncidentServiceImpl implements IncidentService {
                     null,
                     null)
                     .stream()
-//                    .findFirst()
-//                    .map(EventSubscriptionDto::getExecutionId)
-                    .collect(Collectors.toList());
-//                    .orElseThrow();
+                    .findFirst()
+                    .map(EventSubscriptionDto::getExecutionId)
+//                    .collect(Collectors.toList());
+                    .orElseThrow();
 
             // create incident body
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
-            createIncidentDto.setIncidentType("integrationError");
+            createIncidentDto.setIncidentType(INCIDENT_TYPE);
             createIncidentDto.setMessage("Error occurred in integration service");
 
             // send create incident call
-            this.executionApi.createIncident(executionId.get(0).getExecutionId(), createIncidentDto);
+            this.executionApi.createIncident(executionId, createIncidentDto);
 
-        } catch (final ApiException | NoSuchElementException | IllegalArgumentException e) {
+        } catch (final ApiException e) {
+            log.error("Cannot create incident for processinstance id {} and message name {}: {}", processInstanceId, messageName, e.getResponseBody());
+            throw new RuntimeException(e);
+        } catch (final NoSuchElementException | IllegalArgumentException e) {
             log.error("Cannot create incident for processinstance id {} and message name {}", processInstanceId, messageName);
             throw new RuntimeException(e);
         }
