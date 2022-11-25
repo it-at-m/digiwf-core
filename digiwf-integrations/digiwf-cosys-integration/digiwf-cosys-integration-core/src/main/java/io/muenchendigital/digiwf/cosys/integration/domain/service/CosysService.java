@@ -81,9 +81,9 @@ public class CosysService {
     }
 
     private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
-        if (0==0) {
-            throw new RuntimeException("Document could not be saved."); // TODO: remove
-        }
+//        if (0==0) {
+//            throw new RuntimeException("Document could not be saved."); // TODO: remove
+//        }
         try {
 
             for (final DocumentStorageUrl presignedUrl : generateDocument.getDocumentStorageUrls()) {
