@@ -26,7 +26,7 @@ public class IncidentService {
      *
      * @param messageHeaders incoming message headers
      * @param errorMessage   the specific error message
-     * @return
+     * @return success flag
      */
     public boolean sendIncident(final MessageHeaders messageHeaders, final String errorMessage) {
         final Message<String> message = MessageBuilder
@@ -34,7 +34,6 @@ public class IncidentService {
                 .setHeader(StreamingHeaders.TYPE, MESSAGE_TYPE)
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
                 .setHeader(DIGIWF_MESSAGE_NAME, messageHeaders.get(DIGIWF_MESSAGE_NAME)) // bpmn token is waiting on that message receive event. Thats where we want our incident to be placed.
-                .setHeader("processInstanceId", messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
                 .build();
 
         final Sinks.EmitResult emitResult = this.incidentSink.tryEmitNext(message);
