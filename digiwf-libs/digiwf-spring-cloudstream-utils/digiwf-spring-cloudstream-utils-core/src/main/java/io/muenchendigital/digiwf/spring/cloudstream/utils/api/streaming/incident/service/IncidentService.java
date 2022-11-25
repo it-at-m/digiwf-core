@@ -33,7 +33,7 @@ public class IncidentService {
                 .withPayload(errorMessage)
                 .setHeader(StreamingHeaders.TYPE, MESSAGE_TYPE)
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
-                .setHeader(DIGIWF_MESSAGE_NAME, "incident")
+                .setHeader(DIGIWF_MESSAGE_NAME, messageHeaders.get(DIGIWF_MESSAGE_NAME)) // bpmn token is waiting on that message receive event. Thats where we want our incident to be placed.
                 .setHeader("processInstanceId", messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
                 .build();
 
