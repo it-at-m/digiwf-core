@@ -54,7 +54,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1glyvru" sourceRef="Activity_1pvhkb4" targetRef="Activity_1h8sgg2" />
     <bpmn:sequenceFlow id="Flow_09g0k6g" sourceRef="Activity_1h8sgg2" targetRef="Activity_16d89ab" />
-    <bpmn:callActivity id="Activity_1h8sgg2" name="Create Cosys dokument" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="Activity_1h8sgg2" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
@@ -79,6 +79,14 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTest2">
+      <bpmndi:BPMNEdge id="Flow_09g0k6g_di" bpmnElement="Flow_09g0k6g">
+        <di:waypoint x="860" y="279" />
+        <di:waypoint x="930" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1glyvru_di" bpmnElement="Flow_1glyvru">
+        <di:waypoint x="690" y="279" />
+        <di:waypoint x="760" y="279" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0nfaoa0_di" bpmnElement="Flow_0nfaoa0">
         <di:waypoint x="1030" y="279" />
         <di:waypoint x="1112" y="279" />
@@ -94,14 +102,6 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
         <di:waypoint x="188" y="279" />
         <di:waypoint x="260" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1glyvru_di" bpmnElement="Flow_1glyvru">
-        <di:waypoint x="690" y="279" />
-        <di:waypoint x="760" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_09g0k6g_di" bpmnElement="Flow_09g0k6g">
-        <di:waypoint x="860" y="279" />
-        <di:waypoint x="930" y="279" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="261" width="36" height="36" />
@@ -121,14 +121,14 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmndi:BPMNShape id="Activity_10p8r0c_di" bpmnElement="Activity_16d89ab">
         <dc:Bounds x="930" y="239" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yvtr3w_di" bpmnElement="Activity_1h8sgg2">
+        <dc:Bounds x="760" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1rkwagc_di" bpmnElement="TextAnnotation_1rkwagc">
         <dc:Bounds x="580" y="98" width="150" height="74" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
         <dc:Bounds x="780" y="101" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1yvtr3w_di" bpmnElement="Activity_1h8sgg2">
-        <dc:Bounds x="760" y="239" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1qgbegk_di" bpmnElement="Association_1qgbegk">
         <di:waypoint x="631" y="239" />
