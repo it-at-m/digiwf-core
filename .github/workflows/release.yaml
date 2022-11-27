@@ -223,7 +223,11 @@ jobs:
           cache-dependency-path: "./docs/package-lock.json"
       - run: npm install
       - run: npm run build
-      # tbd. publish to github pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
 
   github-release:
     name: Create Release
