@@ -26,6 +26,8 @@
   * Konfiguration: 
     * createIncident-Function
     * createIncident-destination = connector-Topic
+  
+StreamingTemplate -> CreateIncidentDelegate
     
 
 Deprecated:

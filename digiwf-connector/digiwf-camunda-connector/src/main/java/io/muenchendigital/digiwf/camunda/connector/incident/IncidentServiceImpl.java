@@ -19,8 +19,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class IncidentServiceImpl implements IncidentService {
 
-    private static final String INCIDENT_TYPE = "integrationError";
-    private static final String EVENT_TYPE = "message";
+    private static final String INCIDENT_TYPE   = "integrationError";
+    private static final String EVENT_TYPE      = "message";
 
     private final ExecutionApi executionApi;
     private final EventSubscriptionApi eventSubscriptionApi;
@@ -34,10 +34,6 @@ public class IncidentServiceImpl implements IncidentService {
             Assert.notNull(messageName, "message name cannot be empty");
 
             //load corresponding event subscription
-            //                    .findFirst()
-            //                    .findFirst()
-            //                    .map(EventSubscriptionDto::getExecutionId)
-            //                    .collect(Collectors.toList());
             final String executionId = this.eventSubscriptionApi.getEventSubscriptions(
                     null,
                     messageName,
@@ -55,7 +51,6 @@ public class IncidentServiceImpl implements IncidentService {
                     .stream()
                     .findFirst()
                     .map(EventSubscriptionDto::getExecutionId)
-//                    .collect(Collectors.toList());
                     .orElseThrow();
 
             // create incident body

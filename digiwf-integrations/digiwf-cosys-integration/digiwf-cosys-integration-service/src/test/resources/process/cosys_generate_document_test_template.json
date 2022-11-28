@@ -1,6 +1,6 @@
 {
   "name": "Cosys: GenerateDocumentTest",
-  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest2",
+  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -18,7 +18,7 @@
     {
       "label": "Event Topic",
       "type": "String",
-      "value": "dwf-cosys-local",
+      "value": "dwf-cosys-local-01",
       "binding": {
         "type": "camunda:in",
         "target": "app_topic_name",
