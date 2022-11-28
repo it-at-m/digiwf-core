@@ -47,7 +47,7 @@ public class CosysService {
      * Generate a Document in Cosys
      *
      * @param generateDocument Data for generating documents
-     * @return
+     * @return the generated document
      */
     public Mono<byte[]> generateCosysDocument(final GenerateDocument generateDocument) {
         try {
@@ -81,11 +81,7 @@ public class CosysService {
     }
 
     private void saveDocumentInS3(final GenerateDocument generateDocument, final byte[] data) {
-//        if (0==0) {
-//            throw new RuntimeException("Document could not be saved."); // TODO: remove
-//        }
         try {
-
             for (final DocumentStorageUrl presignedUrl : generateDocument.getDocumentStorageUrls()) {
                 if (presignedUrl.getAction().equalsIgnoreCase("POST")) {
                     this.s3FileTransferRepository.saveFile(presignedUrl.getUrl(), data);

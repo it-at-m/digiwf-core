@@ -32,7 +32,6 @@
       "label": "Event Message",
       "type": "String",
       "value": "cosysMessage",
-      "editable": "false",
       "binding": {
         "type": "camunda:in",
         "expression": true,
