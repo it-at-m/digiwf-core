@@ -1,7 +1,8 @@
-package io.muenchendigital.digiwf.input.incident.domain.service;
+package io.muenchendigital.digiwf.input.incident.process;
 
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.muenchendigital.digiwf.input.incident.domain.model.Incident;
+import io.muenchendigital.digiwf.input.incident.domain.service.EngineIncidentService;
 import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
