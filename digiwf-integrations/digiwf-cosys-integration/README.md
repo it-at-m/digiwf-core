@@ -1,6 +1,16 @@
-# digiwf-cosys-integration-service
+# Digiwf Cosys Integration
+
+Checkout the documentation at tbd.
 
 ## Getting started
+
+```
+# build
+# execute in the root directory
+mvn clean install
+```
+
+Execute the [Example](digiwf-cosys-integration-example) application and try the integrations features out.
 
 To use the CoSys integration you have to set the following configurations.
 

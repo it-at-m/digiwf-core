@@ -1,0 +1,236 @@
+const {description} = require('../../package.json')
+
+module.exports = {
+    base: "/digiwf-docs/",
+    /**
+     * Ref：https://v1.vuepress.vuejs.org/config/#title
+     */
+    title: 'DigiWF',
+    /**
+     * Ref：https://v1.vuepress.vuejs.org/config/#description
+     */
+    description: description,
+
+    /**
+     * Extra tags to be injected to the page HTML `<head>`
+     *
+     * ref：https://v1.vuepress.vuejs.org/config/#head
+     */
+    head: [
+        ['meta', {name: 'theme-color', content: '#333333'}],
+        ['meta', {name: 'apple-mobile-web-app-capable', content: 'yes'}],
+        ['meta', {name: 'apple-mobile-web-app-status-bar-style', content: 'black'}]
+    ],
+    locales: {
+        '/': {
+            lang: 'de-DE', // this will be set as the lang attribute on <html>
+            title: 'DigiWF',
+            description: ''
+        }
+        // '/en/': {
+        //     lang: 'en-US', // this will be set as the lang attribute on <html>
+        //     title: 'DigiWF',
+        //     description: ''
+        // }
+    },
+
+    /**
+     * Theme configuration, here is the default theme configuration for VuePress.
+     *
+     * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
+     */
+    themeConfig: {
+        repo: 'https://github.com/it-at-m/digiwf-core',
+        editLinks: false,
+        docsDir: '',
+        editLinkText: '',
+        lastUpdated: false,
+        locales: {
+            '/': {
+                selectText: 'Sprachen',
+                label: 'Deutsch',
+                ariaLabel: 'Sprachen',
+                nav: [
+                    {
+                        text: 'Features',
+                        link: '/features/'
+                    },
+                    {
+                        text: 'Modellierung',
+                        link: '/modeling/'
+                    },
+                    {
+                        text: 'Technische Dokumentation',
+                        link: '/documentation/',
+                    },
+                    {
+                        text: 'Integrationen',
+                        link: '/integrations/'
+                    },
+                    {
+                        text: 'APIs',
+                        link: '/apis/',
+                    }
+                ],
+                sidebar: {
+                    '/documentation/': [
+                        {
+                            title: 'Plattform',
+                            collapsable: false,
+                            children: [
+                                '',
+                                'roadmap',
+                            ]
+                        },
+                        {
+                            title: 'Architektur',
+                            collapsable: false,
+                            children: [
+                                'architecture/overview',
+                                'architecture/system-integration',
+                                'architecture/json-schema',
+                                'architecture/filehandling',
+                            ]
+                        },
+                        {
+                            title: 'Komponenten',
+                            collapsable: false,
+                            children: [
+                                'components/engine',
+                                'components/connector',
+                                'components/tasks',
+
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: false,
+                            children: [
+                                'guides/topics',
+                                'guides/technical-setup/',
+                                'guides/custom-integration-service/',
+
+                            ]
+                        }
+                    ],
+                    '/features/': [
+                        {
+                            title: 'Features',
+                            collapsable: false,
+                            children: [
+                                '',
+                            ]
+                        },
+                        {
+                            title: 'Changes',
+                            collapsable: false,
+                            children: [
+                                'changes/',
+                            ]
+                        },
+                    ],
+                    '/modeling/': [
+                        {
+                            title: 'Modellierung',
+                            collapsable: false,
+                            children: [
+                                '',
+                            ]
+                        },
+                        {
+                            title: 'Prozesse',
+                            collapsable: false,
+                            children: [
+                                'processes/',
+                            ]
+                        },
+                        {
+                            title: 'Formulare',
+                            collapsable: false,
+                            children: [
+                                'forms/',
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: false,
+                            children: [
+                                'guides/modeling-first-process/',
+                            ]
+                        },
+                        {
+                            title: 'Vorlagen',
+                            collapsable: false,
+                            children: [
+                                'templates/element-templates/',
+                                'templates/examples/'
+                            ]
+                        }
+                    ],
+                    '/apis/': [
+                        {
+                            title: 'Rest',
+                            collapsable: false,
+                            children: [
+                                'rest/',
+                            ]
+                        },
+                        {
+                            title: 'Spring Cloud Stream',
+                            collapsable: false,
+                            children: [
+                                'spring-cloud-stream/',
+                            ]
+                        }
+                    ],
+                    '/integrations/': [
+                        {
+                            title: 'Integrationen',
+                            collapsable: false,
+                            children: [
+                                '',
+                                'digiwf-alw-integration/',
+                                'digiwf-cosys-integration/',
+                                'digiwf-mail-integration/',
+                                'digiwf-s3-integration/',
+                                'digiwf-verification-integration/'
+                            ]
+                        },
+                    ],
+                }
+            },
+            '/en/': {
+                selectText: 'Languages',
+                // label for this locale in the language dropdown
+                label: 'English',
+                // Aria Label for locale in the dropdown
+                ariaLabel: 'Languages',
+                nav: [
+
+                ],
+                sidebar: {
+
+                }
+            }
+        },
+    },
+
+    /**
+     * markdown extension
+     */
+    markdown: {
+        lineNumbers: true,
+        extendMarkdown: md => {
+            md.use(require('markdown-it-footnote'))
+        }
+    },
+
+    /**
+     * Apply plugins，ref：https://v1.vuepress.vuejs.org/plugin/
+     */
+    plugins: [
+        '@vuepress/plugin-back-to-top',
+        '@vuepress/plugin-medium-zoom',
+        'vuepress-plugin-mermaidjs'
+    ]
+}

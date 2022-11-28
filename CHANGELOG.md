@@ -9,6 +9,8 @@
   - save filter as url query param
 - digiwf-form-builder
   - validation of list items
+- docs
+  - Added vuepress docs page
 
 ### Fixed
 
