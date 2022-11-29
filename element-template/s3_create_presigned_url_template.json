@@ -1,0 +1,106 @@
+{
+  "name": "S3: Presigned Url erstellen",
+  "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_s3_async_config}",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_topic_name",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "createPresignedUrl",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "editable": false,
+      "value": "createPresignedUrl",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dateipfad",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "path",
+        "target": "path"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Datei Aktion",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "action",
+        "target": "action"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Out: PresignedUrls",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "presignedUrls"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}
