@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.humantask.domain.mapper;
 
 import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
-import io.muenchendigital.digiwf.humantask.infrastructure.entity.ActRuTaskEntity;
+import io.muenchendigital.digiwf.humantask.infrastructure.entity.camunda.ActRuTaskEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

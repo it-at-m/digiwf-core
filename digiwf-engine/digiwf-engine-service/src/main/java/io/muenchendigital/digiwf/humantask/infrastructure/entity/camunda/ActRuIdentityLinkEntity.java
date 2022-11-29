@@ -1,6 +1,7 @@
-package io.muenchendigital.digiwf.humantask.infrastructure.entity;
+package io.muenchendigital.digiwf.humantask.infrastructure.entity.camunda;
 
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "ActRuIdentityLink")
+@Immutable
 @Table(name = "ACT_RU_IDENTITYLINK")
 public class ActRuIdentityLinkEntity {
 

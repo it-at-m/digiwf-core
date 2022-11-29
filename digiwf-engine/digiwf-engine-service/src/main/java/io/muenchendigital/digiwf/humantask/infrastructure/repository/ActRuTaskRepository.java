@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.humantask.infrastructure.repository;
 
-import io.muenchendigital.digiwf.humantask.infrastructure.entity.ActRuTaskEntity;
+import io.muenchendigital.digiwf.humantask.infrastructure.entity.camunda.ActRuTaskEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

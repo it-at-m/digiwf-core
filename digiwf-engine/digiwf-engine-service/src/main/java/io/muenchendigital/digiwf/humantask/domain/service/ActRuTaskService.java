@@ -22,7 +22,7 @@ public class ActRuTaskService {
     private final ActRuTaskRepository actRuTaskRepository;
     private final ActRuTaskMapper actRuTaskMapper;
 
-    public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
+public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
         val result = this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable);
         return new PageImpl<ActRuTask>(result.getContent().stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList()), result.getPageable(), result.getTotalElements());
     }
