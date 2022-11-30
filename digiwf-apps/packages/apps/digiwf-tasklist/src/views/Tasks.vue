@@ -77,6 +77,7 @@ export default defineComponent({
       const startTime = new Date().getTime();
       try {
         await store.dispatch('tasks/getTasks', refresh);
+        reloadTasks();
         errorMessage.value = "";
       } catch (error) {
         errorMessage.value = error.message;
@@ -96,10 +97,6 @@ export default defineComponent({
       router.replace({query: {filter: filter}})
       store.commit('tasks/setTasksFilter', filter);
     };
-
-    watch(store.getters['tasks/tasks'], () => {
-      reloadTasks();
-    });
 
     watch(followUp, (followUp) => {
       store.dispatch('tasks/setFollowUp', followUp);
