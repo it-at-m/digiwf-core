@@ -1,43 +1,52 @@
 # Change Log
 
-## [apps Unreleased] - yyyy-mm-dd
+## [apps unrleased] - yyyy-mm-dd
+
+### Added
+
+### Fixed
+
+- tasklist
+    - stop passing emtpy value in form
+
+## [apps 0.21.0] - 2022-11-27
 
 ### Added
 
 - tasklist
-  - persistent filters
-  - save filter as url query param
+    - persistent filters
+    - save filter as url query param
 - digiwf-form-builder
-  - validation of list items
+    - validation of list items
 - docs
-  - Added vuepress docs page
+    - Added vuepress docs page
 
 ### Fixed
 
 - digiwf-form-builder:
-  - move field to nested objects
-  - general styling issues
-  - reactivity when updating schema
+    - move field to nested objects
+    - general styling issues
+    - reactivity when updating schema
 
-## [services Unreleased] - yyyy-mm-dd
+## [services 0.14.0] - 2022-11-27
 
 ### Added
 
 - digiwf-libs
-  - add functionality to extract error information in json serialization
+    - add functionality to extract error information in json serialization
 - digiwf-s3-integration
-  - supports creation of presigned urls for multiple file paths
-  - switch to webClient
-  - generate open api client
-  - allow to use any s3 storage with the cosys integration (domain specific s3 storage)
+    - supports creation of presigned urls for multiple file paths
+    - switch to webClient
+    - generate open api client
+    - allow to use any s3 storage with the cosys integration (domain specific s3 storage)
 - digiwf-email-integration
-  - modules added
+    - modules added
 - digiwf-verification-integration
-  - verification integration modules added
+    - verification integration modules added
 - alw-integration
-  - modules added
+    - modules added
 - digiwf-camunda-prometheus
-  - modules added
+    - modules added
 
 ### Fixed
 

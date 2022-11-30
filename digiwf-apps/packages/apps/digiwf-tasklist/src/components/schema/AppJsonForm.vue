@@ -73,6 +73,9 @@ export default class AppJsonForm extends Vue {
     }
   }
 
+  created() {
+    this.currentValue = this.value;
+  }
 
 }
 </script>
