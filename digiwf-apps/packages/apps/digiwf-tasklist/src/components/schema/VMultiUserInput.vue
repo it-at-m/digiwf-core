@@ -64,10 +64,6 @@
 </template>
 
 <style>
-/* remove messages from v-input to make adjacent list seamless  */
-/*#top .userInput .v-text-field__details {*/
-/*  display: none;*/
-/*}*/
 
 /* Hide Expand/Collapse-Icon */
 #top .v-autocomplete .v-input__append-inner > div {
@@ -101,23 +97,6 @@
 <style scoped>
 #top {
   margin-bottom: 8px
-}
-
-.listWrapper {
-  padding: 4px;
-  overflow: auto;
-  z-index: 10;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.38);
-  margin-bottom: 24px;
-  margin-top: -5px;
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  flex-wrap: wrap;
 }
 
 .userInput {
