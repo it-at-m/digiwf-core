@@ -8,6 +8,9 @@
 
 - tasklist
     - stop passing emtpy value in form
+    - continue button error
+    - multi user input validation
+    - maxItems serialization bug
 
 ## [apps 0.21.0] - 2022-11-27
 
