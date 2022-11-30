@@ -9,6 +9,15 @@
 - tasklist
     - stop passing emtpy value in form
 
+## [services unrleased] - yyyy-mm-dd
+
+### Added
+
+### Fixed
+
+- engine
+    - whitelist regex in application.properties
+
 ## [apps 0.21.0] - 2022-11-27
 
 ### Added
