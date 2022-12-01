@@ -4,16 +4,18 @@
       v-model="selectedUsers"
       :class="[isReadonly ? 'userInputReadonly' : 'userInput']"
       :search-input.sync="search"
-      auto-select-first
       hide-no-data
+      chips
+      small-chips
+      auto-select-first
       :readonly="isReadonly"
       :disabled="disabled"
       :rules="rules ? rules : true"
       :items="entries"
       :loading="isLoading"
-      :filter="filterUsers"
       :label="label"
       v-bind="schema['x-props']"
+      :filter="filterUsers"
       item-value="lhmObjectId"
       item-text="username"
       placeholder="Benutzer suchen..."
@@ -23,7 +25,6 @@
       @change="change"
     >
       <template
-        v-if="readonly"
         #selection="data"
       >
         <v-chip
@@ -31,6 +32,8 @@
           v-bind="data.attrs"
           :input-value="data.selected"
           small
+          :close="!readonly"
+          @click:close="removeUser(data.item)"
         >
           <v-avatar left>
             <v-img :src="mucatarUrl(data.item.username)">
@@ -51,7 +54,6 @@
               </template>
             </v-img>
           </v-list-item-avatar>
-
           <v-list-item-content>
             <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
             <v-list-item-subtitle v-html="data.item.ou"/>
@@ -59,35 +61,10 @@
         </template>
       </template>
     </v-autocomplete>
-    <div
-      v-if="!readonly"
-      class="listWrapper"
-    >
-      <v-chip
-        v-for="item in selectedUsers"
-        :key="item.username"
-        class="ma-1 pa-4"
-        close
-        @click:close="removeUser(item)"
-      >
-        <v-avatar left>
-          <v-img :src="mucatarUrl(item.username)">
-            <template #placeholder>
-              <v-icon>mdi-account</v-icon>
-            </template>
-          </v-img>
-        </v-avatar>
-        {{ getFullName(item) }} ({{ item.ou }})
-      </v-chip>
-    </div>
   </div>
 </template>
 
 <style>
-/* remove messages from v-input to make adjacent list seamless  */
-#top .userInput .v-text-field__details {
-  display: none;
-}
 
 /* Hide Expand/Collapse-Icon */
 #top .v-autocomplete .v-input__append-inner > div {
@@ -95,62 +72,18 @@
 }
 
 /* Hide items already selected in input field */
-#top .v-autocomplete.primary--text
-> div
-> div.v-input__slot
-> div.v-select__slot
-> div.v-select__selections
-> div {
-  display: none;
-}
-
-/* Padding for readonly chips */
-.userInputReadonly div.v-select__selections {
-  padding-top: 12px !important;
-}
-
-#top .v-input--is-readonly fieldset:nth-child(1) {
-  border-color: #bbb;
-}
+/*#top .v-autocomplete.primary--text*/
+/*> div*/
+/*> div.v-input__slot*/
+/*> div.v-select__slot*/
+/*> div.v-select__selections*/
+/*> div {*/
+/*  display: none;*/
+/*}*/
 
 #top .v-chip__content {
   font-size: 14px;
 }
-</style>
-
-<style scoped>
-#top {
-  margin-bottom: 8px
-}
-
-.listWrapper {
-  padding: 4px;
-  overflow: auto;
-  z-index: 10;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.38);
-  margin-bottom: 24px;
-  margin-top: -5px;
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  flex-wrap: wrap;
-}
-
-.userInput {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  padding-bottom: 0;
-  margin-bottom: 0 !important;
-}
-
-.userInputReadonly {
-  margin-top: 16px;
-}
-
 </style>
 
 <script lang="ts">
@@ -256,9 +189,6 @@ export default class VMultiUserInput extends Vue {
   }
 
   filterUsers(item: UserTO, queryText: string): boolean {
-    if (this.selectedUsers.find((el: UserTO) => el.username == item.username)) {
-      return false;
-    }
     const fullName = this.getFullName(item);
     if (fullName.toLowerCase().includes(queryText.toLowerCase())) {
       return true;
@@ -278,7 +208,7 @@ export default class VMultiUserInput extends Vue {
   }
 
   get entries(): UserTO[] {
-    return this.items;
+    return this.items.concat(this.selectedUsers);
   }
 
   @Watch("search")
@@ -312,7 +242,6 @@ export default class VMultiUserInput extends Vue {
   change(): void {
     let selectedLhmObjectIds = this.selectedUsers.map(a => a.lhmObjectId);
     this.input(selectedLhmObjectIds);
-    this.resetInput();
   }
 
   resetInput(): void {

@@ -31,12 +31,6 @@ public class SerializationController {
         return this.jsonSchemaSerializationService.merge(filteredData, new JSONObject(body.getPreviousData()));
     }
 
-    @PostMapping(path = "/deserialize")
-    public Map<String, Object> deserialize(@RequestBody final DataDto body) throws IOException, URISyntaxException {
-        final String rawSchema = this.getSchemaString(body.getSchema());
-        return this.jsonSchemaSerializationService.deserializeData(rawSchema, body.getData());
-    }
-
     private String getSchemaString(final String path) throws IOException, URISyntaxException {
         return new String(Files.readAllBytes(Paths.get(this.getClass().getResource(path).toURI())));
     }
