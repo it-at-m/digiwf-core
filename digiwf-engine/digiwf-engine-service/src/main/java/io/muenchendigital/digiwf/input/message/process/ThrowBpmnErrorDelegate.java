@@ -22,7 +22,6 @@ public class ThrowBpmnErrorDelegate implements JavaDelegate {
     public static final VariableFactory<String> ERROR_CODE = stringVariable("errorCode");
     public static final VariableFactory<String> ERROR_MESSAGE = stringVariable("errorMessage");
 
-
     @Override
     public void execute(final DelegateExecution delegateExecution) throws Exception {
         log.info("Throwing bpmn error for instance {}: {} - {}",
