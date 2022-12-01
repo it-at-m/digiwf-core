@@ -39,7 +39,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
         <camunda:out source="presignedUrls" target="presignedUrls" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0r1wb5z</bpmn:incoming>
-      <bpmn:outgoing>Flow_05on6g2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ghv483</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_0nfaoa0" sourceRef="Activity_16d89ab" targetRef="Event_0b9z9pp" />
     <bpmn:userTask id="Activity_16d89ab" name="Check cosys document" camunda:assignee="${starterOfInstance}">
@@ -49,25 +49,24 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
           <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_Check</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1aykowz</bpmn:incoming>
+      <bpmn:incoming>Flow_1nsjvnp</bpmn:incoming>
       <bpmn:outgoing>Flow_0nfaoa0</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_05on6g2" sourceRef="Activity_1pvhkb4" targetRef="Activity_1gozcdm" />
-    <bpmn:sequenceFlow id="Flow_1aykowz" sourceRef="Activity_1gozcdm" targetRef="Activity_16d89ab" />
-    <bpmn:callActivity id="Activity_1gozcdm" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CosysGenerateDocumentTest" calledElement="StreamingTemplateV2">
+    <bpmn:sequenceFlow id="Flow_0ghv483" sourceRef="Activity_1pvhkb4" targetRef="Activity_0svf83h" />
+    <bpmn:sequenceFlow id="Flow_1nsjvnp" sourceRef="Activity_0svf83h" targetRef="Activity_16d89ab" />
+    <bpmn:callActivity id="Activity_0svf83h" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CosysGenerateDocumentV02" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
-        <camunda:in sourceExpression="false" target="enable_bpmn_errors" />
         <camunda:in sourceExpression="${cosysData}" target="variables" />
         <camunda:in sourceExpression="${FormField_CosysEventTopic}" target="app_topic_name" />
         <camunda:in sourceExpression="${FormField_CosysClient}" target="client" />
         <camunda:in sourceExpression="${FormField_CosysRole}" target="role" />
+        <camunda:in sourceExpression="${presignedUrls}" target="documentStorageUrls" />
         <camunda:in sourceExpression="${FormField_CosysGuid}" target="guid" />
-        <camunda:in sourceExpression="${presignedUrls}" target="s3Path" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_05on6g2</bpmn:incoming>
-      <bpmn:outgoing>Flow_1aykowz</bpmn:outgoing>
+      <bpmn:incoming>Flow_0ghv483</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nsjvnp</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:textAnnotation id="TextAnnotation_1rkwagc">
       <bpmn:text>Create presigned S3 url via S3-Integration as the target of the generated document</bpmn:text>
@@ -76,6 +75,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmn:text>Generate Cosys document and save it in S3</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1qgbegk" sourceRef="Activity_1pvhkb4" targetRef="TextAnnotation_1rkwagc" />
+    <bpmn:association id="Association_1xjhp0b" sourceRef="Activity_0svf83h" targetRef="TextAnnotation_1ha9m2u" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTest">
@@ -95,12 +95,12 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
         <di:waypoint x="188" y="279" />
         <di:waypoint x="260" y="279" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_05on6g2_di" bpmnElement="Flow_05on6g2">
+      <bpmndi:BPMNEdge id="Flow_0ghv483_di" bpmnElement="Flow_0ghv483">
         <di:waypoint x="690" y="279" />
-        <di:waypoint x="760" y="279" />
+        <di:waypoint x="770" y="279" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1aykowz_di" bpmnElement="Flow_1aykowz">
-        <di:waypoint x="860" y="279" />
+      <bpmndi:BPMNEdge id="Flow_1nsjvnp_di" bpmnElement="Flow_1nsjvnp">
+        <di:waypoint x="870" y="279" />
         <di:waypoint x="930" y="279" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
@@ -127,12 +127,16 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
         <dc:Bounds x="780" y="101" width="100" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1etnvvm_di" bpmnElement="Activity_1gozcdm">
-        <dc:Bounds x="760" y="239" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0gtaqwh_di" bpmnElement="Activity_0svf83h">
+        <dc:Bounds x="770" y="239" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1qgbegk_di" bpmnElement="Association_1qgbegk">
         <di:waypoint x="631" y="239" />
         <di:waypoint x="615" y="172" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1xjhp0b_di" bpmnElement="Association_1xjhp0b">
+        <di:waypoint x="828" y="239" />
+        <di:waypoint x="842" y="169" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
