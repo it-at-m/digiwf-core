@@ -5,16 +5,16 @@
 package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.engine.mapper.EngineDataMapper;
+import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
+import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
+import io.muenchendigital.digiwf.json.validation.JsonSchemaValidator;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.muenchendigital.digiwf.legacy.form.domain.model.Form;
 import io.muenchendigital.digiwf.legacy.form.domain.service.FormService;
 import io.muenchendigital.digiwf.legacy.shared.data.DataService;
-import io.muenchendigital.digiwf.shared.exception.VariablesNotValidException;
-import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
-import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
-import io.muenchendigital.digiwf.json.validation.JsonSchemaValidator;
 import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
+import io.muenchendigital.digiwf.shared.exception.VariablesNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -90,7 +90,7 @@ public class HumanTaskDataService {
         } else {
             final JsonSchema jsonSchema = this.jsonSchemaService.getByKey(this.getSchemaKey(task.getId()).orElseThrow())
                     .orElseThrow();
-            return this.engineDataMapper.mapToData(this.serializationService.deserializeData(jsonSchema.getSchema(), this.taskService.getVariablesTyped(task.getId())));
+            return this.engineDataMapper.mapToData(this.serializationService.deserializeData(jsonSchema.getSchemaMap(), this.taskService.getVariablesTyped(task.getId())));
         }
     }
 
@@ -124,10 +124,10 @@ public class HumanTaskDataService {
 
     private Map<String, Object> serializeData(final JsonSchema schema, final Task task, final Map<String, Object> variables) {
 
-        final JSONObject filteredData = this.serializationService.filter(schema.getSchema(), variables, true);
+        final JSONObject filteredData = this.serializationService.filter(schema.getSchemaMap(), variables, true);
         this.jsonSchemaValidator.validate(schema.getSchema(), filteredData.toMap());
         final Map<String, Object> taskData = this.mapTaskData(task);
-        final Map<String, Object> targetData = this.serializationService.deserializeData(schema.getSchema(), taskData);
+        final Map<String, Object> targetData = this.serializationService.deserializeData(schema.getSchemaMap(), taskData);
         final Map<String, Object> serializedData = this.serializationService.merge(filteredData, new JSONObject(targetData));
         final JSONObject defaultValue = this.serializationService.initialize(new JSONObject(schema.getSchema()).toString());
         final Map<String, Object> serializedDataWithDefaultValues = this.serializationService.merge(new JSONObject(serializedData), defaultValue);

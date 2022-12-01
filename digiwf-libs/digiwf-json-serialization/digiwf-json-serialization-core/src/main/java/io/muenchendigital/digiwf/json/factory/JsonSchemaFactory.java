@@ -32,18 +32,18 @@ public class JsonSchemaFactory {
             final String value = in.nextString();
 
             try {
-                return Integer.parseInt(value);
-            } catch (final NumberFormatException var6) {
-                try {
-                    final Double d = Double.valueOf(value);
+                final Double d = Double.parseDouble(value);
+                if ((d == Math.floor(d)) && !Double.isInfinite(d)) {
+                    return d.intValue();
+                } else {
                     if ((d.isInfinite() || d.isNaN()) && !in.isLenient()) {
                         throw new MalformedJsonException("JSON forbids NaN and infinities: " + d + "; at path " + in.getPreviousPath());
                     } else {
                         return d;
                     }
-                } catch (final NumberFormatException var5) {
-                    throw new JsonParseException("Cannot parse " + value + "; at path " + in.getPreviousPath(), var5);
                 }
+            } catch (final NumberFormatException numberFormatException) {
+                throw new JsonParseException("Cannot parse " + value + "; at path " + in.getPreviousPath(), numberFormatException);
             }
         }
     }

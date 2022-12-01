@@ -1,0 +1,160 @@
+{
+  "key": "b2a87b0c-e61a-4ed4-b34a-979cd3897f53",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey12",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "59f34b71-eb60-46db-ae5f-b5821b8db823": {
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "FormField_Tickets": {
+                "fieldType": "file",
+                "title": "Kopie Ihres neuen Tickets (PDF oder JPEG)",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "FormField_Tickets",
+                "uuidEnabled": false,
+                "description": "Wenn Sie kein neues Ticket besitzen, da Sie zum Beispiel nur eine veränderte Anschrift angeben möchten, können Sie die folgenden Felder überspringen.",
+                "filePath": "dokumente/ticket",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "requiredObject"
+                ]
+              }
+            },
+            "key": "f6e2140a-40e8-483a-a1a8-009403c45d7d"
+          }
+        ]
+      },
+      {
+        "key": "sectionKey1",
+        "title": "Zweiter Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "59f34b71-eb60-46db-ae5f-b5821b8db8231": {
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "FormField_Tickets1": {
+                "fieldType": "file",
+                "title": "Kopie Ihres neuen Tickets (PDF oder JPEG)",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "FormField_Tickets1",
+                "uuidEnabled": false,
+                "description": "Wenn Sie kein neues Ticket besitzen, da Sie zum Beispiel nur eine veränderte Anschrift angeben möchten, können Sie die folgenden Felder überspringen.",
+                "filePath": "dokumente/ticket",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "requiredObject"
+                ]
+              }
+            },
+            "key": "f6e2140a-40e8-483a-a1a8-009403c45d7d"
+          }
+        ]
+      }
+    ]
+  }
+}
