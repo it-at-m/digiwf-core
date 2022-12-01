@@ -128,7 +128,7 @@ public class JsonValidatorTest {
             this.validationService.validate(new JSONObject(rawSchema).toMap(), acutalData);
         });
 
-        assertThat(exception.getMessage()).isEqualTo("ValidationErrorInformation(pointer=#/objekt1, schemaPath=#/allOf/0/allOf/1/properties/objekt1, violatedSchema={\"type\":\"object\",\"additionalProperties\":false,\"title\":\"Dynamisches Objekt\",\"description\":\"fsdafsdafsad\",\"x-rules\":[],\"fieldType\":\"object\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"key\":\"d6d8d7a1-e812-42ac-9135-8242f93b6158\",\"x-props\":{\"outlined\":true,\"dense\":true},\"properties\":{\"objektSchalter\":{\"title\":\"Schalter\",\"x-rules\":[],\"x-display\":\"switch\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"fieldType\":\"switch\",\"key\":\"ObjektSchalter\",\"x-props\":{\"outlined\":true,\"dense\":true},\"type\":\"boolean\"},\"objektTextfeld\":{\"type\":\"string\",\"title\":\"Textfeld\",\"x-rules\":[],\"fieldType\":\"text\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"key\":\"objektTextfeld\",\"x-props\":{\"outlined\":true,\"dense\":true}}}}, message=#/objekt1: extraneous key [objektTextfeld1] is not permitted)");
+        assertThat(exception.getMessage()).contains("ValidationErrorInformation(pointer=#/objekt1, schemaPath=#/allOf/0/allOf/1/properties/objekt1, violatedSchema={\"type\":\"object\",\"additionalProperties\":false,\"title\":\"Dynamisches Objekt\",\"description\":\"fsdafsdafsad\",\"x-rules\":[],\"fieldType\":\"object\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"key\":\"d6d8d7a1-e812-42ac-9135-8242f93b6158\",\"x-props\":{\"outlined\":true,\"dense\":true},\"properties\":{\"objektSchalter\":{\"title\":\"Schalter\",\"x-rules\":[],\"x-display\":\"switch\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"fieldType\":\"switch\",\"key\":\"ObjektSchalter\",\"x-props\":{\"outlined\":true,\"dense\":true},\"type\":\"boolean\"},\"objektTextfeld\":{\"type\":\"string\",\"title\":\"Textfeld\",\"x-rules\":[],\"fieldType\":\"text\",\"x-options\":{\"fieldColProps\":{\"messages\":{},\"cols\":12,\"sm\":12}},\"key\":\"objektTextfeld\",\"x-props\":{\"outlined\":true,\"dense\":true}}}}, message=#/objekt1: extraneous key [objektTextfeld1] is not permitted)");
 
     }
 
@@ -143,7 +143,7 @@ public class JsonValidatorTest {
             this.validationService.validate(new JSONObject(rawSchema).toMap(), acutalData);
         });
 
-        assertThat(exception.getValidationErrorInformation().size()).isEqualTo(2);
+        assertThat(exception.getValidationErrorInformation().size()).isEqualTo(5);
     }
 
     @Test
