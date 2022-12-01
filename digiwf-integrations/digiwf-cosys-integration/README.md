@@ -2,7 +2,7 @@
 
 Checkout the documentation at tbd.
 
-## Getting Started
+## Getting started
 
 ```
 # build
@@ -29,3 +29,25 @@ To use the CoSys integration you have to set the following configurations.
 - io.muenchendigital.digiwf.cosys.merge.inputLanguage=Deutsch
 - io.muenchendigital.digiwf.cosys.merge.outputLanguage=Deutsch
 - io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
+
+## Local setup
+
+To have a full local setup of DigiWF to test the integration with BPMN processes you need to start the following services:
+* zookeeper/kafka
+* digiwf-engine-service
+* digiwf-gateway
+* digiwf-tasklist
+* digiwf-s3-integration-service
+* digiwf-camunda-connector-service
+
+and the digiwf-cosys-integration-service itself of course.
+
+And don't forget to activate the _streaming_ profile where possible.
+
+## Testing with DigiWF
+
+To let you try out the integration artifact with the DigiWF Tasklist application we provided some test process resources. You'll find them in digiwf-cosys-integration-service/src/test/resources/process.
+
+Just deploy these into your engine together with the StreamingTemplateV02 from digiwf-connector-service.
+Boot your local environment and start the process "Cosys GenerateDocument Test".
+

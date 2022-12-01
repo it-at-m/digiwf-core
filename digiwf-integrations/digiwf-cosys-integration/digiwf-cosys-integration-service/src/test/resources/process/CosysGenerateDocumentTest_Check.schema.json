@@ -1,0 +1,81 @@
+{
+  "key": "CosysGenerateDocumentTest_Check",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Section",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "presignedUrls": {
+                "fieldType": "text",
+                "title": "Presigned urls",
+                "type": "string",
+                "key": "presignedUrls",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "file_upload": {
+                "fieldType": "file",
+                "title": "Generated File",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "uuidEnabled": false,
+                "filePath": "test",
+                "key": "file_upload",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "03d9bc45-bd0e-4878-8338-79656c87a294"
+          }
+        ],
+        "key": "9eb08876-d94f-456d-a0df-d7f3f9723632"
+      }
+    ]
+  }
+}

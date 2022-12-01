@@ -20,14 +20,17 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class IncidentConsumer {
 
+    private static final String HEADER_PROCESS_INSTANCE_ID  = "digiwf.processinstanceid";
+    private static final String HEADER_MESSAGE_NAME         = "digiwf.messagename";
+
     private final IncidentService incidentService;
 
     @Bean
     public Consumer<Message<?>> createIncident() {
         return correlation -> {
 
-            final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get("processInstanceId")).map(Object::toString);
-            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get("messageName")).map(Object::toString);
+            final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get(HEADER_PROCESS_INSTANCE_ID)).map(Object::toString);
+            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get(HEADER_MESSAGE_NAME)).map(Object::toString);
 
             if (processInstanceId.isEmpty()) {
                 log.error("No process instance id present. Cannot create an incident");

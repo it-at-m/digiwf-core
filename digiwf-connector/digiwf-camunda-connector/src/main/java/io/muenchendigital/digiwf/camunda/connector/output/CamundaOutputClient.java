@@ -3,6 +3,7 @@ package io.muenchendigital.digiwf.camunda.connector.output;
 import io.muenchendigital.digiwf.camunda.connector.data.EngineDataSerializer;
 import io.muenchendigital.digiwf.connector.api.output.OutputService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
+@Slf4j
 public class CamundaOutputClient implements ExternalTaskHandler {
 
     private final OutputService outputService;
@@ -24,6 +26,7 @@ public class CamundaOutputClient implements ExternalTaskHandler {
         final Map<String, Object> data = this.getData(externalTask);
         final String topic = (String) data.get(CamundaOutputConfiguration.TOPIC_NAME);
         final String type = (String) data.get(CamundaOutputConfiguration.TYPE_NAME);
+        log.info("External task received (topic {}, type {})", topic, type);
         final Optional<String> message = Optional.ofNullable(data.get(CamundaOutputConfiguration.MESSAGE_NAME)).map(Object::toString);
         final Map<String, Object> filteredData = this.filterVariables(data);
 

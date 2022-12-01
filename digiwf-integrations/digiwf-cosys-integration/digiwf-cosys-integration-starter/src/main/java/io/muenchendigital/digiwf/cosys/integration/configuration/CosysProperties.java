@@ -21,10 +21,10 @@ public class CosysProperties {
     private String url;
 
     @NotBlank
-    private String topic;
+    private String messageTopic;
 
     @NotBlank
-    private String engineTopic;
+    private String incidentTopic;
 
     @Getter
     @Setter

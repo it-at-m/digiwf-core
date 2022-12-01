@@ -10,8 +10,8 @@ import java.util.Map;
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class CorrelateMessageEvent implements CorrelateMessage {
-
 
     private String processInstanceId;
 

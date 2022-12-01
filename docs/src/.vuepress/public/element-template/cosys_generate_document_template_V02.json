@@ -1,0 +1,133 @@
+{
+  "name": "Cosys: GenerateDocument (V02)",
+  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentV02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "description": "The name of the Cosys integration topic",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "value": "cosysMessage",
+      "description": "The name of the message that will be correlated with the instance",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "editable": false,
+      "value": "createCosysDocument",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Cosys client",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "client"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Cosys role",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "role"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Document Storage Urls (S3)",
+      "type": "String",
+      "value": "",
+      "description": "Array of presigned urls created with s3 integration",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "documentStorageUrls",
+        "target": "documentStorageUrls"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Guid",
+      "type": "String",
+      "value": "",
+      "description": "The Cosys unique identifier of the document template",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "guid"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Data",
+      "type": "String",
+      "value": "${cosysData}",
+      "description": "A list of variables Cosys will mix into the document template",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "variables"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

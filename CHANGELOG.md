@@ -11,6 +11,7 @@
     - continue button error
     - multi user input validation
     - maxItems serialization bug
+    - naming processes search field
 
 ## [services unrleased] - yyyy-mm-dd
 
@@ -18,6 +19,9 @@
 
 - engine
     - upgrade dms interface
+- digiwf-cosys-integration
+  - error handling added
+
 
 ### Fixed
 

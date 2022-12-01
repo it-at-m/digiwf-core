@@ -32,43 +32,27 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_07inef3" sourceRef="Gateway_18ym4gt" targetRef="Event_1kt9lc0" />
     <bpmn:subProcess id="Activity_1gyinzu" triggeredByEvent="true">
-      <bpmn:startEvent id="Event_0ozod83" name="Receive error" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:jobPriority="99">
+      <bpmn:startEvent id="Event_0ozod83" name="Receive error" camunda:asyncBefore="true" camunda:jobPriority="99">
         <bpmn:outgoing>Flow_1v18hg5</bpmn:outgoing>
         <bpmn:messageEventDefinition id="MessageEventDefinition_048wx2i" messageRef="Message_00v38k9" />
       </bpmn:startEvent>
-      <bpmn:exclusiveGateway id="Gateway_1t17n7i" default="Flow_1f03yki">
-        <bpmn:incoming>Flow_1v18hg5</bpmn:incoming>
-        <bpmn:outgoing>Flow_0lp574q</bpmn:outgoing>
-        <bpmn:outgoing>Flow_1f03yki</bpmn:outgoing>
-      </bpmn:exclusiveGateway>
-      <bpmn:serviceTask id="Activity_0zc9zt7" name="Create incident" camunda:asyncBefore="true" camunda:delegateExpression="${createIncidentDelegate}">
-        <bpmn:incoming>Flow_1f03yki</bpmn:incoming>
-        <bpmn:outgoing>Flow_04n9nc9</bpmn:outgoing>
-      </bpmn:serviceTask>
-      <bpmn:serviceTask id="Activity_01d426l" name="Create BPMN error" camunda:asyncBefore="true" camunda:delegateExpression="${bpmnErrorDelegate}">
-        <bpmn:incoming>Flow_0lp574q</bpmn:incoming>
-        <bpmn:outgoing>Flow_130qhqh</bpmn:outgoing>
-      </bpmn:serviceTask>
       <bpmn:endEvent id="Event_1ak720k">
-        <bpmn:incoming>Flow_130qhqh</bpmn:incoming>
+        <bpmn:incoming>Flow_06ivo3w</bpmn:incoming>
         <bpmn:errorEventDefinition id="ErrorEventDefinition_10j7gev" errorRef="Error_1kj45rl" />
       </bpmn:endEvent>
-      <bpmn:endEvent id="Event_1mxoe9w">
-        <bpmn:incoming>Flow_04n9nc9</bpmn:incoming>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0kz2pev" errorRef="Error_0yof26o" />
-      </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_130qhqh" sourceRef="Activity_01d426l" targetRef="Event_1ak720k" />
-      <bpmn:sequenceFlow id="Flow_04n9nc9" sourceRef="Activity_0zc9zt7" targetRef="Event_1mxoe9w" />
-      <bpmn:sequenceFlow id="Flow_0lp574q" sourceRef="Gateway_1t17n7i" targetRef="Activity_01d426l">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${app_bpmn_errors_enabled == true}</bpmn:conditionExpression>
-      </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="Flow_1f03yki" sourceRef="Gateway_1t17n7i" targetRef="Activity_0zc9zt7" />
-      <bpmn:sequenceFlow id="Flow_1v18hg5" sourceRef="Event_0ozod83" targetRef="Gateway_1t17n7i" />
+      <bpmn:sequenceFlow id="Flow_1v18hg5" sourceRef="Event_0ozod83" targetRef="Activity_0m0py3a" />
+      <bpmn:sequenceFlow id="Flow_06ivo3w" sourceRef="Activity_0m0py3a" targetRef="Event_1ak720k" />
+      <bpmn:serviceTask id="Activity_0m0py3a" name="Throw BPMN error" camunda:asyncBefore="true" camunda:delegateExpression="${throwBpmnErrorDelegate}">
+        <bpmn:extensionElements>
+          <camunda:failedJobRetryTimeCycle>R0/PT10M</camunda:failedJobRetryTimeCycle>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1v18hg5</bpmn:incoming>
+        <bpmn:outgoing>Flow_06ivo3w</bpmn:outgoing>
+      </bpmn:serviceTask>
       <bpmn:textAnnotation id="TextAnnotation_1poarj2">
         <bpmn:text>Error end event is never actually reached; just for visualization</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_1yq3lgl" sourceRef="Event_1ak720k" targetRef="TextAnnotation_1poarj2" />
-      <bpmn:association id="Association_1ivcsvz" sourceRef="Event_1mxoe9w" targetRef="TextAnnotation_1poarj2" />
     </bpmn:subProcess>
     <bpmn:textAnnotation id="TextAnnotation_0acnosj">
       <bpmn:text>Parallel with priority because answer can be faster</bpmn:text>
@@ -77,7 +61,7 @@
   </bpmn:process>
   <bpmn:message id="Message_0o388ed" name="${app_message_name}" />
   <bpmn:message id="Message_00v38k9" name="bpmnError" />
-  <bpmn:error id="Error_1kj45rl" name="BpmnError" errorCode="0" />
+  <bpmn:error id="Error_1kj45rl" name="BpmnError" errorCode="unknown" />
   <bpmn:error id="Error_0yof26o" name="Incident" errorCode="0" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="StreamingTemplateV02">
@@ -131,39 +115,16 @@
           <dc:Bounds x="724" y="142" width="73" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0acnosj_di" bpmnElement="TextAnnotation_0acnosj">
-        <dc:Bounds x="560" y="330" width="150" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1i9zfg0_di" bpmnElement="Association_1i9zfg0">
-        <di:waypoint x="519" y="293" />
-        <di:waypoint x="574" y="330" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_1gyinzu_di" bpmnElement="Activity_1gyinzu" isExpanded="true">
-        <dc:Bounds x="190" y="450" width="600" height="220" />
+        <dc:Bounds x="190" y="450" width="490" height="220" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1poarj2_di" bpmnElement="TextAnnotation_1poarj2">
-        <dc:Bounds x="620" y="530" width="150" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_130qhqh_di" bpmnElement="Flow_130qhqh">
-        <di:waypoint x="510" y="610" />
-        <di:waypoint x="542" y="610" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_04n9nc9_di" bpmnElement="Flow_04n9nc9">
-        <di:waypoint x="510" y="510" />
-        <di:waypoint x="542" y="510" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0lp574q_di" bpmnElement="Flow_0lp574q">
-        <di:waypoint x="320" y="535" />
-        <di:waypoint x="320" y="610" />
-        <di:waypoint x="410" y="610" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1f03yki_di" bpmnElement="Flow_1f03yki">
-        <di:waypoint x="345" y="510" />
-        <di:waypoint x="410" y="510" />
+      <bpmndi:BPMNEdge id="Flow_06ivo3w_di" bpmnElement="Flow_06ivo3w">
+        <di:waypoint x="420" y="510" />
+        <di:waypoint x="522" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1v18hg5_di" bpmnElement="Flow_1v18hg5">
         <di:waypoint x="247" y="510" />
-        <di:waypoint x="295" y="510" />
+        <di:waypoint x="320" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0ozod83_di" bpmnElement="Event_0ozod83">
         <dc:Bounds x="211" y="492" width="36" height="36" />
@@ -171,28 +132,25 @@
           <dc:Bounds x="195" y="535" width="68" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1t17n7i_di" bpmnElement="Gateway_1t17n7i" isMarkerVisible="true">
-        <dc:Bounds x="295" y="485" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0zc9zt7_di" bpmnElement="Activity_0zc9zt7">
-        <dc:Bounds x="410" y="470" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_01d426l_di" bpmnElement="Activity_01d426l">
-        <dc:Bounds x="410" y="570" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1ak720k_di" bpmnElement="Event_1ak720k">
-        <dc:Bounds x="542" y="592" width="36" height="36" />
+        <dc:Bounds x="522" y="492" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1mxoe9w_di" bpmnElement="Event_1mxoe9w">
-        <dc:Bounds x="542" y="492" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_0mf7l93_di" bpmnElement="Activity_0m0py3a">
+        <dc:Bounds x="320" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1poarj2_di" bpmnElement="TextAnnotation_1poarj2">
+        <dc:Bounds x="510" y="570" width="150" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1yq3lgl_di" bpmnElement="Association_1yq3lgl">
-        <di:waypoint x="575" y="600" />
-        <di:waypoint x="620" y="572" />
+        <di:waypoint x="552" y="524" />
+        <di:waypoint x="585" y="565" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1ivcsvz_di" bpmnElement="Association_1ivcsvz">
-        <di:waypoint x="577" y="517" />
-        <di:waypoint x="620" y="534" />
+      <bpmndi:BPMNShape id="TextAnnotation_0acnosj_di" bpmnElement="TextAnnotation_0acnosj">
+        <dc:Bounds x="560" y="330" width="150" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1i9zfg0_di" bpmnElement="Association_1i9zfg0">
+        <di:waypoint x="519" y="293" />
+        <di:waypoint x="574" y="330" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

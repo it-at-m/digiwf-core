@@ -19,6 +19,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class IncidentServiceImpl implements IncidentService {
 
+    private static final String INCIDENT_TYPE   = "integrationError";
+    private static final String EVENT_TYPE      = "message";
+
     private final ExecutionApi executionApi;
     private final EventSubscriptionApi eventSubscriptionApi;
 
@@ -32,19 +35,19 @@ public class IncidentServiceImpl implements IncidentService {
 
             //load corresponding event subscription
             final String executionId = this.eventSubscriptionApi.getEventSubscriptions(
-                            null,
-                            messageName,
-                            "message",
-                            null,
-                            processInstanceId,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null)
+                    null,
+                    messageName,
+                    EVENT_TYPE,
+                    null,
+                    processInstanceId,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null)
                     .stream()
                     .findFirst()
                     .map(EventSubscriptionDto::getExecutionId)
@@ -52,13 +55,16 @@ public class IncidentServiceImpl implements IncidentService {
 
             // create incident body
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
-            createIncidentDto.setIncidentType("integrationError");
+            createIncidentDto.setIncidentType(INCIDENT_TYPE);
             createIncidentDto.setMessage("Error occurred in integration service");
 
             // send create incident call
             this.executionApi.createIncident(executionId, createIncidentDto);
 
-        } catch (final ApiException | NoSuchElementException | IllegalArgumentException e) {
+        } catch (final ApiException e) {
+            log.error("Cannot create incident for processinstance id {} and message name {}: {}", processInstanceId, messageName, e.getResponseBody());
+            throw new RuntimeException(e);
+        } catch (final NoSuchElementException | IllegalArgumentException e) {
             log.error("Cannot create incident for processinstance id {} and message name {}", processInstanceId, messageName);
             throw new RuntimeException(e);
         }

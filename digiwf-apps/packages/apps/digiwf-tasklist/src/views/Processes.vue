@@ -14,7 +14,7 @@
           dense
           outlined
           hide-details
-          label="Aufgaben durchsuchen"
+          label="Vorgänge durchsuchen"
           clearable
           color="black"
           style="max-width: 500px"
