@@ -143,7 +143,7 @@ public class JsonValidatorTest {
             this.validationService.validate(new JSONObject(rawSchema).toMap(), acutalData);
         });
 
-        assertThat(exception.getValidationErrorInformation().size()).isEqualTo(5);
+        assertThat(exception.getValidationErrorInformation().size()).isEqualTo(8);
     }
 
     @Test
