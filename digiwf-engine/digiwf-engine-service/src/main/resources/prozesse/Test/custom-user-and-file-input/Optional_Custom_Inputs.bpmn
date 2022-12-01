@@ -14,7 +14,7 @@
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths" />
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">b2a87b0c-e61a-4ed4-b34a-979cd3897f53</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">b2a87b0c-e61a-4ed4-b34a-979cd3897f5a</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0itgqob</bpmn:incoming>

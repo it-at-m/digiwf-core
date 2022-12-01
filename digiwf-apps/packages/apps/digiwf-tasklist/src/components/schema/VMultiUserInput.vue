@@ -7,6 +7,7 @@
       hide-no-data
       chips
       small-chips
+      auto-select-first
       :readonly="isReadonly"
       :disabled="disabled"
       :rules="rules ? rules : true"
@@ -71,45 +72,18 @@
 }
 
 /* Hide items already selected in input field */
-#top .v-autocomplete.primary--text
-> div
-> div.v-input__slot
-> div.v-select__slot
-> div.v-select__selections
-> div {
-  display: none;
-}
-
-/* Padding for readonly chips */
-.userInputReadonly div.v-select__selections {
-  padding-top: 12px !important;
-}
-
-#top .v-input--is-readonly fieldset:nth-child(1) {
-  border-color: #bbb;
-}
+/*#top .v-autocomplete.primary--text*/
+/*> div*/
+/*> div.v-input__slot*/
+/*> div.v-select__slot*/
+/*> div.v-select__selections*/
+/*> div {*/
+/*  display: none;*/
+/*}*/
 
 #top .v-chip__content {
   font-size: 14px;
 }
-</style>
-
-<style scoped>
-#top {
-  margin-bottom: 8px
-}
-
-.userInput {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  padding-bottom: 0;
-  margin-bottom: 0 !important;
-}
-
-.userInputReadonly {
-  margin-top: 16px;
-}
-
 </style>
 
 <script lang="ts">
