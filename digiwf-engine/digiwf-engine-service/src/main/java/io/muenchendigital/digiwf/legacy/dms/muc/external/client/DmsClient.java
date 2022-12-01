@@ -14,10 +14,13 @@ import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode
 import io.muenchendigital.digiwf.legacy.dms.muc.properties.DmsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -161,12 +164,12 @@ public class DmsClient {
         );
 
         switch (dokument.getEinAusgehend()) {
-        case EINGEHEND:
-            return this.createEingehendesDokumentWithUser(dokument, username);
-        case AUSGEHEND:
-            return this.createAusgehendesDokumentWithUser(dokument, username);
-        default:
-            throw new AssertionError("must not happen");
+            case EINGEHEND:
+                return this.createEingehendesDokumentWithUser(dokument, username);
+            case AUSGEHEND:
+                return this.createAusgehendesDokumentWithUser(dokument, username);
+            default:
+                throw new AssertionError("must not happen");
         }
     }
 
@@ -316,7 +319,7 @@ public class DmsClient {
      * @param coo      COO of the Schriftstück
      * @return Schriftstück
      */
-    public Schriftstueck readSchriftstueck(final String username, final String coo) throws DMSException {
+    public Schriftstueck readSchriftstueck(final String username, final String coo) throws DMSException, IOException {
         //logging for dms team
         log.info("calling DepositObjectGI"
                 + " Userlogin: " + username
@@ -338,7 +341,7 @@ public class DmsClient {
                 .coo(coo)
                 .name(response.getGiattachmenttype().getLHMBAI151700Filename())
                 .extension(response.getGiattachmenttype().getLHMBAI151700Fileextension())
-                .content(response.getGiattachmenttype().getLHMBAI151700Filecontent())
+                .content(IOUtils.toByteArray(response.getGiattachmenttype().getLHMBAI151700Filecontent().getInputStream()))
                 .build();
     }
 
@@ -346,7 +349,8 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final NeuesSchriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        attachment.setLHMBAI151700Filecontent(schriftstueck.getContent());
+        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
+        attachment.setLHMBAI151700Filecontent(dataHandler);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
@@ -354,7 +358,8 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final Schriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        attachment.setLHMBAI151700Filecontent(schriftstueck.getContent());
+        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
+        attachment.setLHMBAI151700Filecontent(dataHandler);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
