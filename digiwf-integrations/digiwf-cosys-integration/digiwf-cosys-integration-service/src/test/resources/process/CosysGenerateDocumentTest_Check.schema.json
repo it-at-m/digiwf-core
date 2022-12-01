@@ -1,5 +1,5 @@
 {
-  "key": "CosysGenerateDocumentTest_CheckV01",
+  "key": "CosysGenerateDocumentTest_Check",
   "schema": {
     "type": "object",
     "x-display": "stepper",

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class BpmnErrorEvent implements BpmnError {
 
     private String processInstanceId;

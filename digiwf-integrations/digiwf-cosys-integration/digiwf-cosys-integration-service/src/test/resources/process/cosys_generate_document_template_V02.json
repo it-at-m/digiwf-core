@@ -1,6 +1,6 @@
 {
-  "name": "Cosys: GenerateDocumentTest",
-  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentTest",
+  "name": "Cosys: GenerateDocument V02",
+  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentV02",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -31,7 +31,6 @@
     {
       "label": "Event Message",
       "type": "String",
-	  "editable": false,
       "value": "cosysMessage",
       "binding": {
         "type": "camunda:in",
@@ -83,9 +82,8 @@
       }
     },
     {
-      "label": "S3 Path",
+      "label": "Document Storage Urls (S3)",
       "type": "String",
-      "value": "${app_file_context}/test/doc.pdf",
       "binding": {
         "type": "camunda:in",
         "expression": true,
