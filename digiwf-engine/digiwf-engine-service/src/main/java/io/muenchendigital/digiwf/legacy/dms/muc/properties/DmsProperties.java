@@ -31,4 +31,6 @@ public class DmsProperties {
 
     private String defaultUser;
 
+    private String businessapp;
+
 }
