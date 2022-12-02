@@ -27,6 +27,7 @@
 
 - engine
     - whitelist regex in application.properties
+    - Improved logging of `DigiWFValidationException`
 
 ## [apps 0.21.0] - 2022-11-27
 
