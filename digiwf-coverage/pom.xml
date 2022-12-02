@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>digiwf-coverage</artifactId>
+    <name>digiwf-coverage</name>
+    <description>Jacoco Code Coverage</description>
+
+    <properties>
+        <jacoco.version>0.8.8</jacoco.version>
+    </properties>
+
+    <parent>
+        <groupId>io.muenchendigital.digiwf</groupId>
+        <artifactId>digiwf-core</artifactId>
+        <version>0.14.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <!-- digiwf-connector -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-camunda-connector</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-connector-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-connector-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-connector-starter-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-camunda-connector-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-engine -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-engine-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-engine-next-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-engine-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-gateway -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-gateway</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-integrations -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-alw-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-alw-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-alw-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-cosys-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-cosys-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-cosys-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-cosys-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-email-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-email-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-email-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-s3-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-s3-integration-client-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-s3-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-s3-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-verification-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-verification-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-libs -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-json-serialization-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>example-json-serialization</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-spring-cloudstream-utils-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>example-spring-cloudstream-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-camunda-prometheus-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-camunda-prometheus-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Digiwf-process -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-process-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Digiwf-schema-registry -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-schema-registry-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-schema-registry-client-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-schema-registry-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Digiwf-task -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-taskana-connector-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <title>DigiWF</title>
+                            <footer>Code Coverage Report for DigiWF ${project.version}</footer>
+<!--                            <includes>-->
+<!--                                &lt;!&ndash; Analyze class files only to exclude shaded agent JAR from report &ndash;&gt;-->
+<!--                                <include>**/*.class</include>-->
+<!--                            </includes>-->
+                            <outputDirectory>${project.build.directory}/coverage</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
