@@ -155,11 +155,5 @@ public class HumanTaskServiceTest {
     tests for getAssignedGroupTasks
      */
 
-    @Test()
-    public void shouldCallMethod() {
-        QueryMocks.mockTaskQuery(this.taskService).singleResult(task);
-//        humanTaskService.cancelTask("taskId", "userID");
-//        when(task.getId()).thenReturn("penis");
-//        assertEquals(1, 1);
-    }
+
 }

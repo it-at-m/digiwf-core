@@ -7,7 +7,7 @@
       "name" : "DigiWF",
       "email" : "itm.digiwf@muenchen.de"
     },
-    "version" : "0.34.0-SNAPSHOT"
+    "version" : "0.1.0"
   },
   "externalDocs" : {
     "description" : "Externe Dokumentation auf unserer Wilma-Seite",
@@ -77,16 +77,21 @@
       "get" : {
         "tags" : [ "HumanTaskRestController" ],
         "operationId" : "getTasks",
+        "parameters" : [ {
+          "name" : "pageable",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pageable"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/HumanTaskTO"
-                  }
+                  "$ref" : "#/components/schemas/PageHumanTaskTO"
                 }
               }
             }
@@ -891,35 +896,6 @@
         }
       }
     },
-    "/rest/user/groups/{id}" : {
-      "get" : {
-        "tags" : [ "UserRestController" ],
-        "operationId" : "getUserGroups",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/rest/task/{id}" : {
       "get" : {
         "tags" : [ "HumanTaskRestController" ],
@@ -950,16 +926,21 @@
       "get" : {
         "tags" : [ "HumanTaskRestController" ],
         "operationId" : "getOpenGroupTasks",
+        "parameters" : [ {
+          "name" : "pageable",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pageable"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/HumanTaskTO"
-                  }
+                  "$ref" : "#/components/schemas/PageHumanTaskTO"
                 }
               }
             }
@@ -971,16 +952,21 @@
       "get" : {
         "tags" : [ "HumanTaskRestController" ],
         "operationId" : "getAssignedGroupTasks",
+        "parameters" : [ {
+          "name" : "pageable",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pageable"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/HumanTaskTO"
-                  }
+                  "$ref" : "#/components/schemas/PageHumanTaskTO"
                 }
               }
             }
@@ -1361,49 +1347,6 @@
         }
       }
     },
-    "/rest/filter/{id}" : {
-      "get" : {
-        "tags" : [ "FilterRestController" ],
-        "operationId" : "getFilter",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/FilterTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "FilterRestController" ],
-        "operationId" : "delete",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
     "/rest/document/task/{id}" : {
       "get" : {
         "tags" : [ "DocumentRestController" ],
@@ -1426,6 +1369,25 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/rest/filter/{id}" : {
+      "delete" : {
+        "tags" : [ "FilterRestController" ],
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           }
         }
       }
@@ -1934,6 +1896,27 @@
           }
         }
       },
+      "Pageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
       "HumanTaskTO" : {
         "type" : "object",
         "properties" : {
@@ -1961,6 +1944,92 @@
           "creationTime" : {
             "type" : "string",
             "format" : "date-time"
+          }
+        }
+      },
+      "PageHumanTaskTO" : {
+        "type" : "object",
+        "properties" : {
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/HumanTaskTO"
+            }
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "PageableObject" : {
+        "type" : "object",
+        "properties" : {
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paged" : {
+            "type" : "boolean"
+          },
+          "unpaged" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Sort" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "sorted" : {
+            "type" : "boolean"
+          },
+          "unsorted" : {
+            "type" : "boolean"
           }
         }
       },

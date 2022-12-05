@@ -2,7 +2,9 @@ package io.muenchendigital.digiwf.humantask.domain.model;
 
 import lombok.*;
 
+import javax.annotation.Nullable;
 import java.util.Date;
+
 // FIXME is javadoc really necessary?
 @Getter
 @Builder
@@ -15,4 +17,5 @@ public class ActRuTask {
     private String name;
     private Date createdAt;
     private Date followUpDate;
+    private TaskInfo taskInfo;
 }

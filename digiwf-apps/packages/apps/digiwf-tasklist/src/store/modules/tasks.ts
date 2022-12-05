@@ -69,6 +69,8 @@ export default {
   },
   actions: {
     async getTasks(context: ActionContext<TasksState, RootState>, forceRefresh: boolean): Promise<void> {
+      const  page: number = 0;
+      const size: number = 20;
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
@@ -78,9 +80,9 @@ export default {
 
       try {
 
-        const res = await HumanTaskRestControllerApiFactory(cfg).getTasks();
-
-        context.commit('setTasks', res.data);
+        const res = await HumanTaskRestControllerApiFactory(cfg).getTasks({page, size});
+        console.log("res.data.content: ", res.data.content)
+        context.commit('setTasks', res.data.content);
         context.commit('setLastFetch');
       } catch (err) {
         FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.");

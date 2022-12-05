@@ -44,9 +44,9 @@ export default {
       // const tasks = await TaskService.getOpenGroupTasks();
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       try {
-        const res = await HumanTaskRestControllerApiFactory(cfg).getOpenGroupTasks();
+        const res = await HumanTaskRestControllerApiFactory(cfg).getOpenGroupTasks({}); // FIXME add pagination logic
         context.commit('setLastFetch', new Date().getTime());
-        context.commit('setTasks', res.data);
+        context.commit('setTasks', res.data.content);
       } catch (err) {
         FetchUtils.defaultCatchHandler(err, "Die offenen Gruppenaufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut");
       }

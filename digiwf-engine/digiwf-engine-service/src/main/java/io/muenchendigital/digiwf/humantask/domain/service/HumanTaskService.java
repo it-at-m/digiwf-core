@@ -109,27 +109,12 @@ public class HumanTaskService {
      * Returns the assigned tasks for the given userId
      * In case of a missing task info there is an incomplete page content. The number of total items are the number of ActRuTask items.
      *
-     * @param userId Id of the user
+     * @param userId   Id of the user
      * @param pageable object for pagination
      * @return The tasks
      */
     public Page<HumanTask> getTasksForUser(final String userId, final Pageable pageable) {
-        // FIXME: find an better solution to merge database queries
-        val actTasksPage = this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, pageable);
-
-        val actTasks = actTasksPage.getContent();
-        val taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(actTasks.stream().map(ActRuTask::getId).collect(Collectors.toList()));
-
-        val humanTasks = actTasks.stream().map(actTask -> {
-                    val taskInfo = taskInfos.get(actTask.getId());
-                    if (taskInfo == null) {
-                        log.warn(String.format("There is no TaskInfo entry for id %s", actTask.getId()));
-                        return null;
-                    }
-                    return this.humanTaskMapper.map2Model(actTask, taskInfo);
-                }
-        ).filter(Objects::nonNull).collect(Collectors.toList());
-        return new PageImpl<>(humanTasks, actTasksPage.getPageable(), actTasksPage.getTotalElements());
+        return this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -141,9 +126,7 @@ public class HumanTaskService {
      */
     public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getOpenGroupTasks: user {}", userId);
-        val groupTasks = this.actRuTaskService.getUnassignedGroupTasks(userId, groups, pageable);
-        val humanTasks = this.getHumanTasksFromActRuTasks(groupTasks.getContent());
-        return new PageImpl<>(humanTasks, pageable, groupTasks.getTotalElements());
+        return this.actRuTaskService.getUnassignedGroupTasks(userId, groups, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -155,9 +138,7 @@ public class HumanTaskService {
      */
     public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
         log.debug("getAssignedGroupTasks: user {}", userId);
-        val groupTasks = this.actRuTaskService.getAssignedGroupTasks(userId, groups, pageable);
-        val humanTasks = this.getHumanTasksFromActRuTasks(groupTasks.getContent());
-        return new PageImpl<>(humanTasks, pageable, groupTasks.getTotalElements());
+        return this.actRuTaskService.getAssignedGroupTasks(userId, groups, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -295,36 +276,17 @@ public class HumanTaskService {
 
     //--------------------------------------------------------------- helper methods ---------------------------------------------------------------//
 
-    private List<HumanTask> getHumanTasks(final List<String> taskIds) {
-        log.debug("Found {} tasks", taskIds.size());
-
-        if (taskIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        final List<ActRuTask> actTasks = this.actRuTaskService.getActRuTasksIds(taskIds);
-
-        return this.getHumanTasksFromActRuTasks(actTasks);
-    }
-    private List<HumanTask> getHumanTasksFromActRuTasks(final List<ActRuTask> actRuTasks) {
-        log.debug("Found {} tasks", actRuTasks.size());
-
-        if (actRuTasks.isEmpty()) {
-            return Collections.emptyList();
-        }
-        final Map<String, TaskInfo> taskInfos = this.taskInfoService.getTaskInfoMapByTaskIds(actRuTasks.stream().map(ActRuTask::getId).collect(Collectors.toList()));
-
-        // If a camunda task does not exist in the dwf task info table log an error
-        // See: https://wiki.muenchen.de/betriebshandbuch/index.php/DigiWF#Backend -> Task is missing in TaskInfo database table
-        actRuTasks.stream()
-                .filter(actTask -> !taskInfos.containsKey(actTask.getId()))
-                .forEach(actTask -> log.error("Task with id {} is missing in TaskInfo database table", actTask.getId()));
-
-        return actRuTasks.stream()
-                .filter(actTask -> taskInfos.containsKey(actTask.getId()))
-                .map(task -> this.humanTaskMapper.map2Model(task, taskInfos.get(task.getId())))
-                .collect(Collectors.toList());
-    }
+//
+//    private List<HumanTask> getHumanTasksFromActRuTasks(final List<ActRuTask> actRuTasks) {
+//        log.debug("Found {} tasks", actRuTasks.size());
+//
+//        if (actRuTasks.isEmpty()) {
+//            return Collections.emptyList();
+//        }
+//        return actRuTasks.stream()
+//                .map(this.humanTaskMapper::map2Model)
+//                .collect(Collectors.toList());
+//    }
 
     private <T> List<T> getSublistOfTasks(final List<T> allTasks, final Integer pageIndex, final Integer pageSize) {
         val startIndex = Math.min(pageIndex * pageSize, allTasks.size());

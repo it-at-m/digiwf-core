@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.humantask.infrastructure.entity.camunda;
 
+import io.muenchendigital.digiwf.humantask.infrastructure.entity.TaskInfoEntity;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 
@@ -30,9 +31,13 @@ public class ActRuTaskEntity {
 
     @Column(name = "create_time_", nullable = false)
     private Date createdAt;
-    @Column(name = "follow_up_data_")
+    @Column(name = "follow_up_date_")
     private Date followUpDate;
 
     @OneToMany(mappedBy = "actRuTaskEntity")
     private List<ActRuIdentityLinkEntity> actRuIdentities;
+
+    @OneToOne
+    @JoinColumn(name = "id_", referencedColumnName = "id_")
+    private TaskInfoEntity taskInfoEntity;
 }

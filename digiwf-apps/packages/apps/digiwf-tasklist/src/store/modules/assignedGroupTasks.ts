@@ -44,11 +44,11 @@ export default {
       // const tasks = await TaskService.getAssignedGroupTasks();
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       try {
-        const res = await HumanTaskRestControllerApiFactory(cfg).getAssignedGroupTasks();
+        const res = await HumanTaskRestControllerApiFactory(cfg).getAssignedGroupTasks({}); // FIXME add paginatin logic
         context.commit('setLastFetch', new Date().getTime());
-        context.commit('setTasks', res.data);
+        context.commit('setTasks', res.data.content);
       } catch (err) {
-        FetchUtils.defaultResponseHandler(err, "Die Gruppenaufgaben in Bearbeitung konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
+        FetchUtils.defaultCatchHandler(err, "Die Gruppenaufgaben in Bearbeitung konnten nicht geladen werden. Bitte versuchen Sie es erneut."); // FIXME: correct way`?
       }
 
     }

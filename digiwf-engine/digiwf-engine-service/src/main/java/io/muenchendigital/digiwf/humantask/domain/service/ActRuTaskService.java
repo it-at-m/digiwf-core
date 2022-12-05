@@ -22,13 +22,10 @@ public class ActRuTaskService {
     private final ActRuTaskRepository actRuTaskRepository;
     private final ActRuTaskMapper actRuTaskMapper;
 
-public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
-        val result = this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable);
-        return new PageImpl<ActRuTask>(result.getContent().stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList()), result.getPageable(), result.getTotalElements());
-    }
+    private final TaskInfoService taskInfoService;
 
-    public List<ActRuTask> getActRuTasksIds(final List<String> taskIds) {
-        return this.actRuTaskRepository.findAllById(taskIds).stream().map(actRuTaskMapper::map2Model).collect(Collectors.toList());
+    public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
+        return this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable).map(actRuTaskMapper::map2Model);
     }
 
     public Page<ActRuTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {

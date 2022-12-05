@@ -4,6 +4,7 @@ import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
+import lombok.val;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Component;
 
@@ -17,17 +18,17 @@ import java.util.Optional;
 public class HumanTaskMapper {
 
     public HumanTask map2Model(
-            final ActRuTask actRuTask,
-            final TaskInfo taskInfoEntity) {
+            final ActRuTask actRuTask) {
+        val taskInfo = Optional.ofNullable(actRuTask.getTaskInfo());
         return HumanTask.builder()
                 .id(actRuTask.getId())
                 .assignee(actRuTask.getAssignee())
-                .assigneeFormatted(taskInfoEntity.getAssignee())
+                .assigneeFormatted(taskInfo.isEmpty() ? null : taskInfo.get().getAssignee())
                 .creationTime(actRuTask.getCreatedAt())
                 .name(actRuTask.getName())
-                .description(taskInfoEntity.getDescription())
+                .description(taskInfo.isEmpty() ? null : taskInfo.get().getDescription())
                 .followUpDate(this.mapDate(actRuTask.getFollowUpDate()))
-                .processName(taskInfoEntity.getDefinitionName() != null ? taskInfoEntity.getDefinitionName() : "")
+                .processName((taskInfo.isEmpty() || taskInfo.get().getDefinitionName() == null) ? "" : taskInfo.get().getDefinitionName())
                 .build();
     }
 
