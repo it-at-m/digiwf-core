@@ -1,53 +1,117 @@
-# Konzept zur Fehlerbehandlung
+# Konzept zur Fehlerbehandlung in Integrationsbausteinen
 
 ## Zielgruppe
 
-* Integrationsentwickler
+* Integrationsentwickler*innen
 * Prozessmodelierer*innen
 
-## Integrations
 
-![Ablauf](ErrorHandlingIntegrations.drawio.png)
+## Fehlerarten
 
-* Unterschied BPMN-Error u. Incident
-  * wiederholbar 
+Mögliche Fehler im Kafka-Umfeld können sein
+* Fehler außerhalb der Message Consumers
+  * Deserialisierung: Eine empfangene Nachricht hat nicht das erwartete Format und kann somit nicht in die Zielklasse konvertiert werden.
+  * Connection-Timeout zu einem Zielsystem
+  * Ziel-Topic ist nicht vorhanden
+  * Expiration der Message
+* Fehler innerhalb der Message Consumers
+  * Exceptions bei der Verarbeitung
 
-* Integration: 
-  * header:type = name of consumer-bean
-  * payload:messageName -> bpmn message event  
-  * Incident: cloudstream-utils:IncidentService (type incident)
-  * configure createIncident-Function  
-    ...
-  * IncidentConsumer
-  * IncidentServiceImpl: getEventSubscriptions("incident?")  
-  * IncidentType("integrationError  
-  * executionApi.createIncident  
-  
-  * Konfiguration: 
-    * createIncident-Function
-    * createIncident-destination = connector-Topic
 
-Retries
-By default, all messages are processed three times, at which point they are processed successfully, sent to a dead letter topic if configured, or just dropped.
+## Fehlerhandling Kontext 
+
+![Fehlersequenz](ErrorHandlingIntegrations.drawio.png)
+
+
+## Fehlerhandling der Integration
+
+Integrationsbausteine funktionieren in DigiWF über den Mechanismus der External-Tasks. Der Connector als Client ist dafür verantwortlich, 
+die Tasks aus der Queue auszulesen und weiterzuverteilen. Tritt bei diesem Publishing bereits ein Fehler auf, 
+z.B. weil das angegebene Ziel-Topic nicht verfügbar ist, TODO.
+
+Ist das Publishing erfolgreich, übernimmt der Integration-Service mit seinem Message Consumer. 
+
+Für den Fall, dass noch außerhalb des Message-Consumers beim Deserialisieren der Message ein Fehler auftritt, ist ein _ErrorHandlingDeserializer_ registriert,
+der mit den Header-Informationen der Message einen Incident erstellt (Näheres dazu siehe unten).
+
+Tritt bei der Verarbeitung einer Message generell ein Fehler auf, kommt zuerst ein Retry-Mechanismus zum Einsatz (siehe Retry).
+
+Bei Fehlern in anderen Verarbeitungsschritten innerhalb der unterstützenden Frameworks wird die Message in die 
+für den Consumer konfigurierte DLQ verschoben (siehe DLQ). 
+
+Kommt es zum Fehlerfall innerhalb des Message-Consumers selbst (z.B. auch beim Aufruf eines externen Systems), sollte ein try-catch-Block erwartete sowie unerwartete Exceptions auf oberster Ebene fangen. 
+Ist das nicht gegeben, führt jede Exception zum Anstieg der Nachrichtenanzahl in der DLQ. 
+Tritt ein Fehler auf, muss der Service entscheiden, ob es sich um einen fachlichen oder technischen Fehler handelt, 
+bzw. ob bei der Prozessinstanz ein BPMN-Error oder ein Incident ausgelöst werden soll. 
+Zum Unterschied zwischen BPMN-Error und Incident 
+siehe [business-error-vs-technical-error](https://docs.camunda.io/docs/components/modeler/bpmn/error-events/#business-error-vs-technical-error).
+
+Um die Fehlerbehandlung für Integration-Service so einfach wie möglich zu gestalten, ist in den cloudstream-utils ein IncidentService und ein BpmnErrorService 
+als Bean konfiguriert, den man sich zum Aufruf injecten kann.
+Je nach Entscheidung, um welche Art von Fehler es sich handelt, wird der entspr. Service für die weitere Verarbeitung aufgerufen.
+Nach der Datenaufbereitung sendet der Service eine Message entweder in das BPMN-Error-Topic oder das Incident-Topic des Connectors
+(siehe BPNN-Error-Verarbeitung oder Incident-Verarbeitung TODO).
+
+
+## Retry
+
+Für alle Message-Consumer ist ein Retry-Handler konfiguriert, der bei Fehlern die Verarbeitung wiederholt anstößt, um kurzfristig bestehende Probleme 
+wie z.B. Netzwerkverbindungsprobleme zu umgehen.
+Standardmäßig werden alle Nachrichten dreimal verarbeitet, bevor sie an die Dead-Letter-Queue (DLQ) gesendet werden.
+Der Standard kann aber auch umkonfiguriert werden:
+```
 spring.cloud.stream.bindings.<binding-name>.consumer.maxAttempts
-
-transient errors: heilbar
-
-enableExceptionsAfterUnhandledBpmnError
-
-# kein retry bei nicht transienten exceptions
-bindings:
-planeEventProcessor-in-0:
-destination: plane-events-v1
-group: flight-api
-consumer:
-retryable-exceptions: io.henriquels25.cloudstream.demo.flightapi.plane.infra.stream.NoFlightFoundException: false
-
-Deprecated:
-[comment]: <> (    * message event "incident"  wird korreliert)
-
-[comment]: <> (    * createIncidentDelegate  )
+```
 
 
-  * BpmnError: BpmnErrorService aus cloudstream-utils
+## Incident-Verarbeitung
 
+Im Connector empfängt ein Consumer Nachrichten aus dem Incident-Topic und erstellt einen Incident für die entspr. Prozessinstanz.
+Dazu ermittelt er aus der Engine alle Activities, die das Event aus dem Message-Header _messageName_ abonniert haben (Event-Subscription) 
+und erstellt auf dieser Activity einen Incident mit dem Typ _integrationError_.
+Beides erfolgt über die Rest-API der Engine.
+
+Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in die DLQ. 
+
+
+## BPMN-Error-Verarbeitung
+
+Im Connector empfängt ein Consumer Nachrichten aus dem BPMN-Error-Topic und korreliert einen BPMN-Error mit der Prozessinstanz.
+Dies geschieht über die Rest-API der Engine. 
+Der von dem BPMN-Hauptprozess eingebundene Integrationsbaustein enthält das Streaming-Template, welches über ein eigenes, konfigurierbares Receive-Event
+für BPMN Errors verfügt. Korreliert man eine Message mit diesem Event, kann im nächsten Schritt des Streaming-Templates die verwendete Delegate-Klasse 
+einen BPMN-Error mit dynamischem _errorCode_ und _errorMessage_ erzeugen.
+Eine dynamische Erzeugung ohne Delegate allein mit BPMN-Mitteln ist nicht möglich.
+
+Die Engine ist über die Einstellung
+```
+enableExceptionsAfterUnhandledBpmnError=true
+```
+so konfiguriert, dass BPMN-Errors, für die kein Catch-Event definiert ist, automatisch einen Incident in der Prozessinstanz auslösen.
+Damit ist gesichert, dass bei einem Fehler die Instanz nicht unkontrolliert weiterläuft. 
+
+Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in die DLQ.
+
+## DLQ
+
+Alle Nachrichten in den DLQs müssen manuell analysiert werden, um festzustellen, um welches Problem es sich handelt und wie man dies heilen kann 
+bzw. ob es auf Prozessinstanzseite einen Incident erfordert. Informationen dazu bieten zusätzliche Headereinträge in der Message.
+Ist die Problembehebung durch Anpassung einer fehlerhaften Konfiguration oder durch das Verfügbarmachen einer Netzwerkressource erfolgt, kann die Originalnachricht wieder 
+in das entspr. Eingangs-Topic verschoben werden und somit der regulären Verarbeitung zugeführt werden.
+Auf diese Weise nicht behebbare Fehler müssen zu einem Incident in der Prozessinstanz führen.
+
+Um nicht verarbeitbare Messages schnell und zuverlässig erkennen zu können, ist die DLQ mit einem Monitoring und Alerting zu überwachen.
+
+Einen eigenen Listener für die DLQ zu definieren, um automatisiert Incidents für betroffenen Prozessinstanzen zu erstellen ist kritisch, 
+da bei unerwarteten Fehlern in der Verarbeitung die Nachricht zurück in die DLQ geschrieben wird und somit die Gefahr einer Endlosschleife besteht.  
+
+
+## Konfiguration
+
+Um den IncidentService und den BpmnErrorService aus den streaming-utils verwenden zu können, sind für beide jeweils die Producer-Functions 
+und die Zieltopics zu konfigurieren:
+```
+spring.cloud.function.definition=...;sendIncident;sendBpmnError;..
+spring.cloud.stream.bindings.sendIncident-out-0.destination=<CONNECTOR-INCIDENT-TOPIC>
+spring.cloud.stream.bindings.sendBpmnError-out-0.destination=<CONNECTOR-BPMNERROR-TOPIC>
+```
