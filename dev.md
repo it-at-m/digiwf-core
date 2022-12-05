@@ -35,10 +35,19 @@ flowchart LR
 
 ```mermaid
 flowchart LR
+    subgraph digiwf-tasklist
+    frontend
+    end
+    
     digiwf-gateway <--> digiwf-tasklist
-    digiwf-gateway <--> digiwf-connector
+    
+    digiwf-gateway <--> digiwf-process
+    digiwf-gateway <--> digiwf-task
     
     kafka[(Kafka)]
+  
+    digiwf-task <--> kafka
+    digiwf-process <--> kafka
   
     %% connector
     digiwf-connector <--> camunda
@@ -59,15 +68,12 @@ flowchart LR
     kafka <--> digiwf-s3-integration
     kafka <--> digiwf-verification-integration
     %% sync connection to s3-integration
-    digiwf-connector --synchronous connection--> digiwf-s3-integration
+    digiwf-task --synchronous connection--> digiwf-s3-integration
     
     %% future tbd.
     subgraph digiwf-task
     polyflow
     end
-    
-    digiwf-task <--> kafka
-    digiwf-process <--> kafka
 ```
 
 ## Local Setup
