@@ -13,9 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -59,11 +56,6 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
                 // allow access to swagger in non-prod environments
                 .antMatchers(this.swaggerWhitelist).permitAll()
                 .antMatchers("/**").authenticated();
-    }
-
-    @Bean
-    public OAuth2RestTemplate oauth2RestTemplate(final OAuth2ProtectedResourceDetails resource, final OAuth2ClientContext context) {
-        return new OAuth2RestTemplate(resource, context);
     }
 
     @Bean

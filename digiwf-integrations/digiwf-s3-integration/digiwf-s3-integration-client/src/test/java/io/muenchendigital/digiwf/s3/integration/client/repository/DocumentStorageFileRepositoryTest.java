@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 
@@ -55,7 +56,7 @@ class DocumentStorageFileRepositoryTest {
         final String presignedUrl = "the_presignedUrl";
 
         Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
-        Mockito.when(this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes, "url")).thenReturn(presignedUrl);
+        Mockito.when(this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes, "url")).thenReturn(Mono.just(presignedUrl));
         Mockito.when(this.s3FileTransferRepository.getFile(presignedUrl)).thenReturn(new byte[]{});
         this.documentStorageFileRepository.getFile(pathToFile, expireInMinutes);
 
@@ -66,7 +67,7 @@ class DocumentStorageFileRepositoryTest {
     @Test
     void saveFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         final String pathToFile = "folder/file.txt";
-        final byte[] file = new byte[]{ 1, 2, 3, 4, 5, 6, 7 };
+        final byte[] file = new byte[]{1, 2, 3, 4, 5, 6, 7};
         final int expireInMinutes = 10;
         final LocalDate endOfLife = LocalDate.now();
         final String presignedUrl = "the_presignedUrl";
@@ -84,7 +85,7 @@ class DocumentStorageFileRepositoryTest {
     @Test
     void updateFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         final String pathToFile = "folder/file.txt";
-        final byte[] file = new byte[]{ 1, 2, 3, 4, 5, 6, 7 };
+        final byte[] file = new byte[]{1, 2, 3, 4, 5, 6, 7};
         final int expireInMinutes = 10;
         final LocalDate endOfLife = LocalDate.now();
         final String presignedUrl = "the_presignedUrl";

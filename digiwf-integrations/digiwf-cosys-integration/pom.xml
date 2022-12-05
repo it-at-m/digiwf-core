@@ -17,6 +17,7 @@
     </parent>
 
     <modules>
+        <module>digiwf-cosys-integration-client</module>
         <module>digiwf-cosys-integration-core</module>
         <module>digiwf-cosys-integration-starter</module>
         <module>digiwf-cosys-integration-example</module>

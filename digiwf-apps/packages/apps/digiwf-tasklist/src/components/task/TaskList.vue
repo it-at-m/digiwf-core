@@ -25,22 +25,22 @@
               v-if="isFilterPersistent"
               icon
               aria-label="Filter speichern"
-              class="v-icon yellow--text"
+              class="v-icon"
               @click="deletePersistentFilter()"
             >
-              <v-icon color="yellow"> mdi-star </v-icon>
+              <v-icon color="primary"> mdi-star</v-icon>
             </v-btn>
             <v-btn
-              v-else
+              v-else-if="syncedFilter"
               icon
               aria-label="Filter löschen"
-              class="v-icon yellow--text"
+              class="v-icon"
               @click="savePersistentFilter()"
             >
-              <v-icon color="yellow"> mdi-star-outline </v-icon>
+              <v-icon color="primary"> mdi-star-outline</v-icon>
             </v-btn>
           </div>
-          <v-icon class="ml-2"> mdi-magnify </v-icon>
+          <v-icon class="ml-2"> mdi-magnify</v-icon>
         </template>
       </v-combobox>
       <div class="d-flex align-center">
@@ -59,18 +59,18 @@
               color="primary"
               indeterminate
             />
-            <v-icon v-else> mdi-refresh </v-icon>
+            <v-icon v-else> mdi-refresh</v-icon>
           </div>
           Aktualisieren
         </v-btn>
       </div>
     </v-flex>
     <v-flex v-if="errorMessage">
-      <AppToast :message="errorMessage" type="error" />
+      <AppToast :message="errorMessage" type="error"/>
     </v-flex>
     <v-flex class="mt-10">
       <v-flex class="tableHeader">
-        <v-flex class="headerTitel"> Aufgabe </v-flex>
+        <v-flex class="headerTitel"> Aufgabe</v-flex>
         <v-flex
           v-if="showAssignee"
           class="headerTitel"
@@ -78,12 +78,12 @@
         >
           Bearbeiter*in
         </v-flex>
-        <v-flex class="headerTitel" style="max-width: 198px"> Vorgang </v-flex>
+        <v-flex class="headerTitel" style="max-width: 198px"> Vorgang</v-flex>
         <v-flex class="headerTitel" style="max-width: 80px">
           Erstellt am
         </v-flex>
       </v-flex>
-      <hr style="margin: 5px 0 0 0" />
+      <hr style="margin: 5px 0 0 0"/>
     </v-flex>
     <app-pageable-list
       :items="filteredTasks"
@@ -92,7 +92,7 @@
     >
       <template #default="props">
         <template v-for="item in props.items">
-          <slot :item="{ ...item, searchInput: syncedFilter || '' }" />
+          <slot :item="{ ...item, searchInput: syncedFilter || '' }"/>
         </template>
       </template>
     </app-pageable-list>
@@ -117,26 +117,25 @@
 </style>
 
 <script lang="ts">
-import {
-  Component,
-  Emit,
-  Prop,
-  PropSync,
-  Vue,
-  Watch
-} from "vue-property-decorator";
+import {Component, Emit, Prop, PropSync, Vue, Watch} from "vue-property-decorator";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
-import { HumanTaskTO, FilterTO, SaveFilterTO, FilterRestControllerApiFactory, FetchUtils} from "@muenchen/digiwf-engine-api-internal";
+import {
+  FetchUtils,
+  FilterRestControllerApiFactory,
+  FilterTO,
+  HumanTaskTO,
+  SaveFilterTO
+} from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../../api/ApiConfig";
 
 @Component({
-  components: { AppPageableList, TaskItem, AppToast, AppViewLayout },
+  components: {AppPageableList, TaskItem, AppToast, AppViewLayout},
 })
 export default class TaskList extends Vue {
-  @PropSync("filter", { type: String })
+  @PropSync("filter", {type: String})
   syncedFilter!: string;
 
   @Prop()

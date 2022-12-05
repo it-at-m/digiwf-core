@@ -1,7 +1,7 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="tasks"
+      :tasks="tasks.value"
       view-name="Offene Gruppenaufgaben"
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
       :is-loading="isLoading"
@@ -29,70 +29,82 @@
 </style>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator';
-import AppToast from "@/components/UI/AppToast.vue";
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import TaskList from "@/components/task/TaskList.vue";
-import GroupTaskItem from "@/components/task/GroupTaskItem.vue";
-import router from "../router";
-import {FetchUtils, HumanTaskRestControllerApiFactory, HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
+import {FetchUtils, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {ApiConfig} from "../api/ApiConfig";
+import {defineComponent, onMounted, reactive, ref} from "vue";
+import {useStore} from "../hooks/store";
+import {useRoute, useRouter} from "vue-router/composables";
 
-@Component({
-  components: {GroupTaskItem, TaskList, AppToast, AppViewLayout}
-})
-export default class OpenGroupTasks extends Vue {
 
-  tasks: HumanTaskTO[] = [];
-  isLoading = false;
-  filter = "";
-  errorMessage = "";
+export default defineComponent({
+  setup() {
+    const tasks = reactive({value: []});
+    const isLoading = ref<boolean>(false);
+    const errorMessage = ref<string>("");
+    const filter = ref<string>("");
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
 
-  created(): void {
-    this.loadTasks();
-    this.loadFilter();
-  }
 
-  loadFilter(): void {
-    this.filter = this.$store.getters["tasks/openGroupTasksFilter"];
-  }
-
-  async assignTask(id: string): Promise<void> {
-    try {
-      //await TaskService.assignTask(id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).assignTask(id);
-
-      this.$store.dispatch('tasks/getTasks', true);
-      this.$store.dispatch('openGroupTasks/getTasks', true);
-      this.errorMessage = "";
-      router.push({path: '/task/' + id});
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht zugewiesen werden.';
+    const loadFilter = (): void => {
+      filter.value = route.query.filter as string ?? "";
+      if (!filter.value) {
+        filter.value = store.getters["tasks/openGroupTasksFilter"];
+        router.replace({query: {filter: filter.value}});
+      }
     }
-  }
 
-  async loadTasks(refresh = false): Promise<void> {
-    this.tasks = this.$store.getters['openGroupTasks/tasks'];
-    this.isLoading = true;
-    const startTime = new Date().getTime();
-    try {
-      await this.$store.dispatch('openGroupTasks/getTasks', refresh);
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = error.message;
+    const assignTask = async (id: string): Promise<void> => {
+      try {
+        //await TaskService.assignTask(id);
+        const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+        await HumanTaskRestControllerApiFactory(cfg).assignTask(id);
+
+        store.dispatch('tasks/getTasks', true);
+        store.dispatch('openGroupTasks/getTasks', true);
+        errorMessage.value = "";
+        router.push({path: '/task/' + id});
+      } catch (error) {
+        errorMessage.value = 'Die Aufgabe konnte nicht zugewiesen werden.';
+      }
     }
-    setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
 
-  onFilterChanged(filter: string) {
-    this.$store.commit('tasks/setOpenGroupTasksFilter', filter);
-  }
+    const loadTasks = async (refresh = false): Promise<void> => {
+      tasks.value = store.getters['openGroupTasks/tasks'];
+      isLoading.value = true;
+      const startTime = new Date().getTime();
+      try {
+        await store.dispatch('openGroupTasks/getTasks', refresh);
+        tasks.value = store.getters['openGroupTasks/tasks'];
+        errorMessage.value = "";
+      } catch (error) {
+        errorMessage.value = error.message;
+      }
+      setTimeout(() => isLoading.value = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+    }
 
-  @Watch('$store.state.openGroupTasks.tasks')
-  setTasks(): void {
-    this.tasks = this.$store.getters['openGroupTasks/tasks'];
-  }
+    const onFilterChanged = (filter: string) => {
+      router.replace({query: {filter: filter}});
+      store.commit('tasks/setOpenGroupTasksFilter', filter);
+    }
 
-}
+    onMounted(() => {
+      loadTasks();
+      loadFilter();
+    });
+
+    return {
+      isLoading,
+      errorMessage,
+      tasks,
+      filter,
+      loadFilter,
+      loadTasks,
+      assignTask,
+      onFilterChanged
+    }
+
+  }
+});
 </script>

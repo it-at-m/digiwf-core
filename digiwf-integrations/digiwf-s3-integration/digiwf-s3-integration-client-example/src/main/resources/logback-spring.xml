@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!-- The possibly existing properties concerning the "logging.level" in the application.yml
      have priority over the log level maintained in this file.  -->
 <configuration>
@@ -14,7 +12,8 @@
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>
-                    %date{yyyy.MM.dd HH:mm:ss.SSS} | %highlight(%level) | [%thread] | %cyan(%logger{0}) | [%file : %line] - %msg%n
+                    %date{yyyy.MM.dd HH:mm:ss.SSS} | %highlight(%level) | [%thread] | %cyan(%logger{0}) | [%file :
+                    %line] - %msg%n
                 </pattern>
             </encoder>
         </appender>

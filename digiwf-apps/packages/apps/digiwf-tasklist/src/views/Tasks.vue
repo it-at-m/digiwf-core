@@ -1,7 +1,7 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="tasks"
+      :tasks="tasks.value"
       view-name="Meine Aufgaben"
       :is-loading="isLoading"
       :error-message="errorMessage"
@@ -35,78 +35,93 @@
 .followUp {
   margin: 0;
 }
-
 </style>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator';
 import {HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
+import {defineComponent, onMounted, reactive, ref, watch} from "vue";
+import {useStore} from "../hooks/store";
+import {useRoute, useRouter} from "vue-router/composables";
 
-@Component({
-  components: {TaskItem, TaskList, AppToast, AppViewLayout}
-})
-export default class Tasks extends Vue {
+export default defineComponent({
+  props: [],
+  components: {TaskItem, TaskList, AppToast, AppViewLayout},
+  setup() {
 
-  tasks: HumanTaskTO[] = [];
-  isLoading = false;
-  filter = "";
-  errorMessage = "";
-  followUp = false;
+    const isLoading = ref<boolean>(false);
+    const errorMessage = ref<string>("");
+    const filter = ref<string>("");
+    const followUp = ref<boolean>(false);
+    const tasks = reactive({value: []});
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
 
-  mounted(): void {
-    this.loadTasks(false);
-    this.followUp = this.$store.getters['tasks/followUp'];
-  }
+    const reloadTasks = (): void => {
+      let loadedTasks = store.getters['tasks/tasks'];
+      const followUp = store.getters['tasks/followUp'];
 
-  created(): void {
-    this.loadFilter();
-  }
-
-  loadFilter(): void {
-    this.filter = this.$store.getters["tasks/tasksFilter"];
-  }
-
-  async loadTasks(refresh = false): Promise<void> {
-    this.reloadTasks();
-    this.isLoading = true;
-    const startTime = new Date().getTime();
-    try {
-      await this.$store.dispatch('tasks/getTasks', refresh);
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = error.message;
+      if (!followUp) {
+        loadedTasks = loadedTasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
+      }
+      tasks.value = loadedTasks;
     }
-    setTimeout(() => this.isLoading = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
 
-  @Watch('$store.state.tasks.tasks')
-  setTasks(): void {
-    this.reloadTasks();
-  }
+    const loadTasks = async (refresh = false): Promise<void> => {
+      reloadTasks();
+      isLoading.value = true;
+      const startTime = new Date().getTime();
+      try {
+        await store.dispatch('tasks/getTasks', refresh);
+        reloadTasks();
+        errorMessage.value = "";
+      } catch (error) {
+        errorMessage.value = error.message;
+      }
+      setTimeout(() => isLoading.value = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+    };
 
-  @Watch("followUp")
-  setFollowUp(): void {
-    this.$store.dispatch('tasks/setFollowUp', this.followUp);
-    this.reloadTasks();
-  }
+    const loadFilter = (): void => {
+      filter.value = route.query.filter as string ?? "";
+      if (filter.value) {
+        filter.value = store.getters["tasks/tasksFilter"];
+        router.replace({query: {filter: filter.value}});
+      }
+    };
 
-  reloadTasks(): void {
-    let tasks = this.$store.getters['tasks/tasks'];
-    const followUp = this.$store.getters['tasks/followUp'];
+    const onFilterChanged = (filter: string) => {
+      router.replace({query: {filter: filter}})
+      store.commit('tasks/setTasksFilter', filter);
+    };
 
-    if (!followUp) {
-      tasks = tasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
+    watch(followUp, (followUp) => {
+      store.dispatch('tasks/setFollowUp', followUp);
+      reloadTasks();
+    });
+
+    onMounted(() => {
+      loadTasks(false);
+      loadFilter();
+      followUp.value = store.getters['tasks/followUp'];
+    });
+
+    return {
+      followUp,
+      isLoading,
+      errorMessage,
+      tasks,
+      filter,
+      onFilterChanged,
+      loadFilter,
+      loadTasks,
+      reloadTasks
     }
-    this.tasks = tasks;
-  }
 
-  onFilterChanged(filter: string) {
-    this.$store.commit('tasks/setTasksFilter', filter);
   }
+});
 
-}
 </script>

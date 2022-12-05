@@ -7,7 +7,7 @@ import io.muenchendigital.digiwf.s3.integration.gen.api.FolderApiApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -15,7 +15,7 @@ public class ApiClientFactory {
 
     private final String defaultDocumentStorageUrl;
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     public String getDefaultDocumentStorageUrl() throws PropertyNotSetException {
         if (StringUtils.isNotBlank(this.defaultDocumentStorageUrl)) {
@@ -35,7 +35,7 @@ public class ApiClientFactory {
     }
 
     private ApiClient getApiClientForDocumentStorageUrl(final String documentStorageUrl) {
-        final ApiClient apiClient = new ApiClient(this.restTemplate);
+        final ApiClient apiClient = new ApiClient(this.webClient);
         apiClient.setBasePath(documentStorageUrl);
         return apiClient;
     }

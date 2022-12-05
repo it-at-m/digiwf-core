@@ -12,6 +12,7 @@ import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefini
 import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionDataService;
 import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionService;
 import io.muenchendigital.digiwf.service.definition.domain.service.ServiceStartContextService;
+import io.muenchendigital.digiwf.service.instance.process.properties.S3Properties;
 import io.muenchendigital.digiwf.shared.exception.IllegalResourceAccessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,7 @@ public class ServiceDefinitionFacade {
     private final FormService formService;
     private final org.camunda.bpm.engine.FormService camundaFormService;
     private final ProcessConfigFunctions processConfigFunctions;
+    private final S3Properties s3Properties;
 
     public void startInstance(final String key, final Map<String, Object> variables, final String userId, final List<String> groups) {
         this.startInstance(key, null, null, variables, userId, groups);
@@ -55,10 +57,18 @@ public class ServiceDefinitionFacade {
         final Map<String, Object> serializedVariables;
         serializedVariables = this.serviceDefinitionDataService.serializeVariables(definition, variables);
 
+        // get the s3-integrations topic or use the default one from application properties
+        // and set it as a variable on process start
         this.processConfigFunctions.get("app_file_s3_async_config", definition.getKey())
-                .ifPresent(configValue -> serializedVariables.put(PROCESS_S3_ASYNC_CONFIG, configValue));
+                .ifPresentOrElse(
+                        configValue -> serializedVariables.put(PROCESS_S3_ASYNC_CONFIG, configValue),
+                        () -> serializedVariables.put(PROCESS_S3_ASYNC_CONFIG, this.s3Properties.getTopic())
+                );
         this.processConfigFunctions.get("app_file_s3_sync_config", definition.getKey())
-                .ifPresent(configValue -> serializedVariables.put(PROCESS_S3_SYNC_CONFIG, configValue));
+                .ifPresentOrElse(
+                        configValue -> serializedVariables.put(PROCESS_S3_SYNC_CONFIG, configValue),
+                        () -> serializedVariables.put(PROCESS_S3_SYNC_CONFIG, this.s3Properties.getHttpAPI())
+                );
 
         this.serviceDefinitionService.startInstance(definition, businessKey, serializedVariables, userId, startContext);
         this.serviceStartContextService.deleteStartContext(userId, key);
