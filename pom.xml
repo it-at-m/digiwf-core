@@ -29,6 +29,7 @@
         <springdoc.openapi.webflux.version>1.6.12</springdoc.openapi.webflux.version>
         <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
         <tika.version>1.28.1</tika.version>
+        <jacoco.version>0.8.8</jacoco.version>
     </properties>
 
     <modules>
@@ -86,6 +87,16 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -119,6 +130,7 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
             <!-- Nexus Staging Plugin -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>

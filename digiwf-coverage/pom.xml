@@ -7,10 +7,6 @@
     <name>digiwf-coverage</name>
     <description>Jacoco Code Coverage</description>
 
-    <properties>
-        <jacoco.version>0.8.8</jacoco.version>
-    </properties>
-
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
@@ -224,14 +220,8 @@
                 <version>${jacoco.version}</version>
                 <executions>
                     <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>report-aggregate</id>
-                        <phase>prepare-package</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
