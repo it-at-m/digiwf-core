@@ -1,10 +1,79 @@
 # Development
 
-overview tbd.
+**Current state**
+
+```mermaid
+flowchart LR
+    digiwf-gateway <--> digiwf-tasklist
+    digiwf-gateway <--> digiwf-engine-service
+    
+    digiwf-engine-service <--to be replaced by connector--> kafka[(Kafka)]
+  
+    %% integrations
+    subgraph digiwf-integrations
+    digiwf-alw-integration
+    digiwf-cosys-integration
+    digiwf-email-integration
+    digiwf-s3-integration
+    digiwf-verification-integration
+    end
+    
+    kafka <--> digiwf-alw-integration
+    kafka <--> digiwf-cosys-integration
+    kafka <--> digiwf-email-integration
+    kafka <--> digiwf-s3-integration
+    kafka <--> digiwf-verification-integration
+    %% sync connection to s3-integration
+    digiwf-engine-service --synchronous connection--> digiwf-s3-integration
+    
+    %% connector tbd.
+    digiwf-connector <-.-> digiwf-engine-service
+    digiwf-connector <-.-> kafka
+```
+
+**Future state**
+
+```mermaid
+flowchart LR
+    digiwf-gateway <--> digiwf-tasklist
+    digiwf-gateway <--> digiwf-connector
+    
+    kafka[(Kafka)]
+  
+    %% connector
+    digiwf-connector <--> camunda
+    digiwf-connector <--> kafka
+  
+    %% integrations
+    subgraph digiwf-integrations
+    digiwf-alw-integration
+    digiwf-cosys-integration
+    digiwf-email-integration
+    digiwf-s3-integration
+    digiwf-verification-integration
+    end
+    
+    kafka <--> digiwf-alw-integration
+    kafka <--> digiwf-cosys-integration
+    kafka <--> digiwf-email-integration
+    kafka <--> digiwf-s3-integration
+    kafka <--> digiwf-verification-integration
+    %% sync connection to s3-integration
+    digiwf-connector --synchronous connection--> digiwf-s3-integration
+    
+    %% future tbd.
+    subgraph digiwf-task
+    polyflow
+    end
+    
+    digiwf-task <--> kafka
+    digiwf-process <--> kafka
+```
 
 ## Local Setup
 
-tbd.
+For local development you have to start the digiwf-tasklist (the vue and vuetify based frontend application), the digiwf-engine-service (spring-boot and camunda based backend application) and the digiwf-gateway.
+Additionally, you can start the digiwf-integrations if you need features from any of the integration services.
 
 **Setup a local dev environment**
 
@@ -12,7 +81,7 @@ You can use the docker-compose [stack](stack) to start all the necessary infrast
 
 **Applications and profiles**
 
-To start the application you can use the profiles:
+To start any of the applications you can use the profiles:
 
 * `local` for local development settings
 * `streaming` to enable event streaming to kafka
@@ -21,7 +90,7 @@ Additionally, you can use the following profiles to disable a few features to si
 
 * `no-security` to disable spring security
 * `no-mail` to prevent the applications from sending emails
-* `no-ldap` to use a *fake* user service instead of the actual lhm ldap
+* (only digiwf-engine-service) `no-ldap` to use a *fake* user service instead of the actual lhm ldap
 
 ## Release a new version
 
