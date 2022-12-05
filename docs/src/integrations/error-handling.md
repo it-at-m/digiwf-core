@@ -128,9 +128,12 @@ da bei unerwarteten Fehlern in der Verarbeitung die Nachricht zurück in die DLQ
 ## Konfiguration
 
 Um den IncidentService und den BpmnErrorService aus den streaming-utils verwenden zu können, sind für beide jeweils die Producer-Functions 
-und die Zieltopics zu konfigurieren:
+und die Zieltopics sowie die DLQ zu konfigurieren:
 ```
 spring.cloud.function.definition=...;sendIncident;sendBpmnError;..
 spring.cloud.stream.bindings.sendIncident-out-0.destination=<CONNECTOR-INCIDENT-TOPIC>
 spring.cloud.stream.bindings.sendBpmnError-out-0.destination=<CONNECTOR-BPMNERROR-TOPIC>
+spring.cloud.stream.default.consumer.maxAttempts=3
+spring.cloud.stream.kafka.default.consumer.dlqName=<DLQ-NAME>
+spring.cloud.stream.kafka.default.consumer.enableDlq=true
 ```
