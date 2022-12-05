@@ -28,7 +28,7 @@ Mögliche Fehler im DigiWF-Integrationsumfeld können sein:
 Integrationsbausteine funktionieren in DigiWF über den Mechanismus der External-Tasks. Der Connector als Client ist dafür verantwortlich, 
 die Tasks aus der Queue auszulesen und and die Integration-Services weiterzuverteilen. Tritt bei diesem Publishing bereits ein Fehler auf, 
 z.B. weil das angegebene Ziel-Topic nicht verfügbar ist, wird die eingegangene Message in den
-[DLQ](#dlq) verschoben.
+[DLQ Stage 1](#dlq-stage-1) verschoben.
 
 Ist das Publishing erfolgreich, übernimmt der Integration-Service mit seinem Message Consumer. 
 
@@ -38,7 +38,7 @@ der mit den Header-Informationen der Message einen Incident erstellt (Näheres d
 Tritt bei der Verarbeitung einer Message generell ein Fehler auf, kommt zuerst ein [Retry](#retry)-Mechanismus zum Einsatz.
 
 Bei Fehlern in anderen Verarbeitungsschritten innerhalb der unterstützenden Frameworks wird die Message in die 
-für den Consumer konfigurierte [DLQ](#dlq) verschoben. 
+für den Consumer konfigurierte [DLQ Stage 1](#dlq-stage-1) verschoben. 
 
 Kommt es zum Fehlerfall innerhalb des Message-Consumers selbst (z.B. auch beim Aufruf eines externen Systems), sollte ein try-catch-Block erwartete sowie unerwartete Exceptions auf oberster Ebene fangen. 
 Ist das nicht gegeben, führt jede Exception zum Anstieg der Nachrichtenanzahl in der DLQ. 
@@ -78,10 +78,12 @@ Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in
 ## BPMN-Error-Verarbeitung
 
 Im Connector empfängt ein Consumer Nachrichten aus dem BPMN-Error-Topic und korreliert einen BPMN-Error mit der Prozessinstanz.
-Dies geschieht über die Rest-API der Engine. 
+Dies geschieht über die Rest-API der Engine.
+
 Der von dem BPMN-Hauptprozess eingebundene Integrationsbaustein enthält das Streaming-Template, welches über ein eigenes, konfigurierbares Receive-Event
-für BPMN Errors verfügt. Korreliert man eine Message mit diesem Event, kann im nächsten Schritt des Streaming-Templates die verwendete Delegate-Klasse 
-einen BPMN-Error mit dynamischem _errorCode_ und _errorMessage_ erzeugen.
+für BPMN Errors verfügt. Korreliert man eine Message mit diesem Event, kann im nächsten Schritt des Streaming-Templates der ServiceTask _Throw BPMN Error_ 
+mit der darin referenzierten Delegate-Klasse einen BPMN-Error mit dynamischem _errorCode_ und _errorMessage_ erzeugen.
+
 Eine dynamische Erzeugung ohne Delegate allein mit BPMN-Mitteln ist nicht möglich.
 
 Die Engine ist über die Einstellung
@@ -93,12 +95,28 @@ Damit ist gesichert, dass bei einem Fehler die Instanz nicht unkontrolliert weit
 
 Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in die DLQ.
 
-## DLQ
 
-Alle Nachrichten in den Dead-Letter-Queues müssen manuell analysiert werden, um festzustellen, um welches Problem es sich handelt und wie man dies heilen kann 
-bzw. ob es auf Prozessinstanzseite einen Incident erfordert. Informationen dazu bieten zusätzliche Headereinträge in der Message.
-Ist die Problembehebung durch Anpassung einer fehlerhaften Konfiguration oder durch das Verfügbarmachen einer Netzwerkressource erfolgt, kann die Originalnachricht wieder 
-in das entspr. Eingangs-Topic verschoben werden und somit der regulären Verarbeitung zugeführt werden.
+## DLQ Stage 1
+
+Für den Dead-Letter-Queue-Mechanismus werden zwei Stages des Topics benötigt, um eine Endlosschleife beim Publishing zu verhindern.
+Würde beim Konsumieren einer Message aus der DLQ ein Fehler auftreten, wäre die Konsequenz, dass die Message wieder zurück in die Eingangs-DLQ 
+verschoben und sofort erneut konsumiert würde.
+
+Stage 1 der DLQ ist ausschliesslich für Messages, die automatisiert zu einem Incident verarbeitet werden sollen.
+
+Ein Listener konsumiert dort eintreffende Messages und versucht über die Header-Informationen, in denen eine Prozessinstanz-Id enthalten sein sollte, 
+die [Incident Verarbeitung](#incident-verarbeitung) anzustoßen. Schlägt diese Möglichkeit fehl, wird die Message an die [DLQ Stage 2](#dlq-stage-2) weitergeleitet.
+
+
+## DLQ Stage 2
+
+Die Stage 2 des DLQ ist ausschliesslich Ziel für Messages, die nicht automatisiert zu einem Incident verarbeitet werden konnten. 
+
+Alle Nachrichten in den Dead-Letter-Queues müssen manuell analysiert werden, um festzustellen, um welches Problem es sich handelt 
+und wie man dies heilen kann bzw. ob es auf Prozessinstanzseite einen Incident erfordert. 
+Informationen dazu bieten zusätzliche Headereinträge in der Message. Ist die Problembehebung durch Anpassung einer fehlerhaften Konfiguration 
+oder durch das Verfügbarmachen einer Netzwerkressource erfolgt, kann die Originalnachricht wieder in das entspr. 
+Eingangs-Topic verschoben werden und somit der regulären Verarbeitung zugeführt werden.
 Auf diese Weise nicht behebbare Fehler müssen zu einem Incident in der Prozessinstanz führen.
 
 Um nicht verarbeitbare Messages schnell und zuverlässig erkennen zu können, ist die DLQ mit einem Monitoring und Alerting zu überwachen.
