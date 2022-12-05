@@ -6,6 +6,23 @@ overview tbd.
 
 tbd.
 
+**Setup a local dev environment**
+
+You can use the docker-compose [stack](stack) to start all the necessary infrastructure components (like e.g. kafka and minio).
+
+**Applications and profiles**
+
+To start the application you can use the profiles:
+
+* `local` for local development settings
+* `streaming` to enable event streaming to kafka
+
+Additionally, you can use the following profiles to disable a few features to simplify development:
+
+* `no-security` to disable spring security
+* `no-mail` to prevent the applications from sending emails
+* `no-ldap` to use a *fake* user service instead of the actual lhm ldap
+
 ## Release a new version
 
 ### Building a new maven version
