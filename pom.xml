@@ -87,16 +87,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -142,6 +132,26 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surfire.plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -251,6 +261,22 @@
             <name>Dominik Horn</name>
             <organization>Miragon GmbH</organization>
             <url>https://github.com/dominikhorn93</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>martind260</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/martind260</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Lukas Mösle</name>
+            <organization>Miragon GmbH</organization>
+            <url>https://github.com/lmoesle</url>
             <roles>
                 <role>initiator</role>
             </roles>
