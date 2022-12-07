@@ -12,6 +12,7 @@
     - multi user input validation
     - maxItems serialization bug
     - naming processes search field
+    - fix on blur input bug
 
 ## [services unrleased] - yyyy-mm-dd
 
@@ -20,14 +21,14 @@
 - engine
     - upgrade dms interface
 - digiwf-cosys-integration
-  - error handling added
-
+    - error handling added
 
 ### Fixed
 
 - engine
     - whitelist regex in application.properties
     - Improved logging of `DigiWFValidationException`
+    - fix service start initialization
 
 ## [apps 0.21.0] - 2022-11-27
 

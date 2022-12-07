@@ -60,12 +60,17 @@ public class ServiceDefinitionDataService {
     }
 
     private Map<String, Object> initalizeData(final ServiceDefinitionDetail definition, final Map<String, Object> variables) {
+        //1. filter readonly data
         final JSONObject filteredData = this.serializationService.filter(definition.getJsonSchema(), variables, true);
+        //2. validate data
         this.validationService.validate(definition.getJsonSchema(), filteredData.toMap());
+        //3. simulate previous data for merging and removing JSON.null values
         final JSONObject previousData = this.serializationService.initialize(new JSONObject(definition.getJsonSchema()).toString());
         final Map<String, Object> clearedData = this.serializationService.merge(filteredData, previousData);
+        //4. merge with default values
         final JSONObject defaultValue = this.serializationService.initialize(new JSONObject(definition.getJsonSchema()).toString());
         final Map<String, Object> serializedData = this.serializationService.merge(new JSONObject(clearedData), defaultValue);
+        //5. map to engine data and return
         return this.engineDataMapper.mapObjectsToVariables(serializedData);
     }
 
