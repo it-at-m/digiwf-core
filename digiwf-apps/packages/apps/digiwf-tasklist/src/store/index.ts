@@ -9,8 +9,15 @@ import assignedGroupTasks, {AssignedGroupTasksState} from "../store/modules/assi
 import menu, {MenuState} from "../store/modules/menu";
 import info, {InfoState} from "../store/modules/info";
 import filters, { FiltersState } from './modules/filters';
+import {QueryClient, VueQueryPlugin} from "@tanstack/vue-query";
+
+const queryClient = new QueryClient();
 
 Vue.use(Vuex);
+Vue.use(VueQueryPlugin, {
+  queryClient
+});
+
 const debug = process.env.NODE_ENV !== 'production';
 
 export interface RootState {

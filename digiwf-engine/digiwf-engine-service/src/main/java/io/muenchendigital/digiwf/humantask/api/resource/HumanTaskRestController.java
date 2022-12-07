@@ -12,15 +12,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.ws.rs.QueryParam;
 
 
 /**
@@ -47,9 +51,9 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping
-    public Page<HumanTaskTO> getTasks(final Pageable pageable) {
-        val tasks = this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), pageable);
-        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
+    public Page<HumanTaskTO> getTasks(@RequestParam("size") @Min(1) @Max(50) final int size, @RequestParam("page") @Min(0)  final int page) {
+        final Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
+        return this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), pageable).map(this.taskMapper::map2TO);
     }
 
     /**
@@ -59,8 +63,7 @@ public class HumanTaskRestController {
      */
     @GetMapping("/group/open")
     public Page<HumanTaskTO> getOpenGroupTasks(final Pageable pageable) {
-        val tasks = this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable);
-        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
+        return this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable).map(this.taskMapper::map2TO);
     }
 
     /**
@@ -70,8 +73,7 @@ public class HumanTaskRestController {
      */
     @GetMapping("/group/assigned")
     public Page<HumanTaskTO> getAssignedGroupTasks(final Pageable pageable) {
-        val tasks = this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable);
-        return new PageImpl<>(this.taskMapper.map2TO(tasks.getContent()), tasks.getPageable(), tasks.getTotalElements());
+        return this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable).map(this.taskMapper::map2TO);
     }
 
     /**
@@ -81,9 +83,9 @@ public class HumanTaskRestController {
      * @return task
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HumanTaskDetailTO> getTaskDetail(@PathVariable("id") @NotBlank final String taskId) {
+    public HumanTaskDetailTO getTaskDetail(@PathVariable("id") @NotBlank final String taskId) {
         val task = this.taskService.getDetail(taskId, this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups());
-        return ResponseEntity.ok(this.taskMapper.map2TO(task));
+        return this.taskMapper.map2TO(task);
     }
 
     /**
@@ -93,9 +95,8 @@ public class HumanTaskRestController {
      * @return the saved task
      */
     @PutMapping
-    public ResponseEntity<HumanTaskDetailTO> saveTask(@Valid @RequestBody final SaveTO saveTO) {
+    public void saveTask(@Valid @RequestBody final SaveTO saveTO) {
         this.taskService.saveTask(saveTO.getTaskId(), saveTO.getVariables(), this.authenticationProvider.getCurrentUserId());
-        return ResponseEntity.ok().build();
     }
 
     /**
@@ -105,9 +106,8 @@ public class HumanTaskRestController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Void> completeTask(@Valid @RequestBody final CompleteTO completeTO) {
+    public void completeTask(@Valid @RequestBody final CompleteTO completeTO) {
         this.taskService.completeTask(completeTO.getTaskId(), completeTO.getVariables(), this.authenticationProvider.getCurrentUserId());
-        return ResponseEntity.ok().build();
     }
 
     /**
@@ -116,9 +116,8 @@ public class HumanTaskRestController {
      * @param followUpTO the follow up
      */
     @PostMapping("/followup")
-    public ResponseEntity<Void> followUpTask(@Valid @RequestBody final FollowUpTO followUpTO) {
+    public void followUpTask(@Valid @RequestBody final FollowUpTO followUpTO) {
         this.taskService.followUp(followUpTO.getTaskId(), followUpTO.getFollowUpDate(), this.authenticationProvider.getCurrentUserId());
-        return ResponseEntity.ok().build();
     }
 
     /**
@@ -127,9 +126,8 @@ public class HumanTaskRestController {
      * @param taskId Id of the task
      */
     @PostMapping("/assign/{id}")
-    public ResponseEntity<Void> assignTask(@PathVariable("id") final String taskId) {
+    public void assignTask(@PathVariable("id") final String taskId) {
         this.taskService.assignTask(taskId, this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups());
-        return ResponseEntity.ok().build();
     }
 
     /**
@@ -138,9 +136,8 @@ public class HumanTaskRestController {
      * @param taskId Id of the task
      */
     @PostMapping("/cancel/{id}")
-    public ResponseEntity<Void> cancelTask(@PathVariable("id") final String taskId) {
+    public void cancelTask(@PathVariable("id") final String taskId) {
         this.taskService.cancelTask(taskId, this.authenticationProvider.getCurrentUserId());
-        return ResponseEntity.ok().build();
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="tasks.value"
+      :tasks="tasks"
       view-name="Meine Aufgaben"
       :is-loading="isLoading"
       :error-message="errorMessage"
@@ -28,6 +28,18 @@
         class="followUp"
       />
     </div>
+    <AppPaginationFooter
+      found-data-text="Vorgänge gefunden"
+      :items-per-page="pagination.pageSize.value"
+      :last-page="pagination.lastPage"
+      :last-page-button-disabled="pagination.lastPageButtonDisabled"
+      :next-page="pagination.nextPage"
+      :total-number-of-items="pagination.totalNumberOfElements"
+      :next-page-button-disabled="pagination.nextPageButtonDisabled"
+      :number-of-pages="pagination.numberOfPages"
+      :page="pagination.getCurrentPage()"
+      :update-items-per-page="pagination.updateItemsPerPage"
+    />
   </app-view-layout>
 </template>
 
@@ -43,46 +55,59 @@ import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
-import {defineComponent, onMounted, reactive, ref, watch} from "vue";
+import {defineComponent, onMounted, ref, watch} from "vue";
 import {useStore} from "../hooks/store";
 import {useRoute, useRouter} from "vue-router/composables";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import {useMyTasksQuery} from "../middleware/tasks/taskMiddleware";
 
 export default defineComponent({
   props: [],
-  components: {TaskItem, TaskList, AppToast, AppViewLayout},
+  components: {AppPaginationFooter, TaskItem, TaskList, AppToast, AppViewLayout},
   setup() {
 
-    const isLoading = ref<boolean>(false);
-    const errorMessage = ref<string>("");
     const filter = ref<string>("");
     const followUp = ref<boolean>(false);
-    const tasks = reactive({value: []});
+
+    const page = ref<number>(0);
+    const size = ref<number>(20);
+    const filteredTasks = ref<HumanTaskTO[]>([]);
+
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
 
-    const reloadTasks = (): void => {
-      let loadedTasks = store.getters['tasks/tasks'];
-      const followUp = store.getters['tasks/followUp'];
+    const {isLoading: isQueryLoading, isError, data, error, refetch} = useMyTasksQuery(page, size);
 
-      if (!followUp) {
-        loadedTasks = loadedTasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
-      }
-      tasks.value = loadedTasks;
+    const reloadTasks = (): void => {
+      console.log("reload tasks")
+      refetch().then(() => {
+        console.log("data after refetch", data)
+        filteredTasks.value = data.value?.content || [];
+        // fixme
+        // if (!followUp) {
+        //   data = loadedTasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
+        // }
+      });
     }
 
+    const setPage = (newPage: number) => page.value = newPage;
+
     const loadTasks = async (refresh = false): Promise<void> => {
+      console.log("load Tasks")
       reloadTasks();
-      isLoading.value = true;
+      // isLoading.value = true;
       const startTime = new Date().getTime();
       try {
-        await store.dispatch('tasks/getTasks', refresh);
+        // await store.dispatch('tasks/getTasks', refresh);
         reloadTasks();
-        errorMessage.value = "";
-      } catch (error) {
-        errorMessage.value = error.message;
+        // errorMessage.value = "";
+      } catch (error: any) {
+        // errorMessage.value = error.message;
       }
-      setTimeout(() => isLoading.value = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
+      setTimeout(() => {
+        // isLoading.value = false
+      }, Math.max(0, 500 - (new Date().getTime() - startTime)));
     };
 
     const loadFilter = (): void => {
@@ -97,6 +122,10 @@ export default defineComponent({
       router.replace({query: {filter: filter}})
       store.commit('tasks/setTasksFilter', filter);
     };
+    watch(page, (p) => {
+      console.log("watch of page: ", p)
+      reloadTasks();
+    })
 
     watch(followUp, (followUp) => {
       store.dispatch('tasks/setFollowUp', followUp);
@@ -111,16 +140,45 @@ export default defineComponent({
 
     return {
       followUp,
-      isLoading,
-      errorMessage,
-      tasks,
+      isLoading: isQueryLoading,
+      errorMessage: error.value,
+      tasks: filteredTasks,
       filter,
       onFilterChanged,
       loadFilter,
       loadTasks,
-      reloadTasks
+      reloadTasks,
+      pagination: {
+        numberOfPages: data.value?.totalPages || 1,
+        getCurrentPage: () => page.value + 1,
+        setPage,
+        pageSize: size,
+        lastPage: () => {
+          console.log("lastPage");
+          page.value--;
+          if (page.value === 0) {
+            return;
+          }
+          refetch()
+        },
+        lastPageButtonDisabled: page.value === 1,
+        nextPageButtonDisabled: page.value === data.value?.totalPages,
+        nextPage: () => {
+          console.log("nextpage")
+          const totalPages = data.value?.totalPages;
+          if (!totalPages || page.value === totalPages - 1) {
+            return;
+          }
+          page.value++
+          console.log("page.value: ", page.value)
+          refetch();
+        },
+        totalNumberOfElements: data.value?.totalElements || 0,
+        updateItemsPerPage: () => {
+          console.log("updateItemsPerPage")
+        }
+      },
     }
-
   }
 });
 

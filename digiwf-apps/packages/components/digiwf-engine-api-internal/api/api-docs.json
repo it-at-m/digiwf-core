@@ -78,11 +78,23 @@
         "tags" : [ "HumanTaskRestController" ],
         "operationId" : "getTasks",
         "parameters" : [ {
-          "name" : "pageable",
+          "name" : "size",
           "in" : "query",
           "required" : true,
           "schema" : {
-            "$ref" : "#/components/schemas/Pageable"
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
           }
         } ],
         "responses" : {
@@ -113,14 +125,7 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HumanTaskDetailTO"
-                }
-              }
-            }
+            "description" : "OK"
           }
         }
       },
@@ -1552,58 +1557,6 @@
           }
         }
       },
-      "HumanTaskDetailTO" : {
-        "required" : [ "creationTime", "id", "name", "processInstanceId", "processName" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
-          },
-          "processName" : {
-            "type" : "string"
-          },
-          "processInstanceId" : {
-            "type" : "string"
-          },
-          "assignee" : {
-            "type" : "string"
-          },
-          "assigneeFormatted" : {
-            "type" : "string"
-          },
-          "followUpDate" : {
-            "type" : "string"
-          },
-          "creationTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "variables" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          },
-          "form" : {
-            "$ref" : "#/components/schemas/FormTO"
-          },
-          "jsonSchema" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          },
-          "statusDocument" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "ItemTO" : {
         "type" : "object",
         "properties" : {
@@ -1896,27 +1849,6 @@
           }
         }
       },
-      "Pageable" : {
-        "type" : "object",
-        "properties" : {
-          "page" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "size" : {
-            "minimum" : 1,
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "sort" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          }
-        }
-      },
       "HumanTaskTO" : {
         "type" : "object",
         "properties" : {
@@ -1950,13 +1882,13 @@
       "PageHumanTaskTO" : {
         "type" : "object",
         "properties" : {
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
           "totalPages" : {
             "type" : "integer",
             "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
           },
           "size" : {
             "type" : "integer",
@@ -2003,18 +1935,18 @@
           "sort" : {
             "$ref" : "#/components/schemas/Sort"
           },
-          "pageSize" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
           "pageNumber" : {
             "type" : "integer",
             "format" : "int32"
           },
-          "paged" : {
-            "type" : "boolean"
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
           },
           "unpaged" : {
+            "type" : "boolean"
+          },
+          "paged" : {
             "type" : "boolean"
           }
         }
@@ -2030,6 +1962,79 @@
           },
           "unsorted" : {
             "type" : "boolean"
+          }
+        }
+      },
+      "HumanTaskDetailTO" : {
+        "required" : [ "creationTime", "id", "name", "processInstanceId", "processName" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "processName" : {
+            "type" : "string"
+          },
+          "processInstanceId" : {
+            "type" : "string"
+          },
+          "assignee" : {
+            "type" : "string"
+          },
+          "assigneeFormatted" : {
+            "type" : "string"
+          },
+          "followUpDate" : {
+            "type" : "string"
+          },
+          "creationTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "variables" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          },
+          "form" : {
+            "$ref" : "#/components/schemas/FormTO"
+          },
+          "jsonSchema" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          },
+          "statusDocument" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Pageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           }
         }
       },

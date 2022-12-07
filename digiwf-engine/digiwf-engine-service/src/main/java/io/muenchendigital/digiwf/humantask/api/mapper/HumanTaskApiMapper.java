@@ -21,6 +21,7 @@ import java.util.List;
 public interface HumanTaskApiMapper {
 
     List<HumanTaskTO> map2TO(List<HumanTask> list);
+    HumanTaskTO map2TO(HumanTask task);
 
     HumanTaskDetailTO map2TO(HumanTaskDetail taskDetail);
 

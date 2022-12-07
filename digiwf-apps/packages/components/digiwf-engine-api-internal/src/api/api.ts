@@ -719,13 +719,13 @@ export interface PageHumanTaskTO {
      * @type {number}
      * @memberof PageHumanTaskTO
      */
-    'totalElements'?: number;
+    'totalPages'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageHumanTaskTO
      */
-    'totalPages'?: number;
+    'totalElements'?: number;
     /**
      * 
      * @type {number}
@@ -829,25 +829,25 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'pageNumber'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    'paged'?: boolean;
+    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
      * @memberof PageableObject
      */
     'unpaged'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    'paged'?: boolean;
 }
 /**
  * 
@@ -1397,6 +1397,20 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
 };
 
 /**
+ * Request parameters for getMetadata operation in AlwDmsRestControllerApi.
+ * @export
+ * @interface AlwDmsRestControllerApiGetMetadataRequest
+ */
+export interface AlwDmsRestControllerApiGetMetadataRequest {
+    /**
+     * 
+     * @type {GetAlwMetadataTO}
+     * @memberof AlwDmsRestControllerApiGetMetadata
+     */
+    readonly getAlwMetadataTO: GetAlwMetadataTO
+}
+
+/**
  * AlwDmsRestControllerApi - object-oriented interface
  * @export
  * @class AlwDmsRestControllerApi
@@ -1405,13 +1419,13 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
 export class AlwDmsRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {GetAlwMetadataTO} getAlwMetadataTO 
+     * @param {AlwDmsRestControllerApiGetMetadataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AlwDmsRestControllerApi
      */
-    public getMetadata(getAlwMetadataTO: GetAlwMetadataTO, options?: AxiosRequestConfig) {
-        return AlwDmsRestControllerApiFp(this.configuration).getMetadata(getAlwMetadataTO, options).then((request) => request(this.axios, this.basePath));
+    public getMetadata(requestParameters: AlwDmsRestControllerApiGetMetadataRequest, options?: AxiosRequestConfig) {
+        return AlwDmsRestControllerApiFp(this.configuration).getMetadata(requestParameters.getAlwMetadataTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1504,6 +1518,20 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
 };
 
 /**
+ * Request parameters for deployArtifacts operation in DeploymentControllerApi.
+ * @export
+ * @interface DeploymentControllerApiDeployArtifactsRequest
+ */
+export interface DeploymentControllerApiDeployArtifactsRequest {
+    /**
+     * 
+     * @type {DeploymentDto}
+     * @memberof DeploymentControllerApiDeployArtifacts
+     */
+    readonly deploymentDto: DeploymentDto
+}
+
+/**
  * DeploymentControllerApi - object-oriented interface
  * @export
  * @class DeploymentControllerApi
@@ -1512,13 +1540,13 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
 export class DeploymentControllerApi extends BaseAPI {
     /**
      * 
-     * @param {DeploymentDto} deploymentDto 
+     * @param {DeploymentControllerApiDeployArtifactsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DeploymentControllerApi
      */
-    public deployArtifacts(deploymentDto: DeploymentDto, options?: AxiosRequestConfig) {
-        return DeploymentControllerApiFp(this.configuration).deployArtifacts(deploymentDto, options).then((request) => request(this.axios, this.basePath));
+    public deployArtifacts(requestParameters: DeploymentControllerApiDeployArtifactsRequest, options?: AxiosRequestConfig) {
+        return DeploymentControllerApiFp(this.configuration).deployArtifacts(requestParameters.deploymentDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1611,6 +1639,20 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
 };
 
 /**
+ * Request parameters for getMetaData operation in DmsRestControllerApi.
+ * @export
+ * @interface DmsRestControllerApiGetMetaDataRequest
+ */
+export interface DmsRestControllerApiGetMetaDataRequest {
+    /**
+     * 
+     * @type {GetMetadataTO}
+     * @memberof DmsRestControllerApiGetMetaData
+     */
+    readonly getMetadataTO: GetMetadataTO
+}
+
+/**
  * DmsRestControllerApi - object-oriented interface
  * @export
  * @class DmsRestControllerApi
@@ -1619,13 +1661,13 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
 export class DmsRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {GetMetadataTO} getMetadataTO 
+     * @param {DmsRestControllerApiGetMetaDataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DmsRestControllerApi
      */
-    public getMetaData(getMetadataTO: GetMetadataTO, options?: AxiosRequestConfig) {
-        return DmsRestControllerApiFp(this.configuration).getMetaData(getMetadataTO, options).then((request) => request(this.axios, this.basePath));
+    public getMetaData(requestParameters: DmsRestControllerApiGetMetaDataRequest, options?: AxiosRequestConfig) {
+        return DmsRestControllerApiFp(this.configuration).getMetaData(requestParameters.getMetadataTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1716,6 +1758,20 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
 };
 
 /**
+ * Request parameters for getStatusDokumentForTask operation in DocumentRestControllerApi.
+ * @export
+ * @interface DocumentRestControllerApiGetStatusDokumentForTaskRequest
+ */
+export interface DocumentRestControllerApiGetStatusDokumentForTaskRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentRestControllerApiGetStatusDokumentForTask
+     */
+    readonly id: string
+}
+
+/**
  * DocumentRestControllerApi - object-oriented interface
  * @export
  * @class DocumentRestControllerApi
@@ -1724,13 +1780,13 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
 export class DocumentRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} id 
+     * @param {DocumentRestControllerApiGetStatusDokumentForTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentRestControllerApi
      */
-    public getStatusDokumentForTask(id: string, options?: AxiosRequestConfig) {
-        return DocumentRestControllerApiFp(this.configuration).getStatusDokumentForTask(id, options).then((request) => request(this.axios, this.basePath));
+    public getStatusDokumentForTask(requestParameters: DocumentRestControllerApiGetStatusDokumentForTaskRequest, options?: AxiosRequestConfig) {
+        return DocumentRestControllerApiFp(this.configuration).getStatusDokumentForTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1929,6 +1985,34 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
 };
 
 /**
+ * Request parameters for _delete operation in FilterRestControllerApi.
+ * @export
+ * @interface FilterRestControllerApiDeleteRequest
+ */
+export interface FilterRestControllerApiDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FilterRestControllerApiDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for saveFilter operation in FilterRestControllerApi.
+ * @export
+ * @interface FilterRestControllerApiSaveFilterRequest
+ */
+export interface FilterRestControllerApiSaveFilterRequest {
+    /**
+     * 
+     * @type {SaveFilterTO}
+     * @memberof FilterRestControllerApiSaveFilter
+     */
+    readonly saveFilterTO: SaveFilterTO
+}
+
+/**
  * FilterRestControllerApi - object-oriented interface
  * @export
  * @class FilterRestControllerApi
@@ -1937,13 +2021,13 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
 export class FilterRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} id 
+     * @param {FilterRestControllerApiDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilterRestControllerApi
      */
-    public _delete(id: string, options?: AxiosRequestConfig) {
-        return FilterRestControllerApiFp(this.configuration)._delete(id, options).then((request) => request(this.axios, this.basePath));
+    public _delete(requestParameters: FilterRestControllerApiDeleteRequest, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration)._delete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1958,13 +2042,13 @@ export class FilterRestControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {SaveFilterTO} saveFilterTO 
+     * @param {FilterRestControllerApiSaveFilterRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilterRestControllerApi
      */
-    public saveFilter(saveFilterTO: SaveFilterTO, options?: AxiosRequestConfig) {
-        return FilterRestControllerApiFp(this.configuration).saveFilter(saveFilterTO, options).then((request) => request(this.axios, this.basePath));
+    public saveFilter(requestParameters: FilterRestControllerApiSaveFilterRequest, options?: AxiosRequestConfig) {
+        return FilterRestControllerApiFp(this.configuration).saveFilter(requestParameters.saveFilterTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2227,6 +2311,55 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
 };
 
 /**
+ * Request parameters for createForm operation in FormRestControllerApi.
+ * @export
+ * @interface FormRestControllerApiCreateFormRequest
+ */
+export interface FormRestControllerApiCreateFormRequest {
+    /**
+     * 
+     * @type {FormTO}
+     * @memberof FormRestControllerApiCreateForm
+     */
+    readonly formTO: FormTO
+}
+
+/**
+ * Request parameters for getForm operation in FormRestControllerApi.
+ * @export
+ * @interface FormRestControllerApiGetFormRequest
+ */
+export interface FormRestControllerApiGetFormRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FormRestControllerApiGetForm
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for updateForm operation in FormRestControllerApi.
+ * @export
+ * @interface FormRestControllerApiUpdateFormRequest
+ */
+export interface FormRestControllerApiUpdateFormRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FormRestControllerApiUpdateForm
+     */
+    readonly key: string
+
+    /**
+     * 
+     * @type {FormTO}
+     * @memberof FormRestControllerApiUpdateForm
+     */
+    readonly formTO: FormTO
+}
+
+/**
  * FormRestControllerApi - object-oriented interface
  * @export
  * @class FormRestControllerApi
@@ -2235,24 +2368,24 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
 export class FormRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {FormTO} formTO 
+     * @param {FormRestControllerApiCreateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FormRestControllerApi
      */
-    public createForm(formTO: FormTO, options?: AxiosRequestConfig) {
-        return FormRestControllerApiFp(this.configuration).createForm(formTO, options).then((request) => request(this.axios, this.basePath));
+    public createForm(requestParameters: FormRestControllerApiCreateFormRequest, options?: AxiosRequestConfig) {
+        return FormRestControllerApiFp(this.configuration).createForm(requestParameters.formTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} key 
+     * @param {FormRestControllerApiGetFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FormRestControllerApi
      */
-    public getForm(key: string, options?: AxiosRequestConfig) {
-        return FormRestControllerApiFp(this.configuration).getForm(key, options).then((request) => request(this.axios, this.basePath));
+    public getForm(requestParameters: FormRestControllerApiGetFormRequest, options?: AxiosRequestConfig) {
+        return FormRestControllerApiFp(this.configuration).getForm(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2267,14 +2400,13 @@ export class FormRestControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {string} key 
-     * @param {FormTO} formTO 
+     * @param {FormRestControllerApiUpdateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FormRestControllerApi
      */
-    public updateForm(key: string, formTO: FormTO, options?: AxiosRequestConfig) {
-        return FormRestControllerApiFp(this.configuration).updateForm(key, formTO, options).then((request) => request(this.axios, this.basePath));
+    public updateForm(requestParameters: FormRestControllerApiUpdateFormRequest, options?: AxiosRequestConfig) {
+        return FormRestControllerApiFp(this.configuration).updateForm(requestParameters.key, requestParameters.formTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2587,6 +2719,111 @@ export const HumanTaskFileRestControllerApiFactory = function (configuration?: C
 };
 
 /**
+ * Request parameters for getFileNames operation in HumanTaskFileRestControllerApi.
+ * @export
+ * @interface HumanTaskFileRestControllerApiGetFileNamesRequest
+ */
+export interface HumanTaskFileRestControllerApiGetFileNamesRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetFileNames
+     */
+    readonly taskId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetFileNames
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDeletion operation in HumanTaskFileRestControllerApi.
+ * @export
+ * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest
+ */
+export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
+     */
+    readonly taskId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDownload operation in HumanTaskFileRestControllerApi.
+ * @export
+ * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest
+ */
+export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
+     */
+    readonly taskId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
+     */
+    readonly fileName: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileUpload operation in HumanTaskFileRestControllerApi.
+ * @export
+ * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest
+ */
+export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
+     */
+    readonly taskId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
+     */
+    readonly filePath: string
+}
+
+/**
  * HumanTaskFileRestControllerApi - object-oriented interface
  * @export
  * @class HumanTaskFileRestControllerApi
@@ -2595,53 +2832,46 @@ export const HumanTaskFileRestControllerApiFactory = function (configuration?: C
 export class HumanTaskFileRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} taskId 
-     * @param {string} filePath 
+     * @param {HumanTaskFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskFileRestControllerApi
      */
-    public getFileNames(taskId: string, filePath: string, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getFileNames(taskId, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames(requestParameters: HumanTaskFileRestControllerApiGetFileNamesRequest, options?: AxiosRequestConfig) {
+        return HumanTaskFileRestControllerApiFp(this.configuration).getFileNames(requestParameters.taskId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} taskId 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(taskId, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest, options?: AxiosRequestConfig) {
+        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} taskId 
-     * @param {string} fileName 
-     * @param {string} filePath 
+     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload(taskId: string, fileName: string, filePath: string, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(taskId, fileName, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest, options?: AxiosRequestConfig) {
+        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(requestParameters.taskId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} taskId 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(taskId, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
+        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2923,13 +3153,16 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} size 
+         * @param {number} page 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTasks: async (pageable: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'pageable' is not null or undefined
-            assertParamExists('getTasks', 'pageable', pageable)
+        getTasks: async (size: number, page: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'size' is not null or undefined
+            assertParamExists('getTasks', 'size', size)
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('getTasks', 'page', page)
             const localVarPath = `/rest/task`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2946,8 +3179,12 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
-            if (pageable !== undefined) {
-                localVarQueryParameter['pageable'] = pageable;
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
             }
 
 
@@ -3082,12 +3319,13 @@ export const HumanTaskRestControllerApiFp = function(configuration?: Configurati
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} size 
+         * @param {number} page 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTasks(pageable: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(pageable, options);
+        async getTasks(size: number, page: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(size, page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3096,7 +3334,7 @@ export const HumanTaskRestControllerApiFp = function(configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async saveTask(saveTO: SaveTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HumanTaskDetailTO>> {
+        async saveTask(saveTO: SaveTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.saveTask(saveTO, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3175,12 +3413,13 @@ export const HumanTaskRestControllerApiFactory = function (configuration?: Confi
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} size 
+         * @param {number} page 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTasks(pageable: Pageable, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getTasks(pageable, options).then((request) => request(axios, basePath));
+        getTasks(size: number, page: number, options?: any): AxiosPromise<PageHumanTaskTO> {
+            return localVarFp.getTasks(size, page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3188,11 +3427,144 @@ export const HumanTaskRestControllerApiFactory = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveTask(saveTO: SaveTO, options?: any): AxiosPromise<HumanTaskDetailTO> {
+        saveTask(saveTO: SaveTO, options?: any): AxiosPromise<void> {
             return localVarFp.saveTask(saveTO, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for assignTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiAssignTaskRequest
+ */
+export interface HumanTaskRestControllerApiAssignTaskRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiAssignTask
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for cancelTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiCancelTaskRequest
+ */
+export interface HumanTaskRestControllerApiCancelTaskRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiCancelTask
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for completeTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiCompleteTaskRequest
+ */
+export interface HumanTaskRestControllerApiCompleteTaskRequest {
+    /**
+     * 
+     * @type {CompleteTO}
+     * @memberof HumanTaskRestControllerApiCompleteTask
+     */
+    readonly completeTO: CompleteTO
+}
+
+/**
+ * Request parameters for followUpTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiFollowUpTaskRequest
+ */
+export interface HumanTaskRestControllerApiFollowUpTaskRequest {
+    /**
+     * 
+     * @type {FollowUpTO}
+     * @memberof HumanTaskRestControllerApiFollowUpTask
+     */
+    readonly followUpTO: FollowUpTO
+}
+
+/**
+ * Request parameters for getAssignedGroupTasks operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest
+ */
+export interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest {
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
+     */
+    readonly pageable: Pageable
+}
+
+/**
+ * Request parameters for getOpenGroupTasks operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiGetOpenGroupTasksRequest
+ */
+export interface HumanTaskRestControllerApiGetOpenGroupTasksRequest {
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
+     */
+    readonly pageable: Pageable
+}
+
+/**
+ * Request parameters for getTaskDetail operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiGetTaskDetailRequest
+ */
+export interface HumanTaskRestControllerApiGetTaskDetailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiGetTaskDetail
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for getTasks operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiGetTasksRequest
+ */
+export interface HumanTaskRestControllerApiGetTasksRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof HumanTaskRestControllerApiGetTasks
+     */
+    readonly size: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof HumanTaskRestControllerApiGetTasks
+     */
+    readonly page: number
+}
+
+/**
+ * Request parameters for saveTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiSaveTaskRequest
+ */
+export interface HumanTaskRestControllerApiSaveTaskRequest {
+    /**
+     * 
+     * @type {SaveTO}
+     * @memberof HumanTaskRestControllerApiSaveTask
+     */
+    readonly saveTO: SaveTO
+}
 
 /**
  * HumanTaskRestControllerApi - object-oriented interface
@@ -3203,101 +3575,101 @@ export const HumanTaskRestControllerApiFactory = function (configuration?: Confi
 export class HumanTaskRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} id 
+     * @param {HumanTaskRestControllerApiAssignTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public assignTask(id: string, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).assignTask(id, options).then((request) => request(this.axios, this.basePath));
+    public assignTask(requestParameters: HumanTaskRestControllerApiAssignTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).assignTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id 
+     * @param {HumanTaskRestControllerApiCancelTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public cancelTask(id: string, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).cancelTask(id, options).then((request) => request(this.axios, this.basePath));
+    public cancelTask(requestParameters: HumanTaskRestControllerApiCancelTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).cancelTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CompleteTO} completeTO 
+     * @param {HumanTaskRestControllerApiCompleteTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public completeTask(completeTO: CompleteTO, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).completeTask(completeTO, options).then((request) => request(this.axios, this.basePath));
+    public completeTask(requestParameters: HumanTaskRestControllerApiCompleteTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).completeTask(requestParameters.completeTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FollowUpTO} followUpTO 
+     * @param {HumanTaskRestControllerApiFollowUpTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public followUpTask(followUpTO: FollowUpTO, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).followUpTask(followUpTO, options).then((request) => request(this.axios, this.basePath));
+    public followUpTask(requestParameters: HumanTaskRestControllerApiFollowUpTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).followUpTask(requestParameters.followUpTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {Pageable} pageable 
+     * @param {HumanTaskRestControllerApiGetAssignedGroupTasksRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getAssignedGroupTasks(pageable: Pageable, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(pageable, options).then((request) => request(this.axios, this.basePath));
+    public getAssignedGroupTasks(requestParameters: HumanTaskRestControllerApiGetAssignedGroupTasksRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(requestParameters.pageable, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {Pageable} pageable 
+     * @param {HumanTaskRestControllerApiGetOpenGroupTasksRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getOpenGroupTasks(pageable: Pageable, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(pageable, options).then((request) => request(this.axios, this.basePath));
+    public getOpenGroupTasks(requestParameters: HumanTaskRestControllerApiGetOpenGroupTasksRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(requestParameters.pageable, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id 
+     * @param {HumanTaskRestControllerApiGetTaskDetailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getTaskDetail(id: string, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTaskDetail(id, options).then((request) => request(this.axios, this.basePath));
+    public getTaskDetail(requestParameters: HumanTaskRestControllerApiGetTaskDetailRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getTaskDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {Pageable} pageable 
+     * @param {HumanTaskRestControllerApiGetTasksRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getTasks(pageable: Pageable, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTasks(pageable, options).then((request) => request(this.axios, this.basePath));
+    public getTasks(requestParameters: HumanTaskRestControllerApiGetTasksRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getTasks(requestParameters.size, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SaveTO} saveTO 
+     * @param {HumanTaskRestControllerApiSaveTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public saveTask(saveTO: SaveTO, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).saveTask(saveTO, options).then((request) => request(this.axios, this.basePath));
+    public saveTask(requestParameters: HumanTaskRestControllerApiSaveTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).saveTask(requestParameters.saveTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3488,6 +3860,20 @@ export const MessageControllerApiFactory = function (configuration?: Configurati
 };
 
 /**
+ * Request parameters for sendMessage operation in MessageControllerApi.
+ * @export
+ * @interface MessageControllerApiSendMessageRequest
+ */
+export interface MessageControllerApiSendMessageRequest {
+    /**
+     * 
+     * @type {SendMessageTO}
+     * @memberof MessageControllerApiSendMessage
+     */
+    readonly sendMessageTO: SendMessageTO
+}
+
+/**
  * MessageControllerApi - object-oriented interface
  * @export
  * @class MessageControllerApi
@@ -3496,13 +3882,13 @@ export const MessageControllerApiFactory = function (configuration?: Configurati
 export class MessageControllerApi extends BaseAPI {
     /**
      * 
-     * @param {SendMessageTO} sendMessageTO 
+     * @param {MessageControllerApiSendMessageRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MessageControllerApi
      */
-    public sendMessage(sendMessageTO: SendMessageTO, options?: AxiosRequestConfig) {
-        return MessageControllerApiFp(this.configuration).sendMessage(sendMessageTO, options).then((request) => request(this.axios, this.basePath));
+    public sendMessage(requestParameters: MessageControllerApiSendMessageRequest, options?: AxiosRequestConfig) {
+        return MessageControllerApiFp(this.configuration).sendMessage(requestParameters.sendMessageTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3651,6 +4037,34 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
 };
 
 /**
+ * Request parameters for createConfig operation in ProcessConfigurationControllerApi.
+ * @export
+ * @interface ProcessConfigurationControllerApiCreateConfigRequest
+ */
+export interface ProcessConfigurationControllerApiCreateConfigRequest {
+    /**
+     * 
+     * @type {ProcessConfigTO}
+     * @memberof ProcessConfigurationControllerApiCreateConfig
+     */
+    readonly processConfigTO: ProcessConfigTO
+}
+
+/**
+ * Request parameters for getConfig operation in ProcessConfigurationControllerApi.
+ * @export
+ * @interface ProcessConfigurationControllerApiGetConfigRequest
+ */
+export interface ProcessConfigurationControllerApiGetConfigRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProcessConfigurationControllerApiGetConfig
+     */
+    readonly key: string
+}
+
+/**
  * ProcessConfigurationControllerApi - object-oriented interface
  * @export
  * @class ProcessConfigurationControllerApi
@@ -3659,24 +4073,24 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
 export class ProcessConfigurationControllerApi extends BaseAPI {
     /**
      * 
-     * @param {ProcessConfigTO} processConfigTO 
+     * @param {ProcessConfigurationControllerApiCreateConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProcessConfigurationControllerApi
      */
-    public createConfig(processConfigTO: ProcessConfigTO, options?: AxiosRequestConfig) {
-        return ProcessConfigurationControllerApiFp(this.configuration).createConfig(processConfigTO, options).then((request) => request(this.axios, this.basePath));
+    public createConfig(requestParameters: ProcessConfigurationControllerApiCreateConfigRequest, options?: AxiosRequestConfig) {
+        return ProcessConfigurationControllerApiFp(this.configuration).createConfig(requestParameters.processConfigTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} key 
+     * @param {ProcessConfigurationControllerApiGetConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProcessConfigurationControllerApi
      */
-    public getConfig(key: string, options?: AxiosRequestConfig) {
-        return ProcessConfigurationControllerApiFp(this.configuration).getConfig(key, options).then((request) => request(this.axios, this.basePath));
+    public getConfig(requestParameters: ProcessConfigurationControllerApiGetConfigRequest, options?: AxiosRequestConfig) {
+        return ProcessConfigurationControllerApiFp(this.configuration).getConfig(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3825,6 +4239,34 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
 };
 
 /**
+ * Request parameters for createJsonSchema operation in SchemaRestControllerApi.
+ * @export
+ * @interface SchemaRestControllerApiCreateJsonSchemaRequest
+ */
+export interface SchemaRestControllerApiCreateJsonSchemaRequest {
+    /**
+     * 
+     * @type {JsonSchemaTO}
+     * @memberof SchemaRestControllerApiCreateJsonSchema
+     */
+    readonly jsonSchemaTO: JsonSchemaTO
+}
+
+/**
+ * Request parameters for getJsonSchema operation in SchemaRestControllerApi.
+ * @export
+ * @interface SchemaRestControllerApiGetJsonSchemaRequest
+ */
+export interface SchemaRestControllerApiGetJsonSchemaRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaRestControllerApiGetJsonSchema
+     */
+    readonly key: string
+}
+
+/**
  * SchemaRestControllerApi - object-oriented interface
  * @export
  * @class SchemaRestControllerApi
@@ -3833,24 +4275,24 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
 export class SchemaRestControllerApi extends BaseAPI {
     /**
      * create a new json schema
-     * @param {JsonSchemaTO} jsonSchemaTO 
+     * @param {SchemaRestControllerApiCreateJsonSchemaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SchemaRestControllerApi
      */
-    public createJsonSchema(jsonSchemaTO: JsonSchemaTO, options?: AxiosRequestConfig) {
-        return SchemaRestControllerApiFp(this.configuration).createJsonSchema(jsonSchemaTO, options).then((request) => request(this.axios, this.basePath));
+    public createJsonSchema(requestParameters: SchemaRestControllerApiCreateJsonSchemaRequest, options?: AxiosRequestConfig) {
+        return SchemaRestControllerApiFp(this.configuration).createJsonSchema(requestParameters.jsonSchemaTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get json schema by key
-     * @param {string} key 
+     * @param {SchemaRestControllerApiGetJsonSchemaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SchemaRestControllerApi
      */
-    public getJsonSchema(key: string, options?: AxiosRequestConfig) {
-        return SchemaRestControllerApiFp(this.configuration).getJsonSchema(key, options).then((request) => request(this.axios, this.basePath));
+    public getJsonSchema(requestParameters: SchemaRestControllerApiGetJsonSchemaRequest, options?: AxiosRequestConfig) {
+        return SchemaRestControllerApiFp(this.configuration).getJsonSchema(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4049,6 +4491,34 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
 };
 
 /**
+ * Request parameters for getServiceDefinition operation in ServiceDefinitionControllerApi.
+ * @export
+ * @interface ServiceDefinitionControllerApiGetServiceDefinitionRequest
+ */
+export interface ServiceDefinitionControllerApiGetServiceDefinitionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceDefinitionControllerApiGetServiceDefinition
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for startInstance operation in ServiceDefinitionControllerApi.
+ * @export
+ * @interface ServiceDefinitionControllerApiStartInstanceRequest
+ */
+export interface ServiceDefinitionControllerApiStartInstanceRequest {
+    /**
+     * 
+     * @type {StartInstanceTO}
+     * @memberof ServiceDefinitionControllerApiStartInstance
+     */
+    readonly startInstanceTO: StartInstanceTO
+}
+
+/**
  * ServiceDefinitionControllerApi - object-oriented interface
  * @export
  * @class ServiceDefinitionControllerApi
@@ -4057,13 +4527,13 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
 export class ServiceDefinitionControllerApi extends BaseAPI {
     /**
      * Get a specific service definition
-     * @param {string} key 
+     * @param {ServiceDefinitionControllerApiGetServiceDefinitionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceDefinitionControllerApi
      */
-    public getServiceDefinition(key: string, options?: AxiosRequestConfig) {
-        return ServiceDefinitionControllerApiFp(this.configuration).getServiceDefinition(key, options).then((request) => request(this.axios, this.basePath));
+    public getServiceDefinition(requestParameters: ServiceDefinitionControllerApiGetServiceDefinitionRequest, options?: AxiosRequestConfig) {
+        return ServiceDefinitionControllerApiFp(this.configuration).getServiceDefinition(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4078,13 +4548,13 @@ export class ServiceDefinitionControllerApi extends BaseAPI {
 
     /**
      * Start a specific service
-     * @param {StartInstanceTO} startInstanceTO 
+     * @param {ServiceDefinitionControllerApiStartInstanceRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceDefinitionControllerApi
      */
-    public startInstance(startInstanceTO: StartInstanceTO, options?: AxiosRequestConfig) {
-        return ServiceDefinitionControllerApiFp(this.configuration).startInstance(startInstanceTO, options).then((request) => request(this.axios, this.basePath));
+    public startInstance(requestParameters: ServiceDefinitionControllerApiStartInstanceRequest, options?: AxiosRequestConfig) {
+        return ServiceDefinitionControllerApiFp(this.configuration).startInstance(requestParameters.startInstanceTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4225,6 +4695,20 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
 };
 
 /**
+ * Request parameters for getProcessInstanceDetail operation in ServiceInstanceControllerApi.
+ * @export
+ * @interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest
+ */
+export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceControllerApiGetProcessInstanceDetail
+     */
+    readonly id: string
+}
+
+/**
  * ServiceInstanceControllerApi - object-oriented interface
  * @export
  * @class ServiceInstanceControllerApi
@@ -4243,13 +4727,13 @@ export class ServiceInstanceControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {string} id 
+     * @param {ServiceInstanceControllerApiGetProcessInstanceDetailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceControllerApi
      */
-    public getProcessInstanceDetail(id: string, options?: AxiosRequestConfig) {
-        return ServiceInstanceControllerApiFp(this.configuration).getProcessInstanceDetail(id, options).then((request) => request(this.axios, this.basePath));
+    public getProcessInstanceDetail(requestParameters: ServiceInstanceControllerApiGetProcessInstanceDetailRequest, options?: AxiosRequestConfig) {
+        return ServiceInstanceControllerApiFp(this.configuration).getProcessInstanceDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4562,6 +5046,111 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
 };
 
 /**
+ * Request parameters for getFileNames2 operation in ServiceInstanceFileRestControllerApi.
+ * @export
+ * @interface ServiceInstanceFileRestControllerApiGetFileNames2Request
+ */
+export interface ServiceInstanceFileRestControllerApiGetFileNames2Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     */
+    readonly instanceId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDeletion2 operation in ServiceInstanceFileRestControllerApi.
+ * @export
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request
+ */
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     */
+    readonly instanceId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDownload2 operation in ServiceInstanceFileRestControllerApi.
+ * @export
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request
+ */
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     */
+    readonly instanceId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     */
+    readonly fileName: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileUpload2 operation in ServiceInstanceFileRestControllerApi.
+ * @export
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request
+ */
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     */
+    readonly instanceId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     */
+    readonly filePath: string
+}
+
+/**
  * ServiceInstanceFileRestControllerApi - object-oriented interface
  * @export
  * @class ServiceInstanceFileRestControllerApi
@@ -4570,53 +5159,46 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
 export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} instanceId 
-     * @param {string} filePath 
+     * @param {ServiceInstanceFileRestControllerApiGetFileNames2Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getFileNames2(instanceId: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames2(instanceId, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames2(requestParameters: ServiceInstanceFileRestControllerApiGetFileNames2Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames2(requestParameters.instanceId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} instanceId 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion2(instanceId, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} instanceId 
-     * @param {string} fileName 
-     * @param {string} filePath 
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload2(instanceId: string, fileName: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload2(instanceId, fileName, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload2(requestParameters.instanceId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} instanceId 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload2(instanceId, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4929,6 +5511,111 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
 };
 
 /**
+ * Request parameters for getFileNames1 operation in ServiceStartFileRestControllerApi.
+ * @export
+ * @interface ServiceStartFileRestControllerApiGetFileNames1Request
+ */
+export interface ServiceStartFileRestControllerApiGetFileNames1Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     */
+    readonly definitionKey: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDeletion1 operation in ServiceStartFileRestControllerApi.
+ * @export
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request
+ */
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     */
+    readonly definitionKey: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileDownload1 operation in ServiceStartFileRestControllerApi.
+ * @export
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request
+ */
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     */
+    readonly definitionKey: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     */
+    readonly fileName: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFileUpload1 operation in ServiceStartFileRestControllerApi.
+ * @export
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request
+ */
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     */
+    readonly definitionKey: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     */
+    readonly filename: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     */
+    readonly filePath: string
+}
+
+/**
  * ServiceStartFileRestControllerApi - object-oriented interface
  * @export
  * @class ServiceStartFileRestControllerApi
@@ -4937,53 +5624,46 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
 export class ServiceStartFileRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} definitionKey 
-     * @param {string} filePath 
+     * @param {ServiceStartFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getFileNames1(definitionKey: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames1(definitionKey, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames1(requestParameters: ServiceStartFileRestControllerApiGetFileNames1Request, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames1(requestParameters.definitionKey, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} definitionKey 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(definitionKey, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} definitionKey 
-     * @param {string} fileName 
-     * @param {string} filePath 
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload1(definitionKey: string, fileName: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(definitionKey, fileName, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(requestParameters.definitionKey, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} definitionKey 
-     * @param {string} filename 
-     * @param {string} filePath 
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(definitionKey, filename, filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5238,6 +5918,48 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
 };
 
 /**
+ * Request parameters for getUser operation in UserRestControllerApi.
+ * @export
+ * @interface UserRestControllerApiGetUserRequest
+ */
+export interface UserRestControllerApiGetUserRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserRestControllerApiGetUser
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for getUserByUsername operation in UserRestControllerApi.
+ * @export
+ * @interface UserRestControllerApiGetUserByUsernameRequest
+ */
+export interface UserRestControllerApiGetUserByUsernameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserRestControllerApiGetUserByUsername
+     */
+    readonly username: string
+}
+
+/**
+ * Request parameters for getUsers operation in UserRestControllerApi.
+ * @export
+ * @interface UserRestControllerApiGetUsersRequest
+ */
+export interface UserRestControllerApiGetUsersRequest {
+    /**
+     * 
+     * @type {SearchUserTO}
+     * @memberof UserRestControllerApiGetUsers
+     */
+    readonly searchUserTO: SearchUserTO
+}
+
+/**
  * UserRestControllerApi - object-oriented interface
  * @export
  * @class UserRestControllerApi
@@ -5246,35 +5968,35 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
 export class UserRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} id 
+     * @param {UserRestControllerApiGetUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestControllerApi
      */
-    public getUser(id: string, options?: AxiosRequestConfig) {
-        return UserRestControllerApiFp(this.configuration).getUser(id, options).then((request) => request(this.axios, this.basePath));
+    public getUser(requestParameters: UserRestControllerApiGetUserRequest, options?: AxiosRequestConfig) {
+        return UserRestControllerApiFp(this.configuration).getUser(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} username 
+     * @param {UserRestControllerApiGetUserByUsernameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestControllerApi
      */
-    public getUserByUsername(username: string, options?: AxiosRequestConfig) {
-        return UserRestControllerApiFp(this.configuration).getUserByUsername(username, options).then((request) => request(this.axios, this.basePath));
+    public getUserByUsername(requestParameters: UserRestControllerApiGetUserByUsernameRequest, options?: AxiosRequestConfig) {
+        return UserRestControllerApiFp(this.configuration).getUserByUsername(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SearchUserTO} searchUserTO 
+     * @param {UserRestControllerApiGetUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestControllerApi
      */
-    public getUsers(searchUserTO: SearchUserTO, options?: AxiosRequestConfig) {
-        return UserRestControllerApiFp(this.configuration).getUsers(searchUserTO, options).then((request) => request(this.axios, this.basePath));
+    public getUsers(requestParameters: UserRestControllerApiGetUsersRequest, options?: AxiosRequestConfig) {
+        return UserRestControllerApiFp(this.configuration).getUsers(requestParameters.searchUserTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

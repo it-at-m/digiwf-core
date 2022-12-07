@@ -36,6 +36,7 @@ import {ApiConfig} from "../api/ApiConfig";
 import {defineComponent, onMounted, reactive, ref} from "vue";
 import {useStore} from "../hooks/store";
 import {useRoute, useRouter} from "vue-router/composables";
+import {invalidMyTasksQuery} from "../middleware/tasks/taskMiddleware";
 
 export default defineComponent({
   setup() {
@@ -59,12 +60,13 @@ export default defineComponent({
       try {
         const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
         await HumanTaskRestControllerApiFactory(cfg).assignTask(id);
-        store.dispatch('tasks/getTasks', true);
+        // store.dispatch('tasks/getTasks', true);
+        invalidMyTasksQuery();
         store.dispatch('assignedGroupTasks/getTasks', true);
         errorMessage.value = "";
         router.push({path: '/task/' + id});
       } catch (error) {
-        errorMessage.value = 'Die Aufgabe konnte nicht zugewiesen werden.';
+        errorMessage.value = "Die Aufgabe konnte nicht zugewiesen werden.";
       }
     }
 
