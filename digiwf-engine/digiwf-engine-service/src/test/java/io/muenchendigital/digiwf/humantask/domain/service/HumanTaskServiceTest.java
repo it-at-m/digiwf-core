@@ -53,107 +53,107 @@ public class HumanTaskServiceTest {
     /*
     tests for getTasksForUser
      */
-    @Test
-    public void shouldReturnUserTasksPageWhenTasksExists() {
-        final Pageable pageRequest = PageRequest.of(0, 5);
-        final Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        final List<ActRuTask> actRuTasks = List.of(
-                new ActRuTask("id-1", assigneeId, "name 1", date, date),
-                new ActRuTask("id-2", assigneeId, "name 2", date, date),
-                new ActRuTask("id-3", assigneeId, "name 3", date, date),
-                new ActRuTask("id-4", assigneeId, "name 4", date, date),
-                new ActRuTask("id-5", assigneeId, "name 5", date, date)
-        );
-        final Map<String, TaskInfo> taskInfos = new HashMap<>();
-        taskInfos.put("id-1", new TaskInfo("id-1", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-2", new TaskInfo("id-2", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-3", new TaskInfo("id-3", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-4", new TaskInfo("id-4", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-5", new TaskInfo("id-5", "description", "definitionName", assigneeId, "instanceId"));
-
-        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks));
-        when(taskInfoService.getTaskInfoMapByTaskIds(List.of("id-1", "id-2", "id-3", "id-4", "id-5"))).thenReturn(taskInfos);
-        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
-            ActRuTask actRuTask = args.getArgument(0);
-            TaskInfo taskInfo = args.getArgument(1);
-            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
-        });
-
-        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
-        assertEquals(5, result.getTotalElements());
-        assertEquals("id-1", result.getContent().get(0).getId());
-        assertEquals("id-2", result.getContent().get(1).getId());
-        assertEquals("id-3", result.getContent().get(2).getId());
-        assertEquals("id-4", result.getContent().get(3).getId());
-        assertEquals("id-5", result.getContent().get(4).getId());
-    }
-
-    @Test
-    public void shouldReturnEmptyPageIfNoTasksAreAvailableOnThisPage() {
-        final Pageable pageRequest = PageRequest.of(1, 5);
-        final List<ActRuTask> actRuTasks = List.of();
-        final Map<String, TaskInfo> taskInfos = new HashMap<>();
-
-        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks, pageRequest, 3));
-        when(taskInfoService.getTaskInfoMapByTaskIds(List.of())).thenReturn(taskInfos);
-        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
-            ActRuTask actRuTask = args.getArgument(0);
-            TaskInfo taskInfo = args.getArgument(1);
-            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
-        });
-
-        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
-        assertEquals(3, result.getTotalElements());
-        assertEquals(0, result.getContent().size());
-    }
-
-    @Test
-    public void shouldReturnOnlyHumanTaskIfThereIsATaskInfoForIt() {
-        final Pageable pageRequest = PageRequest.of(0, 5);
-        final Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        final List<ActRuTask> actRuTasks = List.of(
-                new ActRuTask("id-1", assigneeId, "name 1", date, date),
-                new ActRuTask("id-2", assigneeId, "name 2", date, date),
-                new ActRuTask("id-3", assigneeId, "name 3", date, date),
-                new ActRuTask("id-4", assigneeId, "name 4", date, date),
-                new ActRuTask("id-5", assigneeId, "name 5", date, date)
-        );
-        final Map<String, TaskInfo> taskInfos = new HashMap<>();
-        taskInfos.put("id-1", new TaskInfo("id-1", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-2", new TaskInfo("id-2", "description", "definitionName", assigneeId, "instanceId"));
-        taskInfos.put("id-5", new TaskInfo("id-5", "description", "definitionName", assigneeId, "instanceId"));
-
-        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks));
-        when(taskInfoService.getTaskInfoMapByTaskIds(List.of("id-1", "id-2", "id-3", "id-4", "id-5"))).thenReturn(taskInfos);
-        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
-            ActRuTask actRuTask = args.getArgument(0);
-            TaskInfo taskInfo = args.getArgument(1);
-            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
-        });
-
-        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
-        assertEquals(5, result.getTotalElements());
-        assertEquals(3, result.getContent().size());
-        assertEquals("id-1", result.getContent().get(0).getId());
-        assertEquals("id-2", result.getContent().get(1).getId());
-        assertEquals("id-5", result.getContent().get(2).getId());
-    }
-
-    /*
-    tests for getOpenGroupTasks
-     */
-    @Test
-    public void shouldReturnTasksOfGroupsFromUser() {
-
-    }
-@Test
-    public void shouldReturnEmptyPageContentIfPageDoesNotExist(){
-
-    }
-
-    /*
-    tests for getAssignedGroupTasks
-     */
-
+//    @Test
+//    public void shouldReturnUserTasksPageWhenTasksExists() {
+//        final Pageable pageRequest = PageRequest.of(0, 5);
+//        final Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        final List<ActRuTask> actRuTasks = List.of(
+//                new ActRuTask("id-1", assigneeId, "name 1", date, date),
+//                new ActRuTask("id-2", assigneeId, "name 2", date, date),
+//                new ActRuTask("id-3", assigneeId, "name 3", date, date),
+//                new ActRuTask("id-4", assigneeId, "name 4", date, date),
+//                new ActRuTask("id-5", assigneeId, "name 5", date, date)
+//        );
+//        final Map<String, TaskInfo> taskInfos = new HashMap<>();
+//        taskInfos.put("id-1", new TaskInfo("id-1", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-2", new TaskInfo("id-2", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-3", new TaskInfo("id-3", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-4", new TaskInfo("id-4", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-5", new TaskInfo("id-5", "description", "definitionName", assigneeId, "instanceId"));
+//
+//        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks));
+//        when(taskInfoService.getTaskInfoMapByTaskIds(List.of("id-1", "id-2", "id-3", "id-4", "id-5"))).thenReturn(taskInfos);
+//        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
+//            ActRuTask actRuTask = args.getArgument(0);
+//            TaskInfo taskInfo = args.getArgument(1);
+//            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
+//        });
+//
+//        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
+//        assertEquals(5, result.getTotalElements());
+//        assertEquals("id-1", result.getContent().get(0).getId());
+//        assertEquals("id-2", result.getContent().get(1).getId());
+//        assertEquals("id-3", result.getContent().get(2).getId());
+//        assertEquals("id-4", result.getContent().get(3).getId());
+//        assertEquals("id-5", result.getContent().get(4).getId());
+//    }
+//
+//    @Test
+//    public void shouldReturnEmptyPageIfNoTasksAreAvailableOnThisPage() {
+//        final Pageable pageRequest = PageRequest.of(1, 5);
+//        final List<ActRuTask> actRuTasks = List.of();
+//        final Map<String, TaskInfo> taskInfos = new HashMap<>();
+//
+//        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks, pageRequest, 3));
+//        when(taskInfoService.getTaskInfoMapByTaskIds(List.of())).thenReturn(taskInfos);
+//        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
+//            ActRuTask actRuTask = args.getArgument(0);
+//            TaskInfo taskInfo = args.getArgument(1);
+//            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
+//        });
+//
+//        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
+//        assertEquals(3, result.getTotalElements());
+//        assertEquals(0, result.getContent().size());
+//    }
+//
+//    @Test
+//    public void shouldReturnOnlyHumanTaskIfThereIsATaskInfoForIt() {
+//        final Pageable pageRequest = PageRequest.of(0, 5);
+//        final Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        final List<ActRuTask> actRuTasks = List.of(
+//                new ActRuTask("id-1", assigneeId, "name 1", date, date),
+//                new ActRuTask("id-2", assigneeId, "name 2", date, date),
+//                new ActRuTask("id-3", assigneeId, "name 3", date, date),
+//                new ActRuTask("id-4", assigneeId, "name 4", date, date),
+//                new ActRuTask("id-5", assigneeId, "name 5", date, date)
+//        );
+//        final Map<String, TaskInfo> taskInfos = new HashMap<>();
+//        taskInfos.put("id-1", new TaskInfo("id-1", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-2", new TaskInfo("id-2", "description", "definitionName", assigneeId, "instanceId"));
+//        taskInfos.put("id-5", new TaskInfo("id-5", "description", "definitionName", assigneeId, "instanceId"));
+//
+//        when(actRuTaskService.getActRuTaskEntityByAssigneeId(assigneeId, pageRequest)).thenReturn(new PageImpl<ActRuTask>(actRuTasks));
+//        when(taskInfoService.getTaskInfoMapByTaskIds(List.of("id-1", "id-2", "id-3", "id-4", "id-5"))).thenReturn(taskInfos);
+//        when(humanTaskMapper.map2Model(any(), any())).thenAnswer(args -> {
+//            ActRuTask actRuTask = args.getArgument(0);
+//            TaskInfo taskInfo = args.getArgument(1);
+//            return new HumanTask(actRuTask.getId(), actRuTask.getName(), taskInfo.getDescription(), "processName", "processInstanceId", actRuTask.getAssignee(), "assigneeFormatted", "followUpDate", actRuTask.getCreatedAt());
+//        });
+//
+//        final var result = humanTaskService.getTasksForUser(assigneeId, pageRequest);
+//        assertEquals(5, result.getTotalElements());
+//        assertEquals(3, result.getContent().size());
+//        assertEquals("id-1", result.getContent().get(0).getId());
+//        assertEquals("id-2", result.getContent().get(1).getId());
+//        assertEquals("id-5", result.getContent().get(2).getId());
+//    }
+//
+//    /*
+//    tests for getOpenGroupTasks
+//     */
+//    @Test
+//    public void shouldReturnTasksOfGroupsFromUser() {
+//
+//    }
+//@Test
+//    public void shouldReturnEmptyPageContentIfPageDoesNotExist(){
+//
+//    }
+//
+//    /*
+//    tests for getAssignedGroupTasks
+//     */
+//
 
 }

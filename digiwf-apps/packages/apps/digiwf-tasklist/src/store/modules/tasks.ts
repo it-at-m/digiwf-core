@@ -16,7 +16,6 @@ export default {
     lastFetch: null,
     assignedGroupTasksFilter: "",
     openGroupTasksFilter: "",
-    // tasksFilter: ""
   } as TasksState,
   getters: {
     followUp(state: TasksState): boolean {
@@ -28,9 +27,6 @@ export default {
     openGroupTasksFilter(state: TasksState): string | undefined {
       return state.openGroupTasksFilter;
     },
-    // tasksFilter(state: TasksState): string | undefined {
-    //   return state.tasksFilter;
-    // }
   },
   mutations: {
     setLastFetch(state: TasksState): void {
@@ -45,9 +41,6 @@ export default {
     setOpenGroupTasksFilter(state: TasksState, filter: string): void {
       state.openGroupTasksFilter = filter;
     },
-    // setTasksFilter(state: TasksState, filter: string): void {
-    //   state.tasksFilter = filter;
-    // }
   },
   actions: {
     setFollowUp(context: ActionContext<TasksState, RootState>, followUp: boolean): void {

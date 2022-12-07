@@ -40,4 +40,12 @@ public class ActRuTaskEntity {
     @OneToOne
     @JoinColumn(name = "id_", referencedColumnName = "id_")
     private TaskInfoEntity taskInfoEntity;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
 }

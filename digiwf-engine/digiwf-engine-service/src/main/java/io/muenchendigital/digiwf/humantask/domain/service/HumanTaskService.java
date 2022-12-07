@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -113,8 +114,9 @@ public class HumanTaskService {
      * @param pageable object for pagination
      * @return The tasks
      */
-    public Page<HumanTask> getTasksForUser(final String userId, final Pageable pageable) {
-        return this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, pageable).map(this.humanTaskMapper::map2Model);
+    public Page<HumanTask> getTasksForUser(final String userId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
+       // FIXME handle query
+        return this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, query, followUp, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**

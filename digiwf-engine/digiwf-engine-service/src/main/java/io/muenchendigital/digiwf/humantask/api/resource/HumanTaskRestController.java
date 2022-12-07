@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -51,9 +52,14 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping
-    public Page<HumanTaskTO> getTasks(@RequestParam("size") @Min(1) @Max(50) final int size, @RequestParam("page") @Min(0)  final int page) {
+    public Page<HumanTaskTO> getTasks(
+            @RequestParam(value = "page", defaultValue = "0", required = false) @Min(0)  final int page,
+            @RequestParam(value = "size", defaultValue = "50", required = false) @Min(1) @Max(50) final int size,
+            @RequestParam(value = "query", required = false) @Nullable final String query,
+            @RequestParam(value="followUp", defaultValue = "false",required = false) final Boolean followUp
+            ) {
         final Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
-        return this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), pageable).map(this.taskMapper::map2TO);
+        return this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), query, followUp, pageable).map(this.taskMapper::map2TO);
     }
 
     /**

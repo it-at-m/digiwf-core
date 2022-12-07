@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ActRuTaskRepository extends JpaRepository<ActRuTaskEntity, String> {
-    List<ActRuTaskEntity> findAllByAssignee(final String assigneeId);
     Page<ActRuTaskEntity> findAllByAssignee(final String assigneeId, final Pageable pageable);
 
     @Query(value = "select t from ActRuTask t inner join t.actRuIdentities i where (t.assignee = :assignee) or (t.assignee is not null and lower(i.groupId) in :groupIds and i.type = 'candidate')",

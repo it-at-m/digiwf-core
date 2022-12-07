@@ -3,6 +3,7 @@ package io.muenchendigital.digiwf.humantask.domain.service;
 import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapper;
 import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuTaskRepository;
+import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuTaskSearchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +26,12 @@ public class ActRuTaskService {
 
     private final TaskInfoService taskInfoService;
 
-    public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, final Pageable pageable) {
-        return this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable).map(actRuTaskMapper::map2Model);
+    private final ActRuTaskSearchRepository actRuTaskSearchRepository;
+
+    public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
+
+     return this.actRuTaskSearchRepository.find(assigneeId, query, followUp, pageable).map(actRuTaskMapper::map2Model);
+//        return this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable).map(actRuTaskMapper::map2Model);
     }
 
     public Page<ActRuTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
