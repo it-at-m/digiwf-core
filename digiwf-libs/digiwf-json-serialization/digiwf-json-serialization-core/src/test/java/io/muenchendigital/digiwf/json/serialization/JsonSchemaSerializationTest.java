@@ -24,7 +24,7 @@ public class JsonSchemaSerializationTest {
 
     @BeforeEach
     private void setUp() {
-        JsonSerializer jsonSerializer = new JsonSerializerImpl();
+        final JsonSerializer jsonSerializer = new JsonSerializerImpl();
         this.jsonSchemaSerializationService = new JsonSerializationService(jsonSerializer);
     }
 
@@ -40,7 +40,7 @@ public class JsonSchemaSerializationTest {
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, source, true);
         final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(filteredData, new JSONObject());
 
-        Map<String, Object> expectedData = Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "stringProp1", "stringValue"
         );
 
@@ -131,12 +131,13 @@ public class JsonSchemaSerializationTest {
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
-                "stringProp1", "stringValue",
+                "stringProp1", "",
                 "numberProp1", 12
         );
 
         final Map<String, Object> previousData = Map.of(
-                "numberProp1", 100
+                "numberProp1", 100,
+                "stringProp1", "stringProp1"
         );
 
         final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
@@ -147,7 +148,7 @@ public class JsonSchemaSerializationTest {
                 "textarea1", "textAreaValue",
                 "booleanprop", true,
                 "dateprop", "2020-10-1",
-                "stringProp1", "stringValue",
+                "stringProp1", "",
                 "numberProp1", 100
         );
 
@@ -480,12 +481,49 @@ public class JsonSchemaSerializationTest {
 
         final JSONObject initializedObject = this.jsonSchemaSerializationService.initialize(rawSchema);
 
-        Map<String, Object> expectedData = Map.of(
+        final Map<String, Object> expectedData = Map.of(
                 "stringProp1", "",
                 "stringProp2", ""
         );
 
         assertThat(initializedObject.toMap()).isEqualTo(expectedData);
+    }
+
+    @Test
+    public void initialize_simple_schema_with_readonly_false() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchemaWithReadonlyFalse.json");
+
+        final JSONObject initializedObject = this.jsonSchemaSerializationService.initialize(rawSchema);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, initializedObject.toMap(), true);
+
+        final Map<String, Object> expectedData = Map.of(
+                "stringProp1", "",
+                "stringProp2", ""
+        );
+
+        assertThat(filteredData.toMap()).isEqualTo(expectedData);
+    }
+
+    @Test
+    public void serialize_and_add_initialize_simple_schema_with_json_null() throws URISyntaxException, IOException {
+        final String rawSchema = getSchemaString("/schema/serialization/simpleSchemaWithReadonlyFalse.json");
+
+        final Map<String, Object> actualData = Map.of(
+                "stringProp1", "stringValue"
+        );
+
+        final JSONObject previosData = this.jsonSchemaSerializationService.initialize(rawSchema);
+        final JSONObject filteredData = this.jsonSchemaSerializationService.filter(rawSchema, actualData, true);
+        final Map<String, Object> clearedData = this.jsonSchemaSerializationService.merge(filteredData, previosData);
+        final JSONObject defaultValue = this.jsonSchemaSerializationService.initialize(rawSchema);
+        final Map<String, Object> serializedData = this.jsonSchemaSerializationService.merge(new JSONObject(clearedData), defaultValue);
+
+        final Map<String, Object> expectedData = new HashMap<>();
+        expectedData.put("stringProp1", "stringValue");
+        expectedData.put("stringProp2", "");
+
+        //override all
+        assertThat(serializedData).isEqualTo(expectedData);
     }
 
     //------------------------------------ Helper Methods ------------------------------------//

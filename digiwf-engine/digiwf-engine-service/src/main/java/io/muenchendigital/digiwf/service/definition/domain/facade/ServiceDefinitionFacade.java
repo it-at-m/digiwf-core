@@ -54,8 +54,7 @@ public class ServiceDefinitionFacade {
     public void startInstance(final String key, final String businessKey, final String fileContext, final Map<String, Object> variables, final String userId, final List<String> groups) {
         final StartContext startContext = this.serviceStartContextService.getStartContext(userId, key).orElse(new StartContext(userId, key, fileContext));
         final ServiceDefinitionDetail definition = this.getServiceDefinitionDetailAuthorized(key, userId, groups);
-        final Map<String, Object> serializedVariables;
-        serializedVariables = this.serviceDefinitionDataService.serializeVariables(definition, variables);
+        final Map<String, Object> serializedVariables = this.serviceDefinitionDataService.serializeVariables(definition, variables);
 
         // get the s3-integrations topic or use the default one from application properties
         // and set it as a variable on process start

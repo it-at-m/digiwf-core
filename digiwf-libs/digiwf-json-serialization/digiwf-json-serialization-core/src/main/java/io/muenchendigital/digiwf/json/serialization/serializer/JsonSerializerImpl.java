@@ -221,7 +221,10 @@ public class JsonSerializerImpl implements JsonSerializer {
     }
 
     private JSONObject getDataOrEmptyObject(final JSONObject data, final String key) {
-        return data.has(key) ? (JSONObject) data.get(key) : null;
+        if (!data.has(key) || !(data.get(key) instanceof JSONObject)) {
+            return null;
+        }
+        return (JSONObject) data.get(key);
     }
 
 }
