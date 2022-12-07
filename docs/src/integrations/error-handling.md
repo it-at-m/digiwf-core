@@ -1,4 +1,4 @@
-# Konzept zur Fehlerbehandlung in Integrationsbausteinen
+# Fehlerbehandlung Integrationen
 
 ## Zielgruppe
 
@@ -40,8 +40,11 @@ Tritt bei der Verarbeitung einer Message generell ein Fehler auf, kommt zuerst e
 Bei Fehlern in anderen Verarbeitungsschritten innerhalb der unterstützenden Frameworks wird die Message in die 
 für den Consumer konfigurierte [DLQ Stage 1](#dlq-stage-1) verschoben. 
 
-Kommt es zum Fehlerfall innerhalb des Message-Consumers selbst (z.B. auch beim Aufruf eines externen Systems), sollte ein try-catch-Block erwartete sowie unerwartete Exceptions auf oberster Ebene fangen. 
-Ist das nicht gegeben, führt jede Exception zum Anstieg der Nachrichtenanzahl in der DLQ. 
+Kommt es zum Fehlerfall innerhalb des Message-Consumers selbst (z.B. auch beim Aufruf eines externen Systems), sollte ein try-catch-Block 
+erwartete sowie unerwartete Exceptions auf oberster Ebene fangen. 
+Fängt man die Exception nicht und läßt man den Consumer sie weiterwerfen, wird die Message nach den konfigurierten Retry-Versuchen in die DLQ verschoben 
+(das besorgt spring-cloud-stream bei der Einstellung _enableDlq=true_ für uns).
+
 Tritt ein Fehler auf, muss der Service entscheiden, ob es sich um einen fachlichen oder technischen Fehler handelt, 
 bzw. ob bei der Prozessinstanz ein BPMN-Error oder ein Incident ausgelöst werden soll. 
 Zum Unterschied zwischen BPMN-Error und Incident 
@@ -50,6 +53,14 @@ siehe [business-error-vs-technical-error](https://docs.camunda.io/docs/component
 Um die Fehlerbehandlung für Integration-Service so einfach wie möglich zu gestalten, ist in den cloudstream-utils ein IncidentService und ein BpmnErrorService 
 als Bean konfiguriert, den man sich zum Aufruf injecten kann.
 Je nach Entscheidung, um welche Art von Fehler es sich handelt, wird der entspr. Service für die weitere Verarbeitung aufgerufen.
+
+```
+if (isBusinessError(exception)){
+  return bpmnErrorService.sendBpmnError(messageHeaders, errorCode, errorMessage);
+} else {
+  return incidentService.sendIncident(messageHeaders, errorMessage);
+}  
+```
 Nach der Datenaufbereitung sendet der Service eine Message entweder in das BPMN-Error-Topic (siehe [BPMN-Error-Verarbeitung](#bpmn-error-verarbeitung)) 
 oder das Incident-Topic des Connectors (siehe [Incident Verarbeitung](#incident-verarbeitung)).
 
@@ -70,15 +81,13 @@ spring.cloud.stream.bindings.<binding-name>.consumer.maxAttempts
 Im Connector empfängt ein Consumer Nachrichten aus dem Incident-Topic und erstellt einen Incident für die entspr. Prozessinstanz.
 Dazu ermittelt er aus der Engine alle Activities, die das Event aus dem Message-Header _messageName_ abonniert haben (Event-Subscription) 
 und erstellt auf dieser Activity einen Incident mit dem Typ _integrationError_.
-Beides erfolgt über die Rest-API der Engine.
 
-Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in die DLQ. 
+Kann der Incident aufgrund irgendeines auftretenden Fehlers nicht erstellt werden, wird die Message in die DLQ des Connectors weitergeleitet.
 
 
 ## BPMN-Error-Verarbeitung
 
 Im Connector empfängt ein Consumer Nachrichten aus dem BPMN-Error-Topic und korreliert einen BPMN-Error mit der Prozessinstanz.
-Dies geschieht über die Rest-API der Engine.
 
 Der von dem BPMN-Hauptprozess eingebundene Integrationsbaustein enthält das Streaming-Template, welches über ein eigenes, konfigurierbares Receive-Event
 für BPMN Errors verfügt. Korreliert man eine Message mit diesem Event, kann im nächsten Schritt des Streaming-Templates der ServiceTask _Throw BPMN Error_ 
@@ -93,7 +102,7 @@ enableExceptionsAfterUnhandledBpmnError=true
 so konfiguriert, dass BPMN-Errors, für die kein Catch-Event definiert ist, automatisch einen Incident in der Prozessinstanz auslösen.
 Damit ist gesichert, dass bei einem Fehler die Instanz nicht unkontrolliert weiterläuft. 
 
-Unbehandelte Fehler in der Verarbeitung führen zur Weiterleitung der Message in die DLQ.
+Kann der BPMN-Error aufgrund irgendeines auftretenden Fehlers nicht erstellt werden, wird die Message in die DLQ des Connectors weitergeleitet.
 
 
 ## DLQ Stage 1
