@@ -98,6 +98,20 @@ Additionally, you can use the following profiles to disable a few features to si
 * `no-mail` to prevent the applications from sending emails
 * (only digiwf-engine-service) `no-ldap` to use a *fake* user service instead of the actual lhm ldap
 
+## Tests
+
+### Run Tests
+
+```
+mvn clean verify
+```
+
+### Jacoco Coverage
+
+After executing the tests a jacoco coverage report is generated in [digiwf-coverage](digiwf-coverage) target directory.
+
+> If you want to track the test coverage of additional modules you have to add the maven module as dependency in [digiwf-coverage](digiwf-coverage/pom.xml).
+
 ## Release a new version
 
 ### Building a new maven version
