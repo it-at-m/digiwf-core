@@ -35,11 +35,10 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./digiwf-coverage/target/coverage/
           fail_ci_if_error: true
           files: ./jacoco.xml
           flags: unittests
-          name: codecov-umbrella
-          path_to_write_report: ./coverage/codecov_report.txt
+          name: digiwf-core
+          path_to_write_report: ./digiwf-coverage/target/codecov_report.txt
           verbose: true
