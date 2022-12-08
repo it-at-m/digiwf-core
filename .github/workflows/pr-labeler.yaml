@@ -13,6 +13,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   codeCov:
+    name: Build java app and upload codecov reports
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
