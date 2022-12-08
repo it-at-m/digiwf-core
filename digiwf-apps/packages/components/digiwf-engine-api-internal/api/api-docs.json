@@ -78,23 +78,40 @@
         "tags" : [ "HumanTaskRestController" ],
         "operationId" : "getTasks",
         "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
           "name" : "size",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "schema" : {
             "maximum" : 50,
             "minimum" : 1,
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "default" : 50
           }
         }, {
-          "name" : "page",
+          "name" : "query",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "schema" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32"
+            "type" : "string"
+          }
+        }, {
+          "name" : "followUp",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
           }
         } ],
         "responses" : {
@@ -1890,6 +1907,19 @@
             "type" : "integer",
             "format" : "int64"
           },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
           "size" : {
             "type" : "integer",
             "format" : "int32"
@@ -1907,19 +1937,6 @@
           "sort" : {
             "$ref" : "#/components/schemas/Sort"
           },
-          "first" : {
-            "type" : "boolean"
-          },
-          "last" : {
-            "type" : "boolean"
-          },
-          "numberOfElements" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
-          },
           "empty" : {
             "type" : "boolean"
           }
@@ -1928,18 +1945,11 @@
       "PageableObject" : {
         "type" : "object",
         "properties" : {
-          "offset" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "sort" : {
-            "$ref" : "#/components/schemas/Sort"
-          },
-          "pageNumber" : {
+          "pageSize" : {
             "type" : "integer",
             "format" : "int32"
           },
-          "pageSize" : {
+          "pageNumber" : {
             "type" : "integer",
             "format" : "int32"
           },
@@ -1948,19 +1958,26 @@
           },
           "paged" : {
             "type" : "boolean"
+          },
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
           }
         }
       },
       "Sort" : {
         "type" : "object",
         "properties" : {
-          "empty" : {
-            "type" : "boolean"
-          },
           "sorted" : {
             "type" : "boolean"
           },
           "unsorted" : {
+            "type" : "boolean"
+          },
+          "empty" : {
             "type" : "boolean"
           }
         }

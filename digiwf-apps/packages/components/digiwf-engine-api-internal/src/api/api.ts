@@ -728,6 +728,30 @@ export interface PageHumanTaskTO {
     'totalElements'?: number;
     /**
      * 
+     * @type {PageableObject}
+     * @memberof PageHumanTaskTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageHumanTaskTO
+     */
+    'first'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageHumanTaskTO
+     */
+    'last'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageHumanTaskTO
+     */
+    'numberOfElements'?: number;
+    /**
+     * 
      * @type {number}
      * @memberof PageHumanTaskTO
      */
@@ -750,30 +774,6 @@ export interface PageHumanTaskTO {
      * @memberof PageHumanTaskTO
      */
     'sort'?: Sort;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'last'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageHumanTaskTO
-     */
-    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -817,25 +817,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'offset'?: number;
-    /**
-     * 
-     * @type {Sort}
-     * @memberof PageableObject
-     */
-    'sort'?: Sort;
+    'pageSize'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
     'pageNumber'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
-    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
@@ -848,6 +836,18 @@ export interface PageableObject {
      * @memberof PageableObject
      */
     'paged'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'offset'?: number;
+    /**
+     * 
+     * @type {Sort}
+     * @memberof PageableObject
+     */
+    'sort'?: Sort;
 }
 /**
  * 
@@ -1182,12 +1182,6 @@ export interface Sort {
      * @type {boolean}
      * @memberof Sort
      */
-    'empty'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Sort
-     */
     'sorted'?: boolean;
     /**
      * 
@@ -1195,6 +1189,12 @@ export interface Sort {
      * @memberof Sort
      */
     'unsorted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Sort
+     */
+    'empty'?: boolean;
 }
 /**
  * 
@@ -3153,16 +3153,14 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {number} size 
-         * @param {number} page 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
+         * @param {boolean} [followUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTasks: async (size: number, page: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'size' is not null or undefined
-            assertParamExists('getTasks', 'size', size)
-            // verify required parameter 'page' is not null or undefined
-            assertParamExists('getTasks', 'page', page)
+        getTasks: async (page?: number, size?: number, query?: string, followUp?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/task`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3179,12 +3177,20 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
             if (size !== undefined) {
                 localVarQueryParameter['size'] = size;
             }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+            if (followUp !== undefined) {
+                localVarQueryParameter['followUp'] = followUp;
             }
 
 
@@ -3319,13 +3325,15 @@ export const HumanTaskRestControllerApiFp = function(configuration?: Configurati
         },
         /**
          * 
-         * @param {number} size 
-         * @param {number} page 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
+         * @param {boolean} [followUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTasks(size: number, page: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(size, page, options);
+        async getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(page, size, query, followUp, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3413,13 +3421,15 @@ export const HumanTaskRestControllerApiFactory = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} size 
-         * @param {number} page 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
+         * @param {boolean} [followUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTasks(size: number, page: number, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getTasks(size, page, options).then((request) => request(axios, basePath));
+        getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: any): AxiosPromise<PageHumanTaskTO> {
+            return localVarFp.getTasks(page, size, query, followUp, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3542,14 +3552,28 @@ export interface HumanTaskRestControllerApiGetTasksRequest {
      * @type {number}
      * @memberof HumanTaskRestControllerApiGetTasks
      */
-    readonly size: number
+    readonly page?: number
 
     /**
      * 
      * @type {number}
      * @memberof HumanTaskRestControllerApiGetTasks
      */
-    readonly page: number
+    readonly size?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiGetTasks
+     */
+    readonly query?: string
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof HumanTaskRestControllerApiGetTasks
+     */
+    readonly followUp?: boolean
 }
 
 /**
@@ -3657,8 +3681,8 @@ export class HumanTaskRestControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getTasks(requestParameters: HumanTaskRestControllerApiGetTasksRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTasks(requestParameters.size, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public getTasks(requestParameters: HumanTaskRestControllerApiGetTasksRequest = {}, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.followUp, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

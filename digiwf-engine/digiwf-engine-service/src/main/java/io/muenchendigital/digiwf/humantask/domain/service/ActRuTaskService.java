@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +23,10 @@ public class ActRuTaskService {
     private final ActRuTaskRepository actRuTaskRepository;
     private final ActRuTaskMapper actRuTaskMapper;
 
-    private final TaskInfoService taskInfoService;
-
     private final ActRuTaskSearchRepository actRuTaskSearchRepository;
 
     public Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
-
-     return this.actRuTaskSearchRepository.find(assigneeId, query, followUp, pageable).map(actRuTaskMapper::map2Model);
-//        return this.actRuTaskRepository.findAllByAssignee(assigneeId, pageable).map(actRuTaskMapper::map2Model);
+     return this.actRuTaskSearchRepository.search(assigneeId, query, followUp, pageable).map(actRuTaskMapper::map2Model);
     }
 
     public Page<ActRuTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
