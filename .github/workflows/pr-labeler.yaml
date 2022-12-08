@@ -13,7 +13,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   codeCov:
-    needs: compliance
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
