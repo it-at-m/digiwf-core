@@ -36,9 +36,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./digiwf-coverage/target/coverage/jacoco.xml
+          directory: ./digiwf-coverage/target/coverage/
           fail_ci_if_error: true
-          files: ./coverage1.xml,./coverage2.xml
+          files: ./jacoco.xml
           flags: unittests
           name: codecov-umbrella
           path_to_write_report: ./coverage/codecov_report.txt
