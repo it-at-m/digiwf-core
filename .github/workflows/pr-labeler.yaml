@@ -11,3 +11,35 @@ jobs:
         uses: tinkurlab/monorepo-pr-labeler-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  codeCov:
+    needs: compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          server-id: camunda-bpm-nexus-ee
+          server-username: CAMUNDA_USER_REF
+          server-password: CAMUNDA_TOKEN_REF
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+        env:
+          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
+          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./digiwf-coverage/target/coverage/jacoco.xml
+          fail_ci_if_error: true
+          files: ./coverage1.xml,./coverage2.xml
+          flags: unittests
+          name: codecov-umbrella
+          path_to_write_report: ./coverage/codecov_report.txt
+          verbose: true
