@@ -20,7 +20,7 @@ Mögliche Fehler im DigiWF-Integrationsumfeld können sein:
 
 ## Fehlerhandling Kontext 
 
-![Fehlersequenz](ErrorHandlingIntegrations.drawio.png)
+![Fehlersequenz](~@source/images/platform/integrations/ErrorHandlingIntegrations.drawio.png)
 
 
 ## Fehlerhandling der Integration

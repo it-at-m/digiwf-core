@@ -163,6 +163,13 @@ module.exports = {
                             ]
                         },
                         {
+                            title: 'Integrationen',
+                            collapsable: false,
+                            children: [
+                                'integrations/email/',
+                            ]
+                        },
+                        {
                             title: 'Vorlagen',
                             collapsable: false,
                             children: [
@@ -197,9 +204,16 @@ module.exports = {
                                 'digiwf-cosys-integration/',
                                 'digiwf-mail-integration/',
                                 'digiwf-s3-integration/',
-                                'digiwf-verification-integration/'
+                                'digiwf-verification-integration/',
                             ]
                         },
+                        {
+                            title: 'Konzept',
+                            collapsable: false,
+                            children: [
+                                'error-handling/'
+                            ]
+                        }
                     ],
                 }
             },
