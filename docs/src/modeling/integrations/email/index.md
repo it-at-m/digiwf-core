@@ -2,6 +2,8 @@
 
 Um eine Email zu versenden, muss eine Callaktivity modelliert werden, die ein `sendMail` Element Template verwendet.
 
+**Properties**
+
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
 | Event Topic           | Das Topic der Email Integration                                                    | dwf-email-local-01         |
