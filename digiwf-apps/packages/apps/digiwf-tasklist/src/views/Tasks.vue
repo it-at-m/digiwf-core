@@ -1,14 +1,14 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="tasks"
+      :tasks="data?.content || []"
+      :on-filter-change="onFilterChange"
       view-name="Meine Aufgaben"
       :is-loading="isLoading"
-      :error-message="errorMessage"
+      :data-loading-error-message="errorMessage"
       :filter.sync="filter"
       pageId="tasks"
-      @loadTasks="loadTasks(true)"
-      @update:filter="onFilterChanged"
+      @loadTasks="reloadTasks"
     >
       <template #default="props">
         <task-item
@@ -30,14 +30,15 @@
     </div>
     <AppPaginationFooter
       found-data-text="Vorgänge gefunden"
-      :items-per-page="pagination.pageSize.value"
+      :size="pagination.size?.value || 20"
+      :on-size-change="pagination.onSizeChange"
       :last-page="pagination.lastPage"
-      :last-page-button-disabled="pagination.lastPageButtonDisabled"
+      :last-page-button-disabled="pagination.isLastPageButtonDisabled()"
       :next-page="pagination.nextPage"
-      :total-number-of-items="pagination.totalNumberOfElements"
-      :next-page-button-disabled="pagination.nextPageButtonDisabled"
-      :number-of-pages="pagination.numberOfPages"
-      :page="pagination.getCurrentPage()"
+      :total-number-of-items="data?.totalElements || 0"
+      :next-page-button-disabled="pagination.isNextPageButtonDisabled()"
+      :number-of-pages="data?.totalPages || 1"
+      :page="pagination.getCurrentPageLabel()"
       :update-items-per-page="pagination.updateItemsPerPage"
     />
   </app-view-layout>
@@ -50,133 +51,89 @@
 </style>
 
 <script lang="ts">
-import {HumanTaskTO} from '@muenchen/digiwf-engine-api-internal';
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import TaskList from "@/components/task/TaskList.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
-import {defineComponent, onMounted, ref, watch} from "vue";
-import {useStore} from "../hooks/store";
-import {useRoute, useRouter} from "vue-router/composables";
+import {defineComponent, ref, watch} from "vue";
+import {useRouter} from "vue-router/composables";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 import {useMyTasksQuery} from "../middleware/tasks/taskMiddleware";
+import {useGetPaginationData} from "../middleware/paginationData";
+import {usePageId} from "../middleware/pageId";
 
 export default defineComponent({
   props: [],
   components: {AppPaginationFooter, TaskItem, TaskList, AppToast, AppViewLayout},
   setup() {
-
-    const filter = ref<string>("");
-    const followUp = ref<boolean>(false);
-
-    const page = ref<number>(0);
-    const size = ref<number>(20);
-    const filteredTasks = ref<HumanTaskTO[]>([]);
-
-    const store = useStore();
-    const route = useRoute();
     const router = useRouter();
+    const pageId = usePageId();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
 
-    const {isLoading: isQueryLoading, isError, data, error, refetch} = useMyTasksQuery(page, size);
+    const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true"
+    const followUp = ref<boolean>(getFollowOfUrl());
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, followUp);
 
     const reloadTasks = (): void => {
-      console.log("reload tasks")
-      refetch().then(() => {
-        console.log("data after refetch", data)
-        filteredTasks.value = data.value?.content || [];
-        // fixme
-        // if (!followUp) {
-        //   data = loadedTasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
-        // }
-      });
-    }
+      refetch()
+    };
 
-    const setPage = (newPage: number) => page.value = newPage;
-
-    const loadTasks = async (refresh = false): Promise<void> => {
-      console.log("load Tasks")
+    watch(page, (newPage) => {
+      setPage(newPage);
       reloadTasks();
-      // isLoading.value = true;
-      const startTime = new Date().getTime();
-      try {
-        // await store.dispatch('tasks/getTasks', refresh);
-        reloadTasks();
-        // errorMessage.value = "";
-      } catch (error: any) {
-        // errorMessage.value = error.message;
-      }
-      setTimeout(() => {
-        // isLoading.value = false
-      }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-    };
-
-    const loadFilter = (): void => {
-      filter.value = route.query.filter as string ?? "";
-      if (filter.value) {
-        filter.value = store.getters["tasks/tasksFilter"];
-        router.replace({query: {filter: filter.value}});
-      }
-    };
-
-    const onFilterChanged = (filter: string) => {
-      router.replace({query: {filter: filter}})
-      store.commit('tasks/setTasksFilter', filter);
-    };
-    watch(page, (p) => {
-      console.log("watch of page: ", p)
+    })
+    watch(size, (newSize) => {
+      setSize(newSize)
       reloadTasks();
     })
 
     watch(followUp, (followUp) => {
-      store.dispatch('tasks/setFollowUp', followUp);
+      router.replace({
+        query: {
+          ...router.currentRoute.query,
+          followUp: followUp ? "true" : "false"
+        }
+      })
       reloadTasks();
     });
 
-    onMounted(() => {
-      loadTasks(false);
-      loadFilter();
-      followUp.value = store.getters['tasks/followUp'];
-    });
-
     return {
+      pageId,
       followUp,
-      isLoading: isQueryLoading,
-      errorMessage: error.value,
-      tasks: filteredTasks,
-      filter,
-      onFilterChanged,
-      loadFilter,
-      loadTasks,
+      isLoading,
+      errorMessage: error,
+      data,
+      filter: searchQuery,
       reloadTasks,
       pagination: {
-        numberOfPages: data.value?.totalPages || 1,
-        getCurrentPage: () => page.value + 1,
+        page,
+        size,
+        onSizeChange: setSize,
+        getCurrentPageLabel: () => page.value + 1,
         setPage,
-        pageSize: size,
         lastPage: () => {
-          console.log("lastPage");
-          page.value--;
           if (page.value === 0) {
             return;
           }
+          setPage(page.value - 1)
           refetch()
         },
-        lastPageButtonDisabled: page.value === 1,
-        nextPageButtonDisabled: page.value === data.value?.totalPages,
         nextPage: () => {
-          console.log("nextpage")
           const totalPages = data.value?.totalPages;
           if (!totalPages || page.value === totalPages - 1) {
             return;
           }
-          page.value++
-          console.log("page.value: ", page.value)
+          setPage(page.value + 1);
           refetch();
         },
-        totalNumberOfElements: data.value?.totalElements || 0,
-        updateItemsPerPage: () => {
-          console.log("updateItemsPerPage")
-        }
+        isLastPageButtonDisabled: () => page.value === 0,
+        isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize
+      },
+      onFilterChange: (newFilter: string | undefined) => {
+        console.log("Tasks::onFilterChange: ", newFilter)
+        setSearchQuery(newFilter || "");
+        reloadTasks();
       },
     }
   }

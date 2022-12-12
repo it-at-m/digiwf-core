@@ -14,7 +14,7 @@
     </template>
     <AppPaginationFooter
       :found-data-text="foundDataText"
-      :items-per-page="itemsPerPage"
+      :size="itemsPerPage"
       :last-page="lastPage"
       :last-page-button-disabled="lastPageButtonDisabled"
       :next-page="nextPage"
@@ -56,7 +56,7 @@ export default class AppPageableList extends Vue {
   foundDataText!: string;
 
   get numberOfPages(): number {
-    return Math.ceil(this.items.length / this.itemsPerPage);
+    return Math.ceil(this.items.length / this.size);
   }
 
   updateItemsPerPage(number: number): void {

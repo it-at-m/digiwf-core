@@ -1,6 +1,5 @@
 <template>
     <v-row
-      v-if="totalNumberOfItems >= 10"
       class="ma-1 mt-3"
       align="center"
       justify="center"
@@ -16,7 +15,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <span class="mr-1">{{ itemsPerPage }}</span>
+            <span class="mr-1">{{ size }}</span>
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -93,7 +92,8 @@ export default defineComponent({
     numberOfPages: {type: Number, required: true},
     totalNumberOfItems: {type: Number, required: true},
     page: {type: Number, required: true},
-    itemsPerPage: {type: Number, required: true},
+    size: {type: Number, required: true},
+    onSizeChange: {type: Function, required: true},
     foundDataText: {type: String, required: true},
     nextPageButtonDisabled: {type: Boolean, required:true},
     lastPageButtonDisabled: {type: Boolean, required:true},

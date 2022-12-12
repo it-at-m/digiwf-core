@@ -8,6 +8,9 @@ export interface FiltersState {
   lastFetch: number | null;
 }
 
+/**
+ * @deprecated
+ */
 export default {
   namespaced: true,
   state: {

@@ -241,7 +241,6 @@ export default class App extends Vue {
   }
 
   loadData(refresh = false): void {
-    this.$store.dispatch("tasks/getTasks", refresh);
     this.$store.dispatch("openGroupTasks/getTasks", refresh);
     this.$store.dispatch("assignedGroupTasks/getTasks", refresh);
     this.$store.dispatch("processInstances/getProcessInstances", refresh);
@@ -263,12 +262,7 @@ export default class App extends Vue {
 
   @Watch("$store.state.tasks.tasks")
   setMyTaskCount(tasks: HumanTaskTO[]): void {
-    const filteredTasks = tasks.filter(
-      (task: HumanTaskTO) =>
-        task.followUpDate == '' ||
-        new Date().getTime() > new Date(task.followUpDate!).getTime()
-    );
-    this.myTaskCount = filteredTasks.length;
+    this.myTaskCount = -1 ; //FIXME
   }
 
   @Watch("$store.state.user.info")
