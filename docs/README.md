@@ -21,3 +21,8 @@ This list may be published as release notes and is the summary of the CHANGELOG.
 
 You can add element-templates and example processes to [src/.vuepress/public](src/.vuepress/public)
 and list them in the according files under [src/modeling/templates](src/modeling/templates).
+
+### Adding new pages
+
+If you want new pages to show up in the sidebar you have to add them in the [src/.vuepress/config.js](src/.vuepress/config.js).
+See the [vuepress docs](https://v1.vuepress.vuejs.org/theme/default-theme-config.html#sidebar) for additional information. 
