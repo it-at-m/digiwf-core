@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="email-integration-example" name="email-integration-example" isExecutable="true">
+    <bpmn:documentation />
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="email-integration_start">
+      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_1momc7x">
+      <bpmn:incoming>Flow_021rbp5</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="send-mail" />
+    <bpmn:callActivity id="send-mail" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-simple-email" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
+        <camunda:in sourceExpression="${FormField_Message}" target="body" />
+        <camunda:in sourceExpression="${FormField_Subject}" target="subject" />
+        <camunda:in sourceExpression="itm.digiwf@muenchen.de" target="replyTo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
+      <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_021rbp5" sourceRef="send-mail" targetRef="Event_1momc7x" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-integration-example">
+      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
+        <di:waypoint x="188" y="100" />
+        <di:waypoint x="250" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_021rbp5_di" bpmnElement="Flow_021rbp5">
+        <di:waypoint x="350" y="97" />
+        <di:waypoint x="392" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1momc7x_di" bpmnElement="Event_1momc7x">
+        <dc:Bounds x="392" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yevujs_di" bpmnElement="send-mail">
+        <dc:Bounds x="250" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -26,5 +26,8 @@
 ## Email Integration
 
 <DownloadArtifact
+    artifact="sendSimpleMail.json"
+    type="element-template" />
+<DownloadArtifact
     artifact="sendMail.json"
     type="element-template" />
