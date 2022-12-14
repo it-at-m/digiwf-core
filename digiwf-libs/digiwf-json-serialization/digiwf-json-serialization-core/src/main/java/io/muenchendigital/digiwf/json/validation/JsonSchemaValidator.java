@@ -36,17 +36,6 @@ public class JsonSchemaValidator {
     }
 
     /**
-     * Validates data against a json schema
-     *
-     * @param schema schema that is used for validation
-     * @param data   data that is validated
-     */
-    public void validate(final String schema, final Map<String, Object> data) {
-        final Schema schemaObj = this.createSchema(new JSONObject(schema));
-        schemaObj.validate(new JSONObject(data));
-    }
-
-    /**
      * Extract root cause exception error information
      *
      * @param validationException Validation Exception
