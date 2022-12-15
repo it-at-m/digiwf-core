@@ -18,7 +18,6 @@ import io.muenchendigital.digiwf.shared.exception.VariablesNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.json.JSONObject;
@@ -48,7 +47,6 @@ public class HumanTaskDataService {
 
     //Camunda Services
     private final TaskService taskService;
-    private final RuntimeService runtimeService;
 
     private final EngineDataMapper engineDataMapper;
 
@@ -125,7 +123,7 @@ public class HumanTaskDataService {
     private Map<String, Object> serializeData(final JsonSchema schema, final Task task, final Map<String, Object> variables) {
 
         final JSONObject filteredData = this.serializationService.filter(schema.getSchemaMap(), variables, true);
-        this.jsonSchemaValidator.validate(schema.getSchema(), filteredData.toMap());
+        this.jsonSchemaValidator.validate(schema.getSchemaMap(), filteredData.toMap());
         final Map<String, Object> taskData = this.mapTaskData(task);
         final Map<String, Object> targetData = this.serializationService.deserializeData(schema.getSchemaMap(), taskData);
         final Map<String, Object> serializedData = this.serializationService.merge(filteredData, new JSONObject(targetData));
