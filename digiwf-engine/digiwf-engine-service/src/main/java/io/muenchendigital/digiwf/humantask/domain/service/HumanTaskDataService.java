@@ -18,7 +18,6 @@ import io.muenchendigital.digiwf.shared.exception.VariablesNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.json.JSONObject;
@@ -48,7 +47,6 @@ public class HumanTaskDataService {
 
     //Camunda Services
     private final TaskService taskService;
-    private final RuntimeService runtimeService;
 
     private final EngineDataMapper engineDataMapper;
 
