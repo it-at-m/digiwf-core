@@ -11,7 +11,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
-        <version>0.14.0-SNAPSHOT</version>
+        <version>0.15.0-SNAPSHOT</version>
     </parent>
 
     <modules>
