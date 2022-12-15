@@ -2,14 +2,11 @@
 
 <!-- Link available element-templates below -->
 
-## Streaming Template
-
-<DownloadArtifact
-    artifact="StreamingTemplateIntegrationV01.bpmn"
-    type="element-template" />
-
 ## Cosys Integration
 
+<DownloadArtifact
+    artifact="cosys_generate_document_template_V02.json"
+    type="element-template" />
 <DownloadArtifact
     artifact="cosys-alle-daten.json"
     type="element-template" />

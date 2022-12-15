@@ -1,0 +1,227 @@
+{
+  "key": "CosysGenerateDocumentTest_Input",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Info",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you can create yourself a greeting cart genereted by **Cosys**. \n\nYou will first receive a user task *\"Input data\"* to fill out the card's text and a second one to check the result and download your generated card.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "app_file_s3_async_config": {
+                "fieldType": "text",
+                "title": "S3 Config",
+                "type": "string",
+                "key": "app_file_s3_async_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "app_file_s3_sync_config": {
+                "fieldType": "text",
+                "title": "S3 HTTP Config",
+                "type": "string",
+                "key": "app_file_s3_sync_config",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_Grusstext": {
+                "fieldType": "text",
+                "title": "Greetings",
+                "type": "string",
+                "default": "Hello World",
+                "key": "FormField_Grusstext",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 7,
+                    "sm": 7,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "EmpfaengerVorname": {
+                "fieldType": "text",
+                "title": "Receiver",
+                "type": "string",
+                "default": "Client",
+                "key": "EmpfaengerVorname",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "AbsenderVorname": {
+                "fieldType": "text",
+                "title": "Sender",
+                "type": "string",
+                "default": "DigiWF",
+                "key": "AbsenderVorname",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_CosysEventTopic": {
+                "fieldType": "text",
+                "title": "Cosys Event topic",
+                "type": "string",
+                "key": "FormField_CosysEventTopic",
+                "default": "dwf-cosys-local-01",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 7,
+                    "sm": 7,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_CosysClient": {
+                "fieldType": "text",
+                "title": "Cosys client",
+                "type": "string",
+                "key": "FormField_CosysClient",
+                "default": "9001",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 3,
+                    "sm": 3,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_CosysRole": {
+                "fieldType": "text",
+                "title": "Cosys role",
+                "type": "string",
+                "key": "FormField_CosysRole",
+                "default": "TESTER",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 3,
+                    "sm": 3,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_CosysGuid": {
+                "fieldType": "text",
+                "title": "Cosys GUID",
+                "type": "string",
+                "key": "FormField_CosysGuid",
+                "default": "519650b7-87c2-41a6-8527-7b095675b13f",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 6,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+
+
+            },
+            "key": "f393458d-db10-41ec-96e6-40e6a905093f"
+          }
+        ],
+        "key": "cc1d2542-daf4-4c9e-bd68-612ea617b0de"
+      }
+    ]
+  }
+}

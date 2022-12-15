@@ -115,6 +115,17 @@ module.exports = {
                                 'guides/custom-integration-service/',
 
                             ]
+                        },
+                        {
+                            title: 'Feature Prozesse',
+                            collapsable: false,
+                            children: [
+                                'featureprocesses/intro',
+                                'featureprocesses/digiwferleben/',
+                                'featureprocesses/email/',
+                                'featureprocesses/cosys/',
+
+                            ]
                         }
                     ],
                     '/features/': [
@@ -167,6 +178,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'integrations/email/',
+                                'integrations/cosys/',
                             ]
                         },
                         {
@@ -174,6 +186,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'templates/element-templates/',
+                                'templates/bpmn/',
                                 'templates/examples/'
                             ]
                         }
