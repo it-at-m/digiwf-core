@@ -13,7 +13,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-s3-integration</artifactId>
-        <version>0.15.0-SNAPSHOT</version>
+        <version>0.16.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
