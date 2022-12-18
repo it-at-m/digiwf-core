@@ -47,7 +47,7 @@ public class HumanTaskRestController {
     private final HumanTaskApiMapper taskMapper;
 
     /**
-     * Returns a pafe  tasks assigned to the authenticated user.
+     * Returns a page  tasks assigned to the authenticated user.
      *
      * @return tasks
      */
@@ -68,8 +68,13 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping("/group/open")
-    public Page<HumanTaskTO> getOpenGroupTasks(final Pageable pageable) {
-        return this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable).map(this.taskMapper::map2TO);
+    public Page<HumanTaskTO> getOpenGroupTasks(
+            @RequestParam(value = "page", defaultValue = "0", required = false) @Min(0)  final int page,
+            @RequestParam(value = "size", defaultValue = "50", required = false) @Min(1) @Max(50) final int size,
+            @RequestParam(value = "query", required = false) @Nullable final String query
+    ) {
+        final Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
+        return this.taskService.getOpenGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), query, pageable).map(this.taskMapper::map2TO);
     }
 
     /**
@@ -78,8 +83,13 @@ public class HumanTaskRestController {
      * @return tasks
      */
     @GetMapping("/group/assigned")
-    public Page<HumanTaskTO> getAssignedGroupTasks(final Pageable pageable) {
-        return this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), pageable).map(this.taskMapper::map2TO);
+    public Page<HumanTaskTO> getAssignedGroupTasks(
+            @RequestParam(value = "page", defaultValue = "0", required = false) @Min(0)  final int page,
+            @RequestParam(value = "size", defaultValue = "50", required = false) @Min(1) @Max(50) final int size,
+            @RequestParam(value = "query", required = false) @Nullable final String query
+    ) {
+        final Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
+        return this.taskService.getAssignedGroupTasks(this.authenticationProvider.getCurrentUserId(), this.authenticationProvider.getCurrentUserGroups(), query, pageable).map(this.taskMapper::map2TO);
     }
 
     /**

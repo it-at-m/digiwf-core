@@ -22,6 +22,7 @@ public class ActRuIdentityLinkEntity {
 
     @ManyToOne
     @JoinColumn(name="task_id_", nullable=false)
+    @ToString.Exclude
     private ActRuTaskEntity actRuTaskEntity;
     @Column(name = "user_id_")
     private String userId;

@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     AppJsonForm: typeof import('./src/components/schema/AppJsonForm.vue')['default']
     AppJsonRenderer: typeof import('./src/components/schema/AppJsonRenderer.vue')['default']
     AppLoadingButton: typeof import('./src/components/UI/AppLoadingButton.vue')['default']
+    AppMenu: typeof import('./src/components/UI/AppMenu.vue')['default']
     AppPageableList: typeof import('./src/components/UI/AppPageableList.vue')['default']
     AppPaginationFooter: typeof import('./src/components/UI/AppPaginationFooter.vue')['default']
     AppToast: typeof import('./src/components/UI/AppToast.vue')['default']

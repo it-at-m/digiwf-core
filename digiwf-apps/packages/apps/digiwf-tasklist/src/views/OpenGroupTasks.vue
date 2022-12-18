@@ -1,15 +1,17 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="tasks.value"
+      :tasks="data?.content || []"
+      :on-filter-change="onFilterChange"
+      :is-loading="isLoading"
+      :data-loading-error-message="errorMessage"
+      :filter.sync="filter"
+      @loadTasks="reloadTasks"
+
       view-name="Offene Gruppenaufgaben"
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
-      :is-loading="isLoading"
-      :error-message="errorMessage"
-      :filter.sync="filter"
       pageId="opengrouptasks"
-      @loadTasks="loadTasks(true)"
-      @update:filter="onFilterChanged"
+
     >
       <template #default="props">
         <group-task-item
@@ -29,82 +31,76 @@
 </style>
 
 <script lang="ts">
-import {FetchUtils, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../api/ApiConfig";
-import {defineComponent, onMounted, reactive, ref} from "vue";
-import {useStore} from "../hooks/store";
-import {useRoute, useRouter} from "vue-router/composables";
-
+import {defineComponent, watch} from "vue";
+import {useRouter} from "vue-router/composables";
+import {useAssignTaskMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
+import {usePageId} from "../middleware/pageId";
+import {useGetPaginationData} from "../middleware/paginationData";
 
 export default defineComponent({
   setup() {
-    const tasks = reactive({value: []});
-    const isLoading = ref<boolean>(false);
-    const errorMessage = ref<string>("");
-    const filter = ref<string>("");
-    const store = useStore();
-    const route = useRoute();
     const router = useRouter();
+    const pageId = usePageId();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
 
+    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery);
+    const assignMutation = useAssignTaskMutation();
 
-    const loadFilter = (): void => {
-      filter.value = route.query.filter as string ?? "";
-      if (!filter.value) {
-        filter.value = store.getters["tasks/openGroupTasksFilter"];
-        router.replace({query: {filter: filter.value}});
-      }
-    }
+    const reloadTasks = (): void => {
+      refetch()
+    };
+
+    watch(page, (newPage) => {
+      setPage(newPage);
+      reloadTasks();
+    })
+    watch(size, (newSize) => {
+      setSize(newSize)
+      reloadTasks();
+    })
 
     const assignTask = async (id: string): Promise<void> => {
-      try {
-        //await TaskService.assignTask(id);
-        const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-        await HumanTaskRestControllerApiFactory(cfg).assignTask(id);
-
-        store.dispatch('tasks/getTasks', true);
-        store.dispatch('openGroupTasks/getTasks', true);
-        errorMessage.value = "";
-        router.push({path: '/task/' + id});
-      } catch (error) {
-        errorMessage.value = 'Die Aufgabe konnte nicht zugewiesen werden.';
-      }
+      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
     }
-
-    const loadTasks = async (refresh = false): Promise<void> => {
-      tasks.value = store.getters['openGroupTasks/tasks'];
-      isLoading.value = true;
-      const startTime = new Date().getTime();
-      try {
-        await store.dispatch('openGroupTasks/getTasks', refresh);
-        tasks.value = store.getters['openGroupTasks/tasks'];
-        errorMessage.value = "";
-      } catch (error) {
-        errorMessage.value = error.message;
-      }
-      setTimeout(() => isLoading.value = false, Math.max(0, 500 - (new Date().getTime() - startTime)));
-    }
-
-    const onFilterChanged = (filter: string) => {
-      router.replace({query: {filter: filter}});
-      store.commit('tasks/setOpenGroupTasksFilter', filter);
-    }
-
-    onMounted(() => {
-      loadTasks();
-      loadFilter();
-    });
 
     return {
-      isLoading,
-      errorMessage,
-      tasks,
-      filter,
-      loadFilter,
-      loadTasks,
       assignTask,
-      onFilterChanged
+      pageId,
+      isLoading,
+      errorMessage: error || assignMutation.error,
+      data,
+      filter: searchQuery,
+      reloadTasks,
+      pagination: {
+        page,
+        size,
+        onSizeChange: setSize,
+        getCurrentPageLabel: () => page.value + 1,
+        setPage,
+        lastPage: () => {
+          if (page.value === 0) {
+            return;
+          }
+          setPage(page.value - 1)
+          refetch()
+        },
+        nextPage: () => {
+          const totalPages = data.value?.totalPages;
+          if (!totalPages || page.value === totalPages - 1) {
+            return;
+          }
+          setPage(page.value + 1);
+          refetch();
+        },
+        isLastPageButtonDisabled: () => page.value === 0,
+        isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize
+      },
+      onFilterChange: (newFilter: string | undefined) => {
+        setSearchQuery(newFilter || "");
+        reloadTasks();
+      },
     }
-
   }
 });
 </script>

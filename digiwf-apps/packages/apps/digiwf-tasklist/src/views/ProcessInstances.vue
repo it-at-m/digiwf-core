@@ -151,6 +151,7 @@ import {
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
 import {ApiConfig} from "../api/ApiConfig";
+import {getPersistentFilterForNonHookCompatibleFunction} from "../middleware/persistentFilter/persistentFilters";
 
 @Component({
   components: {ProcessInstanceItem, AppPageableList, TaskItem, AppToast, AppViewLayout}
@@ -254,19 +255,13 @@ export default class ProcessInstances extends Vue {
   }
 
   async loadPersistentFilters(refresh = false): Promise<void> {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === "processinstances");
     try {
-      await this.$store.dispatch('filters/getFilters', refresh);
+      const serverSideFilters = await getPersistentFilterForNonHookCompatibleFunction();
+      this.persistentFilters = serverSideFilters.filter((filter: FilterTO) => filter.pageId === "processinstances");
       this.errorMessage = "";
     } catch (error) {
       this.errorMessage = error.message;
     }
   }
-
-  @Watch('$store.state.filters.filters')
-  setPersistentFilters(): void {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'processinstances');
-  }
-
 }
 </script>

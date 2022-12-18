@@ -1,6 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {callDeleteFilter, callGetFilters, callSaveFilter} from "../../api/persistentFilters/persistentFilterApiCalls";
 import {FilterTO, SaveFilterTO} from "@muenchen/digiwf-engine-api-internal";
+import {queryClient} from "../queryClient";
 
 export const useGetPersistentFilters = () => useQuery({
   queryKey: ["persistent-filter"],
@@ -28,5 +29,14 @@ export const useDeletePersistentFilters = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["persistent-filter"]);
     }
+  })
+}
+/**
+ * @deprecated
+ */
+export const getPersistentFilterForNonHookCompatibleFunction = () => {
+  return queryClient.fetchQuery({
+    queryKey: ["persistent-filter"],
+    queryFn: () => callGetFilters(),
   })
 }

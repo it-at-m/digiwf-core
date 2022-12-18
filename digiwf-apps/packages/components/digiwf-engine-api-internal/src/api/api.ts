@@ -728,10 +728,10 @@ export interface PageHumanTaskTO {
     'totalElements'?: number;
     /**
      * 
-     * @type {PageableObject}
+     * @type {number}
      * @memberof PageHumanTaskTO
      */
-    'pageable'?: PageableObject;
+    'numberOfElements'?: number;
     /**
      * 
      * @type {boolean}
@@ -746,10 +746,10 @@ export interface PageHumanTaskTO {
     'last'?: boolean;
     /**
      * 
-     * @type {number}
+     * @type {PageableObject}
      * @memberof PageHumanTaskTO
      */
-    'numberOfElements'?: number;
+    'pageable'?: PageableObject;
     /**
      * 
      * @type {number}
@@ -784,31 +784,6 @@ export interface PageHumanTaskTO {
 /**
  * 
  * @export
- * @interface Pageable
- */
-export interface Pageable {
-    /**
-     * 
-     * @type {number}
-     * @memberof Pageable
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Pageable
-     */
-    'size'?: number;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Pageable
-     */
-    'sort'?: Array<string>;
-}
-/**
- * 
- * @export
  * @interface PageableObject
  */
 export interface PageableObject {
@@ -817,25 +792,25 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'pageNumber'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    'unpaged'?: boolean;
+    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
      * @memberof PageableObject
      */
     'paged'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    'unpaged'?: boolean;
     /**
      * 
      * @type {number}
@@ -3036,13 +3011,13 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedGroupTasks: async (pageable: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'pageable' is not null or undefined
-            assertParamExists('getAssignedGroupTasks', 'pageable', pageable)
+        getAssignedGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/task/group/assigned`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3059,8 +3034,16 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
-            if (pageable !== undefined) {
-                localVarQueryParameter['pageable'] = pageable;
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
             }
 
 
@@ -3076,13 +3059,13 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOpenGroupTasks: async (pageable: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'pageable' is not null or undefined
-            assertParamExists('getOpenGroupTasks', 'pageable', pageable)
+        getOpenGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/task/group/open`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3099,8 +3082,16 @@ export const HumanTaskRestControllerApiAxiosParamCreator = function (configurati
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
-            if (pageable !== undefined) {
-                localVarQueryParameter['pageable'] = pageable;
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
             }
 
 
@@ -3295,22 +3286,26 @@ export const HumanTaskRestControllerApiFp = function(configuration?: Configurati
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAssignedGroupTasks(pageable: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(pageable, options);
+        async getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(page, size, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOpenGroupTasks(pageable: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOpenGroupTasks(pageable, options);
+        async getOpenGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOpenGroupTasks(page, size, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3394,21 +3389,25 @@ export const HumanTaskRestControllerApiFactory = function (configuration?: Confi
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedGroupTasks(pageable: Pageable, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getAssignedGroupTasks(pageable, options).then((request) => request(axios, basePath));
+        getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
+            return localVarFp.getAssignedGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {Pageable} pageable 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOpenGroupTasks(pageable: Pageable, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getOpenGroupTasks(pageable, options).then((request) => request(axios, basePath));
+        getOpenGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
+            return localVarFp.getOpenGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3507,10 +3506,24 @@ export interface HumanTaskRestControllerApiFollowUpTaskRequest {
 export interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest {
     /**
      * 
-     * @type {Pageable}
+     * @type {number}
      * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
      */
-    readonly pageable: Pageable
+    readonly page?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
+     */
+    readonly size?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
+     */
+    readonly query?: string
 }
 
 /**
@@ -3521,10 +3534,24 @@ export interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest {
 export interface HumanTaskRestControllerApiGetOpenGroupTasksRequest {
     /**
      * 
-     * @type {Pageable}
+     * @type {number}
      * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
      */
-    readonly pageable: Pageable
+    readonly page?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
+     */
+    readonly size?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
+     */
+    readonly query?: string
 }
 
 /**
@@ -3648,8 +3675,8 @@ export class HumanTaskRestControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getAssignedGroupTasks(requestParameters: HumanTaskRestControllerApiGetAssignedGroupTasksRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(requestParameters.pageable, options).then((request) => request(this.axios, this.basePath));
+    public getAssignedGroupTasks(requestParameters: HumanTaskRestControllerApiGetAssignedGroupTasksRequest = {}, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3659,8 +3686,8 @@ export class HumanTaskRestControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof HumanTaskRestControllerApi
      */
-    public getOpenGroupTasks(requestParameters: HumanTaskRestControllerApiGetOpenGroupTasksRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(requestParameters.pageable, options).then((request) => request(this.axios, this.basePath));
+    public getOpenGroupTasks(requestParameters: HumanTaskRestControllerApiGetOpenGroupTasksRequest = {}, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -126,9 +126,10 @@ public class HumanTaskService {
      * @param groups Assigned groups of the user
      * @return The open group tasks
      */
-    public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
-        log.debug("getOpenGroupTasks: user {}", userId);
-        return this.actRuTaskService.getUnassignedGroupTasks(userId, groups, pageable).map(this.humanTaskMapper::map2Model);
+    public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, @Nullable final String query, final Pageable pageable) {
+        log.debug("getOpenGroupTasks: user {}, query {}", userId, query);
+
+        return this.actRuTaskService.getUnassignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -138,9 +139,9 @@ public class HumanTaskService {
      * @param groups Assigned groups of the user
      * @return The assigned group tasks
      */
-    public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, final Pageable pageable) {
+    public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups,  @Nullable final String query, final Pageable pageable) {
         log.debug("getAssignedGroupTasks: user {}", userId);
-        return this.actRuTaskService.getAssignedGroupTasks(userId, groups, pageable).map(this.humanTaskMapper::map2Model);
+        return this.actRuTaskService.getAssignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
