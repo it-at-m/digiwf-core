@@ -73,7 +73,7 @@ jobs:
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
-          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-connector-service:dev
+          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-camunda-connector-service:dev
 
       - name: Build and push gateway
         uses: docker/build-push-action@v2
