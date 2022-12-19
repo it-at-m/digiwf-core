@@ -37,9 +37,7 @@
               <v-list-item
                   link
                   @click="sectionRemoved"
-              >
-                <v-list-item-title>Remove</v-list-item-title>
-              </v-list-item>
+              > Remove </v-list-item>
             </v-list>
           </v-menu>
         </v-flex>

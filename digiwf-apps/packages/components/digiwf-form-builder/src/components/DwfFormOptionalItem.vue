@@ -42,9 +42,7 @@
               <v-list-item
                   link
                   @click="removed"
-              >
-                <v-list-item-title>Remove</v-list-item-title>
-              </v-list-item>
+              > Remove </v-list-item>
               <v-list-item
                   link
                   @click="defaultChanged"
