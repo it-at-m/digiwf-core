@@ -35,8 +35,15 @@
       </v-btn>
     </v-app-bar>
 
-<AppMenu :drawer="drawer" :number-of-process-instances="processInstancesCount"/>
-
+    <v-navigation-drawer
+      v-model="drawer"
+      onclick=""
+      app
+      clipped
+      width="300"
+    >
+<AppMenuList :number-of-process-instances="processInstancesCount"/>
+    </v-navigation-drawer>
     <v-main class="main">
       <v-banner
         v-if="appInfo && appInfo.maintenanceInfo1"
@@ -139,10 +146,11 @@ a {
 <script lang="ts">
 import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
-import {HumanTaskTO, InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
-import AppMenu from "./components/UI/AppMenu.vue";
+import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
+import AppMenuList from "./components/UI/AppMenuList.vue";
+
 @Component({
-  components: {AppMenu}
+  components: {AppMenuList}
 })
 export default class App extends Vue {
   drawer = true;

@@ -1,10 +1,4 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    app
-    clipped
-    width="300"
-  >
     <v-list>
       <v-list-item :to="{ path: '/mytask' }">
         <v-list-item-content class="itemContent">
@@ -61,24 +55,21 @@
       </v-list-item>
       <hr class="hrDividerMenu">
     </v-list>
-  </v-navigation-drawer>
 </template>
 
-<script>
-import {defineComponent, ref} from "vue";
+<script lang="ts">
+import {defineComponent} from "vue";
 import {useNumberOfTasks} from "@/middleware/tasks/taskMiddleware";
 
 export default defineComponent({
-  props: ["drawer", "numberOfProcessInstances"],
-  setup() {
-    const numberOfTasks = useNumberOfTasks();
-console.log("numberOfTasks", numberOfTasks)
+  props: ["numberOfProcessInstances"],
+  setup() {const numberOfTasks = useNumberOfTasks();
     return {
       numberOfMyTasks: numberOfTasks.myTasks,
       numberOfOpenGroupTasks: numberOfTasks.openGroupTasks,
       numberOfAssignedGroupTasks: numberOfTasks.assignedGroupTasks,
     }
-  }
+  },
 })
 </script>
 
@@ -91,6 +82,7 @@ console.log("numberOfTasks", numberOfTasks)
   font-size: 0.9rem;
   font-weight: bold;
 }
+
 .navigationTitle {
   display: flex;
   justify-content: space-between;

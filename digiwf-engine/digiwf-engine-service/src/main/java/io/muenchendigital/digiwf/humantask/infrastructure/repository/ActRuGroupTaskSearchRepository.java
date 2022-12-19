@@ -36,7 +36,8 @@ public class ActRuGroupTaskSearchRepository {
 
         resultQuery
                 .where(predicates)
-                .orderBy(orders);
+                .orderBy(orders)
+                .distinct(true);
 
         val result = em.createQuery(resultQuery)
                 .setFirstResult((int) pageable.getOffset())

@@ -131,7 +131,6 @@ export default defineComponent({
         updateItemsPerPage: setSize
       },
       onFilterChange: (newFilter: string | undefined) => {
-        console.log("Tasks::onFilterChange: ", newFilter)
         setSearchQuery(newFilter || "");
         reloadTasks();
       },
