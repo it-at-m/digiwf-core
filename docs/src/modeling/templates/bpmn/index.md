@@ -8,5 +8,5 @@
     artifact="StreamingTemplateV02.bpmn"
     type="bpmn" />
 <DownloadArtifact
-    artifact="StreamingTemplateIntegrationV01.bpmn"
+    artifact="StreamingTemplateV01.bpmn"
     type="bpmn" />

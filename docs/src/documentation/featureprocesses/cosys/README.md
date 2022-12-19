@@ -6,8 +6,15 @@
 
 ## Beschreibung
 
-Mit dem Prozess `Cosys GenerateDocument Test` kann das Generieren einer Grußkarte auf Basis eines Cosys-Formulars getestet werden.
-Die Umgebungsparameter sowie der Grußkartentext können dabei in der Startform eingegeben werden. 
+Mit den Prozessen 
+ * `Cosys GenerateDocument Test` bzw. 
+ * `Cosys GenerateDocument Test (Streaming)`
+   
+kann das Generieren einer Grußkarte auf Basis eines Cosys-Formulars getestet werden 
+(Der zweite Prozess basiert auf der asynchronen Streaming-Integration, benötigt also den digiwf-connector in der Umgebung).
+
+Die Umgebungsparameter sowie der Grußkartentext können dabei in der Startform eingegeben werden.
+
 
 ![Eingabeformular.](~@source/documentation/featureprocesses/cosys/input-form.png)
 

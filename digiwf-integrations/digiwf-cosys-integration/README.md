@@ -49,5 +49,5 @@ And don't forget to activate the _streaming_ profile where possible.
 To let you try out the integration artifact with the DigiWF Tasklist application we provided some test process resources. You'll find them in digiwf-cosys-integration-service/src/test/resources/process.
 
 Just deploy these into your engine together with the StreamingTemplateV02 from digiwf-connector-service.
-Boot your local environment and start the process "Cosys GenerateDocument Test".
+Boot your local environment and start the process "Cosys GenerateDocument Test (Streaming)".
 

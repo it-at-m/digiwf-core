@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
-  <bpmn:process id="CosysGenerateDocumentTest" name="Cosys GenerateDocument Test" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" camunda:formKey="CosysGenerateDocumentTest_Input">
+  <bpmn:process id="CosysGenerateDocumentTestV02" name="Cosys GenerateDocument Test (Streaming)" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="ecae8797-d91e-4f34-ae44-6cbda8760c73">
       <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:intermediateThrowEvent id="Event_0b9z9pp">
@@ -10,7 +9,7 @@
     <bpmn:userTask id="Activity_1eghwfu" name="Input data" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_Input</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">e6124631-028d-45e4-b858-be6f41d3c732</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>
@@ -46,7 +45,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
-          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_Check</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">421fc9f0-2d3f-4254-9aad-278164b639f0</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1cwzs2l</bpmn:incoming>
@@ -78,7 +77,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
     <bpmn:association id="Association_1sc4ebt" sourceRef="Activity_1jtwnh4" targetRef="TextAnnotation_1ha9m2u" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTest">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTestV02">
       <bpmndi:BPMNEdge id="Flow_1cwzs2l_di" bpmnElement="Flow_1cwzs2l">
         <di:waypoint x="870" y="279" />
         <di:waypoint x="930" y="279" />
@@ -121,14 +120,14 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmndi:BPMNShape id="Activity_10p8r0c_di" bpmnElement="Activity_16d89ab">
         <dc:Bounds x="930" y="239" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15ebxlj_di" bpmnElement="Activity_1jtwnh4">
+        <dc:Bounds x="770" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1rkwagc_di" bpmnElement="TextAnnotation_1rkwagc">
         <dc:Bounds x="580" y="98" width="150" height="74" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
         <dc:Bounds x="780" y="101" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15ebxlj_di" bpmnElement="Activity_1jtwnh4">
-        <dc:Bounds x="770" y="239" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1qgbegk_di" bpmnElement="Association_1qgbegk">
         <di:waypoint x="631" y="239" />
