@@ -1,14 +1,14 @@
 {
   "name": "@muenchen/digiwf-multi-file-input",
   "description": "Form renderer",
-  "version": "0.21.2",
+  "version": "0.21.3",
   "module": "dist/digiwf-multi-file-input.mjs",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "@muenchen/digiwf-engine-api-internal": "^0.21.2"
+    "@muenchen/digiwf-engine-api-internal": "^0.21.3"
   },
   "peerDependencies": {
     "vue": "^2.7.0",
