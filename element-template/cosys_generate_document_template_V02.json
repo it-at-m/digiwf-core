@@ -1,6 +1,6 @@
 {
-  "name": "Cosys: GenerateDocument (V02)",
-  "id": "de.muenchen.digitalwf.templates.CosysGenerateDocumentV02",
+  "name": "Cosys: Dokument erstellen (alle Daten) (V02)",
+  "id": "de.muenchen.digitalwf.templates.GenerateDocumentWithAllVariablesV02",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -18,8 +18,7 @@
     {
       "label": "Event Topic",
       "type": "String",
-      "value": "",
-      "description": "The name of the Cosys integration topic",
+      "value": "dwf-cosys-XX",
       "binding": {
         "type": "camunda:in",
         "target": "app_topic_name",
@@ -31,9 +30,8 @@
     },
     {
       "label": "Event Message",
-      "type": "String",
+      "type": "Hidden",
       "value": "cosysMessage",
-      "description": "The name of the message that will be correlated with the instance",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -45,8 +43,7 @@
     },
     {
       "label": "Event Type",
-      "type": "String",
-      "editable": false,
+      "type": "Hidden",
       "value": "createCosysDocument",
       "binding": {
         "type": "camunda:in",
@@ -58,9 +55,9 @@
       }
     },
     {
-      "label": "Cosys client",
+      "label": "Client",
       "type": "String",
-      "value": "",
+      "value": "9001",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -71,9 +68,9 @@
       }
     },
     {
-      "label": "Cosys role",
+      "label": "Role",
       "type": "String",
-      "value": "",
+      "value": "TESTER",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -84,10 +81,9 @@
       }
     },
     {
-      "label": "Document Storage Urls (S3)",
+      "label": "Presigned urls (S3)",
       "type": "String",
       "value": "",
-      "description": "Array of presigned urls created with s3 integration",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -95,14 +91,13 @@
         "target": "documentStorageUrls"
       },
       "constraints": {
-        "notEmpty": false
+        "notEmpty": true
       }
     },
     {
       "label": "Guid",
       "type": "String",
       "value": "",
-      "description": "The Cosys unique identifier of the document template",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -113,10 +108,9 @@
       }
     },
     {
-      "label": "Data",
-      "type": "String",
-      "value": "${cosysData}",
-      "description": "A list of variables Cosys will mix into the document template",
+      "label": "Daten",
+      "type": "Hidden",
+      "value": "${JSON(execution.getVariables())}",
       "binding": {
         "type": "camunda:in",
         "expression": true,
