@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppJsonForm: typeof import('./src/components/schema/AppJsonForm.vue')['default']
     AppJsonRenderer: typeof import('./src/components/schema/AppJsonRenderer.vue')['default']
+    AppList: typeof import('./src/components/UI/AppList.vue')['default']
     AppLoadingButton: typeof import('./src/components/UI/AppLoadingButton.vue')['default']
     AppMenu: typeof import('./src/components/UI/AppMenuList.vue')['default']
     AppMenuList: typeof import('./src/components/UI/AppMenuList.vue')['default']

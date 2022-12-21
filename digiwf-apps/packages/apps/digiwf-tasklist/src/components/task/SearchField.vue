@@ -58,7 +58,6 @@ export default defineComponent({
     onFilterChange: {
       type: Function,
       required: false,
-      default: (newValue: string) => {console.log("no onFilterChange function given")}
     }
   },
   setup(props) {

@@ -49,17 +49,17 @@
       </v-flex>
       <hr style="margin: 5px 0 0 0"/>
     </v-flex>
-    <app-pageable-list
-      :items="tasks"
-      found-data-text="Aufgaben gefunden"
-      no-data-text="Keine Aufgaben gefunden"
-    >
-      <template #default="props">
-        <template v-for="item in props.items">
+      <v-data-iterator
+        class="dataContainer"
+        :items="tasks"
+        found-data-text="Aufgaben gefunden"
+        no-data-text="Keine Aufgaben gefunden"
+        hide-default-footer
+      >
+        <template v-for="item in tasks">
           <slot :item="{ ...item, searchInput: syncedFilter || '' }"/>
         </template>
-      </template>
-    </app-pageable-list>
+      </v-data-iterator>
   </div>
 </template>
 
@@ -85,12 +85,11 @@ import {Component, Emit, Prop, PropSync, Vue} from "vue-property-decorator";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import AppPageableList from "@/components/UI/AppPageableList.vue";
 import {HumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
 import SearchField from "./SearchField.vue";
 
 @Component({
-  components: {SearchField, AppPageableList, TaskItem, AppToast, AppViewLayout},
+  components: {SearchField, TaskItem, AppToast, AppViewLayout},
 })
 export default class TaskList extends Vue {
   @PropSync("filter", {type: String})
@@ -113,7 +112,6 @@ export default class TaskList extends Vue {
 
   @Prop()
   showAssignee: boolean | undefined;
-
 
   @Emit("loadTasks")
   loadTasks(): boolean {

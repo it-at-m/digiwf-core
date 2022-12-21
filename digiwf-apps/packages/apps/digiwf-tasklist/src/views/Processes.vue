@@ -110,16 +110,14 @@ import {Component, Vue, Watch} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {
-  FetchUtils,
-  FilterRestControllerApiFactory,
-  FilterTO,
-  SaveFilterTO,
-  ServiceDefinitionTO
-} from '@muenchen/digiwf-engine-api-internal';
+import {FilterTO, SaveFilterTO, ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
 import AppPageableList from "@/components/UI/AppPageableList.vue";
-import {ApiConfig} from "../api/ApiConfig";
+import {
+  deletePersistentFilterForNonHookCompatibleFunction,
+  getPersistentFilterForNonHookCompatibleFunction,
+  savePersistentFilterForNonHookCompatibleFunction
+} from "../middleware/persistentFilter/persistentFilters";
 
 @Component({
   components: {PageableList: AppPageableList, ProcessDefinitionItem, TaskItem, AppToast, AppViewLayout}
@@ -186,7 +184,7 @@ export default class Processes extends Vue {
     return (
       this.persistentFilters!.find(
         (fl: FilterTO) => fl.filterString == this.filter
-      ) != undefined
+      ) != undefined // can not work
     );
   }
 
@@ -198,44 +196,22 @@ export default class Processes extends Vue {
       pageId: "processes",
       filterString: this.filter,
     }
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await FilterRestControllerApiFactory(cfg).saveFilter(request);
-
-      this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
-    } catch (error) {
-      this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
-    }
+    savePersistentFilterForNonHookCompatibleFunction(request)
   }
 
-  async deletePersistentFilter() {
+  deletePersistentFilter() {
     const id = this.persistentFilters!.find((f: FilterTO) => f.filterString == this.filter)?.id!
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
-      await FilterRestControllerApiFactory(cfg)._delete(id);
-
-      this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
-    } catch (error) {
-      this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
-    }
+    deletePersistentFilterForNonHookCompatibleFunction(id)
   }
 
-  async loadPersistentFilters(refresh = false): Promise<void> {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === "processes");
+  async loadPersistentFilters(): Promise<void> {
     try {
-      await this.$store.dispatch('filters/getFilters', refresh);
+      const filterResponse = await getPersistentFilterForNonHookCompatibleFunction();
+      this.persistentFilters =  filterResponse.filter((filter: FilterTO) => filter.pageId === "processes");
       this.errorMessage = "";
-    } catch (error) {
+    } catch (error: any) {
       this.errorMessage = error.message;
     }
   }
-
-  @Watch('$store.state.filters.filters')
-  setPersistentFilters(): void {
-    this.persistentFilters = this.$store.getters['filters/filters'].filter((filter: FilterTO) => filter.pageId === 'processes');
-  }
-
 }
 </script>

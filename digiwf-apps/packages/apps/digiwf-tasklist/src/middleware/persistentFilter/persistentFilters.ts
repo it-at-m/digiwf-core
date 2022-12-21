@@ -32,11 +32,23 @@ export const useDeletePersistentFilters = () => {
   })
 }
 /**
- * @deprecated
+ * @deprecated can be deleted after switching process instances to tanstack
  */
 export const getPersistentFilterForNonHookCompatibleFunction = () => {
   return queryClient.fetchQuery({
     queryKey: ["persistent-filter"],
     queryFn: () => callGetFilters(),
   })
+}
+/**
+ * @deprecated can be deleted after switching process instances to tanstack
+ */
+export const deletePersistentFilterForNonHookCompatibleFunction = (id:string) => {
+  callDeleteFilter(id).then(() => queryClient.invalidateQueries(["persistent-filter"]))
+}
+/**
+ * @deprecated can be deleted after switching process instances to tanstack
+ */
+export const savePersistentFilterForNonHookCompatibleFunction = (filter: SaveFilterTO) => {
+  callSaveFilter(filter).then(() => queryClient.invalidateQueries(["persistent-filter"]))
 }

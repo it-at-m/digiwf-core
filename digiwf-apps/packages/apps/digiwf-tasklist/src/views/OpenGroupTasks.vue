@@ -23,6 +23,19 @@
         <hr class="hrDivider">
       </template>
     </task-list>
+    <AppPaginationFooter
+      found-data-text="Vorgänge gefunden"
+      :size="pagination.size?.value || 20"
+      :on-size-change="pagination.onSizeChange"
+      :last-page="pagination.lastPage"
+      :last-page-button-disabled="pagination.isLastPageButtonDisabled()"
+      :next-page="pagination.nextPage"
+      :total-number-of-items="data?.totalElements || 0"
+      :next-page-button-disabled="pagination.isNextPageButtonDisabled()"
+      :number-of-pages="data?.totalPages || 1"
+      :page="pagination.getCurrentPageLabel()"
+      :update-items-per-page="pagination.updateItemsPerPage"
+    />
   </app-view-layout>
 </template>
 

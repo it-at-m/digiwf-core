@@ -132,7 +132,7 @@
 }
 
 .searchField {
-  margin: 1rem 0px 1rem 0;
+  margin: 1rem 0 1rem 0;
 }
 </style>
 
@@ -151,7 +151,11 @@ import {
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
 import {ApiConfig} from "../api/ApiConfig";
-import {getPersistentFilterForNonHookCompatibleFunction} from "../middleware/persistentFilter/persistentFilters";
+import {
+  deletePersistentFilterForNonHookCompatibleFunction,
+  getPersistentFilterForNonHookCompatibleFunction,
+  savePersistentFilterForNonHookCompatibleFunction
+} from "../middleware/persistentFilter/persistentFilters";
 
 @Component({
   components: {ProcessInstanceItem, AppPageableList, TaskItem, AppToast, AppViewLayout}
@@ -231,11 +235,8 @@ export default class ProcessInstances extends Vue {
       filterString: this.filter,
     }
     try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await FilterRestControllerApiFactory(cfg).saveFilter(request);
-
+      await savePersistentFilterForNonHookCompatibleFunction(request)
       this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
     } catch (error) {
       this.errorMessage = 'Der Filter konnte nicht gespeichert werden.';
     }
@@ -244,11 +245,8 @@ export default class ProcessInstances extends Vue {
   async deletePersistentFilter() {
     const id = this.persistentFilters!.find((f: FilterTO) => f.filterString == this.filter)?.id!
     try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
-      await FilterRestControllerApiFactory(cfg)._delete(id);
-
+      await deletePersistentFilterForNonHookCompatibleFunction(id);
       this.errorMessage = "";
-      this.$store.dispatch('filters/getFilters', true);
     } catch (error) {
       this.errorMessage = 'Der Filter konnte nicht gelöscht werden.';
     }

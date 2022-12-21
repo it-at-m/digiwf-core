@@ -74,17 +74,13 @@ export default defineComponent({
     const followUp = ref<boolean>(getFollowOfUrl());
     const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, followUp);
 
-    const reloadTasks = (): void => {
-      refetch()
-    };
-
     watch(page, (newPage) => {
       setPage(newPage);
-      reloadTasks();
+      refetch();
     })
     watch(size, (newSize) => {
       setSize(newSize)
-      reloadTasks();
+      refetch();
     })
 
     watch(followUp, (followUp) => {
@@ -94,7 +90,7 @@ export default defineComponent({
           followUp: followUp ? "true" : "false"
         }
       })
-      reloadTasks();
+      refetch();
     });
 
     return {
@@ -104,7 +100,7 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
-      reloadTasks,
+      reloadTasks: refetch,
       pagination: {
         page,
         size,
@@ -132,7 +128,7 @@ export default defineComponent({
       },
       onFilterChange: (newFilter: string | undefined) => {
         setSearchQuery(newFilter || "");
-        reloadTasks();
+        refetch();
       },
     }
   }

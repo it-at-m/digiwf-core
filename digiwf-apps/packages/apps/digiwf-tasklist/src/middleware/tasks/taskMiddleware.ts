@@ -31,7 +31,7 @@ export interface UseNumberOfTasksReturn {
 
 export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   const dummyPage = ref(0);
-  const dummyPageSize = ref(1);
+  const dummyPageSize = ref(20);
   const dummyQuery = ref(undefined);
   const {data: myTasksData} = useMyTasksQuery(dummyPage, dummyPageSize, dummyQuery, ref(false));
   const {data: assignGroupData} = useAssignedGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery);

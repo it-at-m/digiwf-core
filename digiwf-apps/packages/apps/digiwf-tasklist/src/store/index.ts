@@ -5,20 +5,13 @@ import processDefinitions, {ProcessDefinitionState} from "../store/modules/proce
 import processInstances, {ProcessInstancesState} from "../store/modules/processInstances";
 import menu, {MenuState} from "../store/modules/menu";
 import info, {InfoState} from "../store/modules/info";
-import {QueryClient, VueQueryPlugin} from "@tanstack/vue-query";
-
-const queryClient = new QueryClient();
 
 Vue.use(Vuex);
-Vue.use(VueQueryPlugin, {
-  queryClient
-});
 
 const debug = process.env.NODE_ENV !== 'production';
 
 export interface RootState {
   userState: UserState;
-  // tasksState: TasksState;
   processDefinitionState: ProcessDefinitionState;
   processInstancesState: ProcessInstancesState;
   menuState: MenuState;

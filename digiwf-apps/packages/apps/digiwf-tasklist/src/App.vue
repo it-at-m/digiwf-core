@@ -37,7 +37,6 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      onclick=""
       app
       clipped
       width="300"
