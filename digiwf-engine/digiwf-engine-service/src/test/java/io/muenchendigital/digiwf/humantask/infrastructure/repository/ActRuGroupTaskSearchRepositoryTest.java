@@ -89,4 +89,19 @@ public class ActRuGroupTaskSearchRepositoryTest {
         assertEquals("name-2", result.getContent().get(1).getName());
         assertEquals("name-3", result.getContent().get(2).getName());
     }
+
+    @Test
+    public void shouldReturnPageOfAssignedTasksWithCorrectAssigneeAndGroupAndABlankSearchTerm() {
+        taskEntityDataCreator.createAndSaveGroupTask("1", "assignee", "group-1");
+        taskEntityDataCreator.createAndSaveGroupTask("2", "assignee", "group-2");
+        taskEntityDataCreator.createAndSaveGroupTask("3", "another-assignee", "group-1");
+        taskEntityDataCreator.createAndSaveGroupTask("4", "assignee", "another-group");
+        taskEntityDataCreator.createAndSaveGroupTask("5", "another-assignee", "another-group");
+        val result = actRuGroupTaskSearchRepository.search("assignee", List.of("group-1", "group-2"), " ", true, PageRequest.of(0, 10));
+        assertEquals(4, result.getTotalElements());
+        assertEquals("name-1", result.getContent().get(0).getName());
+        assertEquals("name-2", result.getContent().get(1).getName());
+        assertEquals("name-3", result.getContent().get(2).getName());
+        assertEquals("name-4", result.getContent().get(3).getName());
+    }
 }

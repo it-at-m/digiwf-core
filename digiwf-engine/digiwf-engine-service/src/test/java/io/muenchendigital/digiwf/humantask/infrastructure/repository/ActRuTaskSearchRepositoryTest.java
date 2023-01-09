@@ -82,4 +82,16 @@ public class ActRuTaskSearchRepositoryTest {
         assertEquals("b-name", descResult.getContent().get(1).getName());
         assertEquals("a-name", descResult.getContent().get(2).getName());
     }
+
+    @Test
+    public void shouldReturnPageWithCorrectAssigneeAndABlankSearchTerm() {
+        taskEntityDataCreator.createAndSaveTask("1", "assignee");
+        taskEntityDataCreator.createAndSaveTask("2", "assignee");
+        taskEntityDataCreator.createAndSaveTask("3", "another-assignee");
+        val result = actRuTaskSearchRepository.search("assignee", " ", false, PageRequest.of(0, 10));
+        assertEquals(2, result.getTotalElements());
+        assertEquals("name-1", result.getContent().get(0).getName());
+        assertEquals("name-2", result.getContent().get(1).getName());
+    }
+
 }
