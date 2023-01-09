@@ -110,12 +110,13 @@ public class HumanTaskService {
      * Returns the assigned tasks for the given userId
      * In case of a missing task info there is an incomplete page content. The number of total items are the number of ActRuTask items.
      *
-     * @param userId   Id of the user
-     * @param pageable object for pagination
-     * @return The tasks
+     * @param userId
+     * @param query
+     * @param followUp
+     * @param pageable
+     * @return
      */
     public Page<HumanTask> getTasksForUser(final String userId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
-       // FIXME handle query
         return this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, query, followUp, pageable).map(this.humanTaskMapper::map2Model);
     }
 
@@ -127,20 +128,19 @@ public class HumanTaskService {
      * @return The open group tasks
      */
     public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, @Nullable final String query, final Pageable pageable) {
-        log.debug("getOpenGroupTasks: user {}, query {}", userId, query);
-
         return this.actRuTaskService.getUnassignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
      * Returns the group tasks for the given userId and groups that are assigned.
      *
-     * @param userId Id of the user
-     * @param groups Assigned groups of the user
-     * @return The assigned group tasks
+     * @param userId
+     * @param groups
+     * @param query
+     * @param pageable
+     * @return
      */
     public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups,  @Nullable final String query, final Pageable pageable) {
-        log.debug("getAssignedGroupTasks: user {}", userId);
         return this.actRuTaskService.getAssignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
