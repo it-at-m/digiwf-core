@@ -5,9 +5,9 @@
 package io.muenchendigital.digiwf.service.instance.domain.service;
 
 import io.muenchendigital.digiwf.engine.mapper.EngineDataMapper;
+import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
-import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.HistoryService;
@@ -39,7 +39,7 @@ public class ServiceInstanceDataService {
                 .stream()
                 .filter(obj -> obj.getValue() != null)
                 .collect(Collectors.toMap(HistoricVariableInstance::getName, HistoricVariableInstance::getTypedValue));
-        return this.engineDataMapper.mapToData(this.serializationService.deserializeData(schema.getSchema(), typedVariables));
+        return this.engineDataMapper.mapToData(this.serializationService.deserializeData(schema.getSchemaMap(), typedVariables));
     }
 
     public String getFileContext(final String instanceId) {

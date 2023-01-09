@@ -21,7 +21,7 @@ public class ApiClientFactory {
         if (StringUtils.isNotBlank(this.defaultDocumentStorageUrl)) {
             return this.defaultDocumentStorageUrl;
         }
-        final String message = "The property io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl is not set.";
+        final String message = "Default document storage is not set. Make sure the property io.muenchendigital.digiwf.s3.client.documentStorageUrl is set.";
         log.error(message);
         throw new PropertyNotSetException(message);
     }

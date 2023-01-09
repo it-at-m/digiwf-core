@@ -1,9 +1,6 @@
 name: build services
 
-on:
-  push:
-    branches:
-      - '**'
+on: [push, pull_request]
 
 jobs:
   compliance:
@@ -41,3 +38,14 @@ jobs:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: ./digiwf-coverage/target/coverage/
+          directory: ./digiwf-coverage/target/coverage/
+          fail_ci_if_error: true
+          files: ./jacoco.xml
+          flags: unittests
+          name: digiwf-core
+          path_to_write_report: ./digiwf-coverage/target/codecov_report.txt
+          verbose: true

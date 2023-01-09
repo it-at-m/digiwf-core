@@ -47,7 +47,7 @@ public class CosysService {
      * Generate a Document in Cosys
      *
      * @param generateDocument Data for generating documents
-     * @return
+     * @return the generated document
      */
     public Mono<byte[]> generateCosysDocument(final GenerateDocument generateDocument) {
         try {

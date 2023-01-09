@@ -17,7 +17,8 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.i
 @RequiredArgsConstructor
 public class BpmnErrorService {
 
-    private static final String MESSAGE_TYPE = "bpmnerror";
+    private static final String MESSAGE_TYPE            = "bpmnerror";
+    private static final String BPMN_ERROR_MESSAGE_NAME = "bpmnError";
 
     private final Sinks.Many<Message<BpmnErrorEvent>> bpmnErrorSink;
 
@@ -32,7 +33,8 @@ public class BpmnErrorService {
         final BpmnErrorEvent.BpmnErrorEventBuilder builder = BpmnErrorEvent.builder()
                 .processInstanceId((String) messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))
                 .errorCode(errorCode)
-                .errorMessage(errorMessage);
+                .errorMessage(errorMessage)
+                .messageName(BPMN_ERROR_MESSAGE_NAME);
 
         final Message<BpmnErrorEvent> message = MessageBuilder
                 .withPayload(builder.build())

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="CosysGenerateDocumentTestV02" name="Cosys GenerateDocument Test (Streaming)" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="CosysGenerateDocumentTest_Input">
+      <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_0b9z9pp">
+      <bpmn:incoming>Flow_0nfaoa0</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:userTask id="Activity_1eghwfu" name="Input data" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_Input</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rled93</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0vfi8jp" sourceRef="StartEvent_1" targetRef="Activity_1eghwfu" />
+    <bpmn:scriptTask id="Activity_08lx3kt" name="Generate Cosys document" scriptFormat="javascript">
+      <bpmn:incoming>Flow_0rled93</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r1wb5z</bpmn:outgoing>
+      <bpmn:script>var myjson = {
+"FormField_Grusstext": execution.getVariable("FormField_Grusstext") ,
+"EmpfaengerVorname": execution.getVariable("EmpfaengerVorname") ,
+"AbsenderVorname": execution.getVariable("AbsenderVorname")
+}
+execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0rled93" sourceRef="Activity_1eghwfu" targetRef="Activity_08lx3kt" />
+    <bpmn:sequenceFlow id="Flow_0r1wb5z" sourceRef="Activity_08lx3kt" targetRef="Activity_1pvhkb4" />
+    <bpmn:callActivity id="Activity_1pvhkb4" name="Create presigned url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
+        <camunda:in sourceExpression="POST" target="action" />
+        <camunda:in sourceExpression="${app_file_context}/test/example-cosys-document.pdf" target="path" />
+        <camunda:out source="presignedUrls" target="presignedUrls" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0r1wb5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_13giv8f</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0nfaoa0" sourceRef="Activity_16d89ab" targetRef="Event_0b9z9pp" />
+    <bpmn:userTask id="Activity_16d89ab" name="Check cosys document" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">CosysGenerateDocumentTest_Check</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1cwzs2l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nfaoa0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_13giv8f" sourceRef="Activity_1pvhkb4" targetRef="Activity_1jtwnh4" />
+    <bpmn:sequenceFlow id="Flow_1cwzs2l" sourceRef="Activity_1jtwnh4" targetRef="Activity_16d89ab" />
+    <bpmn:callActivity id="Activity_1jtwnh4" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CosysGenerateDocumentV02" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
+        <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
+        <camunda:in sourceExpression="${cosysData}" target="variables" />
+        <camunda:in sourceExpression="${FormField_CosysEventTopic}" target="app_topic_name" />
+        <camunda:in sourceExpression="${FormField_CosysClient}" target="client" />
+        <camunda:in sourceExpression="${FormField_CosysRole}" target="role" />
+        <camunda:in sourceExpression="${presignedUrls}" target="documentStorageUrls" />
+        <camunda:in sourceExpression="${FormField_CosysGuid}" target="guid" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13giv8f</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cwzs2l</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:textAnnotation id="TextAnnotation_1rkwagc">
+      <bpmn:text>Create presigned S3 url via S3-Integration as the target of the generated document</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1ha9m2u">
+      <bpmn:text>Generate Cosys document and save it in S3</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1qgbegk" sourceRef="Activity_1pvhkb4" targetRef="TextAnnotation_1rkwagc" />
+    <bpmn:association id="Association_1sc4ebt" sourceRef="Activity_1jtwnh4" targetRef="TextAnnotation_1ha9m2u" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTest">
+      <bpmndi:BPMNEdge id="Flow_1cwzs2l_di" bpmnElement="Flow_1cwzs2l">
+        <di:waypoint x="870" y="279" />
+        <di:waypoint x="930" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13giv8f_di" bpmnElement="Flow_13giv8f">
+        <di:waypoint x="690" y="279" />
+        <di:waypoint x="770" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nfaoa0_di" bpmnElement="Flow_0nfaoa0">
+        <di:waypoint x="1030" y="279" />
+        <di:waypoint x="1112" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r1wb5z_di" bpmnElement="Flow_0r1wb5z">
+        <di:waypoint x="525" y="279" />
+        <di:waypoint x="590" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rled93_di" bpmnElement="Flow_0rled93">
+        <di:waypoint x="360" y="279" />
+        <di:waypoint x="425" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
+        <di:waypoint x="188" y="279" />
+        <di:waypoint x="260" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="261" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b9z9pp_di" bpmnElement="Event_0b9z9pp">
+        <dc:Bounds x="1112" y="261" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eghwfu_di" bpmnElement="Activity_1eghwfu">
+        <dc:Bounds x="260" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bxx2vb_di" bpmnElement="Activity_08lx3kt">
+        <dc:Bounds x="425" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jm61mz_di" bpmnElement="Activity_1pvhkb4">
+        <dc:Bounds x="590" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10p8r0c_di" bpmnElement="Activity_16d89ab">
+        <dc:Bounds x="930" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1rkwagc_di" bpmnElement="TextAnnotation_1rkwagc">
+        <dc:Bounds x="580" y="98" width="150" height="74" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
+        <dc:Bounds x="780" y="101" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15ebxlj_di" bpmnElement="Activity_1jtwnh4">
+        <dc:Bounds x="770" y="239" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1qgbegk_di" bpmnElement="Association_1qgbegk">
+        <di:waypoint x="631" y="239" />
+        <di:waypoint x="615" y="172" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1sc4ebt_di" bpmnElement="Association_1sc4ebt">
+        <di:waypoint x="820" y="239" />
+        <di:waypoint x="820" y="169" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

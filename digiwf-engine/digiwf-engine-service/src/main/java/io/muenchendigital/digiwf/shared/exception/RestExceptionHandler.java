@@ -4,6 +4,7 @@
 
 package io.muenchendigital.digiwf.shared.exception;
 
+import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class RestExceptionHandler
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = {VariablesNotValidException.class, NoFileContextException.class})
+    @ExceptionHandler(value = {VariablesNotValidException.class, NoFileContextException.class, DigiWFValidationException.class})
     protected ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
         final String bodyOfResponse = "Bad request";
         log.error("Client Exception 400.", ex);

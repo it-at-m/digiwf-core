@@ -29,21 +29,10 @@ public class JsonSchemaValidator {
     public void validate(final Map<String, Object> schema, final Map<String, Object> data) {
         try {
             this.validate(schema, new JSONObject(data));
-        } catch (ValidationException validationException) {
+        } catch (final ValidationException validationException) {
             final List<ValidationErrorInformation> errorInformation = this.extractValidationErrorInformation(validationException);
             throw new DigiWFValidationException(errorInformation);
         }
-    }
-
-    /**
-     * Validates data against a json schema
-     *
-     * @param schema schema that is used for validation
-     * @param data   data that is validated
-     */
-    public void validate(final String schema, final Map<String, Object> data) {
-        final Schema schemaObj = this.createSchema(new JSONObject(schema));
-        schemaObj.validate(new JSONObject(data));
     }
 
     /**
@@ -57,10 +46,6 @@ public class JsonSchemaValidator {
                 .stream().map(this::extractValidationErrorInformation)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-
-        if (validationException.getSchemaLocation() == null || !validationException.getCausingExceptions().isEmpty()) {
-            return errors;
-        }
 
         final ValidationErrorInformation validationErrorInformation = new ValidationErrorInformation(
                 validationException.getPointerToViolation(),

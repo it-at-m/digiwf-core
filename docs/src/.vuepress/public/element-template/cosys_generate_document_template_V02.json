@@ -1,0 +1,127 @@
+{
+  "name": "Cosys: Dokument erstellen (alle Daten) (V02)",
+  "id": "de.muenchen.digitalwf.templates.GenerateDocumentWithAllVariablesV02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "dwf-cosys-XX",
+      "binding": {
+        "type": "camunda:in",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "Hidden",
+      "value": "cosysMessage",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "Hidden",
+      "value": "createCosysDocument",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Client",
+      "type": "String",
+      "value": "9001",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "client"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Role",
+      "type": "String",
+      "value": "TESTER",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "role"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Presigned urls (S3)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "documentStorageUrls",
+        "target": "documentStorageUrls"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Guid",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "guid"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Daten",
+      "type": "Hidden",
+      "value": "${JSON(execution.getVariables())}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "variables"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

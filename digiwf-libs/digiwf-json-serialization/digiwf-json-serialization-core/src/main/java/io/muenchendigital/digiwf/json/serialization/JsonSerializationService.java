@@ -97,7 +97,7 @@ public class JsonSerializationService {
      * @param data
      * @return deserialized data
      */
-    public Map<String, Object> deserializeData(final String schema, final Map<String, Object> data) {
+    public Map<String, Object> deserializeData(final Map<String, Object> schema, final Map<String, Object> data) {
         final Schema schemaObject = JsonSerializationService.createSchema(new JSONObject(schema));
         return this.serializer.deserialize(schemaObject, data);
     }

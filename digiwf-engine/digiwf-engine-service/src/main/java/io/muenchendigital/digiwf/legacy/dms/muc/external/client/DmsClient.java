@@ -14,10 +14,13 @@ import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode
 import io.muenchendigital.digiwf.legacy.dms.muc.properties.DmsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +60,7 @@ public class DmsClient {
 
         final CreateFileGI request = new CreateFileGI();
         request.setUserlogin(username);
+        request.setBusinessapp(this.properties.getBusinessapp());
         request.setApentry(sachakte.getAktenplanId());
         request.setFilesubj(sachakte.getBetreff());
         request.setShortname(sachakte.getKurzname());
@@ -92,6 +96,7 @@ public class DmsClient {
 
         final SearchObjNameGI params = new SearchObjNameGI();
         params.setUserlogin(username);
+        params.setBusinessapp(this.properties.getBusinessapp());
         params.setObjclass(dmsObjectClass.getName());
         params.setSearchstring(objectname);
 
@@ -130,6 +135,7 @@ public class DmsClient {
         final CreateProcedureGI request = new CreateProcedureGI();
         request.setUserlogin(username);
         request.setReferrednumber(vorgang.getSachakteId());
+        request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(vorgang.getKurzname());
         request.setFilesubj(vorgang.getBetreff());
         request.setFiletype(vorgang.getArt().getValue());
@@ -161,12 +167,12 @@ public class DmsClient {
         );
 
         switch (dokument.getEinAusgehend()) {
-        case EINGEHEND:
-            return this.createEingehendesDokumentWithUser(dokument, username);
-        case AUSGEHEND:
-            return this.createAusgehendesDokumentWithUser(dokument, username);
-        default:
-            throw new AssertionError("must not happen");
+            case EINGEHEND:
+                return this.createEingehendesDokumentWithUser(dokument, username);
+            case AUSGEHEND:
+                return this.createAusgehendesDokumentWithUser(dokument, username);
+            default:
+                throw new AssertionError("must not happen");
         }
     }
 
@@ -187,6 +193,7 @@ public class DmsClient {
         final UpdateContentObjectGI request = new UpdateContentObjectGI();
         request.setObjaddress(schriftstueck.getCoo());
         request.setUserlogin(username);
+        request.setBusinessapp(this.properties.getBusinessapp());
 
         final LHMBAI151700GIAttachmentType attachmentType = this.parseSchriftstueck(schriftstueck);
         request.setGiattachmenttype(attachmentType);
@@ -217,6 +224,7 @@ public class DmsClient {
         final CancelObjectGI cancelObjectGI = new CancelObjectGI();
         cancelObjectGI.setObjaddress(documentCOO);
         cancelObjectGI.setUserlogin(username);
+        cancelObjectGI.setBusinessapp(this.properties.getBusinessapp());
 
         final CancelObjectGIResponse response = this.wsClient.cancelObjectGI(cancelObjectGI);
 
@@ -243,6 +251,7 @@ public class DmsClient {
         request.setObjaddress(dokument.getCoo());
         request.setShortname(dokument.getKurzname());
         request.setFilesubj(dokument.getBetreff());
+        request.setBusinessapp(this.properties.getBusinessapp());
 
         val attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         val files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -274,6 +283,7 @@ public class DmsClient {
 
         val request = new ReadContentObjectMetaDataGI();
         request.setObjaddress(coo);
+        request.setBusinessapp(this.properties.getBusinessapp());
         request.setUserlogin(username);
         val response = this.wsClient.readContentObjectMetaDataGI(request);
 
@@ -299,6 +309,7 @@ public class DmsClient {
 
         final DepositObjectGI depositObjectGI = new DepositObjectGI();
         depositObjectGI.setObjaddress(vorgangCoo);
+        depositObjectGI.setBusinessapp(this.properties.getBusinessapp());
         depositObjectGI.setUserlogin(username);
 
         final DepositObjectGIResponse response = this.wsClient.depositObjectGI(depositObjectGI);
@@ -316,7 +327,7 @@ public class DmsClient {
      * @param coo      COO of the Schriftstück
      * @return Schriftstück
      */
-    public Schriftstueck readSchriftstueck(final String username, final String coo) throws DMSException {
+    public Schriftstueck readSchriftstueck(final String username, final String coo) throws DMSException, IOException {
         //logging for dms team
         log.info("calling DepositObjectGI"
                 + " Userlogin: " + username
@@ -325,6 +336,7 @@ public class DmsClient {
 
         val request = new ReadContentObjectGI();
         request.setObjaddress(coo);
+        request.setBusinessapp(this.properties.getBusinessapp());
         request.setUserlogin(username);
 
         val response = this.wsClient.readContentObjectGI(request);
@@ -338,7 +350,7 @@ public class DmsClient {
                 .coo(coo)
                 .name(response.getGiattachmenttype().getLHMBAI151700Filename())
                 .extension(response.getGiattachmenttype().getLHMBAI151700Fileextension())
-                .content(response.getGiattachmenttype().getLHMBAI151700Filecontent())
+                .content(IOUtils.toByteArray(response.getGiattachmenttype().getLHMBAI151700Filecontent().getInputStream()))
                 .build();
     }
 
@@ -346,7 +358,8 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final NeuesSchriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        attachment.setLHMBAI151700Filecontent(schriftstueck.getContent());
+        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
+        attachment.setLHMBAI151700Filecontent(dataHandler);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
@@ -354,7 +367,8 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final Schriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        attachment.setLHMBAI151700Filecontent(schriftstueck.getContent());
+        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
+        attachment.setLHMBAI151700Filecontent(dataHandler);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
@@ -364,6 +378,7 @@ public class DmsClient {
         final CreateIncomingGI request = new CreateIncomingGI();
         request.setUserlogin(username);
         request.setReferrednumber(dokument.getVorgangId());
+        request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(dokument.getKurzname());
         request.setFilesubj(dokument.getBetreff());
 
@@ -395,6 +410,7 @@ public class DmsClient {
 
         final ReadDocumentGIObjects readRequest = new ReadDocumentGIObjects();
         readRequest.setObjaddress(documentCoo);
+        readRequest.setBusinessapp(this.properties.getBusinessapp());
         readRequest.setUserlogin(username);
         final ReadDocumentGIObjectsResponse readResponse = this.wsClient.readDocumentGIObjects(readRequest);
         final List<LHMBAI151700GIObjectType> geladeneSchriftstuecke = readResponse.getGiobjecttype().getLHMBAI151700GIObjectType();
@@ -427,6 +443,7 @@ public class DmsClient {
         final CreateOutgoingGI request = new CreateOutgoingGI();
         request.setUserlogin(username);
         request.setReferrednumber(dokument.getVorgangId());
+        request.setBusinessapp(this.properties.getBusinessapp());
 
         request.setShortname(dokument.getKurzname());
         request.setFilesubj(dokument.getBetreff());
@@ -457,6 +474,7 @@ public class DmsClient {
         final ReadDocumentGIObjects readRequest = new ReadDocumentGIObjects();
         readRequest.setObjaddress(documentCoo);
         readRequest.setUserlogin(username);
+        readRequest.setBusinessapp(this.properties.getBusinessapp());
         final ReadDocumentGIObjectsResponse readResponse = this.wsClient.readDocumentGIObjects(readRequest);
 
         if (readResponse.getGiobjecttype() == null) {
