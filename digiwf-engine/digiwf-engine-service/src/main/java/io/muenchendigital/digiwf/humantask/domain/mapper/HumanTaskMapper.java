@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-// FIXME: add tests
+
 @Component
 public class HumanTaskMapper {
 

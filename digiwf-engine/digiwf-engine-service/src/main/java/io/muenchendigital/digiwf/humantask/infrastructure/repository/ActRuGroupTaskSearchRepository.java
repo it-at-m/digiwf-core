@@ -12,16 +12,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-// FIXME: improve: https://www.baeldung.com/spring-data-criteria-queries#specifications
 @Repository
 @AllArgsConstructor
 public class ActRuGroupTaskSearchRepository {
     private final EntityManager em;
+    private final ActRuTaskCriteriaBuilder actRuTaskCriteriaBuilder;
 
     public Page<ActRuTaskEntity> search(final String assigneeId, final List<String> lowerCaseGroups, final String searchQuery, final Boolean assigned, final Pageable pageable) {
         val cb = em.getCriteriaBuilder();
@@ -32,7 +34,7 @@ public class ActRuGroupTaskSearchRepository {
         final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks = actRuTask.join("actRuIdentities");
 
         val predicates = getPredicates(assigneeId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks);
-        val orders = getOrderList(pageable, cb, actRuTask);
+        val orders = actRuTaskCriteriaBuilder.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
                 .where(predicates)
@@ -77,9 +79,8 @@ public class ActRuGroupTaskSearchRepository {
         }
 
         if (searchQuery != null && !searchQuery.isBlank()) {
-            predicates.add(getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
+            predicates.add(actRuTaskCriteriaBuilder.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
         }
-
 
         return predicates.toArray(new Predicate[0]);
     }
@@ -109,29 +110,5 @@ public class ActRuGroupTaskSearchRepository {
                 inClause,
                 cb.equal(identityLinks.get("type"), "candidate")
         );
-    }
-
-    private Predicate getSearchQueryPredicates(final String searchQuery, final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo) {
-        val namePredicate = cb.like(actRuTask.get("name"), "%" + searchQuery + "%");
-        val descriptionPredicate = cb.like(taskInfo.get("description"), "%" + searchQuery + "%");
-        val definitionNamePredicate = cb.like(taskInfo.get("definitionName"), "%" + searchQuery + "%");
-        return cb.or(
-                namePredicate,
-                descriptionPredicate,
-                definitionNamePredicate
-        );
-    }
-
-    private List<Order> getOrderList(final Pageable pageable, final CriteriaBuilder cb, final Root<ActRuTaskEntity> actRuTask) {
-        if (pageable.getSort().isEmpty()) { // FIXME: necessary?
-            return List.of();
-        }
-        return pageable.getSort().stream().map(sort -> {
-            if (sort.getDirection().isAscending()) {
-                return cb.asc(actRuTask.get(sort.getProperty()));
-            } else {
-                return cb.desc(actRuTask.get(sort.getProperty()));
-            }
-        }).collect(Collectors.toList());
     }
 }

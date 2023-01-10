@@ -5,7 +5,6 @@
 package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.humantask.domain.mapper.HumanTaskMapper;
-import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
@@ -24,14 +23,14 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import java.sql.Date;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service to handle HumanTasks in DigiWF.
@@ -140,7 +139,7 @@ public class HumanTaskService {
      * @param pageable
      * @return
      */
-    public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups,  @Nullable final String query, final Pageable pageable) {
+    public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, @Nullable final String query, final Pageable pageable) {
         return this.actRuTaskService.getAssignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
@@ -275,48 +274,5 @@ public class HumanTaskService {
                 .anyMatch(link -> groups.stream().anyMatch(group ->
                         StringUtils.isNoneBlank(link.getGroupId()) && group.equalsIgnoreCase(link.getGroupId()))
                         || userId.equals(link.getUserId()));
-    }
-
-    //--------------------------------------------------------------- helper methods ---------------------------------------------------------------//
-
-//
-//    private List<HumanTask> getHumanTasksFromActRuTasks(final List<ActRuTask> actRuTasks) {
-//        log.debug("Found {} tasks", actRuTasks.size());
-//
-//        if (actRuTasks.isEmpty()) {
-//            return Collections.emptyList();
-//        }
-//        return actRuTasks.stream()
-//                .map(this.humanTaskMapper::map2Model)
-//                .collect(Collectors.toList());
-//    }
-
-    private <T> List<T> getSublistOfTasks(final List<T> allTasks, final Integer pageIndex, final Integer pageSize) {
-        val startIndex = Math.min(pageIndex * pageSize, allTasks.size());
-        val stopIndex = Math.min((pageIndex + 1) * pageSize, allTasks.size());
-
-        return allTasks.subList(startIndex, stopIndex);
-    }
-    //TODO create a HumanTask Access Service for the following methods
-
-    private List<Task> queryTaskByCandidateGroup(final List<String> groups, final boolean assigned) {
-
-        // FIXME: replace it
-        // select assigned OR unassigned tasks
-        final String assigneeExpression = assigned ? "T1.ASSIGNEE_ IS NOT NULL" : "T1.ASSIGNEE_ IS NULL";
-
-        final String query = "SELECT * "
-                + "FROM ACT_RU_TASK T1"
-                + " WHERE " + assigneeExpression
-                + " AND T1.ID_ IN ("
-                + "SELECT TASK_ID_"
-                + " FROM ACT_RU_IDENTITYLINK I1"
-                + " WHERE I1.TYPE_ = 'candidate'"
-                + "AND (" + groups.stream().map(group -> "lower(I1.GROUP_ID_) = lower('" + group + "')").collect(Collectors.joining(" OR ")) + ")"
-                + ")";
-
-        return this.taskService.createNativeTaskQuery()
-                .sql(query)
-                .list();
     }
 }

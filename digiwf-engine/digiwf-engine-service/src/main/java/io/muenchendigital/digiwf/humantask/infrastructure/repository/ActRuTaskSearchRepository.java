@@ -15,12 +15,12 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Repository
 public class ActRuTaskSearchRepository {
     private final EntityManager em;
+    private final ActRuTaskCriteriaBuilder actRuTaskCriteriaBuilder;
 
     public Page<ActRuTaskEntity> search(final String assigneeId, final String searchQuery, final Boolean followUp, final Pageable pageable) {
         val cb = em.getCriteriaBuilder();
@@ -30,7 +30,7 @@ public class ActRuTaskSearchRepository {
         final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo = actRuTask.join("taskInfoEntity");
 
         val predicates = getPredicates(assigneeId, searchQuery, followUp, cb, actRuTask, taskInfo);
-        val orders = getOrderList(pageable, cb, actRuTask);
+        val orders = actRuTaskCriteriaBuilder.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
                 .where(predicates)
@@ -69,7 +69,7 @@ public class ActRuTaskSearchRepository {
         predicates.add(assigneeIdPredicate);
 
         if (searchQuery != null && !searchQuery.isBlank()) {
-            predicates.add(getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
+            predicates.add(actRuTaskCriteriaBuilder.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
         }
 
         if (isFollowUp) {
@@ -87,30 +87,5 @@ public class ActRuTaskSearchRepository {
                 cb.isNull(actRuTask.get("followUpDate")),
                 cb.lessThanOrEqualTo(actRuTask.get("followUpDate"), today)
         );
-    }
-
-    private Predicate getSearchQueryPredicates(final String searchQuery, final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo) {
-        val namePredicate = cb.like(actRuTask.get("name"), "%" + searchQuery + "%");
-        val descriptionPredicate = cb.like(taskInfo.get("description"), "%" + searchQuery + "%");
-        val definitionNamePredicate = cb.like(taskInfo.get("definitionName"), "%" + searchQuery + "%");
-
-        return cb.or(
-                namePredicate,
-                descriptionPredicate,
-                definitionNamePredicate
-        );
-    }
-
-    private List<Order> getOrderList(final Pageable pageable, final CriteriaBuilder cb, final Root<ActRuTaskEntity> actRuTask) {
-        if (pageable.getSort().isEmpty()) { // FIXME: necessary?
-            return List.of();
-        }
-        return pageable.getSort().stream().map(sort -> {
-            if (sort.getDirection().isAscending()) {
-                return cb.asc(actRuTask.get(sort.getProperty()));
-            } else {
-                return cb.desc(actRuTask.get(sort.getProperty()));
-            }
-        }).collect(Collectors.toList());
     }
 }
