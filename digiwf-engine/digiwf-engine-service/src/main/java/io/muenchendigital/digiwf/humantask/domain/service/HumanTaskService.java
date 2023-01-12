@@ -4,10 +4,15 @@
 
 package io.muenchendigital.digiwf.humantask.domain.service;
 
+import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapper;
+import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapperImpl;
 import io.muenchendigital.digiwf.humantask.domain.mapper.HumanTaskMapper;
+import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTaskDetail;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
+import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuGroupTaskSearchRepository;
+import io.muenchendigital.digiwf.humantask.infrastructure.repository.ActRuTaskSearchRepository;
 import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
@@ -31,6 +36,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service to handle HumanTasks in DigiWF.
@@ -43,7 +49,9 @@ import java.util.Optional;
 public class HumanTaskService {
     private final HumanTaskDataService humanTaskDataService;
     private final TaskInfoService taskInfoService;
-    private final ActRuTaskService actRuTaskService;
+    private final ActRuTaskMapper actRuTaskMapper;
+    private final ActRuGroupTaskSearchRepository actRuGroupTaskSearchRepository;
+    private final ActRuTaskSearchRepository actRuTaskSearchRepository;
 
     //outdated form handling
     private final FormService formService;
@@ -66,7 +74,6 @@ public class HumanTaskService {
      */
     public HumanTaskDetail getDetail(final String taskId, final String userId, final List<String> groups) {
         final Task task = this.getTask(taskId);
-
         if (!this.hasAccess(task, userId, groups)) {
             throw new IllegalResourceAccessException(String.format("Task with id %s not accessable", taskId));
         }
@@ -116,7 +123,7 @@ public class HumanTaskService {
      * @return
      */
     public Page<HumanTask> getTasksForUser(final String userId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
-        return this.actRuTaskService.getActRuTaskEntityByAssigneeId(userId, query, followUp, pageable).map(this.humanTaskMapper::map2Model);
+        return this.getActRuTaskEntityByAssigneeId(userId, query, followUp, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -127,7 +134,7 @@ public class HumanTaskService {
      * @return The open group tasks
      */
     public Page<HumanTask> getOpenGroupTasks(final String userId, final List<String> groups, @Nullable final String query, final Pageable pageable) {
-        return this.actRuTaskService.getUnassignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
+        return this.getGroupTasks(userId, groups, false, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -140,7 +147,7 @@ public class HumanTaskService {
      * @return
      */
     public Page<HumanTask> getAssignedGroupTasks(final String userId, final List<String> groups, @Nullable final String query, final Pageable pageable) {
-        return this.actRuTaskService.getAssignedGroupTasks(userId, groups, query, pageable).map(this.humanTaskMapper::map2Model);
+        return this.getGroupTasks(userId, groups, true, query, pageable).map(this.humanTaskMapper::map2Model);
     }
 
     /**
@@ -274,5 +281,15 @@ public class HumanTaskService {
                 .anyMatch(link -> groups.stream().anyMatch(group ->
                         StringUtils.isNoneBlank(link.getGroupId()) && group.equalsIgnoreCase(link.getGroupId()))
                         || userId.equals(link.getUserId()));
+    }
+
+    private Page<ActRuTask> getActRuTaskEntityByAssigneeId(final String assigneeId, @Nullable final String query, final Boolean followUp, final Pageable pageable) {
+        return this.actRuTaskSearchRepository.search(assigneeId, query, followUp, pageable).map(actRuTaskMapper::map2Model);
+    }
+    private Page<ActRuTask> getGroupTasks(final String userId, final List<String> groups, final Boolean assigned, @Nullable final String query, final Pageable pageable) {
+        final List<String> lowerCaseGroups = groups.stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+        return this.actRuGroupTaskSearchRepository.search(userId, lowerCaseGroups, query, assigned, pageable).map(actRuTaskMapper::map2Model);
     }
 }
