@@ -3,7 +3,7 @@ import {ApiConfig} from "../ApiConfig";
 
 export const callGetFilters = () => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-  return  FilterRestControllerApiFactory(cfg).getFilters().then(r => Promise.resolve(r.data));
+  return FilterRestControllerApiFactory(cfg).getFilters().then(r => Promise.resolve(r.data));
 }
 
 export const callSaveFilter = (filter: SaveFilterTO) => {
@@ -13,6 +13,6 @@ export const callSaveFilter = (filter: SaveFilterTO) => {
 
 export const callDeleteFilter = (id: string) => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getDELETEConfig());
-  return FilterRestControllerApiFactory(cfg)._delete(id).then(r => Promise.resolve(r.data));
+  return FilterRestControllerApiFactory(cfg).delete(id).then(r => Promise.resolve(r.data));
 };
 

@@ -9,10 +9,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppJsonForm: typeof import('./src/components/schema/AppJsonForm.vue')['default']
     AppJsonRenderer: typeof import('./src/components/schema/AppJsonRenderer.vue')['default']
-    AppList: typeof import('./src/components/UI/AppList.vue')['default']
     AppLoadingButton: typeof import('./src/components/UI/AppLoadingButton.vue')['default']
-    AppMenu: typeof import('./src/components/UI/AppMenuList.vue')['default']
-    AppMenuList: typeof import('./src/components/UI/AppMenuList.vue')['default']
+    AppMenuItem: typeof import('./src/components/UI/appMenu/AppMenuItem.vue')['default']
+    AppMenuList: typeof import('./src/components/UI/appMenu/AppMenuList.vue')['default']
     AppPageableList: typeof import('./src/components/UI/AppPageableList.vue')['default']
     AppPaginationFooter: typeof import('./src/components/UI/AppPaginationFooter.vue')['default']
     AppToast: typeof import('./src/components/UI/AppToast.vue')['default']

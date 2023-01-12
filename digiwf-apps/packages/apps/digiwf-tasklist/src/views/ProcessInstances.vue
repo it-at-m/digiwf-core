@@ -100,6 +100,7 @@
       </v-flex>
       <app-pageable-list
         :items="filteredProcessInstances"
+        :totalNumberOfItems="numberOfProcessInstances"
         found-data-text="Vorgänge gefunden"
         no-data-text="Keine laufenden Vorgänge gefunden"
       >
@@ -137,20 +138,13 @@
 </style>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {
-  FetchUtils,
-  FilterRestControllerApiFactory,
-  FilterTO,
-  SaveFilterTO,
-  ServiceInstanceTO
-} from '@muenchen/digiwf-engine-api-internal';
+import {FilterTO, SaveFilterTO, ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
 import AppPageableList from "@/components/UI/AppPageableList.vue";
 import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
-import {ApiConfig} from "../api/ApiConfig";
 import {
   deletePersistentFilterForNonHookCompatibleFunction,
   getPersistentFilterForNonHookCompatibleFunction,
@@ -163,6 +157,7 @@ import {
 export default class ProcessInstances extends Vue {
 
   processInstances: ServiceInstanceTO[] = [];
+  numberOfProcessInstances: number = 0;
   isLoading = false;
   filter = "";
   errorMessage = "";
@@ -176,6 +171,7 @@ export default class ProcessInstances extends Vue {
 
   async loadMyProcessInstances(refresh = false): Promise<void> {
     this.processInstances = this.$store.getters['processInstances/processInstances'];
+    this.numberOfProcessInstances = this.processInstances.length
     this.isLoading = true;
     const startTime = new Date().getTime();
     try {

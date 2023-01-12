@@ -36,7 +36,9 @@ public class ActRuTaskService {
     }
 
     private Page<ActRuTask> getGroupTasks(final String userId, final List<String> groups, final Boolean assigned, @Nullable final String query, final Pageable pageable) {
-        val lowerCaseGroups = groups.stream().map(String::toLowerCase).collect(Collectors.toList());
+        final List<String> lowerCaseGroups = groups.stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
         return this.actRuGroupTaskSearchRepository.search(userId, lowerCaseGroups, query, assigned, pageable).map(actRuTaskMapper::map2Model);
     }
 }

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class ActRuTaskMapper {
-
     private TaskInfoMapper taskInfoMapper;
     public List<ActRuTask> map2Model(List<ActRuTaskEntity> list) {
         return list.stream().map(this::map2Model).collect(Collectors.toList());

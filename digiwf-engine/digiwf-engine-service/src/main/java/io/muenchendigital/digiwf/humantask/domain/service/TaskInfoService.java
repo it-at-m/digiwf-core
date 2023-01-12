@@ -42,22 +42,6 @@ public class TaskInfoService {
                 .orElseThrow();
     }
 
-    public Map<String, TaskInfo> getTaskInfoMapByTaskIds(final List<String> taskIds) {
-        // due to ORA-01795 we have to split the taskIds list into smaller list (<1000) and execute multiple queries
-        final List<List<String>> taskIdLists = ListUtils.partition(taskIds, 999);
-        final Map<String, TaskInfo> taskInfoMap = new HashMap<>();
-
-        taskIdLists.forEach(taskIdList -> {
-            taskInfoMap.putAll(
-                    this.taskInfoRepository.findAllById(taskIdList).stream()
-                            .map(this.taskInfoMapper::map2Model)
-                            .collect(Collectors.toMap(TaskInfo::getId, t -> t))
-            );
-        });
-
-        return taskInfoMap;
-    }
-
     public void createTaskInfo(final DelegateTask task) {
         final ProcessDefinition definition = this.getProcessDefinition(task);
         final String user = Optional.ofNullable(task.getAssignee())

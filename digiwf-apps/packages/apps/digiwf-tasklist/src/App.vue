@@ -146,7 +146,7 @@ a {
 import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
-import AppMenuList from "./components/UI/AppMenuList.vue";
+import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 
 @Component({
   components: {AppMenuList}

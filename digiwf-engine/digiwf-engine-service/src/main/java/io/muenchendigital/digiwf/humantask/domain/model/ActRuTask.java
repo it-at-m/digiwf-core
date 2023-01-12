@@ -5,7 +5,6 @@ import lombok.*;
 import javax.annotation.Nullable;
 import java.util.Date;
 
-// FIXME is javadoc really necessary?
 @Getter
 @Builder
 @ToString

@@ -50,13 +50,16 @@ export default class AppPageableList extends Vue {
   items!: any[];
 
   @Prop()
+  totalNumberOfItems!: number
+
+  @Prop()
   noDataText!: string;
 
   @Prop()
   foundDataText!: string;
 
   get numberOfPages(): number {
-    return Math.ceil(this.items.length / this.size);
+    return Math.ceil(this.items.length / this.totalNumberOfItems);
   }
 
   updateItemsPerPage(number: number): void {
