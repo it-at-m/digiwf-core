@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import({ActRuGroupTaskSearchRepository.class, ActRuTaskCriteriaBuilder.class, TaskEntityDataCreator.class})
+@Import({ActRuGroupTaskSearchRepository.class, TaskEntityDataCreator.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ActRuGroupTaskSearchRepositoryTest {
     @Autowired

@@ -21,10 +21,18 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class ActRuGroupTaskSearchRepository {
+public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
     private final EntityManager em;
-    private final ActRuTaskCriteriaBuilder actRuTaskCriteriaBuilder;
 
+    /**
+     * returns a page of group tasks
+     * @param assigneeId id of user
+     * @param lowerCaseGroups list of groups in which the task is includes
+     * @param searchQuery optional search query string for test search
+     * @param assigned state of the task. is the task already assigned or unassigned
+     * @param pageable for setup page number, page size and sort
+     * @return page of results
+     */
     public Page<ActRuTaskEntity> search(final String assigneeId, final List<String> lowerCaseGroups, final String searchQuery, final Boolean assigned, final Pageable pageable) {
         val cb = em.getCriteriaBuilder();
         val resultQuery = cb.createQuery(ActRuTaskEntity.class);
@@ -34,7 +42,7 @@ public class ActRuGroupTaskSearchRepository {
         final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks = actRuTask.join("actRuIdentities");
 
         val predicates = getPredicates(assigneeId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks);
-        val orders = actRuTaskCriteriaBuilder.getOrderList(pageable, cb, actRuTask);
+        val orders = this.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
                 .where(predicates)
@@ -79,7 +87,7 @@ public class ActRuGroupTaskSearchRepository {
         }
 
         if (searchQuery != null && !searchQuery.isBlank()) {
-            predicates.add(actRuTaskCriteriaBuilder.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
+            predicates.add(this.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
         }
 
         return predicates.toArray(new Predicate[0]);

@@ -4,14 +4,12 @@ import io.muenchendigital.digiwf.humantask.infrastructure.entity.TaskInfoEntity;
 import io.muenchendigital.digiwf.humantask.infrastructure.entity.camunda.ActRuTaskEntity;
 import lombok.val;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class ActRuTaskCriteriaBuilder {
+public abstract class ActRuTaskCriteriaProvider {
 
     public List<Order> getOrderList(final Pageable pageable, final CriteriaBuilder cb, final Root<ActRuTaskEntity> actRuTask) {
         return pageable.getSort().stream().map(sort -> {

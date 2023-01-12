@@ -5,7 +5,6 @@
 package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapper;
-import io.muenchendigital.digiwf.humantask.domain.mapper.ActRuTaskMapperImpl;
 import io.muenchendigital.digiwf.humantask.domain.mapper.HumanTaskMapper;
 import io.muenchendigital.digiwf.humantask.domain.model.ActRuTask;
 import io.muenchendigital.digiwf.humantask.domain.model.HumanTask;

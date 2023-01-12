@@ -11,16 +11,27 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class ActRuTaskSearchRepository {
+public class ActRuTaskSearchRepository extends ActRuTaskCriteriaProvider {
     private final EntityManager em;
-    private final ActRuTaskCriteriaBuilder actRuTaskCriteriaBuilder;
+
+    /**
+     * returns a page of user tasks
+     * @param assigneeId id of user
+     * @param searchQuery optional search query string for test search
+     * @param followUp boolean flag for showing a task what should be listed again
+     * @param pageable for setup page number, page size and sort
+     * @return
+     */
 
     public Page<ActRuTaskEntity> search(final String assigneeId, final String searchQuery, final Boolean followUp, final Pageable pageable) {
         val cb = em.getCriteriaBuilder();
@@ -30,7 +41,7 @@ public class ActRuTaskSearchRepository {
         final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo = actRuTask.join("taskInfoEntity");
 
         val predicates = getPredicates(assigneeId, searchQuery, followUp, cb, actRuTask, taskInfo);
-        val orders = actRuTaskCriteriaBuilder.getOrderList(pageable, cb, actRuTask);
+        val orders = this.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
                 .where(predicates)
@@ -69,7 +80,7 @@ public class ActRuTaskSearchRepository {
         predicates.add(assigneeIdPredicate);
 
         if (searchQuery != null && !searchQuery.isBlank()) {
-            predicates.add(actRuTaskCriteriaBuilder.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
+            predicates.add(this.getSearchQueryPredicates(searchQuery, cb, actRuTask, taskInfo));
         }
 
         if (isFollowUp) {
@@ -80,8 +91,6 @@ public class ActRuTaskSearchRepository {
     }
 
     private Predicate getFollowUpPredicate(final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask) {
-//        javascript filter logic
-//        tasks.filter((task: HumanTaskTO) => task.followUpDate == '' || new Date().getTime() > new Date(task.followUpDate!).getTime());
         val today = new Date();
         return cb.or(
                 cb.isNull(actRuTask.get("followUpDate")),

@@ -7,6 +7,9 @@ import org.hibernate.tool.schema.spi.SchemaFilter;
 
 import java.util.List;
 
+/**
+ * Filter for excluding Camunda tables
+ */
 public class IgnoreTableDuplicatesFilter implements SchemaFilter {
 
     private final List<String> ignoredTables = List.of("ACT_RU_IDENTITYLINK", "ACT_RU_TASK");
