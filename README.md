@@ -35,10 +35,10 @@ For more information and facts about the development please visit [digiwf.oss.mu
 
 The documentation project is built with technologies we use in our projects:
 
-* Camunda
-* Spring Boot
-* Vue.js
-* JSON Schema
+* [Camunda](https://camunda.com)
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [Vue.js](https://vuejs.org/)
+* [JSON Schema](http://json-schema.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
