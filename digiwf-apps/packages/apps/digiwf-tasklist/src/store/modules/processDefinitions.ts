@@ -1,6 +1,5 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
-import {TasksState} from "./tasks";
 import {
   FetchUtils,
   ServiceDefinitionControllerApiFactory,
@@ -22,7 +21,7 @@ export default {
     filter: ""
   } as ProcessDefinitionState,
   getters: {
-    shouldUpdate: (state: TasksState) => (): boolean => {
+    shouldUpdate: (state: ProcessDefinitionState) => (): boolean => {
       const lastFetch = state.lastFetch;
       if (!lastFetch) {
         return true;
@@ -43,7 +42,7 @@ export default {
     setProcessDefinitions(state: ProcessDefinitionState, processDefinitions: ServiceDefinitionTO[]): void {
       state.processDefinitions = processDefinitions;
     },
-    setLastFetch(state: TasksState, date: number): void {
+    setLastFetch(state: ProcessDefinitionState, date: number): void {
       state.lastFetch = date;
     },
     setFilter(state: ProcessDefinitionState, filter: string): void {
