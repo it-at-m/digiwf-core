@@ -25,7 +25,9 @@
 
 ## About The Project
 
-This Project is the landing page of DigiWF. For more information and facts about the development of our project - the DigiWF workflow automation and integration platform - please visit tbd.
+__DigiWF__ is the central workflow automation and integration platform based on the free process framework [Camunda](https://camunda.com).
+For more information and facts about the development please visit [digiwf.oss.muenchen.de](https://digiwf.oss.muenchen.de)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
