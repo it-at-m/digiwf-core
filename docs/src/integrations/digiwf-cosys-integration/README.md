@@ -7,7 +7,7 @@ Features:
 * Can be used to create documents in cosys and save them in a s3 compatible storage
 * Can inform the receiver through an event if the creation was successful or if there was a problem
 
-Checkout the source code [here](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration).
+Checkout the [source code](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration).
 
 ## Getting started
 
