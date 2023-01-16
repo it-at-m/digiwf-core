@@ -1,6 +1,6 @@
 # DigiWF Cosys Integration
 
-The goal of the DigiWF Cosys Integration is to allow async document creation in cosys with an event broker and s3 storage.
+The goal of the DigiWF [Cosys](https://www.cib.de/cosys/) Integration is to allow async document creation in cosys with an event broker and s3 storage.
 
 Features:
 
