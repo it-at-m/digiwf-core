@@ -608,7 +608,6 @@ const selectSchema = {
           "type": "string",
           "title": "Display",
           "enum": [
-            "",
             "radio"
           ],
           "x-options": {
