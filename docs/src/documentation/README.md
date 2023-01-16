@@ -5,7 +5,7 @@ Basis der Camunda BPMN Process Engine voranzutreiben. Relativ früh wurde unter 
 Aufgabenliste auf Basis von VueJs und VuetifyJs implementiert. Außerdem wurden erste Integrationsmodule wie Mail oder
 DMS in die Backend-Infrastruktur eingebaut.
 
-Heute – mehr als 1,5 Jahre später – ist DigiWF zu einer viel genutzten Plattform geworden. Vor allem das
+Heute ist DigiWF zu einer viel genutzten Plattform geworden. Vor allem das
 Integrationskonzept ist mittlerweile ausgereift und jedes System, das über eine Schnittstelle verfügt (und wenn es keine
 Schnittstelle hat, dann bindet man einfach einen RPA-Client an) lässt sich ohne großen Aufwand anbinden. Möglich wird
 dies durch ein modulares Baukastenkonzept über eine Sammlung von Spring Boot Startern. Probleme wie das Dateihandling
