@@ -91,12 +91,11 @@ export default defineComponent({
     }
 
     const valueChanged = (test: any) => {
-      console.log("value changed " + test)
       value.value = test;
     }
 
     const initSchema = () => {
-      console.log("Test");
+      // change the schema below for debugging
       schema.value = {
         "type": "object",
         "x-display": "tabs",
