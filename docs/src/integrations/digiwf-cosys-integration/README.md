@@ -111,8 +111,8 @@ The action `POST` is used for the creation of new files in the s3 storage and th
 
 Create a *Callactivity*, use on of our Element-Templates and fill it with the required information:
 
-* [Cosys all data](src/.vuepress/public/element-template/cosys-alle-daten.json)
-* [Cosys create document](src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
-* [Cosys create document (V02)](src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
+* [Cosys all data](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-alle-daten.json)
+* [Cosys create document](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
+* [Cosys create document (V02)](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
 
-To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](src/.vuepress/public/element-template/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
+To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
