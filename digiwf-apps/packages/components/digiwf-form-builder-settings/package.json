@@ -5,7 +5,8 @@
   "module": "dist/digiwf-form-builder-settings.mjs",
   "scripts": {
     "build": "vite build",
-    "watch": "vite build --watch"
+    "watch": "vite build --watch",
+    "test": "jest"
   },
   "files": [
     "dist/*",
@@ -15,6 +16,11 @@
   "types": "types/index.d.ts",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "jest": "29.3.1",
+    "ts-jest": "^29.0.5"
   },
   "gitHead": "b2b458745431c62fd6a055d9b3c32ce14b0c8435"
 }

@@ -10,7 +10,8 @@
     "dev": "lerna run watch --stream --parallel",
     "serve": "npm run build && lerna run dev --stream --parallel",
     "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example",
-    "serve:tasklist": "lerna run dev --stream --scope=@muenchen/digiwf-tasklist"
+    "serve:tasklist": "lerna run dev --stream --scope=@muenchen/digiwf-tasklist",
+    "test": "lerna run test"
   },
   "author": {
     "name": "Dominik horn",
