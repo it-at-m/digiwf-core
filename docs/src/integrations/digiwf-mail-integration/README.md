@@ -128,6 +128,6 @@ All other file action will not work and result in an error.
 
 ### Element Template
 
-To speed up process development you can use the element template [sendMail.json](sendMail.json) to define a call
+To speed up process development you can use the element template [sendMail.json](/element-template/sendMail.json) to define a call
 activity
 that uses this integration.
