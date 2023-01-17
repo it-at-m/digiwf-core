@@ -795,6 +795,8 @@ const fileSchema = {
         "uuidEnabled": {
           "type": "boolean",
           "title": "Unique identifier?",
+          "description": "Creates an unique, which will add to the the directory path. It should be used in object lists.",
+
           "default": false,
           "x-props": {
             "outlined": true,

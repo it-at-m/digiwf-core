@@ -10,6 +10,8 @@ describe("digiwf-form-builder-settings", () => {
     expect(enKeys).toEqual(deKeys)
   })
 })
+
+// https://stackoverflow.com/a/56253298
 const flattenObjectKeys = (obj: any) => Object.keys(flattenObjectWithParent(obj, undefined, undefined)).sort();
 const flattenObjectWithParent = (obj: any, parent: any, res: any = {}) =>{
   for(let key in obj){
