@@ -53,7 +53,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 
 4. Configure your binder.<br>
    For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started)
+   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
    Note that you DO have to
    configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
    typeMappings. These are configured for you by the digiwf-cosys-integration-starter. You also have to configure the
@@ -65,7 +65,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 io.muenchendigital.digiwf.s3.client.document-storage-url: http://s3-integration-url:port
 ```
 
-See [this](https://github.com/it-at-m/digiwf-spring-cloudstream-utils) for an example.
+See [this](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils) for an example.
 
 6. Configure your application
 
@@ -78,7 +78,7 @@ io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
 ```
 
 7. Define a RestTemplate. For an example, please refer to
-   the [example project](https://github.com/it-at-m/digiwf-cosys-integration/tree/dev/example).
+   the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-example).
 
 ## Usage
 
