@@ -57,8 +57,8 @@ The library has several functionalities that can be configured. We have provided
 them.
 
 _For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration-client)
+the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example)
+and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
 folder._
 
 ### Minimum necessary spring boot annotations
@@ -121,8 +121,8 @@ Another method that expects the document storage url within the method parameter
 This allows to use different `digiwf-s3-integration-service` with the same client lib.
 
 _For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration-client)
+the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example/)
+and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
 folder._
 
 The images used in this example are not subject to any license.
@@ -176,8 +176,8 @@ If you request presigned urls for a directory presigned urls for all files insid
 In the `path` you can specify multiple file paths by concatenating them with a semicolon `;` (e.g. `folder/first.txt;folder/second.txt;folder/third.txt`).
 
 _For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-s3-integration/tree/dev/example-s3-integration-client)
+the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example/)
+and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
 folder._
 
 ## S3 proxy

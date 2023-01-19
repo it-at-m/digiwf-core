@@ -7,5 +7,6 @@ Jede Digiwf Integration folgt unserem Integrationskonzept (Spring Boot Starter) 
 - **example** Anwendung, die die Verwendung des Starters zeigt
 - **service** Anwendung, die bereits vorkonfiguriert ist und direkt verwendet werden kann. Diese Service Anwendung ist üblicherweise als Docker Image im  [dockerhub](https://hub.docker.com/u/itatm) veröffentlicht. Eine solche Service Anwendung ist nur bei generische Integrationen vorhanden.
 
-Prozessbeispiele und Formulare für die Verwendung der Integration können [hier](src/modeling/templates/examples) heruntergeladen werden.
-Element-Templates für eigene Bausteine können [hier](src/modeling/templates/element-templates) heruntergeladen werden.
+
+[Prozessbeispiele und Formulare](modeling/templates/examples) können für die Verwendung der Integration heruntergeladen werden.
+[Element Templates](/modeling/templates/element-templates) können für eigene Bausteine heruntergeladen werden.

@@ -128,4 +128,8 @@ export default defineComponent({
 .theme--light.v-text-field--filled > .v-input__control > .v-input__slot:hover {
   background-color: white !important;
 }
+
+.vjsf-array {
+  margin: 6px !important;
+}
 </style>

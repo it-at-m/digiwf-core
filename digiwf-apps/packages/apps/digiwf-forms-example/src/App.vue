@@ -1,13 +1,18 @@
 <template>
   <v-app>
     <menu></menu>
-    <button @click="undo">undo</button>
-    <v-tabs>
+    <v-tabs grow>
       <v-tab>
         builder
       </v-tab>
       <v-tab>
         renderer
+      </v-tab>
+      <v-tab>
+        json schema
+      </v-tab>
+      <v-tab>
+        schema value
       </v-tab>
       <v-tab-item>
         <dwf-form-builder :value="schema" @input="changed" :builderSettings="settings"></dwf-form-builder>
@@ -15,15 +20,29 @@
       <v-tab-item>
         <div style="padding: 30px">
           <v-form ref="form">
-            <dwf-form-renderer :options="{}" @input="valueChanged" :value="value"
-                               :schema="schema" :key="componentKey"></dwf-form-renderer>
+            <dwf-form-renderer :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
+                               :schema="schema" :key="componentKey"
+                               @input="valueChanged" :value="value">
+            </dwf-form-renderer>
           </v-form>
           <v-btn @click="validate">Validate</v-btn>
         </div>
       </v-tab-item>
+      <v-tab-item>
+        <div style="padding: 30px">
+          <textarea
+            :value="JSON.stringify(schema, undefined, 4)"
+            class="codeblock">
+          </textarea>
+          <v-btn @click="initSchema">Reset</v-btn>
+        </div>
+      </v-tab-item>
+      <v-tab-item>
+        <div style="padding: 30px">
+          <pre class="codeblock">{{JSON.stringify(value, undefined, 4)}}</pre>
+        </div>
+      </v-tab-item>
     </v-tabs>
-    <label>Schema</label><textarea :value="JSON.stringify(schema, undefined, 4)" style="height: 800px;"></textarea>
-    <label>Value</label><textarea :value="JSON.stringify(value, undefined, 4)" style="height: 800px;"></textarea>
   </v-app>
 </template>
 
@@ -31,13 +50,18 @@
 html, body {
   height: 100%;
 }
+
+.codeblock {
+  width: 100%;
+  height: 700px;
+}
 </style>
 
 <script lang="ts">
-import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
-import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
-import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
-import {defineComponent, provide, ref} from "vue";
+import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
+import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
+import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
+import { defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder},
@@ -48,32 +72,7 @@ export default defineComponent({
 
     const value = ref({});
 
-    const schema = ref({
-      "type": "object",
-      "x-display": "tabs",
-      "allOf": [{
-        "key": "sectionKey1",
-        "title": "Allgemeine Angaben",
-        "type": "object",
-        "x-options": {"sectionsTitlesClasses": []},
-        "allOf": [{
-          "containerType": "group",
-          "title": "Group",
-          "description": "",
-          "x-options": {"childrenClass": "pl-0"},
-          "properties": {
-            "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
-              "fieldType": "boolean",
-              "title": "Checkbox",
-              "type": "boolean",
-              "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-              "x-props": {"outlined": true, "dense": true}
-            }
-          },
-          "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
-        }]
-      }]
-    });
+    const schema = ref({});
     const changed = (newSchema: any) => {
       componentKey.value += 1;
       schema.value = newSchema;
@@ -92,11 +91,11 @@ export default defineComponent({
     }
 
     const valueChanged = (test: any) => {
-      console.log("value changed " + test)
       value.value = test;
     }
 
-    const undo = () => {
+    const initSchema = () => {
+      // change the schema below for debugging
       schema.value = {
         "type": "object",
         "x-display": "tabs",
@@ -122,11 +121,14 @@ export default defineComponent({
             "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
           }]
         }]
-      }
+      };
+      value.value = {};
     }
 
+    initSchema();
+
     return {
-      undo,
+      initSchema,
       componentKey,
       changed,
       validate,

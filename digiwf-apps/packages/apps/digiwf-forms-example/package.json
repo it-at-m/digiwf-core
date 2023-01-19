@@ -2,16 +2,16 @@
   "name": "@muenchen/digiwf-forms-example",
   "description": "DigiWF Forms",
   "private": true,
-  "version": "0.21.3",
+  "version": "0.21.4",
   "scripts": {
     "dev": "vite --host localhost",
     "build": "vite build"
   },
   "dependencies": {
-    "@muenchen/digiwf-form-builder": "^0.21.3",
-    "@muenchen/digiwf-form-builder-settings": "^0.21.3",
-    "@muenchen/digiwf-form-renderer": "^0.21.3",
-    "@muenchen/digiwf-multi-file-input": "^0.21.3",
+    "@muenchen/digiwf-form-builder": "^0.21.4",
+    "@muenchen/digiwf-form-builder-settings": "^0.21.4",
+    "@muenchen/digiwf-form-renderer": "^0.21.4",
+    "@muenchen/digiwf-multi-file-input": "^0.21.4",
     "@muenchen/vjsf": "^2.21.4",
     "vue": "^2.7.10",
     "vuetify": "^2.6.9"
