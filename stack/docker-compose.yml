@@ -23,17 +23,18 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  minio:
-    image: quay.io/minio/minio:latest
-    command: server /data --console-address ":9001"
-    environment:
-      - MINIO_ROOT_USER=minio
-      - MINIO_ROOT_PASSWORD=Test1234
-    ports:
-      - '9000:9000'
-      - '9001:9001'
-    volumes:
-      - /docker/minio:/data
+# TODO fix volume
+#  minio:
+#    image: quay.io/minio/minio:latest
+#    command: server /data --console-address ":9001"
+#    environment:
+#      - MINIO_ROOT_USER=minio
+#      - MINIO_ROOT_PASSWORD=Test1234
+#    ports:
+#      - '9000:9000'
+#      - '9001:9001'
+#    volumes:
+#      - /docker/minio:/data
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -43,7 +44,7 @@ services:
 
   # you have to build the gateway first (mvn clean install)
   digiwf-gateway:
-    build: ../digiwf-gateway
+    image: itatm/digiwf-gateway:dev
     ports:
       - "8082:8082"
     environment:
