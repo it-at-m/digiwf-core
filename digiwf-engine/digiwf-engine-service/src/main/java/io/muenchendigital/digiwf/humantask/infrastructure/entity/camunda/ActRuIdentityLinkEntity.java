@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class ActRuIdentityLinkEntity {
 
     @Id
-    @Column(name = "id_", unique = true, nullable = false, length = 64)
+    @Column(name = "id_", unique = true, nullable = false, length = 64, columnDefinition = "VARCHAR2(64 char)")
     private String id;
 
     @ManyToOne

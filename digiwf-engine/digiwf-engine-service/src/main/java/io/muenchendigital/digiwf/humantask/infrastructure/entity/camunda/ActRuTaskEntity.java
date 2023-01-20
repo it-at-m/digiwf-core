@@ -20,7 +20,7 @@ import java.util.List;
 public class ActRuTaskEntity {
 
     @Id
-    @Column(name = "id_", unique = true, nullable = false, length = 64)
+    @Column(name = "id_", unique = true, nullable = false, length = 64, columnDefinition = "VARCHAR2(64 char)")
     private String id;
 
     @Column(name = "assignee_", nullable = true, length = 255)
@@ -42,10 +42,10 @@ public class ActRuTaskEntity {
     private TaskInfoEntity taskInfoEntity;
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public String getAssignee() {
-        return assignee;
+        return this.assignee;
     }
 }
