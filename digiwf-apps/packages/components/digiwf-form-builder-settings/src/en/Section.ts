@@ -11,6 +11,7 @@ export default {
         {
             "title": "General",
             "type": "object",
+          "description": "I'm a description shown as a paragraph on top of section.",
             "properties": {
                 "type": {
                     "const": "object"
@@ -45,6 +46,7 @@ export default {
         {
             "title": "Options",
             "type": "object",
+          "description": "I'm a description shown as a paragraph on top of section.",
             "properties": {
                 "x-options": {
                     "type": "object",

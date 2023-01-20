@@ -23,4 +23,5 @@ jobs:
           cache: 'npm'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - run: npm run init
+      - run: npm run test
       - run: npm run build

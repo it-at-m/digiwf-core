@@ -59,7 +59,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 
 4. Configure your binder.<br>
    For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started)
+   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
    Note that you DO have to
    configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
    typeMappings. These are configured for you by the digiwf-alw-integration-starter. You also have to configure the
@@ -84,13 +84,13 @@ digiwf.alw.personeninfo:
     enabled: true
     azr-number: <YOUR SAMPLE AZR NUMBER>
 ```
-7. Define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG** of <i>[SachbearbeitungMapperConfig](https://github.com/it-at-m/digiwf-alw-integration/blob/dev/digiwf-alw-integration/src/main/java/io/muenchendigital/digiwf/alw/integration/configuration/SachbearbeitungMapperConfig.java) </i> ) to support mapping of the ALW System responses to directory-ous.
+7. Define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG** of <i>[SachbearbeitungMapperConfig](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-core/src/main/java/io/muenchendigital/digiwf/alw/integration/configuration/SachbearbeitungMapperConfig.java) </i> ) to support mapping of the ALW System responses to directory-ous.
 
 
-For an example, please refer to the [example project](https://github.com/it-at-m/digiwf-alw-integration/tree/dev/example-digiwf-alw-integration).
+For an example, please refer to the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-example).
 There you can:
 * Configure the example application (see above)
 * Start the example application
-* Make a http request to the configured test endpoints from <i>[ExampleController](https://github.com/it-at-m/digiwf-alw-integration/blob/dev/example-digiwf-alw-integration/src/main/java/io/muenchendigital/digiwf/alw/integration/api/controller/ExampleController.java) </i> on http://localhost:10006/testGetAlwZustaendigkeitEventBus
+* Make a http request to the configured test endpoints from <i>[ExampleController](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-example/src/main/java/io/muenchendigital/digiwf/alw/integration/api/controller/ExampleController.java) </i> on http://localhost:10006/testGetAlwZustaendigkeitEventBus
 * Observe the output in the console
 

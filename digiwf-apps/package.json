@@ -12,6 +12,7 @@
     "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example",
     "serve:tasklist": "lerna run dev --stream --scope=@muenchen/digiwf-tasklist",
     "serve:all": "lerna run dev --stream --parallel"
+    "test": "lerna run test"
   },
   "author": {
     "name": "Dominik horn",

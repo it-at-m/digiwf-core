@@ -608,8 +608,8 @@ const selectSchema = {
           "type": "string",
           "title": "Display",
           "enum": [
-            "",
-            "radio"
+            "radio",
+            "select"
           ],
           "x-options": {
             "fieldColProps": {
@@ -683,6 +683,7 @@ const multiselectSchema = {
           "title": "Display",
           "enum": [
             "checkbox",
+            "select",
             "switch"
           ],
           "x-options": {
