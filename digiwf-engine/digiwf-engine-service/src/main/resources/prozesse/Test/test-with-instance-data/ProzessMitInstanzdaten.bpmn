@@ -1,0 +1,50 @@
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.0.0-dev">
+  <bpmn:process id="Feature_InstanceData" name="Feature Instanzdaten pruefen" isExecutable="true">
+    <bpmn:documentation>Feature Prozesse, um Instanzdaten zu pruefen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="bd6de9f2-0ecb-4541-8ef9-04ecdbe95a0f">
+      <bpmn:outgoing>Flow_1kuz31c</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1kuz31c" sourceRef="StartEvent_1" targetRef="Activity_1gltfeu" />
+    <bpmn:userTask id="Activity_1gltfeu" name="Abschließen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}" camunda:candidateGroups="itm">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">bd6de9f2-0ecb-4541-8ef9-04ecdbe95a0f</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1kuz31c</bpmn:incoming>
+      <bpmn:outgoing>Flow_008sylp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1h3n58e">
+      <bpmn:incoming>Flow_008sylp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_008sylp" sourceRef="Activity_1gltfeu" targetRef="Event_1h3n58e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Feature_InstanceData">
+      <bpmndi:BPMNEdge id="Flow_008sylp_di" bpmnElement="Flow_008sylp">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="432" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kuz31c_di" bpmnElement="Flow_1kuz31c">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_054biua_di" bpmnElement="Activity_1gltfeu">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1h3n58e_di" bpmnElement="Event_1h3n58e">
+        <dc:Bounds x="432" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
