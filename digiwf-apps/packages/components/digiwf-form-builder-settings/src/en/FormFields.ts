@@ -10,7 +10,7 @@ const basicSchema = {
 };
 
 const basicAttributes = {
-  "title": "Allgemein",
+  "title": "General",
   "type": "object",
   "properties": {
     "fieldType": {
@@ -608,8 +608,8 @@ const selectSchema = {
           "type": "string",
           "title": "Display",
           "enum": [
-            "",
-            "radio"
+            "radio",
+            "select"
           ],
           "x-options": {
             "fieldColProps": {
@@ -683,6 +683,7 @@ const multiselectSchema = {
           "title": "Display",
           "enum": [
             "checkbox",
+            "select",
             "switch"
           ],
           "x-options": {
@@ -794,6 +795,8 @@ const fileSchema = {
         "uuidEnabled": {
           "type": "boolean",
           "title": "Unique identifier?",
+          "description": "Creates an unique, which will add to the the directory path. It should be used in object lists.",
+
           "default": false,
           "x-props": {
             "outlined": true,

@@ -10,7 +10,7 @@ export default {
   "allOf": [
     {
       "title": "Allgemein",
-      "description": "I'm a description shown as a paragraph on top of section",
+      "description": "Ich bin eine Beschreibung, welche als Absatz am Anfang eines Abschnitts angezeigt wird.",
       "type": "object",
       "properties": {
         "type": {
@@ -45,7 +45,7 @@ export default {
     },
     {
       "title": "Optionen",
-      "description": "I'm a description shown as a paragraph on top of section",
+      "description": "Ich bin eine Beschreibung, welche als Absatz am Anfang eines Abschnitts angezeigt wird.",
       "type": "object",
       "properties": {
         "x-options": {

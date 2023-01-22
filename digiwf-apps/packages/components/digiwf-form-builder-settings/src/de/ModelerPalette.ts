@@ -15,58 +15,58 @@ export const formFieldPalette = [
     [
         "text",
         {
+          ...basicOptions,
             "fieldType": "text",
             title: "Textfeld",
             type: "string",
-            ...basicOptions
         }
     ],
     [
         "textarea",
         {
+          ...basicOptions,
             fieldType: "textarea",
             title: "Textarea",
             "x-display": "textarea",
             type: "string",
-            ...basicOptions
         }
     ],
     [
         "integer",
         {
+          ...basicOptions,
             fieldType: "integer",
             title: "Zahl",
             type: "integer",
-            ...basicOptions
         }
     ],
     [
         "number",
         {
+          ...basicOptions,
             fieldType: "number",
             title: "Gleitkommazahl",
             type: "number",
-            ...basicOptions
         }
     ],
     [
         "boolean",
         {
+          ...basicOptions,
             fieldType: "boolean",
             title: "Checkbox",
             type: "boolean",
             "default": false,
-            ...basicOptions
         }
     ],
     [
         "date",
         {
+          ...basicOptions,
             "fieldType": "date",
             title: "Datum",
             type: "string",
-            format: "date",
-            ...basicOptions
+            format: "date"
         }
     ],
     [
@@ -91,31 +91,31 @@ export const formFieldPalette = [
     [
         "select",
         {
+          ...basicOptions,
             "fieldType": "select",
             title: "Auswahl",
             type: "string",
             anyOf: [],
-            ...basicOptions
         }
     ],
     [
         "multiselect",
         {
+          ...basicOptions,
             "fieldType": "multiselect",
             title: "Mehrfachauswahl",
             type: "array",
             anyOf: [],
-            ...basicOptions,
         }
     ],
     [
         "file",
         {
+          ...basicOptions,
             "fieldType": "file",
             title: "Dateien",
             "x-display": "custom-multi-file-input",
             type: "object",
-            ...basicOptions,
             "properties": {
                 "key": {
                     "type": "string"
@@ -126,19 +126,22 @@ export const formFieldPalette = [
             }
         }
     ],
+
+
     [
         "benutzerauswahl",
         {
+          ...basicOptions,
             "fieldType": "user-input",
             title: "Benutzerauswahl",
             "x-display": "custom-user-input",
             type: "string",
-            ...basicOptions
         }
     ],
     [
         "multibenutzerauswahl",
         {
+          ...basicOptions,
             "fieldType": "multi-user-input",
             title: "Mehrfache Benutzerauswahl",
             "x-display": "custom-multi-user-input",
@@ -146,27 +149,26 @@ export const formFieldPalette = [
             "items": {
                 "type": "string"
             },
-            ...basicOptions
         }
     ],
     [
         "switch",
         {
+          ...basicOptions,
             "fieldType": "switch",
             title: "Schalter",
             "x-display": "switch",
             "default": false,
             type: "boolean",
-            ...basicOptions
         }
     ],
     [
         "array",
         {
+          ...basicOptions,
             "fieldType": "array",
             title: "Liste",
             type: "array",
-            ...basicOptions,
             "x-props": {
                 "outlined": true,
                 "dense": false
@@ -176,15 +178,15 @@ export const formFieldPalette = [
             }
         },
     ],
+
     [
         "markdown",
         {
+          ...basicOptions,
             "fieldType": "markdown",
             title: "Markdown",
             type: "string",
             "x-display": "markdown",
-            ...basicOptions,
-
         },
     ]
 ];
