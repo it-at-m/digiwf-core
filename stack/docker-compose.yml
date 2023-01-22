@@ -23,18 +23,17 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-# TODO fix volume
-#  minio:
-#    image: quay.io/minio/minio:latest
-#    command: server /data --console-address ":9001"
-#    environment:
-#      - MINIO_ROOT_USER=minio
-#      - MINIO_ROOT_PASSWORD=Test1234
-#    ports:
-#      - '9000:9000'
-#      - '9001:9001'
-#    volumes:
-#      - /docker/minio:/data
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=Test1234
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./minio:/data
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -52,3 +51,19 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  # Todo @lmoesle
+  # - switch image to latest
+  # - Rename Properties to Miranum
+  # - Test if the proxy works
+  miranum-deployment-proxy:
+    # image: miragon/miranum-deployment-proxy:latest
+    image: miragon/miranum-deployment-proxy:1
+    ports:
+      - "8090:8080"
+    environment:
+      - IO_MIRAGON_DIGIWF_DIGIWF-DEPLOYMENT-PROXY_TARGETS_LOCAL="http://host.docker.internal:39146"
+      - IO_MIRAGON_DIGIWF_DIGIWF-DEPLOYMENT-PROXY_DEPLOYMENTHANDLERS_LOCAL="RestHandler"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles:
+      - miranum
