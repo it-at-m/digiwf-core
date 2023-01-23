@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-schema-registry</artifactId>
-        <version>0.17.0-SNAPSHOT</version>
+        <version>0.17.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -109,15 +109,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

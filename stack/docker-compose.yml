@@ -7,14 +7,14 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - 22181:2181
+      - '22181:2181'
 
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - 29092:29092
+      - '29092:29092'
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -27,8 +27,8 @@ services:
     image: quay.io/minio/minio:latest
     command: server /data --console-address ":9001"
     environment:
-      - MINIO_ROOT_USER=minio
-      - MINIO_ROOT_PASSWORD=Test1234
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: Test1234
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -38,8 +38,8 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     ports:
-      - 1025:1025 # smtp server
-      - 9025:8025 # ui
+      - '1025:1025' # smtp server
+      - '9025:8025' # ui
 
   # you have to build the gateway first (mvn clean install)
   digiwf-gateway:
@@ -47,7 +47,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - SPRING_PROFILES_ACTIVE=local,local-docker,no-security
+      SPRING_PROFILES_ACTIVE: local,local-docker,no-security
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
