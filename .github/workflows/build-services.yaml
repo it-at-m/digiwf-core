@@ -31,5 +31,5 @@ jobs:
           files: ./jacoco.xml
           flags: unittests
           name: digiwf-core
-          path_to_write_report: ./digiwf-coverage/target/codecov_report.txt
+          path_to_write_report: codecov_report.txt
           verbose: true
