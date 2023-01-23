@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Advance Security Compliance Action
-        uses: GeekMasher/advanced-security-compliance@v1.6.2
+        uses: GeekMasher/advanced-security-compliance@v1.7.0
         with:
           policy: GeekMasher/security-queries
           policy-path: policies/default.yml
