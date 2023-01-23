@@ -234,7 +234,7 @@
             <groupId>org.camunda.bpm.extension.mockito</groupId>
             <artifactId>camunda-bpm-mockito</artifactId>
             <scope>test</scope>
-            <version>5.15.0</version>
+            <version>5.16.0</version>
         </dependency>
 
         <!-- Logging -->
