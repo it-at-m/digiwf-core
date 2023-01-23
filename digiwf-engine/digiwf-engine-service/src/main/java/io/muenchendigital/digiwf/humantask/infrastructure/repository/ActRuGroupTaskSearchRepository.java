@@ -101,7 +101,6 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         }
         return cb.and(
                 cb.isNotNull(actRuTask.get("assignee")),
-                cb.notEqual(actRuTask.get("assignee"), ""),
                 cb.equal(identityLinks.get("type"), "candidate"),
                 cb.or(
                         inClause,
@@ -117,10 +116,7 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
             inGroupClause.value(lowerCaseGroup);
         }
         return cb.and(
-                cb.or(
-                        cb.isNull(actRuTask.get("assignee")),
-                        cb.equal(actRuTask.get("assignee"), "")
-                ),
+                cb.isNull(actRuTask.get("assignee")),
                 cb.equal(identityLinks.get("type"), "candidate"),
                 cb.or(
                         inGroupClause,
