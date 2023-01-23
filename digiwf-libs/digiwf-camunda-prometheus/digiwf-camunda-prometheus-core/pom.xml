@@ -17,7 +17,6 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine</artifactId>
-            <version>7.18.0</version>
             <scope>provided</scope>
         </dependency>
 

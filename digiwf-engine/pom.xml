@@ -30,7 +30,7 @@
         <profile>
             <id>camunda-ee</id>
             <properties>
-                <camunda.version>7.18.0</camunda.version>
+                <camunda.version>${camunda.version.ee}</camunda.version>
             </properties>
             <repositories>
                 <repository>
