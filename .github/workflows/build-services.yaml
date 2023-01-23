@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build-maven:
-    needs: compliance
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
