@@ -46,7 +46,7 @@ To first initialize the node build:
 
 `mvn -Pfrontend clean install`
 
-This will install node and all dependent packages to you machine.
+This will install node and all dependent packages to your machine.
 
 Here are helpful commands:
 
