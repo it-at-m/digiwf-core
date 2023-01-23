@@ -27,14 +27,14 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
     /**
      * returns a page of group tasks
      *
-     * @param assigneeId      id of user
+     * @param userId          id of user
      * @param lowerCaseGroups list of groups in which the task is includes
      * @param searchQuery     optional search query string for test search
      * @param assigned        state of the task. is the task already assigned or unassigned
      * @param pageable        for setup page number, page size and sort
      * @return page of results
      */
-    public Page<ActRuTaskEntity> search(final String assigneeId, final List<String> lowerCaseGroups, final String searchQuery, final Boolean assigned, final Pageable pageable) {
+    public Page<ActRuTaskEntity> search(final String userId, final List<String> lowerCaseGroups, final String searchQuery, final Boolean assigned, final Pageable pageable) {
         val cb = this.em.getCriteriaBuilder();
         val resultQuery = cb.createQuery(ActRuTaskEntity.class);
 
@@ -42,7 +42,7 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo = actRuTask.join("taskInfoEntity");
         final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks = actRuTask.join("actRuIdentities");
 
-        val predicates = this.getPredicates(assigneeId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks);
+        val predicates = this.getPredicates(userId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks);
         val orders = this.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
