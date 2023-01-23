@@ -20,7 +20,7 @@
         <digiwf.spring.cloudstream.utils.version>0.10.0</digiwf.spring.cloudstream.utils.version>
         <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
-        <jbig2-imageio.version>3.0.1</jbig2-imageio.version>
+        <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
         <jai-imageio-jpeg2000.version>1.3.0</jai-imageio-jpeg2000.version>
     </properties>
 
