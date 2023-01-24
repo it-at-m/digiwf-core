@@ -72,18 +72,13 @@ services:
     profiles:
       - tasklist
 
-  # Todo @lmoesle
-  # - switch image to latest
-  # - Rename Properties to Miranum
-  # - Test if the proxy works
   miranum-deployment-proxy:
-    # image: miragon/miranum-deployment-proxy:latest
-    image: miragon/miranum-deployment-proxy:1
+    image: miragon/miranum-deployment-proxy:latest
     ports:
       - "8090:8080"
     environment:
-      - IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_TARGETS_DEV="http://host.docker.internal:39146"
-      - IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_DEPLOYMENTHANDLERS_DEV="RestHandler"
+      IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_TARGETS_DEV: "http://host.docker.internal:39146"
+      IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_DEPLOYMENTHANDLERS_DEV: "RestHandler"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     profiles:
