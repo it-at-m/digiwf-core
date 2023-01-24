@@ -71,15 +71,3 @@ services:
       - "8091:8080"
     profiles:
       - tasklist
-
-  miranum-deployment-proxy:
-    image: miragon/miranum-deployment-proxy:latest
-    ports:
-      - "8090:8080"
-    environment:
-      IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_TARGETS_DEV: "http://host.docker.internal:39146"
-      IO_MIRAGON_MIRANUM_MIRANUM-DEPLOYMENT-PROXY_DEPLOYMENTHANDLERS_DEV: "RestHandler"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    profiles:
-      - miranum

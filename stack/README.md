@@ -15,21 +15,9 @@ docker compose up -d
 
 # with frontend
 docker compose --profile tasklist up -d
-
-# if you want to use miranum-ide
-docker compose --profile miranum --profile tasklist up -d
 ```
 
 Additionally, start the backend (digiwf-engine-service) with the profiles `local, no-security, no-mail, streaming, no-ldap`.
-
-**Miranum-IDE**
-
-If you want to use the [miranum-ide](https://github.com/FlowSquad/miranum-ide) you can run the docker compose setup
-with the `--profile miranum`.
-
-```bash
-docker compose --profile miranum up -d
-```
 
 > An example process on how to use the miranum-ide is available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
 
