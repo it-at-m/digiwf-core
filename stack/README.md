@@ -20,8 +20,7 @@ docker compose --profile tasklist up -d
 docker compose --profile miranum --profile tasklist up -d
 ```
 
-Additionally, start the backend (digiwf-engine-service) with the profiles `local, no-security, no-mail, streaming, no-ldap`
-and the frontend (digiwf-tasklist).
+Additionally, start the backend (digiwf-engine-service) with the profiles `local, no-security, no-mail, streaming, no-ldap`.
 
 **Miranum-IDE**
 
@@ -32,7 +31,7 @@ with the `--profile miranum`.
 docker compose --profile miranum up -d
 ```
 
-> An example process on how to use the miranum-ide is available [here](https://github.com/FlowSquad/miranum-ide/tree/fix/naming/resources/example-process).
+> An example process on how to use the miranum-ide is available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
 
 ## LHM PC
 
