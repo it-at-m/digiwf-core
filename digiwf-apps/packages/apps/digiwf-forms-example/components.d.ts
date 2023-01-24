@@ -11,8 +11,10 @@ declare module '@vue/runtime-core' {
     VApp: typeof import('vuetify/lib')['VApp']
     VBtn: typeof import('vuetify/lib')['VBtn']
     VForm: typeof import('vuetify/lib')['VForm']
+    VMultiUserInput: typeof import('vuetify/lib')['VMultiUserInput']
     VTab: typeof import('vuetify/lib')['VTab']
     VTabItem: typeof import('vuetify/lib')['VTabItem']
     VTabs: typeof import('vuetify/lib')['VTabs']
+    VUserInput: typeof import('vuetify/lib')['VUserInput']
   }
 }

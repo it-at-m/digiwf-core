@@ -23,6 +23,12 @@
             <dwf-form-renderer :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
                                :schema="schema" :key="componentKey"
                                @input="valueChanged" :value="value">
+              <template #custom-multi-file-input="context">
+                <dwf-multi-file-input
+                  v-bind="context"
+                  :readonly="readonly"
+                />
+              </template>
             </dwf-form-renderer>
           </v-form>
           <v-btn @click="validate">Validate</v-btn>
@@ -61,10 +67,11 @@ html, body {
 import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
 import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
 import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
+import { DwfMultiFileInput } from "@muenchen/digiwf-multi-file-input";
 import { defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
-  components: {DwfFormRenderer, DwfFormBuilder},
+  components: {DwfFormRenderer, DwfFormBuilder, DwfMultiFileInput},
   setup() {
     const componentKey = ref(0);
 
@@ -99,28 +106,177 @@ export default defineComponent({
       schema.value = {
         "type": "object",
         "x-display": "tabs",
-        "allOf": [{
-          "key": "sectionKey1",
-          "title": "Allgemeine Angaben",
-          "type": "object",
-          "x-options": {"sectionsTitlesClasses": []},
-          "allOf": [{
-            "containerType": "group",
-            "title": "Group",
-            "description": "",
-            "x-options": {"childrenClass": "pl-0"},
-            "properties": {
-              "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
-                "fieldType": "boolean",
-                "title": "Checkbox",
-                "type": "boolean",
-                "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-                "x-props": {"outlined": true, "dense": true}
-              }
+        "allOf": [
+          {
+            "key": "sectionKey1",
+            "title": "Allgemeine Angaben",
+            "type": "object",
+            "x-options": {
+              "sectionsTitlesClasses": []
             },
-            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
-          }]
-        }]
+            "allOf": [
+              {
+                "containerType": "group",
+                "title": "Group",
+                "description": "",
+                "x-options": {
+                  "childrenClass": "pl-0"
+                },
+                "properties": {
+                  "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
+                    "fieldType": "boolean",
+                    "title": "Checkbox",
+                    "type": "boolean",
+                    "key": "aaf3bc4d-1e46-4399-b8e4-67678f6101ec",
+                    "default": false,
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "93b7eb24-54bc-42a5-bf10-e33f2108a4c4": {
+                    "fieldType": "text",
+                    "title": "Textfield",
+                    "type": "string",
+                    "key": "93b7eb24-54bc-42a5-bf10-e33f2108a4c4",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "bf47a93a-152e-4cf9-ad3d-e7a0c2636309": {
+                    "fieldType": "user-input",
+                    "title": "Benutzerauswahl",
+                    "x-display": "custom-user-input",
+                    "type": "string",
+                    "key": "bf47a93a-152e-4cf9-ad3d-e7a0c2636309",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "7910a83b-fb4d-4da4-b482-a8fce586b3ab": {
+                    "fieldType": "file",
+                    "title": "Files",
+                    "x-display": "custom-multi-file-input",
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "integer"
+                      }
+                    },
+                    "key": "7910a83b-fb4d-4da4-b482-a8fce586b3ab",
+                    "uuidEnabled": false,
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "88ea16b6-82b3-40f0-b6b9-37d0f273d256": {
+                    "fieldType": "file",
+                    "title": "Files",
+                    "x-display": "custom-multi-file-input",
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "integer"
+                      }
+                    },
+                    "key": "88ea16b6-82b3-40f0-b6b9-37d0f273d256",
+                    "uuidEnabled": false,
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "3ab9f847-b614-43ce-9411-072d5f4eddd8": {
+                    "fieldType": "text",
+                    "title": "Textfield",
+                    "type": "string",
+                    "key": "3ab9f847-b614-43ce-9411-072d5f4eddd8",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "5a8dc839-ecb7-4f29-8210-8318cc51b05d": {
+                    "fieldType": "text",
+                    "title": "Textfield",
+                    "type": "string",
+                    "key": "5a8dc839-ecb7-4f29-8210-8318cc51b05d",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  }
+                },
+                "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
+              }
+            ]
+          }
+        ]
       };
       value.value = {};
     }
