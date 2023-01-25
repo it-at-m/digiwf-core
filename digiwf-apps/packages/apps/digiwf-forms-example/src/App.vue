@@ -26,8 +26,13 @@
               <template #custom-multi-file-input="context">
                 <dwf-multi-file-input
                   v-bind="context"
-                  :readonly="readonly"
+                  :readonly="false"
                 />
+              </template>
+              <template #custom-lm-test="context">
+                <p v-bind="context">
+                  test
+                </p>
               </template>
             </dwf-form-renderer>
           </v-form>
@@ -257,6 +262,73 @@ export default defineComponent({
                     "fieldType": "text",
                     "title": "Textfield",
                     "type": "string",
+                    "key": "5a8dc839-ecb7-4f29-8210-8318cc51b05d",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "lm-test-file": {
+                    "fieldType": "file",
+                    "title": "asdf",
+                    "x-display": "custom-lm-test",
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "integer"
+                      }
+                    },
+                    "key": "88ea16b6-82b3-40f0-b6b9-37d0f273d256",
+                    "uuidEnabled": false,
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "lm-test": {
+                    "fieldType": "file",
+                    "title": "lm-test",
+                    "type": "object",
+                    "properties": { },
+                    "x-display": "custom-lm-test",
+                    "key": "5a8dc839-ecb7-4f29-8210-8318cc51b05d",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 6,
+                        "messages": {}
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  },
+                  "lm-test-works": {
+                    "fieldType": "file",
+                    "title": "lm-test",
+                    "type": "object",
+                    "x-display": "custom-lm-test",
                     "key": "5a8dc839-ecb7-4f29-8210-8318cc51b05d",
                     "x-options": {
                       "fieldColProps": {
