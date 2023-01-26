@@ -146,7 +146,16 @@ paths:
   /tasks/id/{taskId}/undefer:
     parameters:
       - $ref: '#/components/parameters/TaskIdParam'
-
+    post:
+      description: Undefer the task resetiing the follow-up date.
+      operationId: undeferTask
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
 
   /tasks/user:
     parameters:

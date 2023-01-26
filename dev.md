@@ -98,6 +98,28 @@ Additionally, you can use the following profiles to disable a few features to si
 * `no-mail` to prevent the applications from sending emails
 * (only digiwf-engine-service) `no-ldap` to use a *fake* user service instead of the actual lhm ldap
 
+### API Gateway
+
+Run the [DigiWF-Gateway](digiwf-gateway) with the profiles `local`, `no-security`.
+
+### DigiWF-Tasklist (Frontend)
+
+If you want to develop the frontend you can also use the dev server.
+1. Make sure you start the [stack](stack) **without** the tasklist profile (`docker compose up -d`).
+2. Go to digiwf-apps
+3. Run `npm run serve:tasklist`
+    * If the Command fails on the first attempt trigger a build (`npm run build`) and try it again
+    * If you want to debug any of the components, run additionally `npm run dev` to auto rebuild the components
+4. Go to [localhost:8081](http://localhost:8081)
+
+### DigiWF-Engine (Backend)
+
+Run the [DigiWF-Engine](digiwf-engine/digiwf-engine-service) with the profiles `local`, `streaming`, `no-security`, `no-mail` and `no-ldap`.
+
+### DigiWF-Integrations
+
+Run the [integrations](digiwf-integrations) you need with the profiles `local` and `streaming`. 
+
 ## Tests
 
 ### Run Tests
