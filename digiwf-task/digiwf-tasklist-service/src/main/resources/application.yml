@@ -2,30 +2,67 @@ server:
   port: 38765
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tasklistdb
-    username: user
-    password: secret
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
 
   jpa:
     generate-ddl: false
     hibernate.ddl-auto: validate
     show-sql: false
     open-in-view: false
-    database-platform: io.muenchendigital.digiwf.task.service.persistence.NoToastPostgresSQLDialect
+    database-platform: ${JPA_PLATFORM}
   flyway:
     enabled: true
-    locations: "classpath:db/migration"
+    locations: "classpath:db/migration/{vendor}"
 
 
 axon:
+  serializer:
+    events: jackson
+    messages: jackson
+    general: jackson
   axonserver:
     enabled: false # disable axon server connector
+  eventhandling:
+    processors:
+      "[io.holunda.polyflow.view.jpa.service.task]":
+        source: kafkaMessageSourcePolyflowTask
+        mode: TRACKING
+        threadCount: 1
+        batchSize: 1
+      "[io.holunda.polyflow.view.jpa.service.data]":
+        source: kafkaMessageSourcePolyflowData
+        mode: TRACKING
+        threadCount: 1
+        batchSize: 1
+
+  kafka:
+    defaulttopic: not_used_but_must_be_set_to_some_value
+    client-id: will_be_set_in_properties_manually
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}:${KAFKA_BOOTSTRAP_SERVER_PORT}
+      event-processor-mode: TRACKING
+      auto-offset-reset: earliest
+    properties:
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL_CONFIG}
 
 polyflow:
+  axon:
+    kafka:
+      topic-tasks: ${KAFKA_TOPIC_TASKS}
+      topic-data-entries: ${KAFKA_TOPIC_DATA_ENTRIES}
   view:
     jpa:
-      stored-items: TASK
+      stored-items: TASK, DATA_ENTRY # currently only tasks and data entries, no process definition or process instances
 
 springdoc:
   swagger-ui:
     tryItOutEnabled: true
+
+
+logging:
+  level:
+    org.apache.kafka.clients.consumer.ConsumerConfig: WARN
+    org.apache.kafka.clients.producer.ProducerConfig: WARN
+    org.apache.kafka.clients.admin.AdminClientConfig: WARN

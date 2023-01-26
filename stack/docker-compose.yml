@@ -23,6 +23,24 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:9092 --list
+      
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic polyflow-tasks --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic polyflow-data --replication-factor 1 --partitions 1
+      
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "     
+
   minio:
     image: quay.io/minio/minio:latest
     command: server /data --console-address ":9001"
@@ -58,7 +76,7 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: tasklistdb
     ports:
-      - '15432:5432'
+      - '25432:5432'
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -70,10 +88,13 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: enginedb
     ports:
-      - '25432:5432'
+      - '25433:5432'
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  #
+  # enable the tasklist with --profile tasklist if you don't want to run it locally -> access it via http://localhost:8081/ then.
+  #
   nginx:
     image: nginx:1.23.3
     container_name: nginx
@@ -87,8 +108,6 @@ services:
       - "host.docker.internal:host-gateway"
     profiles:
       - tasklist
-
-  # enable the tasklist with --profile tasklist if you don't want to run it locally
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
     ports:
