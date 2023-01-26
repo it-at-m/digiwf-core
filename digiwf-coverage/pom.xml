@@ -207,13 +207,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Digiwf-task -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-tasklist-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
