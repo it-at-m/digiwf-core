@@ -1,8 +1,10 @@
 ===============================================================================
  DigiWF Tasklist
 
- Spring Boot Version:   ${spring-boot.formatted-version}
- Polyflow Version:       (${polyflow.version})
- Version:               ${application.formatted-version}
+ Swagger UI             http://localhost:${server.port}/swagger-ui/index.html
+ Kafka Topics:          ${polyflow.axon.kafka.topic-tasks}, ${polyflow.axon.kafka.topic-dataentries}
+ Spring Boot Version:   ${spring-boot.version}
+ Polyflow Version:      ${polyflow.version}
+ Service Version:       ${application.formatted-version}
 
 ===============================================================================

@@ -21,6 +21,10 @@
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-view-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.holunda.polyflow</groupId>
+            <artifactId>polyflow-view-api-client</artifactId>
+        </dependency>
 
         <!-- Starters -->
         <dependency>
@@ -150,7 +154,9 @@
                             <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
                             <library>spring-boot</library>
                             <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <modelNameSuffix>TO</modelNameSuffix>
                             <!--configHelp>true</configHelp-->
+                            <!-- https://openapi-generator.tech/docs/generators/spring/ -->
                             <configOptions>
                                 <basePackage>${rest.base-package-name}</basePackage>
                                 <invokerPackage>${rest.base-package-name}</invokerPackage>

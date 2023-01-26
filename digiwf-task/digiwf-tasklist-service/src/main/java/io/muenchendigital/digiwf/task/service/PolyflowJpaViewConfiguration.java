@@ -3,6 +3,7 @@ package io.muenchendigital.digiwf.task.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.jpa.EnablePolyflowJpaView;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.muenchendigital.digiwf.task.service.ingress.AxonKafkaExtendedProperties;
@@ -21,6 +22,7 @@ import org.axonframework.extensions.kafka.eventhandling.consumer.streamable.Sort
 import org.axonframework.extensions.kafka.eventhandling.consumer.streamable.StreamableKafkaMessageSource;
 import org.axonframework.modelling.saga.repository.SagaStore;
 import org.axonframework.modelling.saga.repository.inmemory.InMemorySagaStore;
+import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.serialization.json.JacksonSerializer;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -62,9 +64,24 @@ public class PolyflowJpaViewConfiguration {
         return new InMemorySagaStore();
     }
 
+
+    /**
+     * Initilizes the client with the query gateway.
+     *
+     * @param queryGateway gateway to use.
+     *
+     * @return client.
+     */
+    @Bean
+    public TaskQueryClient taskQueryClient(QueryGateway queryGateway) {
+        return new TaskQueryClient(queryGateway);
+    }
+
     /**
      * Consumer factory for tasks.
+     *
      * @param properties kafka properties
+     *
      * @return consumer factory.
      */
     @Bean
@@ -76,9 +93,12 @@ public class PolyflowJpaViewConfiguration {
 
     /**
      * Consumer factory for data entries.
+     *
      * @param properties kafka properties
+     *
      * @return consumer factory.
-     */@Bean
+     */
+    @Bean
     @Qualifier("polyflowData")
     public ConsumerFactory<String, byte[]> kafkaConsumerFactoryPolyflowData(KafkaProperties properties) {
         properties.setClientId("polyflow-data-" + hostname);

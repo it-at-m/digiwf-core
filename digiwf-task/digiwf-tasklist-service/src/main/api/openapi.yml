@@ -24,7 +24,7 @@ paths:
       summary: Returns a task by its id.
       description: Returns a task by its id.
       tags:
-        - Tasks
+        - Task
       responses:
         200:
           description: Successful operation.
@@ -43,7 +43,7 @@ paths:
       operationId: getTaskByTaskId
       description: Returns a task by its id.
       tags:
-        - Tasks
+        - Task
       responses:
         200:
           description: Successful operation.
@@ -64,7 +64,7 @@ paths:
             schema:
               $ref: "#/components/schemas/VariableMap"
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -85,7 +85,7 @@ paths:
             schema:
               $ref: "#/components/schemas/VariableMap"
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -106,7 +106,7 @@ paths:
             schema:
               $ref: "#/components/schemas/TaskAssignment"
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -120,7 +120,7 @@ paths:
       description: Resets the assignment of the task.
       operationId: unassignTask
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -134,7 +134,7 @@ paths:
       description: Defer the task to a follow-up date.
       operationId: deferTask
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -148,7 +148,7 @@ paths:
       description: Undefer the task resetiing the follow-up date.
       operationId: undeferTask
       tags:
-        - Tasks
+        - Task
       responses:
         204:
           description: Successful operation.
@@ -162,7 +162,7 @@ paths:
       - $ref: '#/components/parameters/QueryParam'
     get:
       description: Returns a list of tasks assigned to current user.
-      operationId: getTasks
+      operationId: getCurrentUserTasks
       tags:
         - Tasks
       responses:
@@ -180,7 +180,7 @@ paths:
       - $ref: '#/components/parameters/QueryParam'
     get:
       description: Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
-      operationId: getOpenGroupTasks
+      operationId: getUnassignedGroupTasks
       tags:
         - Tasks
       responses:
