@@ -1,0 +1,8 @@
+===============================================================================
+ DigiWF Tasklist
+
+ Spring Boot Version:   ${spring-boot.formatted-version}
+ Polyflow Version:       (${polyflow.version})
+ Version:               ${application.formatted-version}
+
+===============================================================================

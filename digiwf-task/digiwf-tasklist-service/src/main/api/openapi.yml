@@ -1,0 +1,400 @@
+openapi: 3.0.1
+info:
+  version: ${project.version}
+  title: DigiWF Task Management API
+  description: API for task management.
+  contact:
+    name: DigiWF Team
+
+servers:
+  - description: Local
+    url: http://localhost:8082/rest/
+
+tags:
+  - name: Task list
+    description: "API for Tasks from the task list"
+
+paths:
+
+  /schema/{taskId}/combined:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    get:
+      operationId: getTaskByTaskId
+      description: Returns a task by its id.
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskCombinedSchema"
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    get:
+      operationId: getTaskByTaskId
+      description: Returns a task by its id.
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/save:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Saves the variables for the task specified by id.
+      operationId: saveTaskVariables
+      requestBody:
+        required: true
+        description: Task variables to save.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VariableMap"
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/complete:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Completes task specified by id.
+      operationId: completeTask
+      requestBody:
+        required: true
+        description: Task variables to use during completion.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VariableMap"
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/assign:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Changes the assignee of the task.
+      operationId: assignTask
+      requestBody:
+        required: true
+        description: Task variables to save.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskAssignment"
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/unassign:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Resets the assignment of the task.
+      operationId: unassignTask
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/defer:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Defer the task to a follow-up date.
+      operationId: deferTask
+      tags:
+        - Tasks
+      responses:
+        204:
+          description: Successful operation.
+        404:
+          description: Task not found.
+
+  /tasks/id/{taskId}/undefer:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+
+
+  /tasks/user:
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/SizeParam'
+      - $ref: '#/components/parameters/QueryParam'
+    get:
+      description: Returns a list of tasks assigned to current user.
+      operationId: getTasks
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageOfTasks"
+
+  /tasks/group/unassigned:
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/SizeParam'
+      - $ref: '#/components/parameters/QueryParam'
+    get:
+      description: Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
+      operationId: getOpenGroupTasks
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageOfTasks"
+
+  /tasks/group/assigned:
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/SizeParam'
+      - $ref: '#/components/parameters/QueryParam'
+    get:
+      description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
+      operationId: getAssignedGroupTasks
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageOfTasks"
+
+components:
+
+  parameters:
+
+    PageParam:
+      name: page
+      in: query
+      description: Current page used index for paging operations started from zero.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 0
+        minimum: 0
+
+    SizeParam:
+      name: size
+      in: query
+      description: Current page size used for paging operations started from 1.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 1
+        minimum: 1
+        maximum: 50
+
+    QueryParam:
+      name: query
+      in: query
+      description: A query string used during search.
+      required: false
+      schema:
+        type: string
+
+    SortParam:
+      name: sort
+      in: query
+      description: A sort parameter.
+      required: false
+      schema:
+        type: string
+
+    TaskIdParam:
+      name: taskId
+      in: path
+      description: Task id.
+      required: true
+      schema:
+        type: string
+
+  schemas:
+
+    PageOfTasks:
+      description: Page of tasks.
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+        pageable:
+          description: Pageable object.
+          type: object
+          properties:
+            pageNumber:
+              description: The index of the page.
+              type: integer
+              format: int32
+              minimum: 0
+            pageSize:
+              description: The size of the page.
+              type: integer
+              format: int32
+              minimum: 1
+            paged:
+              description: Flag if the content is paged or not.
+              type: boolean
+            unpaged:
+              description: Flag if the content is paged or not.
+              type: boolean
+            sort:
+              description: Sort of the page.
+              type: object
+              properties:
+                empty:
+                  description: Flag if the sort is empty.
+                  type: boolean
+                unsorted:
+                  description: Flag if the content is sorted or not.
+                  type: boolean
+                sorted:
+                  description: Flag if the content is sorted or not.
+                  type: boolean
+          required:
+            - pageNumber
+            - pageSize
+            - paged
+            - unpaged
+            - sort
+        totalPages:
+          description: Get amount of total pages.
+          type: integer
+          format: int32
+        totalElements:
+          description: Get amount of total elements.
+          type: integer
+          format: int32
+        numberOfElements:
+          description: Get amount of elements in this page.
+          type: integer
+          format: int32
+        size:
+          description: Size of the page.
+          type: integer
+          format: int32
+        page:
+          description: Index of the page.
+          type: integer
+          format: int32
+        last:
+          description: Flag indicating if this is a last page.
+          type: boolean
+        first:
+          description: Flag indicating if this is a first page.
+          type: boolean
+        empty:
+          description: Flag indicating if this page is empty.
+          type: boolean
+      required:
+        - content
+        - pageable
+        - size
+        - page
+        - totalElements
+        - totalPages
+        - numberOfElements
+        - empty
+        - last
+        - first
+
+    Task:
+      description: Represents a user task.
+      type: object
+      properties:
+        id:
+          description: Id of the task.
+          type: string
+        name:
+          description: Name of the task.
+          type: string
+        description:
+          description: Description of the task.
+          type: string
+        processName:
+          description: Name of the process the task belongs to.
+          type: string
+        assignee:
+          description: User id of assignee.
+          type: string
+        followUpDate:
+          description: Follow-up date of the task.
+          type: string
+          format: date-time
+        createTime:
+          description: Create date and time of the task.
+          type: string
+          format: date-time
+
+    TaskAssignment:
+      description: Task assignment information.
+      type: object
+      properties:
+        assignee:
+          description: User id of the user to assign.
+          type: string
+      required:
+        - assignee
+
+    TaskCombinedSchema:
+      description: Combined schema for a user task.
+      type: object
+      properties:
+        schemaJson:
+          type: string
+      required:
+        - schemaJson
+
+    VariableMap:
+      description: Variable map.
+      type: object
+      additionalProperties:
+        type: object
+
+
+

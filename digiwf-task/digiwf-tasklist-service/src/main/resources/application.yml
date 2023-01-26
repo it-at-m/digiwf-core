@@ -1,0 +1,32 @@
+server:
+  port: 38765
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tasklistdb
+    username: user
+    password: secret
+
+  jpa:
+    generate-ddl: false
+    hibernate.ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    database-platform: io.muenchendigital.digiwf.task.service.persistence.NoToastPostgresSQLDialect
+  flyway:
+    enabled: true
+    locations: "classpath:db/migration"
+
+
+axon:
+  axonserver:
+    enabled: false # disable axon server connector
+
+polyflow:
+  view:
+    jpa:
+      stored-items: TASK
+
+springdoc:
+  auto-tag-classes: false
+  swagger-ui:
+    tryItOutEnabled: true
