@@ -27,6 +27,5 @@ polyflow:
       stored-items: TASK
 
 springdoc:
-  auto-tag-classes: false
   swagger-ui:
     tryItOutEnabled: true

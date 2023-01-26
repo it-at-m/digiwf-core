@@ -11,7 +11,7 @@ servers:
     url: http://localhost:8082/rest/
 
 tags:
-  - name: Task list
+  - name: Tasks
     description: "API for Tasks from the task list"
 
 paths:
@@ -20,7 +20,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/TaskIdParam'
     get:
-      operationId: getTaskByTaskId
+      operationId: getTaskSchema
+      summary: Returns a task by its id.
       description: Returns a task by its id.
       tags:
         - Tasks
@@ -33,6 +34,7 @@ paths:
                 $ref: "#/components/schemas/TaskCombinedSchema"
         404:
           description: Task not found.
+
 
   /tasks/id/{taskId}:
     parameters:
@@ -51,16 +53,12 @@ paths:
                 $ref: "#/components/schemas/Task"
         404:
           description: Task not found.
-
-  /tasks/id/{taskId}/save:
-    parameters:
-      - $ref: '#/components/parameters/TaskIdParam'
     post:
-      description: Saves the variables for the task specified by id.
-      operationId: saveTaskVariables
+      description: Completes task specified by id.
+      operationId: completeTask
       requestBody:
         required: true
-        description: Task variables to save.
+        description: Task variables to use during completion.
         content:
           application/json:
             schema:
@@ -73,15 +71,15 @@ paths:
         404:
           description: Task not found.
 
-  /tasks/id/{taskId}/complete:
+  /tasks/id/{taskId}/save:
     parameters:
       - $ref: '#/components/parameters/TaskIdParam'
     post:
-      description: Completes task specified by id.
-      operationId: completeTask
+      description: Saves the variables for the task specified by id.
+      operationId: saveTaskVariables
       requestBody:
         required: true
-        description: Task variables to use during completion.
+        description: Task variables to save.
         content:
           application/json:
             schema:

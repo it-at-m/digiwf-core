@@ -50,19 +50,30 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  postgres:
+  postgres-tasklist:
     image: postgres:12
-    container_name: digiwf-postgres
-    profiles:
-      - db
+    container_name: digiwf-postgres-tasklist
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: tasklistdb
     ports:
-      - '5432:5432'
+      - '15432:5432'
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  postgres-engine:
+    image: postgres:12
+    container_name: digiwf-postgres-engine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: enginedb
+    ports:
+      - '25432:5432'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   nginx:
     image: nginx:1.23.3
     container_name: nginx
