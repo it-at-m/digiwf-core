@@ -93,7 +93,6 @@ export default defineComponent({
     totalNumberOfItems: {type: Number, required: true},
     page: {type: Number, required: true},
     size: {type: Number, required: true},
-    onSizeChange: {type: Function, required: true},
     foundDataText: {type: String, required: true},
     nextPageButtonDisabled: {type: Boolean, required:true},
     lastPageButtonDisabled: {type: Boolean, required:true},
