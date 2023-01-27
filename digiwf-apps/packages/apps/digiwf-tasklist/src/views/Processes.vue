@@ -166,7 +166,6 @@ export default class Processes extends Vue {
 
   get filteredProcesses(): ServiceDefinitionTO[] {
     this.processDefinitions = this.$store.getters['processDefinitions/processDefinitions'];
-    console.log("this.processDefinitions", this.processDefinitions)
     if (!this.filter) {
       return this.processDefinitions;
     }
