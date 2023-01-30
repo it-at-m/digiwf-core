@@ -29,14 +29,14 @@ public class MockUserServiceImpl implements UserService {
     private final List<String> groups = List.of("group1");
     private final User user = new User(
             "johnDoe",
-            "0000000",
+            "0000000", // primary key
             "John",
             "Doe",
             "john.doe@example.com",
             "cn",
             "86153",
             "Boeheimstrasse 8",
-            "group1",
+            "group1", // org
             "Anon",
             "group1",
             "86153",

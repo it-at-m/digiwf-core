@@ -44,7 +44,6 @@
     <modules>
         <module>digiwf-tasklist-service</module>
         <module>digiwf-polyflow-connector</module>
-        <module>digiwf-mock-resourceserver</module>
     </modules>
 
 </project>
