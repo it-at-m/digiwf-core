@@ -398,3 +398,4 @@ gradle-app.setting
 /digiwf-schema-registry/digiwf-schema-registry-client/.swagger-codegen-ignore
 **/pom.xml.versionsBackup
 **/application-internal.*
+/docs/node/

@@ -66,7 +66,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 
 4. Configure your binder.<br>
    For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started)
+   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
    Note that you DO have to
    configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
    typeMappings. These are configured for you by the digiwf-mail-integration-starter. You also have to configure the

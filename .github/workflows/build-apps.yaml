@@ -1,7 +1,5 @@
 name: build apps
 
-# For now we test the frontend by just building it, in the future tests should be run here
-
 on:
   push:
     branches:
@@ -16,11 +14,12 @@ jobs:
       run:
         working-directory: ./digiwf-apps
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'npm'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - run: npm run init
+      - run: npm run test
       - run: npm run build

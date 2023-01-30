@@ -6,14 +6,6 @@
 
 ### Fixed
 
-- tasklist
-    - stop passing emtpy value in form
-    - continue button error
-    - multi user input validation
-    - maxItems serialization bug
-    - naming processes search field
-    - fix on blur input bug
-
 ## [services unrleased] - yyyy-mm-dd
 
 ### Added
@@ -29,6 +21,20 @@
     - whitelist regex in application.properties
     - Improved logging of `DigiWFValidationException`
     - fix service start initialization
+
+## [apps 0.21.3] - 2023-01-17
+
+### Added
+
+### Fixed
+
+- tasklist
+  - stop passing emtpy value in form
+  - continue button error
+  - multi user input validation
+  - maxItems serialization bug
+  - naming processes search field
+  - fix on blur input bug
 
 ## [apps 0.21.0] - 2022-11-27
 

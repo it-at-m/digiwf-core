@@ -1,13 +1,13 @@
 # DigiWF Cosys Integration
 
-The goal of the DigiWF Cosys Integration is to allow async document creation in cosys with an event broker and s3 storage.
+The goal of the DigiWF [Cosys](https://www.cib.de/cosys/) Integration is to allow async document creation in cosys with an event broker and s3 storage.
 
 Features:
 
 * Can be used to create documents in cosys and save them in a s3 compatible storage
 * Can inform the receiver through an event if the creation was successful or if there was a problem
 
-Checkout the source code [here](../../../../digiwf-integrations/digiwf-cosys-integration).
+Checkout the [source code](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration).
 
 ## Getting started
 
@@ -53,7 +53,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 
 4. Configure your binder.<br>
    For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started)
+   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
    Note that you DO have to
    configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
    typeMappings. These are configured for you by the digiwf-cosys-integration-starter. You also have to configure the
@@ -65,7 +65,7 @@ implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-bi
 io.muenchendigital.digiwf.s3.client.document-storage-url: http://s3-integration-url:port
 ```
 
-See [this](https://github.com/it-at-m/digiwf-spring-cloudstream-utils) for an example.
+See [this](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils) for an example.
 
 6. Configure your application
 
@@ -78,7 +78,7 @@ io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
 ```
 
 7. Define a RestTemplate. For an example, please refer to
-   the [example project](https://github.com/it-at-m/digiwf-cosys-integration/tree/dev/example).
+   the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-example).
 
 ## Usage
 
@@ -111,8 +111,8 @@ The action `POST` is used for the creation of new files in the s3 storage and th
 
 Create a *Callactivity*, use on of our Element-Templates and fill it with the required information:
 
-* [Cosys all data](src/.vuepress/public/element-template/cosys-alle-daten.json)
-* [Cosys create document](src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
-* [Cosys create document (V02)](src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
+* [Cosys all data](/element-template/cosys-alle-daten.json)
+* [Cosys create document](/element-template/cosys-dokument-erstellen.json)
+* [Cosys create document (V02)](/public/element-template/cosys_generate_document_template_V02.json)
 
-To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](src/.vuepress/public/element-template/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
+To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
