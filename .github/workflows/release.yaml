@@ -69,42 +69,42 @@ jobs:
           echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Build and push connector
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
           tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-camunda-connector-service:dev
 
       - name: Build and push gateway
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-gateway
           push: true
           tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }},itatm/digiwf-gateway:dev
 
       - name: Build and push cosys
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
           tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
 
       - name: Build and push email integration
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
           push: true
           tags: itatm/digiwf-email-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-email-integration-service:dev
 
       - name: Build and push alw-integration
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
           push: true
           tags: itatm/digiwf-alw-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-alw-integration-service:dev
 
       - name: Build and push verification-integration
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
           push: true
@@ -152,7 +152,7 @@ jobs:
           echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Build and push engine
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
@@ -202,7 +202,7 @@ jobs:
           echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
 
       - name: Build and push tasklist
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
