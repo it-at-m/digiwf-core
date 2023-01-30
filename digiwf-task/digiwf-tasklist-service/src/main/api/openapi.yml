@@ -8,7 +8,7 @@ info:
 
 servers:
   - description: Local
-    url: http://localhost:8082/rest/
+    url: http://localhost:38765/rest/
 
 tags:
   - name: Tasks
@@ -16,13 +16,13 @@ tags:
 
 paths:
 
-  /schema/{taskId}/combined:
+  /schema/task-id/{taskId}/combined:
     parameters:
       - $ref: '#/components/parameters/TaskIdParam'
     get:
       operationId: getTaskSchema
-      summary: Returns a task by its id.
-      description: Returns a task by its id.
+      summary: Returns a schema for a task by task id.
+      description: Returns a schema for a task by task id.
       tags:
         - Task
       responses:
@@ -34,6 +34,25 @@ paths:
                 $ref: "#/components/schemas/TaskCombinedSchema"
         404:
           description: Task not found.
+
+  /schema/id/{schemaId}/combined:
+    parameters:
+      - $ref: '#/components/parameters/SchemaIdParam'
+    get:
+      operationId: getSchema
+      summary: Returns a schema for a task by schema id.
+      description: Returns a schema for a task by schema id.
+      tags:
+        - Task
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskCombinedSchema"
+        404:
+          description: Schema not found.
 
 
   /tasks/id/{taskId}:
@@ -50,7 +69,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
+                $ref: "#/components/schemas/TaskWithDetails"
         404:
           description: Task not found.
     post:
@@ -135,6 +154,13 @@ paths:
       operationId: deferTask
       tags:
         - Task
+      requestBody:
+        required: true
+        description: Task follow-up date.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskDeferal"
       responses:
         204:
           description: Successful operation.
@@ -160,6 +186,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of tasks assigned to current user.
       operationId: getCurrentUserTasks
@@ -178,6 +205,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
       operationId: getUnassignedGroupTasks
@@ -196,6 +224,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
       operationId: getAssignedGroupTasks
@@ -239,7 +268,7 @@ components:
     QueryParam:
       name: query
       in: query
-      description: A query string used during search.
+      description: A query string used during search, format is <field><op><value>.
       required: false
       schema:
         type: string
@@ -247,7 +276,7 @@ components:
     SortParam:
       name: sort
       in: query
-      description: A sort parameter.
+      description: A sort parameter, <direction><field> (direction is represented by + for asc or - for desc), asc is default.
       required: false
       schema:
         type: string
@@ -256,6 +285,14 @@ components:
       name: taskId
       in: path
       description: Task id.
+      required: true
+      schema:
+        type: string
+
+    SchemaIdParam:
+      name: schemaId
+      in: path
+      description: Schema id.
       required: true
       schema:
         type: string
@@ -377,6 +414,56 @@ components:
           description: Create date and time of the task.
           type: string
           format: date-time
+        schemaRef:
+          description: Schema reference.
+          type: string
+      required:
+        - id
+        - schemaRef
+
+    TaskWithDetails:
+      description: Represents a user task.
+      type: object
+      properties:
+        id:
+          description: Id of the task.
+          type: string
+        name:
+          description: Name of the task.
+          type: string
+        description:
+          description: Description of the task.
+          type: string
+        processName:
+          description: Name of the process the task belongs to.
+          type: string
+        processInstanceId:
+          description: Id of the process instance.
+          type: string
+        assignee:
+          description: User id of assignee.
+          type: string
+        followUpDate:
+          description: Follow-up date of the task.
+          type: string
+          format: date-time
+        createTime:
+          description: Create date and time of the task.
+          type: string
+          format: date-time
+        schemaRef:
+          description: Schema reference.
+          type: string
+        variables:
+          description: Variables of the task.
+          type: object
+          additionalProperties:
+            type: object
+      required:
+        - id
+        - schemaRef
+        - variables
+
 
     TaskAssignment:
       description: Task assignment information.
@@ -387,6 +474,17 @@ components:
           type: string
       required:
         - assignee
+
+    TaskDeferal:
+      description: The task deferal information.
+      type: object
+      properties:
+        followUpDate:
+          description: Date until the task is deferred.
+          type: string
+          format: date-time
+      required:
+        - followUpDate
 
     TaskCombinedSchema:
       description: Combined schema for a user task.

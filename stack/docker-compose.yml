@@ -1,5 +1,16 @@
+#
 # Use this only in dev environments. It's not intended for production usage.
+#
+# Profiles:
+# - tasklist: starts an nginx on 8081 and tasklist behind it.
+#
+#
+
 version: '3.5'
+
+networks:
+  local-keycloak:
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -66,10 +77,10 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: local,local-docker,no-security
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   postgres-tasklist:
-    image: postgres:12
+    image: postgres:13.2
     container_name: digiwf-postgres-tasklist
     environment:
       POSTGRES_USER: user
@@ -78,10 +89,10 @@ services:
     ports:
       - '25432:5432'
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   postgres-engine:
-    image: postgres:12
+    image: postgres:13.2
     container_name: digiwf-postgres-engine
     environment:
       POSTGRES_USER: user
@@ -90,9 +101,54 @@ services:
     ports:
       - '25433:5432'
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
-  #
+
+  postgres-keycloak:
+    image: postgres:13.2
+    container_name: digiwf-postgres-keycloak
+    environment:
+      POSTGRES_DB: ${KEYCLOAK_DB_NAME:-keycloak}
+      POSTGRES_USER: ${KEYCLOAK_DB_USER:-keycloak-user}
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak-secret}
+    networks:
+      - local-keycloak
+
+  keycloak: # https://hub.docker.com/r/jboss/keycloak
+    container_name: digiwf-keycloak
+    image: ${KEYCLOAK_IMAGE:-jboss/keycloak:16.1.1}
+    depends_on:
+      - postgres-keycloak
+    networks:
+      - local-keycloak
+    ports:
+      - '18080:8080'
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres-keycloak
+      DB_DATABASE: ${KEYCLOAK_DB_NAME:-keycloak}
+      DB_USER: ${KEYCLOAK_DB_USER:-keycloak-user}
+      DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak-secret}
+      KEYCLOAK_USER: ${KEYCLOAK_USER:-admin}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD:-admin}
+
+  init-keycloak:
+    image: klg71/keycloakmigration
+    depends_on:
+      - keycloak
+    environment:
+      ADMIN_USER: ${KEYCLOAK_USER:-admin}
+      ADMIN_PASSWORD: ${KEYCLOAK_USER:-admin}
+      BASEURL:  http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
+      WAIT_FOR_KEYCLOAK: 'true'
+      KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-localrealm}
+    volumes:
+      - './keycloak:/migration'
+    networks:
+      - local-keycloak
+
+
   # enable the tasklist with --profile tasklist if you don't want to run it locally -> access it via http://localhost:8081/ then.
   #
   nginx:
@@ -101,16 +157,17 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8081:8080"
+      - '8081:8080'
     depends_on:
       - digiwf-gateway
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     profiles:
       - tasklist
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
     ports:
-      - "8091:8080"
+      - '8091:8080'
     profiles:
       - tasklist
+

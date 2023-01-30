@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.task.service.rest;
 
-import net.minidev.json.JSONObject;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

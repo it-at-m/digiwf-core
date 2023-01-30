@@ -20,22 +20,22 @@ public class TaskApiDelegateImpl implements TasksApiDelegate {
     private final TaskQueryAdapter taskQueryAdapter;
 
     @Override
-    public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query) {
-        var result = taskQueryAdapter.getTasksForCurrentUser(page, size, query, "created+");
+    public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, String sort) {
+        var result = taskQueryAdapter.getTasksForCurrentUser(page, size, query, sort);
         var tasks = result.getElements().stream().map(taskMapper::to).collect(Collectors.toList());
         return ok(new PageOfTasksTO().page(page).content(tasks).size(size).numberOfElements(result.getTotalElementCount()));
     }
 
     @Override
-    public ResponseEntity<PageOfTasksTO> getAssignedGroupTasks(Integer page, Integer size, String query) {
-        var result = taskQueryAdapter.getTasksForCurrentUserGroup(page, size, query, "created+", true);
+    public ResponseEntity<PageOfTasksTO> getAssignedGroupTasks(Integer page, Integer size, String query, String sort) {
+        var result = taskQueryAdapter.getTasksForCurrentUserGroup(page, size, query, sort, true);
         var tasks = result.getElements().stream().map(taskMapper::to).collect(Collectors.toList());
         return ok(new PageOfTasksTO().page(page).content(tasks).size(size).numberOfElements(result.getTotalElementCount()));
     }
 
     @Override
-    public ResponseEntity<PageOfTasksTO> getUnassignedGroupTasks(Integer page, Integer size, String query) {
-        var result = taskQueryAdapter.getTasksForCurrentUserGroup(page, size, query, "created+", true);
+    public ResponseEntity<PageOfTasksTO> getUnassignedGroupTasks(Integer page, Integer size, String query, String sort) {
+        var result = taskQueryAdapter.getTasksForCurrentUserGroup(page, size, query, sort, true);
         var tasks = result.getElements().stream().map(taskMapper::to).collect(Collectors.toList());
         return ok(new PageOfTasksTO().page(page).content(tasks).size(size).numberOfElements(result.getTotalElementCount()));
     }

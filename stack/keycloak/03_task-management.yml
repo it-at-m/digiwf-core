@@ -1,0 +1,8 @@
+id: task-management
+author: Simon Zambrovski
+realm: ${KEYCLOAK_REALM:-localrealm}
+changes:
+  - addSimpleClient:
+      clientId: task-management
+      redirectUris:
+        - http://localhost:38765/*

@@ -2,12 +2,14 @@ package io.muenchendigital.digiwf.task.service.auth;
 
 import com.google.common.collect.Sets;
 import io.holunda.polyflow.view.auth.User;
+import io.muenchendigital.digiwf.task.service.rest.GrantedAuthoritiesConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -16,32 +18,27 @@ import java.util.stream.Collectors;
  * Retrieves current user.
  */
 @Component
+@RequiredArgsConstructor
 public class CurrentUserServiceImpl implements CurrentUserService {
+
+    private final GrantedAuthoritiesConverter grantedAuthoritiesConverter;
+
     @Override
     public User getCurrentUser() {
-        var user = getDefaultCurrentUser();
-        if (user != null) {
-            return new User(user.getName(), Sets.newHashSet(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet())));
+        var authentication = getCurrentAuth();
+        if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
+            var jwt = (Jwt) authentication.getPrincipal();
+            var authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+            return new User((String) jwt.getClaims().get("sub"), Sets.newHashSet(authorities));
         } else {
             throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
         }
     }
 
-    /**
-     * Gets auth as user.
-     * @return default user or null.
-     */
-    private DefaultOAuth2User getDefaultCurrentUser() {
-        var authentication = getCurrentAuth();
-        if (authentication instanceof OAuth2AuthenticationToken && authentication.getPrincipal() instanceof DefaultOAuth2User) {
-            return ((DefaultOAuth2User) authentication.getPrincipal());
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Gets current auth.
+     *
      * @return authentication.
      */
     private Authentication getCurrentAuth() {

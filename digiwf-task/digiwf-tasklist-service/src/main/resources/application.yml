@@ -21,7 +21,6 @@ spring:
         jwt:
           issuer-uri: ${SSO_ISSUER_URL}
 
-
 axon:
   serializer:
     events: jackson

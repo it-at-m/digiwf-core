@@ -1,0 +1,16 @@
+id: johndoe
+author: Simon Zambrovski
+realm: ${KEYCLOAK_REALM:-localrealm}
+changes:
+  - addUser:
+      name: johndoe
+      lastName: Doe
+      firstName: John
+      enabled: true
+      emailVerified: true
+      email: john.doe@example.com
+      groups:
+        - group1
+  - updateUserPassword:
+      name: johndoe
+      password: "test"

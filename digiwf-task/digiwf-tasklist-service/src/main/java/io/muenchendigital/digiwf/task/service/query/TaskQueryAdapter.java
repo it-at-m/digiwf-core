@@ -25,11 +25,10 @@ public class TaskQueryAdapter {
                 currentUser,
                 page,
                 size,
-                sort,
+                sanitizeSort(sort),
                 filters
         )).join();
     }
-
     public TaskQueryResult getTasksForCurrentUserGroup(Integer page, Integer size, String query, String sort, boolean includeAssigned) {
         // TODO: implement assignment filter
         var currentUser = currentUserService.getCurrentUser();
@@ -38,7 +37,7 @@ public class TaskQueryAdapter {
                 currentUser,
                 page,
                 size,
-                sort,
+                sanitizeSort(sort),
                 filters
         )).join();
     }
@@ -46,6 +45,17 @@ public class TaskQueryAdapter {
     private List<String> buildFilters(String query) {
         // TODO: implement filtering
         return new ArrayList<>();
+    }
+
+    private String sanitizeSort(String sort) {
+        if (sort == null) {
+            sort = "+created";
+        } else {
+            if (sort.charAt(0) != '+' || sort.charAt(0) != '-') {
+                throw new IllegalArgumentException("Sort argument must start with '+' for ascending or '-' for descending");
+            }
+        }
+        return sort;
     }
 
 }

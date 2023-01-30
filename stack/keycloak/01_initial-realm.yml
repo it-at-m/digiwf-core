@@ -1,0 +1,12 @@
+id: initial_realm
+author: Simon Zambrovski
+changes:
+  - addRealm:
+      name: ${KEYCLOAK_REALM:-localrealm}
+  - updateRealm:
+      id: ${KEYCLOAK_REALM:-localrealm}
+      displayName: Local Realm
+
+  - addGroup:
+      realm: ${KEYCLOAK_REALM:-localrealm}
+      name: group1
