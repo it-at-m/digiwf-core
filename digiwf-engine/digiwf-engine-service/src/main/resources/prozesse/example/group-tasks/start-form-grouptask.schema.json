@@ -22,11 +22,32 @@
               "childrenClass": "pr-5 pl-0"
             },
             "properties": {
-              "FORMFIELD_testuser": {
-                "fieldType": "text",
-                "title": "Test User",
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
                 "type": "string",
-                "key": "FORMFIELD_testuser",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you start a process that creates a grouptask and assignes it to the selected group.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FORMFIELD_group": {
+                "fieldType": "text",
+                "title": "Select a group",
+                "type": "string",
+                "key": "FORMFIELD_group",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

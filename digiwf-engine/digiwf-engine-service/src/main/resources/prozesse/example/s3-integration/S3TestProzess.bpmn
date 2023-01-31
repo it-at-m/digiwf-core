@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.5.1">
-  <bpmn:process id="example-s3-storage" name="Example S3 Storage" isExecutable="true">
+  <bpmn:process id="feature-s3-integration" name="Feature S3 Integration" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" camunda:formKey="32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac">
       <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
     </bpmn:startEvent>

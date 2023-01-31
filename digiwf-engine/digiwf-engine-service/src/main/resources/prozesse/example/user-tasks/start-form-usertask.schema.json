@@ -1,5 +1,5 @@
 {
-  "key": "start-form-loadtest-usertask",
+  "key": "start-form-usertask",
   "schema": {
     "type": "object",
     "x-display": " ",
@@ -22,11 +22,14 @@
               "childrenClass": "pr-5 pl-0"
             },
             "properties": {
-              "FORMFIELD_testuser": {
-                "fieldType": "text",
-                "title": "Test User",
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
                 "type": "string",
-                "key": "FORMFIELD_testuser",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you start a process that assignes a usertask to the user you select.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

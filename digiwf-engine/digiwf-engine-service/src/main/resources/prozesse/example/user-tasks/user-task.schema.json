@@ -85,24 +85,6 @@
               "childrenClass": "pr-5 pl-0"
             },
             "properties": {
-              "FORMFIELD_testuser": {
-                "fieldType": "text",
-                "title": "Test User",
-                "type": "string",
-                "key": "FORMFIELD_testuser",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
               "FORMFIELD_User": {
                 "fieldType": "user-input",
                 "title": "Benutzerauswahl",

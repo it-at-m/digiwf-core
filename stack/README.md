@@ -21,6 +21,21 @@ Additionally, start the backend (digiwf-engine-service) with the profiles `local
 
 > An example process on how to use the miranum-ide is available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
 
+### Running the stack for the first time
+
+**Setup Minio**
+
+1. Go to [http://localhost:9001/](http://localhost:9001/)
+2. Sign in with *minio* and *Test1234*
+3. Create a bucket
+4. Create a service account
+5. Add the bucket name and service account secrets as env variables to the digiwf-s3-integration
+    * `IO_MUENCHENDIGITAL_DIGIWF_S3_BUCKETNAME`
+    * `IO_MUENCHENDIGITAL_DIGIWF_S3_ACCESSKEY`
+    * `IO_MUENCHENDIGITAL_DIGIWF_S3_SECRETKEY`
+    * `IO_MUENCHENDIGITAL_DIGIWF_S3_URL=http://localhost:9000`
+
+
 ## LHM PC
 
 - [Instructions for WSL](https://git.muenchen.de/ext.dl.moesle/digiwf-local-setup)

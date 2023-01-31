@@ -5,7 +5,7 @@
       <bpmn:outgoing>Flow_1fbmdks</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1fbmdks" sourceRef="Start" targetRef="Task_GroupUserTask" />
-    <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:candidateGroups="ITM-KM8 ">
+    <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:candidateGroups="${FORMFIELD_group}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_schema_key">group-user-task</camunda:inputParameter>
