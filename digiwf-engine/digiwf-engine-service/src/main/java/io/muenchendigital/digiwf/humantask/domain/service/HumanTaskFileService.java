@@ -5,14 +5,14 @@
 package io.muenchendigital.digiwf.humantask.domain.service;
 
 import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
-import io.muenchendigital.digiwf.service.config.process.ProcessConfigFunctions;
+import io.muenchendigital.digiwf.process.config.process.ProcessConfigFunctions;
+import io.muenchendigital.digiwf.process.instance.process.ProcessConstants;
+import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import io.muenchendigital.digiwf.shared.exception.IllegalResourceAccessException;
 import io.muenchendigital.digiwf.shared.exception.NoFileContextException;
 import io.muenchendigital.digiwf.shared.file.AbstractFileService;
 import io.muenchendigital.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import io.muenchendigital.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapter;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -62,8 +62,7 @@ public class HumanTaskFileService extends AbstractFileService {
 
         if (action.equals(PresignedUrlAction.GET)) {
             this.checkReadAccess(taskId, filePath);
-        }
-        else {
+        } else {
             this.checkWriteAccess(taskId, filePath);
         }
 

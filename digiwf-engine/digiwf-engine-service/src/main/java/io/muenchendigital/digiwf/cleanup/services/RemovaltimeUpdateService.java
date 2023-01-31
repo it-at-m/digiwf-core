@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.cleanup.services;
 
 import io.muenchendigital.digiwf.cleanup.services.calculation.CleanupCalculator;
-import io.muenchendigital.digiwf.service.instance.infrastructure.entity.ServiceInstanceEntity;
-import io.muenchendigital.digiwf.service.instance.infrastructure.repository.ProcessInstanceInfoRepository;
+import io.muenchendigital.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
+import io.muenchendigital.digiwf.process.instance.infrastructure.repository.ProcessInstanceInfoRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class RemovaltimeUpdateService {
         return true;
     }
 
-    private void updateServiceInstanceEntity(final ServiceInstanceEntity instance){
+    private void updateServiceInstanceEntity(final ServiceInstanceEntity instance) {
         log.debug("Updating removaltime of process instance: {}", instance.getInstanceId());
         final Date removaltime = cleanupCalculator.calculateRemovalTime(instance.getDefinitionKey(), instance.getStartTime(), instance.getEndTime());
         instance.setRemovalTime(removaltime);

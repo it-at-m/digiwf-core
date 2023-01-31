@@ -5,21 +5,16 @@ import io.muenchendigital.digiwf.humantask.domain.model.TaskInfo;
 import io.muenchendigital.digiwf.humantask.domain.model.TaskInfoUpdate;
 import io.muenchendigital.digiwf.humantask.infrastructure.entity.TaskInfoEntity;
 import io.muenchendigital.digiwf.humantask.infrastructure.repository.TaskInfoRepository;
-import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionService;
 import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
+import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
+import io.muenchendigital.digiwf.process.definition.domain.service.ServiceDefinitionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service to handle TaskInfo Objects in DigiWF.
