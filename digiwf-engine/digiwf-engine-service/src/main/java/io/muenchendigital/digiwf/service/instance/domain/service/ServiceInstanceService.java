@@ -13,17 +13,17 @@ import io.muenchendigital.digiwf.service.instance.domain.model.ServiceInstance;
 import io.muenchendigital.digiwf.service.instance.domain.model.ServiceInstanceDetail;
 import io.muenchendigital.digiwf.service.instance.infrastructure.entity.ServiceInstanceEntity;
 import io.muenchendigital.digiwf.service.instance.infrastructure.repository.ProcessInstanceInfoRepository;
-import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service to interact with process instances.
@@ -89,42 +89,6 @@ public class ServiceInstanceService {
         return detail;
     }
 
-    /**
-     * Get data of process instances for the given variables
-     *
-     * @param key       key of the process definition
-     * @param variables list of variable keys that should be returned
-     * @return data grouped by process instance
-     */
-    public List<Map<String, Object>> getInstanceDataByProcessKey(final String key, final List<String> variables) {
-        return this.getInstanceDataByProcessKey(key, variables, null);
-    }
-
-    /**
-     * Get data of instance for the given variables.
-     *
-     * @param key       key of the  definition
-     * @param variables list of variable keys that should be returned
-     * @param status    status of the  instance
-     * @return data grouped by process instance
-     */
-    public List<Map<String, Object>> getInstanceDataByProcessKey(final String key, final List<String> variables, final String status) {
-        final List<Map<String, Object>> data = new ArrayList<>();
-        val instances = this.getAllInstancesByKey(key);
-        for (val instance : instances) {
-            val instanceData = this.getInstanceData(instance.getId());
-
-            if (StringUtils.isNotBlank(status)) {
-                if (!instanceData.containsKey(ProcessConstants.PROCESS_STATUS) || !instanceData.get(ProcessConstants.PROCESS_STATUS)
-                        .equals(status)) {
-                    continue;
-                }
-            }
-            val filteredInstanceData = this.filterInstanceData(variables, instanceData);
-            data.add(filteredInstanceData);
-        }
-        return data;
-    }
 
     /**
      * Get service instance by  id.
@@ -221,41 +185,6 @@ public class ServiceInstanceService {
             this.processInstanceInfoRepository.delete(entity.get());
             log.info("Service instance cleaned up: {}", entity.get().getInstanceId());
         }
-    }
-
-    //------------------------------------------------------- helper methods -------------------------------------------------------//
-
-    private Map<String, Object> filterInstanceData(final List<String> variables, final Map<String, Object> instanceData) {
-        val data = instanceData.entrySet()
-                .stream()
-                .filter(entry -> variables.contains(entry.getKey()))
-                .collect(Collectors.toList());
-
-        //sortieren nach Variable
-
-        final Map<String, Object> filteredData = new HashMap<>();
-        for (val obj : data) {
-            filteredData.put(obj.getKey(), obj.getValue());
-        }
-
-        return filteredData;
-    }
-
-    private Map<String, Object> getInstanceData(final String instanceId) {
-        val data = this.historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(instanceId).list();
-        final Map<String, Object> instanceData = new HashMap<>();
-        for (val obj : data) {
-            instanceData.put(obj.getName(), obj.getValue());
-        }
-
-        return instanceData;
-    }
-
-    private List<HistoricProcessInstance> getAllInstancesByKey(final String key) {
-        return this.historyService.createHistoricProcessInstanceQuery()
-                .processDefinitionKey(key)
-                .list();
     }
 
 }
