@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.process.config.domain.model;
 
-import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
+import io.muenchendigital.digiwf.task.process.ProcessTaskConstants;
 import lombok.*;
 
 import java.util.ArrayList;

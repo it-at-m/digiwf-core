@@ -1,9 +1,9 @@
 package io.muenchendigital.digiwf.shared.migration;
 
 
-import io.muenchendigital.digiwf.humantask.infrastructure.entity.TaskInfoEntity;
-import io.muenchendigital.digiwf.humantask.infrastructure.repository.TaskInfoRepository;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
+import io.muenchendigital.digiwf.task.infrastructure.entity.TaskInfoEntity;
+import io.muenchendigital.digiwf.task.infrastructure.repository.TaskInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
