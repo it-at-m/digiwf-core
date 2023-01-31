@@ -46,6 +46,7 @@ public interface EngineDataMapper {
     //TODO Is there a more elegant way?
     default Object mapToData(final JacksonJsonNode object) {
         if (object.isArray()) {
+            
             return new JSONArray(object.toString()).toList();
         }
         return new JSONObject(object.toString()).toMap();

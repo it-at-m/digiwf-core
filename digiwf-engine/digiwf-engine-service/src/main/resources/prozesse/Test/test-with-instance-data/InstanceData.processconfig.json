@@ -1,0 +1,26 @@
+{
+  "key": "Feature_InstanceData",
+  "statusConfig": [
+    {
+      "key": "Offen",
+      "label": "Offen",
+      "position": 1
+    },
+    {
+      "key": "inBear",
+      "label": "In Bearbeitung",
+      "position": 2
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Abgeschlossen",
+      "position": 3
+    }
+  ],
+  "configs": [
+    {
+      "key": "app_instance_schema_key",
+      "value": "bd6de9f2-0ecb-4541-8ef9-04ecdbe95a0f"
+    }
+  ]
+}
