@@ -1,5 +1,5 @@
 {
-  "key": "CustomUserInput",
+  "key": "Feature_InstanceData",
   "statusConfig": [
     {
       "key": "Offen",
@@ -19,8 +19,8 @@
   ],
   "configs": [
     {
-      "key": "app_file_paths",
-      "value": "dokumente/ticket"
+      "key": "app_instance_schema_key",
+      "value": "bd6de9f2-0ecb-4541-8ef9-04ecdbe95a0f"
     }
   ]
 }

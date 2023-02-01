@@ -22,6 +22,27 @@
                             "childrenClass": "pl-0"
                         },
                         "properties": {
+                            "FormField_StartInfo": {
+                                "fieldType": "markdown",
+                                "title": "Info",
+                                "type": "string",
+                                "x-display": "markdown",
+                                "key": "FormField_StartInfo",
+                                "readOnly": true,
+                                "default": "With this test process send an email with the information from the form below.",
+                                "x-options": {
+                                  "fieldColProps": {
+                                    "cols": 12,
+                                    "sm": 12,
+                                    "messages": {}
+                                  }
+                                },
+                                "x-props": {
+                                  "outlined": true,
+                                  "dense": true
+                                },
+                                "x-rules": []
+                            },
                             "FormField_Email": {
                                 "fieldType": "text",
                                 "title": "Email",
