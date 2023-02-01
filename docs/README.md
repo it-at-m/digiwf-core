@@ -1,9 +1,26 @@
 # DigiWF Docs
 
+## With local Node
+
 ```bash
 npm install
 npm run dev
 ```
+
+## Without local Node
+
+Execute once to get local Node / NPM on your machine and install required modules:
+```bash
+mvn -f docs install -Pdocs
+```
+
+For the local development you can use: 
+```bash
+mvn -f docs -Pdocs -Pdev package
+```
+Open http://localhost:8080/ to serve the docs with life preview.
+
+
 
 ## Document new features and bugfixes
 

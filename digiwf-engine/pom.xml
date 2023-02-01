@@ -11,7 +11,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.16.0-SNAPSHOT</version>
+        <version>0.17.2-SNAPSHOT</version>
     </parent>
 
     <dependencyManagement>
@@ -30,7 +30,7 @@
         <profile>
             <id>camunda-ee</id>
             <properties>
-                <camunda.version>7.18.0-ee</camunda.version>
+                <camunda.version>${camunda.version.ee}</camunda.version>
             </properties>
             <repositories>
                 <repository>

@@ -1,5 +1,6 @@
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
-  <bpmn:process id="CosysGenerateDocumentTestV02" name="Cosys GenerateDocument Test (Streaming)" isExecutable="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.5.1">
+  <bpmn:process id="CosysGenerateDocumentTestV02" name="Example Cosys GenerateDocument (Streaming)" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" camunda:formKey="ecae8797-d91e-4f34-ae44-6cbda8760c73">
       <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
     </bpmn:startEvent>
@@ -78,30 +79,6 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CosysGenerateDocumentTestV02">
-      <bpmndi:BPMNEdge id="Flow_1cwzs2l_di" bpmnElement="Flow_1cwzs2l">
-        <di:waypoint x="870" y="279" />
-        <di:waypoint x="930" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_13giv8f_di" bpmnElement="Flow_13giv8f">
-        <di:waypoint x="690" y="279" />
-        <di:waypoint x="770" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0nfaoa0_di" bpmnElement="Flow_0nfaoa0">
-        <di:waypoint x="1030" y="279" />
-        <di:waypoint x="1112" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0r1wb5z_di" bpmnElement="Flow_0r1wb5z">
-        <di:waypoint x="525" y="279" />
-        <di:waypoint x="590" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rled93_di" bpmnElement="Flow_0rled93">
-        <di:waypoint x="360" y="279" />
-        <di:waypoint x="425" y="279" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
-        <di:waypoint x="188" y="279" />
-        <di:waypoint x="260" y="279" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="261" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -129,6 +106,30 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
         <dc:Bounds x="780" y="101" width="100" height="68" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
+        <di:waypoint x="188" y="279" />
+        <di:waypoint x="260" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rled93_di" bpmnElement="Flow_0rled93">
+        <di:waypoint x="360" y="279" />
+        <di:waypoint x="425" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r1wb5z_di" bpmnElement="Flow_0r1wb5z">
+        <di:waypoint x="525" y="279" />
+        <di:waypoint x="590" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nfaoa0_di" bpmnElement="Flow_0nfaoa0">
+        <di:waypoint x="1030" y="279" />
+        <di:waypoint x="1112" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13giv8f_di" bpmnElement="Flow_13giv8f">
+        <di:waypoint x="690" y="279" />
+        <di:waypoint x="770" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cwzs2l_di" bpmnElement="Flow_1cwzs2l">
+        <di:waypoint x="870" y="279" />
+        <di:waypoint x="930" y="279" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1qgbegk_di" bpmnElement="Association_1qgbegk">
         <di:waypoint x="631" y="239" />
         <di:waypoint x="615" y="172" />

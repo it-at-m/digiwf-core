@@ -14,7 +14,7 @@
 <h3 align="center">DigiWF <i>Core</i></h3>
 
   <p align="center">
-    <i>This repository includes all DigiWF Core Services</i>
+    <i>This repository includes all DigiWF Core Services and Libraries</i>
     <br /><a href="https://github.com/it-at-m/digiwf-core/issues">Report Bug</a>
     ·
     <a href="https://github.com/it-at-m/digiwf-core/issues">Request Feature</a>
