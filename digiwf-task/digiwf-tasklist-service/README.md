@@ -2,7 +2,7 @@
 
 ## Requirements
 
-The service needs a RDBMS (currently postgresql) and Kafka to work properly. Please start the docker-compose stack located in 
+The service needs a RDBMS (currently postgresql), Kafka and SSO to work properly. Please start the `docker-compose` stack located in 
 `/stack` before starting the application.
 
 ## Start from IDEA

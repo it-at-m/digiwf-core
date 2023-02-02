@@ -261,7 +261,7 @@ components:
       schema:
         type: integer
         format: int32
-        default: 1
+        default: 50
         minimum: 1
         maximum: 50
 

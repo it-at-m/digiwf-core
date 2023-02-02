@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>digiwf-polyflow-connector-core</module>
         <module>digiwf-polyflow-connector-starter</module>
     </modules>
 </project>
