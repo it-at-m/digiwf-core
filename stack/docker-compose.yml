@@ -138,15 +138,16 @@ services:
       - keycloak
     env_file:
       - './local.env'
+    # FIXME: find out why the ebv file is not mapped in.
     environment:
       ADMIN_USER: ${KEYCLOAK_USER:-admin}
       ADMIN_PASSWORD: ${KEYCLOAK_USER:-admin}
       BASEURL:  http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
       WAIT_FOR_KEYCLOAK: 'true'
       KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
-      KEYCLOAK_REALM: ${SSO_REALM:-localrealm}
-      TASK_CLIENT_ID: ${SSO_TASK_CLIENT_ID:-task-management}
-      ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwf}
+      SSO_REALM: ${SSO_REALM:-P82}
+      SSO_TASK_CLIENT_ID: ${SSO_TASK_CLIENT_ID:-task-management}
+      SSO_ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwf}
     volumes:
       - './keycloak:/migration'
     networks:

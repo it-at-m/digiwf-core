@@ -1,6 +1,6 @@
 id: johndoe
 author: Simon Zambrovski
-realm: ${KEYCLOAK_REALM:-localrealm}
+realm: ${SSO_REALM}
 changes:
   - addUser:
       name: johndoe

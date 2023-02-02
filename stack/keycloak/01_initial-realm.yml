@@ -2,11 +2,11 @@ id: initial_realm
 author: Simon Zambrovski
 changes:
   - addRealm:
-      name: ${KEYCLOAK_REALM:-localrealm}
+      name: ${SSO_REALM}
   - updateRealm:
-      id: ${KEYCLOAK_REALM:-localrealm}
+      id: ${SSO_REALM}
       displayName: Local Realm
 
   - addGroup:
-      realm: ${KEYCLOAK_REALM:-localrealm}
+      realm: ${SSO_REALM}
       name: group1
