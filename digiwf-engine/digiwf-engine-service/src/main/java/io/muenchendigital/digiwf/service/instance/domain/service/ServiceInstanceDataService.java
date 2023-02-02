@@ -38,7 +38,7 @@ public class ServiceInstanceDataService {
         final Map<String, Object> typedVariables = this.historyService.createHistoricVariableInstanceQuery().executionIdIn(instanceId).processInstanceId(instanceId).list()
                 .stream()
                 .filter(obj -> obj.getValue() != null)
-                .collect(Collectors.toMap(HistoricVariableInstance::getName, HistoricVariableInstance::getTypedValue));
+                .collect(Collectors.toMap(HistoricVariableInstance::getName, HistoricVariableInstance::getValue));
         return this.engineDataMapper.mapToData(this.serializationService.deserializeData(schema.getSchemaMap(), typedVariables));
     }
 

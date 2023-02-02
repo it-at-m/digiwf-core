@@ -1,0 +1,167 @@
+{
+  "key": "bd6de9f2-0ecb-4541-8ef9-04ecdbe95a0f",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "Test Überschrift",
+            "key": "94cb9cc2-8959-4d91-a087-e99c5aa94e9c",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "af107e4f-7da3-4011-9456-123274f997b8": {
+                "key": "af107e4f-7da3-4011-9456-123274f997b8",
+                "fieldType": "arrayObject",
+                "title": "Objekt-Liste",
+                "type": "array",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": false
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "7212fcce-8a39-47f7-85be-5426619267db": {
+                      "fieldType": "text",
+                      "title": "Textfeld",
+                      "type": "string",
+                      "x-options": {
+                        "fieldColProps": {
+                          "cols": 12,
+                          "sm": 12
+                        }
+                      },
+                      "x-props": {
+                        "outlined": true,
+                        "dense": true
+                      }
+                    },
+                    "88a2f642-875a-4972-802a-e2f6e058d878": {
+                      "fieldType": "text",
+                      "title": "Textfeld",
+                      "type": "string",
+                      "x-options": {
+                        "fieldColProps": {
+                          "cols": 12,
+                          "sm": 12
+                        }
+                      },
+                      "x-props": {
+                        "outlined": true,
+                        "dense": true
+                      }
+                    }
+                  }
+                }
+              },
+              "auswahl": {
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "key": "auswahl",
+                "default": [],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "ersterInput": {
+                "fieldType": "text",
+                "title": "Erster Input",
+                "type": "string",
+                "key": "ersterInput",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "Zweite Test Überschrift",
+            "key": "9eb98b3c-8c85-492e-a9ab-07d14230d396",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "zweiterTestInput": {
+                "fieldType": "text",
+                "title": "Zweiter Test Input",
+                "type": "string",
+                "key": "zweiterTestInput",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ],
+        "key": "b057a35d-2d31-4bc3-b4fb-1c42435de588"
+      }
+    ]
+  }
+}

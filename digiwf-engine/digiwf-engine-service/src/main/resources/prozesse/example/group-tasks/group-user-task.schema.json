@@ -1,0 +1,143 @@
+{
+  "key": "group-user-task",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Erste Gruppe",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FORMFIELD_stringProp1": {
+                "fieldType": "text",
+                "title": "Ich bin ein Text",
+                "type": "string",
+                "key": "FORMFIELD_stringProp1",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FORMFIELD_numberProp1": {
+                "fieldType": "integer",
+                "type": "integer",
+                "title": "Ich bin eine Ganzzahl",
+                "key": "FORMFIELD_numberProp1",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FORMFIELD_textarea1": {
+                "fieldType": "textarea",
+                "type": "string",
+                "x-display": "textarea",
+                "title": "Ich bin eine Textarea",
+                "key": "FORMFIELD_textarea1",
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "messages": {}
+                  }
+                },
+                "x-rules": []
+              }
+            }
+          },
+          {
+            "title": "Gruppe",
+            "description": "",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FORMFIELD_checkbox": {
+                "fieldType": "boolean",
+                "title": "Checkbox",
+                "type": "boolean",
+                "key": "FORMFIELD_checkbox",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            },
+            "key": "55add46b-7053-4d9c-91d0-aeaa1b4efb18"
+          },
+          {
+            "title": "Test Users",
+            "type": "object",
+            "key": "688bf6ca-4e0a-4c34-8505-ede831ee4656",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FORMFIELD_testuser": {
+                "fieldType": "text",
+                "title": "Test User",
+                "type": "string",
+                "key": "FORMFIELD_testuser",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
