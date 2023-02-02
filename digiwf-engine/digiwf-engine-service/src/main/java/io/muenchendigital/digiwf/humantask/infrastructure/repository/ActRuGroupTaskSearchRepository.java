@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,8 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         final Root<ActRuTaskEntity> actRuTask = resultQuery.from(ActRuTaskEntity.class);
         final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo = actRuTask.join("taskInfoEntity");
         final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks = actRuTask.join("actRuIdentities");
-
-        val predicates = getPredicates(assigneeId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks);
+        final EntityType<ActRuIdentityLinkEntity> typeOfIdentityLink = em.getMetamodel().entity(ActRuIdentityLinkEntity.class);
+        val predicates = getPredicates(assigneeId, lowerCaseGroups, searchQuery, assigned, cb, actRuTask, taskInfo, identityLinks, typeOfIdentityLink);
         val orders = this.getOrderList(pageable, cb, actRuTask);
 
         resultQuery
@@ -77,13 +78,14 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
             final CriteriaBuilder cb,
             final Root<ActRuTaskEntity> actRuTask,
             final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo,
-            final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks
+            final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks,
+            final EntityType<ActRuIdentityLinkEntity> typeOfIdentityLink
     ) {
         final List<Predicate> predicates = new ArrayList<>();
         if (isAssigned) {
-            predicates.add(getAssignedPredicate(assigneeId, lowerCaseGroups, cb, actRuTask, identityLinks));
+            predicates.add(getAssignedPredicate(assigneeId, lowerCaseGroups, cb, actRuTask, identityLinks, typeOfIdentityLink));
         } else {
-            predicates.add(getUnAssignedPredicate(lowerCaseGroups, cb, actRuTask, identityLinks));
+            predicates.add(getUnAssignedPredicate(lowerCaseGroups, cb, actRuTask, identityLinks, typeOfIdentityLink));
         }
 
         if (searchQuery != null && !searchQuery.isBlank()) {
@@ -93,8 +95,16 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         return predicates.toArray(new Predicate[0]);
     }
 
-    private Predicate getAssignedPredicate(final String assigneeId, final List<String> lowerCaseGroups, final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks) {
-        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get("groupId"));
+    private Predicate getAssignedPredicate(
+            final String assigneeId,
+            final List<String> lowerCaseGroups,
+            final CriteriaBuilder cb,
+            final Root<ActRuTaskEntity> actRuTask,
+            final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks,
+            final EntityType<ActRuIdentityLinkEntity> typeOfIdentityLink
+    ) {
+        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get(typeOfIdentityLink.getDeclaredSingularAttribute("groupId", String.class)));
+//        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get("groupId"));
         for (String lowerCaseGroup : lowerCaseGroups) {
             inClause.value(lowerCaseGroup);
         }
@@ -108,15 +118,25 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         );
     }
 
-    private Predicate getUnAssignedPredicate(final List<String> lowerCaseGroups, final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks) {
-        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get("groupId"));
+    private Predicate getUnAssignedPredicate(
+            final List<String> lowerCaseGroups,
+            final CriteriaBuilder cb,
+            final Root<ActRuTaskEntity> actRuTask,
+            final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks,
+            final EntityType<ActRuIdentityLinkEntity> typeOfIdentityLink
+    ) {
+        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get(typeOfIdentityLink.getDeclaredSingularAttribute("groupId", String.class)));
+//        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get("groupId"));
         for (String lowerCaseGroup : lowerCaseGroups) {
             inClause.value(lowerCaseGroup);
         }
         return cb.and(
                 cb.isNull(actRuTask.get("assignee")),
                 inClause,
-                cb.equal(identityLinks.get("type"), "candidate")
+                cb.or(
+                        cb.equal(identityLinks.get("type"), "candidate"),
+                        cb.equal(identityLinks.get("type"), "user")
+                )
         );
     }
 }
