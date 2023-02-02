@@ -7,6 +7,7 @@ camunda:
     authorization:
       enabled: false
     job-executor-acquire-by-priority: true
+    deployment-resource-pattern: "prozesse/**/*.bpmn, bausteine/**/*.bpmn, bausteine/**/*.dmn"
     generic-properties:
       properties:
         history-time-to-live: '185'
@@ -16,9 +17,17 @@ camunda:
         history-removal-time-strategy: end
         history-cleanup-degree-of-parallelism: '4'
         enable-exceptions-after-unhandled-bpmn-error: true
+backend:
+  security:
+    process:
+      deployment:
+        user: ${DEPLOYMENT_USERNAME:-digiwf}
+        password: ${DEPLOYMENT_PASSWORD:-digiwf}
+MANAGEMENT_METRICS_DISTRIBUTION_SLO_HTTP: 10,20,30,50,100,200,300,500,1000,2000,3000,5000,10000,15000,20000,25000,30000
+MANAGEMENT_METRICS_WEB_SERVER_REQUEST_AUTOTIME_PERCENTILES: '0.9,0.95,0.98,0.99,0.999,0.9999,0.99999,1'
 management:
   server:
-    port: '39147'
+    port: '39146'
   endpoints:
     enabled-by-default: false
     web:
@@ -36,6 +45,15 @@ management:
   health:
     ldap:
       enabled: false
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            percentiles: '0.9,0.95,0.98,0.99,0.999,0.9999,0.99999,1'
+    distribution:
+      slo:
+        http: 10,20,30,50,100,200,300,500,1000,2000,3000,5000,10000,15000,20000,25000,30000
 server:
   port: '8080'
   error:
@@ -98,6 +116,45 @@ springdoc:
       enabled: false
   writer-with-default-pretty-printer: true
 digiwf:
+  alw:
+    dms:
+      defaultuser: '260'
+      eaiurl: "${ALW_DMS_EAIHOST}:${ALW_DMS_EAIPORT}/"
+      uiurl: ${ALW_DMS_UIURL}
+    personeninfo:
+      eaiurl: "${ALW_PERSONENINFO_EAIHOST}:${ALW_PERSONENINFO_EAIPORT}/"
+  base:
+    frontendurl: ${DIGIWF_FRONTEND_URL}
+  cleanup:
+    expired-process-instances: 0 0 23 * * ?
+  config:
+    autodeploy: true
+  cosys:
+    address: "${COSYS_EAIHOST}:${COSYS_EAIPORT}/"
+  dms:
+    businessapp: digiwf
+    username: ${DMS_USERNAME}
+    password: ${DMS_PASSWORD}
+    address: "${DMS_HOST}:${DMS_PORT}/services/dms"
+    defaultuser: "260"
+    uiurl: ${DMS_UIURL}
+  form:
+    autodeploy: true
+    autodeployBausteine: true
+    whitelist: '^[\\w\\s\\?\\!\\#\\'
+  incident:
+    cockpiturl: ${COCKPIT_URL}
+    environment: ${DIGIWF_ENV}
+    fromaddress: itm.digiwf@muenchen.de
+    toaddress: itm.digiwf@muenchen.de
+  jsonschema:
+    autodeploy: true
+  mail:
+    defaultfromaddress: itm.digiwf@muenchen.de
+    defaultreceiveraddress: itm.digiwf-test@muenchen.de
+    overridereceivers: false
+  parkausweis:
+    url: "${PARKAUSWEIS_HOST}:${PARKAUSWEIS_PORT}/"
   streaming:
     engine:
       topics: 'dwf-digiwf-engine-${DIGIWF_ENV},dwf-cocreation-${DIGIWF_ENV}'
@@ -105,37 +162,13 @@ digiwf:
       deploy:
         topic: 'dwf-cocreation-deploy-${DIGIWF_ENV}'
     dlqtopic: 'dwf-digiwf-${DIGIWF_ENV}-dlq'
-    group: '"dwf-${DIGIWF_ENV}"'
-  form:
-    autodeploy: true
-    autodeployBausteine: true
-    whitelist: '^[\\w\\s\\?\\!\\#\\'
-  config:
-    autodeploy: true
-  jsonschema:
-    autodeploy: true
-  cleanup:
-    expired-process-instances: 0 0 23 * * ?
-  dms:
-    businessapp: digiwf
-    username: {DMS_USERNAME}
-    password: ${DMS_PASSWORD}
+    group: '"dwf-digiwf-engine-${DIGIWF_ENV}"'
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
-    httpAPI: 'http://localhost:8086'
-  mail:
-    defaultfromaddress: itm.digiwf@muenchen.de
-    defaultreceiveraddress: itm.digiwf-test@muenchen.de
-    overridereceivers: false
+    httpAPI: ${DIGIWF_S3_HTTPAPI}
 io:
   muenchendigital:
     digiwf:
       s3:
         client:
-          documentStorageUrl: '${digiwf.s3service.httpAPI}'
-backend:
-  security:
-    process:
-      deployment:
-        user: ${DEPLOYMENT_USERNAME:-digiwf}
-        password: ${DEPLOYMENT_PASSWORD:-digiwf}
+          documentStorageUrl: '${DIGIWF_S3_HTTPAPI}'
