@@ -1,0 +1,128 @@
+info:
+  application:
+    name: DigiWF Engine
+    version: 0.1.0
+camunda:
+  bpm:
+    authorization:
+      enabled: false
+    job-executor-acquire-by-priority: true
+    generic-properties:
+      properties:
+        history-time-to-live: '185'
+        history-cleanup-strategy: removalTimeBased
+        history-cleanup-batch-window-start-time: '22:00'
+        history-cleanup-batch-window-end-time: '06:00'
+        history-removal-time-strategy: end
+        history-cleanup-degree-of-parallelism: '4'
+        enable-exceptions-after-unhandled-bpmn-error: true
+management:
+  server:
+    port: '39147'
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health, info, prometheus'
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  health:
+    ldap:
+      enabled: false
+server:
+  port: '39146'
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: DigiWF Engine
+  datasource:
+    url: '${ENGINE_DATASOURCE_URL}'
+    username: '${ENGINE_DATASOURCE_USER}'
+    password: '${ENGINE_DATASOURCE_PASSWORD}'
+  jpa:
+    database-platform: '${ENGINE_DATABASE_PLATFORM}'
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  flyway:
+    enabled: true
+    locations: "classpath:db/migration/${vendor}"
+  mail:
+    port: ${MAIL_PORT}
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        debug: false
+        tls: true
+        transport:
+          protocol: smtp
+        smtp:
+          port: ${MAIL_PORT}
+          host: ${MAIL_HOST}
+          connectiontimeout: '10000'
+          timeout: '10000'
+          auth: true
+          ssl:
+            trust: '*'
+            checkserveridentity: false
+          socketFactory:
+            fallback: true
+          starttls:
+            enable: true
+springdoc:
+  packagesToScan: io.muenchendigital.digiwf
+  pathsToMatch: /**
+  swagger-ui:
+    oauth:
+      clientId: DigiWF
+      clientSecret: 'null'
+      realm: Test
+      appName: DigiWF
+    csrf:
+      enabled: false
+  writer-with-default-pretty-printer: true
+digiwf:
+  streaming:
+    engine:
+      topics: 'dwf-digiwf-engine-${digiwf.env},dwf-cocreation-${digiwf.env}'
+    cocreation:
+      deploy:
+        topic: 'dwf-cocreation-deploy-${digiwf.env}'
+    dlqtopic: 'dwf-digiwf-${digiwf.env}-dlq'
+    group: '"dwf-${digiwf.env}"'
+  env: local
+  form:
+    autodeploy: true
+    autodeployBausteine: true
+    whitelist: '^[\\w\\s\\?\\!\\#\\'
+  config:
+    autodeploy: true
+  jsonschema:
+    autodeploy: true
+  cleanup:
+    expired-process-instances: 0 0 23 * * ?
+  dms:
+    businessapp: digiwf
+  s3service:
+    topic: 'dwf-s3-${digiwf.env}'
+    httpAPI: 'http://localhost:8086'
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          documentStorageUrl: '${digiwf.s3service.httpAPI}'
+
