@@ -11,7 +11,7 @@ managment:
 
 spring:
   flyway:
-    enabled: 'false'
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: update
