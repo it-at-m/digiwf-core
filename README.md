@@ -1,35 +1,8 @@
-<div id="top"></div>
-
-<!-- PROJECT SHIELDS -->
-
-<!-- END OF PROJECT SHIELDS -->
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="#">
-    <img src="images/logo.png" alt="Logo" height="200">
-  </a>
-
-<h3 align="center">DigiWF <i>Core</i></h3>
-
-  <p align="center">
-    <i>This repository includes all DigiWF Core Services and Libraries</i>
-    <br /><a href="https://github.com/it-at-m/digiwf-core/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/it-at-m/digiwf-core/issues">Request Feature</a>
-  </p>
-</div>
-
-<!-- ABOUT THE PROJECT -->
-
-## About The Project
+# DigiWF
 
 __DigiWF__ is the central workflow automation and integration platform based on the free process framework [Camunda](https://camunda.com).
 For more information and facts about the development please visit [digiwf.oss.muenchen.de](https://digiwf.oss.muenchen.de)
 
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
@@ -40,13 +13,11 @@ The documentation project is built with technologies we use in our projects:
 * [Vue.js](https://vuejs.org/)
 * [JSON Schema](http://json-schema.org/)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Set up
 
 Checkout [dev.md](dev.md) to learn more about our projects technical setup.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Releases
 
@@ -54,9 +25,6 @@ Release page tbd.
 
 More information on *how we release new versions* checkout [dev.md](dev.md#Release-a-new-version).
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
 
 ## Contributing
 
@@ -76,29 +44,14 @@ star! Thanks again!
 
 More about this in the [CODE_OF_CONDUCT](/CODE_OF_CONDUCT.md) file.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<!-- LICENSE -->
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` file for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) file for more information.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
 
 ## Contact
 
-it@m - opensource@muenchen.de
+it@M - opensource@muenchen.de
 
 [join our slack channel](https://join.slack.com/t/digiwf/shared_invite/zt-14jxazj1j-jq0WNtXp7S7HAwJA7tKgpw)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
