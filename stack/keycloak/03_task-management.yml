@@ -3,6 +3,6 @@ author: Simon Zambrovski
 realm: ${KEYCLOAK_REALM:-localrealm}
 changes:
   - addSimpleClient:
-      clientId: task-management
+      clientId: ${TASK_CLIENT_ID}
       redirectUris:
         - http://localhost:38765/*
