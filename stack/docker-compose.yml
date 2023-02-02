@@ -45,8 +45,8 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --list
       
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic polyflow-tasks --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic polyflow-data --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic dfw-taskmanagement-tasks-local-01 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic dfw-taskmanagement-data-local-01 --replication-factor 1 --partitions 1
       
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
@@ -136,13 +136,17 @@ services:
     image: klg71/keycloakmigration
     depends_on:
       - keycloak
+    env_file:
+      - './local.env'
     environment:
       ADMIN_USER: ${KEYCLOAK_USER:-admin}
       ADMIN_PASSWORD: ${KEYCLOAK_USER:-admin}
       BASEURL:  http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
       WAIT_FOR_KEYCLOAK: 'true'
       KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-localrealm}
+      KEYCLOAK_REALM: ${SSO_REALM:-localrealm}
+      TASK_CLIENT_ID: ${SSO_TASK_CLIENT_ID:-task-management}
+      ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwf}
     volumes:
       - './keycloak:/migration'
     networks:

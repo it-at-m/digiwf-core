@@ -1,11 +1,18 @@
 package io.muenchendigital.digiwf.task.service;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.google.common.collect.Lists;
+import io.holunda.polyflow.bus.jackson.ObjectMapperConfigurationHelper;
+import io.holunda.polyflow.bus.jackson.config.FallbackPayloadObjectMapperAutoConfiguration;
 import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.jpa.EnablePolyflowJpaView;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.muenchendigital.digiwf.task.PolyflowObjectMapper;
 import io.muenchendigital.digiwf.task.service.ingress.AxonKafkaExtendedProperties;
 import io.muenchendigital.digiwf.task.service.ingress.MetricsBindingConsumerFactory;
 import org.axonframework.eventhandling.deadletter.jpa.DeadLetterEntry;
@@ -25,6 +32,7 @@ import org.axonframework.modelling.saga.repository.inmemory.InMemorySagaStore;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.serialization.json.JacksonSerializer;
+import org.axonframework.springboot.util.ConditionalOnMissingQualifiedBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,6 +40,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @EnablePolyflowJpaView
@@ -43,6 +52,21 @@ public class PolyflowJpaViewConfiguration {
 
     @Value("${HOSTNAME:localhost}")
     private String hostname;
+
+
+    @Bean
+    @Primary
+    @Qualifier(FallbackPayloadObjectMapperAutoConfiguration.PAYLOAD_OBJECT_MAPPER)
+    public ObjectMapper payloadObjectMapper() {
+        return PolyflowObjectMapper.DEFAULT;
+    }
+
+    @Bean
+    @Qualifier("defaultAxonObjectMapper")
+    public ObjectMapper defaultAxonObjectMapper() {
+        return PolyflowObjectMapper.DEFAULT;
+    }
+
 
     /**
      * We will receive events via Kafka, so no event storage is available in this component.
@@ -69,7 +93,6 @@ public class PolyflowJpaViewConfiguration {
      * Initilizes the client with the query gateway.
      *
      * @param queryGateway gateway to use.
-     *
      * @return client.
      */
     @Bean
@@ -81,7 +104,6 @@ public class PolyflowJpaViewConfiguration {
      * Consumer factory for tasks.
      *
      * @param properties kafka properties
-     *
      * @return consumer factory.
      */
     @Bean
@@ -95,7 +117,6 @@ public class PolyflowJpaViewConfiguration {
      * Consumer factory for data entries.
      *
      * @param properties kafka properties
-     *
      * @return consumer factory.
      */
     @Bean
@@ -103,11 +124,6 @@ public class PolyflowJpaViewConfiguration {
     public ConsumerFactory<String, byte[]> kafkaConsumerFactoryPolyflowData(KafkaProperties properties) {
         properties.setClientId("polyflow-data-" + hostname);
         return new DefaultConsumerFactory<>(properties.buildConsumerProperties());
-    }
-
-    @Bean
-    public Serializer eventSerializer(ObjectMapper objectMapper) {
-        return JacksonSerializer.builder().objectMapper(objectMapper).lenientDeserialization().build();
     }
 
     /**
@@ -120,7 +136,6 @@ public class PolyflowJpaViewConfiguration {
      * @param kafkaFetcher         fetcher instance.
      * @param serializer           serializer.
      * @param meterRegistry        meter registry.
-     *
      * @return streaming source.
      */
     @Bean("kafkaMessageSourcePolyflowData")
@@ -156,7 +171,6 @@ public class PolyflowJpaViewConfiguration {
      * @param kafkaFetcher         fetcher instance.
      * @param serializer           serializer.
      * @param meterRegistry        meter registry.
-     *
      * @return streaming source.
      */
     @Bean("kafkaMessageSourcePolyflowTask")

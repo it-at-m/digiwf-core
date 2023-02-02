@@ -25,6 +25,7 @@
         <ojdbc8.version>12.2.0.1</ojdbc8.version>
         <cxf.version>3.3.6</cxf.version>
         <jaxws.version>2.3.0</jaxws.version>
+        <postgresql.version>42.5.0</postgresql.version>
     </properties>
 
     <dependencies>
@@ -61,6 +62,12 @@
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- Streaming -->
         <dependency>
@@ -75,10 +82,12 @@
             <version>0.0.6</version>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+        -->
 
         <!-- Camunda -->
         <dependency>
@@ -89,6 +98,7 @@
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
         </dependency>
+        <!-- FIXME legacy version -->
         <dependency>
             <groupId>io.holunda.data</groupId>
             <artifactId>camunda-bpm-data</artifactId>
@@ -102,9 +112,14 @@
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-core</artifactId>
         </dependency>
+        <!-- FIXME: bad idea to use this... -->
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.spin</groupId>
+            <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
         </dependency>
 
         <!-- Caching -->
@@ -159,15 +174,21 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <!-- Hibernate Model Gen for type safe criterias -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>${ojdbc8.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <!-- Hibernate Model Gen for type safe criterias -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -224,12 +245,14 @@
             <version>${camunda.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- FIXME legacy version -->
         <dependency>
             <groupId>org.camunda.bpm.extension</groupId>
             <artifactId>camunda-bpm-assert-scenario</artifactId>
             <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- FIXME legacy version -->
         <dependency>
             <groupId>org.camunda.bpm.extension.mockito</groupId>
             <artifactId>camunda-bpm-mockito</artifactId>

@@ -38,12 +38,26 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-datapool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.muenchendigital.digiwf</groupId>
+                <artifactId>digiwf-task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <module>digiwf-task-api</module>
         <module>digiwf-tasklist-service</module>
-        <module>digiwf-polyflow-connector</module>
+        <module>digiwf-polyflow-connector-starter</module>
     </modules>
 
 </project>
