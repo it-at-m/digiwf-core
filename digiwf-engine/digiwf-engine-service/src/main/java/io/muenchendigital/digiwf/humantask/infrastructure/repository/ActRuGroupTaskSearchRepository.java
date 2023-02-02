@@ -128,10 +128,7 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
         return cb.and(
                 cb.isNull(actRuTask.get("assignee")),
                 inClause,
-                cb.or(
-                        cb.equal(identityLinks.get("type"), "candidate"),
-                        cb.equal(identityLinks.get("type"), "user")
-                )
+                cb.equal(identityLinks.get("type"), "candidate")
         );
     }
 }
