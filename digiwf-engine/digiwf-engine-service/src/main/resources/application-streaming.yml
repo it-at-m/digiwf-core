@@ -50,7 +50,7 @@ spring:
             trusted:
               packages: '*'
     security:
-      protocol: ${KAFKA_SECURITY_PROTOCOL}
+      protocol: ${KAFKA_SECURITY_PROTOCOL:-SSL}
 digiwf:
   streaming:
     typeMappings:

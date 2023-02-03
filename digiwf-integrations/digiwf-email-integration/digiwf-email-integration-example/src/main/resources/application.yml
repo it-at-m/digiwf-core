@@ -20,7 +20,7 @@ spring:
         binder:
           configuration:
             security:
-              protocol: ${KAFKA_SECURITY_PROTOCOL}
+              protocol: ${KAFKA_SECURITY_PROTOCOL:-SSL}
           producerProperties:
             value:
               serializer: org.springframework.kafka.support.serializer.JsonSerializer

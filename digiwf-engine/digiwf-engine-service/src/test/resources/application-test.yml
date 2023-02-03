@@ -13,11 +13,7 @@ spring:
     enabled: false
   jpa:
     hibernate:
-      # always drop and create the db should be the best
-      # configuration for local (development) mode. this
-      # is also the default, that spring offers by convention.
-      # but here explicite:
-      ddl-auto: create-drop
+      ddl-auto: validate
 
   # Spring data rest
   data:
