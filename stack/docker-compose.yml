@@ -147,7 +147,7 @@ services:
       KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
       SSO_REALM: ${SSO_REALM:-P82}
       SSO_TASK_CLIENT_ID: ${SSO_TASK_CLIENT_ID:-task-management}
-      SSO_ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwf}
+      SSO_ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwfV2}
     volumes:
       - './keycloak:/migration'
     networks:

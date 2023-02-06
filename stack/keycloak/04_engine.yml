@@ -6,3 +6,13 @@ changes:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       redirectUris:
         - http://localhost:39146/*
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: clientrole_deployer
+      description: Can deploy.
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: lhm-ab-digitalwfv2-deployer
+      description: Can deploy.
