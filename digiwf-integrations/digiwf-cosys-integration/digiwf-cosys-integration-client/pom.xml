@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <openapi-generator-version>6.2.1</openapi-generator-version>
+        <openapi-generator-version>6.3.0</openapi-generator-version>
         <wiremock.version>2.32.0</wiremock.version>
     </properties>
 
