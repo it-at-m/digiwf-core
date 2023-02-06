@@ -20,7 +20,7 @@ spring:
         binder:
           configuration:
             security:
-              protocol: ${KAFKA_SECURITY_PROTOCOL:-SSL}
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
           producerProperties:
             value:
               serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -34,7 +34,7 @@ spring:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
             value:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-          brokers: ${KAFKA_BOOTSTRAP_SERVER}:${KAFKA_BOOTSTRAP_SERVER_PORT}
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
   kafka:
     consumer:
       properties:
@@ -43,10 +43,10 @@ spring:
             trusted:
               packages: '*'
   mail:
-    port: ${MAIL_PORT}
-    host: ${MAIL_HOST}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    port: ${MAIL_PORT:1025}
+    host: ${MAIL_HOST:localhost}
+    username: ${MAIL_USERNAME:digiwf@muenchen.de}
+    password: ${MAIL_PASSWORD:test}
     properties:
       mail:
         debug: false
@@ -54,8 +54,8 @@ spring:
         transport:
           protocol: smtp
         smtp:
-          port: ${MAIL_PORT}
-          host: ${MAIL_HOST}
+          port: ${MAIL_PORT:1025}
+          host: ${MAIL_HOST:localhost}
           connectiontimeout: '10000'
           timeout: '10000'
           auth: true
@@ -70,7 +70,7 @@ io:
   muenchendigital:
     digiwf:
       mail:
-        fromAddress: ${MAIL_USERNAME}
+        fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
       streaming:
         typeMappings:
           createPresignedUrl: createPresignedUrl
