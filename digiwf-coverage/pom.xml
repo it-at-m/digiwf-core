@@ -48,16 +48,6 @@
         <!-- digiwf-engine -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-engine-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-engine-next-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>digiwf-engine-service</artifactId>
             <version>${project.version}</version>
         </dependency>
