@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.jsonschema.deployment.domain.service;
 
-import io.muenchendigital.digiwf.engine.deployment.api.enums.DeploymentStatus;
-import io.muenchendigital.digiwf.engine.deployment.domain.model.DeploymentStatusModel;
+import io.muenchendigital.digiwf.deployment.api.enums.DeploymentStatus;
+import io.muenchendigital.digiwf.deployment.domain.model.DeploymentStatusModel;
 import io.muenchendigital.digiwf.jsonschema.deployment.domain.model.SchemaDeploymentModel;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
