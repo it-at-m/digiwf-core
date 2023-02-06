@@ -206,6 +206,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>6.3.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
