@@ -11,8 +11,6 @@ managment:
 
 spring:
   jpa:
-    hibernate:
-      ddl-auto: validate
     show-sql: 'true'
     properties:
       hibernate:
