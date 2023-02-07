@@ -104,4 +104,24 @@ public class ActRuGroupTaskSearchRepositoryTest {
         assertEquals("name-3", result.getContent().get(2).getName());
         assertEquals("name-4", result.getContent().get(3).getName());
     }
+
+    @Test
+    public void shouldBeCaseInsensitiveForUsingGroupsInAssignedTasks() {
+        taskEntityDataCreator.createAndSaveGroupTask("1", "assignee", "group-1");
+        taskEntityDataCreator.createAndSaveGroupTask("2", "assignee-2", "GROUP-1");
+        val result = actRuGroupTaskSearchRepository.search("assignee", List.of("group-1"), null, true, PageRequest.of(0, 10));
+        assertEquals(2, result.getTotalElements());
+        assertEquals("name-1", result.getContent().get(0).getName());
+        assertEquals("name-2", result.getContent().get(1).getName());
+    }
+
+    @Test
+    public void shouldBeCaseInsensitiveForUsingGroupsInUnAssignedTasks() {
+        taskEntityDataCreator.createAndSaveGroupTask("1", null, "group-1");
+        taskEntityDataCreator.createAndSaveGroupTask("2", null, "GROUP-1");
+        val result = actRuGroupTaskSearchRepository.search("assignee", List.of("group-1"), null, false, PageRequest.of(0, 10));
+        assertEquals(2, result.getTotalElements());
+        assertEquals("name-1", result.getContent().get(0).getName());
+        assertEquals("name-2", result.getContent().get(1).getName());
+    }
 }

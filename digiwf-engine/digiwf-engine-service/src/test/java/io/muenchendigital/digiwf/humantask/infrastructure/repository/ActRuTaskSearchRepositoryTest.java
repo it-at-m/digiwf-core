@@ -45,10 +45,19 @@ public class ActRuTaskSearchRepositoryTest {
         taskEntityDataCreator.createAndSaveTask("1", "assignee", "searchable-name");
         taskEntityDataCreator.createAndSaveTask("2", "assignee");
         taskEntityDataCreator.createAndSaveTask("3", "another-assignee");
-        val result = actRuTaskSearchRepository.search("assignee", "searchable", false, PageRequest.of(0, 10));
-        assertEquals(1, result.getTotalElements());
-        assertEquals("searchable-name", result.getContent().get(0).getName());
+        taskEntityDataCreator.createAndSaveTask("4", "assignee", "SEARCHABLE-name");
+        val resultOfLowerCaseSearchQuery = actRuTaskSearchRepository.search("assignee", "searchable", false, PageRequest.of(0, 10));
+        assertEquals(2, resultOfLowerCaseSearchQuery.getTotalElements());
+        assertEquals("searchable-name", resultOfLowerCaseSearchQuery.getContent().get(0).getName());
+        assertEquals("SEARCHABLE-name", resultOfLowerCaseSearchQuery.getContent().get(1).getName());
+
+        val resultOfUpperCaseSearchQuery = actRuTaskSearchRepository.search("assignee", "SEARCHABLE", false, PageRequest.of(0, 10));
+        assertEquals(2, resultOfUpperCaseSearchQuery.getTotalElements());
+        assertEquals("searchable-name", resultOfUpperCaseSearchQuery.getContent().get(0).getName());
+        assertEquals("SEARCHABLE-name", resultOfUpperCaseSearchQuery.getContent().get(1).getName());
+
     }
+
     @Test
     public void shouldReturnPageWithCorrectAssigneeAndFollowUpDate() {
         taskEntityDataCreator.createAndSaveTask("1", "assignee", null, null, null, null);
