@@ -1,5 +1,5 @@
 # get presigned url
-POST http://localhost:8081/presignedurl
+POST http://localhost:8080/presignedurl
 Content-Type: application/json
 Accept: application/json
 
@@ -7,3 +7,10 @@ Accept: application/json
   "path": "folder/first.txt;folder/second.txt;folder/third.txt",
   "action": "GET"
 }
+
+###
+
+# get /all
+
+GET http://localhost:8080/all
+Content-Type: application/json

@@ -69,12 +69,12 @@ io:
       s3:
         bucketname: ${S3_BUCKETNAME}
         accesskey: ${S3_ACCESSKEY}
-        url: ${S3_URL}
+        url: ${S3_URL:http://localhost:9000}
         secretkey: ${S3_SECRETKEY}
         client:
-          document-storage-url: "${DOCUMENT_STORAGE_HOST}:${DOCUMENT_STORAGE_PORT}"
+          document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
           securityEnabled: false
-        proxyUrl: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
+        proxyUrl: "${S3_PROXY_HOST:localhost}:${S3_PROXY_PORT:9000}"
         cronjob:
           cleanup:
             unused-files: 0 15 10 16 * ?

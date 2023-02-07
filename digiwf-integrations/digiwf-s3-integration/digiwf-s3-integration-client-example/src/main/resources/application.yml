@@ -44,6 +44,11 @@ spring:
 io:
   muenchendigital:
     digiwf:
+      s3:
+        client:
+          document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+          # It's just an example application. Security is not needed.
+          securityEnabled: false
       streaming:
         typeMappings:
           correlatemessagev01: correlatemessagev01
