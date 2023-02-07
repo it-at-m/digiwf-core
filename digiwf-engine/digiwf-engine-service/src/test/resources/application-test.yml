@@ -13,7 +13,9 @@ spring:
     enabled: false
   jpa:
     hibernate:
-      ddl-auto: validate
+      hbm2ddl:
+        schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
+      ddl-auto: create-drop
 
   # Spring data rest
   data:
