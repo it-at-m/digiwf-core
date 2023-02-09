@@ -71,7 +71,7 @@ spring:
   application:
     name: DigiWF Engine
   datasource:
-    url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE}'
+    url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
     username: '${ENGINE_DATASOURCE_USER:sa}'
     password: '${ENGINE_DATASOURCE_PASSWORD}'
     driver-class-name: '${ENGINE_DATASOURCE_DRIVERCLASSNAME:org.h2.Driver}'
