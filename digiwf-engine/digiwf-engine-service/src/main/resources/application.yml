@@ -69,7 +69,7 @@ server:
       enabled: false
 spring:
   application:
-    name: DigiWF Engine
+    name: ${info.application.name}
   datasource:
     url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
     username: '${ENGINE_DATASOURCE_USER:sa}'
