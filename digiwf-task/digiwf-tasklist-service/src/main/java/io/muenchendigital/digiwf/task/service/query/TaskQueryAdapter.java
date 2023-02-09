@@ -49,7 +49,7 @@ public class TaskQueryAdapter {
 
     private String sanitizeSort(String sort) {
         if (sort == null) {
-            sort = "+created";
+            sort = "+createdDate";
         } else {
             if (sort.charAt(0) != '+' || sort.charAt(0) != '-') {
                 throw new IllegalArgumentException("Sort argument must start with '+' for ascending or '-' for descending");

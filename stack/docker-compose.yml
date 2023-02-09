@@ -88,8 +88,6 @@ services:
       POSTGRES_DB: tasklistdb
     ports:
       - '25432:5432'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
 
   postgres-engine:
     image: postgres:13.2
@@ -100,37 +98,36 @@ services:
       POSTGRES_DB: enginedb
     ports:
       - '25433:5432'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
-
 
   postgres-keycloak:
     image: postgres:13.2
     container_name: digiwf-postgres-keycloak
     environment:
-      POSTGRES_DB: ${KEYCLOAK_DB_NAME:-keycloak}
-      POSTGRES_USER: ${KEYCLOAK_DB_USER:-keycloak-user}
-      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak-secret}
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak-user
+      POSTGRES_PASSWORD: keycloak-secret
     networks:
       - local-keycloak
 
-  keycloak: # https://hub.docker.com/r/jboss/keycloak
+  keycloak:
     container_name: digiwf-keycloak
-    image: ${KEYCLOAK_IMAGE:-jboss/keycloak:16.1.1}
+    image: ${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:20.0.3}
     depends_on:
       - postgres-keycloak
     networks:
       - local-keycloak
     ports:
-      - '18080:8080'
+      - '8080:8080'
+    command: 'start-dev --http-relative-path /auth'
     environment:
-      DB_VENDOR: postgres
-      DB_ADDR: postgres-keycloak
-      DB_DATABASE: ${KEYCLOAK_DB_NAME:-keycloak}
-      DB_USER: ${KEYCLOAK_DB_USER:-keycloak-user}
-      DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak-secret}
-      KEYCLOAK_USER: ${KEYCLOAK_USER:-admin}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD:-admin}
+      KC_HOSTNAME: keycloak # this hostname must be resolved to 127.0.0.1 locally. Add it to your hosts file.
+      KC_HOSTNAME_STRICT: 'false'
+      KC_DB: postgres
+      KC_DB_URL:  jdbc:postgresql://postgres-keycloak:5432/keycloak
+      KC_DB_USERNAME: keycloak-user
+      KC_DB_PASSWORD: keycloak-secret
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
 
   init-keycloak:
     image: klg71/keycloakmigration
@@ -138,16 +135,12 @@ services:
       - keycloak
     env_file:
       - './local.env'
-    # FIXME: find out why the ebv file is not mapped in.
     environment:
-      ADMIN_USER: ${KEYCLOAK_USER:-admin}
-      ADMIN_PASSWORD: ${KEYCLOAK_USER:-admin}
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: admin
       BASEURL:  http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
       WAIT_FOR_KEYCLOAK: 'true'
       KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
-      SSO_REALM: ${SSO_REALM:-P82}
-      SSO_TASK_CLIENT_ID: ${SSO_TASK_CLIENT_ID:-task-management}
-      SSO_ENGINE_CLIENT_ID: ${SSO_ENGINE_CLIENT_ID:-digitalwfV2}
     volumes:
       - './keycloak:/migration'
     networks:
@@ -165,14 +158,16 @@ services:
       - '8081:8080'
     depends_on:
       - digiwf-gateway
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     profiles:
       - tasklist
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
     ports:
       - '8091:8080'
     profiles:
       - tasklist
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
