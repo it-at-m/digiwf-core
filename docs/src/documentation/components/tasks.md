@@ -2,3 +2,63 @@
 
 Im Rahmen der Automatisierung und Digitalisierung von Prozessen wird task-orientierte Arbeitweise eingeführt. Dabei werden durch das System einzelne Benutzeraufgaben erstellt und einem Kreis von Mitarbeitern zugewiesen. Die Aufgabe erscheint als ein Eintrag in einer **Aufgabenliste**. Beim Öffnen der Aufgabe wird dem Benutzer über einen **Aufgabenformular** der Kontext der Aufgabe angezeigt und für den Abschluß der Aufgabe notwendige Eingabefelder eingeblendet.
 
+
+## Ist
+
+### Aufgabenzuweisung (Assignment)
+
+Die Zuweisung von Aufgaben an die Benutzer und Gruppen erfolgt zur Zeit über:
+
+- `Assignee`: Zuweisung einer Aufgabe an eine einzelne Person. Die `LHMObjectId` des Benutzers wird dazu in Camunda Assignee Feld geschrieben.
+- `Candidate Users`: Änderung der Sichtbarkeit einer Aufgabe für eine Liste der einzeln bekannten Personen. Die komma-separierte Liste der `LHMObjectId` der Benutzers wird in Camunda Candidate Users Feld geschrieben.
+- `Candidate Groups`: Änderung der Sichtbarkeit einer Aufgabe für Organisationseinheiten (LDAP OU). Die komma-separierte Liste der `OU` der Benutzers wird in Camunda Candidate Groups Feld geschrieben.
+
+Die Aufgaben die persönlich zugewisen sind sind unter dem Abschnitt "Meine Aufgaben" des Benutzers zu finden. Die für einen Benutzer über die Nennung in den Candidate USers oder über die OU in Candidate Groups werden die Aufgaben im Abschnitt "Gruppenaufgaben" dargestellt. Die Bearbeitung einer Gruppenaufgabe weißt diese dem Benutzer zu (early claim).
+
+### Schnellfilter
+
+Suchen in der Taskliste können gespeichert werden, so dass ein Benutzer schnell zu den bereits getätigten Suchen zurückkehren kann. Z.Z. komplett über Frontend gelöst.
+
+### Zurückstellen der Aufgaben
+
+Durch das setzen eines Nachverfolgungsdatums kann die Aufgabe "zurückgestellt" werden. Auf das Datum wird es im Frontend gefiltert.
+
+### Abbrechen der Aufgaben
+
+Eine Aufgabe kann abbgebrochen werden (wirft ein BPMN Fehler).
+
+### Zugriff auf Dateien
+
+Input Variablen die an einem User Taks definiert sind müssen aufgelöst werden müssen, um die Autorisierung der Pfade im S3 zu prüfen. (`app_files_paths`, `app_file_paths_readonly`).
+
+
+## Soll
+
+### Aufgabenzuweisung (Assignment)
+
+In Zukunft (ab dem 01.04.2023) dürfen die Camunda Felder für Assignment nicht mehr verwendet werden.
+
+**Szenarien**
+
+- Eine Aufgabe wird erzeugt. Die Werte aus dem Prozessmodel müssen weiter verwendet werden. Idee -> Create Task listener schreibt Prozessvariablen, die für die Zuweisung verwendet werden.
+- Eine Aufgabe sich selbst zuweisen. (Änderung des Assignees).
+- Eine Aufgabenzuweisung entfernen (kann nur vom Bearbeiter, und nur wenn es Candidate Users oder Canndidate Groups gibt, damit die Aufgabe noch auffindbar ist).
+- Reassign (nimm einem anderen eine Aufgabe weg)
+- Dispatch (eine Zuweisung an anderen), wird über eine Sondervariable abgebildet (pro task oder pro instanz).
+
+**Variablen zur Abbildung**
+
+Lokale Task Variable:
+
+```json
+{
+    "task_metadata": {
+        "assignment": { "assignee": "9182719832", "candidateUsers": "9182719832, 9182719823", "candidateGroups": "itm-km8", "dispatcher": "198273491" },
+        "tags": {}
+    }
+   
+}
+```
+
+
+### Klassifikation von Aufgaben

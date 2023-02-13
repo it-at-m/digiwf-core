@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.task.service.query;
 
 import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.query.task.TaskQueryResult;
+import io.holunda.polyflow.view.query.task.TasksForGroupQuery;
 import io.holunda.polyflow.view.query.task.TasksForUserQuery;
 import io.muenchendigital.digiwf.task.service.auth.CurrentUserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ public class TaskQueryAdapter {
     private final CurrentUserService currentUserService;
 
     public TaskQueryResult getTasksForCurrentUser(Integer page, Integer size, String query, String sort) {
-        // TODO: implement assignment filter
         var currentUser = currentUserService.getCurrentUser();
         var filters = buildFilters(query);
         return taskQueryClient.query(new TasksForUserQuery(
@@ -30,11 +30,11 @@ public class TaskQueryAdapter {
         )).join();
     }
     public TaskQueryResult getTasksForCurrentUserGroup(Integer page, Integer size, String query, String sort, boolean includeAssigned) {
-        // TODO: implement assignment filter
         var currentUser = currentUserService.getCurrentUser();
         var filters = buildFilters(query);
-        return taskQueryClient.query(new TasksForUserQuery(
+        return taskQueryClient.query(new TasksForGroupQuery(
                 currentUser,
+                includeAssigned,
                 page,
                 size,
                 sanitizeSort(sort),
