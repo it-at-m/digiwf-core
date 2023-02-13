@@ -43,8 +43,8 @@ public class MailConfiguration {
     public JavaMailSender getJavaMailSender() throws MessagingException {
         final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(this.mailProperties.getHost());
-        mailSender.setPort(587);
-        mailSender.setProtocol("smtp");
+        mailSender.setPort(this.mailProperties.getPort());
+        mailSender.setProtocol(this.mailProperties.getProtocol());
         mailSender.setUsername(this.mailProperties.getUsername());
         mailSender.setPassword(this.mailProperties.getPassword());
 

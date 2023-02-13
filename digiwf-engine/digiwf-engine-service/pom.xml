@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>0.17.2-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <properties>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>io.holunda.data</groupId>
             <artifactId>camunda-bpm-data</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>
@@ -158,6 +158,8 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <!-- Use version 1.4.xx for compatibility reasons with our flyway scripts -->
+            <version>1.4.200</version>
         </dependency>
         <!-- Hibernate Model Gen for type safe criterias -->
         <dependency>
@@ -231,10 +233,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.camunda.bpm.extension.mockito</groupId>
-            <artifactId>camunda-bpm-mockito</artifactId>
+            <groupId>org.camunda.community.mockito</groupId>
+            <artifactId>camunda-platform-7-mockito</artifactId>
+            <version>6.17.1</version>
             <scope>test</scope>
-            <version>5.15.0</version>
         </dependency>
 
         <!-- Logging -->
@@ -331,14 +333,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.cxf</groupId>

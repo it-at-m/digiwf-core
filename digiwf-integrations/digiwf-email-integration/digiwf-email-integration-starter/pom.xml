@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.2-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <artifactId>digiwf-email-integration-starter</artifactId>
@@ -19,23 +19,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring.boot.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
 
         <!-- S3 -->
