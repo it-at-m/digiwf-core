@@ -13,7 +13,7 @@ import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.muenchendigital.digiwf.legacy.form.domain.model.Form;
 import io.muenchendigital.digiwf.legacy.form.domain.service.FormService;
 import io.muenchendigital.digiwf.legacy.shared.data.DataService;
-import io.muenchendigital.digiwf.service.instance.process.ProcessConstants;
+import io.muenchendigital.digiwf.process.instance.process.ProcessConstants;
 import io.muenchendigital.digiwf.shared.exception.VariablesNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

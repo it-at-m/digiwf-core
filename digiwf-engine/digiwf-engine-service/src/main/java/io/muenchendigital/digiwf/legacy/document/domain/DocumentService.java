@@ -6,8 +6,8 @@ package io.muenchendigital.digiwf.legacy.document.domain;
 
 import io.muenchendigital.digiwf.humantask.domain.service.HumanTaskService;
 import io.muenchendigital.digiwf.legacy.document.external.client.CosysClient;
-import io.muenchendigital.digiwf.service.config.domain.service.ProcessConfigService;
-import io.muenchendigital.digiwf.service.definition.domain.service.ServiceDefinitionService;
+import io.muenchendigital.digiwf.process.config.domain.service.ProcessConfigService;
+import io.muenchendigital.digiwf.process.definition.domain.service.ServiceDefinitionService;
 import io.muenchendigital.digiwf.shared.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

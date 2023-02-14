@@ -1,0 +1,185 @@
+info:
+  application:
+    name: DigiWF Engine
+    version: 0.1.0
+camunda:
+  bpm:
+    authorization:
+      enabled: false
+    job-executor-acquire-by-priority: true
+    deployment-resource-pattern: "prozesse/**/*.bpmn, bausteine/**/*.bpmn, bausteine/**/*.dmn"
+    generic-properties:
+      properties:
+        history-time-to-live: '185'
+        history-cleanup-strategy: removalTimeBased
+        history-cleanup-batch-window-start-time: '22:00'
+        history-cleanup-batch-window-end-time: '06:00'
+        history-removal-time-strategy: end
+        history-cleanup-degree-of-parallelism: '4'
+        enable-exceptions-after-unhandled-bpmn-error: true
+backend:
+  security:
+    process:
+      deployment:
+        user: ${DEPLOYMENT_USERNAME:digiwf}
+        password: ${DEPLOYMENT_PASSWORD:digiwf}
+MANAGEMENT_METRICS_DISTRIBUTION_SLO_HTTP: 10,20,30,50,100,200,300,500,1000,2000,3000,5000,10000,15000,20000,25000,30000
+MANAGEMENT_METRICS_WEB_SERVER_REQUEST_AUTOTIME_PERCENTILES: '0.9,0.95,0.98,0.99,0.999,0.9999,0.99999,1'
+management:
+  server:
+    port: '39146'
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health, info, prometheus'
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  health:
+    ldap:
+      enabled: false
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            percentiles: '0.9,0.95,0.98,0.99,0.999,0.9999,0.99999,1'
+    distribution:
+      slo:
+        http: 10,20,30,50,100,200,300,500,1000,2000,3000,5000,10000,15000,20000,25000,30000
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: ${SSO_BASE_URL:http://localhost:8085/auth}/realms/${SSO_REALM:test}/protocol/openid-connect/certs
+      user-info-uri: ${SSO_BASE_URL:http://localhost:8085/auth}/realms/${SSO_REALM:test}/protocol/openid-connect/userinfo
+server:
+  port: '8080'
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: ${info.application.name}
+  datasource:
+    url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
+    username: '${ENGINE_DATASOURCE_USER:sa}'
+    password: '${ENGINE_DATASOURCE_PASSWORD}'
+    driver-class-name: '${ENGINE_DATASOURCE_DRIVERCLASSNAME:org.h2.Driver}'
+  jpa:
+    database-platform: '${ENGINE_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: "classpath:db/migration/{vendor}"
+    baseline-version: 1
+  mail:
+    port: ${MAIL_PORT:1025}
+    host: ${MAIL_HOST:localhost}
+    username: ${MAIL_USERNAME:digiwf@muenchen.de}
+    password: ${MAIL_PASSWORD:test}
+    properties:
+      mail:
+        debug: false
+        tls: true
+        transport:
+          protocol: smtp
+        smtp:
+          port: ${MAIL_PORT:1025}
+          host: ${MAIL_HOST:localhost}
+          connectiontimeout: '10000'
+          timeout: '10000'
+          auth: true
+          ssl:
+            trust: '*'
+            checkserveridentity: false
+          socketFactory:
+            fallback: true
+          starttls:
+            enable: true
+springdoc:
+  packagesToScan: io.muenchendigital.digiwf
+  pathsToMatch: /**
+  swagger-ui:
+    oauth:
+      clientId: DigiWF
+      clientSecret: 'null'
+      realm: Test
+      appName: DigiWF
+    csrf:
+      enabled: false
+  writer-with-default-pretty-printer: true
+digiwf:
+  alw:
+    dms:
+      defaultuser: '260'
+      eaiurl: "${ALW_DMS_EAIHOST}:${ALW_DMS_EAIPORT}/"
+      uiurl: ${ALW_DMS_UIURL}
+    personeninfo:
+      eaiurl: "${ALW_PERSONENINFO_EAIHOST}:${ALW_PERSONENINFO_EAIPORT}/"
+  base:
+    frontendurl: ${DIGIWF_FRONTEND_URL}
+  cleanup:
+    expired-process-instances: 0 0 23 * * ?
+  config:
+    autodeploy: true
+  cosys:
+    address: "${COSYS_EAIHOST}:${COSYS_EAIPORT}/"
+  dms:
+    businessapp: digiwf
+    username: ${DMS_USERNAME}
+    password: ${DMS_PASSWORD}
+    address: "${DMS_HOST:http://localhost}:${DMS_PORT:8191}/services/dms"
+    defaultuser: "260"
+    uiurl: ${DMS_UIURL}
+  form:
+    autodeploy: true
+    autodeployBausteine: true
+    whitelist: '^[\\w\\s\\?\\!\\#\\'
+  incident:
+    cockpiturl: ${COCKPIT_URL}
+    environment: ${DIGIWF_ENV}
+    fromaddress: itm.digiwf@muenchen.de
+    toaddress: itm.digiwf@muenchen.de
+  jsonschema:
+    autodeploy: true
+  mail:
+    defaultfromaddress: itm.digiwf@muenchen.de
+    defaultreceiveraddress: itm.digiwf-test@muenchen.de
+    overridereceivers: false
+  parkausweis:
+    url: "${PARKAUSWEIS_HOST}:${PARKAUSWEIS_PORT}/"
+  streaming:
+    engine:
+      topics: 'dwf-digiwf-engine-${DIGIWF_ENV},dwf-cocreation-${DIGIWF_ENV}'
+    cocreation:
+      deploy:
+        topic: 'dwf-cocreation-deploy-${DIGIWF_ENV}'
+    dlqtopic: 'dwf-digiwf-${DIGIWF_ENV}-dlq'
+    group: '"dwf-digiwf-engine-${DIGIWF_ENV}"'
+  s3service:
+    topic: 'dwf-s3-${DIGIWF_ENV}'
+    httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          documentStorageUrl: '${digiwf.s3service.httpAPI}'
+
+# TODO switch Swagger to Springdoc and remove this property
+# Required for the app to start (@Value in Swagger Config)
+keycloak:
+  auth-server-url: ${SSO_BASE_URL:http://localhost:8085}/auth/

@@ -1,0 +1,76 @@
+server:
+  port: '${EMAIL_INTEGRATION_SERVER_PORT:-8080}'
+spring:
+  cloud:
+    function:
+      definition: sendCorrelateMessage;functionRouter;
+    stream:
+      function:
+        routing:
+          enabled: 'true'
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-email-service"
+          destination: dwf-email-${DIGIWF_ENV}
+        sendCorrelateMessage-out-0:
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+        sendMessage-out-0:
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+  mail:
+    port: ${MAIL_PORT:1025}
+    host: ${MAIL_HOST:localhost}
+    username: ${MAIL_USERNAME:digiwf@muenchen.de}
+    password: ${MAIL_PASSWORD:test}
+    properties:
+      mail:
+        debug: false
+        tls: true
+        transport:
+          protocol: smtp
+        smtp:
+          port: ${MAIL_PORT:1025}
+          host: ${MAIL_HOST:localhost}
+          connectiontimeout: '10000'
+          timeout: '10000'
+          auth: true
+          ssl:
+            trust: '*'
+            checkserveridentity: false
+          socketFactory:
+            fallback: true
+          starttls:
+            enable: true
+io:
+  muenchendigital:
+    digiwf:
+      mail:
+        fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
+      streaming:
+        typeMappings:
+          createPresignedUrl: createPresignedUrl

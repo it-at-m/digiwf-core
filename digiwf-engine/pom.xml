@@ -11,7 +11,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.17.2-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <dependencyManagement>
@@ -45,9 +45,6 @@
     </profiles>
 
     <modules>
-        <module>digiwf-engine-next-service</module>
-        <module>digiwf-engine-core</module>
-        <module>digiwf-engine-starter</module>
         <module>digiwf-engine-service</module>
     </modules>
 

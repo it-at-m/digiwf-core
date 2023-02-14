@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.shared.file.presignedUrlAdapters;
 
-import io.muenchendigital.digiwf.service.instance.process.properties.S3Properties;
-import io.muenchendigital.digiwf.shared.exception.ConflictingResourceException;
+import io.muenchendigital.digiwf.process.instance.process.properties.S3Properties;
 import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import io.muenchendigital.digiwf.shared.exception.ConflictingResourceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class PostPresignedUrlAdapter implements PresignedUrlAdapter {
             return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, null, documentStorageUrl);
         } catch (final Exception ex) {
             log.error("Getting presigned url for uploading file {} failed: {}", pathToFile, ex);
-            if (ex.getMessage().contains(HttpStatus.CONFLICT.toString())){
+            if (ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {
                 throw new ConflictingResourceException(String.format("Getting presigned url for uploading file %s failed", pathToFile));
             }
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting presigned url for uploading file %s failed", pathToFile));

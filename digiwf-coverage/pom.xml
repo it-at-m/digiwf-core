@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.17.2-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <properties>
@@ -46,16 +46,6 @@
         </dependency>
 
         <!-- digiwf-engine -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-engine-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-engine-next-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>digiwf-engine-service</artifactId>
