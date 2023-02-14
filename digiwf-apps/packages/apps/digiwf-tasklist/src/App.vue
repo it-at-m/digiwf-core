@@ -61,6 +61,29 @@
           {{ appInfo.maintenanceInfo2 }}
         </p>
       </v-banner>
+      <v-banner
+        :value="! loggedin"
+        icon="mdi-alert"
+        color="error"
+        single-line
+        sticky
+      >
+        <template v-if="loginLoading">
+          Sie werden angemeldet...
+        </template>
+        <template v-else>
+          Sie sind aktuell nicht (mehr) angemeldet!
+        </template>
+        <template #actions>
+          <v-btn
+            text
+            :loading="loginLoading"
+            @click="login"
+          >
+            Login
+          </v-btn>
+        </template>
+      </v-banner>
       <v-container fluid>
         <v-fade-transition mode="out-in">
           <router-view/>
@@ -147,6 +170,9 @@ import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
+import UserService from "./api/UserService";
+
+const baseURL = `${process.env.VUE_APP_API_URL}`;
 
 @Component({
   components: {AppMenuList}
@@ -156,6 +182,7 @@ export default class App extends Vue {
   processInstancesCount: number | null = null;
   username = "";
   appInfo: InfoTO | null = null;
+  loginLoading = false;
 
   created(): void {
     this.loadData();

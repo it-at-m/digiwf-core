@@ -80,7 +80,7 @@ public class ServiceInstanceService {
 
         if (StringUtils.isNotBlank(processConfig.getInstanceSchemaKey())) {
             final JsonSchema jsonSchema = this.jsonSchemaService.getByKey(processConfig.getInstanceSchemaKey()).orElseThrow();
-            final Map<String, Object> data = this.serviceInstanceDataService.getVaribales(processInstanceInfo.getInstanceId(), jsonSchema);
+            final Map<String, Object> data = this.serviceInstanceDataService.getVariables(processInstanceInfo.getInstanceId(), jsonSchema);
 
             detail.setData(data);
             detail.setJsonSchema(jsonSchema.getSchemaMap());

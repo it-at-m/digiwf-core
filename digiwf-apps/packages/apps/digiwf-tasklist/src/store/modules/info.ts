@@ -1,7 +1,7 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
 import {FetchUtils, InfoRestControllerApiFactory, InfoTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
 
 export interface InfoState {
   info: InfoTO;
@@ -40,7 +40,7 @@ export default {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
 
