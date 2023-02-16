@@ -20,15 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Representing JSON with individual content.
  */
-@ApiModel(description = "Representing JSON with individual content.")
 @JsonPropertyOrder({
   DataProviderInput.JSON_PROPERTY_UID,
   DataProviderInput.JSON_PROPERTY_NAME,
@@ -67,7 +64,6 @@ public class DataProviderInput {
    * @return uid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User id (lhmObjectId) of the receiver.")
   @JsonProperty(JSON_PROPERTY_UID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -94,7 +90,6 @@ public class DataProviderInput {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "Fridolin Fröhlich", value = "The name of receiver or a part part of it.")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -121,7 +116,6 @@ public class DataProviderInput {
    * @return mail
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "tb.00cosys01@muenchen.de", value = "Email of the receiver.")
   @JsonProperty(JSON_PROPERTY_MAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -148,7 +142,6 @@ public class DataProviderInput {
    * @return org
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Office of the receiver.")
   @JsonProperty(JSON_PROPERTY_ORG)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -175,7 +168,6 @@ public class DataProviderInput {
    * @return dataPoolId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The data pool id.")
   @JsonProperty(JSON_PROPERTY_DATA_POOL_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

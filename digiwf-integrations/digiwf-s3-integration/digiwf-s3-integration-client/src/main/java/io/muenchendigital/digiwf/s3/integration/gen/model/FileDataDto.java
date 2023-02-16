@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -29,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * File data for requesting a presigned url
  */
-@ApiModel(description = "File data for requesting a presigned url")
 @JsonPropertyOrder({
   FileDataDto.JSON_PROPERTY_PATH_TO_FILE,
   FileDataDto.JSON_PROPERTY_EXPIRES_IN_MINUTES,
@@ -60,7 +57,6 @@ public class FileDataDto {
    * @return pathToFile
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PATH_TO_FILE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -88,7 +84,6 @@ public class FileDataDto {
    * @return expiresInMinutes
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_EXPIRES_IN_MINUTES)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -115,7 +110,6 @@ public class FileDataDto {
    * @return endOfLife
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_END_OF_LIFE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

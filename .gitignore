@@ -395,7 +395,8 @@ gradle-app.setting
 **/.idea/
 
 **/target/
-/digiwf-schema-registry/digiwf-schema-registry-client/.swagger-codegen-ignore
 **/pom.xml.versionsBackup
 **/application-internal.*
 /docs/node/
+
+digiwf-schema-registry/digiwf-schema-registry-client/.openapi-generator-ignore

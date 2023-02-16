@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -30,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Selected generator class and its specific options
  */
-@ApiModel(description = "Selected generator class and its specific options")
 @JsonPropertyOrder({
   Generator.JSON_PROPERTY_TYPE,
   Generator.JSON_PROPERTY_HEAD_INCLUDES
@@ -41,7 +38,7 @@ public class Generator {
   private String type;
 
   public static final String JSON_PROPERTY_HEAD_INCLUDES = "headIncludes";
-  private List<String> headIncludes = null;
+  private List<String> headIncludes = new ArrayList<>();
 
   public Generator() {
   }
@@ -57,7 +54,6 @@ public class Generator {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "de.cib.cosys.rest.DynamicJsGenerator", value = "The type of the form generator.")
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -92,7 +88,6 @@ public class Generator {
    * @return headIncludes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "[\"<script src=\\\"../../webjars/webform/postmessage.js\\\"></script>\"]", value = "Includes for head of generated html.")
   @JsonProperty(JSON_PROPERTY_HEAD_INCLUDES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -14,7 +14,6 @@
     </parent>
 
     <properties>
-        <swagger.codegen.version>3.0.33</swagger.codegen.version>
         <wiremock.version>2.32.0</wiremock.version>
     </properties>
 
@@ -43,7 +42,14 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.openapi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
 
         <dependency>
@@ -91,11 +97,9 @@
                 <!--
                     Docs:
                     https://openapi-generator.tech/docs/generators/java
-                    https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md#general-configuration-parameters
                 -->
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>${swagger.codegen.version}</version>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>schema-registry-api</id>
@@ -104,7 +108,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
-                            <language>java</language>
+                            <ignoreFileOverride>${project.basedir}/apidoc/.openapi-generator-ignore</ignoreFileOverride>
+                            <generatorName>java</generatorName>
                             <library>resttemplate</library>
                             <output>${project.basedir}</output>
 
