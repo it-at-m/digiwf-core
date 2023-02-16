@@ -17,9 +17,6 @@ import org.springframework.context.annotation.Profile;
 
 import java.util.Collections;
 
-/**
- * FIXME: Get rid of this in favor of OpenAPI definition
- */
 @Configuration
 public class SwaggerConfig {
 
@@ -39,7 +36,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         final String authUrl = String.format("%s/realms/%s/protocol/openid-connect", this.authServer, this.realm);
         return new OpenAPI()
-                .components(new Components()
+                .components(
+                    new Components()
                         .addSecuritySchemes("spring_oauth", new SecurityScheme()
                                 .type(SecurityScheme.Type.OAUTH2)
                                 .description("Oauth2 flow")
@@ -50,8 +48,7 @@ public class SwaggerConfig {
                                                 .authorizationUrl(authUrl + "/auth")
                                                 .refreshUrl(authUrl + "/token")
                                                 .tokenUrl(authUrl + "/token")
-                                                .scopes(new Scopes()
-                                                        .addString("lhm_extended", "lhm_extended")))))
+                                                .scopes(new Scopes().addString("lhm_extended", "lhm_extended")))))
                 )
                 .security(Collections.singletonList(
                         new SecurityRequirement().addList("spring_oauth")))
@@ -70,7 +67,7 @@ public class SwaggerConfig {
     @Bean
     @Profile("!prod")
     public String[] whitelist() {
-        return new String[]{
+        return new String[] {
                 // -- swagger ui
                 "/v2/api-docs",
                 "/v3/api-docs/**",

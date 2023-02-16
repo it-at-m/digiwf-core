@@ -182,4 +182,3 @@ io:
       s3:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'
-
