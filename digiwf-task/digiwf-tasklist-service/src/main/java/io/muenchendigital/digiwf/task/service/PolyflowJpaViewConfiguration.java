@@ -55,18 +55,20 @@ public class PolyflowJpaViewConfiguration {
 
 
     @Bean
-    @Primary
     @Qualifier(FallbackPayloadObjectMapperAutoConfiguration.PAYLOAD_OBJECT_MAPPER)
     public ObjectMapper payloadObjectMapper() {
         return PolyflowObjectMapper.DEFAULT;
     }
 
-    @Bean
+    /**
+     * Provides an objectmapper for Axon message serialization.
+     * @return objectmapper.
+     */
+    @Bean("defaultAxonObjectMapper")
     @Qualifier("defaultAxonObjectMapper")
     public ObjectMapper defaultAxonObjectMapper() {
         return PolyflowObjectMapper.DEFAULT;
     }
-
 
     /**
      * We will receive events via Kafka, so no event storage is available in this component.
