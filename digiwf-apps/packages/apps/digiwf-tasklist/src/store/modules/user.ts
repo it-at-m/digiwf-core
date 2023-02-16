@@ -52,8 +52,5 @@ export default {
         FetchUtils.defaultCatchHandler(error, "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     },
-    setUser(context: ActionContext<UserState, RootState>, payload: UserTO): void {
-      context.commit("setUser", payload);
-    }
   }
 };

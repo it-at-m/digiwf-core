@@ -62,7 +62,7 @@
         </p>
       </v-banner>
       <v-banner
-        :value="! loggedin"
+        :value="!loggedin()"
         icon="mdi-alert"
         color="error"
         single-line
@@ -172,7 +172,7 @@ import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-in
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import UserService from "./api/UserService";
 
-const baseURL = `${process.env.VUE_APP_API_URL}`;
+const baseURL = `${import.meta.env.VITE_VUE_APP_API_URL}`;
 
 @Component({
   components: {AppMenuList}
@@ -193,7 +193,16 @@ export default class App extends Vue {
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
+    UserService.getUser();
   }
+
+  getUser():void {
+    this.loginLoading = true;
+    UserService.getUser();
+    this.loadData();
+    this.loginLoading = false;
+  }
+
 
   @Watch("$store.state.menu.open")
   onMenuChanged(menuOpen: boolean): void {
@@ -213,6 +222,25 @@ export default class App extends Vue {
   @Watch("$store.state.info.info")
   setAppInfo(info: InfoTO): void {
     this.appInfo = info;
+  }
+
+  login(): void {
+    let popup = window.open(baseURL + "/loginsuccess.html");
+
+    popup?.focus();
+
+    let timer = setInterval(() => {
+      if (popup?.closed ?? true) {
+        clearInterval(timer);
+        this.getUser();
+      }
+    }, 1000);
+  }
+
+  // überprüft, ob man eingeloggt ist.
+  loggedin(): boolean {
+    //return this.$store.state.user.info != undefined;
+    return false;
   }
 }
 </script>
