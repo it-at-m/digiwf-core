@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Profile;
 import java.util.Collections;
 
 /**
- *
+ * FIXME: Get rid of this in favor of OpenAPI definition
  */
 @Configuration
 public class SwaggerConfig {
@@ -30,8 +30,7 @@ public class SwaggerConfig {
     private String buildVersion;
 
     @Autowired
-    public SwaggerConfig(@Value("${keycloak.auth-server-url}") final String authServer,
-                         @Value("${realm}") final String realm) {
+    public SwaggerConfig(@Value("${SSO_BASE_URL}") final String authServer, @Value("${SSO_REALM}") final String realm) {
         this.authServer = authServer;
         this.realm = realm;
     }
