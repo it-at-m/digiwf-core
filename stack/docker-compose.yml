@@ -70,6 +70,8 @@ services:
 
   digiwf-gateway:
     image: itatm/digiwf-gateway:dev
+    env_file:
+      - local-docker.env
     ports:
       - "8082:8082"
     environment:
