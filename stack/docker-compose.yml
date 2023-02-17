@@ -46,6 +46,18 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE_DLQ} --replication-factor 1 --partitions 1
       
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_DLQ} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_INCIDENT} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_BPMNERROR} --replication-factor 1 --partitions 1
+      
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_EMAIL_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_CLIENT_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_COSYS_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1  
+
       echo -e 'Resulting topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
       "
