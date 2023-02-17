@@ -1,0 +1,21 @@
+id: johndoe
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addUser:
+      name: johndoe
+      lastName: Doe
+      firstName: John
+      enabled: true
+      emailVerified: true
+      email: john.doe@example.com
+      groups:
+        - group1
+      attributes:
+        user_name:
+          - externer.john.doe
+        lhmObjectID:
+          - 123456789
+  - updateUserPassword:
+      name: johndoe
+      password: "test"

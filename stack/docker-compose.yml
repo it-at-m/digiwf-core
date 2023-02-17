@@ -1,5 +1,5 @@
 # Use this only in dev environments. It's not intended for production usage.
-version: '3'
+version: '3.9'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -22,6 +22,33 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    env_file:
+      - local-docker.env
+    entrypoint: [ '/bin/bash', '-c' ]
+    command: |
+      "      
+      # blocks until kafka is reachable
+      echo -e 'Currently available topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      
+      echo -e 'Creating kafka topics...'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_TASKS} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_DATA_ENTRIES} --replication-factor 1 --partitions 1
+
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION_DEPLOY} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION} --replication-factor 1 --partitions 1
+
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE_DLQ} --replication-factor 1 --partitions 1
+      
+      echo -e 'Resulting topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
 
   minio:
     image: quay.io/minio/minio:latest
@@ -64,10 +91,85 @@ services:
     profiles:
       - tasklist
 
-  # enable the tasklist with --profile tasklist if you don't want to run it locally
+  # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8081
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
     ports:
       - "8091:8080"
     profiles:
       - tasklist
+
+  #
+  # Local keycloak. To work properly, you need to change your local hosts file and add an alias to your
+  # `127.0.0.1 localhost` line to look like this: `127.0.0.1 localhost keycloak`.
+  # On Mac/Linux it is located in `/etc/hosts` on Win `C:\Windows\System32\Drivers\etc\hosts`
+  #
+  keycloak:
+    container_name: digiwf-keycloak
+    image: ${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:20.0.3}
+    depends_on:
+      - postgres-keycloak
+    ports:
+      - '8080:8080'
+    command: 'start-dev --http-relative-path /auth'
+    environment:
+      KC_HOSTNAME: keycloak # this hostname must be resolved to 127.0.0.1 locally. Add it to your hosts file.
+      KC_HOSTNAME_STRICT: 'false'
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
+      KC_DB_USERNAME: keycloak-user
+      KC_DB_PASSWORD: keycloak-secret
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - local-keycloak
+
+  init-keycloak:
+    image: klg71/keycloakmigration
+    depends_on:
+      - keycloak
+    env_file:
+      - './local-docker.env'
+    environment:
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: admin
+      BASEURL: http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
+      WAIT_FOR_KEYCLOAK: 'true'
+      KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
+    volumes:
+      - './keycloak:/migration'
+    networks:
+      - local-keycloak
+
+  postgres-engine:
+    image: postgres:13.2
+    container_name: digiwf-postgres-engine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: enginedb
+    ports:
+      - '25433:5432'
+
+  postgres-tasklist:
+    image: postgres:13.2
+    container_name: digiwf-postgres-tasklist
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: tasklistdb
+    ports:
+      - '25432:5432'
+
+  postgres-keycloak:
+    image: postgres:13.2
+    container_name: digiwf-postgres-keycloak
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak-user
+      POSTGRES_PASSWORD: keycloak-secret
+    networks:
+      - local-keycloak
+
+networks:
+  local-keycloak:

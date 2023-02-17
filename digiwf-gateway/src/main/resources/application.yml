@@ -14,6 +14,16 @@ spring:
     sleuth:
       reactor:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+        registration:
+          keycloak:
+            client-id: ${SSO_ENGINE_CLIENT_ID}
+            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
 
 server:
   port: 8082

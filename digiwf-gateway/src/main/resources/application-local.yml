@@ -1,10 +1,4 @@
-server:
-  port: 8082
 spring:
-
-  # Define the local keycloak realm here
-  realm: P82
-
   # spring cloud gateway config
   cloud:
     gateway:
@@ -18,6 +12,8 @@ spring:
             allowedOrigins:
               - "http://localhost:8081"
               - "http://127.0.0.1:8081"
+              - "http://172.17.0.1"
+              - "http://host.docker.internal"
             allowedMethods: "*"
             allowedHeaders: "*"
             allowCredentials: true
@@ -25,11 +21,12 @@ spring:
       routes:
 
         - id: sso
-          uri: https://ssodev.muenchen.de/
+          uri: ${SSO_BASE_URL}
           predicates:
             - Path=/api/sso/userinfo
           filters:
-            - RewritePath=/api/sso/userinfo, /auth/realms/${spring.realm}/protocol/openid-connect/userinfo
+            - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
+
         - id: backend
           uri: http://localhost:39146/
           predicates:
@@ -37,6 +34,7 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend
           uri: http://localhost:8081/
           predicates:
@@ -46,18 +44,6 @@ spring:
         - RemoveRequestHeader=cookie
         - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
-
-  # security config
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri:
-        registration:
-          keycloak:
-            client-id:
-            client-secret:
 
   mvc:
     log-request-details: on
