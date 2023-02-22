@@ -2,8 +2,7 @@ import {FetchUtils, UserTO} from '@muenchen/digiwf-engine-api-internal';
 
 export default class UserService {
   //TODO wenn aufs neue API-Gateway umgestellt wird, hier auch den Endpoint umstellen
-  private static base: string | undefined =
-    import.meta.env.VITE_VUE_APP_API_URL + "api/sso/userinfo/";
+  private static base: string | undefined = "/api/sso/userinfo/";
 
   /**
    * Holt die Userdaten von der URL base.

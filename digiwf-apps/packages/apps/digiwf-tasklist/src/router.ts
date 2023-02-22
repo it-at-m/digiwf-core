@@ -30,6 +30,7 @@ routerMethods.forEach((method: string) => {
 });
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+console.log("import.meta.env.BASE_URL", import.meta.env.BASE_URL)
 
 const router = new Router({
   base: import.meta.env.BASE_URL,

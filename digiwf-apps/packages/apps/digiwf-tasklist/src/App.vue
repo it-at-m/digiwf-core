@@ -172,8 +172,6 @@ import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-in
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import UserService from "./api/UserService";
 
-const baseURL = `${import.meta.env.VITE_VUE_APP_API_URL}`;
-
 @Component({
   components: {AppMenuList}
 })
@@ -225,7 +223,7 @@ export default class App extends Vue {
   }
 
   login(): void {
-    let popup = window.open(baseURL + "/loginsuccess.html");
+    let popup = window.open("/loginsuccess.html");
 
     popup?.focus();
 
