@@ -90,7 +90,7 @@ services:
       - internal
 
   digiwf-gateway:
-    image: local-api-gateway
+    image: local-api-gateway:latest
     env_file:
       - local-docker.env
     ports:
