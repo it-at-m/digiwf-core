@@ -1,7 +1,9 @@
+info:
+  application:
+    name: ${spring.application.name}
 spring:
   application:
     name: DigiWF ApiGateway
-  banner.location: banner.txt
   main:
     web-application-type: reactive
   jackson:
@@ -24,9 +26,11 @@ spring:
           keycloak:
             client-id: ${SSO_ENGINE_CLIENT_ID}
             client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
+            provider: keycloak
 
 server:
-  port: 8082
+  port: ${GATEWAY_SERVER_PORT:8082}
   error:
     include-exception: false
     include-stacktrace: never
@@ -65,4 +69,4 @@ management:
   info:
     env:
       enabled: true
-info.application.name: ${spring.application.name}
+
