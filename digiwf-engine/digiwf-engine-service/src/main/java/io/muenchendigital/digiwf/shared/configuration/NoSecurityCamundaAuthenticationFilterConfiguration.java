@@ -26,7 +26,7 @@ import java.io.IOException;
 @Configuration
 @Profile("no-security")
 @RequiredArgsConstructor
-public class NoSecurityCamundaConfig {
+public class NoSecurityCamundaAuthenticationFilterConfiguration {
 
     private final IdentityService identityService;
     private final UserService userService;

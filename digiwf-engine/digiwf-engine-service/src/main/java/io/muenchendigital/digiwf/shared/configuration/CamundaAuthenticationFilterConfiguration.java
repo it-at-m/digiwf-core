@@ -20,14 +20,13 @@ import java.io.IOException;
 
 /**
  * Camunda Security configuration.
- * Adds the corresponding filter.
- *
- * @author externer.dl.horn
+ * Adds the filter retrieving currently logged-in user and setting Camunda authorization to it for all REST requests.
  */
 @Configuration
-@Profile("!no-security")
 @RequiredArgsConstructor
-public class SecurityCamundaConfig {
+@Profile("!no-security")
+@Slf4j
+public class CamundaAuthenticationFilterConfiguration {
 
     private final IdentityService identityService;
     private final UserAuthenticationProvider userProvider;
@@ -47,7 +46,6 @@ public class SecurityCamundaConfig {
      * This information is used for restrict access to resources.
      */
     @RequiredArgsConstructor
-    @Slf4j
     class CamundaUserAuthenticationFilter implements Filter {
 
         @Override
@@ -59,10 +57,10 @@ public class SecurityCamundaConfig {
                 if (user.isPresent()) {
                     val groups = userService.getGroups(user.get().getLhmObjectId());
                     identityService.setAuthentication(user.get().getLhmObjectId(), groups);
-                    log.info("Accessing {} [ {} ]", username, groups);
+                    log.debug("Accessing {} [ {} ]", username, groups);
                 } else {
                     identityService.setAuthentication(username, null);
-                    log.info("Accessing {}", username);
+                    log.debug("Accessing {}", username);
                 }
                 chain.doFilter(request, response);
             } finally {

@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,22 +36,25 @@ public class CachingConfiguration {
         return Ticker.systemTicker();
     }
 
-    /**
-     * The config to provide a cache for method {@link CustomUserInfoTokenServices#loadAuthentication(String)}.
-     *
-     * @param ticker The time source for the cache.
-     * @return The cache.
-     */
-    @Bean
-    @Profile("!no-security")
-    public Cache authenticationCache(final Ticker ticker) {
-        return new CaffeineCache(CustomUserInfoTokenServices.NAME_AUTHENTICATION_CACHE,
-                Caffeine.newBuilder()
-                        .expireAfterWrite(AUTHENTICATION_CACHE_EXPIRATION_TIME_SECONDS, TimeUnit.SECONDS)
-                        .ticker(ticker)
-                        .build()
-        );
-    }
+// TODO: Simon Zambrovski, I disabled the cache for token checks. Let not code this by hand by use Spring mechanism if this is required. This comment should be deleted after speaking with Dominik.
+//    /**
+//     * The config to provide a cache for method {@link CustomUserInfoTokenServices#loadAuthentication(String)}.
+//     *
+//     * @param ticker The time source for the cache.
+//     * @return The cache.
+//     */
+//    @Bean
+//    @Profile("!no-security")
+//    public Cache authenticationCache(final Ticker ticker) {
+//        return new CaffeineCache(CustomUserInfoTokenServices.NAME_AUTHENTICATION_CACHE,
+//                Caffeine.newBuilder()
+//                        .expireAfterWrite(AUTHENTICATION_CACHE_EXPIRATION_TIME_SECONDS, TimeUnit.SECONDS)
+//                        .ticker(ticker)
+//                        .build()
+//        );
+//    }
+
+
     //
     //    /**
     //     * The config to provide a cache for repo {@link TheEntityRepository}.

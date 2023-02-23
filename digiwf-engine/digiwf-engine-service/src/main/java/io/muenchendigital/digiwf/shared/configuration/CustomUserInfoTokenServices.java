@@ -4,10 +4,10 @@
 package io.muenchendigital.digiwf.shared.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+//import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.cache.annotation.EnableCaching;
+//import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
  * This class extends the class {@link UserInfoTokenServices} by the caching functionality for the method
@@ -19,26 +19,31 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
  * the caching functionality is not available. The above mentioned annotation is defined
  * in class {@link CachingConfiguration}.
  */
+
+// TODO: Simon Zambrovski, this class should be deleted after clarification with Dominik.
+// I believe we don't need any additional token cache.
 @Slf4j
-public class CustomUserInfoTokenServices extends UserInfoTokenServices {
-
-    public static final String NAME_AUTHENTICATION_CACHE = "authentication_cache";
-
-    public CustomUserInfoTokenServices(final String userInfoEndpointUrl, final String clientId) {
-        super(userInfoEndpointUrl, clientId);
-    }
-
-    /**
-     * The method is caching the authentication using the access token given in the parameter as a key.
-     *
-     * @param accessToken The access token.
-     * @return The {@link OAuth2Authentication} according the access token given in the parameter.
-     */
-    @Override
-    @Cacheable(NAME_AUTHENTICATION_CACHE)
-    public OAuth2Authentication loadAuthentication(final String accessToken) {
-        log.debug("Loading and caching OAuth2Authentication");
-        return super.loadAuthentication(accessToken);
-    }
+public class CustomUserInfoTokenServices
+        // extends UserInfoTokenServices
+{
+//
+//    public static final String NAME_AUTHENTICATION_CACHE = "authentication_cache";
+//
+//    public CustomUserInfoTokenServices(final String userInfoEndpointUrl, final String clientId) {
+//        super(userInfoEndpointUrl, clientId);
+//    }
+//
+//    /**
+//     * The method is caching the authentication using the access token given in the parameter as a key.
+//     *
+//     * @param accessToken The access token.
+//     * @return The {@link OAuth2Authentication} according the access token given in the parameter.
+//     */
+//    @Override
+//    @Cacheable(NAME_AUTHENTICATION_CACHE)
+//    public OAuth2Authentication loadAuthentication(final String accessToken) {
+//        log.debug("Loading and caching OAuth2Authentication");
+//        return super.loadAuthentication(accessToken);
+//    }
 
 }
