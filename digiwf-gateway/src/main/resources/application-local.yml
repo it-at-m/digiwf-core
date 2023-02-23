@@ -1,5 +1,4 @@
 spring:
-  # spring cloud gateway config
   cloud:
     gateway:
       actuator:
@@ -7,7 +6,7 @@ spring:
           enabled: false
       globalcors:
         corsConfigurations:
-          # The cors configuration to allow frontend developers cross origin request via this api gateway
+          # The cors configuration to allow frontend developers cross-origin request via this api gateway
           '[/**]':
             allowedOrigins:
               - "http://localhost:8081"
@@ -31,7 +30,7 @@ spring:
             - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
 
         - id: backend
-          uri: http://localhost:39146/
+          uri: http://localhost:${ENGINE_SERVER_PORT}/
           predicates:
             - Path=/api/digitalwf-backend-service/rest/**
           filters:
@@ -40,6 +39,19 @@ spring:
 
         - id: frontend
           uri: http://localhost:8081/
+          predicates:
+            - Path=/**
+
+        - id: backend-dockerized
+          uri: http://host.docker.internal:${ENGINE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-backend-service/**
+          filters:
+            - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: frontend-dockerized
+          uri: http://digiwf-tasklist:8080/
           predicates:
             - Path=/**
       default-filters:
