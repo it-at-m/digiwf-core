@@ -10,6 +10,6 @@ spring:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
         - id: frontend
-          uri: https://digiwf-tasklist:8080/
+          uri: http://digiwf-tasklist:8080/
           predicates:
             - Path=/**
