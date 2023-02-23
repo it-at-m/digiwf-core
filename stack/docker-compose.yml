@@ -96,8 +96,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: local,local-docker
-      SERVER_PORT: 8082
+      SPRING_PROFILES_ACTIVE: local
       LOGGING_LEVEL_ROOT: debug
 #      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORSCONFIGURATIONS_[/**]_ALLOWEDORIGINS: http://localhost:8083
 #      MANAGEMENT_ENDPOINTS_WEB_CORS_ALLOWEDORIGINS: "http://localhost:8083"
