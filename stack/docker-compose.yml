@@ -8,7 +8,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - '22181:2181'
-
+    networks:
+      - internal
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -22,6 +23,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - internal
 
   init-kafka:
     image: confluentinc/cp-kafka:latest
@@ -30,6 +33,8 @@ services:
     env_file:
       - local-docker.env
     entrypoint: [ '/bin/bash', '-c' ]
+    networks:
+      - internal
     command: |
       "      
       # blocks until kafka is reachable
@@ -73,24 +78,33 @@ services:
       - '9001:9001'
     volumes:
       - ./minio:/data
+    networks:
+      - internal
 
   mailhog:
     image: mailhog/mailhog:latest
     ports:
       - '1025:1025' # smtp server
       - '9025:8025' # ui
+    networks:
+      - internal
 
   digiwf-gateway:
-    image: itatm/digiwf-gateway:dev
+    image: local-api-gateway
     env_file:
       - local-docker.env
     ports:
       - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: local,local-docker,no-security
+      SPRING_PROFILES_ACTIVE: local,local-docker
+      SERVER_PORT: 8082
+      LOGGING_LEVEL_ROOT: debug
+#      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORSCONFIGURATIONS_[/**]_ALLOWEDORIGINS: http://localhost:8083
+#      MANAGEMENT_ENDPOINTS_WEB_CORS_ALLOWEDORIGINS: "http://localhost:8083"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
+    networks:
+      - internal
   nginx:
     image: nginx:1.23.3
     container_name: nginx
@@ -104,7 +118,8 @@ services:
       - "host.docker.internal:host-gateway"
     profiles:
       - tasklist
-
+    networks:
+      - internal
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8081
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
@@ -112,7 +127,8 @@ services:
       - "8091:8080"
     profiles:
       - tasklist
-
+    networks:
+      - internal
   #
   # Local keycloak. To work properly, you need to change your local hosts file and add an alias to your
   # `127.0.0.1 localhost` line to look like this: `127.0.0.1 localhost keycloak`.
@@ -137,6 +153,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
     networks:
       - local-keycloak
+      - internal
 
   init-keycloak:
     image: klg71/keycloakmigration
@@ -164,6 +181,8 @@ services:
       POSTGRES_DB: enginedb
     ports:
       - '25433:5432'
+    networks:
+      - internal
 
   postgres-tasklist:
     image: postgres:13.2
@@ -174,6 +193,8 @@ services:
       POSTGRES_DB: tasklistdb
     ports:
       - '25432:5432'
+    networks:
+      - internal
 
   postgres-keycloak:
     image: postgres:13.2
@@ -187,3 +208,4 @@ services:
 
 networks:
   local-keycloak:
+  internal:
