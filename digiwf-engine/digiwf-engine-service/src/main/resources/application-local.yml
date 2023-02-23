@@ -1,35 +1,14 @@
-management:
-  metrics:
-    web:
-      server:
-        request:
-          autotime:
-            percentiles: '0.9,0.95,0.98,0.99,0.999,0.9999,0.99999,1'
-    distribution:
-      slo:
-        http: 5,10,20,30,40,50,100,200,300,500
+#spring:
+#  jpa:
+#    show-sql: 'true'
+#    properties:
+#      hibernate:
+#        format_sql: 'true'
+#  h2:
+#    console:
+#      enabled: 'true'
 
-spring:
-  jpa:
-    show-sql: 'true'
-    properties:
-      hibernate:
-        format_sql: 'true'
-        hbm2ddl:
-          schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
-  h2:
-    console:
-      enabled: 'true'
-# old
-security:
-  oauth2:
-    resource:
-      prefer-token-info: 'false'
-    client:
-      client-secret: 'null'
-      client-id: digitalwf
-  logging:
-    requests: all
-server:
-  port: '39146'
-realm: P82
+#security:
+#  logging:
+#    requests: all
+
