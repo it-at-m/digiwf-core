@@ -96,7 +96,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: local
+      SPRING_PROFILES_ACTIVE: local, docker # add profile 'docker' if you want to run the engine and frontend in docker
       LOGGING_LEVEL_ROOT: debug
 #      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORSCONFIGURATIONS_[/**]_ALLOWEDORIGINS: http://localhost:8083
 #      MANAGEMENT_ENDPOINTS_WEB_CORS_ALLOWEDORIGINS: "http://localhost:8083"
