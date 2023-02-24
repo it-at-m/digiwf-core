@@ -62,7 +62,7 @@
         </p>
       </v-banner>
       <v-banner
-        :value="!loggedin()"
+        :value="!loggedin"
         icon="mdi-alert"
         color="error"
         single-line
@@ -181,9 +181,15 @@ export default class App extends Vue {
   username = "";
   appInfo: InfoTO | null = null;
   loginLoading = false;
+  loggedin = false;
 
   created(): void {
     this.loadData();
+    //this.checkIfLoggedIn();
+    setInterval(() => {
+      console.log("Check Loggin");
+      //this.checkIfLoggedIn();
+    }, 10000)
   }
 
   loadData(refresh = false): void {
@@ -192,6 +198,16 @@ export default class App extends Vue {
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
     UserService.getUser();
+  }
+
+  checkIfLoggedIn(): void {
+    UserService.getUser().then((user) => {
+      console.log(user);
+      this.loggedin = user?.authorities.length > 0;
+    }).catch(() => {
+      this.loggedin = false;
+    })
+
   }
 
   getUser():void {
@@ -236,9 +252,8 @@ export default class App extends Vue {
   }
 
   // überprüft, ob man eingeloggt ist.
-  loggedin(): boolean {
-    //return this.$store.state.user.info != undefined;
-    return false;
-  }
+  /*loggedin(): boolean {
+    return this.$store.getters["user/info"].lhmObjectId != null || this.$store.getters["user/info"].lhmObjectId != "";
+  }*/
 }
 </script>

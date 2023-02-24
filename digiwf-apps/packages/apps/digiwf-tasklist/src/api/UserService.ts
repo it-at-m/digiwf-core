@@ -1,5 +1,18 @@
 import {FetchUtils, UserTO} from '@muenchen/digiwf-engine-api-internal';
 
+interface KeycloakUserResponse {
+  "sub": string,
+  "email_verified": boolean,
+  "user_name": string,
+  "name": string,
+  "preferred_username": string,
+  "user_roles": string[],
+  "given_name": string,
+  "family_name": string,
+  "email": string,
+  "authorities": string[]
+}
+
 export default class UserService {
   //TODO wenn aufs neue API-Gateway umgestellt wird, hier auch den Endpoint umstellen
   private static base: string | undefined = "/api/sso/userinfo/";
@@ -7,7 +20,7 @@ export default class UserService {
   /**
    * Holt die Userdaten von der URL base.
    */
-  static getUser(): Promise<UserTO> {
+  static getUser(): Promise<KeycloakUserResponse> {
     return fetch(`${this.base}`, FetchUtils.getGETConfig())
       .catch(FetchUtils.defaultCatchHandler)
       .then((response) => {

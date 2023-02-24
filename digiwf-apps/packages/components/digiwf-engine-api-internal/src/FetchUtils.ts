@@ -87,6 +87,10 @@ export class FetchUtils {
    */
   static defaultResponseHandler(response: Response, errorMessage = "Es ist ein unbekannter Fehler aufgetreten."): void {
     if (!response.ok) {
+      if (response.status === 302) {
+        Vuexstore.commit("setUser", {});
+
+      }
       if (response.status === 403) {
         throw new ApiError({
           level: Levels.ERROR,
