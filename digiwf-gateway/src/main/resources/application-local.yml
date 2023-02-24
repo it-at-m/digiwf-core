@@ -30,7 +30,7 @@ spring:
             - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
 
         - id: backend
-          uri: http://localhost:${ENGINE_SERVER_PORT}/
+          uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
           predicates:
             - Path=/api/digitalwf-backend-service/rest/**
           filters:
