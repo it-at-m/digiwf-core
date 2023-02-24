@@ -21,7 +21,7 @@
         <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
-        <jai-imageio-jpeg2000.version>1.3.0</jai-imageio-jpeg2000.version>
+        <jai-imageio-jpeg2000.version>1.4.0</jai-imageio-jpeg2000.version>
     </properties>
 
     <modules>
