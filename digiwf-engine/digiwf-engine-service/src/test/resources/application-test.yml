@@ -1,4 +1,21 @@
+# overwrite envs
+engine:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    username: sa
+    password:
+    driverclassname: org.h2.Driver
+  database:
+    platform: org.hibernate.dialect.H2Dialect
+
 spring:
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      hbm2ddl:
+        schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
+      ddl-auto: create-drop
 
   # Spring data rest
   data:
@@ -8,20 +25,3 @@ spring:
       default-page-size: 0x7fffffff
       return-body-on-update: true
       return-body-on-create: true
-
-  # Spring JPA
-  h2.console.enabled: true
-  jpa:
-    database: H2
-    hibernate:
-      # always drop and create the db should be the best
-      # configuration for local (development) mode. this
-      # is also the default, that spring offers by convention.
-      # but here explicite:
-      ddl-auto: create-drop
-      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    # Logging for database operation
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true

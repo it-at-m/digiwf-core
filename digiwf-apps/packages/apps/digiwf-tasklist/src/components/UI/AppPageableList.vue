@@ -1,17 +1,19 @@
 <template>
-  <v-data-iterator
-    class="dataContainer"
-    :items="items"
-    :items-per-page.sync="itemsPerPage"
-    :page="page"
-    :no-data-text="noDataText"
-    hide-default-footer
-  >
-    <template #default="props">
-      <v-list>
-        <slot :items="props.items"/>
-      </v-list>
-    </template>
+  <div>
+    <v-data-iterator
+      class="dataContainer"
+      :items="items"
+      :items-per-page.sync="itemsPerPage"
+      :page="page"
+      :no-data-text="noDataText"
+      hide-default-footer
+    >
+      <template #default="props">
+        <v-list>
+          <slot :items="props.items"/>
+        </v-list>
+      </template>
+    </v-data-iterator>
     <AppPaginationFooter
       :found-data-text="foundDataText"
       :size="itemsPerPage"
@@ -22,9 +24,8 @@
       :next-page-button-disabled="nextPageButtonDisabled"
       :number-of-pages="numberOfPages"
       :page="page"
-      :update-items-per-page="updateItemsPerPage"
-    />
-  </v-data-iterator>
+      :update-items-per-page="updateItemsPerPage"/>
+  </div>
 </template>
 <style scoped>
 .list {
@@ -59,12 +60,13 @@ export default class AppPageableList extends Vue {
   foundDataText!: string;
 
   get numberOfPages(): number {
-    return Math.ceil(this.items.length / this.totalNumberOfItems);
+    return Math.ceil(this.items.length / this.itemsPerPage);
   }
 
   updateItemsPerPage(number: number): void {
     this.itemsPerPage = number;
   }
+
 
   nextPage(): void {
     if (this.page + 1 <= this.numberOfPages) this.page += 1;

@@ -8,7 +8,7 @@
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
 
-    <springProfile name="local,test">
+    <springProfile name="! dev | kon | prod">
 
         <!-- Log appender -->
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -20,7 +20,7 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="de.muenchen.digitalwf"
+        <logger name="digitalwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT"/>
@@ -32,20 +32,8 @@
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <logger name="org.springframework.cache"
-                level="trace"
-                additivity="false">
-            <appender-ref ref="STDOUT"/>
-        </logger>
-
         <logger name="org.springframework.web"
                 level="debug"
-                additivity="false">
-            <appender-ref ref="STDOUT"/>
-        </logger>
-
-        <logger name="de.muenchen.allgemein.nfcconverter"
-                level="info"
                 additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>

@@ -77,15 +77,6 @@
                     <td class="cell noWrap">
                       <v-flex class="d-flex justify-space-between align-center">
                         {{ formatEndTaskText(item) }}
-                        <v-btn
-                          v-if="!item.endTime && isAssigned(item.id)"
-                          icon
-                          aria-label="Aufgabe öffnen"
-                          color="primary"
-                          @click="openTask(item.id)"
-                        >
-                          <v-icon>mdi-open-in-new</v-icon>
-                        </v-btn>
                       </v-flex>
                     </td>
                   </tr>
@@ -155,7 +146,6 @@ import {DateTime} from "luxon";
 import {
   FetchUtils,
   HistoryTask,
-  HumanTaskTO,
   ServiceInstanceControllerApiFactory,
   ServiceInstanceDetailTO,
   StatusConfigTO
@@ -177,7 +167,9 @@ export default class ProcessInstanceDetailView extends Vue {
   processId!: string;
 
   @Provide('formContext')
-  get formContext(): FormContext { return {id: this.processId, type: "instance"}};
+  get formContext(): FormContext {
+    return {id: this.processId, type: "instance"}
+  };
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
@@ -222,14 +214,6 @@ export default class ProcessInstanceDetailView extends Vue {
       return DateTime.fromISO(item.endTime!).toLocaleString(DateTime.DATETIME_SHORT);
     }
     return "offen";
-  }
-
-  isAssigned(id: string): boolean {
-    let tasks: Array<HumanTaskTO> = this.$store.getters['tasks/tasks'];
-    if (tasks.find(task => task.id === id)) {
-      return true;
-    }
-    return false;
   }
 
   openTask(id: string): void {

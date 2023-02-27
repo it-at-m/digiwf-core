@@ -66,6 +66,7 @@ export const useGetPaginationData = (): PaginationData => {
         filter: newSearchQuery
       }
     });
+    setPage(0);
   }
   return {
     searchQuery,

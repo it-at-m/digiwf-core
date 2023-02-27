@@ -5,4 +5,4 @@ changes:
   - addSimpleClient:
       clientId: ${SSO_TASK_CLIENT_ID}
       redirectUris:
-        - http://localhost:38765/*
+        - http://localhost:${TASKSERVICE_SERVER_PORT}/*

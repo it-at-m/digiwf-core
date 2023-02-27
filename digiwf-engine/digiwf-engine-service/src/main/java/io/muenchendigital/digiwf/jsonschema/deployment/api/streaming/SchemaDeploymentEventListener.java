@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.jsonschema.deployment.api.streaming;
 
-import io.muenchendigital.digiwf.engine.deployment.domain.model.DeploymentStatusModel;
+import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
+import io.muenchendigital.digiwf.deployment.domain.model.DeploymentStatusModel;
 import io.muenchendigital.digiwf.jsonschema.deployment.api.mapper.SchemaDeploymentMapper;
 import io.muenchendigital.digiwf.jsonschema.deployment.api.streaming.event.SchemaDeploymentEvent;
 import io.muenchendigital.digiwf.jsonschema.deployment.domain.service.SchemaDeploymentService;
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

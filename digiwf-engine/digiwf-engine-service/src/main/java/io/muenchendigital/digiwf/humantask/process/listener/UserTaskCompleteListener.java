@@ -4,10 +4,10 @@
 
 package io.muenchendigital.digiwf.humantask.process.listener;
 
-import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.service.instance.domain.service.ServiceInstanceAuthService;
-import io.muenchendigital.digiwf.shared.security.AppAuthenticationProvider;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
+import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
+import io.muenchendigital.digiwf.process.instance.domain.service.ServiceInstanceAuthService;
+import io.muenchendigital.digiwf.shared.security.AppAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.camunda.bpm.engine.RuntimeService;

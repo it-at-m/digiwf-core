@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.cleanup.services;
 
 import io.muenchendigital.digiwf.cleanup.services.calculation.CleanupCalculator;
-import io.muenchendigital.digiwf.service.instance.infrastructure.entity.ServiceInstanceEntity;
-import io.muenchendigital.digiwf.service.instance.infrastructure.repository.ProcessInstanceInfoRepository;
+import io.muenchendigital.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
+import io.muenchendigital.digiwf.process.instance.infrastructure.repository.ProcessInstanceInfoRepository;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.junit.Before;
 import org.junit.Test;

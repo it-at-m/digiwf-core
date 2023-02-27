@@ -95,7 +95,7 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
     }
 
     private Predicate getAssignedPredicate(final String userId, final List<String> lowerCaseGroups, final CriteriaBuilder cb, final Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks) {
-        final CriteriaBuilder.In<String> inClause = cb.in(identityLinks.get("groupId"));
+        final CriteriaBuilder.In<String> inClause = cb.in(cb.lower(identityLinks.get("groupId")));
         for (final String lowerCaseGroup : lowerCaseGroups) {
             inClause.value(lowerCaseGroup);
         }
@@ -111,7 +111,7 @@ public class ActRuGroupTaskSearchRepository extends ActRuTaskCriteriaProvider {
     }
 
     private Predicate getUnAssignedPredicate(final String userId, final List<String> lowerCaseGroups, final CriteriaBuilder cb, final Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, ActRuIdentityLinkEntity> identityLinks) {
-        final CriteriaBuilder.In<String> inGroupClause = cb.in(identityLinks.get("groupId"));
+        final CriteriaBuilder.In<String> inGroupClause = cb.in(cb.lower(identityLinks.get("groupId")));
         for (final String lowerCaseGroup : lowerCaseGroups) {
             inGroupClause.value(lowerCaseGroup);
         }

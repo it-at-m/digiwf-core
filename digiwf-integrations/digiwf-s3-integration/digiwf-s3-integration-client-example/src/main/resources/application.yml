@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: "example client app"
+  banner:
+    location: banner.txt
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-s3-service"
+          destination: dwf-s3-${DIGIWF_ENV}
+        sendCorrelateMessage-out-0:
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+        sendMessage-out-0:
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+    function:
+      definition: functionRouter;sendMessage;sendCorrelateMessage;sendBpmnError;sendIncident;
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+          # It's just an example application. Security is not needed.
+          securityEnabled: false
+      streaming:
+        typeMappings:
+          correlatemessagev01: correlatemessagev01
+logging:
+  level:
+    org:
+      springframework: info
+    io:
+      muenchendigital: info

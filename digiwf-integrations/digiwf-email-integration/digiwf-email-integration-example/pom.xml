@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.2-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <artifactId>digiwf-email-integration-example</artifactId>
@@ -52,14 +52,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

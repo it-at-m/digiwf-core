@@ -21,9 +21,10 @@ public abstract class ActRuTaskCriteriaProvider {
         }).collect(Collectors.toList());
     }
     public Predicate getSearchQueryPredicates(final String searchQuery, final CriteriaBuilder cb, Root<ActRuTaskEntity> actRuTask, final Join<ActRuTaskEntity, TaskInfoEntity> taskInfo) {
-        val namePredicate = cb.like(actRuTask.get("name"), "%" + searchQuery + "%");
-        val descriptionPredicate = cb.like(taskInfo.get("description"), "%" + searchQuery + "%");
-        val definitionNamePredicate = cb.like(taskInfo.get("definitionName"), "%" + searchQuery + "%");
+        val lowerSearchTerm = searchQuery.toLowerCase();
+        val namePredicate = cb.like(cb.lower(actRuTask.get("name")), "%" + lowerSearchTerm + "%");
+        val descriptionPredicate = cb.like(cb.lower(taskInfo.get("description")), "%" + lowerSearchTerm + "%");
+        val definitionNamePredicate = cb.like(cb.lower(taskInfo.get("definitionName")), "%" + lowerSearchTerm + "%");
         return cb.or(
                 namePredicate,
                 descriptionPredicate,

@@ -56,7 +56,7 @@ create table dwf_process_instance_info
     id_                   varchar(36)  not null,
     processdefinitionkey_ varchar(255) not null,
     processname_          varchar(255) not null,
-    description_          varchar(255),
+    description_          varchar(2000),
     endtime_              timestamp,
     processinstanceid_    varchar(255),
     removaltime_          timestamp,
@@ -89,7 +89,7 @@ create table dwf_task_info
     id_             varchar(36)  not null,
     assignee_       varchar(255),
     definitionname_ varchar(255) not null,
-    description_    varchar(255),
+    description_    varchar(2000),
     instanceid_     varchar(255) not null,
     primary key (id_)
 );

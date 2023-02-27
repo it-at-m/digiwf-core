@@ -25,6 +25,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           working-directory: ./digiwf-coverage/target/coverage/
           directory: ./digiwf-coverage/target/coverage/
           fail_ci_if_error: true

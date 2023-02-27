@@ -1,0 +1,85 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            auto:
+              offset:
+                reset: latest
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+        default:
+          consumer:
+            enableDlq: 'true'
+            dlqName: ${digiwf.streaming.dlqtopic}
+      bindings:
+        deploymentStatus-out-0:
+          destination: ${digiwf.streaming.cocreation.deploy.topic}
+          producer:
+            auto-startup: 'true'
+        dynamicProducer-out-0:
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          producer:
+            auto-startup: 'true'
+        functionRouter-in-0:
+          group: ${digiwf.streaming.group}
+          destination: ${digiwf.streaming.engine.topics}
+      default:
+        consumer:
+          maxAttempts: '1'
+      default-binder: kafka
+      function:
+        routing:
+          enabled: 'true'
+    function:
+      definition: dynamicProducer;functionRouter;deploymentStatus;
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+    security:
+      protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+digiwf:
+  streaming:
+    typeMappings:
+      deployConfiguration: deployConfiguration
+      startProcessV01: startProcessV01
+      correlatemessagev01: correlateMessageV01
+      deploySchema: deploySchema
+      deploy: deploy
+    topics:
+      cocreation:
+        LOCAL: dwf-cocreation-local-01
+        TEST: dwf-cocreation-test
+        DEV: dwf-cocreation-dev
+        DEMO: dwf-cocreation-demo
+      engine:
+        LOCAL: dwf-digiwf-engine-local-01
+        DEMO: dwf-digiwf-engine-demo
+        TEST: dwf-digiwf-engine-test
+        DEV: dwf-digiwf-engine-dev
+      cocreation-deploy:
+        DEMO: dwf-cocreation-deploy-demo
+        TEST: dwf-cocreation-deploy-test
+        LOCAL: dwf-cocreation-deploy-local-01
+        DEV: dwf-cocreation-deploy-dev
+io:
+  muenchendigital:
+    digiwf:
+      docs:
+        basePackage: de.muenchen.digitalwf
+        enabled: 'true'
+        version: ${info.application.version}
+        title: ${info.application.name}
