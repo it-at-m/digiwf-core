@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>0.17.4-SNAPSHOT</version>
+        <version>0.17.4</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -83,7 +83,6 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.openapi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -187,7 +186,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
                 <executions>
                     <execution>
                         <goals>
