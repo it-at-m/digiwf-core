@@ -41,7 +41,7 @@
       clipped
       width="300"
     >
-<AppMenuList :number-of-process-instances="processInstancesCount"/>
+      <AppMenuList :number-of-process-instances="processInstancesCount"/>
     </v-navigation-drawer>
     <v-main class="main">
       <v-banner
@@ -185,11 +185,6 @@ export default class App extends Vue {
 
   created(): void {
     this.loadData();
-    //this.checkIfLoggedIn();
-    setInterval(() => {
-      console.log("Check Loggin");
-      //this.checkIfLoggedIn();
-    }, 10000)
   }
 
   loadData(refresh = false): void {
@@ -197,26 +192,13 @@ export default class App extends Vue {
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
-    UserService.getUser();
   }
 
-  checkIfLoggedIn(): void {
-    UserService.getUser().then((user) => {
-      console.log(user);
-      this.loggedin = user?.authorities.length > 0;
-    }).catch(() => {
-      this.loggedin = false;
-    })
-
-  }
-
-  getUser():void {
+  getUser(): void {
     this.loginLoading = true;
-    UserService.getUser();
-    this.loadData();
+    this.$store.dispatch("user/getUserInfo", true);
     this.loginLoading = false;
   }
-
 
   @Watch("$store.state.menu.open")
   onMenuChanged(menuOpen: boolean): void {
@@ -226,6 +208,8 @@ export default class App extends Vue {
   @Watch("$store.state.user.info")
   setUserName(user: UserTO): void {
     this.username = user.forename + " " + user.surname;
+    // if session is not valid, user is updated to an empty object in redux store
+    this.loggedin = !!user.username
   }
 
   @Watch("$store.state.processInstances.processInstances")
@@ -239,10 +223,10 @@ export default class App extends Vue {
   }
 
   login(): void {
-    let popup = window.open("/loginsuccess.html");
+    // FIXME: build switch case between dev and prod. dev: http://localhost:8082/loginsuccess.html, prod: /loginsuccess.html
+    let popup = window.open("http://localhost:8082/loginsuccess.html");
 
     popup?.focus();
-
     let timer = setInterval(() => {
       if (popup?.closed ?? true) {
         clearInterval(timer);
@@ -250,10 +234,5 @@ export default class App extends Vue {
       }
     }, 1000);
   }
-
-  // überprüft, ob man eingeloggt ist.
-  /*loggedin(): boolean {
-    return this.$store.getters["user/info"].lhmObjectId != null || this.$store.getters["user/info"].lhmObjectId != "";
-  }*/
 }
 </script>

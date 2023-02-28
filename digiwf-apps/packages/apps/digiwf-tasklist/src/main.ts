@@ -15,6 +15,9 @@ import './plugins/vjsf';
 import './plugins/digiwf-forms';
 import {VueQueryPlugin} from "@tanstack/vue-query";
 import {queryClient} from "./middleware/queryClient";
+import {initStatusCodeHandling} from "./api/statusCodeHandling";
+
+initStatusCodeHandling();
 
 Vue.config.productionTip = false;
 
