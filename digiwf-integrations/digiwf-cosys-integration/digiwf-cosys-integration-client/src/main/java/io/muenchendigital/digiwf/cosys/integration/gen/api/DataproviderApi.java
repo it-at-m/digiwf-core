@@ -109,7 +109,7 @@ public class DataproviderApi {
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "accessTokenSecurityDefintion", "basicAuthSecurityDefintion" };
+        String[] localVarAuthNames = new String[] { "basicAuthSecurityDefintion", "accessTokenSecurityDefintion" };
 
         ParameterizedTypeReference<Object> localVarReturnType = new ParameterizedTypeReference<Object>() {};
         return apiClient.invokeAPI("/dataprovider/{guid}", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);

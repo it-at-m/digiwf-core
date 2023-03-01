@@ -105,7 +105,7 @@ public class DefaultApi {
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "accessTokenSecurityDefintion", "basicAuthSecurityDefintion" };
+        String[] localVarAuthNames = new String[] { "basicAuthSecurityDefintion", "accessTokenSecurityDefintion" };
 
         ParameterizedTypeReference<Object> localVarReturnType = new ParameterizedTypeReference<Object>() {};
         return apiClient.invokeAPI("/analyseTemplate/{guid}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
@@ -456,7 +456,7 @@ public class DefaultApi {
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "accessTokenSecurityDefintion", "basicAuthSecurityDefintion" };
+        String[] localVarAuthNames = new String[] { "basicAuthSecurityDefintion", "accessTokenSecurityDefintion" };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/guidByTemplateId", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
@@ -566,7 +566,7 @@ public class DefaultApi {
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "accessTokenSecurityDefintion", "basicAuthSecurityDefintion" };
+        String[] localVarAuthNames = new String[] { "basicAuthSecurityDefintion", "accessTokenSecurityDefintion" };
 
         ParameterizedTypeReference<SearchResult> localVarReturnType = new ParameterizedTypeReference<SearchResult>() {};
         return apiClient.invokeAPI("/searchTemplates", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
