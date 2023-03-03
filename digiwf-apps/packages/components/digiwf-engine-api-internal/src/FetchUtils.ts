@@ -84,12 +84,12 @@ export class FetchUtils {
    *
    * @param response Die response aus fetch-Befehl die geprüft werden soll.
    * @param errorMessage Die Fehlermeldung, welche bei einem HTTP-Code != 2xx angezeigt werden soll.
+   * @param statusCodeSpecificHandler
    */
-  static defaultResponseHandler(response: Response, errorMessage = "Es ist ein unbekannter Fehler aufgetreten."): void {
+  static defaultResponseHandler(response: Response, errorMessage = "Es ist ein unbekannter Fehler aufgetreten.", statusCodeSpecificHandler?: HttpSpecificCallbackFunction<Response>): void {
     if (!response.ok) {
-      if (response.status === 302) {
-        Vuexstore.commit("setUser", {});
-
+      if(statusCodeSpecificHandler && statusCodeSpecificHandler[response.status]) {
+        statusCodeSpecificHandler[response.status]!!(response)
       }
       if (response.status === 403) {
         throw new ApiError({
@@ -168,4 +168,8 @@ export class FetchUtils {
     return (help ? help.pop() : '') as string;
   }
 
+}
+
+export interface HttpSpecificCallbackFunction<T> {
+  readonly [key: number]: ((response: T) => void) | undefined;
 }

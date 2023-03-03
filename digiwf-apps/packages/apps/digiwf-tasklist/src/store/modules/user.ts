@@ -40,7 +40,6 @@ export default {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
-      //const user = await UserService.userInfo();
       const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
@@ -52,5 +51,8 @@ export default {
         FetchUtils.defaultCatchHandler(error, "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     },
+    setUser({commit}: any, payload: any) {
+      commit("setUser", payload);
+    }
   }
 };

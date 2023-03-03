@@ -1,4 +1,5 @@
-import {FetchUtils, UserTO} from '@muenchen/digiwf-engine-api-internal';
+import {FetchUtils} from '@muenchen/digiwf-engine-api-internal';
+import {statusCodeHandler} from "./statusCodeHandling";
 
 interface KeycloakUserResponse {
   "sub": string,
@@ -26,7 +27,8 @@ export default class UserService {
       .then((response) => {
         FetchUtils.defaultResponseHandler(
           response,
-          `Beim laden des Users ist ein Fehler aufgetreten.`
+          `Beim laden des Users ist ein Fehler aufgetreten.`,
+            statusCodeHandler
         );
         return new Promise((resolve) => resolve(response.json()));
       });
