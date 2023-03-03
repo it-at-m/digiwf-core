@@ -25,6 +25,9 @@ polyflow:
           enabled: true
           enricher:
             type: processVariables
+          importer:
+            enabled: true
+            task-filter-type: eventstore
     sender:
       enabled: true
       task:

@@ -15,9 +15,12 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * Tasks API delegate calling the Polyflow task query adapter.
+ */
 @Component
 @RequiredArgsConstructor
-public class TaskApiDelegateImpl implements TasksApiDelegate {
+public class TasksApiDelegateImpl implements TasksApiDelegate {
 
     private final TaskMapper taskMapper;
     private final TaskQueryAdapter taskQueryAdapter;
@@ -42,7 +45,7 @@ public class TaskApiDelegateImpl implements TasksApiDelegate {
 
 
     private PageOfTasksTO toPageOfTasks(Integer page, Integer size, Boolean sortRequested, TaskQueryResult result) {
-        var totalPages = result.getTotalElementCount() / size;
+        var totalPages = Double.valueOf(Math.ceil(result.getTotalElementCount() / size.doubleValue())).intValue();
         var tasks = result.getElements().stream().map(taskMapper::to).collect(Collectors.toList());
         var empty = result.getTotalElementCount() == 0;
         return new PageOfTasksTO()
@@ -64,7 +67,7 @@ public class TaskApiDelegateImpl implements TasksApiDelegate {
                 .totalPages(totalPages)
                 .totalElements(result.getTotalElementCount())
                 .empty(empty)
-                .first(page == 1)
+                .first(page == 0)
                 .last(page == totalPages - 1);
     }
 }

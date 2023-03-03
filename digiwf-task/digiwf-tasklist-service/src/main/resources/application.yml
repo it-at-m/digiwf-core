@@ -20,6 +20,25 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${SSO_ISSUER_URL}
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-name-attribute: lhmObjectID
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ${SSO_ENGINE_CLIENT_ID}
+            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
+
+feign:
+  client:
+    config:
+      default:
+        url: "http://localhost:${ENGINE_SERVER_PORT}/engine-rest/"
+
+
 
 axon:
   serializer:
@@ -69,3 +88,4 @@ logging:
     org.apache.kafka.clients.consumer.ConsumerConfig: WARN
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
+    org.camunda.community.rest.client.api: DEBUG

@@ -25,7 +25,7 @@
         <ojdbc8.version>12.2.0.1</ojdbc8.version>
         <cxf.version>3.3.6</cxf.version>
         <jaxws.version>2.3.0</jaxws.version>
-        <postgresql.version>42.5.0</postgresql.version>
+        <postgresql.version>42.5.1</postgresql.version>
     </properties>
 
     <dependencies>

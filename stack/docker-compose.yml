@@ -96,7 +96,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: local #, docker # add profile 'docker' if you want to run the engine and frontend in docker
+      SPRING_PROFILES_ACTIVE: local, docker # add profile 'docker' if you want to run the engine and frontend in docker
       LOGGING_LEVEL_ROOT: debug
       ENGINE_SERVER_HOST: "host.docker.internal" # only required if you want to run the engine as Jar on your host machine
     extra_hosts:

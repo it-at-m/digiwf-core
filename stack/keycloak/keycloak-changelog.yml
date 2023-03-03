@@ -5,3 +5,4 @@ includes:
   - path: 03_task-management.yml
   - path: 04_engine.yml
   - path: 05_engine_protocol_mapper.yml
+  - path: 06_task-management_protocol_mapper.yml

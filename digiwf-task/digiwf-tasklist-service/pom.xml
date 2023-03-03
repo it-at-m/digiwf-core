@@ -13,6 +13,7 @@
     <packaging>jar</packaging>
     <properties>
         <rest.base-package-name>io.muenchendigital.digiwf.task.service.rest</rest.base-package-name>
+        <camunda-platform-7-rest-client.version>7.18.0</camunda-platform-7-rest-client.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,13 @@
         <dependency>
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-view-api-client</artifactId>
+        </dependency>
+
+        <!-- Camunda REST Client -->
+        <dependency>
+            <groupId>org.camunda.community.rest</groupId>
+            <artifactId>camunda-platform-7-rest-client-spring-boot-starter</artifactId>
+            <version>${camunda-platform-7-rest-client.version}</version>
         </dependency>
 
         <!-- Starters -->

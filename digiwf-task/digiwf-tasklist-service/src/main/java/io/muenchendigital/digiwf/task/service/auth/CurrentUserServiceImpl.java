@@ -29,7 +29,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
         if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
             var jwt = (Jwt) authentication.getPrincipal();
             var authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-            return new User((String) jwt.getClaims().get("sub"), Sets.newHashSet(authorities));
+            return new User((String) jwt.getClaims().get("lhmObjectID"), Sets.newHashSet(authorities));
         } else {
             throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
         }
