@@ -2,7 +2,6 @@ package io.muenchendigital.digiwf.task.service.auth;
 
 import com.google.common.collect.Sets;
 import io.holunda.polyflow.view.auth.User;
-import io.muenchendigital.digiwf.task.service.rest.GrantedAuthoritiesConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -15,14 +14,12 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 /**
- * Retrieves current user.
+ * Service to resolve currently logged-in user.
  */
 @Component
 @RequiredArgsConstructor
 public class CurrentUserServiceImpl implements CurrentUserService {
-
-    private final GrantedAuthoritiesConverter grantedAuthoritiesConverter;
-
+    
     @Override
     public User getCurrentUser() {
         var authentication = getCurrentAuth();
