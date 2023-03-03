@@ -1,3 +1,5 @@
-# Technischer Setup
+# Technisches Setup
 
 tbd.
+
+hier local stack beschreiben
