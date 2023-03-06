@@ -171,6 +171,8 @@ import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import UserService from "./api/UserService";
+import {apiGatewayUrl} from "./utils/envVariables";
+import {queryClient} from "./middleware/queryClient";
 
 @Component({
   components: {AppMenuList}
@@ -223,14 +225,14 @@ export default class App extends Vue {
   }
 
   login(): void {
-    // FIXME: build switch case between dev and prod. dev: http://localhost:8082/loginsuccess.html, prod: /loginsuccess.html
-    let popup = window.open("http://localhost:8082/loginsuccess.html");
+    let popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
 
     popup?.focus();
     let timer = setInterval(() => {
       if (popup?.closed ?? true) {
         clearInterval(timer);
         this.getUser();
+        queryClient.refetchQueries();
       }
     }, 1000);
   }
