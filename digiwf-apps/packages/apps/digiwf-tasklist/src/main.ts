@@ -10,6 +10,7 @@ import VUserInput from "@/components/schema/VUserInput.vue";
 import VMultiUserInput from "@/components/schema/VMultiUserInput.vue";
 import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
 import {DwfMultiFileInput} from "@muenchen/digiwf-multi-file-input";
+import {DwfDateInput} from "@muenchen/digiwf-date-input";
 import Vue2PdfEmbed from 'vue-pdf-embed/dist/vue2-pdf-embed.js';
 import './plugins/vjsf';
 import './plugins/digiwf-forms';
@@ -37,6 +38,7 @@ Vue.component('VMultiUserInput', VMultiUserInput);
 Vue.component('DwfFormRenderer', DwfFormRenderer);
 Vue.component('DwfMultiFileInput', DwfMultiFileInput);
 Vue.component('Vue2PdfEmbed', Vue2PdfEmbed);
+Vue.component('DwfDateInput', DwfDateInput);
 
 // highlight filter
 Vue.filter('highlight', function (words: any, query: any) {

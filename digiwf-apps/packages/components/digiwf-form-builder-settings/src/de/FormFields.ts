@@ -363,8 +363,8 @@ const dateSchema = {
       ...basicAttributes,
       properties: {
         ...basicAttributes.properties,
-        "format": {
-          "const": "date"
+        "x-display": {
+          "const": "custom-date-input"
         },
         "default": {
           "type": "string",
