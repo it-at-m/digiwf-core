@@ -286,6 +286,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers</artifactId>
+            <version>${tika.version}</version>
+        </dependency>
 
         <dependency> <!-- javax.jws.WebMethod -->
             <groupId>javax.jws</groupId>
