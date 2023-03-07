@@ -6,6 +6,7 @@
     :dense="dense"
     :outlined="outlined"
     :disabled="readOnly"
+    :rules="rules"
     @change="onChange"
     >
     <template #append-outer>
@@ -32,18 +33,13 @@ export default defineComponent ({
   setup({schema, on}){
     const {title: label, readOnly, description, default: defaultValue} = schema;
     const {dense, outlined} = schema['x-props'];
-    let rules;
+    let rules: any[] = [];
 
-    //rules um die Pattern erweiter
-    if(!!schema?.pattern){
-      schema.pattern;
+    if(!!schema['x-rules']?.includes('required')){
+      rules.push((v: string) => !!v || 'Dieses Feld ist ein Pflichtfeld');
     }
-    if(!!schema?.required){
-      schema.required;
-    }
-    //const {required} = schema['x-rules'];
+
     console.log(schema);
-    console.log(label);
     const dateValue = ref(defaultValue);
 
     const onChange = () => {
