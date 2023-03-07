@@ -38,15 +38,17 @@ import java.util.Optional;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 import static org.mockito.Mockito.*;
 
-@Deployment(resources = { "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn" })
+@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn", "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegenV02S3.bpmn"})
 public class VorgangAnlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangAnlegen";
+    public static final String TEMPLATE_KEY_S3 = "FeatureVorgangAnlegenV02S3";
     public static final String VAR_STARTER_OF_INSTANCE = "starterOfInstance";
     public static final String VAR_FORM_FIELD_VORGANG_TITEL = "FormField_VorgangTitel";
     public static final String VAR_FORM_FIELD_UNTERGRUPPE = "FormField_Untergruppe";
     public static final String VAR_FORM_FIELD_SACHAKTE_NAME = "FormField_SachakteName";
     public static final String VAR_FORM_FIELD_AKTENPLAN_NAME = "FormField_AktenplanName";
+    public static final String VAR_S3_URL = "s3_url";
     public static final String TASK_KONTROLLIEREN = "Task_Kontrollieren";
     public static final String END_EVENT_BEENDET = "EndEvent_Beendet";
     public static final String TASK_VORGANG_ANLEGEN = "Task_VorgangAnlegen";
@@ -152,6 +154,16 @@ public class VorgangAnlegenTemplateTest {
     public void shouldExecuteHappyPath() {
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY, this.getVariableMap())
+                .execute();
+
+        verify(this.processScenario).hasCompleted(TASK_KONTROLLIEREN);
+        verify(this.processScenario).hasFinished(END_EVENT_BEENDET);
+    }
+
+    @Test
+    public void shouldExecuteS3HappyPath() {
+        Scenario.run(this.processScenario)
+                .startByKey(TEMPLATE_KEY_S3, this.getS3VariableMap())
                 .execute();
 
         verify(this.processScenario).hasCompleted(TASK_KONTROLLIEREN);
@@ -284,6 +296,17 @@ public class VorgangAnlegenTemplateTest {
                 VAR_FORM_FIELD_UNTERGRUPPE, "untergruppe",
                 VAR_FORM_FIELD_SACHAKTE_NAME, "sachakteName",
                 VAR_FORM_FIELD_AKTENPLAN_NAME, "aktenplanName"
+        );
+    }
+
+    private Map<String, Object> getS3VariableMap() {
+        return withVariables(
+                VAR_STARTER_OF_INSTANCE, "starterOfInstance",
+                VAR_FORM_FIELD_VORGANG_TITEL, "VorgangTitel",
+                VAR_FORM_FIELD_UNTERGRUPPE, "untergruppe",
+                VAR_FORM_FIELD_SACHAKTE_NAME, "sachakteName",
+                VAR_FORM_FIELD_AKTENPLAN_NAME, "aktenplanName",
+                VAR_S3_URL, "customs3url"
         );
     }
 

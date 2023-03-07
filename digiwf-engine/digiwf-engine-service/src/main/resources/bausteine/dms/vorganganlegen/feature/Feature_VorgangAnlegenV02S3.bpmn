@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1rkkynw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:process id="FeatureVorgangAnlegenV02S3" name="Feature Vorgang Anlegen V02 S3" isExecutable="true">
+    <bpmn:documentation>Prozess um das Feature Vorgang anlegen mit S3 zu testen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Gestartet" camunda:formKey="FeatureVorgangAnlegen_StartenV01">
+      <bpmn:outgoing>Flow_0gwtf4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0gwtf4p" sourceRef="StartEvent_Gestartet" targetRef="Task_VorgangAnlegen" />
+    <bpmn:callActivity id="Task_VorgangAnlegen" name="Vorgang anlegen" camunda:modelerTemplate="de.muenchen.digitalisierung.templates.dms.VorgangAnlegenTemplateV02S3" calledElement="VorgangAnlegenV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${FormField_VorgangTitel}" target="dms_vorgang_title" />
+        <camunda:in sourceExpression="${execution.getProcessInstance().getId()}" target="dms_prozess_id" />
+        <camunda:in sourceExpression="Anlagen" target="dms_schriftstueck_name" />
+        <camunda:in sourceExpression="260" target="dms_fehlerhandling_user" />
+        <camunda:out source="dms_vorgang_coo" target="meinVorgang" />
+        <camunda:out source="dms_created_schriftstueck" target="meinSchriftstueck" />
+        <camunda:in sourceExpression="${FormField_Untergruppe}" target="dms_untergruppe" />
+        <camunda:in sourceExpression="${FormField_AktenplanName}" target="dms_aktenplan_name" />
+        <camunda:in sourceExpression="${FormField_SachakteName}" target="dms_sachakte_name" />
+        <camunda:in sourceExpression="${starterOfInstance}" target="dms_user_login" />
+        <camunda:in sourceExpression="itm.digiwf-test@muenchen.de" target="dms_error_receiver_mail" />
+        <camunda:in sourceExpression="${s3_url}" target="dms_s3_url" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gwtf4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w35l8e</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="EndEvent_Beendet" name="Beendet">
+      <bpmn:incoming>Flow_16pia9q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1w35l8e" sourceRef="Task_VorgangAnlegen" targetRef="Task_Kontrollieren" />
+    <bpmn:sequenceFlow id="Flow_16pia9q" sourceRef="Task_Kontrollieren" targetRef="EndEvent_Beendet" />
+    <bpmn:userTask id="Task_Kontrollieren" name="Anlage kontrollieren" camunda:formKey="FeatureVorgangAnlegen_KontrollierenV01" camunda:assignee="${starterOfInstance}">
+      <bpmn:incoming>Flow_1w35l8e</bpmn:incoming>
+      <bpmn:outgoing>Flow_16pia9q</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FeatureVorgangAnlegenV02S3">
+      <bpmndi:BPMNEdge id="Flow_16pia9q_di" bpmnElement="Flow_16pia9q">
+        <di:waypoint x="550" y="117" />
+        <di:waypoint x="602" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w35l8e_di" bpmnElement="Flow_1w35l8e">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="450" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gwtf4p_di" bpmnElement="Flow_0gwtf4p">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="142" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19yd1n6_di" bpmnElement="Task_VorgangAnlegen">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0i853pm_di" bpmnElement="EndEvent_Beendet">
+        <dc:Bounds x="602" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="599" y="142" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0l8s1u4_di" bpmnElement="Task_Kontrollieren">
+        <dc:Bounds x="450" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
