@@ -18,8 +18,6 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 
 /**
@@ -52,7 +50,7 @@ public class UpdateSchriftstueckDelegate implements JavaDelegate {
         val schriftstueckCOO = SCHRIFTSTUECK_COO.from(execution).getLocal();
         val schriftstueckName = SCHRIFTSTUECK_NAME.from(execution).getLocal();
         val userLogin = USER_LOGIN.from(execution).getLocal();
-        final Optional<String> s3Url = S3_URL.from(execution).getLocalOptional();
+        val s3Url = S3_URL.from(execution).getLocalOptional();
 
         //PROCESSING
         final byte[] documentContent;
