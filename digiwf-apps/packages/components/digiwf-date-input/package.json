@@ -11,6 +11,9 @@
     "vue": "^2.7.0",
     "vuetify": "^2.6.0"
   },
+  "devDependencies": {
+    "uuid": "latest"
+  },
   "files": [
     "dist/*",
     "src/*",

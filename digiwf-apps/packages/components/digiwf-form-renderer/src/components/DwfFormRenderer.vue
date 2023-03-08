@@ -44,10 +44,10 @@ export default defineComponent({
     }
     const rules = {
       required: function (v: any) {
-        return (!!v && v !== '' || v === 0) || 'Dieses Feld ist ein Pflichfeld';
+        return (!!v && v !== '' || v === 0) || 'Dieses Feld ist ein Pflichtfeld';
       },
       requiredObject: function (v: any) {
-        return (!!v && (v.amount >= 1 || v.length >= 1)) || 'Dieses Feld ist ein Pflichfeld';
+        return (!!v && (v.amount >= 1 || v.length >= 1)) || 'Dieses Feld ist ein Pflichtfeld';
       }
     };
 
