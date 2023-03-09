@@ -24,7 +24,6 @@
                                :schema="schema" :key="componentKey"
                                @input="valueChanged" :value="value">
               <template #custom-date-input="context">
-                <p>Test</p>
                 <dwf-date-input v-bind="context"/>
               </template>
             </dwf-form-renderer>
