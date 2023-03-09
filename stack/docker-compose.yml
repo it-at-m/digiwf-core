@@ -90,15 +90,19 @@ services:
       - internal
 
   digiwf-gateway:
-    image: digiwf:latest # TODO: switch to digiwf gateway from docker hub: itatm/digiwf-gateway:tagname
+    image: itatm/digiwf-gateway:dev # TODO: switch to digiwf gateway from docker hub: itatm/digiwf-gateway:tagname
     env_file:
       - local-docker.env
     ports:
       - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: local #, docker # add profile 'docker' if you want to run the engine and frontend in docker
-      LOGGING_LEVEL_ROOT: debug
+      #
+      # profile specific configuration
+      #
+      SPRING_PROFILES_ACTIVE: local #possible values: local, docker # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
       ENGINE_SERVER_HOST: "host.docker.internal" # only required if you want to run the engine as Jar on your host machine
+
+      LOGGING_LEVEL_ROOT: debug
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
