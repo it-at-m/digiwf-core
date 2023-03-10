@@ -55,10 +55,10 @@ public class UpdateSchriftstueckDelegate implements JavaDelegate {
         //PROCESSING
         final byte[] documentContent;
 
-        if (cosysGuid.isPresent()) {
+        if (cosysGuid.isPresent() && !cosysGuid.get().isBlank()) {
             documentContent = this.documentService.createDocument(cosysGuid.get(), prozessId);
         } else if (s3Url.isPresent()) {
-            documentContent = this.s3Resolver.getS3File(s3Url);
+            documentContent = this.s3Resolver.getS3File(s3Url.get());
         } else {
             throw new IllegalArgumentException("no document provided");
         }

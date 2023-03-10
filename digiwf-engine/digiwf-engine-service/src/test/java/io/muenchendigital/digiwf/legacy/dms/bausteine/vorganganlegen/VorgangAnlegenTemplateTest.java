@@ -16,6 +16,7 @@ import io.muenchendigital.digiwf.legacy.dms.muc.process.createdokument.CreateDok
 import io.muenchendigital.digiwf.legacy.dms.muc.process.createsachakte.CreateSachakteDelegate;
 import io.muenchendigital.digiwf.legacy.dms.muc.process.createvorgang.CreateVorgangDelegate;
 import io.muenchendigital.digiwf.legacy.dms.muc.process.searchsachakte.SearchSachakteDelegate;
+import io.muenchendigital.digiwf.legacy.dms.shared.S3Resolver;
 import io.muenchendigital.digiwf.legacy.document.domain.DocumentService;
 import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
@@ -31,6 +32,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -80,6 +82,9 @@ public class VorgangAnlegenTemplateTest {
     private DigitalWFFunctions digitalWF;
 
     @Mock
+    private S3Resolver s3Resolver;
+
+    @Mock
     private UserFunctions user;
 
     @Before
@@ -92,7 +97,7 @@ public class VorgangAnlegenTemplateTest {
         Mocks.register("createVorgangDelegate", new CreateVorgangDelegate(this.dmsService));
         when(this.dmsService.createVorgang(any(), any(), any())).thenReturn(Vorgang.builder().coo("VorgangCOO").build());
 
-        Mocks.register("createDokumentDelegate", new CreateDokumentDelegate(this.dmsService, this.documentService));
+        Mocks.register("createDokumentDelegate", new CreateDokumentDelegate(this.dmsService, this.documentService, this.s3Resolver));
         when(this.documentService.createDocument(anyString(), anyString())).thenReturn("Document".getBytes());
         when(this.dmsService.createDokument(any(), any(), any(), any())).thenReturn(
                 Dokument.builder()
@@ -161,10 +166,12 @@ public class VorgangAnlegenTemplateTest {
     }
 
     @Test
-    public void shouldExecuteS3HappyPath() {
+    public void shouldExecuteS3HappyPath() throws IOException {
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY_S3, this.getS3VariableMap())
                 .execute();
+
+        verify(this.s3Resolver).getS3File(any());
 
         verify(this.processScenario).hasCompleted(TASK_KONTROLLIEREN);
         verify(this.processScenario).hasFinished(END_EVENT_BEENDET);
