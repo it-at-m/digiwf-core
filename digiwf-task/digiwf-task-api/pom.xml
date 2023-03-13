@@ -24,5 +24,9 @@
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-bus-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.holunda.data</groupId>
+            <artifactId>camunda-bpm-data</artifactId>
+        </dependency>
     </dependencies>
 </project>
