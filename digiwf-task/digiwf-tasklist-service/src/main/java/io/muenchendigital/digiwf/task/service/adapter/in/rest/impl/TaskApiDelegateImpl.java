@@ -1,13 +1,12 @@
-package io.muenchendigital.digiwf.task.service.rest.impl;
+package io.muenchendigital.digiwf.task.service.adapter.in.rest.impl;
 
-import io.muenchendigital.digiwf.task.service.query.TaskQueryAdapter;
-import io.muenchendigital.digiwf.task.service.query.TaskSchemaRefResolver;
-import io.muenchendigital.digiwf.task.service.rest.api.TaskApiDelegate;
-import io.muenchendigital.digiwf.task.service.rest.mapper.TaskMapper;
-import io.muenchendigital.digiwf.task.service.rest.model.TaskAssignmentTO;
-import io.muenchendigital.digiwf.task.service.rest.model.TaskCombinedSchemaTO;
-import io.muenchendigital.digiwf.task.service.rest.model.TaskDeferralTO;
-import io.muenchendigital.digiwf.task.service.rest.model.TaskWithDetailsTO;
+import io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper.TaskMapper;
+import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
+import io.muenchendigital.digiwf.task.service.port.in.rest.api.TaskApiDelegate;
+import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskAssignmentTO;
+import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskCombinedSchemaTO;
+import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskDeferralTO;
+import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskWithDetailsTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +17,14 @@ import java.util.Map;
 import static org.springframework.http.ResponseEntity.ok;
 
 /**
- * Task API delegate.
+ * Task API delegate for work on one user task.
  */
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class TaskApiDelegateImpl implements TaskApiDelegate {
   private final TaskMapper taskMapper;
-  private final TaskQueryAdapter taskQueryAdapter;
-  private final TaskSchemaRefResolver schemaResolver;
+  private final WorkOnUserTask workOnUserTask;
 
   @Override
   public ResponseEntity<TaskCombinedSchemaTO> getSchema(String schemaId) {
@@ -40,8 +38,8 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
 
   @Override
   public ResponseEntity<TaskWithDetailsTO> getTaskByTaskId(String taskId) {
-    var task = taskQueryAdapter.getTaskByIdForCurrentUser(taskId);
-    return ok(taskMapper.to(task, schemaResolver.apply(task)));
+    var taskWithSchema = workOnUserTask.loadUserTask(taskId);
+    return ok(taskMapper.toWithDetails(taskWithSchema.getTask(), taskWithSchema.getSchemaRef()));
   }
 
   @Override

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.ingress;
+package io.muenchendigital.digiwf.task.service.infra.ingress;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

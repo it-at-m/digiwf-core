@@ -1,12 +1,11 @@
 package io.muenchendigital.digiwf.task.service.domain;
 
-import io.holunda.polyflow.view.Task;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class PageOfTasks {
+public class PageOfTasksWithSchema {
   private final List<TaskWithSchema> tasks;
   private final Integer totalElementsCount;
   private final PagingAndSorting pagingAndSorting;

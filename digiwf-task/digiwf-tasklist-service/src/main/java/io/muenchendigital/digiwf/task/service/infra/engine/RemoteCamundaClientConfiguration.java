@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.command;
+package io.muenchendigital.digiwf.task.service.infra.engine;
 
 import org.camunda.community.rest.EnableCamundaRestClient;
 import org.springframework.context.annotation.Configuration;

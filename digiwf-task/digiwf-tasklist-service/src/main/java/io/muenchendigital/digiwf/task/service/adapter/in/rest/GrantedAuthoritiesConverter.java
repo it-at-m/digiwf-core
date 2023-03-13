@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.rest;
+package io.muenchendigital.digiwf.task.service.adapter.in.rest;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;

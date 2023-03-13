@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.infra;
+package io.muenchendigital.digiwf.task.service.infra.polyflow;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -20,11 +20,18 @@
         <polyflow.version>3.8.2-SNAPSHOT</polyflow.version>
         <axon-framework.version>4.6.3</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <spring-boot.version>2.7.7</spring-boot.version>
+        <kotlin.version>1.8.10</kotlin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -51,6 +58,12 @@
                 <groupId>io.muenchendigital.digiwf</groupId>
                 <artifactId>digiwf-task-api</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.holunda.data</groupId>
+                <artifactId>camunda-bpm-data</artifactId>
+                <version>1.2.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

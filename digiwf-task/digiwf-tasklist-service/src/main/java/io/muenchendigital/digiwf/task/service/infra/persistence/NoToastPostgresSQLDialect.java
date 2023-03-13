@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.persistence;
+package io.muenchendigital.digiwf.task.service.infra.persistence;
 
 import org.hibernate.dialect.PostgreSQL10Dialect;
 import org.hibernate.type.descriptor.sql.BinaryTypeDescriptor;

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service;
+package io.muenchendigital.digiwf.task.service.infra;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PolyflowJpaViewConfigurationTest {
+class ObjectMapperTest {
 
     private final ObjectMapper objectMapper = PolyflowObjectMapper.DEFAULT;
 

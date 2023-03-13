@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.ingress;
+package io.muenchendigital.digiwf.task.service.infra.ingress;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.kafka.KafkaClientMetrics;

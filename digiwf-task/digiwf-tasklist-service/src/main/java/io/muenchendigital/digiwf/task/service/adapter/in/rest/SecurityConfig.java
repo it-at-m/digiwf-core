@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.rest;
+package io.muenchendigital.digiwf.task.service.adapter.in.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

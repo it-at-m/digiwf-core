@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(AxonKafkaExtendedProperties.class)
-public class KafkaIngressConfiguration {
+public class AxonKafkaIngressConfiguration {
   @Value("${HOSTNAME:localhost}")
   private String hostname;
 

@@ -1,6 +1,8 @@
 server:
-  port: 38765
+  port: ${TASKSERVICE_SERVER_PORT}
 spring:
+  profiles:
+    active: no-ldap # this profile is activating mock group resolution and should be replaced by the LDAP-aware client on production
   datasource:
     url: ${TASK_DATASOURCE_URL}
     username: ${TASK_DATASOURCE_USERNAME}

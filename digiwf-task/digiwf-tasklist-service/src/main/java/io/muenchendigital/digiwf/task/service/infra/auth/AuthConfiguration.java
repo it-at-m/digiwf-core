@@ -1,6 +1,7 @@
-package io.muenchendigital.digiwf.task.service.auth;
+package io.muenchendigital.digiwf.task.service.infra.auth;
 
-import io.muenchendigital.digiwf.task.service.auth.group.MockUserGroupResolver;
+import io.muenchendigital.digiwf.task.service.application.port.out.auth.UserGroupResolverPort;
+import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.MockUserGroupResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,7 +19,7 @@ public class AuthConfiguration {
    */
   @Bean
   @Profile("no-ldap")
-  public UserGroupResolver mockUserGroupResolver() {
+  public UserGroupResolverPort mockUserGroupResolver() {
     return new MockUserGroupResolver();
   }
 }

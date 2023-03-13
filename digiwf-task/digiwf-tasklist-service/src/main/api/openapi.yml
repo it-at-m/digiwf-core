@@ -160,7 +160,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TaskDeferal"
+              $ref: "#/components/schemas/TaskDeferral"
       responses:
         204:
           description: Successful operation.
@@ -171,7 +171,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/TaskIdParam'
     post:
-      description: Undefer the task resetiing the follow-up date.
+      description: Undefer the task resetting the follow-up date.
       operationId: undeferTask
       tags:
         - Task
@@ -415,7 +415,7 @@ components:
           type: string
           format: date-time
         schemaRef:
-          description: Schema reference.
+          description: Reference to schema id.
           type: string
       required:
         - id
@@ -452,7 +452,7 @@ components:
           type: string
           format: date-time
         schemaRef:
-          description: Schema reference.
+          description: Reference to schema id.
           type: string
         variables:
           description: Variables of the task.
@@ -464,7 +464,6 @@ components:
         - schemaRef
         - variables
 
-
     TaskAssignment:
       description: Task assignment information.
       type: object
@@ -475,8 +474,8 @@ components:
       required:
         - assignee
 
-    TaskDeferal:
-      description: The task deferal information.
+    TaskDeferral:
+      description: The task deferral information.
       type: object
       properties:
         followUpDate:
@@ -490,9 +489,14 @@ components:
       description: Combined schema for a user task.
       type: object
       properties:
+        schemaId:
+          description: Id of the schema.
+          type: string
         schemaJson:
+          description: JSON combining UI and Data format schema.
           type: string
       required:
+        - schemaId
         - schemaJson
 
     VariableMap:

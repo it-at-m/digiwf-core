@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.rest.mapper;
+package io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper;
 
 import org.mapstruct.Mapper;
 
