@@ -42,7 +42,6 @@ export default defineComponent ({
     const dateValue = ref(defaultValue);
 
     const onChange = () => {
-      console.log("onChange", dateValue.value);
       if(!!on?.input) {
         on.input(dateValue.value);
       }
