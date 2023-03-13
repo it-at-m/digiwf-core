@@ -3,7 +3,6 @@
  */
 package io.muenchendigital.digiwf.shared.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     private static final String[] PERMITTED_URLS = {
+            "/error", // allow the error page
             "/engine-rest/**", // allow access to rest api
             "/actuator/info", // allow access to /actuator/info
             "/actuator/health", // allow access to /actuator/health for OpenShift Health Check
