@@ -23,7 +23,7 @@ public class EngineServiceApplication {
         SpringApplication.run(EngineServiceApplication.class, args);
     }
 
-    @Profile("!itest")
+    @Profile({"local"})
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server inMemoryH2DatabaseaServer() throws SQLException {
         return Server.createTcpServer(
