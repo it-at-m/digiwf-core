@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PolyflowJpaViewConfigurationTest {
 
-    private ObjectMapper objectMapper = PolyflowObjectMapper.DEFAULT;
+    private final ObjectMapper objectMapper = PolyflowObjectMapper.DEFAULT;
 
     @Test
     public void deserializes_event() throws IOException {
