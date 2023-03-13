@@ -1,1 +1,1 @@
-alter table dwf_form rename authorization to authorization_;
+alter table dwf_form rename column authorization to authorization_;
