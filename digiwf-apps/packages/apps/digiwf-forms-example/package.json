@@ -12,6 +12,7 @@
     "@muenchen/digiwf-form-builder-settings": "^0.21.7",
     "@muenchen/digiwf-form-renderer": "^0.21.7",
     "@muenchen/digiwf-multi-file-input": "^0.21.7",
+    "@muenchen/digiwf-date-input": "^0.21.7",
     "@muenchen/vjsf": "^2.21.4",
     "vue": "^2.7.10",
     "vuetify": "^2.6.9"
