@@ -363,8 +363,8 @@ const dateSchema = {
       ...basicAttributes,
       properties: {
         ...basicAttributes.properties,
-        "format": {
-          "const": "date"
+        "x-display": {
+          "const": "custom-date-input"
         },
         "default": {
           "type": "string",
@@ -378,10 +378,30 @@ const dateSchema = {
       }
     },
     {
-      ...basicOptions
+      // all basic options without messages
+      ...basicOptions,
+      properties: {
+        ...basicOptions.properties,
+        "x-options": {
+          ...basicOptions.properties["x-options"],
+          properties: {
+            ...basicOptions.properties["x-options"].properties,
+            fieldColProps: {
+              ...basicOptions.properties["x-options"].properties.fieldColProps,
+              properties: {
+                ...basicOptions.properties["x-options"].properties.fieldColProps.properties,
+                messages: {}
+              }
+            }
+          }
+        }
+      }
     },
     {
-      ...basicValidation
+      ...basicValidation,
+      properties: {
+        "x-rules": basicValidation.properties["x-rules"],
+      }
     }
   ]
 };

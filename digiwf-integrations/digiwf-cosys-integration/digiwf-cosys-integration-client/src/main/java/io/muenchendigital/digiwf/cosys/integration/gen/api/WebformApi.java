@@ -106,7 +106,7 @@ public class WebformApi {
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "accessTokenSecurityDefintion", "basicAuthSecurityDefintion" };
+        String[] localVarAuthNames = new String[] { "basicAuthSecurityDefintion", "accessTokenSecurityDefintion" };
 
         ParameterizedTypeReference<WebformResponse> localVarReturnType = new ParameterizedTypeReference<WebformResponse>() {};
         return apiClient.invokeAPI("/webform/{guid}", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);

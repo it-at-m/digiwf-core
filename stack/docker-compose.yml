@@ -91,6 +91,8 @@ services:
 
   digiwf-gateway:
     image: itatm/digiwf-gateway:dev # TODO: switch to digiwf gateway from docker hub: itatm/digiwf-gateway:tagname
+    depends_on:
+      - keycloak
     env_file:
       - local-docker.env
     ports:
