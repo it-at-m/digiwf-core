@@ -8,7 +8,7 @@
 
     <properties>
         <logstash.encoder>7.0.1</logstash.encoder>
-        <okhttp.version>4.8.1</okhttp.version>
+        <okhttp.version>4.10.0</okhttp.version>
     </properties>
 
     <parent>
