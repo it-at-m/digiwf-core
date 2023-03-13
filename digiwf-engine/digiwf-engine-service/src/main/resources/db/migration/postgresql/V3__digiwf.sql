@@ -2,7 +2,7 @@ create table dwf_file
 (
     id          varchar(36) not null,
     businesskey varchar(255),
-    data        CLOB,
+    data        bytea,
     type        varchar(255),
     name        varchar(255),
     primary key (id)
@@ -20,8 +20,8 @@ create table dwf_filter
 create table dwf_form
 (
     id            varchar(36)  not null,
-    authorization varchar(255),
-    config        CLOB,
+    authorization_ varchar(255),
+    config        text,
     key           varchar(255) not null,
     version       varchar(255) not null,
     primary key (id)
@@ -29,7 +29,7 @@ create table dwf_form
 
 create table dwf_info
 (
-    tbllock           char not null,
+    tbllock           varchar(1) not null,
     environment       varchar(255),
     maintenance_info1 varchar(255),
     maintenance_info2 varchar(255),
@@ -39,7 +39,7 @@ create table dwf_info
 create table dwf_json_schema
 (
     key_    varchar(255) not null,
-    schema_ CLOB,
+    schema_ text,
     primary key (key_)
 );
 
@@ -69,7 +69,7 @@ create table dwf_process_instance_info
 create table dwf_processconfig
 (
     id      varchar(36)  not null,
-    config  CLOB,
+    config  text,
     key     varchar(255) not null,
     version varchar(255) not null,
     primary key (id)

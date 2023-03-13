@@ -1,3 +1,5 @@
+create sequence hibernate_sequence start with 1 increment by 1;
+
 create table association_value_entry
 (
     id                int8         not null,
@@ -15,6 +17,20 @@ create table saga_entry
     saga_type       varchar(255),
     serialized_saga bytea,
     primary key (saga_id)
+);
+
+create table snapshot_event_entry
+(
+    aggregate_identifier varchar(255) not null,
+    sequence_number      bigint       not null,
+    type                 varchar(255) not null,
+    event_identifier     varchar(255) not null,
+    meta_data            bytea,
+    payload              bytea         not null,
+    payload_revision     varchar(255),
+    payload_type         varchar(255) not null,
+    time_stamp           varchar(255) not null,
+    primary key (aggregate_identifier, sequence_number, type)
 );
 
 create table token_entry
