@@ -39,7 +39,6 @@ export default defineComponent ({
       rules.push((v: string) => !!v || 'Dieses Feld ist ein Pflichtfeld');
     }
 
-    console.log(schema);
     const dateValue = ref(defaultValue);
 
     const onChange = () => {
