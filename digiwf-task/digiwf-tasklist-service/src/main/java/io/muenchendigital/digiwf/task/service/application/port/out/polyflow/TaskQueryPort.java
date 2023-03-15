@@ -9,9 +9,34 @@ import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
  * Port for searching tasks.
  */
 public interface TaskQueryPort {
+  /**
+   * Retrieves tasks for current user.
+   *
+   * @param user             user.
+   * @param query            additional query.
+   * @param pagingAndSorting paging and sorting info.
+   * @return page of tasks.
+   */
   PageOfTasks getTasksForCurrentUser(User user, String query, PagingAndSorting pagingAndSorting);
 
+  /**
+   * Retrieves tasks visiable via user's group.
+   *
+   * @param user             user.
+   * @param includeAssigned  include tasks assigned to someone.
+   * @param query            additional query.
+   * @param pagingAndSorting paging and sorting info.
+   * @return page of tasks.
+   */
   PageOfTasks getTasksForCurrentUserGroup(User user, String query, boolean includeAssigned, PagingAndSorting pagingAndSorting);
 
+  /**
+   * Load task by id.
+   *
+   * @param user   user
+   * @param taskId task id.
+   * @return a task.
+   * @throws TaskNotFoundException if no task is available or access is permitted.
+   */
   Task getTaskByIdForCurrentUser(User user, String taskId) throws TaskNotFoundException;
 }

@@ -36,7 +36,6 @@
         <dependency>
             <groupId>org.camunda.community</groupId>
             <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-            <version>${camunda.version}</version>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>

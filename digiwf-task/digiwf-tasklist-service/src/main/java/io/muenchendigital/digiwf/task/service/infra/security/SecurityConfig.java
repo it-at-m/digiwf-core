@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.adapter.in.rest;
+package io.muenchendigital.digiwf.task.service.infra.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final GrantedAuthoritiesConverter grantedAuthoritiesExtractor;
+
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {

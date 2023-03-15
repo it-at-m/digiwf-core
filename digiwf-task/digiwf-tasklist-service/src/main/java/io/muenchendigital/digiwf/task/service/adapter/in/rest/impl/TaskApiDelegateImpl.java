@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 /**
@@ -28,11 +29,13 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
 
   @Override
   public ResponseEntity<TaskCombinedSchemaTO> getSchema(String schemaId) {
+    // FIXME: check with Dominik and Rene
     return TaskApiDelegate.super.getSchema(schemaId);
   }
 
   @Override
   public ResponseEntity<TaskCombinedSchemaTO> getTaskSchema(String taskId) {
+    // FIXME: check with Dominik and Rene
     return TaskApiDelegate.super.getTaskSchema(taskId);
   }
 
@@ -44,7 +47,8 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
 
   @Override
   public ResponseEntity<Void> completeTask(String taskId, Map<String, Object> requestBody) {
-    return TaskApiDelegate.super.completeTask(taskId, requestBody);
+    workOnUserTask.completeUserTask(taskId, requestBody);
+    return noContent().build();
   }
 
   @Override

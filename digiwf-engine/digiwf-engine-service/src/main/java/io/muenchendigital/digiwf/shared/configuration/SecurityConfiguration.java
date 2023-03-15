@@ -24,7 +24,6 @@ public class SecurityConfiguration {
 
     private static final String[] PERMITTED_URLS = {
             "/error", // allow the error page
-            "/engine-rest/**", // allow access to rest api
             "/actuator/info", // allow access to /actuator/info
             "/actuator/health", // allow access to /actuator/health for OpenShift Health Check
             "/actuator/metrics", // allow access to /actuator/metrics for Prometheus monitoring in OpenShift
@@ -33,10 +32,13 @@ public class SecurityConfiguration {
             "/swagger-ui*/**", // allow access to swagger
     };
 
-    private static final String[] PROTECTED = {
+    /**
+     * Protected URLs, the access will be protected by the token.
+     */
+    public static final String[] PROTECTED = {
             "/api/**",
             "/rest/**",
-
+            "/engine-rest/**", // camunda rest api
     };
 
     @Bean

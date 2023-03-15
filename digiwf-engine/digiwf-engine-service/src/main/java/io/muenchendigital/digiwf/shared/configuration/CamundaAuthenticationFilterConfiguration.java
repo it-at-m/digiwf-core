@@ -37,7 +37,11 @@ public class CamundaAuthenticationFilterConfiguration {
         final FilterRegistrationBean<CamundaUserAuthenticationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(new CamundaUserAuthenticationFilter());
         filterRegistration.setOrder(102); // make sure the filter is registered after the Spring Security Filter Chain
-        filterRegistration.addUrlPatterns("/rest/*");
+        // install the filter on all protected URLs to propagate the identity from the token to Camunda and Identity Service.
+        filterRegistration.addUrlPatterns(
+            "/rest/*",
+            "/engine-rest/**"
+        );
         return filterRegistration;
     }
 

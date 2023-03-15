@@ -1,3 +1,8 @@
+taskmanagement:
+  oauth2:
+    engine-registrations:
+      -
+
 server:
   port: ${TASKSERVICE_SERVER_PORT}
 spring:
@@ -30,17 +35,21 @@ spring:
         registration:
           keycloak:
             provider: keycloak
+            client-id: ${SSO_TASK_CLIENT_ID}
+            client-secret: ${SSO_TASK_CLIENT_SECRET:}
+            scope: email, profile, openid  # needed for userInfo endpoint
+          engine-service-account:
+            provider: keycloak
             client-id: ${SSO_ENGINE_CLIENT_ID}
             client-secret: ${SSO_ENGINE_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
+
 
 feign:
   client:
     config:
       default:
         url: "http://localhost:${ENGINE_SERVER_PORT}/engine-rest/"
-
-
 
 axon:
   serializer:
@@ -83,7 +92,15 @@ polyflow:
 
 springdoc:
   swagger-ui:
+    oauth:
+      clientId: ${SSO_TASK_CLIENT_ID}
+      clientSecret:
+      realm: ${SSO_REALM}
+      appName: DigiWF TaskManagement
+    csrf:
+      enabled: false
     tryItOutEnabled: true
+  writer-with-default-pretty-printer: true
 
 logging:
   level:

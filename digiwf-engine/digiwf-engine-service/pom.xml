@@ -396,8 +396,26 @@
 
     <profiles>
         <profile>
+            <id>camunda-ee</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.holunda</groupId>
+                    <artifactId>camunda-platform-7-autologin</artifactId>
+                    <version>0.0.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
             <!-- Profile for generating SQL scripts out of Hibernate Entities -->
             <id>generate-sql</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
