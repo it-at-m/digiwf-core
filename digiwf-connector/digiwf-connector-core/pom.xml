@@ -132,7 +132,7 @@
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
             <scope>test</scope>
-            <version>6.17.0</version>
+            <version>6.18.0</version>
         </dependency>
 
     </dependencies>
