@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.email.integration.domain.model;
+package io.muenchendigital.digiwf.email.integration.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

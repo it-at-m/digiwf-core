@@ -9,11 +9,19 @@ Content-Type: application/json
 }
 
 ### testEventBus withoud attachements
-POST http://{{host}}/testEventBus
+POST http://localhost:39146/testEventBus
 Content-Type: application/json
 
 {
   "receivers": "itm.digiwf@muenchen.de",
   "subject": "Testing Email Integration",
   "body": "This is a test email. You can delete it safely"
+}
+
+### testEventBus should fail
+POST http://localhost:39146/testEventBus
+Content-Type: application/json
+
+{
+
 }

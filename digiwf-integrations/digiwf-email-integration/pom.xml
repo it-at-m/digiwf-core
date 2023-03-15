@@ -17,7 +17,6 @@
     </parent>
 
     <properties>
-        <digiwf.spring.cloudstream.utils.version>0.10.0</digiwf.spring.cloudstream.utils.version>
         <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>

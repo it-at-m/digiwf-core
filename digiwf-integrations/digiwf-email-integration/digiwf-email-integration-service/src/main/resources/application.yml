@@ -5,17 +5,12 @@ spring:
     function:
       definition: sendCorrelateMessage;functionRouter;
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
-        functionRouter-in-0:
+        receiveMessages-in-0:
           group: "dwf-email-service"
-          destination: dwf-email-${DIGIWF_ENV}
-        sendCorrelateMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: "dwf-digiwf-engine-${DIGIWF_ENV}"
       kafka:
         binder:
           configuration:
@@ -71,6 +66,7 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-      streaming:
-        typeMappings:
-          createPresignedUrl: createPresignedUrl
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        technicalErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: dwf-digiwf-engine-${DIGIWF_ENV}

@@ -1,8 +1,9 @@
 package io.muenchendigital.digiwf.email.integration.api.controller;
 
-import io.muenchendigital.digiwf.email.integration.domain.model.Mail;
-import io.muenchendigital.digiwf.email.integration.domain.service.MailingService;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.service.PayloadSenderService;
+import io.muenchendigital.digiwf.email.integration.application.service.MailingService;
+import io.muenchendigital.digiwf.email.integration.domain.Mail;
+import io.muenchendigital.digiwf.message.common.MessageConstants;
+import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +19,7 @@ import javax.validation.ConstraintViolationException;
 public class ExampleController {
 
     private final MailingService mailingService;
-    private final PayloadSenderService genericPayloadSender;
+    private final MessageApi messageApi;
 
     @PostMapping(value = "/testSendMail")
     public void testSendMail(@RequestBody final Mail mail) {
@@ -36,7 +38,11 @@ public class ExampleController {
      */
     @PostMapping(value = "/testEventBus")
     public void testEventBus(@RequestBody final Mail mail) {
-        this.genericPayloadSender.sendPayload(mail, "sendMailFromEventBus");
+        this.messageApi.sendMessage(mail, Map.of(
+                MessageConstants.TYPE, "sendMailFromEventBus",
+                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
+                MessageConstants.DIGIWF_MESSAGE_NAME, "testEmailIntegration"
+        ), "dwf-email-local-01");
     }
 
 }
