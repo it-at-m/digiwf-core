@@ -20,7 +20,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CurrentUserPortImpl implements CurrentUserPort {
 
-  private static final String USERNAME_CLAIM = "lhmObjectID";
+  private static final String USER_ID_CLAIM = "lhmObjectID";
+  private static final String USERNAME_CLAIM = "user_name";
 
   private final UserGroupResolverPort userGroupResolver;
 
@@ -29,9 +30,24 @@ public class CurrentUserPortImpl implements CurrentUserPort {
     var authentication = getCurrentAuth();
     if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
       var jwt = (Jwt) authentication.getPrincipal();
-      var username = Objects.requireNonNull((String) jwt.getClaims().get(USERNAME_CLAIM));
+      var username = Objects.requireNonNull((String) jwt.getClaims().get(USER_ID_CLAIM));
       var groups = userGroupResolver.resolveGroups(username);
       return new User(username, groups);
+    } else {
+      throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
+    }
+  }
+
+  /**
+   * Retrieves the username of the current user.
+   * @return username of the current user (from the user_name claim).
+   */
+  @Override
+  public String getCurrentUserUsername() {
+    var authentication = getCurrentAuth();
+    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
+      var jwt = (Jwt) authentication.getPrincipal();
+      return Objects.requireNonNull((String) jwt.getClaims().get(USERNAME_CLAIM));
     } else {
       throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
     }

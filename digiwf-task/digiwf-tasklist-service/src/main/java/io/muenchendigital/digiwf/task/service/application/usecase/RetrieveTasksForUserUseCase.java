@@ -7,7 +7,7 @@ import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSc
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
-import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
+import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +44,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
 
   private PageOfTasksWithSchema enrichWithSchema(PageOfTasks result) {
     return new PageOfTasksWithSchema(
-        result.getTasks().stream().map(task -> new TaskWithSchema(task, taskSchemaRefResolverPort.apply(task))).collect(Collectors.toList()),
+        result.getTasks().stream().map(task -> new TaskWithSchemaRef(task, taskSchemaRefResolverPort.apply(task))).collect(Collectors.toList()),
         result.getTotalElementsCount(),
         result.getPagingAndSorting()
     );

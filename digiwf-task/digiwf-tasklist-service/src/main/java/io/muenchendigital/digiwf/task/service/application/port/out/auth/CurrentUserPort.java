@@ -11,4 +11,10 @@ public interface CurrentUserPort {
      * @return current user.
      */
     User getCurrentUser();
+
+    /**
+     * Retrieves the username (not the user id) of the current user.
+     * @return username of the current user.
+     */
+    String getCurrentUserUsername();
 }

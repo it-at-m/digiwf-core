@@ -36,12 +36,13 @@ spring:
           keycloak:
             provider: keycloak
             client-id: ${SSO_TASK_CLIENT_ID}
-            client-secret: ${SSO_TASK_CLIENT_SECRET:}
+            client-secret: ${SSO_TASK_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
-          engine-service-account:
+          keycloak-service-account:
             provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_TASK_CLIENT_ID}
+            client-secret: ${SSO_TASK_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
 
 
@@ -94,7 +95,7 @@ springdoc:
   swagger-ui:
     oauth:
       clientId: ${SSO_TASK_CLIENT_ID}
-      clientSecret:
+      clientSecret: ${SSO_TASK_CLIENT_SECRET}
       realm: ${SSO_REALM}
       appName: DigiWF TaskManagement
     csrf:
@@ -108,3 +109,4 @@ logging:
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
     org.camunda.community.rest.client.api: DEBUG
+    org.springframework.security: DEBUG

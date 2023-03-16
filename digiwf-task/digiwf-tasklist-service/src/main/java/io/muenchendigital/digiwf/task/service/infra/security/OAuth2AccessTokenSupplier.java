@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.infra.engine;
+package io.muenchendigital.digiwf.task.service.infra.security;
 
 import io.muenchendigital.digiwf.task.service.infra.security.GrantedAuthoritiesConverter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,8 @@ import java.util.function.Supplier;
 public class OAuth2AccessTokenSupplier implements Supplier<OAuth2AccessToken> {
 
   private final OAuth2AuthorizedClientManager authorizedClientManager;
-  private static final String clientRegistrationId = "engine-service-account"; // FIXME -> load from properties.
+  private static final String clientRegistrationId = "keycloak-service-account"; // FIXME -> load from properties.
+  private static final String ACCESS_ROLE = "clientrole_taskuser"; // FIXME -> load from properties.
   private AnonymousAuthenticationToken anonymousUserToken;
 
   @PostConstruct
@@ -29,7 +30,7 @@ public class OAuth2AccessTokenSupplier implements Supplier<OAuth2AccessToken> {
     anonymousUserToken = new AnonymousAuthenticationToken(
         clientRegistrationId,
         clientRegistrationId,
-        AuthorityUtils.createAuthorityList(GrantedAuthoritiesConverter.SPRING_ROLE_PREFIX + "USER")
+        AuthorityUtils.createAuthorityList(GrantedAuthoritiesConverter.SPRING_ROLE_PREFIX + ACCESS_ROLE)
     );
   }
 
@@ -41,7 +42,7 @@ public class OAuth2AccessTokenSupplier implements Supplier<OAuth2AccessToken> {
         .build();
     final OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
     if (authorizedClient == null) {
-      throw new IllegalStateException("Client credentials authorization for client registration " + clientRegistrationId + " failed.");
+      throw new IllegalStateException("Client credentials authorization using client registration '" + clientRegistrationId + "' failed.");
     }
     return authorizedClient.getAccessToken();
   }

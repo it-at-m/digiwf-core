@@ -5,6 +5,8 @@ import org.camunda.bpm.engine.TaskService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -21,5 +23,39 @@ public class TaskCommandClient implements TaskCommandPort {
   @Override
   public void completeTask(String taskId, Map<String, Object> variables) {
     taskService.complete(taskId, variables);
+  }
+
+  @Override
+  public void saveUserTask(String taskId, Map<String, Object> payload) {
+    taskService.setVariables(taskId, payload);
+  }
+
+  @Override
+  public void assignUserTask(String taskId, String assignee) {
+    // TODO: will be switched to polyflow assignment
+    taskService.setAssignee(taskId, assignee);
+  }
+
+  @Override
+  public void unassignUserTask(String taskId) {
+    taskService.setAssignee(taskId, null);
+  }
+
+  @Override
+  public void deferUserTask(String taskId, Instant followUpDate) {
+    var task = taskService.createTaskQuery().taskId(taskId).singleResult();
+    if (task != null) {
+      task.setDueDate(Date.from(followUpDate));
+    }
+    taskService.saveTask(task);
+  }
+
+  @Override
+  public void undeferUserTask(String taskId) {
+    var task = taskService.createTaskQuery().taskId(taskId).singleResult();
+    if (task != null) {
+      task.setDueDate(null);
+    }
+    taskService.saveTask(task);
   }
 }

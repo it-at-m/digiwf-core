@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.infra.engine;
+package io.muenchendigital.digiwf.task.service.infra.security;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -51,4 +51,5 @@ public class ServiceAccountAccessTokenConfiguration {
     authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
     return authorizedClientManager;
   }
+
 }

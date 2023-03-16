@@ -53,26 +53,31 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
 
   @Override
   public ResponseEntity<Void> saveTaskVariables(String taskId, Map<String, Object> requestBody) {
-    return TaskApiDelegate.super.saveTaskVariables(taskId, requestBody);
+    workOnUserTask.saveUserTask(taskId, requestBody);
+    return noContent().build();
   }
 
   @Override
   public ResponseEntity<Void> assignTask(String taskId, TaskAssignmentTO taskAssignmentTO) {
-    return TaskApiDelegate.super.assignTask(taskId, taskAssignmentTO);
+    workOnUserTask.assignUserTask(taskId, taskAssignmentTO.getAssignee());
+    return noContent().build();
   }
 
   @Override
   public ResponseEntity<Void> unassignTask(String taskId) {
-    return TaskApiDelegate.super.unassignTask(taskId);
+    workOnUserTask.unassignUserTask(taskId);
+    return noContent().build();
   }
 
   @Override
   public ResponseEntity<Void> deferTask(String taskId, TaskDeferralTO taskDeferralTO) {
-    return TaskApiDelegate.super.deferTask(taskId, taskDeferralTO);
+    workOnUserTask.deferUserTask(taskId, taskDeferralTO.getFollowUpDate());
+    return noContent().build();
   }
 
   @Override
   public ResponseEntity<Void> undeferTask(String taskId) {
-    return TaskApiDelegate.super.undeferTask(taskId);
+    workOnUserTask.undeferUserTask(taskId);
+    return noContent().build();
   }
 }

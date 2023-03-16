@@ -4,6 +4,7 @@ realm: ${SSO_REALM}
 changes:
   - addSimpleClient:
       clientId: ${SSO_ENGINE_CLIENT_ID}
+      secret: ${SSO_ENGINE_CLIENT_SECRET}
       redirectUris:
         - http://localhost:39146/*
         - http://localhost:8082/*
@@ -18,3 +19,8 @@ changes:
       clientRole: true
       name: lhm-ab-digitalwfv2-deployer
       description: Can deploy.
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: clientrole_taskuser
+      description: Can operate on user tasks.
