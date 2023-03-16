@@ -27,11 +27,6 @@ class MailingServiceTest {
     private JavaMailSender javaMailSender;
     private final String fromAddress = "digiwf@muenchen.de";
 
-    @BeforeEach
-    void setUp() {
-        when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
-    }
-
     private final MailDto mail = new MailDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
@@ -41,6 +36,11 @@ class MailingServiceTest {
             "digiwf@muenchen.de",
             null
     );
+
+    @BeforeEach
+    void setUp() {
+        when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
+    }
 
     @Test
     void sendMail() throws MessagingException {
