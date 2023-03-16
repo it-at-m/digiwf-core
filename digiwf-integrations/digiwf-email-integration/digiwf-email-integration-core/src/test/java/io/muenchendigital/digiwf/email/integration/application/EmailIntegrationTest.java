@@ -1,7 +1,7 @@
-package io.muenchendigital.digiwf.email.integration.application.service;
+package io.muenchendigital.digiwf.email.integration.application;
 
-import io.muenchendigital.digiwf.email.integration.application.EmailIntegration;
 import io.muenchendigital.digiwf.email.integration.application.dto.MailDto;
+import io.muenchendigital.digiwf.email.integration.application.service.MailingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
