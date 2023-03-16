@@ -33,19 +33,5 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
-        <!-- TODO fix dependency problems -->
-        <!-- S3 -->
-<!--        <dependency>-->
-<!--            <groupId>io.muenchendigital.digiwf</groupId>-->
-<!--            <artifactId>digiwf-s3-integration-client-starter</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.muenchendigital.digiwf</groupId>-->
-<!--            <artifactId>digiwf-s3-integration-client</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
     </dependencies>
 </project>

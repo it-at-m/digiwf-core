@@ -1,15 +1,14 @@
 package io.muenchendigital.digiwf.email.integration.adapter;
 
+import io.muenchendigital.digiwf.email.integration.application.dto.AttachmentDto;
+import io.muenchendigital.digiwf.email.integration.application.model.Attachment;
 import io.muenchendigital.digiwf.email.integration.application.port.LoadAttachementPort;
-import io.muenchendigital.digiwf.email.integration.domain.Attachment;
 import io.muenchendigital.digiwf.integration.core.api.TechnicalError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.InputStream;
 import java.net.URL;
@@ -19,7 +18,7 @@ import java.net.URL;
 public class S3Adapter implements LoadAttachementPort {
 
     @Override
-    public MimeMessageHelper loadAttachement(final Attachment attachment, final MimeMessageHelper mimeMessageHelper) throws TechnicalError {
+    public Attachment loadAttachement(final AttachmentDto attachment) throws TechnicalError {
         try {
             // download file from s3
             final URL binaryFile = new URL(attachment.getUrl());
@@ -27,14 +26,11 @@ public class S3Adapter implements LoadAttachementPort {
             final InputStream fileInputStream = binaryFile.openStream();
             final ByteArrayDataSource file = new ByteArrayDataSource(fileInputStream, tika.detect(binaryFile));
             final String fileName = StringUtils.substringAfterLast(attachment.getPath(), "/");
-            mimeMessageHelper.addAttachment(fileName, file);
             // return attachment
-            return mimeMessageHelper;
+            return new Attachment(fileName, file);
         } catch (final java.io.IOException ex) {
             log.error("An attachment could not be loaded: {}", attachment);
             throw new TechnicalError("400", "An attachment could not be loaded: " + attachment);
-        } catch (final MessagingException e) {
-            throw new RuntimeException(e);
         }
     }
 

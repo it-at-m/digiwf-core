@@ -1,9 +1,9 @@
 package io.muenchendigital.digiwf.email.integration.application.port;
 
-import io.muenchendigital.digiwf.email.integration.domain.Attachment;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import io.muenchendigital.digiwf.email.integration.application.dto.AttachmentDto;
+import io.muenchendigital.digiwf.email.integration.application.model.Attachment;
 
 public interface LoadAttachementPort {
 
-    MimeMessageHelper loadAttachement(final Attachment attachment, final MimeMessageHelper mimeMessageHelper);
+    Attachment loadAttachement(final AttachmentDto attachment);
 }

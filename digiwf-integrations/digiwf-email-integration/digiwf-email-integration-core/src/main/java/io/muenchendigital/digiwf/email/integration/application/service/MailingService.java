@@ -1,69 +1,69 @@
 package io.muenchendigital.digiwf.email.integration.application.service;
 
+import io.muenchendigital.digiwf.email.integration.application.dto.MailDto;
+import io.muenchendigital.digiwf.email.integration.application.model.Attachment;
 import io.muenchendigital.digiwf.email.integration.application.port.LoadAttachementPort;
-import io.muenchendigital.digiwf.email.integration.application.port.SendMailPort;
-import io.muenchendigital.digiwf.email.integration.domain.Mail;
 import io.muenchendigital.digiwf.integration.core.api.TechnicalError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
 @Validated
 public class MailingService {
 
-    private final SendMailPort sendMailPort;
+    private final JavaMailSender mailSender;
     private final LoadAttachementPort loadAttachementPort;
-    private final String fromAdress;
+    private final String fromAddress;
 
     /**
      * Send a mail.
      *
      * @param mail mail that is sent
      */
-    public void sendMail(@Valid final Mail mail) throws TechnicalError {
+    public void sendMail(@Valid final MailDto mail) throws TechnicalError, MessagingException {
         //handler
-        final MimeMessagePreparator preparator = mimeMessage -> {
-            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getReceivers()));
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getReceivers()));
 
-            if (StringUtils.isNotEmpty(mail.getReceiversCc())) {
-                mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getReceiversCc()));
+        if (StringUtils.isNotEmpty(mail.getReceiversCc())) {
+            mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getReceiversCc()));
+        }
+        if (StringUtils.isNotEmpty(mail.getReceiversBcc())) {
+            mimeMessage.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(mail.getReceiversBcc()));
+        }
+
+        final var helper = new MimeMessageHelper(mimeMessage, true);
+
+        helper.setSubject(mail.getSubject());
+        helper.setText(mail.getBody());
+        helper.setFrom(this.fromAddress);
+
+        if (StringUtils.isNotBlank(mail.getReplyTo())) {
+            helper.setReplyTo(mail.getReplyTo());
+        }
+
+        // mail attachments
+        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
+            for (val attachment : mail.getAttachments()) {
+                final Attachment mailAttachment = this.loadAttachementPort.loadAttachement(attachment);
+                helper.addAttachment(mailAttachment.getFileName(), mailAttachment.getFile());
             }
-            if (StringUtils.isNotEmpty(mail.getReceiversBcc())) {
-                mimeMessage.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(mail.getReceiversBcc()));
-            }
+        }
 
-            var helper = new MimeMessageHelper(mimeMessage, true);
-
-            helper.setSubject(mail.getSubject());
-            helper.setText(mail.getBody());
-            helper.setFrom(this.fromAdress);
-
-            if (StringUtils.isNotBlank(mail.getReplyTo())) {
-                helper.setReplyTo(mail.getReplyTo());
-            }
-
-            // mail attachments
-            if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
-                for (val attachment : mail.getAttachments()) {
-                    helper = this.loadAttachementPort.loadAttachement(attachment, helper);
-                }
-            }
-        };
-
-        this.sendMailPort.sendMail(preparator);
+        this.mailSender.send(mimeMessage);
         log.info("Mail sent to: {})", mail.getReceivers());
     }
 }

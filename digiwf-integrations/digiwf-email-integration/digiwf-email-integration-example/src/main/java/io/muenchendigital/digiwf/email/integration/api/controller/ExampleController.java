@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.email.integration.api.controller;
 
+import io.muenchendigital.digiwf.email.integration.application.dto.MailDto;
 import io.muenchendigital.digiwf.email.integration.application.service.MailingService;
-import io.muenchendigital.digiwf.email.integration.domain.Mail;
 import io.muenchendigital.digiwf.message.common.MessageConstants;
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ExampleController {
     private final MessageApi messageApi;
 
     @PostMapping(value = "/testSendMail")
-    public void testSendMail(@RequestBody final Mail mail) {
+    public void testSendMail(@RequestBody final MailDto mail) throws MessagingException {
         try {
             this.mailingService.sendMail(mail);
         } catch (final ConstraintViolationException e) {
@@ -37,7 +38,7 @@ public class ExampleController {
      * to the same topic.
      */
     @PostMapping(value = "/testEventBus")
-    public void testEventBus(@RequestBody final Mail mail) {
+    public void testEventBus(@RequestBody final MailDto mail) {
         this.messageApi.sendMessage(mail, Map.of(
                 MessageConstants.TYPE, "sendMailFromEventBus",
                 MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.email.integration.domain;
+package io.muenchendigital.digiwf.email.integration.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Mail {
+public class MailDto {
 
     /**
      * Receiver addresses of the mail, comma separated.
@@ -50,6 +50,6 @@ public class Mail {
     private String replyTo;
 
     @Valid
-    private List<Attachment> attachments;
+    private List<AttachmentDto> attachments;
 
 }
