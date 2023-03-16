@@ -69,4 +69,4 @@ io:
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         technicalErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
-        correlateMessageDestination: dwf-digiwf-engine-${DIGIWF_ENV}
+        correlateMessageDestination: "dwf-digiwf-engine-${DIGIWF_ENV}"
