@@ -151,7 +151,7 @@ digiwf:
   form:
     autodeploy: true
     autodeployBausteine: true
-    whitelist: '^[\\w\\s\\?\\!\\#\\'
+    whitelist: '^[\w\s\?\!\#\: \.§\%\/\(\);:,@\u20AC\-\''\u00C0-\u017F]*$'
   incident:
     cockpiturl: ${COCKPIT_URL}
     environment: ${DIGIWF_ENV}
@@ -170,7 +170,8 @@ digiwf:
       topics: 'dwf-digiwf-engine-${DIGIWF_ENV},dwf-cocreation-${DIGIWF_ENV}'
     cocreation:
       deploy:
-        topic: 'dwf-cocreation-deploy-${DIGIWF_ENV}'
+        # all deployments are reported back to cocreation demo
+        topic: 'dwf-cocreation-deploy-demo'
     dlqtopic: 'dwf-digiwf-${DIGIWF_ENV}-dlq'
     group: '"dwf-digiwf-engine-${DIGIWF_ENV}"'
   s3service:
