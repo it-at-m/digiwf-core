@@ -1,6 +1,6 @@
 # Technischer Setup
 
-Im Folgenden wird das technische Setup beschrieben
+Im Folgenden wird das technische Setup beschrieben.
 
 ## lokale Infrastruktur
 
@@ -53,14 +53,6 @@ Environments:
 
 ```
 SPRING_PROFILES_ACTIVE: local
-ENGINE_SERVER_HOST: "host.docker.internal"
-```
-
-Des Weiteren müssen die extra_hosts noch konfiguriert werden: 
-
-```
-extra_hosts:
-  - "host.docker.internal:host-gateway"
 ```
 
 Danach das Docker Compose Projekt starten. 
@@ -74,10 +66,8 @@ Danach sollte die Ausgabe von `docker ps` ungefähr wie folgt aussehen:
 
 Wenn das Api Gateway nicht hochgefahren ist, noch einmal `docker compose up -d` ausführen.
 
-Danach startet man das Tasklist Backend (EngineServiceApplication). 
-
+Danach startet man das Tasklist Backend (EngineServiceApplication).
 Dazu startet man dieses mit folgenden Profilen: local, streaming, no-ldap
-
 Zusätzlich bindet man die .env Datei aus dem Stack Ordner ein (Dafür kann man das Idea Plugin [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) nutzen)
 
 Ist das Backend erfolgreich gestartet, startet man noch das Frontend. (`npm run serve:tasklist` im _digiwf-apps_ Ordner)
@@ -91,8 +81,68 @@ Bei erfolgreichem Login bekommt man eine 500 zurück.
 
 Danach wechselt man auf [http://localhost:8081](http://localhost:8081). Man sollte jetzt das Frontend sehen. Alle Netzwerkrequests sollten erfolgreich beantwortet werden können.
 
-### Szenario 2: lokale Infrastruktur starten, um alles in Docker Containern zu betreiben
+### Szenario 2: lokale Infrastruktur starten, um Tasklist-Frontend in Docker Containern zu betreiben
 
-Im Ordner _stack- ausführen:
-```docker compose --profile tasklist up -d```
+In der `stack/docker-compose.yaml` muss die Konfiguration des Api Gateways (Servicename: digiwf-gateway) angepasst werden:
+
+Environments:
+```
+SPRING_PROFILES_ACTIVE: local, docker
+```
+
+Danach im Ordner _stack_ ausführen:
+
+```docker compose --profile tasklist-frotend up -d```
+
+Zusätzlich startet man das Tasklist Backend (EngineServiceApplication).
+Dazu startet man dieses mit folgenden Profilen: local, streaming, no-ldap
+Zusätzlich bindet man die .env Datei aus dem Stack Ordner ein (Dafür kann man das Idea Plugin [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) nutzen)
+
+
+Anschließend sollte man beim Aufruf von [http://localhost:8082](http://localhost:8082) auf die Keycloak Loginmaske weitergeleitet werden.
+Dort meldet man sich mit dem Nutzername _johndoe_ und dem Passwort _test_ an.
+
+Bei erfolgreicher Anmeldung ist das Digiwf Tasklist Frontend sehen. Alle Netzwerkrequests sollten ordnungsgemäß durchgeführt werden.
+
+### Komponenten
+
+Alle Komponenten sind mit einem Dockernetzwerk miteinander verbunden. Zusätzlich werden bei einigen Services Port forwarding angwendet, um von der Hostmaschine direkt auf die Container zuzugreifen. 
+
+#### Keycloak - Identity provider
+
+Verwaltet Nutzer und Gruppen.
+Der dazu verwendete Realm lautet: P82.
+Keycloak stellt OpenId / OAuth2 Funktionalität zur Verfügung. 
+
+Angelegter Nutzer: 
+
+Nutzername: johndoe
+
+Passwort: test
+
+Keycloak nutzt noch eine PostgreSQL DB und Keycloak Migration zur Erstellung des Realms.
+
+#### Kafka - Message Bus
+
+Wird aktuell nur zur Anbindung der DigiWF Engine genutzt.
+
+### Api Gateway
+
+Verwaltet für das Frontend Sessions und hält die JWT Tokens im Speicher.
+
+Verbindet sich mit Keycloak für den Login / die Erneuerung der Access Tokens. 
+
+Tauscht bei jedem, vom Frontend kommenden, Netzwerkrequest die Session gegen den Accesstoken aus und leitet den Requests weiter an das jeweilige Backend (aktuell nur DigiWFEngineService) weiter.
+
+### PostgreSQL
+
+Datenbank für DigiWFEngine und DigiWFTasklist.
+
+### Mailhog
+
+Mail Server für DigiWFEngineService.
+
+### Minio
+
+S3-kompatibler ObjectStorage für DigiWFEngineService.
 

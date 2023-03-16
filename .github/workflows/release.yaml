@@ -266,6 +266,3 @@ jobs:
           release_name: Release ${{ github.event.inputs.release-tag }}
           draft: false
           prerelease: false
-
-
-

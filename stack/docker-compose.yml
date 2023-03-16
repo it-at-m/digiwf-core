@@ -90,7 +90,7 @@ services:
       - internal
 
   digiwf-gateway:
-    image: itatm/digiwf-gateway:dev # TODO: switch to digiwf gateway from docker hub: itatm/digiwf-gateway:tagname
+    image: itatm/digiwf-gateway:local # TODO: switch to digiwf gateway from docker hub: itatm/digiwf-gateway:tagname
     depends_on:
       - keycloak
     env_file:
@@ -101,27 +101,9 @@ services:
       #
       # profile specific configuration
       #
-      SPRING_PROFILES_ACTIVE: local #possible values: local, docker # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
-      ENGINE_SERVER_HOST: "host.docker.internal" # only required if you want to run the engine as Jar on your host machine
-
-      LOGGING_LEVEL_ROOT: debug
+      SPRING_PROFILES_ACTIVE: "local, docker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    networks:
-      - internal
-  nginx:
-    image: nginx:1.23.3
-    container_name: nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "8081:8080" # FIXME: why do we need to open this port
-    depends_on:
-      - digiwf-gateway
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    profiles:
-      - tasklist
     networks:
       - internal
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8081
@@ -130,7 +112,7 @@ services:
     ports:
       - "8091:8080"
     profiles:
-      - tasklist
+      - tasklist-frontend
     networks:
       - internal
   #
