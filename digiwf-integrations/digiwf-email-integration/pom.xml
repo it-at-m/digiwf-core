@@ -6,14 +6,14 @@
 
     <name>digiwf-email-integration</name>
     <artifactId>digiwf-email-integration</artifactId>
-    <version>0.17.4</version>
+    <version>0.17.6-SNAPSHOT</version>
     <description>E-Mail integration used by DigiWF</description>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-integrations</artifactId>
-        <version>0.17.4</version>
+        <version>0.17.6-SNAPSHOT</version>
     </parent>
 
     <properties>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>digiwf-s3-integration</artifactId>
-    <version>0.17.4</version>
+    <version>0.17.6-SNAPSHOT</version>
     <name>digiwf-s3-integration</name>
     <packaging>pom</packaging>
     <description>S3 integration used by DigiWF</description>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-integrations</artifactId>
-        <version>0.17.4</version>
+        <version>0.17.6-SNAPSHOT</version>
     </parent>
 
     <properties>
