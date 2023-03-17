@@ -9,6 +9,7 @@ import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskDeferralTO;
 import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskWithDetailsTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -29,20 +30,20 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
 
   @Override
   public ResponseEntity<TaskCombinedSchemaTO> getSchema(String schemaId) {
-    // FIXME: check with Dominik and Rene
-    return TaskApiDelegate.super.getSchema(schemaId);
+    val schema = workOnUserTask.loadSchema(schemaId);
+    return ok(taskMapper.to(schema));
   }
 
   @Override
   public ResponseEntity<TaskCombinedSchemaTO> getTaskSchema(String taskId) {
-    // FIXME: check with Dominik and Rene
-    return TaskApiDelegate.super.getTaskSchema(taskId);
+    val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
+    return ok(taskMapper.to(taskWithSchema.getSchema()));
   }
 
   @Override
   public ResponseEntity<TaskWithDetailsTO> getTaskByTaskId(String taskId) {
-    var taskWithSchema = workOnUserTask.loadUserTask(taskId);
-    return ok(taskMapper.toWithDetails(taskWithSchema.getTask(), taskWithSchema.getSchemaRef()));
+    val taskWithSchemaRef = workOnUserTask.loadUserTask(taskId);
+    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef()));
   }
 
   @Override

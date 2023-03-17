@@ -3,6 +3,7 @@
  */
 package io.muenchendigital.digiwf.shared.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,7 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile("!no-security")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private final GrantedAuthoritiesConverter grantedAuthoritiesConverter;
 
     private static final String[] PERMITTED_URLS = {
             "/error", // allow the error page
@@ -53,7 +57,11 @@ public class SecurityConfiguration {
                 .antMatchers(PERMITTED_URLS).permitAll()
                 .antMatchers(PROTECTED).authenticated()
                 .and()
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+            .oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(grantedAuthoritiesConverter)
+                .and()
+                .and()
         ;
         return http.build();
         // @formatter:on

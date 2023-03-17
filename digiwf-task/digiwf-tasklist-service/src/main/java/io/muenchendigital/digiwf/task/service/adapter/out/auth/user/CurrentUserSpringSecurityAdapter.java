@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 @Component
 @RequiredArgsConstructor
-public class CurrentUserPortImpl implements CurrentUserPort {
+public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
 
   private static final String USER_ID_CLAIM = "lhmObjectID";
   private static final String USERNAME_CLAIM = "user_name";

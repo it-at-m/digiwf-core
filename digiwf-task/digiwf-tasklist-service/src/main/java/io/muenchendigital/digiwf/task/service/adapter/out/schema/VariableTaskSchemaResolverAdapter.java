@@ -15,6 +15,6 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 public class VariableTaskSchemaResolverAdapter implements TaskSchemaRefResolverPort {
   @Override
   public String apply(Task task) {
-    return reader(task.getPayload()).getOrDefault(TaskVariables.APP_SCHEMA_REF, null);
+    return reader(task.getPayload()).getOrDefault(TaskVariables.TASK_SCHEMA_KEY, null);
   }
 }

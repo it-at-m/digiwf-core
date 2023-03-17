@@ -24,3 +24,8 @@ changes:
       clientRole: true
       name: clientrole_taskuser
       description: Can operate on user tasks.
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: BACKEND_DEPLOY_RESOURCE
+      description: Can operate on schema.

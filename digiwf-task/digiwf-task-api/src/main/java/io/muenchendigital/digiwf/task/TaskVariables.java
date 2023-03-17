@@ -8,5 +8,5 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
  * Definition of task variables.
  */
 public class TaskVariables {
-  public static final VariableFactory<String> APP_SCHEMA_REF = stringVariable("app_task_schema_key");
+  public static final VariableFactory<String> TASK_SCHEMA_KEY = stringVariable("app_task_schema_key");
 }

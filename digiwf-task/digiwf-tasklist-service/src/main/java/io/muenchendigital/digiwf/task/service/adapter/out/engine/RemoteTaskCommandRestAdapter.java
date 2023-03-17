@@ -13,10 +13,10 @@ import java.util.Map;
  * Encapsulation of the Camunda remote client.
  */
 @Component
-public class TaskCommandClient implements TaskCommandPort {
+public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   private final TaskService taskService;
 
-  public TaskCommandClient(@Qualifier("remote") TaskService taskService) {
+  public RemoteTaskCommandRestAdapter(@Qualifier("remote") TaskService taskService) {
     this.taskService = taskService;
   }
 

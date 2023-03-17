@@ -1,6 +1,9 @@
 package io.muenchendigital.digiwf.task.service.application.port.in;
 
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
+import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaNotFoundException;
+import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
+import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
 
 import java.time.OffsetDateTime;
@@ -12,13 +15,29 @@ import java.util.Map;
 public interface WorkOnUserTask {
 
   /**
+   * Loads a schema by id.
+   * @param schemaId schema id.
+   * @return schema.
+   * @throws JsonSchemaNotFoundException if schema is not available or access is not permitted.
+   */
+  JsonSchema loadSchema(String schemaId) throws JsonSchemaNotFoundException;
+  /**
    * Loads a user task by id.
    *
    * @param taskId task id.
-   * @return Task with schema.
+   * @return Task with schema reference.
    * @throws TaskNotFoundException if task is not available or access is not permitted.
    */
   TaskWithSchemaRef loadUserTask(String taskId) throws TaskNotFoundException;
+
+  /**
+   * Loads a user task with schema by id.
+   * @param taskId task id.
+   * @return Task with schema.
+   * @throws TaskNotFoundException if task is not available or access is not permitted.
+   * @throws JsonSchemaNotFoundException if schema is not available or access is not permitted.
+   */
+  TaskWithSchema loadUserTaskWithSchema(String taskId) throws TaskNotFoundException, JsonSchemaNotFoundException;
 
   /**
    * Completes user task.
@@ -26,8 +45,9 @@ public interface WorkOnUserTask {
    * @param taskId  task id.
    * @param payload process variables to pass to the process during completion.
    * @throws TaskNotFoundException if task is not available or access is not permitted.
+   * @throws JsonSchemaNotFoundException if schema is not available or access is not permitted.
    */
-  void completeUserTask(String taskId, Map<String, Object> payload) throws TaskNotFoundException;
+  void completeUserTask(String taskId, Map<String, Object> payload) throws TaskNotFoundException, JsonSchemaNotFoundException;
 
   /**
    * Save variables for the user task.
@@ -35,8 +55,9 @@ public interface WorkOnUserTask {
    * @param taskId  task id.
    * @param payload process variables to pass to the process during completion.
    * @throws TaskNotFoundException if task is not available or access is not permitted.
+   * @throws JsonSchemaNotFoundException if schema is not available or access is not permitted.
    */
-  void saveUserTask(String taskId, Map<String, Object> payload) throws TaskNotFoundException;
+  void saveUserTask(String taskId, Map<String, Object> payload) throws TaskNotFoundException, JsonSchemaNotFoundException;
 
   /**
    * Assigns a user task to another user.

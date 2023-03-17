@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper;
 
 import io.holunda.polyflow.view.Task;
+import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.port.in.rest.model.*;
 import org.mapstruct.Mapper;
@@ -20,6 +21,10 @@ public interface TaskMapper {
   @Mapping(target = "variables", source = "task.payload")
   @Mapping(target = "schemaRef", source = "schemaRef")
   TaskWithDetailsTO toWithDetails(Task task, String schemaRef);
+
+  @Mapping(target = "schemaId", source = "id")
+  @Mapping(target = "schemaJson", source = "schema")
+  TaskCombinedSchemaTO to(JsonSchema schema);
 
   default PageOfTasksTO to(PageOfTasksWithSchema domain) {
     var pagingAndSorting = domain.getPagingAndSorting();

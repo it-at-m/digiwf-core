@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.task.service.infra.engine;
 
 import feign.Logger;
 import org.camunda.community.rest.EnableCamundaRestClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,8 +1,3 @@
-taskmanagement:
-  oauth2:
-    engine-registrations:
-      -
-
 server:
   port: ${TASKSERVICE_SERVER_PORT}
 spring:
@@ -49,6 +44,8 @@ spring:
 feign:
   client:
     config:
+      jsonschema:
+        url: "http://localhost:${ENGINE_SERVER_PORT}/"
       default:
         url: "http://localhost:${ENGINE_SERVER_PORT}/engine-rest/"
 
