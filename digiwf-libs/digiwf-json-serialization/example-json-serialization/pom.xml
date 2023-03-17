@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-json-serialization</artifactId>
-        <version>0.17.4</version>
+        <version>0.17.6-SNAPSHOT</version>
     </parent>
 
     <dependencies>

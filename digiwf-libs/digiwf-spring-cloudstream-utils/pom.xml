@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-spring-cloudstream-utils</artifactId>
     <packaging>pom</packaging>
-    <version>0.17.4</version>
+    <version>0.17.6-SNAPSHOT</version>
     <name>digiwf-spring-cloudstream-utils</name>
     <description>Cloudstream Utils used by DigiWF</description>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
-        <version>0.17.4</version>
+        <version>0.17.6-SNAPSHOT</version>
     </parent>
 
     <modules>

@@ -1,16 +1,16 @@
 {
   "name": "@muenchen/digiwf-tasklist",
-  "version": "0.21.7",
+  "version": "0.21.8",
   "private": true,
   "scripts": {
     "dev": "vite --host localhost",
     "build": "vite build"
   },
   "dependencies": {
-    "@muenchen/digiwf-engine-api-internal": "^0.21.7",
-    "@muenchen/digiwf-form-renderer": "^0.21.7",
-    "@muenchen/digiwf-multi-file-input": "^0.21.7",
-    "@muenchen/digiwf-date-input": "^0.21.7",
+    "@muenchen/digiwf-date-input": "^0.21.8",
+    "@muenchen/digiwf-engine-api-internal": "^0.21.8",
+    "@muenchen/digiwf-form-renderer": "^0.21.8",
+    "@muenchen/digiwf-multi-file-input": "^0.21.8",
     "@muenchen/vjsf": "^2.21.5",
     "@tanstack/vue-query": "^4.19.1",
     "core-js": "^3.8.3",

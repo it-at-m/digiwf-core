@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-engine-api-internal",
   "description": "Internal digiWF engine api",
-  "version": "0.21.7",
+  "version": "0.21.8",
   "module": "dist/digiwf-engine-api-internal.mjs",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
