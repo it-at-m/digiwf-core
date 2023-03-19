@@ -1,36 +1,39 @@
 # Task Management
 
-Im Rahmen der Automatisierung und Digitalisierung von Prozessen wird task-orientierte Arbeitweise eingeführt. Dabei werden durch das System einzelne Benutzeraufgaben erstellt und einem Kreis von Mitarbeitern zugewiesen. Die Aufgabe erscheint als ein Eintrag in einer **Aufgabenliste**. Beim Öffnen der Aufgabe wird dem Benutzer über einen **Aufgabenformular** der Kontext der Aufgabe angezeigt und für den Abschluß der Aufgabe notwendige Eingabefelder eingeblendet.
+Im Rahmen der Automatisierung und Digitalisierung von Prozessen wird task-orientierte Arbeitsweise eingeführt. Dabei werden 
+durch das System einzelne Benutzeraufgaben erstellt und einem Kreis von Mitarbeitern zugewiesen. Die Aufgabe erscheint als 
+ein Eintrag in einer **Aufgabenliste**. Beim Öffnen der Aufgabe wird dem Benutzer über ein **Aufgabenformular** der Kontext 
+der Aufgabe angezeigt und für den Abschluss der Aufgabe notwendige Eingabefelder eingeblendet.
 
 
 ## Ist
 
 ### Aufgabenzuweisung (Assignment)
 
-Die Zuweisung von Aufgaben an die Benutzer und Gruppen erfolgt zur Zeit über:
+Die Zuweisung von Aufgaben an die Benutzer und Gruppen erfolgt zurzeit über:
 
 - `Assignee`: Zuweisung einer Aufgabe an eine einzelne Person. Die `LHMObjectId` des Benutzers wird dazu in Camunda Assignee Feld geschrieben.
 - `Candidate Users`: Änderung der Sichtbarkeit einer Aufgabe für eine Liste der einzeln bekannten Personen. Die komma-separierte Liste der `LHMObjectId` der Benutzers wird in Camunda Candidate Users Feld geschrieben.
 - `Candidate Groups`: Änderung der Sichtbarkeit einer Aufgabe für Organisationseinheiten (LDAP OU). Die komma-separierte Liste der `OU` der Benutzers wird in Camunda Candidate Groups Feld geschrieben.
 
-Die Aufgaben die persönlich zugewisen sind sind unter dem Abschnitt "Meine Aufgaben" des Benutzers zu finden. Die für einen Benutzer über die Nennung in den Candidate USers oder über die OU in Candidate Groups werden die Aufgaben im Abschnitt "Gruppenaufgaben" dargestellt. Die Bearbeitung einer Gruppenaufgabe weißt diese dem Benutzer zu (early claim).
+Die Aufgaben die persönlich zugewiesen sind, sind unter dem Abschnitt "Meine Aufgaben" des Benutzers zu finden. Die für einen 
+Benutzer über die Nennung in den Candidate USers oder über die OU in Candidate Groups werden die Aufgaben im Abschnitt "Gruppenaufgaben" dargestellt. Die Bearbeitung einer Gruppenaufgabe weisst diese dem Benutzer zu (early claim).
 
 ### Schnellfilter
 
-Suchen in der Taskliste können gespeichert werden, so dass ein Benutzer schnell zu den bereits getätigten Suchen zurückkehren kann. Z.Z. komplett über Frontend gelöst.
+Suchen in der Taskliste können gespeichert werden, sodass ein Benutzer schnell zu den bereits getätigten Suchen zurückkehren kann. Z.Z. komplett über Frontend gelöst.
 
 ### Zurückstellen der Aufgaben
 
-Durch das setzen eines Nachverfolgungsdatums kann die Aufgabe "zurückgestellt" werden. Auf das Datum wird es im Frontend gefiltert.
+Durch das Setzen eines Nachverfolgungsdatums kann die Aufgabe "zurückgestellt" werden. Auf das Datum wird es im Frontend gefiltert.
 
 ### Abbrechen der Aufgaben
 
-Eine Aufgabe kann abbgebrochen werden (wirft ein BPMN Fehler).
+Eine Aufgabe kann abgebrochen werden (wirft ein BPMN Fehler).
 
 ### Zugriff auf Dateien
 
-Input Variablen die an einem User Taks definiert sind müssen aufgelöst werden müssen, um die Autorisierung der Pfade im S3 zu prüfen. (`app_files_paths`, `app_file_paths_readonly`).
-
+Input Variablen, die an einem User Task definiert sind, müssen aufgelöst werden müssen, um die Autorisierung der Pfade im S3 zu prüfen. (`app_files_paths`, `app_file_paths_readonly`).
 
 ## Soll
 
@@ -60,5 +63,36 @@ Lokale Task Variable:
 }
 ```
 
-
 ### Klassifikation von Aufgaben
+
+tbd.
+
+# Technische Architektur
+
+Das folgende Diagram verdeutlicht den Gesamtzusammenhang:
+
+![Task Management Architekturübersicht](~@source/images/platform/components/task-connector.png)
+
+## Task Engine Connector
+
+Eine oder mehrere Prozessengines erzeugen während der Ausführung Benutzeraufgaben, die von Benutzern abgearbeitet werden. Dazu müssen 
+die Aufgaben von den Engines in zentrale Task Management transportiert werden. Die Aufgaben werden mit einem speziellen Engine-Connector
+eingesammelt, mit den Metadaten eingereichert und an das Kafka Topic `dwf-taskmanagement-tasks-<STAGE>` versandt. Dabei werden
+`polyflow-connector` und `polyflow-core` Komponenten auf der Engine-Seite deployed. 
+
+## Task Management
+
+Das Task Management sammelt die Aufgaben, die über den Kafka Topic `dwf-taskmanagement-tasks-<STAGE>` ankommen und stellt diese 
+über eine REST Schnittstelle der Task Liste bereit. Dabei werden die Taskformulare und die Taskdaten an die Task Liste übermittelt. 
+Wenn der Task abgeschlossen wird, übernimmt das Task Management die Validierung der Daten und schickt diese im Erfolgsfall via
+REST an die Prozess Engine.
+
+## Anbindung Security
+
+Entsprechend der Referenzarchitektur findet die Anbindung der Frontends via ein Reverse-Proxy Gateway statt. Das Gateway sorgt für
+die Anfrage und Zwischenspeicherung des Access Tokens und übermittelt diesen an das Backend. Aus diesem Access Token wird das 
+`lhmObjectID` Claim gelesen und gegen das LDAP überprüft. 
+
+Bei der Kommunikation zwischen den Systemen wird ein technischer Benutzer (Service Account der Anwendung) genutzt. Um die
+Identität des aufrufenden Benutzers zu transportieren, wird ein zusätzlicher spezieller HTTP Header `X-Authorization-Username` 
+verwendet. Der Header trägt den Benutzernamen des Aufrufbenutzers (LDAP `lhmObjectID`). 

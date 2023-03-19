@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
+import static io.muenchendigital.digiwf.task.HttpHeaders.HEADER_AUTHORIZED_USERNAME;
+
 /**
  * Feign request interceptor setting authorization token.
  */
@@ -23,7 +25,7 @@ public class AuthRequestInterceptor implements RequestInterceptor {
   public void apply(RequestTemplate requestTemplate) {
     requestTemplate
         .header("Authorization", "Bearer " + oAuth2TokenProvider.get().getTokenValue()) // service account token
-        .header("X-Authorization-Username", currentUserPort.getCurrentUserUsername()) // username of the real user
+        .header(HEADER_AUTHORIZED_USERNAME, currentUserPort.getCurrentUserUsername()) // username of the real user
     ;
   }
 }

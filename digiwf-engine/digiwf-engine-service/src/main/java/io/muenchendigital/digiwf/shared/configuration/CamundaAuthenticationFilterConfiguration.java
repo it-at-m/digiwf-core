@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
+import static io.muenchendigital.digiwf.task.HttpHeaders.HEADER_AUTHORIZED_USERNAME;
+
 /**
  * Camunda Security configuration.
  * Adds the filter retrieving currently logged-in user and setting Camunda authorization to it for all REST requests.
@@ -88,7 +90,7 @@ public class CamundaAuthenticationFilterConfiguration {
        */
     private Optional<String> extractUserNameFromHeader(ServletRequest request) {
       final HttpServletRequest httpRequest = (HttpServletRequest) request;
-      return Optional.ofNullable(httpRequest.getHeader("X-Authorization-Username"));
+      return Optional.ofNullable(httpRequest.getHeader(HEADER_AUTHORIZED_USERNAME));
     }
   }
 
