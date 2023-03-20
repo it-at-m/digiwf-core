@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.integration.core.impl;
 
 import io.muenchendigital.digiwf.integration.core.api.DigiwfIntegration;
+import io.muenchendigital.digiwf.integration.core.api.IntegrationExecuteApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class IntegrationInitializer implements ApplicationContextAware {
     private ApplicationContext ctx;
-    private final IntegrationExecuteApiImpl integrationExecuteApi;
+    private final IntegrationExecuteApi integrationExecuteApi;
 
     /**
      * Initializes all integrations after the application has started using the spring application ready event.
@@ -30,7 +31,7 @@ public class IntegrationInitializer implements ApplicationContextAware {
     @EventListener(ApplicationReadyEvent.class)
     public void initializeIntegrationsAfterStartup() {
         final List<Integration> integrations = this.getIntegrations();
-        integrations.forEach(this.integrationExecuteApi::registerIntegration);
+        integrations.forEach(this.integrationExecuteApi::register);
     }
 
     /**

@@ -30,7 +30,7 @@ public class BpmnErrorService {
      * @param errorCode      the specific error code
      * @param errorMessage   the specific error message
      *
-     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.17.6}.
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
      * @deprecated This function is no longer supported and may be removed in a future release
      */
     @Deprecated

@@ -22,7 +22,8 @@ public class IntegrationExecuteApiImpl implements IntegrationExecuteApi {
      *
      * @param integration integration to be registered
      */
-    public void registerIntegration(final Integration integration) {
+    @Override
+    public void register(final Integration integration) {
         this.integrations.add(integration);
     }
 

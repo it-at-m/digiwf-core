@@ -18,10 +18,10 @@ class IntegrationExecuteApiImplTest {
 
     @BeforeEach
     void setUp() throws NoSuchMethodException {
-        this.integrationExecuteApi.registerIntegration(this.getExampleIntegration());
-        this.integrationExecuteApi.registerIntegration(this.getExampleIntegrationWithoutReturn());
-        this.integrationExecuteApi.registerIntegration(this.getTechnicalErrorIntegraton());
-        this.integrationExecuteApi.registerIntegration(this.getIncidentIntegration());
+        this.integrationExecuteApi.register(this.getExampleIntegration());
+        this.integrationExecuteApi.register(this.getExampleIntegrationWithoutReturn());
+        this.integrationExecuteApi.register(this.getTechnicalErrorIntegraton());
+        this.integrationExecuteApi.register(this.getIncidentIntegration());
     }
 
     @Test

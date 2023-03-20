@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
-        <version>0.17.6-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-integration-lib</artifactId>
