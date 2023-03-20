@@ -7,6 +7,7 @@ import io.muenchendigital.digiwf.task.service.port.in.rest.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = DateMapper.class)
@@ -25,6 +26,13 @@ public interface TaskMapper {
   @Mapping(target = "schemaId", source = "id")
   @Mapping(target = "schemaJson", source = "schema")
   TaskCombinedSchemaTO to(JsonSchema schema);
+
+  @Mapping(target = "id", source = "task.id")
+  @Mapping(target = "processName", source = "task.sourceReference.name")
+  @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
+  @Mapping(target = "variables", source = "task.payload")
+  @Mapping(target = "schema", expression = "java(schema.asMap())")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull JsonSchema schema);
 
   default PageOfTasksTO to(PageOfTasksWithSchema domain) {
     var pagingAndSorting = domain.getPagingAndSorting();

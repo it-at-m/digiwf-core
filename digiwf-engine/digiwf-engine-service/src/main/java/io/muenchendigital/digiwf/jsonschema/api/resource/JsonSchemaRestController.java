@@ -58,7 +58,8 @@ public class JsonSchemaRestController {
      */
     @GetMapping("/{key}")
     @Operation(description = "get json schema by key")
-    @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
+    // FIXME: check with @dominikhorn93 if the permission check is required.
+   // @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<JsonSchemaTO> getJsonSchema(@PathVariable final String key) {
         final Optional<JsonSchema> schema = this.schemaService.getByKey(key);
         if (schema.isEmpty()) {

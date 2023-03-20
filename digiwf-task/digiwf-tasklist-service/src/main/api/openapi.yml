@@ -54,6 +54,23 @@ paths:
         404:
           description: Schema not found.
 
+  /tasks/id/{taskId}/with-schema:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    get:
+      operationId: getTaskWithSchemaByTaskId
+      description: Returns a task with schema by its id.
+      tags:
+        - Task
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskWithSchema"
+        404:
+          description: Task not found.
 
   /tasks/id/{taskId}:
     parameters:
@@ -462,6 +479,51 @@ components:
       required:
         - id
         - schemaRef
+        - variables
+
+    TaskWithSchema:
+      description: Represents a user task with embedded combined schema.
+      type: object
+      properties:
+        id:
+          description: Id of the task.
+          type: string
+        name:
+          description: Name of the task.
+          type: string
+        description:
+          description: Description of the task.
+          type: string
+        processName:
+          description: Name of the process the task belongs to.
+          type: string
+        processInstanceId:
+          description: Id of the process instance.
+          type: string
+        assignee:
+          description: User id of assignee.
+          type: string
+        followUpDate:
+          description: Follow-up date of the task.
+          type: string
+          format: date-time
+        createTime:
+          description: Create date and time of the task.
+          type: string
+          format: date-time
+        schema:
+          description: Schema of the task.
+          type: object
+          additionalProperties:
+            type: object
+        variables:
+          description: Variables of the task.
+          type: object
+          additionalProperties:
+            type: object
+      required:
+        - id
+        - schema
         - variables
 
     TaskAssignment:

@@ -63,6 +63,10 @@ public class GrantedAuthoritiesConverter extends JwtAuthenticationConverter {
     private static final String ROLE_DECLARATIONS = "roles";
     private static final String REALM_ROLES_CLAIM = "realm_access";
     private static final String CLIENTS_CLAIM = "resource_access";
+    /**
+     * LHM Claim containing the user roles mapped from the current client via client scope protocol mapper.
+     */
+    private static final String USER_ROLES_CLAIM = "user_roles";
     private static final String CLIENT_ROLE_SEPARATOR = ":";
 
     @SuppressWarnings("unchecked")
@@ -72,6 +76,8 @@ public class GrantedAuthoritiesConverter extends JwtAuthenticationConverter {
         // Retrieve client roles of all clients
         final Collection<String> clientAuthorities = getClientAuthorities(jwt);
 
+        final Collection<String> userRoles = getUserRolesClaimAuthorities(jwt);
+
         // Retrieve realm roles
         final Map<String, Object> realmAccess = jwt.getClaimAsMap(REALM_ROLES_CLAIM);
 
@@ -80,10 +86,10 @@ public class GrantedAuthoritiesConverter extends JwtAuthenticationConverter {
             realmAuthorities = (Collection<String>) realmAccess.get(ROLE_DECLARATIONS);
         }
 
-        return Stream.concat(realmAuthorities.stream(), clientAuthorities.stream())
-                     .map(s -> SPRING_ROLE_PREFIX + s)
-                     .map(SimpleGrantedAuthority::new)
-                     .collect(toList());
+        return Stream.concat(
+            Stream.concat(realmAuthorities.stream(), clientAuthorities.stream()).map(s -> SPRING_ROLE_PREFIX + s),
+            userRoles.stream()
+        ).map(SimpleGrantedAuthority::new).collect(toList());
     }
 
     public static List<String> getClientAuthorities(ClaimAccessor jwt) {
@@ -94,6 +100,11 @@ public class GrantedAuthoritiesConverter extends JwtAuthenticationConverter {
             clientClaims.forEach((client, claims) -> clientAuthorities.addAll(extractRoles(client, (JSONObject) claims)));
         }
         return clientAuthorities;
+    }
+
+    public static List<String> getUserRolesClaimAuthorities(ClaimAccessor jwt) {
+        // retrieve roles
+        return jwt.getClaimAsStringList(USER_ROLES_CLAIM);
     }
 
     @SuppressWarnings("unchecked")

@@ -3,10 +3,7 @@ package io.muenchendigital.digiwf.task.service.adapter.in.rest.impl;
 import io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper.TaskMapper;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.port.in.rest.api.TaskApiDelegate;
-import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskAssignmentTO;
-import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskCombinedSchemaTO;
-import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskDeferralTO;
-import io.muenchendigital.digiwf.task.service.port.in.rest.model.TaskWithDetailsTO;
+import io.muenchendigital.digiwf.task.service.port.in.rest.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -38,6 +35,12 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
   public ResponseEntity<TaskCombinedSchemaTO> getTaskSchema(String taskId) {
     val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
     return ok(taskMapper.to(taskWithSchema.getSchema()));
+  }
+
+  @Override
+  public ResponseEntity<TaskWithSchemaTO> getTaskWithSchemaByTaskId(String taskId) {
+    val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
+    return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema()));
   }
 
   @Override
@@ -81,4 +84,5 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
     workOnUserTask.undeferUserTask(taskId);
     return noContent().build();
   }
+
 }
