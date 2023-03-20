@@ -13,6 +13,7 @@ import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentU
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -43,7 +44,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   }
 
   @Override
-  public TaskWithSchema loadUserTaskWithSchema(String taskId) throws TaskNotFoundException {
+  public TaskWithSchema loadUserTaskWithSchema(String taskId) throws TaskNotFoundException, JsonSchemaNotFoundException {
     val task = getTaskForUser(taskId);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val schema = jsonSchemaPort.getSchemaById(schemaRef);
