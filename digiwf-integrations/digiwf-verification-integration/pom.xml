@@ -6,13 +6,13 @@
 
     <artifactId>digiwf-verification-integration</artifactId>
     <packaging>pom</packaging>
-    <version>0.17.4</version>
+    <version>0.17.6-SNAPSHOT</version>
     <name>digiwf-verification-integration</name>
     <description>Verification Integration</description>
     <parent>
         <artifactId>digiwf-integrations</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.4</version>
+        <version>0.17.6-SNAPSHOT</version>
     </parent>
 
     <modules>
