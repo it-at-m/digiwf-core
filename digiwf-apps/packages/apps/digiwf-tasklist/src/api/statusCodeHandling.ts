@@ -23,8 +23,8 @@ export const initStatusCodeHandling = () => {
       const configUrl = error.config.url;
       const responseURLPath= new URL(error.request.responseURL).pathname;
 
-      // FIXME document or find a better solution
-      if(!configUrl.startsWith(responseURLPath)) {
+      // if request is a cors exception or was automatically forwarded
+      if(error.code === "ERR_NETWORK" || !configUrl.startsWith(responseURLPath)) {
         console.log("Request was redirect to other endpoint")
         statusCodeHandler[302] && statusCodeHandler[302](error.response);
       }

@@ -62,7 +62,7 @@
         </p>
       </v-banner>
       <v-banner
-        :value="!loggedin"
+        :value="!loggedIn"
         icon="mdi-alert"
         color="error"
         single-line
@@ -170,7 +170,6 @@ import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
-import UserService from "./api/UserService";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
 
@@ -183,7 +182,7 @@ export default class App extends Vue {
   username = "";
   appInfo: InfoTO | null = null;
   loginLoading = false;
-  loggedin = false;
+  loggedIn = true;
 
   created(): void {
     this.loadData();
@@ -211,7 +210,7 @@ export default class App extends Vue {
   setUserName(user: UserTO): void {
     this.username = user.forename + " " + user.surname;
     // if session is not valid, user is updated to an empty object in redux store
-    this.loggedin = !!user.username
+    this.loggedIn = !!user.username
   }
 
   @Watch("$store.state.processInstances.processInstances")
