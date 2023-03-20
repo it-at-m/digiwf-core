@@ -18,7 +18,15 @@
           </v-icon>
           <span class="font-weight-bold">{{ value.title }}</span>
           <v-spacer/>
-          <span v-if=" isDefault" class="font-weight-bold mr-10">default</span>
+          <v-chip v-if=" isDefault" variant="outlined" class="font-weight-bold mr-10">
+              default
+              <v-btn
+                icon
+                @click="defaultDeleted"
+              >
+                <v-icon small>mdi-close</v-icon>
+              </v-btn>
+          </v-chip>
           <v-menu
               top
               offset-x
@@ -65,7 +73,7 @@ import {computed, defineComponent, inject} from "vue";
 
 export default defineComponent({
   props: ['value', 'default'],
-  emits: ['input', 'defaultChanged', 'remove'],
+  emits: ['input', 'defaultChanged', 'defaultDeleted', 'remove'],
   setup(props, {emit}) {
     const dragOptions = {
       animation: 200,
@@ -81,6 +89,10 @@ export default defineComponent({
     }
     const defaultChanged = (): any => {
       emit('defaultChanged', extractKey());
+    }
+
+    const defaultDeleted = () => {
+      emit('defaultDeleted');
     }
 
     const removed = () => {
@@ -124,6 +136,7 @@ export default defineComponent({
       isDefault,
       properties,
       defaultChanged,
+      defaultDeleted,
       removed,
       input,
       onContainerChanged,
