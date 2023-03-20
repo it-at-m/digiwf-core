@@ -80,7 +80,7 @@ export default defineComponent({
       emit('input', value)
     }
     const defaultChanged = (): any => {
-      return extractKey();
+      emit('defaultChanged', extractKey());
     }
 
     const removed = () => {
