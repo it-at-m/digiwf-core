@@ -1,6 +1,6 @@
-package io.muenchendigital.digiwf.message.adapter.api;
+package io.muenchendigital.digiwf.message.core.impl;
 
-import io.muenchendigital.digiwf.message.core.impl.SendMessagePort;
+import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
@@ -11,11 +11,11 @@ import reactor.core.publisher.Sinks;
 import java.util.Map;
 
 /**
- * Implementation of a {@link io.muenchendigital.digiwf.message.core.impl.SendMessagePort} for spring cloud stream.
+ * Implementation of a {@link SendMessagePort} for spring cloud stream.
  */
 @Slf4j
 @RequiredArgsConstructor
-public class OutputAdapter implements SendMessagePort {
+public class MessagePortImpl implements SendMessagePort {
 
     private final Sinks.Many<org.springframework.messaging.Message<Object>> messageSink;
 
@@ -45,4 +45,5 @@ public class OutputAdapter implements SendMessagePort {
         log.debug("Message: {}", message);
         return emitResult.isSuccess();
     }
+
 }

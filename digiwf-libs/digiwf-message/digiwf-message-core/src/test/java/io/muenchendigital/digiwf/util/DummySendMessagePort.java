@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.util;
 
-import io.muenchendigital.digiwf.message.core.impl.SendMessagePort;
+import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
 import io.muenchendigital.digiwf.message.core.impl.model.Message;
 
 public class DummySendMessagePort implements SendMessagePort {

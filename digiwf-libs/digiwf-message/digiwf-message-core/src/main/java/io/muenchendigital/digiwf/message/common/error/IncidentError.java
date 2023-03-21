@@ -1,0 +1,15 @@
+package io.muenchendigital.digiwf.message.common.error;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * Exception to be thrown when an integration fails with an incident that should be created.
+ */
+@AllArgsConstructor
+@Getter
+public class IncidentError {
+
+    private final String errorMessage;
+
+}

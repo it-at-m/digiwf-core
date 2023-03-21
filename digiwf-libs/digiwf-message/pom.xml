@@ -15,7 +15,6 @@
     <modules>
         <module>digiwf-message-core</module>
         <module>digiwf-message-starter</module>
-        <module>digiwf-message-adapter-springcloudstream</module>
         <module>digiwf-message-example-simple</module>
         <module>digiwf-message-example-spring-cloud-stream</module>
     </modules>

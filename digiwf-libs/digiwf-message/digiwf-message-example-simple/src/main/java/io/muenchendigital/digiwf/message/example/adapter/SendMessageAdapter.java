@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.message.example.adapter;
 
-import io.muenchendigital.digiwf.message.core.impl.SendMessagePort;
+import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
 import io.muenchendigital.digiwf.message.core.impl.model.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

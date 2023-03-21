@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.message.core.impl;
 
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
 import io.muenchendigital.digiwf.message.core.impl.model.Message;
 import lombok.RequiredArgsConstructor;
 

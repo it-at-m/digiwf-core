@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.message.process.impl.port;
+package io.muenchendigital.digiwf.message.process.api.out;
 
 import io.muenchendigital.digiwf.message.process.impl.model.Message;
 
