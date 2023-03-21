@@ -1,16 +1,16 @@
 package io.muenchendigital.digiwf.message.configuration;
 
-import io.muenchendigital.digiwf.message.adapter.api.OutputAdapter;
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
 import io.muenchendigital.digiwf.message.core.impl.MessageApiImpl;
+import io.muenchendigital.digiwf.message.core.impl.MessagePortImpl;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.out.BpmnErrorPort;
+import io.muenchendigital.digiwf.message.process.api.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.message.process.api.out.IncidentPort;
+import io.muenchendigital.digiwf.message.process.api.out.StartProcessPort;
 import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
 import io.muenchendigital.digiwf.message.process.impl.ProcessPortImpl;
-import io.muenchendigital.digiwf.message.process.impl.port.out.CorrelateMessagePort;
-import io.muenchendigital.digiwf.message.process.impl.port.out.IncidentPort;
-import io.muenchendigital.digiwf.message.process.impl.port.out.StartProcessPort;
-import io.muenchendigital.digiwf.message.process.impl.port.out.TechnicalErrorPort;
 import io.muenchendigital.digiwf.message.properties.DigiwfMessageProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,10 +21,10 @@ import org.springframework.messaging.Message;
 import reactor.core.publisher.Sinks;
 
 /**
- * Auto configuration for the digiwf-message library.
+ * Autoconfiguration for the digiwf-message library.
  */
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.message.adapter")
+@ComponentScan(basePackages = "io.muenchendigital.digiwf.message.infra")
 @EnableConfigurationProperties(value = DigiwfMessageProperties.class)
 public class DigiwfMessageAutoConfiguration {
 
@@ -39,7 +39,7 @@ public class DigiwfMessageAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public MessageApiImpl messageApiImpl(final SendMessagePort messagePort) {
+    public MessageApi messageApi(final SendMessagePort messagePort) {
         return new MessageApiImpl(messagePort);
     }
 
@@ -49,49 +49,27 @@ public class DigiwfMessageAutoConfiguration {
      * @param correlateMessagePort
      * @param startProcessPort
      * @param incidentPort
-     * @param technicalErrorPort
+     * @param bpmnErrorPort
      * @return
      */
     @Bean
     @ConditionalOnMissingBean
-    public ProcessApiImpl processApiImpl(
+    public ProcessApi processApi(
             final CorrelateMessagePort correlateMessagePort,
             final StartProcessPort startProcessPort,
             final IncidentPort incidentPort,
-            final TechnicalErrorPort technicalErrorPort
+            final BpmnErrorPort bpmnErrorPort
             ) {
         return new ProcessApiImpl(
                 this.digiwfMessageProperties.getCorrelateMessageDestination(),
                 this.digiwfMessageProperties.getStartProcessDestination(),
                 this.digiwfMessageProperties.getIncidentDestination(),
-                this.digiwfMessageProperties.getTechnicalErrorDestination(),
+                this.digiwfMessageProperties.getBpmnErrorDestination(),
                 correlateMessagePort,
                 startProcessPort,
                 incidentPort,
-                technicalErrorPort
+                bpmnErrorPort
         );
-    }
-
-    /**
-     * Creates the bean for the default Implementation of {@link ProcessApi}.
-     * @param processApiImpl
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public ProcessApi processApi(final ProcessApiImpl processApiImpl) {
-        return processApiImpl;
-    }
-
-    /**
-     * Creates the bean for the default Implementation of {@link MessageApi}.
-     * @param messageApiImpl
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public MessageApi messageApi(final MessageApiImpl messageApiImpl) {
-        return messageApiImpl;
     }
 
     /**
@@ -101,28 +79,31 @@ public class DigiwfMessageAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SendMessagePort sendMessagePort() {
-        return this.springCloudStreamAdapter();
+        return new MessagePortImpl(this.messageSink);
     }
 
-    /**
-     * Creates the bean for the default Implementation of {@link CorrelateMessagePort}, {@link StartProcessPort}, {@link IncidentPort} and {@link TechnicalErrorPort}.
-     * @param messageApi
-     * @return
-     */
     @Bean
     @ConditionalOnMissingBean
-    public ProcessPortImpl processAdapter(final MessageApi messageApi) {
+    public CorrelateMessagePort correlateMessagePort(final MessageApi messageApi) {
         return new ProcessPortImpl(messageApi);
     }
 
-    // spring cloud stream adapter
+    @Bean
+    @ConditionalOnMissingBean
+    public StartProcessPort startProcessPort(final MessageApi messageApi) {
+        return new ProcessPortImpl(messageApi);
+    }
 
-    /**
-     * Creates the default Implementation of {@link SendMessagePort}.
-     * @return
-     */
-    public OutputAdapter springCloudStreamAdapter() {
-        return new OutputAdapter(this.messageSink);
+    @Bean
+    @ConditionalOnMissingBean
+    public IncidentPort incidentPort(final MessageApi messageApi) {
+        return new ProcessPortImpl(messageApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public BpmnErrorPort bpmnErrorPort(final MessageApi messageApi) {
+        return new ProcessPortImpl(messageApi);
     }
 
 }

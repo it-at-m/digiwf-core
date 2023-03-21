@@ -57,10 +57,10 @@ public class SpringCloudStreamAdapter {
                     this.processApi.correlateMessage(processInstance, messageName, result);
                 } catch (final ValidationException validationException) {
                     // validation exceptions are always technical errors
-                    this.processApi.handleTechnicalError(processInstanceHeader.get().toString(), "400", validationException.getLocalizedMessage());
+                    this.processApi.handleBpmnError(processInstanceHeader.get().toString(), "400", validationException.getLocalizedMessage());
                     log.warn("Handling validation error as technical error {}", validationException.getLocalizedMessage());
                 } catch (final TechnicalError technicalError) {
-                    this.processApi.handleTechnicalError(processInstance, technicalError.getErrorCode(), technicalError.getErrorMessage());
+                    this.processApi.handleBpmnError(processInstance, technicalError.getErrorCode(), technicalError.getErrorMessage());
                     log.warn("Handling technical error for process {} error {}", technicalError.getProcessInstanceId(), technicalError.getErrorMessage());
                 }
             } catch (final Exception e) {

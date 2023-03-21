@@ -20,7 +20,7 @@ public class ExceptionHandling {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleRuntimeException(final TechnicalError ex) {
         log.warn("Handle technical error");
-        this.processApi.handleTechnicalError(ex.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
+        this.processApi.handleBpmnError(ex.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

@@ -1,21 +1,21 @@
 package io.muenchendigital.digiwf.message.process.impl;
 
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import io.muenchendigital.digiwf.message.process.api.out.BpmnErrorPort;
 import io.muenchendigital.digiwf.message.process.api.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.message.process.api.out.IncidentPort;
 import io.muenchendigital.digiwf.message.process.api.out.StartProcessPort;
-import io.muenchendigital.digiwf.message.process.api.out.TechnicalErrorPort;
+import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.TechnicalErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.model.Message;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Default implementation of {@link StartProcessPort}, {@link CorrelateMessagePort}, {@link IncidentPort} and {@link TechnicalErrorPort}.
+ * Default implementation of {@link StartProcessPort}, {@link CorrelateMessagePort}, {@link IncidentPort} and {@link BpmnErrorPort}.
  */
 @RequiredArgsConstructor
-public class ProcessPortImpl implements StartProcessPort, CorrelateMessagePort, IncidentPort, TechnicalErrorPort {
+public class ProcessPortImpl implements StartProcessPort, CorrelateMessagePort, IncidentPort, BpmnErrorPort {
 
     private final MessageApi messageApi;
 
@@ -59,7 +59,7 @@ public class ProcessPortImpl implements StartProcessPort, CorrelateMessagePort, 
      * @return true if the message was sent successfully, false otherwise.
      */
     @Override
-    public boolean sendTechnicalErrorMessage(final Message<TechnicalErrorDto> message, final String destination) {
+    public boolean sendBpmnError(final Message<BpmnErrorDto> message, final String destination) {
         return this.messageApi.sendMessage(message.getPayload(), message.getHeaders(), destination);
     }
 }

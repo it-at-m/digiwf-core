@@ -1,7 +1,6 @@
-package io.muenchendigital.digiwf.message.impl;
+package io.muenchendigital.digiwf.message.core.impl;
 
 
-import io.muenchendigital.digiwf.message.core.impl.MessageApiImpl;
 import io.muenchendigital.digiwf.message.core.impl.model.Message;
 import io.muenchendigital.digiwf.util.DummySendMessagePort;
 import org.junit.jupiter.api.Assertions;

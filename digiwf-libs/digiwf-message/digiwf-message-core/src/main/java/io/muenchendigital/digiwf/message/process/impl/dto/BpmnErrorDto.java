@@ -8,7 +8,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TechnicalErrorDto {
+public class BpmnErrorDto {
     private String processInstanceId;
     private String messageName;
     private String errorCode;

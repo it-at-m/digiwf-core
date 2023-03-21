@@ -1,9 +1,8 @@
-package io.muenchendigital.digiwf.process.impl;
+package io.muenchendigital.digiwf.message.process.impl;
 
-import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
+import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.TechnicalErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.model.Message;
 import io.muenchendigital.digiwf.util.DummyProcessPort;
 import org.junit.jupiter.api.Assertions;
@@ -107,11 +106,11 @@ class ProcessApiImplTest {
     void testTechnicalErrorMessage() {
         final String errorCode = "400";
         final String errorMessage = "someErrorMessage";
-        final boolean success = this.processApi.handleTechnicalError(this.processInstanceId, errorCode, errorMessage);
+        final boolean success = this.processApi.handleBpmnError(this.processInstanceId, errorCode, errorMessage);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<TechnicalErrorDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).sendTechnicalErrorMessage(messageCaptor.capture(), Mockito.eq("technicalErrorMessageDestination"));
+        final ArgumentCaptor<Message<BpmnErrorDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
+        Mockito.verify(this.dummyProcessPort).sendBpmnError(messageCaptor.capture(), Mockito.eq("technicalErrorMessageDestination"));
 
         Assertions.assertEquals(messageCaptor.getValue().getPayload().getErrorMessage(), errorMessage);
         Assertions.assertEquals(messageCaptor.getValue().getPayload().getErrorCode(), errorCode);

@@ -52,6 +52,6 @@ public interface ProcessApi {
      * @return true if the technical error was successfully handled, false otherwise.
      */
 
-    boolean handleTechnicalError(String processInstanceId, String errorCode, String errorMessage);
+    boolean handleBpmnError(String processInstanceId, String errorCode, String errorMessage);
 
 }

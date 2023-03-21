@@ -1,13 +1,13 @@
 package io.muenchendigital.digiwf.message.process.impl;
 
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.out.BpmnErrorPort;
 import io.muenchendigital.digiwf.message.process.api.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.message.process.api.out.IncidentPort;
 import io.muenchendigital.digiwf.message.process.api.out.StartProcessPort;
-import io.muenchendigital.digiwf.message.process.api.out.TechnicalErrorPort;
+import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.TechnicalErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.model.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +26,12 @@ public class ProcessApiImpl implements ProcessApi {
     private final String correlateMessageDestination;
     private final String startProcessDestination;
     private final String incidentDestination;
-    private final String technicalErrorDestination;
+    private final String bpmnErrorDestination;
 
     private final CorrelateMessagePort correlateMessagePort;
     private final StartProcessPort startProcessPort;
     private final IncidentPort incidentMessagePort;
-    private final TechnicalErrorPort technicalErrorMessagePort;
+    private final BpmnErrorPort technicalErrorMessagePort;
 
     private static final String CORRELATEMESSAGEV_01 = "correlatemessagev01";
     private static final String STARTPROCESS_V01 = "startProcessV01";
@@ -112,8 +112,8 @@ public class ProcessApiImpl implements ProcessApi {
     }
 
     /**
-     * Handles a technical error by sending a message to the technical error destination.
-     * The technical error message contains the process instance id, error code and error message.
+     * Handles a bpmn error by sending a message to the bpmn error destination.
+     * The bpmn error message contains the process instance id, error code and error message.
      *
      * @param processInstanceId The process instance id of the process to be correlated.
      * @param errorCode The error code to be passed to the process.
@@ -121,18 +121,18 @@ public class ProcessApiImpl implements ProcessApi {
      * @return
      */
     @Override
-    public boolean handleTechnicalError(final String processInstanceId, final String errorCode, final String errorMessage) {
+    public boolean handleBpmnError(final String processInstanceId, final String errorCode, final String errorMessage) {
         log.warn("A technical error occured for process {} with error message {}", processInstanceId, errorMessage);
-        final TechnicalErrorDto payload = TechnicalErrorDto.builder()
+        final BpmnErrorDto payload = BpmnErrorDto.builder()
                 .processInstanceId(processInstanceId)
                 .errorCode(errorCode)
                 .errorMessage(errorMessage)
-                .messageName(this.technicalErrorDestination)
+                .messageName(this.bpmnErrorDestination)
                 .build();
-        final Message<TechnicalErrorDto> message = new Message<>();
-        message.addHeader(TYPE, this.technicalErrorDestination);
+        final Message<BpmnErrorDto> message = new Message<>();
+        message.addHeader(TYPE, this.bpmnErrorDestination);
         message.addPayload(payload);
-        return this.technicalErrorMessagePort.sendTechnicalErrorMessage(message, this.technicalErrorDestination);
+        return this.technicalErrorMessagePort.sendBpmnError(message, this.bpmnErrorDestination);
     }
 
 }

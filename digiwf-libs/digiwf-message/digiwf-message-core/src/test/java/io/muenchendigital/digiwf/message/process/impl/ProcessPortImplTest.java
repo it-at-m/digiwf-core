@@ -1,9 +1,8 @@
-package io.muenchendigital.digiwf.process.impl;
+package io.muenchendigital.digiwf.message.process.impl;
 
-import io.muenchendigital.digiwf.message.process.impl.ProcessPortImpl;
+import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.TechnicalErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.model.Message;
 import io.muenchendigital.digiwf.util.DummyMessageApi;
 import org.junit.jupiter.api.Assertions;
@@ -82,14 +81,14 @@ class ProcessPortImplTest {
 
     @Test
     void testSendTechnicalError() {
-        final Message<TechnicalErrorDto> message = new Message<>();
-        message.addPayload(TechnicalErrorDto.builder()
+        final Message<BpmnErrorDto> message = new Message<>();
+        message.addPayload(BpmnErrorDto.builder()
                 .processInstanceId("processInstanceId")
                 .errorMessage("errorMessage")
                 .build());
         message.addHeader("key", "value");
 
-        final boolean success = this.processPort.sendTechnicalErrorMessage(message, "sendTechnicalErrorMessageDestination");
+        final boolean success = this.processPort.sendBpmnError(message, "sendTechnicalErrorMessageDestination");
         Assertions.assertTrue(success);
 
         final ArgumentCaptor<Object> payloadCaptor = ArgumentCaptor.forClass(Object.class);

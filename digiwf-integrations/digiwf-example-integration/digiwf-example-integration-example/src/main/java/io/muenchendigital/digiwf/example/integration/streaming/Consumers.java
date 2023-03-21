@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.example.integration.streaming;
 
+import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.TechnicalErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class Consumers {
 
     @Bean
-    public Consumer<Message<TechnicalErrorDto>> onTechnicalErrorConsumer() {
+    public Consumer<Message<BpmnErrorDto>> onTechnicalErrorConsumer() {
         return message -> {
             log.warn("Technical Error: {}", message.toString());
         };
