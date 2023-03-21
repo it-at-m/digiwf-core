@@ -3,7 +3,7 @@ server:
 spring:
   cloud:
     function:
-      definition: sendCorrelateMessage;functionRouter;
+      definition: receiveMessages;sendMessage;
     stream:
       bindings:
         receiveMessages-in-0:
