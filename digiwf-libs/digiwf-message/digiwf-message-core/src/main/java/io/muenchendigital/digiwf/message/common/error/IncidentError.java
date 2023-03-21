@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public class IncidentError {
+public class IncidentError extends RuntimeException {
 
     private final String errorMessage;
 
