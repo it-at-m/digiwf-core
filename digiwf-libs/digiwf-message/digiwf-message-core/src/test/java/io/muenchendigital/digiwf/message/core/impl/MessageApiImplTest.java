@@ -7,13 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 import java.util.Map;
 
 class MessageApiImplTest {
-    @Spy
-    private DummySendMessagePort spyDummySendMessagePort = Mockito.spy(new DummySendMessagePort());
+
+    private final DummySendMessagePort spyDummySendMessagePort = Mockito.spy(new DummySendMessagePort());
     private final MessageApiImpl messageApi = new MessageApiImpl(this.spyDummySendMessagePort);
 
     @Test
