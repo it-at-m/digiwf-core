@@ -31,6 +31,8 @@ public class ProcessController {
 
     @PostMapping("/correlate")
     public ResponseEntity correlateMessage(@RequestBody final ProcessMessageDto processMessageDto) throws BpmnError {
+        // Note: The error handling is applied to the controller for demonstration purposes only.
+        // Usually it's implemented for async apis (like spring cloud stream consumers).
         try {
             this.processService.correlateMessage(processMessageDto);
             return ResponseEntity.ok().build();
