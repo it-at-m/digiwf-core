@@ -5,7 +5,7 @@ wiremock:
 
 spring:
   
-  # muenchen.de realm is used by default so that the SpringContext can be initalized upon running the tests. Change to your own dev realm if available
+  # muenchen.de realm is used by default so that the SpringContext can be initialized upon running the tests. Change to your own dev realm if available
   realm: muenchen.de
 
   # spring cloud gateway config
@@ -16,7 +16,7 @@ spring:
           enabled: false
       globalcors:
         corsConfigurations:
-          # The cors configuration to allow frontend developers cross origin request via this api gateway
+          # The cors configuration to allow frontend developers cross-origin request via this api gateway
           '[/**]':
             allowedOrigins:
               - "http://localhost:8081"

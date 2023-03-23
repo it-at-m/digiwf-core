@@ -14,9 +14,11 @@ import org.springframework.stereotype.Component;
 @Profile("no-security")
 public class NoSecurityUserAuthenticationProvider implements UserAuthenticationProvider {
 
+    public static final String DEFAULT_USER = "externer.john.doe";
+
     @Override
     public String getLoggedInUser() {
-        return "martin.dietrich";
+        return DEFAULT_USER;
     }
 
 }
