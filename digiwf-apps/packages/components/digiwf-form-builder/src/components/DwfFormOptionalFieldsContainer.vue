@@ -127,9 +127,7 @@ export default defineComponent({
 
     const defaultDeleted = () => {
       props.value.default = undefined;
-      input({
-        ...props.value
-      });
+      input(props.value);
     }
 
     const onItemChanged = (container: any) => {
