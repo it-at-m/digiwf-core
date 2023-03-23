@@ -15,7 +15,7 @@ Use docker compose to start the infrastructure components:
 docker compose up -d
 
 # with frontend
-docker compose --profile tasklist up -d
+docker compose --profile tasklist-frontend up -d
 ```
 
 ## Running Process Engine Backend
