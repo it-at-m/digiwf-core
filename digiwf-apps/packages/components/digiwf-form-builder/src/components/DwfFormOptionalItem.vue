@@ -18,14 +18,8 @@
           </v-icon>
           <span class="font-weight-bold">{{ value.title }}</span>
           <v-spacer/>
-          <v-chip v-if=" isDefault" variant="outlined" class="font-weight-bold mr-10">
-              default
-              <v-btn
-                icon
-                @click="defaultDeleted"
-              >
-                <v-icon small>mdi-close</v-icon>
-              </v-btn>
+          <v-chip v-if=" isDefault" outlined close close-icon="mdi-close" @click:close="defaultDeleted">
+            <span class="font-weight-bold">default</span>
           </v-chip>
           <v-menu
               top
@@ -88,7 +82,11 @@ export default defineComponent({
       emit('input', value)
     }
     const defaultChanged = (): any => {
-      emit('defaultChanged', extractKey());
+      if (!props.default || Object.entries(props.default)[0][1] !== extractKey()[1].const){
+        emit('defaultChanged', extractKey());
+      } else {
+        defaultDeleted();
+      }
     }
 
     const defaultDeleted = () => {
