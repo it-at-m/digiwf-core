@@ -18,6 +18,8 @@ docker compose up -d
 docker compose --profile tasklist-frontend up -d
 ```
 
+> Also checkout our documentation [https://digiwf.oss.muenchen.de/documentation/guides/technical-setup/#lokale-infrastruktur](https://digiwf.oss.muenchen.de/documentation/guides/technical-setup/#lokale-infrastruktur).
+
 ## Running Process Engine Backend
 
 To start the backend (`digiwf-engine-service`), run `io.muenchendigital.digiwf.EngineServiceApplication` with the
@@ -25,9 +27,6 @@ profiles `local, streaming, no-ldap`. The application requires environment varia
 the `stack/local-docker.env` should be used. If you run IDEA IntelliJ,
 the [.EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) might be helpful to
 add the env file to your run configuration.
-
-> An example process on how to use the miranum-ide is
-> available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
 
 ### Running the stack for the first time
 
