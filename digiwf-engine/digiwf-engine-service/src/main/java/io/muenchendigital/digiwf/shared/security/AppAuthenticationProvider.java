@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Get current camunda authentication informaiton.
+ * Get current camunda authentication information.
  *
  * @author externer.dl.horn
  */

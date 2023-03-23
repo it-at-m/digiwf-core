@@ -2,6 +2,7 @@
 
 For local development you can use the following tools:
 
+- **SSO**: Keycloak
 - **Event Bus**: Kafka (and Zookeeper)
 - **S3 Storage**: [Minio](https://min.io/docs/minio/linux/index.html)
 - **Email Server**: [Mailhog](https://github.com/mailhog/MailHog)
@@ -17,9 +18,16 @@ docker compose up -d
 docker compose --profile tasklist up -d
 ```
 
-Additionally, start the backend (digiwf-engine-service) with the profiles `local, no-security, streaming, no-ldap`.
+## Running Process Engine Backend
 
-> An example process on how to use the miranum-ide is available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
+To start the backend (`digiwf-engine-service`), run `io.muenchendigital.digiwf.EngineServiceApplication` with the
+profiles `local, streaming, no-ldap`. The application requires environment variables to be set. For this purpose,
+the `stack/local-docker.env` should be used. If you run IDEA IntelliJ,
+the [.EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) might be helpful to
+add the env file to your run configuration.
+
+> An example process on how to use the miranum-ide is
+> available [here](https://github.com/FlowSquad/miranum-ide/tree/main/resources/example-process).
 
 ### Running the stack for the first time
 
@@ -35,13 +43,9 @@ Additionally, start the backend (digiwf-engine-service) with the profiles `local
     * `IO_MUENCHENDIGITAL_DIGIWF_S3_SECRETKEY`
     * `IO_MUENCHENDIGITAL_DIGIWF_S3_URL=http://localhost:9000`
 
-
-## LHM PC
-
-- [Instructions for WSL](https://git.muenchen.de/ext.dl.moesle/digiwf-local-setup)
-
 ## Additional Properties/Envs
 
+There is a set of properties defined in `local-docker.env`.
 Set the following properties either in an `.env` file or add them in a `custom application-*.properties`.
 
 ```
@@ -55,23 +59,13 @@ IO_MUENCHENDIGITAL_DIGIWF_COSYS_URL=
 IO_MUENCHENDIGITAL_DIGIWF_COSYS_SSOTOKENCLIENTID=
 IO_MUENCHENDIGITAL_DIGIWF_COSYS_SSOTOKENCLIENTSECRET=
 
-KAFKA_BOOTSTRAP_SERVER=localhost
-KAFKA_BOOTSTRAP_SERVER_PORT=29092
-
-MAIL_HOST=localhost
-MAIL_PORT=1025
-MAIL_USERNAME=digiwf@muenchen.de
-MAIL_PASSWORD=secret
-
-SSO_BASE_URL=http://keycloak:8080/auth
-SSO_REALM=P82
-SSO_ISSUER_URL=${SSO_BASE_URL}/realms/${SSO_REALM}
-SSO_ENGINE_CLIENT_ID=digitalwfv2
-SSO_ENGINE_CLIENT_SECRET=
-
 DIRECTORY_LDAP_CONTEXTSOURCE=
 DIRECTORY_LDAP_PERSONSEARCHBASE=
 DIRECTORY_LDAP_PERSONOBJECTCLASSES=
 DIRECTORY_LDAP_OUSEARCHBASE=
 DIRECTORY_LDAP_OUOBJECTCLASSES=
 ```
+
+## LHM PC
+
+- [Instructions for WSL](https://git.muenchen.de/ext.dl.moesle/digiwf-local-setup)

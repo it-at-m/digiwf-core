@@ -27,7 +27,9 @@ public class SwaggerConfig {
     private String buildVersion;
 
     @Autowired
-    public SwaggerConfig(@Value("${SSO_BASE_URL}") final String authServer, @Value("${SSO_REALM}") final String realm) {
+    public SwaggerConfig(
+            @Value("${SSO_BASE_URL}") final String authServer,
+            @Value("${SSO_REALM}") final String realm) {
         this.authServer = authServer;
         this.realm = realm;
     }
@@ -37,18 +39,18 @@ public class SwaggerConfig {
         final String authUrl = String.format("%s/realms/%s/protocol/openid-connect", this.authServer, this.realm);
         return new OpenAPI()
                 .components(
-                    new Components()
-                        .addSecuritySchemes("spring_oauth", new SecurityScheme()
-                                .type(SecurityScheme.Type.OAUTH2)
-                                .description("Oauth2 flow")
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
-                                .flows(new OAuthFlows()
-                                        .password(new OAuthFlow()
-                                                .authorizationUrl(authUrl + "/auth")
-                                                .refreshUrl(authUrl + "/token")
-                                                .tokenUrl(authUrl + "/token")
-                                                .scopes(new Scopes().addString("lhm_extended", "lhm_extended")))))
+                        new Components()
+                                .addSecuritySchemes("spring_oauth", new SecurityScheme()
+                                        .type(SecurityScheme.Type.OAUTH2)
+                                        .description("Oauth2 flow")
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                                        .flows(new OAuthFlows()
+                                                .password(new OAuthFlow()
+                                                        .authorizationUrl(authUrl + "/auth")
+                                                        .refreshUrl(authUrl + "/token")
+                                                        .tokenUrl(authUrl + "/token")
+                                                        .scopes(new Scopes().addString("lhm_extended", "lhm_extended")))))
                 )
                 .security(Collections.singletonList(
                         new SecurityRequirement().addList("spring_oauth")))
@@ -67,7 +69,7 @@ public class SwaggerConfig {
     @Bean
     @Profile("!prod")
     public String[] whitelist() {
-        return new String[] {
+        return new String[]{
                 // -- swagger ui
                 "/v2/api-docs",
                 "/v3/api-docs/**",

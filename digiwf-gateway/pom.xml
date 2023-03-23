@@ -84,7 +84,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring developer tools -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

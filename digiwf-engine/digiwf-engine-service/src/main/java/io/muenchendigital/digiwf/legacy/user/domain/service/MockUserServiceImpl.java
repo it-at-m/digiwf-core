@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Fake implementation of the UserService to enable local development without an ldap.
+ * Fake implementation of the UserService to enable local development without a LDAP connection.
  *
  * @author ext.dl.moesle
  */
@@ -28,8 +28,8 @@ public class MockUserServiceImpl implements UserService {
 
     private final List<String> groups = List.of("group1");
     private final User user = new User(
-            "johnDoe",
-            "0000000",
+            "externer.john.doe",
+            "123456789",
             "John",
             "Doe",
             "john.doe@example.com",
