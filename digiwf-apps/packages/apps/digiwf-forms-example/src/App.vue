@@ -23,6 +23,9 @@
             <dwf-form-renderer :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
                                :schema="schema" :key="componentKey"
                                @input="valueChanged" :value="value">
+              <template #custom-date-input="context">
+                <dwf-date-input v-bind="context"/>
+              </template>
             </dwf-form-renderer>
           </v-form>
           <v-btn @click="validate">Validate</v-btn>
@@ -60,11 +63,12 @@ html, body {
 <script lang="ts">
 import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
 import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
+import { DwfDateInput } from "@muenchen/digiwf-date-input";
 import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
 import { defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
-  components: {DwfFormRenderer, DwfFormBuilder},
+  components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput},
   setup() {
     const componentKey = ref(0);
 

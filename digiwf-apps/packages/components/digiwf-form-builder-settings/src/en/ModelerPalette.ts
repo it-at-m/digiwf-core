@@ -65,6 +65,7 @@ export const formFieldPalette = [
       ...basicOptions,
       "fieldType": "date",
       title: "Date",
+      "x-display": "custom-date-input",
       type: "string",
       format: "date",
     }
