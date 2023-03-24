@@ -7,6 +7,9 @@
       :schema="schema"
       @input="input"
     >
+      <template #custom-date-input="context">
+        <dwf-date-input v-bind="context"/>
+      </template>
       <template #custom-user-input="context">
         <v-user-input v-bind="context"/>
       </template>

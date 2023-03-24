@@ -1,63 +1,34 @@
-server:
-  port: 8082
 spring:
-
-  # Define the local keycloak realm here
-  realm: P82
-
-  # spring cloud gateway config
   cloud:
     gateway:
       actuator:
         verbose:
           enabled: false
-      globalcors:
-        corsConfigurations:
-          # The cors configuration to allow frontend developers cross origin request via this api gateway
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:8081"
-              - "http://127.0.0.1:8081"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-            allowCredentials: true
-            maxAge: 3600
       routes:
-
         - id: sso
-          uri: https://ssodev.muenchen.de/
+          uri: ${SSO_BASE_URL}
           predicates:
             - Path=/api/sso/userinfo
           filters:
-            - RewritePath=/api/sso/userinfo, /auth/realms/${spring.realm}/protocol/openid-connect/userinfo
+            - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
         - id: backend
-          uri: http://localhost:39146/
+          uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
           predicates:
             - Path=/api/digitalwf-backend-service/rest/**
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend
           uri: http://localhost:8081/
           predicates:
             - Path=/**
+
       default-filters:
         - RemoveResponseHeader=Expires
         - RemoveRequestHeader=cookie
         - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
-
-  # security config
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri:
-        registration:
-          keycloak:
-            client-id:
-            client-secret:
 
   mvc:
     log-request-details: on

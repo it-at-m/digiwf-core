@@ -3,21 +3,18 @@
  */
 package io.muenchendigital.digiwf.shared.security;
 
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,11 +24,6 @@ import java.util.List;
 @Order(1)
 @Slf4j
 public class RequestResponseLoggingFilter implements Filter {
-
-    @Getter
-    private static final String NAME_UNAUTHENTICATED_USER = "unauthenticated";
-
-    private static final String TOKEN_USER_NAME = "user_name";
 
     private static final String REQUEST_LOGGING_MODE_ALL = "all";
 
@@ -45,6 +37,9 @@ public class RequestResponseLoggingFilter implements Filter {
     @Value("${security.logging.requests:}")
     private String requestLoggingMode;
 
+    @Autowired
+    private UserAuthenticationProvider userAuthenticationProvider;
+
     /**
      * {@inheritDoc}
      */
@@ -55,7 +50,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
     /**
      * The method logs the username extracted out of the {@link SecurityContext}.
-     * Additionally to the username, the kind of HTTP-Request and the targeted URI is logged.
+     * In addition to the username, the kind of HTTP-Request and the targeted URI is logged.
      * <p>
      * {@inheritDoc}
      */
@@ -65,7 +60,7 @@ public class RequestResponseLoggingFilter implements Filter {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         if (this.checkForLogging(httpRequest)) {
             log.info("User {} executed {} on URI {}",
-                    getUsername(),
+                    userAuthenticationProvider.getLoggedInUser(),
                     httpRequest.getMethod(),
                     httpRequest.getRequestURI()
             );
@@ -73,9 +68,6 @@ public class RequestResponseLoggingFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void destroy() {
         log.debug("Destructing filter: {}", this);
@@ -91,22 +83,6 @@ public class RequestResponseLoggingFilter implements Filter {
         return this.requestLoggingMode.equals(REQUEST_LOGGING_MODE_ALL)
                 || (this.requestLoggingMode.equals(REQUEST_LOGGING_MODE_CHANGING)
                 && CHANGING_METHODS.contains(httpServletRequest.getMethod()));
-    }
-
-    /**
-     * The method extracts the username out of the {@link OAuth2Authentication}.
-     *
-     * @return The username or a placeholder if there is no {@link OAuth2Authentication} available.
-     */
-    private static String getUsername() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof OAuth2Authentication) {
-            final OAuth2Authentication oauth2Authentication = (OAuth2Authentication) authentication;
-            final HashMap details = (HashMap) oauth2Authentication.getUserAuthentication().getDetails();
-            return (String) details.get(TOKEN_USER_NAME);
-        } else {
-            return NAME_UNAUTHENTICATED_USER;
-        }
     }
 
 }

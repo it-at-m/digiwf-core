@@ -1,3 +1,0 @@
-# Technischer Setup
-
-tbd.
