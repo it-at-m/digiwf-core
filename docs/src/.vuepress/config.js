@@ -146,17 +146,30 @@ module.exports = {
                     ],
                     '/modeling/': [
                         {
-                            title: 'Modellierung',
+                            title: 'Plattform',
                             collapsable: false,
                             children: [
-                                '',
+                                'plattform/artefact/',
+                                'plattform/project/',
+                                'plattform/deployment/',
                             ]
                         },
                         {
                             title: 'Prozesse',
                             collapsable: false,
                             children: [
-                                'processes/',
+                                'processes/modeling/',
+                                'processes/functions/',
+                                'processes/authorization/',
+                                'processes/variables/',
+                            ]
+                        },
+                        {
+                            title: 'Benutzeraufgaben',
+                            collapsable: false,
+                            children: [
+                                'user-tasks/modeling/',
+                                'user-tasks/variables/',
                             ]
                         },
                         {
@@ -236,12 +249,8 @@ module.exports = {
                 label: 'English',
                 // Aria Label for locale in the dropdown
                 ariaLabel: 'Languages',
-                nav: [
-
-                ],
-                sidebar: {
-
-                }
+                nav: [],
+                sidebar: {}
             }
         },
     },
