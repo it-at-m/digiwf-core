@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.holunda.camunda.bpm.data.CamundaBpmData;
+import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.holunda.camunda.taskpool.api.task.ProcessReference;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskVariables;
@@ -13,9 +14,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static io.holunda.camunda.bpm.data.CamundaBpmData.intVariable;
+import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 import static org.camunda.bpm.engine.variable.Variables.createVariables;
 
 public class TestFixtures {
+
+  public static final VariableFactory<String> STRING_VAL = stringVariable("string_val");
+  public static final VariableFactory<Integer> INTEGER_VAL = intVariable("int_val");
 
   private static final Instant createTime = Instant.now();
   private static final String instanceId = UUID.randomUUID().toString();
