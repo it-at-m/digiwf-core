@@ -7,6 +7,7 @@ spring:
         exampleIntegration-in-0:
           group: "dwf-digiwf-engine-local-01"
           destination: "digiwf-example-integration-local-01"
+          error-handler-definition: "digiwfErrorHandler"
         sendMessage-out-0:
           destination: "digiwf-example-integration-local-01"
       kafka:
