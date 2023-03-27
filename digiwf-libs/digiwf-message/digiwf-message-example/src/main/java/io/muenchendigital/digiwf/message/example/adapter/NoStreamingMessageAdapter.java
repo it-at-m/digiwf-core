@@ -1,10 +1,11 @@
 package io.muenchendigital.digiwf.message.example.adapter;
 
-import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
-import io.muenchendigital.digiwf.message.core.impl.model.Message;
+import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * This adapter is used when the application is not running in streaming mode.
@@ -13,12 +14,17 @@ import org.springframework.stereotype.Component;
 @Profile("!streaming")
 @Component
 @Slf4j
-public class NoStreamingMessageAdapter implements SendMessagePort {
+public class NoStreamingMessageAdapter implements MessageApi {
 
     @Override
-    public boolean sendMessage(final Message message, final String destination) {
+    public boolean sendMessage(final Object payload, final String destination) {
+        return this.sendMessage(payload, Map.of(), destination);
+    }
+
+    @Override
+    public boolean sendMessage(final Object payload, final Map<String, Object> headers, final String destination) {
         log.info("Message was successfully sent to {}", destination);
-        log.info("Message payload was {}", message.getPayload().toString());
+        log.info("Message payload was {}", payload);
         return true;
     }
 }
