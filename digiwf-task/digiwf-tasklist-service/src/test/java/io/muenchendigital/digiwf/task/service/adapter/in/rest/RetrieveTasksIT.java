@@ -13,7 +13,8 @@ import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstan
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
 import static io.muenchendigital.digiwf.task.service.infra.security.ControllerAuthorizationHelper.mockUser;
 import static io.muenchendigital.digiwf.task.service.infra.security.TestUser.JOHN_DOE;
-import static org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration test sending JSON request to the API and checking the correct invocation and
@@ -35,9 +36,9 @@ public class RetrieveTasksIT {
   }
 
   @Test
-  public void retrieve_tasks_assigned_to_user() {
-//    mockMvc.perform(get(BASE_URL).servletPath(SERVLET_PATH))
-//        .contentType(MediaType.APPLICATION_JSON)
-//        .and
+  public void retrieve_tasks_assigned_to_user() throws Exception {
+    mockMvc.perform(get(BASE_URL).servletPath(SERVLET_PATH).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
+
   }
 }
