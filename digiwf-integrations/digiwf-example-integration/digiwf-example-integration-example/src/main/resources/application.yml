@@ -1,21 +1,14 @@
+server:
+  port: 8091
 spring:
   cloud:
     stream:
       bindings:
-        receiveMessages-in-0:
-          group: "digiwf-integration-example"
-          destination: "digiwf-example-integration"
-        correlateMessageConsumer-in-0:
-          group: "digiwf-integration-example"
-          destination: "${io.muenchendigital.digiwf.message.correlateMessageDestination}"
-        onTechnicalErrorConsumer-in-0:
-          group: "digiwf-integration-example"
-          destination: "${io.muenchendigital.digiwf.message.technicalErrorDestination}"
-        onIncidentConsumer-in-0:
-          group: "digiwf-integration-example"
-          destination: "${io.muenchendigital.digiwf.message.incidentDestination}"
+        exampleIntegration-in-0:
+          group: "dwf-digiwf-engine-local-01"
+          destination: "digiwf-example-integration-local-01"
         sendMessage-out-0:
-          destination: "digiwf-example-integration"
+          destination: "digiwf-example-integration-local-01"
       kafka:
         binder:
           brokers: "${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}"
@@ -36,7 +29,7 @@ spring:
             security:
               protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
     function:
-      definition: receiveMessages;correlateMessageConsumer;onTechnicalErrorConsumer;onIncidentConsumer;sendMessage;
+      definition: exampleIntegration;sendMessage;
   kafka:
     consumer:
       properties:
@@ -48,6 +41,9 @@ io:
   muenchendigital:
     digiwf:
       message:
-        incidentDestination: "digiwf-example-integration-incident"
-        technicalErrorDestination: "digiwf-example-integration-technical-error"
-        correlateMessageDestination: "digiwf-example-integration-correlate-message"
+        incidentDestination: "dwf-connector-incident-local-01"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
+        correlateMessageDestination: "dwf-digiwf-engine-local-01"
+      streaming:
+        typeMappings:
+          exampleIntegration: exampleIntegration
