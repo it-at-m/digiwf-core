@@ -94,6 +94,7 @@ module.exports = {
                                 'architecture/system-integration',
                                 'architecture/json-schema',
                                 'architecture/filehandling',
+                                'architecture/adrs'
                             ]
                         },
                         {
