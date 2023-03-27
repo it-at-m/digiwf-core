@@ -1,7 +1,6 @@
 package io.muenchendigital.digiwf.message.example.process.api;
 
 import io.muenchendigital.digiwf.message.common.error.BpmnError;
-import io.muenchendigital.digiwf.message.common.error.IncidentError;
 import io.muenchendigital.digiwf.message.example.process.dto.ProcessMessageDto;
 import io.muenchendigital.digiwf.message.example.process.dto.StartProcessDto;
 import io.muenchendigital.digiwf.message.example.process.service.ProcessService;
@@ -39,10 +38,6 @@ public class ProcessController {
         } catch (final BpmnError ex) {
             log.warn("Handle technical error");
             this.processApi.handleBpmnError(processMessageDto.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
-            return ResponseEntity.badRequest().build();
-        } catch (final IncidentError ex) {
-            log.warn("Handle incident");
-            this.processApi.handleIncident(processMessageDto.getProcessInstanceId(), processMessageDto.getMessageName(), ex.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

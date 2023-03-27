@@ -34,16 +34,3 @@ Content-Type: application/json
 
   }
 }
-
-### Incident
-POST http://localhost:8080/process/correlate
-Content-Type: application/json
-
-{
-  "messageName": "finish-user-task",
-  "variables": {
-
-  }
-}
-
-
