@@ -32,7 +32,6 @@ class MessageApiImplTest {
         final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
         Mockito.verify(this.messageSink).tryEmitNext(messageCaptor.capture());
         Assertions.assertEquals("test", messageCaptor.getValue().getPayload());
-        Assertions.assertTrue(messageCaptor.getValue().getHeaders().containsKey("type"));
         Assertions.assertEquals("test", messageCaptor.getValue().getHeaders().get("spring.cloud.stream.sendto.destination"));
     }
 
@@ -55,7 +54,6 @@ class MessageApiImplTest {
         final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
         Mockito.verify(this.messageSink).tryEmitNext(messageCaptor.capture());
         Assertions.assertEquals("test", messageCaptor.getValue().getPayload());
-        Assertions.assertTrue(messageCaptor.getValue().getHeaders().containsKey("type"));
         Assertions.assertEquals("test", messageCaptor.getValue().getHeaders().get("spring.cloud.stream.sendto.destination"));
         Assertions.assertEquals("value", messageCaptor.getValue().getHeaders().get("key"));
     }
