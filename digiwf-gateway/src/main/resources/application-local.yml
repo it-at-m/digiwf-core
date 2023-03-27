@@ -4,31 +4,13 @@ spring:
       actuator:
         verbose:
           enabled: false
-      globalcors:
-        corsConfigurations:
-          # The cors configuration to allow frontend developers cross-origin request via this api gateway
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:8081"
-              - "http://127.0.0.1:8081"
-              - "http://localhost:8083" # for cgi notebooks necessary
-              - "http://127.0.0.1:8083" # for cgi notebooks necessary
-              - "http://keycloak:8083" # for cgi notebooks necessary
-              - "http://172.17.0.1"
-              - "http://host.docker.internal"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-            allowCredentials: true
-            maxAge: 3600
       routes:
-
         - id: sso
           uri: ${SSO_BASE_URL}
           predicates:
             - Path=/api/sso/userinfo
           filters:
             - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
-
         - id: backend
           uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
           predicates:

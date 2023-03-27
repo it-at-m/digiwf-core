@@ -13,6 +13,8 @@
     "vuepress": "^1.9.7"
   },
   "dependencies": {
+    "@vuepress/plugin-back-to-top": "^1.9.9",
+    "@vuepress/plugin-medium-zoom": "^1.9.9",
     "vuepress-plugin-mermaidjs": "^1.9.1"
   }
 }

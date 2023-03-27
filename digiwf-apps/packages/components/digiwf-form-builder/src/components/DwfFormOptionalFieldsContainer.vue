@@ -61,6 +61,7 @@
             :value="optItem"
             :default="value.default"
             @defaultChanged="defaultChanged"
+            @defaultDeleted="defaultDeleted"
             @input="onItemChanged"
             @remove="onItemRemoved"
         />
@@ -124,6 +125,11 @@ export default defineComponent({
       input(newSection);
     }
 
+    const defaultDeleted = () => {
+      props.value.default = undefined;
+      input(props.value);
+    }
+
     const onItemChanged = (container: any) => {
       for (let i = 0; i < props.value.oneOf.length; i++) {
         if (props.value.oneOf[i].key === container.key) {
@@ -160,6 +166,7 @@ export default defineComponent({
       onListChanged,
       uuid,
       defaultChanged,
+      defaultDeleted,
       onItemChanged,
       onItemRemoved,
       onContainerChanged

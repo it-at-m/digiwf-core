@@ -4,14 +4,41 @@
 
 ### Added
 
+- 
+
 ### Fixed
+
+- 
 
 ## [services unrleased] - yyyy-mm-dd
 
 ### Added
 
+- 
+
+### Fixed
+
+- 
+
+## [apps 0.21.8] - 2023-03-24
+
+### Added
+
+- tasklist
+  - Custom date component to support date input via keyboard
+
+### Fixed
+
+- tasklist
+  - Improved pagination
+
+## [services 0.17.7] - 2023-03-24
+
+### Added
+
 - engine
     - upgrade dms interface
+    - added example-processes
 - digiwf-cosys-integration
     - error handling added
 
@@ -21,6 +48,7 @@
     - whitelist regex in application.properties
     - Improved logging of `DigiWFValidationException`
     - fix service start initialization
+    - simplify configuration ops
 
 ## [apps 0.21.3] - 2023-01-17
 

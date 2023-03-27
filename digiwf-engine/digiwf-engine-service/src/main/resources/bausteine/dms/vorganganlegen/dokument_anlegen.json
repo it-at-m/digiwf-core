@@ -40,6 +40,18 @@
       }
     },
     {
+      "label": "S3 Url",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "dms_s3_url"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
       "label": "Schriftstück name",
       "description": "Input",
       "type": "String",

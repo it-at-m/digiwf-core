@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
     <artifactId>digiwf-core</artifactId>
-    <version>0.17.4</version>
+    <version>0.17.8-SNAPSHOT</version>
     <name>digiwf-core</name>
     <packaging>pom</packaging>
     <description>DigiWF Core Services</description>
@@ -235,7 +235,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -262,6 +262,7 @@
                 <plugin>
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>6.4.0</version>
                     <version>6.4.0</version>
                 </plugin>
                 <plugin>

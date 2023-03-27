@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.4</version>
+        <version>0.17.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-email-integration-core</artifactId>
@@ -26,7 +26,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
+            <artifactId>tika-core</artifactId>
+            <version>${tika.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers-standard-package</artifactId>
             <version>${tika.version}</version>
         </dependency>
         <dependency>

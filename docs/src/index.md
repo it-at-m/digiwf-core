@@ -1,7 +1,8 @@
 ---
 home: true
-heroImage: itm_logo.png
-tagline: Dokumentation der DigIWF Digitalisierungsplattform
+heroImage: digiwf_logo.png
+heroText: null
+tagline: Dokumentation der DigiWF Digitalisierungsplattform
 actionText: Plattform →
 actionLink: /documentation/
 features:
