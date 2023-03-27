@@ -1,33 +1,31 @@
 package io.muenchendigital.digiwf.message.process.impl;
 
+import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import io.muenchendigital.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
-import io.muenchendigital.digiwf.message.process.impl.model.Message;
-import io.muenchendigital.digiwf.util.DummyProcessPort;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 import java.util.Map;
 
 import static io.muenchendigital.digiwf.message.common.MessageConstants.*;
+import static org.mockito.Mockito.when;
 
 class ProcessApiImplTest {
 
-    @Spy
-    private DummyProcessPort dummyProcessPort = Mockito.spy(new DummyProcessPort());
-    private final ProcessApiImpl processApi = new ProcessApiImpl(
+    private final MessageApi messageApi = Mockito.spy(Mockito.mock(MessageApi.class));
+
+    private final ProcessApi processApi = new ProcessApiImpl(
+            this.messageApi,
             "correlateMessageDestination",
             "startProcessDestination",
             "incidentMessageDestination",
-            "technicalErrorMessageDestination",
-            this.dummyProcessPort,
-            this.dummyProcessPort,
-            this.dummyProcessPort,
-            this.dummyProcessPort
+            "technicalErrorMessageDestination"
     );
 
     // dummy data
@@ -36,19 +34,25 @@ class ProcessApiImplTest {
     private final String processInstanceId = "processInstanceId-123";
 
 
+    @BeforeEach
+    void setUp() {
+        when(this.messageApi.sendMessage(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+    }
+
     @Test
     void testStartProcess() {
         final boolean success = this.processApi.startProcess(this.processDefinitionKey, this.variables);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<StartProcessDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).startProcess(messageCaptor.capture(), Mockito.eq("startProcessDestination"));
+        final ArgumentCaptor<Map<String, Object>> payloadCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getKey(), this.processDefinitionKey);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getData(), this.variables);
-        Assertions.assertNull(messageCaptor.getValue().getPayload().getFileContext());
-
-        Assertions.assertTrue(messageCaptor.getValue().getHeaders().containsKey("type"));
+        final StartProcessDto payload = (StartProcessDto) payloadCaptor.getValue();
+        Assertions.assertEquals(this.processDefinitionKey, payload.getKey());
+        Assertions.assertEquals("startProcessV01", headersCaptor.getValue().get(TYPE));
+        Assertions.assertEquals("startProcessDestination", destinationCaptor.getValue());
     }
 
     @Test
@@ -57,14 +61,16 @@ class ProcessApiImplTest {
         final boolean success = this.processApi.startProcess(this.processDefinitionKey, this.variables, fileContext);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<StartProcessDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).startProcess(messageCaptor.capture(), Mockito.eq("startProcessDestination"));
+        final ArgumentCaptor<Map<String, Object>> payloadCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getKey(), this.processDefinitionKey);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getData(), this.variables);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getFileContext(), fileContext);
-
-        Assertions.assertTrue(messageCaptor.getValue().getHeaders().containsKey("type"));
+        final StartProcessDto payload = (StartProcessDto) payloadCaptor.getValue();
+        Assertions.assertEquals(this.processDefinitionKey, payload.getKey());
+        Assertions.assertEquals(fileContext, payload.getFileContext());
+        Assertions.assertEquals("startProcessV01", headersCaptor.getValue().get(TYPE));
+        Assertions.assertEquals("startProcessDestination", destinationCaptor.getValue());
     }
 
     @Test
@@ -73,16 +79,18 @@ class ProcessApiImplTest {
         final boolean success = this.processApi.correlateMessage(this.processInstanceId, messageName, this.variables);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<CorrelateMessageDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).sendCorrelateMessage(messageCaptor.capture(), Mockito.eq("correlateMessageDestination"));
+        final ArgumentCaptor<Map<String, Object>> payloadCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getMessageName(), messageName);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getPayloadVariables(), this.variables);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getProcessInstanceId(), this.processInstanceId);
-
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(TYPE), "correlatemessagev01");
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID), this.processInstanceId);
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(DIGIWF_MESSAGE_NAME), messageName);
+        final CorrelateMessageDto payload = (CorrelateMessageDto) payloadCaptor.getValue();
+        Assertions.assertEquals(this.processInstanceId, payload.getProcessInstanceId());
+        Assertions.assertEquals(messageName, payload.getMessageName());
+        Assertions.assertEquals("correlatemessagev01", headersCaptor.getValue().get(TYPE));
+        Assertions.assertEquals(this.processInstanceId, headersCaptor.getValue().get(DIGIWF_PROCESS_INSTANCE_ID));
+        Assertions.assertEquals(messageName, headersCaptor.getValue().get(DIGIWF_MESSAGE_NAME));
+        Assertions.assertEquals("correlateMessageDestination", destinationCaptor.getValue());
     }
 
     @Test
@@ -92,14 +100,16 @@ class ProcessApiImplTest {
         final boolean success = this.processApi.handleIncident(this.processInstanceId, messageName, errorMessage);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).sendIncidentMessage(messageCaptor.capture(), Mockito.eq("incidentMessageDestination"));
+        final ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
+        final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(messageCaptor.getValue().getPayload(), errorMessage);
-
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(TYPE), "incidentMessageDestination");
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID), this.processInstanceId);
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(DIGIWF_MESSAGE_NAME), messageName);
+        Assertions.assertEquals(errorMessage, payloadCaptor.getValue());
+        Assertions.assertEquals("incidentMessageDestination", headersCaptor.getValue().get(TYPE));
+        Assertions.assertEquals(this.processInstanceId, headersCaptor.getValue().get(DIGIWF_PROCESS_INSTANCE_ID));
+        Assertions.assertEquals(messageName, headersCaptor.getValue().get(DIGIWF_MESSAGE_NAME));
+        Assertions.assertEquals("incidentMessageDestination", destinationCaptor.getValue());
     }
 
     @Test
@@ -109,14 +119,16 @@ class ProcessApiImplTest {
         final boolean success = this.processApi.handleBpmnError(this.processInstanceId, errorCode, errorMessage);
         Assertions.assertTrue(success);
 
-        final ArgumentCaptor<Message<BpmnErrorDto>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.dummyProcessPort).sendBpmnError(messageCaptor.capture(), Mockito.eq("technicalErrorMessageDestination"));
+        final ArgumentCaptor<BpmnErrorDto> payloadCaptor = ArgumentCaptor.forClass(BpmnErrorDto.class);
+        final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getErrorMessage(), errorMessage);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getErrorCode(), errorCode);
-        Assertions.assertEquals(messageCaptor.getValue().getPayload().getProcessInstanceId(), this.processInstanceId);
-
-        Assertions.assertEquals(messageCaptor.getValue().getHeaders().get(TYPE), "technicalErrorMessageDestination");
+        Assertions.assertEquals(errorMessage, payloadCaptor.getValue().getErrorMessage());
+        Assertions.assertEquals(errorCode, payloadCaptor.getValue().getErrorCode());
+        Assertions.assertEquals(this.processInstanceId, payloadCaptor.getValue().getProcessInstanceId());
+        Assertions.assertEquals("technicalErrorMessageDestination", headersCaptor.getValue().get(TYPE));
+        Assertions.assertEquals("technicalErrorMessageDestination", destinationCaptor.getValue());
     }
 
 }

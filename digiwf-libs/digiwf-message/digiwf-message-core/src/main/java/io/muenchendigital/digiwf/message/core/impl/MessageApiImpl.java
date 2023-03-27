@@ -1,21 +1,26 @@
 package io.muenchendigital.digiwf.message.core.impl;
 
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
-import io.muenchendigital.digiwf.message.core.api.out.SendMessagePort;
-import io.muenchendigital.digiwf.message.core.impl.model.Message;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.MessageBuilder;
+import reactor.core.publisher.Sinks;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import static io.muenchendigital.digiwf.message.common.MessageConstants.TYPE;
 
 /**
  * Implementation of {@link io.muenchendigital.digiwf.message.core.api.MessageApi}
  */
 @RequiredArgsConstructor
+@Slf4j
 public class MessageApiImpl implements MessageApi {
 
-    private final SendMessagePort sendMessagePort;
+    private final Sinks.Many<org.springframework.messaging.Message<Object>> messageSink;
+
+    public static final String SPRING_CLOUD_STREAM_SENDTO_DESTINATION = "spring.cloud.stream.sendto.destination";
 
     /**
      * Sends a message to the specified destination with the given payload.
@@ -44,12 +49,19 @@ public class MessageApiImpl implements MessageApi {
             return false;
         }
 
-        final Message message = new Message();
-        message.addHeader(TYPE, destination);
-        for (final Map.Entry<String, Object> entry : headers.entrySet()) {
-            message.addHeader(entry.getKey(), entry.getValue().toString());
+        final Map<String, Object> hdrs = new HashMap<>(headers);
+
+        // send the message to the given destination by setting the sendto.destination header
+        hdrs.put(SPRING_CLOUD_STREAM_SENDTO_DESTINATION, destination);
+
+        final Message<Object> msg = MessageBuilder.createMessage(payload, new MessageHeaders(hdrs));
+        final Sinks.EmitResult emitResult = this.messageSink.tryEmitNext(msg);
+        if (emitResult.isSuccess()) {
+            log.info("The message {} was successfully delivered to the eventbus (topic {}).", hdrs.get(MessageHeaders.ID), destination);
+        } else {
+            log.error("The message {} couldn't be delivered to the eventbus (topic {}).", hdrs.get(MessageHeaders.ID), destination);
         }
-        message.addPayload(payload);
-        return this.sendMessagePort.sendMessage(message, destination);
+        log.debug("Message: {}", payload);
+        return emitResult.isSuccess();
     }
 }
