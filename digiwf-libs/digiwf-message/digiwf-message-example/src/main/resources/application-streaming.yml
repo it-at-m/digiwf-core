@@ -5,7 +5,6 @@ spring:
         logMessage-in-0:
           group: "digiwf-message-scs-example"
           destination: "dwf-message-example,dwf-message-example-bpmn-error,dwf-message-example-correlate-message,dwf-message-example-start-process,dwf-message-example-incident"
-          error-handler-definition: "digiwfErrorHandler"
         sendMessage-out-0:
           destination: "dwf-message-example"
       kafka:
