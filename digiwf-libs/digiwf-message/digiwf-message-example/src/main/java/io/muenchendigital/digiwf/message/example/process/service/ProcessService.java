@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.message.example.process.service;
 
-import io.muenchendigital.digiwf.message.common.error.BpmnError;
-import io.muenchendigital.digiwf.message.common.error.IncidentError;
 import io.muenchendigital.digiwf.message.example.process.dto.ProcessMessageDto;
 import io.muenchendigital.digiwf.message.example.process.dto.StartProcessDto;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

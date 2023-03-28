@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.message.example.process.api;
 
-import io.muenchendigital.digiwf.message.common.error.BpmnError;
 import io.muenchendigital.digiwf.message.example.process.dto.ProcessMessageDto;
 import io.muenchendigital.digiwf.message.example.process.dto.StartProcessDto;
 import io.muenchendigital.digiwf.message.example.process.service.ProcessService;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
+import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProcessController {
 
     private final ProcessService processService;
-    private final ProcessApi processApi;
+    private final ErrorApi errorApi;
 
     @PostMapping("/start")
     public ResponseEntity startProcess(@RequestBody final StartProcessDto startProcessDto) {
@@ -37,7 +37,7 @@ public class ProcessController {
             return ResponseEntity.ok().build();
         } catch (final BpmnError ex) {
             log.warn("Handle technical error");
-            this.processApi.handleBpmnError(processMessageDto.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
+            this.errorApi.handleBpmnError(processMessageDto.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
             return ResponseEntity.badRequest().build();
         }
     }

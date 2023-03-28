@@ -2,7 +2,6 @@ package io.muenchendigital.digiwf.message.process.impl;
 
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import io.muenchendigital.digiwf.message.process.impl.dto.StartProcessDto;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,6 @@ public class ProcessApiImpl implements ProcessApi {
 
     private final String correlateMessageDestination;
     private final String startProcessDestination;
-    private final String incidentDestination;
-    private final String bpmnErrorDestination;
 
     private static final String CORRELATEMESSAGEV_01 = "correlatemessagev01";
     private static final String STARTPROCESS_V01 = "startProcessV01";
@@ -79,47 +76,6 @@ public class ProcessApiImpl implements ProcessApi {
                 DIGIWF_MESSAGE_NAME, messageName
         );
         return this.messageApi.sendMessage(payload, headers, this.correlateMessageDestination);
-    }
-
-    /**
-     * Handles an incident by sending a message to the incident destination.
-     * The incident message contains the process instance id, message name and error message.
-     *
-     * @param processInstanceId The process instance id of the process to be correlated.
-     * @param messageName The message name to be correlated.
-     * @param errorMessage The error message to be passed to the process.
-     * @return
-     */
-    @Override
-    public boolean handleIncident(final String processInstanceId, final String messageName, final String errorMessage) {
-        log.error("Incident occured for process {} with error message {}", processInstanceId, errorMessage);
-        final Map<String, Object> headers = Map.of(
-                TYPE, this.incidentDestination,
-                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
-                DIGIWF_MESSAGE_NAME, messageName
-        );
-        return this.messageApi.sendMessage(errorMessage, headers, this.incidentDestination);
-    }
-
-    /**
-     * Handles a bpmn error by sending a message to the bpmn error destination.
-     * The bpmn error message contains the process instance id, error code and error message.
-     *
-     * @param processInstanceId The process instance id of the process to be correlated.
-     * @param errorCode The error code to be passed to the process.
-     * @param errorMessage The error message to be passed to the process.
-     * @return
-     */
-    @Override
-    public boolean handleBpmnError(final String processInstanceId, final String errorCode, final String errorMessage) {
-        log.warn("A technical error occured for process {} with error message {}", processInstanceId, errorMessage);
-        final BpmnErrorDto payload = BpmnErrorDto.builder()
-                .processInstanceId(processInstanceId)
-                .errorCode(errorCode)
-                .errorMessage(errorMessage)
-                .messageName(this.bpmnErrorDestination)
-                .build();
-        return this.messageApi.sendMessage(payload, Map.of(TYPE, this.bpmnErrorDestination), this.bpmnErrorDestination);
     }
 
 }

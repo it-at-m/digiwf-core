@@ -3,7 +3,9 @@ package io.muenchendigital.digiwf.message.configuration;
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.message.core.impl.MessageApiImpl;
 import io.muenchendigital.digiwf.message.infra.RoutingCallback;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.impl.ErrorApiImpl;
 import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
 import io.muenchendigital.digiwf.message.properties.DigiwfMessageProperties;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +51,21 @@ public class DigiwfMessageAutoConfiguration {
         return new ProcessApiImpl(
                 messageApi,
                 this.digiwfMessageProperties.getCorrelateMessageDestination(),
-                this.digiwfMessageProperties.getStartProcessDestination(),
+                this.digiwfMessageProperties.getStartProcessDestination()
+        );
+    }
+
+    /**
+     * Creates the bean for the default Implementation of {@link ErrorApi}.
+     *
+     * @param messageApi the message api
+     * @return the error api
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ErrorApi errorApi(final MessageApi messageApi) {
+        return new ErrorApiImpl(
+                messageApi,
                 this.digiwfMessageProperties.getIncidentDestination(),
                 this.digiwfMessageProperties.getBpmnErrorDestination()
         );

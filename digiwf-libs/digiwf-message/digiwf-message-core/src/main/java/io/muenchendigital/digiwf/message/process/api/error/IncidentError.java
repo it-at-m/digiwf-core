@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.message.common.error;
+package io.muenchendigital.digiwf.message.process.api.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
