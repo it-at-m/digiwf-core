@@ -2,7 +2,10 @@ package io.muenchendigital.digiwf.example.integration.core.adapter;
 
 import io.muenchendigital.digiwf.example.integration.core.application.in.ExampleUseCase;
 import io.muenchendigital.digiwf.example.integration.core.application.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,16 +21,24 @@ import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_P
 public class MessageProcessor  implements CorrelateMessagePort {
 
     private final ProcessApi processApi;
+    private final ErrorApi errorApi;
     private final ExampleUseCase exampleUseCase;
     private final ExampleMapper exampleMapper;
 
     @Bean
     public Consumer<Message<ExampleDto>> exampleIntegration() {
         return message -> {
-            final ExampleDto exampleDto = message.getPayload();
-            this.exampleUseCase.processExampleData(this.exampleMapper.toModel(exampleDto));
+            try {
+                final ExampleDto exampleDto = message.getPayload();
+                this.exampleUseCase.processExampleData(this.exampleMapper.toModel(exampleDto));
 
-            this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), "exampleMessage", Map.of("someData", exampleDto.getSomeData()));
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        "exampleMessage", Map.of("someData", exampleDto.getSomeData()));
+            } catch (final BpmnError bpmnError) {
+                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
+            } catch (final IncidentError incidentError) {
+                this.errorApi.handleIncident(message.getHeaders(), incidentError);
+            }
         };
     }
 

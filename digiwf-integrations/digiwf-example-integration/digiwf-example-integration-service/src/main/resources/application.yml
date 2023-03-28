@@ -6,7 +6,7 @@ spring:
           enabled: 'true'
       bindings:
         functionRouter-in-0:
-          group: "dwf-digiwf-engine-local-01"
+          group: "dwf-digiwf-example-integration-local-01"
           destination: "digiwf-example-integration-local-01"
         sendMessage-out-0:
           destination: "digiwf-example-integration-local-01"
@@ -30,7 +30,7 @@ spring:
             security:
               protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
     function:
-      definition: exampleIntegration;sendMessage;
+      definition: functionRouter;sendMessage;
   kafka:
     consumer:
       properties:
