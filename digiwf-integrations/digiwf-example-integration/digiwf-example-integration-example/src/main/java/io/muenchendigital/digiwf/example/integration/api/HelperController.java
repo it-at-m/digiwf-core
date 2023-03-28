@@ -27,7 +27,7 @@ public class HelperController {
         ));
 
         this.messageApi.sendMessage(
-                new ExampleDto("123456789", "some data"),
+                new ExampleDto("some data"),
                 headers,
                 targetTopic
         );
@@ -35,7 +35,7 @@ public class HelperController {
         // should raise a bpmn error
         headers.put(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "987654321");
         this.messageApi.sendMessage(
-                new ExampleDto("987654321", null),
+                new ExampleDto(null),
                 headers,
                 targetTopic
         );

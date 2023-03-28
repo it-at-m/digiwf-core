@@ -56,11 +56,6 @@ public class MessageApiImpl implements MessageApi {
 
         final Message<Object> msg = MessageBuilder.createMessage(payload, new MessageHeaders(hdrs));
         final Sinks.EmitResult emitResult = this.messageSink.tryEmitNext(msg);
-        if (emitResult.isSuccess()) {
-            log.info("The message {} was successfully delivered to the eventbus (topic {}).", hdrs.get(MessageHeaders.ID), destination);
-        } else {
-            log.error("The message {} couldn't be delivered to the eventbus (topic {}).", hdrs.get(MessageHeaders.ID), destination);
-        }
         log.debug("Message: {}", payload);
         return emitResult.isSuccess();
     }

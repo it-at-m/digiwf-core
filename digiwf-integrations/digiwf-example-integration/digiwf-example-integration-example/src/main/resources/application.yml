@@ -1,12 +1,15 @@
 server:
-  port: 8091
+  port: 8092
 spring:
   cloud:
     stream:
+      function:
+        routing:
+          enabled: 'true'
       bindings:
-        exampleIntegration-in-0:
+        functionRouter-in-0:
           group: "dwf-digiwf-engine-local-01"
-          destination: "digiwf-example-integration-local-01"
+          destination: "digiwf-example-integration-local-01,dwf-connector-incident-local-01,dwf-connector-bpmnerror-local-01,dwf-digiwf-engine-local-01"
           error-handler-definition: "digiwfErrorHandler"
         sendMessage-out-0:
           destination: "digiwf-example-integration-local-01"
@@ -30,7 +33,7 @@ spring:
             security:
               protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
     function:
-      definition: exampleIntegration;sendMessage;
+      definition: functionRouter;sendMessage;
   kafka:
     consumer:
       properties:
@@ -45,6 +48,8 @@ io:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
         correlateMessageDestination: "dwf-digiwf-engine-local-01"
-      streaming:
         typeMappings:
-          exampleIntegration: exampleIntegration
+          exampleIntegration: "exampleIntegration"
+          dwf-connector-incident-local-01: "onIncidentConsumer"
+          dwf-connector-bpmnerror-local-01: "onBpmnErrorConsumer"
+          correlatemessagev01: "correlateMessageConsumer"

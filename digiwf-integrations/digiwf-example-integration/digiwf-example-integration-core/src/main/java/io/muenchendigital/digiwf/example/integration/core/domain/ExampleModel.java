@@ -6,6 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ExampleModel {
-    private String processInstanceId;
     private String someData;
 }

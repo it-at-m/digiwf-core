@@ -11,6 +11,8 @@ import org.springframework.messaging.Message;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+
 @Configuration
 @RequiredArgsConstructor
 public class MessageProcessor  implements CorrelateMessagePort {
@@ -25,7 +27,7 @@ public class MessageProcessor  implements CorrelateMessagePort {
             final ExampleDto exampleDto = message.getPayload();
             this.exampleUseCase.processExampleData(this.exampleMapper.toModel(exampleDto));
 
-            this.correlateMessage(exampleDto.getProcessInstanceId(), "exampleMessage", Map.of("someData", exampleDto.getSomeData()));
+            this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), "exampleMessage", Map.of("someData", exampleDto.getSomeData()));
         };
     }
 

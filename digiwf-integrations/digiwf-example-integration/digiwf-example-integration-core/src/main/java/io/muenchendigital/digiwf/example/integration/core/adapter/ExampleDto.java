@@ -10,6 +10,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ExampleDto {
-    private String processInstanceId;
     private String someData;
 }

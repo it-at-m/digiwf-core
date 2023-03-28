@@ -2,12 +2,14 @@ package io.muenchendigital.digiwf.message.configuration;
 
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.message.core.impl.MessageApiImpl;
+import io.muenchendigital.digiwf.message.infra.RoutingCallback;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
 import io.muenchendigital.digiwf.message.properties.DigiwfMessageProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.function.context.MessageRoutingCallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.Message;
@@ -39,7 +41,7 @@ public class DigiwfMessageAutoConfiguration {
      * Creates the bean for the default Implementation of {@link ProcessApi}.
      *
      * @param messageApi the message api
-     * @return
+     * @return the process api
      */
     @Bean
     @ConditionalOnMissingBean
@@ -51,6 +53,16 @@ public class DigiwfMessageAutoConfiguration {
                 this.digiwfMessageProperties.getIncidentDestination(),
                 this.digiwfMessageProperties.getBpmnErrorDestination()
         );
+    }
+
+    /**
+     * Creates the bean for the default Implementation of {@link MessageRoutingCallback}.
+     * @return the routing callback
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public MessageRoutingCallback messageRoutingCallback() {
+        return new RoutingCallback(this.digiwfMessageProperties.getTypeMappings());
     }
 
 }

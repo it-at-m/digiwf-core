@@ -17,9 +17,9 @@ import java.util.function.Consumer;
 public class Consumers {
 
     @Bean
-    public Consumer<Message<BpmnErrorDto>> onTechnicalErrorConsumer() {
+    public Consumer<Message<BpmnErrorDto>> onBpmnErrorConsumer() {
         return message -> {
-            log.warn("Technical Error: {}", message.toString());
+            log.warn("BPMN error: {}", message.toString());
         };
     }
 

@@ -4,7 +4,6 @@ import io.muenchendigital.digiwf.message.common.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.function.context.MessageRoutingCallback;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import static io.muenchendigital.digiwf.message.infra.EventEmitterConfiguration.
 import static io.muenchendigital.digiwf.message.infra.EventEmitterConfiguration.MISSING_TYPE_HEADER_ERROR;
 
 @RequiredArgsConstructor
-@Component
 public class RoutingCallback implements MessageRoutingCallback {
 
     private final Map<String, String> typeMappings;

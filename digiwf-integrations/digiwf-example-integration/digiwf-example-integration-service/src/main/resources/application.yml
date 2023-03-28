@@ -1,8 +1,11 @@
 spring:
   cloud:
     stream:
+      function:
+        routing:
+          enabled: 'true'
       bindings:
-        exampleIntegration-in-0:
+        functionRouter-in-0:
           group: "dwf-digiwf-engine-local-01"
           destination: "digiwf-example-integration-local-01"
           error-handler-definition: "digiwfErrorHandler"
@@ -43,6 +46,5 @@ io:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
         correlateMessageDestination: "dwf-digiwf-engine-local-01"
-      streaming:
         typeMappings:
-          exampleIntegration: exampleIntegration
+          exampleIntegration: "exampleIntegration"
