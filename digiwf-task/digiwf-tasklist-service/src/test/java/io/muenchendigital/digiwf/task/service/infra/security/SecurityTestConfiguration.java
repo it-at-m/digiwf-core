@@ -17,8 +17,6 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.function.Supplier;
 
 @Profile("itest")
@@ -34,6 +32,12 @@ import java.util.function.Supplier;
 @Order(1)
 public class SecurityTestConfiguration {
 
+  static {
+    {
+      SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
+  }
+
   @MockBean
   private JwtDecoder jwtDecoder;
 
@@ -48,12 +52,14 @@ public class SecurityTestConfiguration {
     );
   }
 
-
+  /**
+   * Sets test security. 1:1 copy of {@link SecurityConfig}, but without OAuth configured.
+   * @param http http security fluent builder.
+   * @return filter chain
+   * @throws Exception on any error.
+   */
   @Bean
   public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-
-    SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-
     // @formatter:off
     return http
         .logout().disable()

@@ -1,18 +1,18 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
+import com.google.common.collect.Sets;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.holunda.camunda.taskpool.api.task.ProcessReference;
+import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
+import io.holunda.camunda.taskpool.mapper.task.TaskEventMappersKt;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import lombok.val;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.intVariable;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
@@ -43,7 +43,7 @@ public class TestFixtures {
         variables,
         createVariables(),
         null,
-        "Task Name" ,
+        "Task Name",
         null,
         null,
         50,
@@ -64,5 +64,28 @@ public class TestFixtures {
       tasks.add(generateTask("task_" + i, candidateUsers, candidateGroups, assignee, null));
     }
     return tasks;
+  }
+
+  public static TaskCreatedEngineEvent createEvent(String taskId, String assignee) {
+    val task = generateTask(taskId, Sets.newHashSet(), Sets.newHashSet(), assignee, null);
+    return new TaskCreatedEngineEvent(
+        task.getId(),
+        task.getSourceReference(),
+        task.getTaskDefinitionKey(),
+        task.getPayload(),
+        task.getCorrelations(),
+        task.getBusinessKey(),
+        task.getName(),
+        task.getDescription(),
+        task.getFormKey(),
+        task.getPriority(),
+        task.getCreateTime() == null ? null : Date.from(task.getCreateTime()),
+        task.getCandidateUsers(),
+        task.getCandidateGroups(),
+        task.getAssignee(),
+        task.getOwner(),
+        task.getDueDate() == null ? null : Date.from(task.getDueDate()),
+        task.getFollowUpDate() == null ? null : Date.from(task.getFollowUpDate())
+    );
   }
 }
