@@ -6,6 +6,7 @@
     "packages/components/digiwf-engine-api-internal",
     "packages/components/digiwf-multi-file-input",
     "packages/components/digiwf-date-input",
+    "packages/components/digiwf-task-api-internal",
     "packages/apps/digiwf-forms-example",
     "packages/apps/digiwf-tasklist"
   ],
