@@ -92,7 +92,8 @@ services:
   digiwf-gateway:
     image: itatm/digiwf-gateway:dev
     depends_on:
-      - keycloak
+      init-keycloak:
+        condition: service_completed_successfully
     env_file:
       - local-docker.env
     ports:
