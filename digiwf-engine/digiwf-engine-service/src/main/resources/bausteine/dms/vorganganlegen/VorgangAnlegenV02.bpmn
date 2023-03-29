@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_08sskhp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_08sskhp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:error id="Error_0quvroc" name="Error_FehlendeBerechtigung" errorCode="FEHLENDE_BERECHTIGUNG" />
   <bpmn:error id="Error_0plukuv" name="Error_ObjektGesperrt" errorCode="OBJEKT_GESPERRT" />
   <bpmn:error id="Error_05sje43" name="Error_MehrAls1000UntergeordneteObjekte" errorCode="MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE" />
@@ -200,9 +200,10 @@ task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
         <camunda:inputOutput>
           <camunda:inputParameter name="dms_vorgang_coo">${dms_vorgang_coo}</camunda:inputParameter>
           <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
-          <camunda:inputParameter name="dms_cosys_guid">${dms_cosys_guid}</camunda:inputParameter>
           <camunda:inputParameter name="dms_prozess_id">${dms_prozess_id}</camunda:inputParameter>
           <camunda:inputParameter name="dms_schriftstueck_name">${dms_schriftstueck_name}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_s3_url">${execution.hasVariable("dms_s3_url") ? execution.getVariable("dms_s3_url") : ""}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_cosys_guid">${execution.hasVariable("dms_cosys_guid") ? execution.getVariable("dms_cosys_guid") : ""}</camunda:inputParameter>
           <camunda:outputParameter name="dms_created_schriftstueck">${dms_created_schriftstueck}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

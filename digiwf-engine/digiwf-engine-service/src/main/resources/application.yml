@@ -185,8 +185,8 @@ digiwf:
       deploy:
         # all deployments are reported back to cocreation demo
         topic: 'dwf-cocreation-deploy-demo'
-    dlqtopic: 'dwf-digiwf-${DIGIWF_ENV}-dlq'
-    group: '"dwf-digiwf-engine-${DIGIWF_ENV}"'
+    dlqtopic: 'dwf-digiwf-engine-${DIGIWF_ENV}-dlq'
+    group: 'dwf-digiwf-engine-${DIGIWF_ENV}'
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}

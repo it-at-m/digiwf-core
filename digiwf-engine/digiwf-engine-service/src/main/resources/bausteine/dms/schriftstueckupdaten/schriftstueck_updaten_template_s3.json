@@ -1,6 +1,6 @@
 {
-  "name": "Schriftstück updaten",
-  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdatenTemplate",
+  "name": "Schriftstück updaten (S3)",
+  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdatenTemplateS3",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -29,12 +29,12 @@
       }
     },
     {
-      "label": "Cosys Guid",
+      "label": "S3 Url",
       "description": "Input",
       "type": "String",
       "binding": {
         "type": "camunda:in",
-        "target": "dms_cosys_guid",
+        "target": "dms_s3_url",
         "expression": true
       },
       "constraints": {

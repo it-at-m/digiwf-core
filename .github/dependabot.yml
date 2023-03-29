@@ -16,16 +16,9 @@ updates:
     labels:
       - "Technical Dept"
   - package-ecosystem: npm
-    directory: "/digiwf-apps"
+    directory: "/docs"
     target-branch: "dev"
     labels:
       - "Technical Dept"
     schedule:
-      interval: daily
-  - package-ecosystem: npm
-    directory: "/digiwf-docs"
-    target-branch: "dev"
-    labels:
-      - "Technical Dept"
-    schedule:
-      interval: daily
+      interval: weekly

@@ -26,7 +26,7 @@
         <camunda.version.ee>7.18.0-ee</camunda.version.ee>
         <taskana.version>1.13.0</taskana.version>
         <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
-        <tika.version>1.28.5</tika.version>
+        <tika.version>2.7.0</tika.version>
     </properties>
 
     <modules>
@@ -163,7 +163,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.10.1</version>
+                    <version>3.11.0</version>
                     <configuration>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <annotationProcessorPaths>
