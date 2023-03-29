@@ -112,8 +112,6 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
-                                'guides/custom-integration-service/',
-
                             ]
                         },
                         {
@@ -221,18 +219,25 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
-                                'digiwf-alw-integration/',
-                                'digiwf-cosys-integration/',
-                                'digiwf-mail-integration/',
-                                'digiwf-s3-integration/',
-                                'digiwf-verification-integration/',
+                                'digiwf-alw-integration',
+                                'digiwf-cosys-integration',
+                                'digiwf-mail-integration',
+                                'digiwf-s3-integration',
+                                'digiwf-verification-integration',
                             ]
                         },
                         {
                             title: 'Konzept',
-                            collapsable: false,
+                            collapsable: true,
                             children: [
-                                'error-handling/'
+                                'concept/error-handling'
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: true,
+                            children: [
+                                'guides/custom-integration-service',
                             ]
                         }
                     ],
