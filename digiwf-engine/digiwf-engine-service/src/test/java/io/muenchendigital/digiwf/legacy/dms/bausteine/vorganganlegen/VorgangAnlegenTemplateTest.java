@@ -16,6 +16,7 @@ import io.muenchendigital.digiwf.legacy.dms.muc.process.createdokument.CreateDok
 import io.muenchendigital.digiwf.legacy.dms.muc.process.createsachakte.CreateSachakteDelegate;
 import io.muenchendigital.digiwf.legacy.dms.muc.process.createvorgang.CreateVorgangDelegate;
 import io.muenchendigital.digiwf.legacy.dms.muc.process.searchsachakte.SearchSachakteDelegate;
+import io.muenchendigital.digiwf.legacy.dms.shared.S3Resolver;
 import io.muenchendigital.digiwf.legacy.document.domain.DocumentService;
 import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
@@ -31,6 +32,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -38,15 +40,17 @@ import java.util.Optional;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 import static org.mockito.Mockito.*;
 
-@Deployment(resources = { "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn" })
+@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn", "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegenV02S3.bpmn"})
 public class VorgangAnlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangAnlegen";
+    public static final String TEMPLATE_KEY_S3 = "FeatureVorgangAnlegenV02S3";
     public static final String VAR_STARTER_OF_INSTANCE = "starterOfInstance";
     public static final String VAR_FORM_FIELD_VORGANG_TITEL = "FormField_VorgangTitel";
     public static final String VAR_FORM_FIELD_UNTERGRUPPE = "FormField_Untergruppe";
     public static final String VAR_FORM_FIELD_SACHAKTE_NAME = "FormField_SachakteName";
     public static final String VAR_FORM_FIELD_AKTENPLAN_NAME = "FormField_AktenplanName";
+    public static final String VAR_S3_URL = "s3_url";
     public static final String TASK_KONTROLLIEREN = "Task_Kontrollieren";
     public static final String END_EVENT_BEENDET = "EndEvent_Beendet";
     public static final String TASK_VORGANG_ANLEGEN = "Task_VorgangAnlegen";
@@ -78,6 +82,9 @@ public class VorgangAnlegenTemplateTest {
     private DigitalWFFunctions digitalWF;
 
     @Mock
+    private S3Resolver s3Resolver;
+
+    @Mock
     private UserFunctions user;
 
     @Before
@@ -90,7 +97,7 @@ public class VorgangAnlegenTemplateTest {
         Mocks.register("createVorgangDelegate", new CreateVorgangDelegate(this.dmsService));
         when(this.dmsService.createVorgang(any(), any(), any())).thenReturn(Vorgang.builder().coo("VorgangCOO").build());
 
-        Mocks.register("createDokumentDelegate", new CreateDokumentDelegate(this.dmsService, this.documentService));
+        Mocks.register("createDokumentDelegate", new CreateDokumentDelegate(this.dmsService, this.documentService, this.s3Resolver));
         when(this.documentService.createDocument(anyString(), anyString())).thenReturn("Document".getBytes());
         when(this.dmsService.createDokument(any(), any(), any(), any())).thenReturn(
                 Dokument.builder()
@@ -153,6 +160,18 @@ public class VorgangAnlegenTemplateTest {
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY, this.getVariableMap())
                 .execute();
+
+        verify(this.processScenario).hasCompleted(TASK_KONTROLLIEREN);
+        verify(this.processScenario).hasFinished(END_EVENT_BEENDET);
+    }
+
+    @Test
+    public void shouldExecuteS3HappyPath() throws IOException {
+        Scenario.run(this.processScenario)
+                .startByKey(TEMPLATE_KEY_S3, this.getS3VariableMap())
+                .execute();
+
+        verify(this.s3Resolver).getS3File(any());
 
         verify(this.processScenario).hasCompleted(TASK_KONTROLLIEREN);
         verify(this.processScenario).hasFinished(END_EVENT_BEENDET);
@@ -284,6 +303,17 @@ public class VorgangAnlegenTemplateTest {
                 VAR_FORM_FIELD_UNTERGRUPPE, "untergruppe",
                 VAR_FORM_FIELD_SACHAKTE_NAME, "sachakteName",
                 VAR_FORM_FIELD_AKTENPLAN_NAME, "aktenplanName"
+        );
+    }
+
+    private Map<String, Object> getS3VariableMap() {
+        return withVariables(
+                VAR_STARTER_OF_INSTANCE, "starterOfInstance",
+                VAR_FORM_FIELD_VORGANG_TITEL, "VorgangTitel",
+                VAR_FORM_FIELD_UNTERGRUPPE, "untergruppe",
+                VAR_FORM_FIELD_SACHAKTE_NAME, "sachakteName",
+                VAR_FORM_FIELD_AKTENPLAN_NAME, "aktenplanName",
+                VAR_S3_URL, "customs3url"
         );
     }
 

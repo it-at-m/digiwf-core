@@ -9,6 +9,7 @@ import io.muenchendigital.digiwf.legacy.dms.muc.domain.service.DmsService;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSException;
 import io.muenchendigital.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
 import io.muenchendigital.digiwf.legacy.dms.muc.process.updateschriftstueck.UpdateSchriftstueckDelegate;
+import io.muenchendigital.digiwf.legacy.dms.shared.S3Resolver;
 import io.muenchendigital.digiwf.legacy.document.domain.DocumentService;
 import io.muenchendigital.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import io.muenchendigital.digiwf.legacy.user.process.UserFunctions;
@@ -29,8 +30,8 @@ import java.util.Map;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 import static org.mockito.Mockito.*;
 
-@Deployment(resources = { "bausteine/dms/schriftstueckupdaten/SchriftstueckUpdatenV01.bpmn",
-        "bausteine/dms/schriftstueckupdaten/feature/Feature_SchriftstueckeUpdaten.bpmn" })
+@Deployment(resources = {"bausteine/dms/schriftstueckupdaten/SchriftstueckUpdatenV01.bpmn",
+        "bausteine/dms/schriftstueckupdaten/feature/Feature_SchriftstueckeUpdaten.bpmn"})
 public class SchriftstueckUpdatenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureSchriftstueckeUpdaten";
@@ -65,13 +66,16 @@ public class SchriftstueckUpdatenTemplateTest {
     private UserFunctions userFunctions;
 
     @Mock
+    private S3Resolver s3Resolver;
+
+    @Mock
     private DigitalWFFunctions digitalWF;
 
     @Before
     public void defaultScenario() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        Mocks.register("updateSchriftstueckDelegate", new UpdateSchriftstueckDelegate(this.dmsService, this.documentService));
+        Mocks.register("updateSchriftstueckDelegate", new UpdateSchriftstueckDelegate(this.dmsService, this.documentService, this.s3Resolver));
         when(this.documentService.createDocument(anyString(), anyString())).thenReturn("Document".getBytes());
         doNothing().when(this.dmsService).updateSchriftstueck(any(), any());
 
