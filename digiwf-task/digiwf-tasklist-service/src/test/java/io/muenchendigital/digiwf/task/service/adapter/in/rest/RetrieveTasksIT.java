@@ -1,32 +1,39 @@
 package io.muenchendigital.digiwf.task.service.adapter.in.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
+import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.jpa.JpaPolyflowViewTaskService;
 import io.holunda.polyflow.view.query.task.AllTasksQuery;
 import io.muenchendigital.digiwf.task.service.TaskListApplication;
+import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.MockUserGroupResolver;
 import io.muenchendigital.digiwf.task.service.infra.security.TestUser;
 import io.muenchendigital.digiwf.task.service.infra.security.WithKeycloakUser;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import lombok.extern.slf4j.Slf4j;
+import org.axonframework.messaging.MetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.BASE_PATH;
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.createEvent;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -36,50 +43,152 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"itest", "embedded-kafka"})
 @AutoConfigureMockMvc(addFilters = false)
-@WithKeycloakUser
 @EmbeddedKafka(
     partitions = 1,
-    count = 1,
     topics = {"plf_data_entries", "plf_tasks"},
     ports = {9092}
 )
+@Slf4j
 public class RetrieveTasksIT {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
-  private ObjectMapper objectMapper;
-
-  @Autowired
   private JpaPolyflowViewTaskService service;
+
+  private final Task[] tasks = {
+      // user id
+      generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null),
+      // candidate group
+      generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolver.GROUP1, "ANOTHER"), "OTHER", null),
+      // candidate user -> This is a special case, we don't expect candidate user assignment
+      generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
+      // some white noise
+      generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
+      generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolver.GROUP1), null, null),
+  };
 
 
   @BeforeEach
-  public void produce_task_events() throws JsonProcessingException {
-//    template.send(new ProducerRecord<>("plf_task", objectMapper.writeValueAsBytes(createEvent("task_0", TestUser.USER_ID))));
-//    template.send(new ProducerRecord<>("plf_task", objectMapper.writeValueAsBytes(createEvent("task_1", TestUser.USER_ID))));
-//    template.send(new ProducerRecord<>("plf_task", objectMapper.writeValueAsBytes(createEvent("task_2", TestUser.USER_ID))));
-//    await().untilAsserted(
-//        () -> {
-//          assertThat(service.query(new AllTasksQuery()).getTotalElementCount()).isNotZero();
-//        }
-//    );
-
+  public void produce_task_events() {
+    Arrays.stream(tasks).forEach(t -> service.on(createEvent(t), MetaData.emptyInstance()));
+    await().untilAsserted(
+        () -> {
+          var count = service.query(new AllTasksQuery()).getTotalElementCount();
+          assertThat(count).isEqualTo(tasks.length);
+        }
+    );
   }
 
 
   @Test
+  @WithKeycloakUser
   public void retrieve_tasks_assigned_to_user() throws Exception {
     mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/user")
+            get(BASE_PATH + "/tasks/user?sort=+taskId")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().json("{\"content\":[],\"pageable\":{\"pageNumber\":0,\"pageSize\":50,\"paged\":true,\"unpaged\":false,\"sort\":{\"empty\":true,\"unsorted\":true,\"sorted\":false}},\"totalPages\":0,\"totalElements\":0,\"numberOfElements\":0,\"size\":50,\"page\":0,\"last\":false,\"first\":true,\"empty\":true}"))
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(2)))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(2)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(2)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+  }
+
+  @Test
+  @WithKeycloakUser
+  public void retrieve_tasks_assigned_to_user_paged() throws Exception {
+    mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/user?page=0&size=1&sort=+taskId")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        //.andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_0")))
+        .andExpect(jsonPath("$.totalPages", equalTo(2)))
+        .andExpect(jsonPath("$.totalElements", equalTo(2)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
+        .andExpect(jsonPath("$.last", equalTo(false)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+    mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/user?page=1&size=1&sort=+taskId")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        //.andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_2")))
+        .andExpect(jsonPath("$.totalPages", equalTo(2)))
+        .andExpect(jsonPath("$.totalElements", equalTo(2)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(false)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+
+  }
+
+  @Test
+  @WithKeycloakUser
+  public void retrieve_assigned_tasks_via_group() throws Exception {
+    mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/group/assigned?sort=+taskId")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_1")))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(1)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+  }
+
+  @Test
+  @WithKeycloakUser
+  public void retrieve_unassigned_tasks_via_group() throws Exception {
+    mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/group/unassigned?sort=+taskId")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_4")))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(1)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
     ;
   }
 

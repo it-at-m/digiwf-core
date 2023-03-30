@@ -43,6 +43,6 @@ feign:
   client:
     config:
       jsonschema:
-        url: "http://localhost:9999/"
+        url: "http://localhost:7080/"
       default:
-        url: "http://localhost:9999/engine-rest/"
+        url: "http://localhost:7080/engine-rest/"

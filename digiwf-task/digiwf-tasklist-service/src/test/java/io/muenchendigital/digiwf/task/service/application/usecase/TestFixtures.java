@@ -5,12 +5,14 @@ import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.holunda.camunda.taskpool.api.task.ProcessReference;
 import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
-import io.holunda.camunda.taskpool.mapper.task.TaskEventMappersKt;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
+import lombok.SneakyThrows;
 import lombok.val;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.*;
 
@@ -31,6 +33,11 @@ public class TestFixtures {
   }
 
   public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate) {
+    try {
+      Thread.sleep(1);
+    } catch (InterruptedException ignored) {
+
+    }
     val variables = CamundaBpmData.builder()
         .set(TaskVariables.TASK_SCHEMA_KEY, "schema-1")
         .build();
@@ -66,8 +73,7 @@ public class TestFixtures {
     return tasks;
   }
 
-  public static TaskCreatedEngineEvent createEvent(String taskId, String assignee) {
-    val task = generateTask(taskId, Sets.newHashSet(), Sets.newHashSet(), assignee, null);
+  public static TaskCreatedEngineEvent createEvent(Task task) {
     return new TaskCreatedEngineEvent(
         task.getId(),
         task.getSourceReference(),
@@ -87,5 +93,15 @@ public class TestFixtures {
         task.getDueDate() == null ? null : Date.from(task.getDueDate()),
         task.getFollowUpDate() == null ? null : Date.from(task.getFollowUpDate())
     );
+  }
+
+  public static TaskCreatedEngineEvent createEvent(String taskId, String assignee) {
+    val task = generateTask(taskId, Sets.newHashSet(), Sets.newHashSet(), assignee, null);
+    return createEvent(task);
+  }
+
+  @SneakyThrows
+  public static String getJsonFromFile(String relativeFilename) {
+    return Files.readString(Path.of("src", "test", "resources", "files", relativeFilename));
   }
 }
