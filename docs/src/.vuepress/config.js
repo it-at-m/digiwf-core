@@ -103,7 +103,6 @@ module.exports = {
                                 'components/engine',
                                 'components/connector',
                                 'components/tasks',
-
                             ]
                         },
                         {
@@ -119,7 +118,6 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
-                                'libs/digiwf-integration-lib/',
                             ]
                         },
                         {
@@ -230,7 +228,8 @@ module.exports = {
                             title: 'Konzept',
                             collapsable: true,
                             children: [
-                                'concept/error-handling'
+                                'concept/integration-service',
+                                'concept/error-handling',
                             ]
                         },
                         {

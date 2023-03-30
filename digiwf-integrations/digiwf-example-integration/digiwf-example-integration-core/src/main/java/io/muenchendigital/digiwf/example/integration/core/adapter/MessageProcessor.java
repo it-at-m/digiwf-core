@@ -18,7 +18,7 @@ import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_P
 
 @Configuration
 @RequiredArgsConstructor
-public class MessageProcessor  implements CorrelateMessagePort {
+public class MessageProcessor implements CorrelateMessagePort {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;

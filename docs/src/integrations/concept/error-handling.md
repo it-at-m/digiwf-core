@@ -1,5 +1,6 @@
 # Fehlerbehandlung Integrationen
 
+
 ## Zielgruppe
 
 * Integrationsentwickler*innen
@@ -50,17 +51,6 @@ bzw. ob bei der Prozessinstanz ein BPMN-Error oder ein Incident ausgelöst werde
 Zum Unterschied zwischen BPMN-Error und Incident 
 siehe [business-error-vs-technical-error](https://docs.camunda.io/docs/components/modeler/bpmn/error-events/#business-error-vs-technical-error).
 
-Um die Fehlerbehandlung für Integration-Service so einfach wie möglich zu gestalten, ist in den cloudstream-utils ein IncidentService und ein BpmnErrorService 
-als Bean konfiguriert, den man sich zum Aufruf injecten kann.
-Je nach Entscheidung, um welche Art von Fehler es sich handelt, wird der entspr. Service für die weitere Verarbeitung aufgerufen.
-
-```
-if (isBusinessError(exception)){
-  return bpmnErrorService.sendBpmnError(messageHeaders, errorCode, errorMessage);
-} else {
-  return incidentService.sendIncident(messageHeaders, errorMessage);
-}  
-```
 Nach der Datenaufbereitung sendet der Service eine Message entweder in das BPMN-Error-Topic (siehe [BPMN-Error-Verarbeitung](#bpmn-error-verarbeitung)) 
 oder das Incident-Topic des Connectors (siehe [Incident Verarbeitung](#incident-verarbeitung)).
 
@@ -139,9 +129,7 @@ da bei unerwarteten Fehlern in der Verarbeitung die Nachricht zurück in die DLQ
 Um den IncidentService und den BpmnErrorService aus den streaming-utils verwenden zu können, sind für beide jeweils die Producer-Functions 
 und die Zieltopics sowie die DLQ zu konfigurieren:
 ```
-spring.cloud.function.definition=...;sendIncident;sendBpmnError;..
-spring.cloud.stream.bindings.sendIncident-out-0.destination=<CONNECTOR-INCIDENT-TOPIC>
-spring.cloud.stream.bindings.sendBpmnError-out-0.destination=<CONNECTOR-BPMNERROR-TOPIC>
+spring.cloud.function.definition=...
 spring.cloud.stream.default.consumer.maxAttempts=3
 spring.cloud.stream.kafka.default.consumer.dlqName=<DLQ-NAME>
 spring.cloud.stream.kafka.default.consumer.enableDlq=true
