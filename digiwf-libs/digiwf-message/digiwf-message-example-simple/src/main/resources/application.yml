@@ -1,8 +1,0 @@
-io:
-  muenchendigital:
-    digiwf:
-      message:
-        incidentDestination: "incident"
-        technicalErrorDestination: "technical-error"
-        correlateMessageDestination: "correlate-message"
-        startProcessDestination: "start-process"

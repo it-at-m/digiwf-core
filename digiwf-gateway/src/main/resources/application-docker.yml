@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: backend-dockerized
+          uri: http://host.docker.internal:${ENGINE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-backend-service/**
+          filters:
+            - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: frontend-dockerized
+          uri: http://digiwf-tasklist:8080/
+          predicates:
+            - Path=/**

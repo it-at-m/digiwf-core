@@ -103,7 +103,6 @@ module.exports = {
                                 'components/engine',
                                 'components/connector',
                                 'components/tasks',
-
                             ]
                         },
                         {
@@ -112,8 +111,6 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
-                                'guides/custom-integration-service/',
-
                             ]
                         },
                         {
@@ -121,7 +118,6 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
-                                'libs/digiwf-integration-lib/',
                             ]
                         },
                         {
@@ -221,18 +217,26 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
-                                'digiwf-alw-integration/',
-                                'digiwf-cosys-integration/',
-                                'digiwf-mail-integration/',
-                                'digiwf-s3-integration/',
-                                'digiwf-verification-integration/',
+                                'digiwf-alw-integration',
+                                'digiwf-cosys-integration',
+                                'digiwf-mail-integration',
+                                'digiwf-s3-integration',
+                                'digiwf-verification-integration',
                             ]
                         },
                         {
                             title: 'Konzept',
-                            collapsable: false,
+                            collapsable: true,
                             children: [
-                                'error-handling/'
+                                'concept/integration-service',
+                                'concept/error-handling',
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: true,
+                            children: [
+                                'guides/custom-integration-service',
                             ]
                         }
                     ],

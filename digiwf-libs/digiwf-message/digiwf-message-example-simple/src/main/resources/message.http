@@ -1,8 +1,0 @@
-### Send message
-POST http://localhost:8080/message
-Content-Type: application/json
-
-{
-  "message": "this is a test message",
-  "type": "message"
-}

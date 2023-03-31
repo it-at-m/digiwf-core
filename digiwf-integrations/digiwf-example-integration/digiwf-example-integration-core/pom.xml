@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-integration-starter</artifactId>
+            <artifactId>digiwf-message-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

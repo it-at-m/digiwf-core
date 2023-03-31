@@ -3,37 +3,32 @@
  */
 package io.muenchendigital.digiwf.shared.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @Profile("no-security")
-@EnableResourceServer
 @EnableWebSecurity
-public class NoSecurityConfiguration extends ResourceServerConfigurerAdapter {
+public class NoSecurityConfiguration {
 
-    @Override
-    public void configure(final ResourceServerSecurityConfigurer resources) {
-        resources.resourceId(null);
-    }
-
-    @Override
-    public void configure(final HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
+        // @formatter:off
         http
                 .headers()
-                .frameOptions()
-                .disable()
-                .and().antMatcher("/**")
+                    .frameOptions().disable()
+                    .and()
                 .authorizeRequests()
-                .anyRequest()
-                .permitAll()
-                .and().csrf()
-                .disable();
+                    .anyRequest().permitAll()
+                    .and()
+                .csrf()
+                    .disable();
+        // @formatter:on
+        return http.build();
     }
 
 }

@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "SchriftstueckUpdatenV01",
+      "value": "SchriftstueckUpdatenV02",
       "binding": {
         "type": "property",
         "name": "calledElement"

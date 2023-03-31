@@ -1,0 +1,8 @@
+id: task-management
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addSimpleClient:
+      clientId: ${SSO_TASK_CLIENT_ID}
+      redirectUris:
+        - http://localhost:${TASKSERVICE_SERVER_PORT}/*
