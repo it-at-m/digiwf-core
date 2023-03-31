@@ -1,7 +1,9 @@
 package io.muenchendigital.digiwf.email.integration.configuration;
 
-import io.muenchendigital.digiwf.email.integration.application.port.LoadAttachementPort;
-import io.muenchendigital.digiwf.email.integration.application.service.MailingService;
+import io.muenchendigital.digiwf.email.integration.application.port.in.SendMail;
+import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import io.muenchendigital.digiwf.email.integration.application.usecase.SendMailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -47,14 +49,17 @@ public class MailAutoConfiguration {
     }
 
     /**
-     * Configures the {@link MailingService}
+     * Configures the {@link SendMail} use case.
      *
-     * @param javaMailSender                the configured JavaMailSender
-     * @return configured MailingService
+     * @param javaMailSender       JavaMailSender
+     * @param loadAttachmentPort   LoadMailAttachmentPort
+     * @param correlateMessagePort CorrelateMessagePort
+     * @return configured SendMail use case
      */
     @Bean
     @ConditionalOnMissingBean
-    public MailingService getMailingService(final JavaMailSender javaMailSender, final LoadAttachementPort loadAttachementPort) {
-        return new MailingService(javaMailSender, loadAttachementPort, this.customMailProperties.getFromAddress());
+    public SendMail getSendMailUseCase(final JavaMailSender javaMailSender, final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort) {
+        return new SendMailUseCase(javaMailSender, loadAttachmentPort, correlateMessagePort, this.customMailProperties.getFromAddress());
     }
+
 }

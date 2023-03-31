@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.email.integration.application.model;
+package io.muenchendigital.digiwf.email.integration.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.mail.util.ByteArrayDataSource;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Attachment {
+public class FileAttachment {
 
     private String fileName;
 

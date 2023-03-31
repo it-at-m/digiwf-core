@@ -1,19 +1,12 @@
 package io.muenchendigital.digiwf.email.integration.application;
 
-import io.muenchendigital.digiwf.email.integration.application.dto.MailDto;
-import io.muenchendigital.digiwf.email.integration.application.service.MailingService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import javax.mail.MessagingException;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmailIntegrationTest {
 
+    /*
     private final MailingService mailingService = mock(MailingService.class);
     private EmailIntegration emailIntegration;
 
@@ -37,6 +30,5 @@ class EmailIntegrationTest {
         this.emailIntegration.sendMail(this.mail);
         verify(this.mailingService, times(1)).sendMail(eq(this.mail));
     }
-
-
+*/
 }

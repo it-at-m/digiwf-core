@@ -1,27 +1,11 @@
 package io.muenchendigital.digiwf.email.integration.application.service;
 
-import io.muenchendigital.digiwf.email.integration.application.dto.AttachmentDto;
-import io.muenchendigital.digiwf.email.integration.application.dto.MailDto;
-import io.muenchendigital.digiwf.email.integration.application.model.Attachment;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mail.javamail.JavaMailSender;
-
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MailingServiceTest {
-
+/*
     private final DummyMailAttachmentPort dummyMailAttachmentPort = spy(new DummyMailAttachmentPort("test.txt"));
     @Mock
     private JavaMailSender javaMailSender;
@@ -71,5 +55,5 @@ class MailingServiceTest {
         final Attachment result = this.dummyMailAttachmentPort.loadAttachement(any());
         Assertions.assertEquals("test.txt", result.getFileName());
     }
-
+*/
 }

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.email.integration.application.dto;
+package io.muenchendigital.digiwf.email.integration.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class AttachmentDto {
+public class PresignedUrl {
 
     /**
      * Url to the s3 service.
