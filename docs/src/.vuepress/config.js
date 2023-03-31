@@ -184,6 +184,10 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'forms/',
+                                'forms/fields/',
+                                'forms/objects/',
+                                'forms/validation/',
+                                'forms/migration/',
                             ]
                         },
                         {

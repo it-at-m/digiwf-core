@@ -22,6 +22,8 @@ Eine kurze Beschreibung dazu findet sich unter [Artefakt hinzufügen](/modeling/
 
 ## Formular modellieren
 
+![Element Template](~@source/modeling/guides/modeling-first-process/form-create.png)
+
 ## Deployment
 
 ## Autorisierung
