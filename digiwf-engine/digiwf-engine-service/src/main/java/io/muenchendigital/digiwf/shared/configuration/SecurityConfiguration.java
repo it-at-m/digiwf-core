@@ -22,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration {
 
+    @Autowired
+    private RestTemplateBuilder restTemplateBuilder;
+
     private static final String[] PERMITTED_URLS = {
             "/engine-rest/**", // allow access to rest api
             "/actuator/info", // allow access to /actuator/info
@@ -34,13 +37,16 @@ public class SecurityConfiguration {
         // @formatter:off
         http
                 .csrf()
-                    .ignoringAntMatchers(PERMITTED_URLS)
-                    .disable()
+                .ignoringAntMatchers(PERMITTED_URLS)
+                .disable()
                 .authorizeRequests()
-                    .antMatchers(PERMITTED_URLS).permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .antMatchers(PERMITTED_URLS).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .and().oauth2ResourceServer().jwt()
+                .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
+                        new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder)));
+
         ;
         return http.build();
         // @formatter:on
