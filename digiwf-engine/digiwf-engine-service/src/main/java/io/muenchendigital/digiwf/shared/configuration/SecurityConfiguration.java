@@ -4,6 +4,9 @@
 package io.muenchendigital.digiwf.shared.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,8 +26,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-  private final GrantedAuthoritiesConverter grantedAuthoritiesConverter;
-
   private static final String[] PERMITTED_URLS = {
       "/error", // allow the error page
       "/actuator/info", // allow access to /actuator/info
@@ -35,18 +36,15 @@ public class SecurityConfiguration {
       "/swagger-ui*/**", // allow access to swagger
   };
 
-  /**
-   * Protected URLs, the access will be protected by the token.
-   */
-  public static final String[] PROTECTED = {
-      "/api/**",
-      "/rest/**",
-      "/engine-rest/**", // camunda rest api
-  };
+    @Autowired
+    private RestTemplateBuilder restTemplateBuilder;
 
-  @Bean
-  public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
-    // @formatter:off
+    @Value("${spring.security.oauth2.client.provider.keycloak.user-info-uri}")
+    private String userInfoUri;
+
+    @Bean
+    public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
+        // @formatter:off
         http
             .csrf()
                 .ignoringAntMatchers(PERMITTED_URLS)
@@ -54,16 +52,16 @@ public class SecurityConfiguration {
             .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(PERMITTED_URLS).permitAll()
-                .antMatchers(PROTECTED).authenticated()
+                .anyRequest().authenticated()
                 .and()
             .oauth2ResourceServer()
                 .jwt()
-                .jwtAuthenticationConverter(grantedAuthoritiesConverter)
-                .and()
-                .and()
-        ;
+                    .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
+                        new UserInfoAuthoritiesService(this.userInfoUri, this.restTemplateBuilder)))
+            .and();
         return http.build();
         // @formatter:on
-  }
+    }
+
 
 }
