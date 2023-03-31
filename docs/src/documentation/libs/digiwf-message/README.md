@@ -9,7 +9,7 @@ Dadurch muss ein Integrations-Developer nicht mehr in die Tiefe der Spring Cloud
 kann sich auf die Implementierung der Integration fokussieren.
 
 Die Bibliothek stellt für das Versenden von Nachrichten eigene APIs bereit, die Nachrichten an einen Message Broker senden.
-Zusätzlich stellt die Bibliothek auch Spring Cloud Stream für das Konsumieren und Weiterleiten von Nachrichten bereit (Function Routing).
+Zusätzlich stellt die Bibliothek auch einen Spring Cloud Stream `RoutingCallback` für das Konsumieren und Weiterleiten von Nachrichten bereit (Function Routing).
 
 ## Verwendung
 
