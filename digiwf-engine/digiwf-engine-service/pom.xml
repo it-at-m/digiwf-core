@@ -9,13 +9,13 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>0.17.7-SNAPSHOT</version>
+        <version>0.17.8-SNAPSHOT</version>
     </parent>
 
     <properties>
         <logstash.encoder>7.0.1</logstash.encoder>
         <apache.commons.collections4>4.4</apache.commons.collections4>
-        <apache.commons.csv>1.9.0</apache.commons.csv>
+        <apache.commons.csv>1.10.0</apache.commons.csv>
         <apache.commons.io>2.11.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.10.0</apache.commons.text>
@@ -224,7 +224,7 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>6.17.1</version>
+            <version>6.18.0</version>
             <scope>test</scope>
         </dependency>
 

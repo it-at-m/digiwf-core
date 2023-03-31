@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>0.17.7-SNAPSHOT</version>
+        <version>0.17.8-SNAPSHOT</version>
     </parent>
 
 
@@ -132,7 +132,7 @@
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
             <scope>test</scope>
-            <version>6.17.0</version>
+            <version>6.18.0</version>
         </dependency>
 
     </dependencies>
