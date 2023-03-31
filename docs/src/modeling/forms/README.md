@@ -12,10 +12,24 @@ erstellen.
 
 ## Editor
 
+Der Formulareditor besteht aus 3 Abschnitten:
+
+- **Builder:** Hier können Formulare per Drag & Drop erstellt werden.
+- **Vorschau:** Anzeige des erstellen Formulars.
+- **Konfiguration:** Konfiguration des Formulars. Hier kann die Id kopiert und die Visualisierung des Formulars geändert
+  werden.
+
+![Formular Editor](~@source/modeling/forms/form-editor.png)
+
 ## Formularstruktur
 
 Formulare bestehen aus folgenden Elementen:
 
-- Abschnitt: Ein Abschnitt kann in der Modellierung als Container für Gruppen verwendet werden. Über Abschnitte kann in
+- **Abschnitt:** Ein Abschnitt kann in der Modellierung als Container für Gruppen verwendet werden. Über Abschnitte kann
+  in
   der Konfiguration des Editors bspw. ein Stepper konfiguriert werden.
-- Gruppe: Eine Gruppe kann in der Modellierung als Container für Felder verwendet werden. 
+- **Gruppe:** Eine Gruppe kann in der Modellierung als Container für Felder verwendet werden.
+- **Feld:** Eine Eingabemaske für einen Wert. Hierfür stehen unterschiedlichen Typen zur Verfügung, die im
+  Abschnitt [Felder](/modeling/forms/fields/) beschrieben sind.
+
+![Formular Struktur](~@source/modeling/forms/form-structure.png)
