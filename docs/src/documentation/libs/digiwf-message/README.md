@@ -1,5 +1,7 @@
 # DigiWF Message
 
+[![](https://img.shields.io/badge/Example-digiwf_message_example-informational?style=flat&logo=Github&logoColor=white&color=D4B300)](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/)
+
 Die **DigiWF Message** Bibliothek ist eine Abstraktionsschicht, um die Kommunikation zwischen den verschiedenen Komponenten
 zu vereinfachen und technische Komplexität zu reduzieren.
 
