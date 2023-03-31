@@ -3,10 +3,13 @@ server:
 spring:
   cloud:
     function:
-      definition: receiveMessages;sendMessage;
+      definition: functionRouter;sendMessage;
     stream:
+      function:
+        routing:
+          enabled: 'true'
       bindings:
-        receiveMessages-in-0:
+        functionRouter-in-0:
           group: "dwf-email-service"
           destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
@@ -70,3 +73,5 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         technicalErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-digiwf-engine-${DIGIWF_ENV}"
+        typeMappings:
+          sendMailFromEventBus: "emailIntegration"

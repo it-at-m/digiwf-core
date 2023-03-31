@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -72,10 +75,16 @@ public class SendMailUseCase implements SendMail {
             throw new BpmnError("MESSAGING_EXCEPTION", ex.getMessage());
         }
 
-        this.mailSender.send(mimeMessage);
-        log.info("Mail sent to {}.", mail.getReceivers());
-
-        // tbd.
-        this.correlateMessagePort.correlateMessage(processInstanceIde, "mailSent", null);
+        try {
+            this.mailSender.send(mimeMessage);
+            log.info("Mail sent to {}.", mail.getReceivers());
+        } catch (final MailException ex) {
+            log.error("Sending mail failed with exception: {}", ex.getMessage());
+            throw new BpmnError("MAIL_SENDING_FAILED", ex.getMessage());
+        }
+        
+        final Map<String, Object> correlatePayload = new HashMap<>();
+        correlatePayload.put("mailSentStatus", true);
+        this.correlateMessagePort.correlateMessage(processInstanceIde, "mailSent", correlatePayload);
     }
 }

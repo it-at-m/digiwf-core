@@ -18,7 +18,7 @@ import java.net.URL;
 public class S3Adapter implements LoadMailAttachmentPort {
 
     @Override
-    public FileAttachment loadAttachement(final PresignedUrl attachment) throws BpmnError {
+    public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {
             // TODO use digiwf s3 client to download the file instead of the stream below
 
@@ -35,5 +35,4 @@ public class S3Adapter implements LoadMailAttachmentPort {
             throw new BpmnError("400", "An attachment could not be loaded: " + attachment);
         }
     }
-
 }
