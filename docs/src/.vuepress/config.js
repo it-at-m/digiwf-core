@@ -187,27 +187,18 @@ module.exports = {
                             ]
                         },
                         {
+                            title: 'Bausteine',
+                            collapsable: false,
+                            children: [
+                                'integrations/',
+                                'integrations/catalog/',
+                            ]
+                        },
+                        {
                             title: 'Guides',
                             collapsable: false,
                             children: [
                                 'guides/modeling-first-process/',
-                            ]
-                        },
-                        {
-                            title: 'Integrationen',
-                            collapsable: false,
-                            children: [
-                                'integrations/email/',
-                                'integrations/cosys/',
-                            ]
-                        },
-                        {
-                            title: 'Vorlagen',
-                            collapsable: false,
-                            children: [
-                                'templates/element-templates/',
-                                'templates/bpmn/',
-                                'templates/examples/'
                             ]
                         }
                     ],
