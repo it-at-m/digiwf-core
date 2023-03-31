@@ -149,8 +149,8 @@ module.exports = {
                             title: 'Plattform',
                             collapsable: false,
                             children: [
-                                'plattform/artefact/',
                                 'plattform/project/',
+                                'plattform/artefact/',
                                 'plattform/deployment/',
                             ]
                         },
@@ -161,15 +161,22 @@ module.exports = {
                                 'processes/modeling/',
                                 'processes/functions/',
                                 'processes/authorization/',
-                                'processes/variables/',
+                                'processes/config/',
                             ]
                         },
                         {
                             title: 'Benutzeraufgaben',
                             collapsable: false,
                             children: [
-                                'user-tasks/modeling/',
-                                'user-tasks/variables/',
+                                'user-tasks/modeling/'
+                            ]
+                        },
+                        {
+                            title: 'Expressions',
+                            collapsable: false,
+                            children: [
+                                'expressions/basic/',
+                                'expressions/functions/',
                             ]
                         },
                         {

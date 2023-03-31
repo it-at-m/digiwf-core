@@ -24,3 +24,20 @@ verwendet werden, einfach verwaltet werden. Eine Co-Creation-Plattform ermöglic
 einem Projekt zu arbeiten und die Ergebnisse zu teilen. Dabei können die Artefakte wie BPMN-Diagramme, DMN-Modelle,
 Formulare, Prozesskonfigurationen und Templates zentral verwaltet und geteilt werden.
 :::
+
+## Artefakt hinzufügen
+
+In einem [Projekt](/modeling/plattform/project/) können verschiedene Artefakte, wie BPMN-Diagramme, DMN-Modelle,
+Formulare und Prozesskonfigurationen verwaltet werden.
+Um ein neues Artefakt hinzuzufügen, kann im Menü `+` das entsprechende Artefakt ausgewählt werden.
+
+![Artefakt hinzufügen](~@source/modeling/plattform/artefact/add_artefact.png)
+
+## Artefakt versionieren
+
+Um ein Artefakt zu versionieren, kann ein *Milestone* erstellt werden.
+Dies erlaubt es dem Projektteam, verschiedene Entwicklungsstufen des Artefakts zu speichern.
+Die Aktion kann im Kontextmenüs des Artefakts ausgeführt werden.
+
+![Milestone erstellen](~@source/modeling/plattform/artefact/create_milestone.png)
+

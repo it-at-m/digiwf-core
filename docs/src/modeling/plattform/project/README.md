@@ -7,7 +7,9 @@ Benutzern zu erleichtern.
 
 ## Projekt anlegen
 
-Ein neues Projekt kann in der Co-Creation-Plattform angelegt werden. Dazu muss..
+Ein neues Projekt kann in der Co-Creation-Plattform angelegt werden.
+
+![Projekt anlegen](~@source/modeling/plattform/project/create.png)
 
 ## Rollen und Rechte
 
@@ -18,14 +20,24 @@ von Artefakten und das Deployen von Prozessen.
 
 Folgende Rollen stehen in der Co-Creation-Plattform zur Verfügung:
 
-- Owner
-- Admin
-- Member
-- Viewer
+- Besitzer
+- Administrator
+- Mitglied
+- Betrachter
 
 ## Benutzer einladen
 
-Benutzer können in einem Projekt eingeladen werden, um an der Zusammenarbeit zu beteiligen.
+Benutzer können in einem Projekt eingeladen werden, um an der Erstellung bzw. Bearbeitung von Artefakten mitzuwirken.
+Dazu kann im jeweiligen Projekt im Menü *Mitglieder verwalten* geöffnet werden.
 
-BILD
+![Mitglieder verwalten](~@source/modeling/plattform/project/members.png)
+
+Anschließend kann ein Benutzer hinzugefügt und die entsprechende Rolle zugewiesen werden.
+
+::: warning
+Ein Benutzer kann erst hinzugefügt werden, nachdem dieser sich erstmalig in der Plattform angemeldet hat.
+:::
+
+![Mitglied hinzufügen](~@source/modeling/plattform/project/add_member.png)
+
 
