@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.polyflow;
 
+import com.google.common.collect.Sets;
 import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.auth.User;
@@ -28,7 +29,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
   public PageOfTasks getTasksForCurrentUser(User currentUser, String query, PagingAndSorting pagingAndSorting) {
     var filters = buildFilters(query);
     var result = taskQueryClient.query(new TasksForUserQuery(
-        currentUser,
+        new User(currentUser.getUsername(), Sets.newHashSet()), // no groups in user-based query
         pagingAndSorting.getPageIndex(),
         pagingAndSorting.getPageSize(),
         pagingAndSorting.getSanitizedSort(),

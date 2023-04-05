@@ -20,8 +20,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
 
-  private static final String USER_ID_CLAIM = "lhmObjectID";
-  private static final String USERNAME_CLAIM = "user_name";
+  public static final String USER_ID_CLAIM = "lhmObjectID";
+  public static final String USERNAME_CLAIM = "user_name";
 
   private final UserGroupResolverPort userGroupResolver;
 
