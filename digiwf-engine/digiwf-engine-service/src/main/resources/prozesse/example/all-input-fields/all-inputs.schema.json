@@ -110,6 +110,7 @@
                   "dense": true
                 },
                 "fieldType": "date",
+                "x-display": "custom-date-input",
                 "title": "Date",
                 "type": "string",
                 "format": "date"

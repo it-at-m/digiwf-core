@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +40,10 @@ public class WebformResponse {
   private String formId;
 
   public static final String JSON_PROPERTY_FIELDS = "fields";
-  private Map<String, String> fields = null;
+  private Map<String, String> fields = new HashMap<>();
 
   public static final String JSON_PROPERTY_EVENTS = "events";
-  private Map<String, List<String>> events = null;
+  private Map<String, List<String>> events = new HashMap<>();
 
   public WebformResponse() {
   }
@@ -61,7 +59,6 @@ public class WebformResponse {
    * @return formId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "582c5131cd6304674c3229079d1ec690", value = "The formId of the prepared webform.")
   @JsonProperty(JSON_PROPERTY_FORM_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -96,7 +93,6 @@ public class WebformResponse {
    * @return fields
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Fields in the webform template.")
   @JsonProperty(JSON_PROPERTY_FIELDS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -131,7 +127,6 @@ public class WebformResponse {
    * @return events
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Events in the webform template.")
   @JsonProperty(JSON_PROPERTY_EVENTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

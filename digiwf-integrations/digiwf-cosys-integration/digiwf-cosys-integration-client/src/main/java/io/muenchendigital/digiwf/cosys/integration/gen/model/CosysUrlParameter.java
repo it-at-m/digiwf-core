@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -223,7 +221,6 @@ public class CosysUrlParameter {
    * @return guid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The guid of the template.")
   @JsonProperty(JSON_PROPERTY_GUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -250,7 +247,6 @@ public class CosysUrlParameter {
    * @return client
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "0002", value = "The number of the client the template is located in.")
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -277,7 +273,6 @@ public class CosysUrlParameter {
    * @return role
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "TESTER", value = "The role that should be used for the document generation. With the role \"SB\" only released template versions can be used.")
   @JsonProperty(JSON_PROPERTY_ROLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -304,7 +299,6 @@ public class CosysUrlParameter {
    * @return templateName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The name of the template.")
   @JsonProperty(JSON_PROPERTY_TEMPLATE_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -331,7 +325,6 @@ public class CosysUrlParameter {
    * @return templateId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The identifier(form number) of the template.")
   @JsonProperty(JSON_PROPERTY_TEMPLATE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -358,7 +351,6 @@ public class CosysUrlParameter {
    * @return templateType
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The type of the template.")
   @JsonProperty(JSON_PROPERTY_TEMPLATE_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -385,7 +377,6 @@ public class CosysUrlParameter {
    * @return templateSearchparameter
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The template search parameter.")
   @JsonProperty(JSON_PROPERTY_TEMPLATE_SEARCHPARAMETER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -412,7 +403,6 @@ public class CosysUrlParameter {
    * @return datapoolid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The data pool id.")
   @JsonProperty(JSON_PROPERTY_DATAPOOLID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -439,7 +429,6 @@ public class CosysUrlParameter {
    * @return hideTree
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "true", value = "Hides the template tree.")
   @JsonProperty(JSON_PROPERTY_HIDE_TREE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -466,7 +455,6 @@ public class CosysUrlParameter {
    * @return hideTemplateSearch
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "true", value = "Hides the template search.")
   @JsonProperty(JSON_PROPERTY_HIDE_TEMPLATE_SEARCH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -493,7 +481,6 @@ public class CosysUrlParameter {
    * @return hideDraftTab
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "true", value = "Hides the draft tab.")
   @JsonProperty(JSON_PROPERTY_HIDE_DRAFT_TAB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -520,7 +507,6 @@ public class CosysUrlParameter {
    * @return lockDatacontext
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "true", value = "Locks the data context.")
   @JsonProperty(JSON_PROPERTY_LOCK_DATACONTEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -547,7 +533,6 @@ public class CosysUrlParameter {
    * @return receiverName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The receiver name.")
   @JsonProperty(JSON_PROPERTY_RECEIVER_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -574,7 +559,6 @@ public class CosysUrlParameter {
    * @return receiverMail
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The receiver mail.")
   @JsonProperty(JSON_PROPERTY_RECEIVER_MAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -601,7 +585,6 @@ public class CosysUrlParameter {
    * @return receiverOrg
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "The receiver org.")
   @JsonProperty(JSON_PROPERTY_RECEIVER_ORG)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -628,7 +611,6 @@ public class CosysUrlParameter {
    * @return firstTabSelector
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "url", value = "The tab selector.")
   @JsonProperty(JSON_PROPERTY_FIRST_TAB_SELECTOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -655,7 +637,6 @@ public class CosysUrlParameter {
    * @return firstTab
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "5", value = "The first tab.")
   @JsonProperty(JSON_PROPERTY_FIRST_TAB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

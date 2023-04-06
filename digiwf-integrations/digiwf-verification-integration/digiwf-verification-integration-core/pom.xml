@@ -8,7 +8,7 @@
     <parent>
         <artifactId>digiwf-verification-integration</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.4</version>
+        <version>0.17.9-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.1</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

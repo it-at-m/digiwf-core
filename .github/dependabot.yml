@@ -15,3 +15,10 @@ updates:
       interval: "daily"
     labels:
       - "Technical Dept"
+  - package-ecosystem: npm
+    directory: "/docs"
+    target-branch: "dev"
+    labels:
+      - "Technical Dept"
+    schedule:
+      interval: weekly

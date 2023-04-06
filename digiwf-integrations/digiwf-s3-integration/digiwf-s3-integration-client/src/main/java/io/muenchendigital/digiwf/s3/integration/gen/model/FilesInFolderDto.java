@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -31,14 +29,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * File paths
  */
-@ApiModel(description = "File paths")
 @JsonPropertyOrder({
   FilesInFolderDto.JSON_PROPERTY_PATH_TO_FILES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FilesInFolderDto {
   public static final String JSON_PROPERTY_PATH_TO_FILES = "pathToFiles";
-  private Set<String> pathToFiles = null;
+  private Set<String> pathToFiles = new LinkedHashSet<>();
 
   public FilesInFolderDto() {
   }
@@ -62,7 +59,6 @@ public class FilesInFolderDto {
    * @return pathToFiles
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PATH_TO_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

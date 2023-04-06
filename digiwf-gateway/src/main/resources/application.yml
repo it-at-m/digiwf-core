@@ -1,7 +1,9 @@
+info:
+  application:
+    name: ${spring.application.name}
 spring:
   application:
     name: DigiWF ApiGateway
-  banner.location: banner.txt
   main:
     web-application-type: reactive
   jackson:
@@ -14,9 +16,21 @@ spring:
     sleuth:
       reactor:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+        registration:
+          keycloak:
+            client-id: ${SSO_ENGINE_CLIENT_ID}
+            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
+            provider: keycloak
 
 server:
-  port: 8082
+  port: ${GATEWAY_SERVER_PORT:8082}
   error:
     include-exception: false
     include-stacktrace: never
@@ -32,6 +46,9 @@ management:
         allowedOrigins:
           - "http://localhost:8081"
           - "http://127.0.0.1:8081"
+          - "http://localhost:8083" # for cgi notebooks necessary
+          - "http://127.0.0.1:8083" # for cgi notebooks necessary
+          - "http://keycloak:8083" # for cgi notebooks necessary
         allowedMethods: "*"
         allowedHeaders: "*"
         allowCredentials: on
@@ -52,4 +69,3 @@ management:
   info:
     env:
       enabled: true
-info.application.name: ${spring.application.name}

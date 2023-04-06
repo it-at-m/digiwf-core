@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.process.config.api.streaming;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import io.muenchendigital.digiwf.deployment.api.enums.DeploymentStatus;
 import io.muenchendigital.digiwf.deployment.api.streaming.event.DeploymentEvent;
@@ -9,7 +10,6 @@ import io.muenchendigital.digiwf.process.config.api.transport.ProcessConfigTO;
 import io.muenchendigital.digiwf.process.config.domain.service.ProcessConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;

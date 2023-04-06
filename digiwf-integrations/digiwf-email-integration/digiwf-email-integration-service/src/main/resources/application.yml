@@ -71,6 +71,3 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-      streaming:
-        typeMappings:
-          createPresignedUrl: createPresignedUrl

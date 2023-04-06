@@ -26,9 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @see <a href="https://cloud.spring.io/spring-cloud-gateway/reference/html/">https://cloud.spring.io/spring-cloud-gateway/reference/html/</a>
  */
-@SpringBootApplication(
-        scanBasePackages = {"io.muenchendigital.digiwf.gateway"}
-)
+@SpringBootApplication
 public class ApiGatewayApplication {
 
     public static void main(String[] args) {

@@ -7,13 +7,13 @@
     <name>digiwf-schema-registry-client-example</name>
 
     <properties>
-        <logstash.encoder>7.0.1</logstash.encoder>
+        <logstash.encoder>7.3</logstash.encoder>
     </properties>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-schema-registry</artifactId>
-        <version>0.17.4</version>
+        <version>0.17.9-SNAPSHOT</version>
     </parent>
 
     <dependencies>
