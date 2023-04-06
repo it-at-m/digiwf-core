@@ -28,6 +28,7 @@
         <module>digiwf-s3-integration-client-starter</module>
         <module>digiwf-s3-integration-example</module>
         <module>digiwf-s3-integration-client-example</module>
+        <module>digiwf-s3-integration-service</module>
     </modules>
 
     <dependencies>
