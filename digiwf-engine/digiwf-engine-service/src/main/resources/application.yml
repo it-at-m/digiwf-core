@@ -113,7 +113,6 @@ spring:
         provider:
           keycloak:
             issuer-uri: ${SSO_ISSUER_URL}
-            # Probably not needed, it is standard.
             user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
             # jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
             user-name-attribute: user_name
