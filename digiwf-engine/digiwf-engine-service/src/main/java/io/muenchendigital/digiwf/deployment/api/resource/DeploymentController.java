@@ -8,6 +8,7 @@ import io.muenchendigital.digiwf.deployment.domain.model.DeploymentStatusModel;
 import io.muenchendigital.digiwf.deployment.domain.service.ModelDeploymentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class DeploymentController {
     private final DeploymentMapper mapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public DeploymentStatusDto deployArtifacts(@Valid @RequestBody final DeploymentDto deploymentDto) {
         final DeploymentStatusModel status = this.modelDeploymentService.deploy(this.mapper.mapToDeploymentModel(deploymentDto));
         return new DeploymentStatusDto(status.getStatus().equals(DeploymentStatus.SUCCESSFUL.getValue()), status.getMessage());
