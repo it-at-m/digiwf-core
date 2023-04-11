@@ -28,6 +28,8 @@ import java.util.stream.Stream;
 /**
  * Service, der einen OIDC /userinfo Endpoint aufruft (mit JWT Bearer Auth) und dort die enthaltenen
  * "Authorities" extrahiert.
+ * Die Information aus dem ROLE_ claim werden ignoriert.
+ *
  */
 @Slf4j
 public class UserInfoAuthoritiesService {
@@ -84,7 +86,7 @@ public class UserInfoAuthoritiesService {
                     Map.class).getBody();
 
             log.debug("Response from user-info Endpoint: {}", map);
-            if (map.containsKey(CLAIM_AUTHORITIES)) {
+            if (map != null && map.containsKey(CLAIM_AUTHORITIES)) {
                 authorities = asAuthorities(map.get(CLAIM_AUTHORITIES));
             }
             log.debug("Resolved Authorities (from /userinfo Endpoint): {}", authorities);

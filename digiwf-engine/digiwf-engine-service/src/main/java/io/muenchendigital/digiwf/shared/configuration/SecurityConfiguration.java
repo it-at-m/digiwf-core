@@ -10,10 +10,13 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -36,8 +39,7 @@ public class SecurityConfiguration {
       "/swagger-ui*/**", // allow access to swagger
   };
 
-    @Autowired
-    private RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${spring.security.oauth2.client.provider.keycloak.user-info-uri}")
     private String userInfoUri;
@@ -56,12 +58,39 @@ public class SecurityConfiguration {
                 .and()
             .oauth2ResourceServer()
                 .jwt()
-                    .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
-                        new UserInfoAuthoritiesService(this.userInfoUri, this.restTemplateBuilder)))
+                    // This custom converter lazily fetches UserInfo Endpoint and reads the "authorities" configured in the
+                    // SSO. It COMPLETELY ignores the roles from "roles" claim of the token.
+                    .jwtAuthenticationConverter(customCachingUserServiceConverter())
             .and();
         return http.build();
         // @formatter:on
     }
 
-
+  /**
+   * Creates a converter from JWT to AbstractAuthenticationToken.
+   * @return custom converter.
+   * FIXME: this implementation is taken from the reference architecture
+   * It is required to map the information from the "authorities" field of the response from UserInfo endpoint
+   * to the Spring Granted Authorities. This implementation should remain <b>AS-IS</b>, until mid-term refactoring of security.
+   * Weak points:
+   * - the converter should only convert instead of accessing the REST endpoints.
+   * - the value of the endpoint URL is hard-coded based on config key-name and injected via @Value instead of usage of OAuth2ClientProperties
+   * - The Cache is configured internally in the service (check CacheConfiguration for other caches)
+   * - Consider this https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html which states,
+   * that the configuration of three independent facilities:
+   * <pre>
+      .userInfoEndpoint(userInfo -> userInfo
+          .userAuthoritiesMapper(this.userAuthoritiesMapper())
+          .userService(this.oauth2UserService())
+          .oidcUserService(this.oidcUserService())
+      )
+     </pre>
+   *
+   * Better implementation would be:
+   * - provide a clear authorities mapper (stateless)
+   * - provide extension of the DEFAULT OAUth2 User Service see https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html#oauth2login-advanced-oauth2-user-service
+   */
+  private Converter<Jwt, AbstractAuthenticationToken> customCachingUserServiceConverter() {
+      return new JwtUserInfoAuthenticationConverter(new UserInfoAuthoritiesService(this.userInfoUri, this.restTemplateBuilder));
+    }
 }
