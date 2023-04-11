@@ -186,7 +186,6 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/validation/',
                                 'forms/migration/',
                             ]
                         },
