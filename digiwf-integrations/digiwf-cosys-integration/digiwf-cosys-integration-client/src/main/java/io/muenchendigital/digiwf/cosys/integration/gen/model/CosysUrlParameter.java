@@ -651,7 +651,6 @@ public class CosysUrlParameter {
     this.firstTab = firstTab;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
