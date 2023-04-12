@@ -20,6 +20,25 @@ Eine kurze Beschreibung dazu findet sich unter [Artefakt hinzufügen](/modeling/
 
 ## Prozess modellieren
 
+Um den Prozess zu modellieren, muss auf das Artefakt geklickt werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/artefact-open-process.png)
+
+Im BPMN Modeller kann nun ein Prozess modelliert werden.
+Im ersten Schritt ist es ausreichend, ein Startereignis, eine Benutzeraufgabe und ein Endereignis zu modellieren.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/process-create.png)
+
+Im Modeler können nun die einzelnen Elemente mit den entsprechenden Eigenschaften versehen werden.
+Zunächst sollte auf Prozessebene die Id und der Name gesetzt werden.
+Der Name kann beliebig ersetzt werden, dabei sollte auf die eindeutigkeit der ID geachtet werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/process-properties.png)
+
+::: tip
+Weitere Details zur Modellierung von Prozessen finden sich unter [Prozessmodellierung](/modeling/processes/modeling/).
+:::
+
 ## Formular modellieren
 
 ![Element Template](~@source/modeling/guides/modeling-first-process/form-create.png)
