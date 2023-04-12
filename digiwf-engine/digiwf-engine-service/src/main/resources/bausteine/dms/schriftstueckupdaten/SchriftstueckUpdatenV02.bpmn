@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="SchriftstueckUpdatenV02" />
   </bpmn:collaboration>
@@ -125,6 +125,7 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
           <camunda:inputParameter name="dms_schriftstueck_name">${dms_schriftstueck_name}</camunda:inputParameter>
           <camunda:inputParameter name="dms_schriftstueck_coo">${dms_schriftstueck_coo}</camunda:inputParameter>
           <camunda:inputParameter name="dms_user_login">${dms_user_login}</camunda:inputParameter>
+          <camunda:inputParameter name="dms_s3_url">${execution.hasVariable("dms_s3_url") ? execution.getVariable("dms_s3_url") : ""}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_019cchd</bpmn:incoming>

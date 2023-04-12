@@ -1,6 +1,6 @@
 {
-  "name": "Schriftstück updaten",
-  "id": "de.muenchen.digitalisierung.templates.dms.SchriftstueckUpdatenTemplate",
+  "name": "Vorgang anlegen (S3)",
+  "id": "de.muenchen.digitalisierung.templates.dms.VorgangAnlegenTemplateV02S3",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,10 +9,36 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "SchriftstueckUpdatenV02",
+      "value": "VorgangAnlegenV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
+      }
+    },
+    {
+      "label": "DMS Benutzer",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_user_login",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang Titel",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_vorgang_title",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -29,12 +55,38 @@
       }
     },
     {
-      "label": "Cosys Guid",
+      "label": "Sachakte Untergruppe",
       "description": "Input",
       "type": "String",
       "binding": {
         "type": "camunda:in",
-        "target": "dms_cosys_guid",
+        "target": "dms_untergruppe",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_sachakte_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Aktenplan Name",
+      "description": "Input",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "target": "dms_aktenplan_name",
         "expression": true
       },
       "constraints": {
@@ -55,38 +107,12 @@
       }
     },
     {
-      "label": "Schriftstück COO",
+      "label": "S3 Url",
       "description": "Input",
       "type": "String",
       "binding": {
         "type": "camunda:in",
-        "target": "dms_schriftstueck_coo",
-        "expression": true
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Vorgang Titel",
-      "description": "Input",
-      "type": "String",
-      "binding": {
-        "type": "camunda:in",
-        "target": "dms_vorgang_titel",
-        "expression": true
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "DMS Benutzer",
-      "description": "Input",
-      "type": "String",
-      "binding": {
-        "type": "camunda:in",
-        "target": "dms_user_login",
+        "target": "dms_s3_url",
         "expression": true
       },
       "constraints": {
@@ -114,6 +140,30 @@
         "type": "camunda:in",
         "target": "dms_error_receiver_mail",
         "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Vorgang COO",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "dms_vorgang_coo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Erstelltes Schrifstück",
+      "description": "Output",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "dms_created_schriftstueck"
       },
       "constraints": {
         "notEmpty": true
