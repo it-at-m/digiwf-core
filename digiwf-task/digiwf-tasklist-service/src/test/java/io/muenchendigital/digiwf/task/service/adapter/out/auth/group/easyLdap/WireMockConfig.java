@@ -1,0 +1,45 @@
+package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+
+import java.io.IOException;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+
+
+@TestConfiguration
+public class WireMockConfig {
+    @Value("${easyldap.client.request}")
+    private String requestPath;
+    @Value("${easyldap.client.port}")
+    private int port;
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public WireMockServer mockEasyLdapServer() throws IOException {
+        val server = new WireMockServer(port);
+
+        val responseBody = new String(this.getClass().getClassLoader().getResourceAsStream("files/easy-ldap-response.json").readAllBytes());
+        server.stubFor(WireMock.get(requestPath + "/1234")
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                        .withBody(responseBody)));
+
+        // only for logging issue, can be removed later
+        server.addMockServiceRequestListener((request, response) -> {
+            System.out.println(request);
+            System.out.println(response);
+        });
+
+        // TODO add path for 404 handling
+
+        return server;
+    }
+}
+
+
+
