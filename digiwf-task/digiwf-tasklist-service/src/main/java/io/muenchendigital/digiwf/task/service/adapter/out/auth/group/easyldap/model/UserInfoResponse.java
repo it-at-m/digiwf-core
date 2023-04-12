@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyldap.model;
+package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

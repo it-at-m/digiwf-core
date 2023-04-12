@@ -1,7 +1,7 @@
-package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyldap;
+package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap;
 
 import com.google.common.collect.Sets;
-import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyldap.model.UserInfoResponse;
+import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.model.UserInfoResponse;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.UserGroupResolverPort;
 import org.jetbrains.annotations.NotNull;
 

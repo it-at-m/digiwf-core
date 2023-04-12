@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.infra.auth;
 
-import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyldap.EasyLdapClient;
-import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyldap.LdapUserGroupResolver;
+import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.EasyLdapClient;
+import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.LdapUserGroupResolver;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.UserGroupResolverPort;
 import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.MockUserGroupResolver;
 import org.springframework.cloud.openfeign.EnableFeignClients;
