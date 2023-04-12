@@ -1,3 +1,4 @@
+/*
 package io.muenchendigital.digiwf.task.service.infra.auth;
 
 import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.MockUserGroupResolver;
@@ -15,3 +16,5 @@ public class AuthTestConfiguration {
     return new MockUserGroupResolver();
   }
 }
+
+ */
