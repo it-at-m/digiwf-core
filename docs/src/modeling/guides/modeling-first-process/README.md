@@ -39,9 +39,21 @@ Der Name kann beliebig ersetzt werden, dabei sollte auf die eindeutigkeit der ID
 Weitere Details zur Modellierung von Prozessen finden sich unter [Prozessmodellierung](/modeling/processes/modeling/).
 :::
 
+## User Task konfigurieren
+
 ## Formular modellieren
 
 ![Element Template](~@source/modeling/guides/modeling-first-process/form-create.png)
+
+## Formular verknüpfen
+Anschließend kann das Formular mit dem Prozess verknüpft werden.
+Dabei muss die ID des Formulars im Feld `Form Key` des Startereignisses und im Form hinterlegt werden.
+Zudem kann der `Formular Key`
+
+::: tip
+Genauer Informationen sind im Kapitel [Formulare](/modeling/forms/#formulare-mit-bpmn-modellen-verknupfen) zu finden.
+:::
+
 
 ## Deployment
 
