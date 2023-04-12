@@ -74,7 +74,7 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
                 "/runtime";
 
         final MailTemplate mail = MailTemplate.builder()
-                .body("In der Anwendung ist ein Incident aufgetreten.")
+                .body("In der Anwendung ist ein Incident aufgetreten. (Prozessname: " + incidentEntity.getProcessDefinitionId())
                 .link(link)
                 .buttonText("Fehler im Cockpit anzeigen")
                 .subject(this.environment + ": Incident aufgetreten")
