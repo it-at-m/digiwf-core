@@ -34,3 +34,36 @@ würde wie folgt gespeichert werden:
 ```
 
 ## Objekt-Liste
+Eine Objekt-Liste ermöglicht es, komplexe Objekte als Array zu speichern.
+Bei der Modellierung verhält sich eine Objekt-Liste wie ein `Dynamisches Objekt`.
+
+![Objekt-Liste](~@source/modeling/forms/objects/object-list.png)
+
+Die folgende Objekt-Liste
+
+![Objekt-Liste](~@source/modeling/forms/objects/object-list-example.png)
+
+würde wie folgt gespeichert werden:
+
+```json
+{ 
+  "personen" : [
+      {
+        "vorname": "Max",
+        "nachname": "Mustermann",
+        "adresse": "Maxstraße 8"
+      }
+  ]
+}
+```
+
+::: tip
+Wenn Objekt-Listen in Kombination mit Datei-Feldern verwendet werden, sollte darauf geachtet werden,
+dass die Einstellung `Eindeutiger Indentifikator?` im Datei-Feld aktiv ist
+:::
+
+#### Anzeige
+Im Formular wird die Objekt-Liste wie folgt dargestellt:
+
+![Objekt-Liste](~@source/modeling/forms/objects/object-list-form.png)
+
