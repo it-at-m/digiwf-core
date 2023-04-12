@@ -33,3 +33,22 @@ Formulare bestehen aus folgenden Elementen:
   Abschnitt [Felder](/modeling/forms/fields/) beschrieben sind.
 
 ![Formular Struktur](~@source/modeling/forms/form-structure.png)
+
+## Formulare mit BPMN Modellen verknüpfen
+
+Formulare können mit BPMN Modellen verknüpft werden.
+Hierfür muss die ID des Formulars in der Konfiguration des BPMN Editor hinterlegt werden.
+Die ID des Formulars befindet sich auf der Seite `Konfiguration` des Builders.
+
+![Formular ID](~@source/modeling/forms/form-id.png)
+
+
+### Benutzeraufgaben
+Bei Benutzeraufgaben kann die ID des Formulars im Feld `Formular Key` des Templates hinterlegt werden.
+
+![Formular ID](~@source/modeling/forms/form-id-bpmn.png)
+
+### Prozessstart
+Für den Prozessstart kann die ID des Formulars im Feld `Form Key` des Startevents hinterlegt werden.
+
+![Formular ID](~@source/modeling/forms/form-id-bpmn-start.png)
