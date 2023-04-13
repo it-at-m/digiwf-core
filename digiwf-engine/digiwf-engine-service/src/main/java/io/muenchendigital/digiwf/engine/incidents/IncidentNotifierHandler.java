@@ -8,6 +8,7 @@ import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
 import io.muenchendigital.digiwf.legacy.mailing.domain.service.MailingService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.camunda.bpm.engine.impl.incident.DefaultIncidentHandler;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
@@ -73,8 +74,15 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
                 incidentEntity.getProcessInstanceId() +
                 "/runtime";
 
+        String body = "In der Anwendung ist ein Incident aufgetreten.";
+
+        if (!StringUtils.isBlank(incidentEntity.getProcessDefinitionId())){
+            val processName = incidentEntity.getProcessDefinitionId().substring(0, incidentEntity.getProcessDefinitionId().indexOf(":"));
+            body = "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
+        }
+
         final MailTemplate mail = MailTemplate.builder()
-                .body("In der Anwendung ist ein Incident aufgetreten (Prozessname: " + incidentEntity.getProcessDefinitionId() + ").")
+                .body(body)
                 .link(link)
                 .buttonText("Fehler im Cockpit anzeigen")
                 .subject(this.environment + ": Incident aufgetreten")

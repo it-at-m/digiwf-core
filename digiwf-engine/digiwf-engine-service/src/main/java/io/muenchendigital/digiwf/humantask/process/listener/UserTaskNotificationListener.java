@@ -97,7 +97,7 @@ public class UserTaskNotificationListener {
 
         try {
             val address = this.getMailAddress(delegateTask.getAssignee());
-            val body = "Sie haben eine Aufgabe in DigiWF.";
+            String body = "Sie haben eine Aufgabe in DigiWF.";
 
             if (!StringUtils.isBlank(delegateTask.getProcessDefinitionId())){
                 val processName = delegateTask.getProcessDefinitionId().substring(0, delegateTask.getProcessDefinitionId().indexOf(":"));
