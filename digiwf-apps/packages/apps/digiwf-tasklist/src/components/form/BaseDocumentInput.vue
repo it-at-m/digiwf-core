@@ -129,7 +129,7 @@
 import {VInput} from "vuetify/lib";
 import {Vue} from "vue-property-decorator";
 import {DmsRestControllerApiFactory, FetchUtils, GetMetadataTO, MetadataTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
 
 export default Vue.extend({
   name: 'BaseDocumentInput',
@@ -178,7 +178,7 @@ export default Vue.extend({
         const to: GetMetadataTO = {
           url: this.documentInput
         };
-        const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+        const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
         const res = await DmsRestControllerApiFactory(cfg).getMetaData(to);
 
         this.errorMessage = "";

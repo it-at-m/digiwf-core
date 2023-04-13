@@ -9,17 +9,17 @@ import {computed, ref, Ref} from "vue";
 import {PageHumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
 
 export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>, followUp: Ref<boolean | undefined>) => useQuery({
-  queryKey: ["user-tasks", page.value, size.value, query.value, followUp.value],
+  queryKey: ["user-tasks", page.value, size.value, query.value || "", followUp.value],
   queryFn: (): Promise<PageHumanTaskTO> => callGetTasks(page.value, size.value, query.value, followUp.value),
 });
 
 export const useOpenGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
-  queryKey: ["open-group-tasks", page.value, size.value, query.value],
+  queryKey: ["open-group-tasks", page.value, size.value, query.value || ""],
   queryFn: (): Promise<PageHumanTaskTO> => callGetOpenGroupTasks(page.value, size.value, query.value),
 });
 
 export const useAssignedGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
-  queryKey: ["assigned-group-tasks", page.value, size.value, query.value],
+  queryKey: ["assigned-group-tasks", page.value, size.value, query.value || ""],
   queryFn: (): Promise<PageHumanTaskTO> => callGetAssignedGroupTasks(page.value, size.value, query.value),
 });
 

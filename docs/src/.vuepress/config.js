@@ -104,7 +104,7 @@ module.exports = {
                                 'components/engine',
                                 'components/connector',
                                 'components/tasks',
-
+                                'components/frontend',
                             ]
                         },
                         {
