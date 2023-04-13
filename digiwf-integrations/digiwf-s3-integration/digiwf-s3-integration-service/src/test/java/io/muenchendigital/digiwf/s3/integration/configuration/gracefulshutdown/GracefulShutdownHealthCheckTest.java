@@ -4,7 +4,7 @@
  */
 package io.muenchendigital.digiwf.s3.integration.configuration.gracefulshutdown;
 
-import io.muenchendigital.digiwf.s3.integration.MicroServiceApplication;
+import io.muenchendigital.digiwf.s3.integration.S3IntegrationApplication;
 import io.muenchendigital.digiwf.s3.integration.TestConstants;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(
-        classes = { MicroServiceApplication.class},
+        classes = { S3IntegrationApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"spring.datasource.url=jdbc:h2:mem:digitalwf;DB_CLOSE_ON_EXIT=FALSE",
                 "refarch.gracefulshutdown.pre-wait-seconds=0"})
