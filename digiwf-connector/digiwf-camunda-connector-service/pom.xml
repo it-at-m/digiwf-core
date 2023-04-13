@@ -7,7 +7,7 @@
     <name>digiwf-camunda-connector-service</name>
 
     <properties>
-        <logstash.encoder>7.0.1</logstash.encoder>
+        <logstash.encoder>7.3</logstash.encoder>
     </properties>
 
     <parent>

@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <logstash.encoder.version>7.0.1</logstash.encoder.version>
+        <logstash.encoder.version>7.3</logstash.encoder.version>
         <apache.commons.lang.version>3.12.0</apache.commons.lang.version>
         <hazelcast.version>4.2.4</hazelcast.version>
     </properties>
