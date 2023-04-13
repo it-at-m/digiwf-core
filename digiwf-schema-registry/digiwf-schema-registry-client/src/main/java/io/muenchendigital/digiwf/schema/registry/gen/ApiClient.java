@@ -55,7 +55,6 @@ import java.util.TimeZone;
 import io.muenchendigital.digiwf.schema.registry.gen.auth.Authentication;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("io.muenchendigital.digiwf.schema.registry.gen.ApiClient")
 public class ApiClient {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -89,7 +88,6 @@ public class ApiClient {
         init();
     }
 
-    @Autowired
     public ApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         init();

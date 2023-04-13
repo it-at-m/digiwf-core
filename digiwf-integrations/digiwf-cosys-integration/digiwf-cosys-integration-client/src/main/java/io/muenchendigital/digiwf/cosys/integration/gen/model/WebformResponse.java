@@ -141,7 +141,6 @@ public class WebformResponse {
     this.events = events;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
