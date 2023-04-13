@@ -16,6 +16,7 @@ import './plugins/vjsf';
 import './plugins/digiwf-forms';
 import {VueQueryPlugin} from "@tanstack/vue-query";
 import {queryClient} from "./middleware/queryClient";
+import {PageBasedPaginationProvider} from "./middleware/PageBasedPaginationProvider";
 
 Vue.config.productionTip = false;
 
@@ -52,6 +53,7 @@ new Vue({
   router,
   setup() {
     provide("store", store);
+    provide("paginationData", new PageBasedPaginationProvider())
   },
   store: store,
   vuetify,

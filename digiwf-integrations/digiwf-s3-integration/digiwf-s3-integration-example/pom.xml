@@ -7,7 +7,7 @@
     <name>digiwf-s3-integration-example</name>
 
     <properties>
-        <logstash.encoder>7.0.1</logstash.encoder>
+        <logstash.encoder>7.3</logstash.encoder>
         <okhttp.version>4.10.0</okhttp.version>
     </properties>
 
