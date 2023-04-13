@@ -3,18 +3,17 @@ spring:
     location: banner.txt
   application:
     name: digiwf-s3-integration-example app
+  datasource:
+    url: '${S3INTEGRATION_DATASOURCE_URL}'
+    username: '${S3INTEGRATION_DATASOURCE_USER}'
+    password: '${S3INTEGRATION_DATASOURCE_PASSWORD}'
+    driver-class-name: '${S3INTEGRATION_DATASOURCE_DRIVERCLASSNAME}'
   jpa:
-    datasource:
-      url: '${S3INTEGRATION_DATASOURCE_URL}'
-      username: '${S3INTEGRATION_DATASOURCE_USER}'
-      password: '${S3INTEGRATION_DATASOURCE_PASSWORD}'
-      driver-class-name: '${S3INTEGRATION_DATASOURCE_DRIVERCLASSNAME}'
-    jpa:
-      database-platform: '${S3INTEGRATION_DATABASE_PLATFORM}'
-      hibernate:
-        naming:
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        ddl-auto: validate
+    database-platform: '${S3INTEGRATION_DATABASE_PLATFORM}'
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate
   cloud:
     stream:
       kafka:

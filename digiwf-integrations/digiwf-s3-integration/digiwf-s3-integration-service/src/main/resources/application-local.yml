@@ -1,64 +1,18 @@
 spring:
-
-  # Spring data rest
-  data:
-    rest:
-      # Definition of page size for PagingAndSortingRepository
-      max-page-size: 0x7fffffff
-      default-page-size: 0x7fffffff
-      return-body-on-update: true
-      return-body-on-create: true
-
   # Spring JPA
   h2.console.enabled: true
   jpa:
-    database: H2
     hibernate:
       # always drop and create the db should be the best
       # configuration for local (development) mode. this
       # is also the default, that spring offers by convention.
       # but here explicite:
       ddl-auto: update
-      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     # Logging for database operation
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-  flyway:enabled: false
-
-# Define the local keycloak realm here
-realm: P82
-
-security:
-  # possible values: none, all, changing (With changing, only changing requests such as POST, PUT, DELETE are logged)
-  logging.requests: all
-  oauth2:
-    resource:
-      jwk:
-        key-set-uri: https://ssodev.muenchen.de/auth/realms/${realm}/protocol/openid-connect/certs
-      user-info-uri: https://ssodev.muenchen.de/auth/realms/${realm}/protocol/openid-connect/userinfo
-      prefer-token-info: false
-    client:
-      client-id: digitalwfV2
-
-io.muenchendigital.digiwf.s3:
-  cronjob.cleanup:
-    expired-folders: 0 15 10 15 * ?
-    unused-folders: 0 15 10 16 * ?
-  url: s3k.muenchen.de
-  bucketName: int-dwfk-documentstoragelocal
-  accessKey:
-  secretKey:
-
-digiwf:
-  streaming:
-    s3:
-      topics: dwf-s3-local-01
-    engine:
-      topics: dwf-digiwf-engine-local-01
-    group: dwf-s3-service
-
-
-server.port: 8086
+  flyway:
+    enabled: false
