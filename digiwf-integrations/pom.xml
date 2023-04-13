@@ -20,6 +20,7 @@
         <module>digiwf-s3-integration</module>
         <module>digiwf-alw-integration</module>
         <module>digiwf-verification-integration</module>
+        <module>digiwf-example-integration</module>
     </modules>
 
 </project>

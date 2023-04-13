@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @ComponentScan(basePackages = "io.muenchendigital.digiwf.spring.cloudstream.utils")
 @EnableConfigurationProperties(StreamingProperties.class)
+@Deprecated
 public class StreamingConfiguration {
 
     private final StreamingProperties streamingProperties;
@@ -24,6 +25,7 @@ public class StreamingConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
+    @Deprecated
     public MessageRoutingCallback customRouter() {
         return new RoutingCallback(this.streamingProperties.getTypeMappings());
     }

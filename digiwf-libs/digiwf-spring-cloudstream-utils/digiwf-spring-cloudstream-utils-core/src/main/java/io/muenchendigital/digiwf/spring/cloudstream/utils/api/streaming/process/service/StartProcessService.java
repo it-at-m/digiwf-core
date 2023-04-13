@@ -18,6 +18,7 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class StartProcessService {
 
     private static final String STARTPROCESS_V01 = "startProcessV01";
@@ -29,10 +30,15 @@ public class StartProcessService {
      *
      * @param processKey key of the process
      * @param payload    Data to start the process
+     *
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
+     * @deprecated This function is no longer supported and may be removed in a future release
+     *
      * @return the emit result
      */
+    @Deprecated
     public boolean startProcess(final String processKey, final Map<String, Object> payload) {
-        return startProcess(processKey, null, payload);
+        return this.startProcess(processKey, null, payload);
     }
 
     /**
@@ -43,6 +49,7 @@ public class StartProcessService {
      * @param payload    Data to start the process
      * @return the emit result
      */
+    @Deprecated
     public boolean startProcess(final String processKey, final String fileContext, final Map<String, Object> payload) {
         final StartProcessEvent startProcessEvent = StartProcessEvent.builder()
                 .key(processKey)
