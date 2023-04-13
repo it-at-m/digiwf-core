@@ -35,6 +35,9 @@ public class WireMockConfig {
             System.out.println(response);
         });
 
+        server.stubFor(WireMock.get(requestPath + "/0")
+                .willReturn(aResponse()
+                        .withStatus(404)));
         // TODO add path for 404 handling
 
         return server;
