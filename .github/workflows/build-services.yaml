@@ -26,11 +26,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          working-directory: ./digiwf-coverage/target/coverage/
           directory: ./digiwf-coverage/target/coverage/
           fail_ci_if_error: true
-          files: ./jacoco.xml
+          files: ./digiwf-coverage/target/coverage/jacoco.xml
           flags: unittests
           name: digiwf-core
-          path_to_write_report: codecov_report.txt
           verbose: true
