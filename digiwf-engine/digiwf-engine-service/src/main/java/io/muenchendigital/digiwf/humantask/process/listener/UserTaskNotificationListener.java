@@ -141,7 +141,7 @@ public class UserTaskNotificationListener {
             }
         }
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId());
+            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
         }
     }
 
@@ -174,8 +174,9 @@ public class UserTaskNotificationListener {
                 log.warn(ex.toString());
             }
         }
+
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId());
+            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
         }
     }
 
@@ -187,12 +188,17 @@ public class UserTaskNotificationListener {
         throw new RuntimeException("lhmObject {} has no mail address" + receiver);
     }
 
-    private void sendGroupMail(final List<String> addresses, final String taskId) {
+    private void sendGroupMail(final List<String> addresses, final String taskId, final String processDefinitionId) {
         try {
+            String body = "Sie haben eine Gruppenaufgabe in DigiWF.";
+            if (!StringUtils.isBlank(processDefinitionId)){
+                val processName = processDefinitionId.substring(0, processDefinitionId.indexOf(":"));
+                body = "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
+            }
             final String addresslist = String.join(",", addresses);
             final MailTemplate mail = MailTemplate.builder()
                     .receivers(addresslist)
-                    .body("Sie haben eine Gruppenaufgabe in DigiWF.")
+                    .body(body)
                     .buttonText("Gruppenaufgabe öffnen")
                     .link(this.properties.getFrontendUrl() + "/#/opengrouptask/" + taskId)
                     .subject("Es liegt eine neue Gruppenaufgabe für Sie bereit")
