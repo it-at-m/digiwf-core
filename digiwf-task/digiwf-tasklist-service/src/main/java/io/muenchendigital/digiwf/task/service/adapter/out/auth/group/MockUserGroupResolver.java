@@ -8,9 +8,12 @@ import java.util.Set;
 
 
 public class MockUserGroupResolver implements UserGroupResolverPort {
+
+  public static final String GROUP1 = "group1";
+
   @NotNull
   @Override
   public Set<String> resolveGroups(String username) {
-    return Sets.newHashSet("group1", "group2");
+    return Sets.newHashSet(GROUP1);
   }
 }

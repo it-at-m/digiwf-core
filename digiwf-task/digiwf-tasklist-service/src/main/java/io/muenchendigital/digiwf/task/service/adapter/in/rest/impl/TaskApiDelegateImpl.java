@@ -2,8 +2,8 @@ package io.muenchendigital.digiwf.task.service.adapter.in.rest.impl;
 
 import io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper.TaskMapper;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
-import io.muenchendigital.digiwf.task.service.port.in.rest.api.TaskApiDelegate;
-import io.muenchendigital.digiwf.task.service.port.in.rest.model.*;
+import io.muenchendigital.digiwf.task.service.application.port.in.rest.api.TaskApiDelegate;
+import io.muenchendigital.digiwf.task.service.application.port.in.rest.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

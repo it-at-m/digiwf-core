@@ -82,6 +82,7 @@ axon:
 polyflow:
   axon:
     kafka:
+      enabled: true
       topic-tasks: ${KAFKA_TOPIC_TASKS}
       topic-data-entries: ${KAFKA_TOPIC_DATA_ENTRIES}
   view:

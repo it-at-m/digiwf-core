@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import com.google.common.collect.Sets;
+import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
@@ -51,6 +52,19 @@ class WorkOnUserTaskUseCaseTest {
   }
 
   @Test
+  void loads_schema() {
+    when(jsonSchemaPort.getSchemaById(any())).thenReturn(generateSchema("schema-1"));
+    val schema = useCase.loadSchema("schema-1");
+    assertThat(schema).isNotNull();
+    assertThat(schema.getId()).isEqualTo("schema-1");
+
+    verify(jsonSchemaPort).getSchemaById("schema-1");
+    verifyNoMoreInteractions(jsonSchemaPort);
+
+  }
+
+
+  @Test
   void loads_non_existing_task() {
     when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenThrow(new TaskNotFoundException("not_exist"));
     val exception = assertThrows(TaskNotFoundException.class, () -> useCase.loadUserTask("not_exist"));
@@ -59,6 +73,7 @@ class WorkOnUserTaskUseCaseTest {
     verifyNoMoreInteractions(taskQueryPort);
 
   }
+
 
   @Test
   void loads_existing_task() {
@@ -92,12 +107,59 @@ class WorkOnUserTaskUseCaseTest {
 
   @Test
   void completesTask() {
-    // FIXME
+    val schema1 = generateSchema("schema-1");
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null);
+
+    val payload = CamundaBpmData
+        .builder()
+        .set(STRING_VAL, "some")
+        .set(INTEGER_VAL, 42)
+        .build();
+
+
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task0);
+    when(jsonSchemaPort.getSchemaById(any())).thenReturn(schema1);
+    when(jsonSchemaValidationPort.validateAndSerialize(any(), any(), any())).thenReturn(payload);
+
+    useCase.completeUserTask("task_0", payload);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(jsonSchemaValidationPort).validateAndSerialize(schema1, task0, payload);
+    verifyNoMoreInteractions(jsonSchemaValidationPort);
+
+    verify(taskCommandPort).completeTask("task_0", payload);
+    verifyNoMoreInteractions(taskCommandPort);
   }
 
   @Test
   void savesTask() {
-    // FIXME
+    val schema1 = generateSchema("schema-1");
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null);
+
+    val payload = CamundaBpmData
+        .builder()
+        .set(STRING_VAL, "some")
+        .set(INTEGER_VAL, 42)
+        .build();
+
+
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task0);
+    when(jsonSchemaPort.getSchemaById(any())).thenReturn(schema1);
+    when(jsonSchemaValidationPort.validateAndSerialize(any(), any(), any())).thenReturn(payload);
+
+    useCase.saveUserTask("task_0", payload);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(jsonSchemaValidationPort).validateAndSerialize(schema1, task0, payload);
+    verifyNoMoreInteractions(jsonSchemaValidationPort);
+
+    verify(taskCommandPort).saveUserTask("task_0", payload);
+    verifyNoMoreInteractions(taskCommandPort);
+
   }
 
   @Test

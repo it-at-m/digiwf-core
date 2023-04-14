@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(value = "polyflow.axon.kafka.enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(AxonKafkaExtendedProperties.class)
 public class AxonKafkaIngressConfiguration {
   @Value("${HOSTNAME:localhost}")
