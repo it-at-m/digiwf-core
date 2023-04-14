@@ -85,8 +85,8 @@ import {Component, Emit, Prop, PropSync, Vue} from "vue-property-decorator";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {HumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
 import SearchField from "./SearchField.vue";
+import {HumanTask} from "../../middleware/tasks/tasksModels";
 
 @Component({
   components: {SearchField, TaskItem, AppToast, AppViewLayout},
@@ -105,7 +105,7 @@ export default class TaskList extends Vue {
   isLoading: boolean | undefined;
 
   @Prop()
-  tasks: HumanTaskTO[] | undefined;
+  tasks: HumanTask[] | undefined;
 
   @Prop()
   viewName: string | undefined;
@@ -113,6 +113,7 @@ export default class TaskList extends Vue {
   @Prop()
   showAssignee: boolean | undefined;
 
+  // FIXME: why?
   @Emit("loadTasks")
   loadTasks(): boolean {
     return true;

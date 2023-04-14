@@ -1,6 +1,5 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
-import {TasksState} from "./tasks";
 import {FetchUtils, ServiceInstanceControllerApiFactory, ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
 import {ApiConfig} from "../../api/ApiConfig";
 
@@ -18,7 +17,7 @@ export default {
     filter: ""
   } as ProcessInstancesState,
   getters: {
-    shouldUpdate: (state: TasksState) => (): boolean => {
+    shouldUpdate: (state: ProcessInstancesState) => (): boolean => {
       const lastFetch = state.lastFetch;
       if (!lastFetch) {
         return true;
@@ -37,7 +36,7 @@ export default {
     setProcessInstances(state: ProcessInstancesState, processInstances: ServiceInstanceTO[]): void {
       state.processInstances = processInstances;
     },
-    setLastFetch(state: TasksState, date: number): void {
+    setLastFetch(state: ProcessInstancesState, date: number): void {
       state.lastFetch = date;
     },
     setFilter(state: ProcessInstancesState, filter: string): void {
@@ -57,7 +56,7 @@ export default {
 
         context.commit('setLastFetch', new Date().getTime());
         context.commit('setProcessInstances', res.data);
-      } catch (error) {
+      } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Die Vorgänge konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     }

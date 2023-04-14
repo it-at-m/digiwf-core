@@ -1,26 +1,49 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callGetAssignedGroupTasks,
-  callGetOpenGroupTasks,
-  callGetTasks,
-  callPostAssignTask
+  callGetAssignedGroupTasksFromEngine,
+  callGetAssignedGroupTasksFromTaskService,
+  callGetOpenGroupTasksFromEngine,
+  callGetOpenGroupTasksFromTaskService,
+  callGetTasksFromEngine,
+  callGetTasksFromTaskService,
+  callPostAssignTaskInEngine, callPostAssignTaskInTaskService
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
-import {PageHumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
+import {Page} from "../commonModels";
+import {HumanTask} from "./tasksModels";
+import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
+import {mapTaskPageFromEngineService, mapTaskPageFromTaskService} from "./taskMapper";
+import {useStore} from "../../hooks/store";
 
+const shouldUseTaskService = isServiceTaskServiceEnabled();
+if (shouldUseTaskService) {
+  console.log("feature toggle enabled. New tasklist service is used for network requests.")
+}
 export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>, followUp: Ref<boolean | undefined>) => useQuery({
   queryKey: ["user-tasks", page.value, size.value, query.value, followUp.value],
-  queryFn: (): Promise<PageHumanTaskTO> => callGetTasks(page.value, size.value, query.value, followUp.value),
+  queryFn: (): Promise<Page<HumanTask>> => {
+    return shouldUseTaskService
+      ? callGetTasksFromTaskService(page.value, size.value, query.value, followUp.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
+      : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+  },
 });
 
 export const useOpenGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
   queryKey: ["open-group-tasks", page.value, size.value, query.value],
-  queryFn: (): Promise<PageHumanTaskTO> => callGetOpenGroupTasks(page.value, size.value, query.value),
+  queryFn: (): Promise<Page<HumanTask>> => {
+    return shouldUseTaskService
+      ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
+      : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+  },
 });
 
 export const useAssignedGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
   queryKey: ["assigned-group-tasks", page.value, size.value, query.value],
-  queryFn: (): Promise<PageHumanTaskTO> => callGetAssignedGroupTasks(page.value, size.value, query.value),
+  queryFn: (): Promise<Page<HumanTask>> => {
+    return shouldUseTaskService
+      ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
+      : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+  },
 });
 
 export interface UseNumberOfTasksReturn {
@@ -46,8 +69,14 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
 export const useAssignTaskMutation = () => {
   const queryClient = useQueryClient();
 
+  // FIXME: remove useStore and replace it with context
+  const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
   return useMutation<void, any, string>({
-    mutationFn: (taskId) => callPostAssignTask(taskId),
+    mutationFn: (taskId) => {
+      return shouldUseTaskService
+        ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
+        : callPostAssignTaskInEngine(taskId)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(["user-tasks"]);
       queryClient.invalidateQueries(["assigned-group-tasks"]);

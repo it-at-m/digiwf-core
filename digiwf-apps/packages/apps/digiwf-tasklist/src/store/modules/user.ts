@@ -48,7 +48,7 @@ export default {
 
         context.commit('setUser', res.data);
         context.commit('setLastFetch');
-      } catch (error) {
+      } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     }

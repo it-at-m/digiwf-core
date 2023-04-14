@@ -48,7 +48,7 @@ export default {
 
         context.commit('setInfo', res.data);
         context.commit('setLastFetch');
-      } catch (err) {
+      } catch (err: any) {
         FetchUtils.defaultCatchHandler(err, "Die Info konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
 
