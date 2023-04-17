@@ -41,22 +41,48 @@ Weitere Details zur Modellierung von Prozessen finden sich unter [Prozessmodelli
 
 ## User Task konfigurieren
 
+Über die Palette kann ein Task hinzugefügt und als User Task konfiguriert werden.
+Im Anschluss sollte das ``Basic: Usertask`` Element Template ausgewählt werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/task-create.png)
+
+Zudem kann der Assignee konfiguriert werden.
+Ich kann auf die Variable ``starterOfInstance`` zurückgegriffen werden.
+Dadurch wird die Aufgabe der Person zugewiesen, die den Prozess gestartet hat.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/task-properties.png)
+
 ## Formular modellieren
+
+Zunächst muss ein Formular vom Typ `FORM` angelegt werden.
 
 ![Element Template](~@source/modeling/guides/modeling-first-process/form-create.png)
 
+Im Anschluss kann das Formular mit den entsprechenden Feldern versehen werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/form-properties.png)
+
+::: tip
+Genauere Informationen, zur Formularerstellung, sind im Kapitel [Formulare](/modeling/forms/) zu finden.
+:::
+
 ## Formular verknüpfen
+
 Anschließend kann das Formular mit dem Prozess verknüpft werden.
 Dabei muss die ID des Formulars im Feld `Form Key` des Startereignisses und im Form hinterlegt werden.
-Zudem kann der `Formular Key`
+Zudem kann der `Formular Key` des zuvor erstellen `User Tasks` mit der ID des Formulars verknüpft werden.
 
 ::: tip
 Genauer Informationen sind im Kapitel [Formulare](/modeling/forms/#formulare-mit-bpmn-modellen-verknupfen) zu finden.
 :::
 
-
 ## Deployment
+
+Im Anschluss können die Artefakte auf die entsprechende Umgebung deployed werden.
+Eine kurze Beschreibung dazu findet sich unter [Deployment](/modeling/plattform/deployment/).
 
 ## Autorisierung
 
-## Ausführung
+Ein Prozess wird in der jeweiligen DigiWF-Oberfläche erst sichtbar, wenn die entsprechenden Berechtigungen in Camunda gesetzt sind.
+Berechtigungen müssen durch das entsprechende Camunda Team mit Zugriff auf das Cockpit gesetzt werden.
+Die Dokumentation ist unter [Autorisierung](/modeling/processes/authorization/#autorisierung-von-prozessen) zu finden.
