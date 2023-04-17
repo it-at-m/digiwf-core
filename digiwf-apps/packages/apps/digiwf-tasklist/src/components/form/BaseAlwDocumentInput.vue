@@ -2,7 +2,7 @@
 import {Component, Mixins} from "vue-property-decorator";
 import BaseDocumentInput from "@/components/form/BaseDocumentInput.vue";
 import {AlwDmsRestControllerApiFactory, FetchUtils, GetMetadataTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
 
 @Component
 export default class BaseAlwDocumentInput extends Mixins(BaseDocumentInput) {
@@ -21,7 +21,7 @@ export default class BaseAlwDocumentInput extends Mixins(BaseDocumentInput) {
       const to: GetMetadataTO = {
         url: this.documentInput
       };
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await AlwDmsRestControllerApiFactory(cfg).getMetadata(to);
 
 

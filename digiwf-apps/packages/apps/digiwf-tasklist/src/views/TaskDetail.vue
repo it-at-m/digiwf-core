@@ -169,7 +169,7 @@ import {
   SaveTO
 } from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {ApiConfig} from "../api/ApiConfig";
+import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
 
 
 @Component({
@@ -209,7 +209,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   get formContext(): FormContext { return {id: this.id, type: "task"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
+  apiEndpoint = EngineServiceApiConfig.base;
 
   created() {
     this.loadTask();
@@ -236,7 +236,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     };
     try {
       //await TaskService.completeTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).completeTask(request);
 
       this.errorMessage = "";
@@ -266,7 +266,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     };
     try {
       //await TaskService.saveTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).saveTask(request);
 
       this.errorMessage = "";
@@ -285,7 +285,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   async loadTask(): Promise<void> {
     try {
       // this.task = await TaskService.getTaskDetail(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       cfg.baseOptions.validateStatus = function (status: number) {
         return status >= 200 && status < 500;
       }; // override axios default impl. (holding back http statuses >= 300)
@@ -318,7 +318,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   async followUpTask(request: FollowUpTO): Promise<void> {
     try {
       //await TaskService.followUpTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).followUpTask(request);
 
       this.errorMessage = "";
@@ -364,7 +364,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     const startTime = new Date().getTime();
     try {
       //await TaskService.cancelTask(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).cancelTask(this.id);
 
       this.errorMessage = "";
@@ -389,7 +389,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
     try {
       //const statusDoc = await DocumentService.getStatusDocument(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(this.id);
 
       const fileURL = window.URL.createObjectURL(new Blob([this.base64ToArrayBuffer(res.data.data)], {type: 'application/pdf'}));

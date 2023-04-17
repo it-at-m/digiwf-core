@@ -18,7 +18,7 @@ export interface RootState {
   infoState: InfoState;
 }
 
-export default new Vuex.Store<RootState>({
+export const Vuexstore = new Vuex.Store<RootState>({
   modules: {
     user,
     processDefinitions,
@@ -28,3 +28,4 @@ export default new Vuex.Store<RootState>({
   },
   strict: debug
 });
+export default Vuexstore;

@@ -37,19 +37,19 @@ export class FetchUtils {
   }
 
   /**
-     * Liefert eine default POST-Config für fetch
-     * @param body Optional zu übertragender Body
-     */
-    // eslint-disable-next-line
-    static getPOSTConfig(body: any): RequestInit {
-      return {
-          method: 'POST',
-          body: body ? JSON.stringify(body) : undefined,
-          headers: FetchUtils.getHeaders(),
-          mode: 'cors',
-          credentials: 'same-origin',
-          redirect: "manual"
-      };
+   * Liefert eine default POST-Config für fetch
+   * @param body Optional zu übertragender Body
+   */
+  // eslint-disable-next-line
+  static getPOSTConfig(body: any): RequestInit {
+    return {
+      method: 'POST',
+      body: body ? JSON.stringify(body) : undefined,
+      headers: FetchUtils.getHeaders(),
+      mode: 'cors',
+      credentials: 'same-origin',
+      redirect: "manual"
+    };
   }
 
   /**
@@ -74,6 +74,38 @@ export class FetchUtils {
     };
 
   }
+
+  /**
+   * Deckt das Default-Handling einer Response ab. Dazu zählt:
+   *
+   * - Fehler bei fehlenden Berechtigungen --> HTTP 403
+   * - Reload der App bei Session-Timeout --> HTTP 3xx
+   * - Default-Fehler bei allen HTTP-Codes !2xx
+   *
+   * @param response Die response aus fetch-Befehl die geprüft werden soll.
+   * @param errorMessage Die Fehlermeldung, welche bei einem HTTP-Code != 2xx angezeigt werden soll.
+   * @param statusCodeSpecificHandler
+   */
+  static defaultResponseHandler(response: Response, errorMessage = "Es ist ein unbekannter Fehler aufgetreten.", statusCodeSpecificHandler?: HttpSpecificCallbackFunction<Response>): void {
+    if (!response.ok) {
+      if(statusCodeSpecificHandler && statusCodeSpecificHandler[response.status]) {
+        statusCodeSpecificHandler[response.status]!!(response)
+      }
+      if (response.status === 403) {
+        throw new ApiError({
+          level: Levels.ERROR,
+          message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`
+        });
+      } else if (response.type === "opaqueredirect") {
+        location.reload();
+      }
+      throw new ApiError({
+        level: Levels.WARNING,
+        message: errorMessage
+      });
+    }
+  }
+
 
   /**
    * Default Catch-Handler für alle Anfragen des Service.
@@ -136,4 +168,8 @@ export class FetchUtils {
     return (help ? help.pop() : '') as string;
   }
 
+}
+
+export interface HttpSpecificCallbackFunction<T> {
+  readonly [key: number]: ((response: T) => void) | undefined;
 }
