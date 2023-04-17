@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>0.17.8-SNAPSHOT</version>
+        <version>0.17.9-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -59,8 +59,6 @@
             <artifactId>camunda-engine-plugin-spin</artifactId>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -103,6 +101,12 @@
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
             <version>${axon-framework.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.axonframework</groupId>
+                    <artifactId>axon-server-connector</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.axonframework.extensions.kafka</groupId>
@@ -176,8 +180,8 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5</artifactId>
-            <scope>test</scope>
             <version>${archunit.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

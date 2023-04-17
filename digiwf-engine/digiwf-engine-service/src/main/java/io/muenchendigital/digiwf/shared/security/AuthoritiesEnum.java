@@ -12,9 +12,5 @@ import org.springframework.security.access.prepost.PreAuthorize;
  * in the annotation e.g. {@link PreAuthorize}.
  */
 public enum AuthoritiesEnum {
-    BACKEND_READ_THEENTITY,
-    BACKEND_WRITE_THEENTITY,
-    BACKEND_DELETE_THEENTITY,
-    BACKEND_DEPLOY_RESOURCE
-    // add your authorities here and also add these new authorities to sso-authorisation.json.
+    BACKEND_DEPLOY_RESOURCE // protects schema, form and config deployment.
 }

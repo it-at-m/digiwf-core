@@ -5,7 +5,7 @@
     <parent>
         <artifactId>digiwf-camunda-prometheus</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.8-SNAPSHOT</version>
+        <version>0.17.9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>2.3.5</version>
+            <version>4.0.2</version>
         </dependency>
 
 

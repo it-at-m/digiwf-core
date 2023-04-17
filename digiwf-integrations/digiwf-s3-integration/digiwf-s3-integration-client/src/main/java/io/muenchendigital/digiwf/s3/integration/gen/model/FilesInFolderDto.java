@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FilesInFolderDto {
   public static final String JSON_PROPERTY_PATH_TO_FILES = "pathToFiles";
-  private Set<String> pathToFiles = new LinkedHashSet<>();
+  private Set<String> pathToFiles;
 
   public FilesInFolderDto() {
   }
@@ -73,7 +73,6 @@ public class FilesInFolderDto {
   public void setPathToFiles(Set<String> pathToFiles) {
     this.pathToFiles = pathToFiles;
   }
-
 
   @Override
   public boolean equals(Object o) {

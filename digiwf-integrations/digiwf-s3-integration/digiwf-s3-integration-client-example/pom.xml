@@ -7,13 +7,13 @@
     <name>digiwf-s3-integration-client-example</name>
 
     <properties>
-        <logstash.encoder>7.0.1</logstash.encoder>
+        <logstash.encoder>7.3</logstash.encoder>
     </properties>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-s3-integration</artifactId>
-        <version>0.17.8-SNAPSHOT</version>
+        <version>0.17.9-SNAPSHOT</version>
     </parent>
 
     <dependencies>
