@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @EnableConfigurationProperties
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WireMockConfig.class})
+@ContextConfiguration(classes = {EasyLdapMockConfig.class})
 public class EasyLdapClientTest {
 
     @Autowired

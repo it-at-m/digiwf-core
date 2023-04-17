@@ -14,7 +14,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 
 @TestConfiguration
-public class WireMockConfig {
+public class EasyLdapMockConfig {
     @Value("${easyldap.client.request}")
     private String requestPath;
     @Value("${easyldap.client.port}")
@@ -23,7 +23,7 @@ public class WireMockConfig {
     public WireMockServer mockEasyLdapServer() throws IOException {
         val server = new WireMockServer(port);
 
-        val responseBody = new String(this.getClass().getClassLoader().getResourceAsStream("files/easy-ldap-response.json").readAllBytes());
+        val responseBody = getString("files/easy-ldap-response.json");
         server.stubFor(WireMock.get(requestPath + "/1234")
                 .willReturn(aResponse()
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +41,10 @@ public class WireMockConfig {
         // TODO add path for 404 handling
 
         return server;
+    }
+
+    private String getString (String path) throws IOException {
+        return new String(this.getClass().getClassLoader().getResourceAsStream(path).readAllBytes());
     }
 }
 
