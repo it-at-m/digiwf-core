@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,23 +23,22 @@ public class LdapUserGroupResolverTest {
 
     @Test
     public void getHashWithUserGroup() {
-        Mockito.when(easyLdapClient.getUserById("1234")).thenReturn(new UserInfoResponse("1234","OU","Path"));
+        Mockito.when(easyLdapClient.getUserById("1234")).thenReturn(new UserInfoResponse("1234", "OU", "Path"));
         Set<String> groups = ldapUserGroupResolver.resolveGroups("1234");
 
-        assertEquals(1,groups.size());
+        assertEquals(1, groups.size());
         assertTrue(groups.contains("OU"));
 
     }
 
-    @ Test
+    @Test
     public void getEmptyHash() {
         var request = Request.create(Request.HttpMethod.GET, "url",
                 new HashMap<>(), null, new RequestTemplate());
-        Mockito.when(easyLdapClient.getUserById("0")).thenThrow(new FeignException.NotFound("",request, null, null));
+        Mockito.when(easyLdapClient.getUserById("0")).thenThrow(new FeignException.NotFound("", request, null, null));
         Set<String> groups = ldapUserGroupResolver.resolveGroups("0");
         assertTrue(groups.isEmpty());
     }
-
 
 
 }
