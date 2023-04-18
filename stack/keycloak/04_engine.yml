@@ -5,6 +5,7 @@ changes:
   - addSimpleClient:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       secret: ${SSO_ENGINE_CLIENT_SECRET}
+      publicClient: false
       redirectUris:
         - http://localhost:39146/*
         - http://localhost:8082/*
@@ -13,19 +14,4 @@ changes:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       clientRole: true
       name: clientrole_deployer
-      description: Can deploy.
-  - addRole:
-      clientId: ${SSO_ENGINE_CLIENT_ID}
-      clientRole: true
-      name: lhm-ab-digitalwfv2-deployer
-      description: Can deploy.
-  - addRole:
-      clientId: ${SSO_ENGINE_CLIENT_ID}
-      clientRole: true
-      name: clientrole_taskuser
-      description: Can operate on user tasks.
-  - addRole:
-      clientId: ${SSO_ENGINE_CLIENT_ID}
-      clientRole: true
-      name: BACKEND_DEPLOY_RESOURCE
-      description: Can operate on schema.
+      description: Can deploy, assigns BACKEND_DEPLOY_RESOURCE authority on other stages then local.

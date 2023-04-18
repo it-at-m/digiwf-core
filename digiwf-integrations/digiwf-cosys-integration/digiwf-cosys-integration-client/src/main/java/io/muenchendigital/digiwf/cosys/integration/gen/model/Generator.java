@@ -38,7 +38,7 @@ public class Generator {
   private String type;
 
   public static final String JSON_PROPERTY_HEAD_INCLUDES = "headIncludes";
-  private List<String> headIncludes = new ArrayList<>();
+  private List<String> headIncludes;
 
   public Generator() {
   }
@@ -101,7 +101,6 @@ public class Generator {
   public void setHeadIncludes(List<String> headIncludes) {
     this.headIncludes = headIncludes;
   }
-
 
   @Override
   public boolean equals(Object o) {

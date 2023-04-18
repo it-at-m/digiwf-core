@@ -1,6 +1,5 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.polyflow;
 
-import com.google.common.collect.Sets;
 import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.auth.User;
@@ -10,12 +9,12 @@ import io.holunda.polyflow.view.query.task.TasksForUserQuery;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
-import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +28,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
   public PageOfTasks getTasksForCurrentUser(User currentUser, String query, PagingAndSorting pagingAndSorting) {
     var filters = buildFilters(query);
     var result = taskQueryClient.query(new TasksForUserQuery(
-        new User(currentUser.getUsername(), Sets.newHashSet()), // no groups in user-based query
+        new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
         pagingAndSorting.getPageIndex(),
         pagingAndSorting.getPageSize(),
         pagingAndSorting.getSanitizedSort(),

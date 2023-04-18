@@ -1,6 +1,5 @@
 package io.muenchendigital.digiwf.task.service.infra.ingress;
 
-import com.google.common.collect.Lists;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.axonframework.extensions.kafka.KafkaProperties;
 import org.axonframework.extensions.kafka.eventhandling.KafkaMessageConverter;
@@ -17,6 +16,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Collections;
 
 @Configuration
 @ConditionalOnProperty(value = "polyflow.axon.kafka.enabled", havingValue = "true", matchIfMissing = true)
@@ -76,13 +77,13 @@ public class AxonKafkaIngressConfiguration {
       MeterRegistry meterRegistry) {
     return StreamableKafkaMessageSource
         .<String, byte[]>builder()
-        .topics(Lists.newArrayList(extendedProperties.getTopicDataEntries()))
-        .consumerFactory(new MetricsBindingConsumerFactory(meterRegistry, kafkaConsumerFactory))
+        .topics(Collections.singletonList(extendedProperties.getTopicDataEntries()))
+        .consumerFactory(new MetricsBindingConsumerFactory<>(meterRegistry, kafkaConsumerFactory))
         .consumerFactory(kafkaConsumerFactory)
         .serializer(serializer)
         .fetcher(kafkaFetcher)
         .messageConverter(messageConverter)
-        .bufferFactory(() -> new SortedKafkaMessageBuffer(kafkaProperties.getFetcher().getBufferSize()))
+        .bufferFactory(() -> new SortedKafkaMessageBuffer<>(kafkaProperties.getFetcher().getBufferSize()))
         .build();
   }
 
@@ -111,13 +112,13 @@ public class AxonKafkaIngressConfiguration {
       MeterRegistry meterRegistry) {
     return StreamableKafkaMessageSource
         .<String, byte[]>builder()
-        .topics(Lists.newArrayList(extendedProperties.getTopicTasks()))
-        .consumerFactory(new MetricsBindingConsumerFactory(meterRegistry, kafkaConsumerFactory))
+        .topics(Collections.singletonList(extendedProperties.getTopicTasks()))
+        .consumerFactory(new MetricsBindingConsumerFactory<>(meterRegistry, kafkaConsumerFactory))
         .consumerFactory(kafkaConsumerFactory)
         .serializer(serializer)
         .fetcher(kafkaFetcher)
         .messageConverter(messageConverter)
-        .bufferFactory(() -> new SortedKafkaMessageBuffer(kafkaProperties.getFetcher().getBufferSize()))
+        .bufferFactory(() -> new SortedKafkaMessageBuffer<>(kafkaProperties.getFetcher().getBufferSize()))
         .build();
   }
 

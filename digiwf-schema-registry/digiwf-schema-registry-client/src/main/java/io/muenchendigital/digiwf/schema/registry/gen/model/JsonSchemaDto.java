@@ -107,7 +107,6 @@ public class JsonSchemaDto {
     this.schema = schema;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

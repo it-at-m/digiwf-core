@@ -16,6 +16,9 @@ changes:
           - externer.john.doe
         lhmObjectID:
           - 123456789
+      clientRoles:
+        - client: ${SSO_ENGINE_CLIENT_ID}
+          role: clientrole_deployer
   - updateUserPassword:
       name: johndoe
       password: "test"
