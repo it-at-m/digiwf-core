@@ -1,8 +1,10 @@
 export interface HumanTask {
   readonly id: string;
   readonly createTime: string;
-  readonly followUpDate: string;
+  readonly followUpDate?: string;
   readonly processName?: string;
-  readonly name?: string
+  readonly name: string
   readonly description?: string;
+  readonly assigneeId?: string;
+  // FIXME formatted assignee
 }

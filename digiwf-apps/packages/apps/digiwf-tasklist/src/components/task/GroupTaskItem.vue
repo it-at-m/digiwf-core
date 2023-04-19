@@ -18,7 +18,7 @@
           class="grey--text"
           style="font-size: 0.9rem"
       >
-        Wiedervorlage am {{ followUp }}
+        Wiedervorlage am {{ task.followUpDate }}
       </p>
       <p>
         <text-highlight :queries="searchString">
@@ -52,7 +52,7 @@
         class="taskColumn"
     >
       <p class="taskInfo">
-        {{ createdAt }}
+        {{ task.createTime }}
       </p>
     </v-flex>
     <v-flex
@@ -125,14 +125,13 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {HumanTaskTO} from '@/api/api-client/api';
-import {DateTime} from "luxon";
+import {HumanTask} from "../../middleware/tasks/tasksModels";
 
 @Component
 export default class GroupTaskItem extends Vue {
 
   @Prop()
-  task!: HumanTaskTO;
+  task!: HumanTask;
 
   @Prop()
   searchString!: string;
@@ -143,10 +142,6 @@ export default class GroupTaskItem extends Vue {
   @Emit()
   onEdit(): string {
     return this.task.id!;
-  }
-
-  get createdAt(): string {
-    return DateTime.fromISO(this.task.creationTime!).toLocaleString(DateTime.DATETIME_SHORT);
   }
 
 }

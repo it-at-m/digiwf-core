@@ -16,7 +16,8 @@ export const callGetTasksFromEngine = (page: number, size: number, query?: strin
     return Promise.resolve(res.data);
   }).catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")))
 };
-export const callGetTasksFromTaskService = (page: number, size: number, query?: string, followUp?: boolean): Promise<PageOfTasks> => {
+export const callGetTasksFromTaskService = (page: number, size: number, query?: string, followUp?: string): Promise<PageOfTasks> => {
+  // follow-up: YYYY-MM-dd: e.g. 2023-04-17
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
   return TasksApiFactory(cfg).getCurrentUserTasks(page, size, query) // FIXME: followUp?
     .then(res => Promise.resolve(res.data))
@@ -82,3 +83,4 @@ export const callPostAssignTaskInTaskService = (taskId: string, assignee: string
     .then(() => Promise.resolve())
     .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht zugewiesen werden.")));
 };
+

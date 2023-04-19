@@ -62,7 +62,7 @@ export default {
 
         context.commit('setLastFetch', new Date().getTime());
         context.commit('setProcessDefinitions', res.data);
-      } catch (error) {
+      } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Die Vorgänge konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     }
