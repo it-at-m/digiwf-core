@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 /**
@@ -14,12 +13,12 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 @RequiredArgsConstructor
 public class JwtUserInfoAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    private final UserInfoAuthoritiesService userInfoService;
+  private final UserInfoAuthoritiesService userInfoService;
 
-    @Override
-    public AbstractAuthenticationToken convert(@NotNull Jwt source) {
-        return new JwtAuthenticationToken(source, this.userInfoService.loadAuthorities(source));
-    }
+  @Override
+  public AbstractAuthenticationToken convert(@NotNull Jwt source) {
+    return new JwtAuthenticationToken(source, this.userInfoService.loadAuthorities(source));
+  }
 
 }
 
