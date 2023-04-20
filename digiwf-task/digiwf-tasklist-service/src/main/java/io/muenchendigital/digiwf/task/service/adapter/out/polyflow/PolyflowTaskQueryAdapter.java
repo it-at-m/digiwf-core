@@ -11,8 +11,12 @@ import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.Task
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +29,8 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
   private final TaskQueryClient taskQueryClient;
 
   @Override
-  public PageOfTasks getTasksForCurrentUser(User currentUser, String query, PagingAndSorting pagingAndSorting) {
-    var filters = buildFilters(query);
+  public PageOfTasks getTasksForCurrentUser(User currentUser, String query, LocalDate followUp, PagingAndSorting pagingAndSorting) {
+    var filters = buildFilters(query, followUp);
     var result = taskQueryClient.query(new TasksForUserQuery(
         new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
         pagingAndSorting.getPageIndex(),
@@ -43,7 +47,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
 
   @Override
   public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
-    var filters = buildFilters(query);
+    var filters = buildFilters(query, null);
     var result = taskQueryClient.query(new TasksForGroupQuery(
         currentUser,
         includeAssigned,
@@ -75,9 +79,15 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
         .orElseThrow(() -> new TaskNotFoundException(taskId));
   }
 
-  private List<String> buildFilters(String query) {
-    // TODO: implement filtering
-    return new ArrayList<>();
+  private List<String> buildFilters(String query, LocalDate followUp) {
+    val filters = new ArrayList<String>();
+    if (followUp != null) {
+      filters.add("task.followUpDate<" + followUp.atStartOfDay().plusSeconds(1).toInstant(ZoneOffset.UTC));
+    }
+    if (query != null && !query.isEmpty()) {
+      filters.add("task.textSearch%" + query);
+    }
+    return filters;
   }
 
   private boolean isAllowedForCurrentUser(Task task, User currentUser) {

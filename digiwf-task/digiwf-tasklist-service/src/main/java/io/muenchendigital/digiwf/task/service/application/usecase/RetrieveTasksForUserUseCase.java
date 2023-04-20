@@ -11,6 +11,7 @@ import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @Component
@@ -36,9 +37,9 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   }
 
   @Override
-  public PageOfTasksWithSchema getTasksForCurrentUser(String query, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getTasksForCurrentUser(String query, LocalDate followUp, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUser(currentUser, query, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUser(currentUser, query, followUp, pagingAndSorting);
     return enrichWithSchema(result);
   }
 

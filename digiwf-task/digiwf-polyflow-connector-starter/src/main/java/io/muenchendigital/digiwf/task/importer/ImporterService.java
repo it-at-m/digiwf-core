@@ -20,14 +20,18 @@ public class ImporterService {
 
     @PostConstruct
     void inform() {
-      log.warn("Starting TASK IMPORT ENDPOINT");
+      log.warn("Activating TASK IMPORT endpoint");
     }
 
     @PostMapping("/rest/admin/tasks/import")
     public ResponseEntity<Void> importExistingTasks() {
+        log.info("Starting import of tasks.");
         taskServiceCollectorService.collectAndPopulateExistingTasks(
-            true, 0, 1000
+           true,
+           0,
+           1000 // import 1000 tasks
         );
+        log.info("Import of tasks completed.");
         return noContent().build();
     }
 }

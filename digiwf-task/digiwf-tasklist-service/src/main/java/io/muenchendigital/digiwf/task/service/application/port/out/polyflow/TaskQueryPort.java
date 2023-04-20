@@ -5,6 +5,8 @@ import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
 
+import java.time.LocalDate;
+
 /**
  * Port for searching tasks.
  */
@@ -14,10 +16,11 @@ public interface TaskQueryPort {
    *
    * @param user             user.
    * @param query            additional query.
+   * @param followUp         date to indicate that the tasks with follow-up date later than given date are excluded.
    * @param pagingAndSorting paging and sorting info.
    * @return page of tasks.
    */
-  PageOfTasks getTasksForCurrentUser(User user, String query, PagingAndSorting pagingAndSorting);
+  PageOfTasks getTasksForCurrentUser(User user, String query, LocalDate followUp, PagingAndSorting pagingAndSorting);
 
   /**
    * Retrieves tasks visiable via user's group.
