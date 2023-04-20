@@ -17,7 +17,7 @@
           :task="props.item"
           :show-assignee="true"
           :search-string="props.item.searchInput"
-          @on-edit="reassignTask(props.item.id)"
+          @edit="reassignTask(props.item.id)"
         />
         <hr class="hrDivider">
       </template>

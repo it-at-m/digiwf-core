@@ -283,6 +283,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   async loadTask(): Promise<void> {
+    console.log("loadTask")
     try {
       // this.task = await TaskService.getTaskDetail(this.id);
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());

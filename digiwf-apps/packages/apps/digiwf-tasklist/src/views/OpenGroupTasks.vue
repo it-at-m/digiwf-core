@@ -16,7 +16,7 @@
           :key="props.item.id"
           :task="props.item"
           :search-string="props.item.searchInput"
-          @on-edit="assignTask(props.item.id)"
+          @edit="assignTask(props.item.id)"
         />
         <hr class="hrDivider">
       </template>
@@ -71,6 +71,7 @@ export default defineComponent({
     })
 
     const assignTask = async (id: string): Promise<void> => {
+      console.log("assign task: ", id)
       assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
     }
 
