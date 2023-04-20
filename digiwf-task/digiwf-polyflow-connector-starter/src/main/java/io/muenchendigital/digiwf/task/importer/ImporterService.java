@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.task.importer;
 
-// import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
+import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 @Slf4j
 public class ImporterService {
 
-    // private final TaskServiceCollectorService taskServiceCollectorService;
+    private final TaskServiceCollectorService taskServiceCollectorService;
 
     @PostConstruct
     void inform() {
@@ -25,7 +25,9 @@ public class ImporterService {
 
     @PostMapping("/rest/admin/tasks/import")
     public ResponseEntity<Void> importExistingTasks() {
-       // taskServiceCollectorService.collectAndPopulateExistingTasks();
+        taskServiceCollectorService.collectAndPopulateExistingTasks(
+            true, 0, 1000
+        );
         return noContent().build();
     }
 }
