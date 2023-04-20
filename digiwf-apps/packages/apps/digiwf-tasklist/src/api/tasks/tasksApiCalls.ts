@@ -1,4 +1,9 @@
-import {FetchUtils, HumanTaskRestControllerApiFactory, PageHumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
+import {
+  FetchUtils,
+  HumanTaskDetailTO,
+  HumanTaskRestControllerApiFactory,
+  PageHumanTaskTO
+} from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../ApiConfig";
 import {PageOfTasks, TaskApiFactory, TasksApiFactory} from "@muenchen/digiwf-task-api-internal"
 
@@ -84,3 +89,18 @@ export const callPostAssignTaskInTaskService = (taskId: string, assignee: string
     .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht zugewiesen werden.")));
 };
 
+/**
+ *
+ * only moved out of TaskDetail.vue
+ * @deprecated
+ * @param taskId
+ */
+export const callGetTaskDetailsFromEngine = (taskId: string): Promise<HumanTaskDetailTO> => {
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+  // cfg.baseOptions.validateStatus = function (status: number) {
+  //   return status >= 200 && status < 500;
+  // }; // override axios default impl. (holding back http statuses >= 300)
+
+  return HumanTaskRestControllerApiFactory(cfg).getTaskDetail(taskId)
+    .then(res => Promise.resolve(res.data));
+}

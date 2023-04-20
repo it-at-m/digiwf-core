@@ -170,6 +170,7 @@ import {
 } from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
+import {loadTasksFromEngine} from "../middleware/tasks/taskMiddleware";
 
 
 @Component({
@@ -206,12 +207,15 @@ export default class TaskDetail extends SaveLeaveMixin {
   id!: string;
 
   @Provide('formContext')
-  get formContext(): FormContext { return {id: this.id, type: "task"}};
+  get formContext(): FormContext {
+    return {id: this.id, type: "task"}
+  };
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
 
   created() {
+    console.log("created")
     this.loadTask();
   }
 
@@ -282,38 +286,23 @@ export default class TaskDetail extends SaveLeaveMixin {
     }, Math.max(0, 500 - (new Date().getTime() - startTime)));
   }
 
-  async loadTask(): Promise<void> {
+  loadTask() {
     console.log("loadTask")
-    try {
-      // this.task = await TaskService.getTaskDetail(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      cfg.baseOptions.validateStatus = function (status: number) {
-        return status >= 200 && status < 500;
-      }; // override axios default impl. (holding back http statuses >= 300)
-      const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
-      if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-        this.task = res.data;
-        this.model = this.task.variables;
-        this.followUpDate = this.task.followUpDate!;
-        if (this.task.form && this.task.form.buttons) {
-          this.isCancelable = this.task.form.buttons.cancel!.showButton || false;
-          this.cancelText = this.task.form.buttons.cancel!.buttonText || '';
-          this.hasDownloadButton = this.task.form.buttons.statusPdf!.showButton || false;
-          this.downloadButtonText = this.task.form.buttons.statusPdf!.buttonText || '';
-        } else if (this.task.statusDocument) {
-          this.hasDownloadButton = true;
-        }
-        this.errorMessage = "";
-      } else {
-        if (res.status === 404) {
-          this.errorMessage = 'Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.';
-        } else {
-          this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
-        }
+    loadTasksFromEngine(this.id).then(({data, error}) => {
+      console.log("load tasks success: ", {data, error});
+      if (!!data) {
+        this.task = data.task;
+        this.model = data.model;
+        this.followUpDate = data.followUpDate;
+        this.isCancelable = data.isCancelable;
+        this.cancelText = data.cancelText
+        this.hasDownloadButton = data.hasDownloadButton;
+        this.downloadButtonText = data.downloadButtonText;
       }
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
-    }
+      if (!!error) {
+        this.errorMessage = error;
+      }
+    });
   }
 
   async followUpTask(request: FollowUpTO): Promise<void> {
