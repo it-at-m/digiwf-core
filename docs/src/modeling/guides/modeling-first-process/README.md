@@ -83,6 +83,25 @@ Eine kurze Beschreibung dazu findet sich unter [Deployment](/modeling/plattform/
 
 ## Autorisierung
 
-Ein Prozess wird in der jeweiligen DigiWF-Oberfläche erst sichtbar, wenn die entsprechenden Berechtigungen in Camunda gesetzt sind.
+Ein Prozess wird in der jeweiligen DigiWF-Oberfläche erst sichtbar, wenn die entsprechenden Berechtigungen in Camunda
+gesetzt sind.
 Berechtigungen müssen durch das entsprechende Camunda Team mit Zugriff auf das Cockpit gesetzt werden.
 Die Dokumentation ist unter [Autorisierung](/modeling/processes/authorization/#autorisierung-von-prozessen) zu finden.
+
+## Ausführung
+
+Im Anschluss kann der Prozess gestartet werden.
+Dazu kann untern ``Vorgang starten`` der Prozess anhand des Namens gesucht und geöffnet werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/process-start.png)
+
+Es öffnet sich das Formular, welches im vorherigen Schritt erstellt wurde.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/process-form.png)
+
+Dieses kann entsprechend ausgefüllt und der Prozess gestartet werden.
+Im Anschluss gibt es unter ``Meine Aufgaben`` eine neue Aufgabe.
+Sollte dies nicht der Fall sein wurde vergessen im ``User Task`` den Assignee auf `${starterOfInstance}` zu setzen.
+Mit einem Klick auf die Aufgabe kann diese geöffnet und bearbeitet werden.
+
+![Element Template](~@source/modeling/guides/modeling-first-process/task-open.png)

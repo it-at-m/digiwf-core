@@ -3,8 +3,9 @@
 Bei der Modellierung von Prozessen in DigiWF können verschiedene Eigenschaften gesetzt werden.
 Für die Plattform und Camunda als verwendete Engine sind die folgenden Eigenschaften wichtig:
 
-- **Id:** Die Id des Prozesses. Bitte stimmen Sie diese mit dem DigiWF Team ab. Es ist sinnvoll eine Versionierung für
-  inkompatible Änderungen vorzunehmen: ProzessName_V01
+- **Id:** Die Id des Prozesses. Diese sollte mit dem Plattformbetreiber abgestimmt werden, da diese eindeutig innerhalb
+  der Plattforminstanz sind und sich nicht überschreiben dürfen. Es ist sinnvoll eine
+  Versionierung für inkompatible Änderungen vorzunehmen: `ProzessName_V01`
 - **Name:** Der Name des Prozesses, der in der Plattform angezeigt wird.
 - **Version Tag:** Version des Prozesses. Ist für die Verwaltung eines Prozess hilfreich.
 - **Element Documentation:** Beschreibung des Prozesses, die in der Plattform angezeigt wird. Erleichtert die Suche für

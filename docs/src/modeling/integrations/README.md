@@ -1,14 +1,13 @@
 # Einführung
 
-In Digiwf können Bausteine in Form von Element Template bei der Modellierung verwendet werden.
+In Digiwf können Integrationen in Form von Element Template bei der Modellierung verwendet werden.
 Diese haben verschiedene Vorteile:
 
 - Reduzierung der Entwicklungszeit und Kosten
 - Verbesserung der Qualität und Konsistenz der Anwendungen
 - Erhöhung der Interoperabilität zwischen Anwendungen
-- Verbesserung der Skalierbarkeit von Anwendungen
 
-Um einen Baustein zu verwenden, kann ein Element Template in der Modellierung ausgewählt werden.
+Um eine Integration zu verwenden, kann ein Element Template in der Modellierung ausgewählt werden.
 
 ![Element Template](~@source/modeling/integrations/element-template.png)
 

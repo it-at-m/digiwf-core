@@ -186,12 +186,11 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/optional-content/',
-                                'forms/migration/',
+                                'forms/optional-content/'
                             ]
                         },
                         {
-                            title: 'Bausteine',
+                            title: 'Integrationen',
                             collapsable: false,
                             children: [
                                 'integrations/',
@@ -203,6 +202,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'guides/modeling-first-process/',
+                                'guides/form-v1-auf-v2/',
                             ]
                         }
                     ],
