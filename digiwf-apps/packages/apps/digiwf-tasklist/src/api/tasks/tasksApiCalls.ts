@@ -1,4 +1,5 @@
 import {
+  CompleteTO,
   FetchUtils,
   HumanTaskDetailTO,
   HumanTaskRestControllerApiFactory,
@@ -90,17 +91,42 @@ export const callPostAssignTaskInTaskService = (taskId: string, assignee: string
 };
 
 /**
- *
+ * TaskDetails view calls:
  * only moved out of TaskDetail.vue
+ */
+
+/**
+ *
+ *
  * @deprecated
  * @param taskId
  */
 export const callGetTaskDetailsFromEngine = (taskId: string): Promise<HumanTaskDetailTO> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-  // cfg.baseOptions.validateStatus = function (status: number) {
-  //   return status >= 200 && status < 500;
-  // }; // override axios default impl. (holding back http statuses >= 300)
-
   return HumanTaskRestControllerApiFactory(cfg).getTaskDetail(taskId)
     .then(res => Promise.resolve(res.data));
+}
+
+interface CancelTaskOptions {
+  readonly timeout: number
+}
+
+export const callCancelTaskInEngine = (taskId: string, options: CancelTaskOptions): Promise<void> => {
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+  cfg.baseOptions.timeout = options.timeout;
+  return HumanTaskRestControllerApiFactory(cfg).cancelTask(taskId).then(() => Promise.resolve());
+}
+
+/**
+ * @deprecated
+ * @param taskId
+ * @param variables
+ */
+export const callCompleteTaskInEngine = (taskId: string, variables: any): Promise<void> => {
+  const request: CompleteTO = {
+    taskId: taskId,
+    variables,
+  };
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return HumanTaskRestControllerApiFactory(cfg).completeTask(request).then(() => Promise.resolve());
 }

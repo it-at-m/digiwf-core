@@ -1,5 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
+  callCancelTaskInEngine,
   callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
   callGetOpenGroupTasksFromEngine,
@@ -17,15 +18,21 @@ import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
 import {mapTaskPageFromEngineService, mapTaskPageFromTaskService} from "./taskMapper";
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
-import {HumanTaskDetailTO} from "@muenchen/digiwf-engine-api-internal";
+import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from "@muenchen/digiwf-engine-api-internal";
 import {getCurrentDate} from "../../utils/time";
+import exp from "constants";
+import {ApiConfig} from "../../api/ApiConfig";
+import router from "../../router";
+import {queryClient} from "../queryClient";
 
 const shouldUseTaskService = isServiceTaskServiceEnabled();
 if (shouldUseTaskService) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
 }
+
+const userTasksQueryId = "user-tasks"
 export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>, followUp: Ref<boolean | undefined>) => useQuery({
-  queryKey: ["user-tasks", page.value, size.value, query.value, followUp.value],
+  queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
@@ -130,9 +137,7 @@ export const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResul
     return false; // I guess that is the default value, before it could be nullable
   }
 
-
   return callGetTaskDetailsFromEngine(id).then(taskDetails => {
-    console.log("then: taskDetails: ", taskDetails)
     return Promise.resolve<LoadTaskFromEngineResult>({
       data: {
         task: taskDetails,
@@ -154,4 +159,54 @@ export const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResul
   })
 }
 
+export interface CancelTaskResult {
+  readonly isError: boolean;
+  readonly errorMessage?: string;
 
+}
+
+/**
+ * @deprecated
+ * @param taskId
+ */
+export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
+  return callCancelTaskInEngine(taskId, {timeout: 500}).then(() => {
+    queryClient.invalidateQueries(["userTasksQueryId"])
+
+    router.push({path: '/task'});
+
+    return Promise.resolve<CancelTaskResult>({
+      isError: false
+    })
+
+  }).catch(_ => {
+    return Promise.resolve<CancelTaskResult>({
+      isError: true,
+      errorMessage: 'Die Aufgabe konnte nicht abgebrochen werden.'
+    })
+  });
+}
+
+interface CompleteTaskResult {
+  readonly isError: boolean;
+readonly errorMessage?: string;
+}
+
+export const completeTaskInEngine = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
+
+  return callCancelTaskInEngine(taskId, variables)
+    .then(() => {
+      queryClient.invalidateQueries(["userTasksQueryId"]);
+      router.push({path: "/task"});
+      // normally it is not needed anymore because it will redirect to the task list path before
+      return Promise.resolve<CompleteTaskResult>({
+        isError: false,
+        errorMessage: undefined,
+      });
+    }).catch(_ => {
+      return Promise.resolve<CompleteTaskResult>({
+        isError: true,
+        errorMessage: "Die Aufgabe konnte nicht abgeschlossen werden."
+      })
+    })
+}

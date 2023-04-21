@@ -160,7 +160,6 @@ import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
 import {
-  CompleteTO,
   DocumentRestControllerApiFactory,
   FetchUtils,
   FollowUpTO,
@@ -170,7 +169,7 @@ import {
 } from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
-import {loadTasksFromEngine} from "../middleware/tasks/taskMiddleware";
+import {cancelTaskInEngine, completeTaskInEngine, loadTasksFromEngine} from "../middleware/tasks/taskMiddleware";
 
 
 @Component({
@@ -230,32 +229,12 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   async completeTask(model: any): Promise<void> {
     this.isCompleting = true;
-    this.hasCompleteError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-
-    const request: CompleteTO = {
-      taskId: this.id,
-      variables: model
-    };
-    try {
-      //await TaskService.completeTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).completeTask(request);
-
-      this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
-      this.hasChanges = false;
-      router.push({path: '/task'});
-    } catch (error) {
-      hasError = true;
-      this.errorMessage = 'Die Aufgabe konnte nicht abgeschlossen werden.';
-    }
-
-    setTimeout(() => {
-      this.isCompleting = false;
-      this.hasCompleteError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+    completeTaskInEngine(this.id, model)
+      .then(result => {
+        this.isCompleting = false;
+        this.hasCompleteError = result.isError;
+        this.errorMessage = result.errorMessage || "";
+      })
   }
 
   async saveTask(): Promise<void> {
@@ -347,28 +326,14 @@ export default class TaskDetail extends SaveLeaveMixin {
     router.push({path: '/task'});
   }
 
-  async cancelTask(): Promise<void> {
+  cancelTask() {
+    console.log("cancel task...")
     this.isCancelling = true;
-    this.hasCancelError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-    try {
-      //await TaskService.cancelTask(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).cancelTask(this.id);
-
-      this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
-      router.push({path: '/task'});
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht abgebrochen werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
+    cancelTaskInEngine(this.id).then(result => {
       this.isCancelling = false;
-      this.hasCancelError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+      this.hasCancelError = result.isError;
+      this.errorMessage = result.errorMessage || ""
+    })
   }
 
   async downloadPDF(): Promise<void> {
