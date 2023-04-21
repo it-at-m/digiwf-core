@@ -106,14 +106,12 @@ export const callGetTaskDetailsFromEngine = (taskId: string): Promise<HumanTaskD
   return HumanTaskRestControllerApiFactory(cfg).getTaskDetail(taskId)
     .then(res => Promise.resolve(res.data));
 }
-
-interface CancelTaskOptions {
-  readonly timeout: number
-}
-
-export const callCancelTaskInEngine = (taskId: string, options: CancelTaskOptions): Promise<void> => {
+/**
+ * @deprecated
+ * @param taskId
+ */
+export const callCancelTaskInEngine = (taskId: string): Promise<void> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-  cfg.baseOptions.timeout = options.timeout;
   return HumanTaskRestControllerApiFactory(cfg).cancelTask(taskId).then(() => Promise.resolve());
 }
 

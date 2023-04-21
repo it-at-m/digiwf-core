@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callCancelTaskInEngine,
+  callCancelTaskInEngine, callCompleteTaskInEngine,
   callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
   callGetOpenGroupTasksFromEngine,
@@ -170,7 +170,7 @@ export interface CancelTaskResult {
  * @param taskId
  */
 export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
-  return callCancelTaskInEngine(taskId, {timeout: 500}).then(() => {
+  return callCancelTaskInEngine(taskId).then(() => {
     queryClient.invalidateQueries(["userTasksQueryId"])
 
     router.push({path: '/task'});
@@ -194,7 +194,7 @@ readonly errorMessage?: string;
 
 export const completeTaskInEngine = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
 
-  return callCancelTaskInEngine(taskId, variables)
+  return callCompleteTaskInEngine(taskId, variables)
     .then(() => {
       queryClient.invalidateQueries(["userTasksQueryId"]);
       router.push({path: "/task"});
