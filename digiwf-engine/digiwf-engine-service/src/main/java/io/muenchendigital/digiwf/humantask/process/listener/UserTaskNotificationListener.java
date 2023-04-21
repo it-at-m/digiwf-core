@@ -15,9 +15,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
+import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -38,6 +42,10 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 @RequiredArgsConstructor
 @Slf4j
 public class UserTaskNotificationListener {
+
+    @Autowired
+    @Lazy
+    private RepositoryService repositoryService;
 
     private final MailingService mailingService;
     private final UserService userService;
@@ -94,13 +102,11 @@ public class UserTaskNotificationListener {
         if (StringUtils.isBlank(delegateTask.getAssignee())) {
             return;
         }
-
         try {
+            String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
             val address = this.getMailAddress(delegateTask.getAssignee());
             String body = "Sie haben eine Aufgabe in DigiWF.";
-
-            if (!StringUtils.isBlank(delegateTask.getProcessDefinitionId())){
-                val processName = delegateTask.getProcessDefinitionId().substring(0, delegateTask.getProcessDefinitionId().indexOf(":"));
+            if (!processName.isBlank()){
                 body = "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
             }
 
@@ -190,9 +196,11 @@ public class UserTaskNotificationListener {
 
     private void sendGroupMail(final List<String> addresses, final String taskId, final String processDefinitionId) {
         try {
+
+            String processName = this.getProcessName(processDefinitionId);
+
             String body = "Sie haben eine Gruppenaufgabe in DigiWF.";
-            if (!StringUtils.isBlank(processDefinitionId)){
-                val processName = processDefinitionId.substring(0, processDefinitionId.indexOf(":"));
+            if (!processName.isBlank()){
                 body = "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
             }
             final String addresslist = String.join(",", addresses);
@@ -210,6 +218,21 @@ public class UserTaskNotificationListener {
             log.warn("Notification failed: {}", ex.getMessage());
         }
 
+    }
+
+    private String getProcessName(String processDefinitionId){
+        String processName = "";
+        ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        if (procDef == null) {
+            throw new NullPointerException("PrcoessDefinition with Id " + processDefinitionId + " does not exist");
+        }
+        if(procDef.getName() != null && !procDef.getName().isBlank()) {
+            processName = procDef.getName();
+        }
+        else {
+            processName = procDef.getKey();
+        }
+        return processName;
     }
 
 }

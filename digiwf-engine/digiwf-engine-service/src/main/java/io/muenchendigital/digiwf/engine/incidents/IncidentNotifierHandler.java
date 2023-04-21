@@ -10,12 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
+import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.impl.incident.DefaultIncidentHandler;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.Incident;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -32,6 +35,10 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
 
     @Autowired
     private MailingService mailingService;
+
+    @Autowired
+    @Lazy
+    private RepositoryService repositoryService;
 
     @Value("${digiwf.incident.cockpitUrl:#{null}}")
     private String cockpitUrl;
@@ -69,15 +76,16 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
     }
 
     public void sendInfoMail(final IncidentEntity incidentEntity) throws IOException {
+
+        String processName = this.getProcessName(incidentEntity.getProcessDefinitionId());
+
         val link = this.cockpitUrl +
                 "camunda/app/cockpit/default/#/process-instance/" +
                 incidentEntity.getProcessInstanceId() +
                 "/runtime";
 
         String body = "In der Anwendung ist ein Incident aufgetreten.";
-
-        if (!StringUtils.isBlank(incidentEntity.getProcessDefinitionId())){
-            val processName = incidentEntity.getProcessDefinitionId().substring(0, incidentEntity.getProcessDefinitionId().indexOf(":"));
+        if (!processName.isBlank()){
             body = "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
         }
 
@@ -91,5 +99,19 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
                 .build();
         log.debug("Sending mail");
         this.mailingService.sendMailTemplateWithLink(mail);
+    }
+    private String getProcessName(String processDefinitionId){
+        String processName = "";
+        ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        if (procDef == null) {
+            throw new NullPointerException("PrcoessDefinition with Id " + processDefinitionId + " does not exist");
+        }
+        if(procDef.getName() != null && !procDef.getName().isBlank()) {
+            processName = procDef.getName();
+        }
+        else {
+            processName = procDef.getKey();
+        }
+        return processName;
     }
 }
