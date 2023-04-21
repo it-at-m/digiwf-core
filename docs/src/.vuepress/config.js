@@ -149,6 +149,7 @@ module.exports = {
                             title: 'Plattform',
                             collapsable: false,
                             children: [
+                                '',
                                 'plattform/project/',
                                 'plattform/artefact/',
                                 'plattform/deployment/',
