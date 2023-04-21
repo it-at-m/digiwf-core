@@ -150,26 +150,35 @@
 
 <script lang="ts">
 
+/**
+ * FIXME: build a better solution
+ * each:
+ *     setTimeout(() => {
+ *       this.isSaving = false;
+ *       this.hasSaveError = hasError;
+ *     }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+ *
+ *  should create a minimal loading indicator
+ */
+
 import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "../router";
 import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {
-  DocumentRestControllerApiFactory,
-  FetchUtils,
-  FollowUpTO,
-  HumanTaskDetailTO,
-  HumanTaskRestControllerApiFactory,
-  SaveTO
-} from '@muenchen/digiwf-engine-api-internal';
+import {DocumentRestControllerApiFactory, FetchUtils, HumanTaskDetailTO} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
-import {cancelTaskInEngine, completeTaskInEngine, loadTasksFromEngine} from "../middleware/tasks/taskMiddleware";
+import {
+  cancelTaskInEngine,
+  completeTaskInEngine,
+  loadTasksFromEngine,
+  saveTaskInEngine,
+  setFollowUpDateInEngine
+} from "../middleware/tasks/taskMiddleware";
 
 
 @Component({
@@ -198,8 +207,14 @@ export default class TaskDetail extends SaveLeaveMixin {
   hasDownloadButton = false;
   downloadButtonText = "Dokument herunterladen";
 
+  /**
+   * FIXME: Is it only the variable for showing or hidding the dialog?
+   */
   followUp = false;
 
+  /**
+   * toggle for showing fab menu
+   */
   fab = false;
 
   @Prop()
@@ -227,7 +242,7 @@ export default class TaskDetail extends SaveLeaveMixin {
       });
   }
 
-  async completeTask(model: any): Promise<void> {
+  completeTask(model: any) {
     this.isCompleting = true;
     completeTaskInEngine(this.id, model)
       .then(result => {
@@ -240,29 +255,19 @@ export default class TaskDetail extends SaveLeaveMixin {
   async saveTask(): Promise<void> {
     this.isSaving = true;
     this.hasSaveError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
 
-    const request: SaveTO = {
-      taskId: this.id,
-      variables: this.model,
-    };
-    try {
-      //await TaskService.saveTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).saveTask(request);
-
-      this.errorMessage = "";
-      this.hasChanges = false;
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht gespeichert werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
+    return saveTaskInEngine(this.id, this.model).then((result) => {
       this.isSaving = false;
-      this.hasSaveError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+      this.errorMessage = result.errorMessage || "";
+      this.hasSaveError = result.isError
+      if(!result.isError) {
+        this.hasChanges = false;
+      }
+
+      return result.isError
+        ? Promise.reject()
+        : Promise.resolve()
+    })
   }
 
   loadTask() {
@@ -284,18 +289,6 @@ export default class TaskDetail extends SaveLeaveMixin {
     });
   }
 
-  async followUpTask(request: FollowUpTO): Promise<void> {
-    try {
-      //await TaskService.followUpTask(request);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).followUpTask(request);
-
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht gespeichert werden.';
-    }
-  }
-
   openFollowUp(): void {
     this.followUp = true;
     this.fab = false;
@@ -309,21 +302,19 @@ export default class TaskDetail extends SaveLeaveMixin {
     this.fab = !this.fab;
   }
 
-  async saveFollowUp(followUpDate: string): Promise<void> {
+  saveFollowUp(followUpDate: string) {
     this.followUpDate = followUpDate;
     this.followUp = false;
-    if (this.hasChanges) {
-      await this.saveTask();
-    }
 
-    const request: FollowUpTO = {
-      taskId: this.id,
-      followUpDate: followUpDate
-    };
-
-    await this.followUpTask(request);
-    this.$store.dispatch('tasks/getTasks', true);
-    router.push({path: '/task'});
+    (this.hasChanges
+      ? this.saveTask()
+      : Promise.resolve())
+      .then(() => {
+        setFollowUpDateInEngine(this.id, followUpDate)
+          .then(result => {
+            this.errorMessage = result.errorMessage || ""
+          })
+      });
   }
 
   cancelTask() {

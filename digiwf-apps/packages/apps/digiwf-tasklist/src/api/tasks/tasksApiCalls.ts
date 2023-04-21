@@ -3,7 +3,7 @@ import {
   FetchUtils,
   HumanTaskDetailTO,
   HumanTaskRestControllerApiFactory,
-  PageHumanTaskTO
+  PageHumanTaskTO, SaveTO
 } from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../ApiConfig";
 import {PageOfTasks, TaskApiFactory, TasksApiFactory} from "@muenchen/digiwf-task-api-internal"
@@ -127,4 +127,31 @@ export const callCompleteTaskInEngine = (taskId: string, variables: any): Promis
   };
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
   return HumanTaskRestControllerApiFactory(cfg).completeTask(request).then(() => Promise.resolve());
+}
+
+/**
+ * @deprecated
+ * @param taskId
+ * @param followUpDate
+ */
+export const callSetFollowUpTaskInEngine = (taskId: string, followUpDate: string): Promise<void> => {
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return HumanTaskRestControllerApiFactory(cfg).followUpTask({
+    taskId,
+    followUpDate,
+  }).then(() => Promise.resolve());
+}
+
+/**
+ * @deprecated
+ * @param taskId
+ * @param variables
+ */
+export const callSaveTaskInEngine = (taskId: string, variables: any): Promise<void> => {
+  const request: SaveTO = {
+    taskId,
+    variables,
+  };
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
+  return HumanTaskRestControllerApiFactory(cfg).saveTask(request).then(() => Promise.resolve());
 }

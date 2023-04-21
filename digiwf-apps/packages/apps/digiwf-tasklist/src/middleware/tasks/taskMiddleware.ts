@@ -9,7 +9,7 @@ import {
   callGetTasksFromEngine,
   callGetTasksFromTaskService,
   callPostAssignTaskInEngine,
-  callPostAssignTaskInTaskService
+  callPostAssignTaskInTaskService, callSaveTaskInEngine, callSetFollowUpTaskInEngine
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
@@ -172,7 +172,6 @@ export interface CancelTaskResult {
 export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
   return callCancelTaskInEngine(taskId).then(() => {
     queryClient.invalidateQueries(["userTasksQueryId"])
-
     router.push({path: '/task'});
 
     return Promise.resolve<CancelTaskResult>({
@@ -188,8 +187,8 @@ export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> =>
 }
 
 interface CompleteTaskResult {
+  readonly errorMessage?: string;
   readonly isError: boolean;
-readonly errorMessage?: string;
 }
 
 export const completeTaskInEngine = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
@@ -208,5 +207,44 @@ export const completeTaskInEngine = (taskId: string, variables: any): Promise<Co
         isError: true,
         errorMessage: "Die Aufgabe konnte nicht abgeschlossen werden."
       })
+    });
+}
+
+interface SetFollowUpResult {
+  readonly errorMessage?: string;
+  readonly isError: boolean;
+}
+
+export const setFollowUpDateInEngine = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
+  return callSetFollowUpTaskInEngine(taskId, followUp)
+    .then(() => {
+      queryClient.invalidateQueries(["userTasksQueryId"])
+      router.push({path: '/task'});
+
+      return Promise.resolve<SetFollowUpResult>({
+        errorMessage: undefined,
+        isError: false,
+      })
     })
+    .catch(_ => Promise.resolve<SetFollowUpResult>({
+      errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
+      isError: true,
+    }))
+}
+
+interface SaveTaskResult {
+  readonly errorMessage?: string;
+  readonly isError: boolean;
+}
+
+export const saveTaskInEngine = (taskId: string, variables: any): Promise<SaveTaskResult> => {
+  return callSaveTaskInEngine(taskId, variables)
+    .then(() => Promise.resolve({
+      isError: false,
+      errorMessage: undefined
+    }))
+    .catch(_ => Promise.resolve({
+      isError: true,
+      errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
+    }))
 }
