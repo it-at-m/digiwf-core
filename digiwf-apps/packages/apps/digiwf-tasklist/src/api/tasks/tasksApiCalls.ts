@@ -1,12 +1,12 @@
 import {
-  CompleteTO,
+  CompleteTO, DocumentRestControllerApiFactory,
   FetchUtils,
   HumanTaskDetailTO,
   HumanTaskRestControllerApiFactory,
-  PageHumanTaskTO, SaveTO
+  PageHumanTaskTO, SaveTO, StatusDokumentTO
 } from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../ApiConfig";
-import {PageOfTasks, TaskApiFactory, TasksApiFactory} from "@muenchen/digiwf-task-api-internal"
+import {PageOfTasks, TaskApiFactory, TasksApiFactory, TaskWithSchema} from "@muenchen/digiwf-task-api-internal"
 
 /**
  * old api for getting tasks. will be replaced by callGetTasksFromTaskService
@@ -106,6 +106,14 @@ export const callGetTaskDetailsFromEngine = (taskId: string): Promise<HumanTaskD
   return HumanTaskRestControllerApiFactory(cfg).getTaskDetail(taskId)
     .then(res => Promise.resolve(res.data));
 }
+
+export const callGetTaskDetailsFromTaskService = (taskId: string): Promise<TaskWithSchema> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
+  return TaskApiFactory(cfg).getTaskWithSchemaByTaskId(taskId)
+    .then((res) => Promise.resolve(res.data))
+    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht zugewiesen werden.")));
+}
+
 /**
  * @deprecated
  * @param taskId
@@ -154,4 +162,9 @@ export const callSaveTaskInEngine = (taskId: string, variables: any): Promise<vo
   };
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
   return HumanTaskRestControllerApiFactory(cfg).saveTask(request).then(() => Promise.resolve());
+}
+
+export const callDownloadPdfFromEngine = (taskId: string): Promise<StatusDokumentTO> => {
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+  return  DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(taskId).then(res => Promise.resolve(res.data));
 }

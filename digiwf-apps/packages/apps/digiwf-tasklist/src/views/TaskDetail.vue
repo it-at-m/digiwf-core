@@ -169,13 +169,14 @@ import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {DocumentRestControllerApiFactory, FetchUtils, HumanTaskDetailTO} from '@muenchen/digiwf-engine-api-internal';
+import {HumanTaskDetailTO} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
   cancelTaskInEngine,
   completeTaskInEngine,
-  loadTasksFromEngine,
+  downloadPDFFromEngine,
+  loadTask,
   saveTaskInEngine,
   setFollowUpDateInEngine
 } from "../middleware/tasks/taskMiddleware";
@@ -272,7 +273,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   loadTask() {
     console.log("loadTask")
-    loadTasksFromEngine(this.id).then(({data, error}) => {
+    loadTask(this.id).then(({data, error}) => {
       console.log("load tasks success: ", {data, error});
       if (!!data) {
         this.task = data.task;
@@ -330,40 +331,10 @@ export default class TaskDetail extends SaveLeaveMixin {
   async downloadPDF(): Promise<void> {
     this.isDownloading = true;
     this.hasDownloadError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-
-    try {
-      //const statusDoc = await DocumentService.getStatusDocument(this.id);
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      const res = await DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(this.id);
-
-      const fileURL = window.URL.createObjectURL(new Blob([this.base64ToArrayBuffer(res.data.data)], {type: 'application/pdf'}));
-      const fileLink = document.createElement('a');
-      fileLink.href = fileURL;
-      fileLink.setAttribute('download', 'statusdokument.pdf');
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Das Statusdokument konnte nicht erstellt werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
-      this.isDownloading = false;
-      this.hasDownloadError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
-
-  base64ToArrayBuffer(base64: any) {
-    const binaryString = window.atob(base64);
-    const binaryLen = binaryString.length;
-    const bytes = new Uint8Array(binaryLen);
-    for (let i = 0; i < binaryLen; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
+    downloadPDFFromEngine(this.id).then(result => {
+      this.errorMessage = result.errorMessage || "";
+      this.hasDownloadError = result.isError;
+    })
   }
 
   modelChanged(model: any) {
@@ -374,6 +345,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   isDirty(): boolean {
     return this.hasChanges;
   }
-
 }
+
 </script>

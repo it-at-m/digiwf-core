@@ -1,11 +1,11 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callCancelTaskInEngine, callCompleteTaskInEngine,
+  callCancelTaskInEngine, callCompleteTaskInEngine, callDownloadPdfFromEngine,
   callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
   callGetOpenGroupTasksFromEngine,
   callGetOpenGroupTasksFromTaskService,
-  callGetTaskDetailsFromEngine,
+  callGetTaskDetailsFromEngine, callGetTaskDetailsFromTaskService,
   callGetTasksFromEngine,
   callGetTasksFromTaskService,
   callPostAssignTaskInEngine,
@@ -18,7 +18,12 @@ import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
 import {mapTaskPageFromEngineService, mapTaskPageFromTaskService} from "./taskMapper";
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
-import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from "@muenchen/digiwf-engine-api-internal";
+import {
+  DocumentRestControllerApiFactory,
+  FetchUtils,
+  HumanTaskDetailTO,
+  HumanTaskRestControllerApiFactory
+} from "@muenchen/digiwf-engine-api-internal";
 import {getCurrentDate} from "../../utils/time";
 import exp from "constants";
 import {ApiConfig} from "../../api/ApiConfig";
@@ -117,6 +122,20 @@ export interface LoadTaskFromEngineResult {
   // readonly errorMessage?: string;
 }
 
+
+
+export const loadTask = (taskId: string): Promise<LoadTaskFromEngineResult> => {
+  loadTaskFromTaskService(taskId)
+  return loadTasksFromEngine(taskId)
+}
+
+const loadTaskFromTaskService = (taskId: string) => {
+  callGetTaskDetailsFromTaskService(taskId)
+    .then(task => {
+      console.log("task from taskservice: ", task)
+    })
+}
+
 /**
  * requests for TaskDetailsView
  */
@@ -125,7 +144,7 @@ export interface LoadTaskFromEngineResult {
  * @deprecated
  * @param id
  */
-export const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
+const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
   console.log("loadTask")
 
   const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
@@ -247,4 +266,43 @@ export const saveTaskInEngine = (taskId: string, variables: any): Promise<SaveTa
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
     }))
+}
+
+
+interface DownloadPdfResult {
+  readonly errorMessage?: string;
+  readonly isError: boolean;
+}
+
+export const downloadPDFFromEngine = (taskId: string): Promise<DownloadPdfResult> => {
+
+  return callDownloadPdfFromEngine(taskId)
+    .then(result => {
+      const fileURL = window.URL.createObjectURL(new Blob([base64ToArrayBuffer(result.data as any)], {type: 'application/pdf'}));
+      const fileLink = document.createElement('a');
+      fileLink.href = fileURL;
+      fileLink.setAttribute('download', 'statusdokument.pdf');
+      document.body.appendChild(fileLink);
+      fileLink.click();
+      return Promise.resolve({
+        isError: false,
+        errorMessage: undefined,
+      })
+    })
+    .catch(_ => {
+      return Promise.resolve({
+        isError: true,
+        errorMessage: "Das Statusdokument konnte nicht erstellt werden."
+      })
+    });
+}
+
+const base64ToArrayBuffer = (base64: string): Uint8Array => {
+  const binaryString = window.atob(base64);
+  const binaryLen = binaryString.length;
+  const bytes = new Uint8Array(binaryLen);
+  for (let i = 0; i < binaryLen; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
 }
