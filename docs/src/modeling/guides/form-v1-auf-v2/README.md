@@ -30,6 +30,14 @@ Zunächst sollte ein Formular vollständig migriert werden.
 Häufig haben Formulare Überschneidungen, sodass durch *Copy&Paste* die Migration beschleunigt werden kann.
 :::
 
+### 4. Prozess importieren
+
+tbd.
+
+### 5. User Task neu modellieren
+
+tbd.
+
 ## Dokumenten Felder
 
 ::: warning
@@ -39,7 +47,11 @@ JSON gemacht werden.
 
 ### document-input
 
+tbd.
+
 ### alw-document-input
+
+tbd.
 
 ### Daten Migration
 
@@ -49,13 +61,13 @@ Hierfür werden folgende Informationen benötigt:
 - Key des Prozesses
 - Liste der Formularfelder(keys), die migriert werden sollen
 
+tbd.
+
 ## Abbruch modellieren
 
-- Abschließen wegen Pflichtfelder nicht möglich
-- Wie wird es konfiguriert?
+tbd.
 
 ## Statusdokument generieren
 
-- Eventuell über S3 -> prüfen ob wir es als Plattform Funktionalität möchten
-- Historie schreiben können im Prozess und dann im Formular des Vorgangs anzeigen
+tbd.
  
