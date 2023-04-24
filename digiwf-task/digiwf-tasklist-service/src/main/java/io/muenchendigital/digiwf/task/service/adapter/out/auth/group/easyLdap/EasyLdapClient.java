@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 )
 public interface EasyLdapClient {
 
-    @RequestMapping(value = "${easyldap.client.request}/{lhmObjectId}", method = {RequestMethod.GET}, produces = {"application/json"})
+    @RequestMapping(value = "/v1/ldap/user/{lhmObjectId}", method = {RequestMethod.GET}, produces = {"application/json"})
     UserInfoResponse getUserById(@PathVariable("lhmObjectId") String lhmObjectId);
 
 }

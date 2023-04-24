@@ -38,7 +38,6 @@ public class EasyLdapMockConfig {
         server.stubFor(WireMock.get(requestPath + "/0")
                 .willReturn(aResponse()
                         .withStatus(404)));
-        // TODO add path for 404 handling
 
         return server;
     }

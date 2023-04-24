@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LdapUserGroupResolverTest {
 
-    private EasyLdapClient easyLdapClient = Mockito.mock(EasyLdapClient.class);
-    private LdapUserGroupResolver ldapUserGroupResolver = new LdapUserGroupResolver(easyLdapClient);
+    private final EasyLdapClient easyLdapClient = Mockito.mock(EasyLdapClient.class);
+    private final LdapUserGroupResolver ldapUserGroupResolver = new LdapUserGroupResolver(easyLdapClient);
 
 
     @Test

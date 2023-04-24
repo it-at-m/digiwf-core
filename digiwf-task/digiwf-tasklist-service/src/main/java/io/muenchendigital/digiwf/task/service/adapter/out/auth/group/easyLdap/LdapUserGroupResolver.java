@@ -3,16 +3,16 @@ package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap;
 import feign.FeignException;
 import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.model.UserInfoResponse;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.UserGroupResolverPort;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Set;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LdapUserGroupResolver implements UserGroupResolverPort {
 
-    EasyLdapClient easyLdapClient;
+    private final EasyLdapClient easyLdapClient;
 
     @NotNull
     @Override
