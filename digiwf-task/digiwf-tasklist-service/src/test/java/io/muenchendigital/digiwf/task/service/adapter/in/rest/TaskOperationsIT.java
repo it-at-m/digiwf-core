@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EmbeddedKafka(
     partitions = 1,
     topics = {"plf_data_entries", "plf_tasks"},
-    ports = {9092}
+    ports = {19092}
 )
 @Slf4j
 @WireMockTest(httpPort = 7080)
