@@ -3,19 +3,74 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-task</artifactId>
-    <name>digiwf-task</name>
-    <packaging>pom</packaging>
-    <description>Task management used by DigiWF</description>
-
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
         <version>0.17.9-SNAPSHOT</version>
     </parent>
 
+
+    <artifactId>digiwf-task</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <description>Task management used by DigiWF</description>
+
+    <properties>
+        <polyflow.version>3.10.0</polyflow.version>
+        <axon-framework.version>4.6.6</axon-framework.version>
+        <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
+        <kotlin.version>1.8.10</kotlin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-taskpool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-datapool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.muenchendigital.digiwf</groupId>
+                <artifactId>digiwf-task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.holunda.data</groupId>
+                <artifactId>camunda-bpm-data</artifactId>
+                <version>1.2.8</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <modules>
-        <module>digiwf-taskana-connector</module>
+        <module>digiwf-task-api</module>
+        <module>digiwf-tasklist-service</module>
+        <module>digiwf-polyflow-connector-starter</module>
     </modules>
 
 </project>

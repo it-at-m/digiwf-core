@@ -1,0 +1,68 @@
+{
+  "key": "043fbae0-da60-4fca-8d0f-4cfb8366bc60",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Dank",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Erste Feldgruppe",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_Empfaenger": {
+                "fieldType": "user-input",
+                "title": "Empfänger*in",
+                "x-display": "custom-user-input",
+                "type": "string",
+                "key": "FormField_Empfaenger",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_Dankestext": {
+                "fieldType": "textarea",
+                "type": "string",
+                "x-display": "textarea",
+                "title": "Text",
+                "key": "FormField_Dankestext",
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "messages": {}
+                  }
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

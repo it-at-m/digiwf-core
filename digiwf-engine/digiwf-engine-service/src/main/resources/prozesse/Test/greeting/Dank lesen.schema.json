@@ -1,0 +1,49 @@
+{
+  "key": "fe31405d-520b-4879-9794-9c34bae151ea",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Dank",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "font-weight-bold"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Dank",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_Dankestext": {
+                "fieldType": "textarea",
+                "type": "string",
+                "x-display": "textarea",
+                "key": "FormField_Dankestext",
+                "title": "Text",
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "messages": {}
+                  }
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

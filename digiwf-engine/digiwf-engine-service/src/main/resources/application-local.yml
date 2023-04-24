@@ -12,3 +12,24 @@
 #  logging:
 #    requests: all
 
+spring:
+  sleuth:
+    web:
+      enabled: false
+
+logging:
+  level:
+    io.muenchendigital.digiwf.legacy.form.domain.service.FormService: WARN
+    org.springframework.boot.web: DEBUG
+    io.muenchendigital.digiwf.shared.configuration: DEBUG
+camunda:
+  bpm:
+    admin-user:
+      id: admin
+      first-name: Admin
+      last-name: Administratus
+      email: ex.admin@munchen.de
+      password: admin
+    login:
+      enabled: true
+      user-id: admin

@@ -20,6 +20,10 @@ on:
         description: 'Release services (y/n)?'
         required: true
         default: 'y'
+      maven:
+        description: 'Release Maven (y/n)?'
+        required: true
+        default: 'y'
       docs:
         description: 'Release docs (y/n)?'
         required: true
@@ -44,7 +48,12 @@ jobs:
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
+      - name: Build with Maven
+        if: github.event.inputs.maven == 'n'
+        run: mvn --batch-mode install -DskipTests
+
       - name: Release Maven package
+        if: github.event.inputs.maven == 'y'
         uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -123,6 +132,13 @@ jobs:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
           tags: itatm/digiwf-engine-service-community:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service-community:dev
+
+      - name: Build and push tasklist backend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./digiwf-task/digiwf-tasklist-service
+          push: true
+          tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
 
   release-services-camunda-ee:
     if: github.event.inputs.services == 'y'

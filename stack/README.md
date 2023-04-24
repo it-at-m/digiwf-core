@@ -6,6 +6,8 @@ For local development you can use the following tools:
 - **Event Bus**: Kafka (and Zookeeper)
 - **S3 Storage**: [Minio](https://min.io/docs/minio/linux/index.html)
 - **Email Server**: [Mailhog](https://github.com/mailhog/MailHog)
+- **SSO**: [Keycloak](https://www.keycloak.org/)
+- **DB**: Postgresql database 
 
 ## Docker
 

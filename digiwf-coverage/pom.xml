@@ -197,13 +197,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Digiwf-task -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-taskana-connector-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>

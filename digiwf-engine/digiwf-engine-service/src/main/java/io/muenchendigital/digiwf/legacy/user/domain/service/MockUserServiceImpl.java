@@ -36,7 +36,7 @@ public class MockUserServiceImpl implements UserService {
             "cn",
             "86153",
             "Boeheimstrasse 8",
-            "group1",
+            "group1", // org
             "Anon",
             "group1",
             "86153",
