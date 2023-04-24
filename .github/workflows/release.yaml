@@ -117,6 +117,13 @@ jobs:
           push: true
           tags: itatm/digiwf-engine-service-community:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service-community:dev
 
+      - name: Build and push tasklist backend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./digiwf-task/digiwf-tasklistservice
+          push: true
+          tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
+
   release-services-camunda-ee:
     if: github.event.inputs.services == 'y'
     runs-on: ubuntu-latest
