@@ -173,11 +173,11 @@ import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
   cancelTaskInEngine,
-  completeTaskInEngine,
+  completeTask,
   downloadPDFFromEngine,
   loadTask,
-  saveTaskInEngine,
-  setFollowUpDateInEngine
+  saveTask,
+  deferTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
@@ -245,7 +245,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   completeTask(model: any) {
     this.isCompleting = true;
-    completeTaskInEngine(this.id, model)
+    completeTask(this.id, model)
       .then(result => {
         this.isCompleting = false;
         this.hasCompleteError = result.isError;
@@ -257,7 +257,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     this.isSaving = true;
     this.hasSaveError = false;
 
-    return saveTaskInEngine(this.id, this.model).then((result) => {
+    return saveTask(this.id, this.model).then((result) => {
       this.isSaving = false;
       this.errorMessage = result.errorMessage || "";
       this.hasSaveError = result.isError
@@ -272,9 +272,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   loadTask() {
-    console.log("loadTask")
     loadTask(this.id).then(({data, error}) => {
-      console.log("load tasks success: ", {data, error});
       if (!!data) {
         this.task = data.task;
         this.model = data.model;
@@ -311,7 +309,7 @@ export default class TaskDetail extends SaveLeaveMixin {
       ? this.saveTask()
       : Promise.resolve())
       .then(() => {
-        setFollowUpDateInEngine(this.id, followUpDate)
+        deferTask(this.id, followUpDate)
           .then(result => {
             this.errorMessage = result.errorMessage || ""
           })
@@ -319,7 +317,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   cancelTask() {
-    console.log("cancel task...")
     this.isCancelling = true;
     cancelTaskInEngine(this.id).then(result => {
       this.isCancelling = false;

@@ -137,6 +137,11 @@ export const callCompleteTaskInEngine = (taskId: string, variables: any): Promis
   return HumanTaskRestControllerApiFactory(cfg).completeTask(request).then(() => Promise.resolve());
 }
 
+export const callCompleteTaskInTaskService = (taskId: string, variables: any): Promise<void> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return TaskApiFactory(cfg).completeTask(taskId, variables).then(() => Promise.resolve());
+}
+
 /**
  * @deprecated
  * @param taskId
@@ -149,6 +154,17 @@ export const callSetFollowUpTaskInEngine = (taskId: string, followUpDate: string
     followUpDate,
   }).then(() => Promise.resolve());
 }
+
+export const callDeferTask = (taskId: string, followUpDate: string): Promise<void> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return TaskApiFactory(cfg).deferTask(
+    taskId,
+    {
+      followUpDate
+    },
+  ).then(() => Promise.resolve());
+}
+
 
 /**
  * @deprecated
@@ -164,7 +180,12 @@ export const callSaveTaskInEngine = (taskId: string, variables: any): Promise<vo
   return HumanTaskRestControllerApiFactory(cfg).saveTask(request).then(() => Promise.resolve());
 }
 
+export const callSaveTaskInTaskService = (taskId: string, variables: any): Promise<void> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return TaskApiFactory(cfg).saveTaskVariables(taskId, variables).then(() => Promise.resolve())
+}
+
 export const callDownloadPdfFromEngine = (taskId: string): Promise<StatusDokumentTO> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-  return  DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(taskId).then(res => Promise.resolve(res.data));
+  return DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(taskId).then(res => Promise.resolve(res.data));
 }

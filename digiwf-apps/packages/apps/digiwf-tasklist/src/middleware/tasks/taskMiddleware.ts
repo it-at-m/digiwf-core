@@ -13,8 +13,8 @@ import {
   callGetTasksFromTaskService,
   callPostAssignTaskInEngine,
   callPostAssignTaskInTaskService,
-  callSaveTaskInEngine,
-  callSetFollowUpTaskInEngine
+  callSaveTaskInEngine, callSaveTaskInTaskService,
+  callSetFollowUpTaskInEngine, callDeferTask, callCompleteTaskInTaskService
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
@@ -29,7 +29,7 @@ import {
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
 import {HumanTaskDetailTO} from "@muenchen/digiwf-engine-api-internal";
-import {getCurrentDate} from "../../utils/time";
+import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import router from "../../router";
 import {queryClient} from "../queryClient";
 
@@ -125,7 +125,7 @@ export interface LoadTaskFromEngineResult {
 
 export const loadTask = (taskId: string): Promise<LoadTaskFromEngineResult> => {
   return shouldUseTaskService
-  // return false
+    // return false
     ? loadTaskFromTaskService(taskId)
     : loadTasksFromEngine(taskId)
 }
@@ -164,8 +164,6 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskFromEngineResu
  * @param id
  */
 const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
-  console.log("loadTask from engine")
-
   const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
     if (task.form && task.form.buttons) {
       return task.form.buttons.statusPdf!.showButton || false
@@ -210,7 +208,7 @@ export interface CancelTaskResult {
  */
 export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
   return callCancelTaskInEngine(taskId).then(() => {
-    queryClient.invalidateQueries(["userTasksQueryId"])
+    queryClient.invalidateQueries([userTasksQueryId])
     router.push({path: '/task'});
 
     return Promise.resolve<CancelTaskResult>({
@@ -230,11 +228,15 @@ interface CompleteTaskResult {
   readonly isError: boolean;
 }
 
-export const completeTaskInEngine = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
+export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
 
-  return callCompleteTaskInEngine(taskId, variables)
+  return (
+    shouldUseTaskService
+      ? callCompleteTaskInTaskService(taskId, variables)
+      : callCompleteTaskInEngine(taskId, variables)
+  )
     .then(() => {
-      queryClient.invalidateQueries(["userTasksQueryId"]);
+      queryClient.invalidateQueries([userTasksQueryId]);
       router.push({path: "/task"});
       // normally it is not needed anymore because it will redirect to the task list path before
       return Promise.resolve<CompleteTaskResult>({
@@ -254,10 +256,14 @@ interface SetFollowUpResult {
   readonly isError: boolean;
 }
 
-export const setFollowUpDateInEngine = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
-  return callSetFollowUpTaskInEngine(taskId, followUp)
+export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
+  return (
+    shouldUseTaskService
+      ? callDeferTask(taskId, dateToIsoDateTime(followUp))
+      : callSetFollowUpTaskInEngine(taskId, followUp)
+  )
     .then(() => {
-      queryClient.invalidateQueries(["userTasksQueryId"])
+      queryClient.invalidateQueries([userTasksQueryId])
       router.push({path: '/task'});
 
       return Promise.resolve<SetFollowUpResult>({
@@ -276,12 +282,15 @@ interface SaveTaskResult {
   readonly isError: boolean;
 }
 
-export const saveTaskInEngine = (taskId: string, variables: any): Promise<SaveTaskResult> => {
-  return callSaveTaskInEngine(taskId, variables)
-    .then(() => Promise.resolve({
-      isError: false,
-      errorMessage: undefined
-    }))
+export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult> => {
+  return (
+    shouldUseTaskService
+      ? callSaveTaskInTaskService(taskId, variables)
+      : callSaveTaskInEngine(taskId, variables)
+  ).then(() => Promise.resolve({ // FIXME: invalide task list?
+    isError: false,
+    errorMessage: undefined
+  }))
     .catch(_ => Promise.resolve({
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
