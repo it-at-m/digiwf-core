@@ -8,3 +8,15 @@ export interface HumanTask {
   readonly assigneeId?: string;
   // FIXME formatted assignee
 }
+
+export interface HumanTaskDetails extends HumanTask{
+  readonly form?: any;
+  readonly schema?: any;
+  readonly variables: any
+
+  readonly processInstanceId?: string;
+  /**
+   * @deprecated
+   */
+  readonly statusDocument: boolean;
+}

@@ -25,7 +25,7 @@
       <app-json-form
         v-else
         :value="task.variables"
-        :schema="task.jsonSchema"
+        :schema="task.schema"
         @input="modelChanged"
         @complete-form="completeTask"
       />
@@ -169,7 +169,6 @@ import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {HumanTaskDetailTO} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
@@ -180,6 +179,7 @@ import {
   saveTaskInEngine,
   setFollowUpDateInEngine
 } from "../middleware/tasks/taskMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
 
 @Component({
@@ -187,7 +187,7 @@ import {
 })
 export default class TaskDetail extends SaveLeaveMixin {
 
-  task: HumanTaskDetailTO | null = null;
+  task: HumanTaskDetails | null = null;
   followUpDate: string | null = "";
   model: any = null;
 

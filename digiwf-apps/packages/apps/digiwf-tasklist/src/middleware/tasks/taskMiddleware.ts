@@ -1,32 +1,35 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callCancelTaskInEngine, callCompleteTaskInEngine, callDownloadPdfFromEngine,
+  callCancelTaskInEngine,
+  callCompleteTaskInEngine,
+  callDownloadPdfFromEngine,
   callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
   callGetOpenGroupTasksFromEngine,
   callGetOpenGroupTasksFromTaskService,
-  callGetTaskDetailsFromEngine, callGetTaskDetailsFromTaskService,
+  callGetTaskDetailsFromEngine,
+  callGetTaskDetailsFromTaskService,
   callGetTasksFromEngine,
   callGetTasksFromTaskService,
   callPostAssignTaskInEngine,
-  callPostAssignTaskInTaskService, callSaveTaskInEngine, callSetFollowUpTaskInEngine
+  callPostAssignTaskInTaskService,
+  callSaveTaskInEngine,
+  callSetFollowUpTaskInEngine
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
-import {HumanTask} from "./tasksModels";
+import {HumanTask, HumanTaskDetails} from "./tasksModels";
 import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
-import {mapTaskPageFromEngineService, mapTaskPageFromTaskService} from "./taskMapper";
+import {
+  mapTaskDetailsFromEngineService,
+  mapTaskDetailsFromTaskService,
+  mapTaskPageFromEngineService,
+  mapTaskPageFromTaskService
+} from "./taskMapper";
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
-import {
-  DocumentRestControllerApiFactory,
-  FetchUtils,
-  HumanTaskDetailTO,
-  HumanTaskRestControllerApiFactory
-} from "@muenchen/digiwf-engine-api-internal";
+import {HumanTaskDetailTO} from "@muenchen/digiwf-engine-api-internal";
 import {getCurrentDate} from "../../utils/time";
-import exp from "constants";
-import {ApiConfig} from "../../api/ApiConfig";
 import router from "../../router";
 import {queryClient} from "../queryClient";
 
@@ -105,7 +108,7 @@ export const useAssignTaskMutation = () => {
 
 
 export interface LoadTaskFromEngineResultData {
-  readonly task: HumanTaskDetailTO;
+  readonly task: HumanTaskDetails;
   readonly model?: { [key: string]: object; }
   readonly followUpDate: string // FIXME: check type
   readonly isCancelable: boolean
@@ -117,23 +120,39 @@ export interface LoadTaskFromEngineResultData {
 export interface LoadTaskFromEngineResult {
   readonly data?: LoadTaskFromEngineResultData;
   readonly error?: string
-
-
-  // readonly errorMessage?: string;
 }
-
 
 
 export const loadTask = (taskId: string): Promise<LoadTaskFromEngineResult> => {
-  loadTaskFromTaskService(taskId)
-  return loadTasksFromEngine(taskId)
+  return shouldUseTaskService
+  // return false
+    ? loadTaskFromTaskService(taskId)
+    : loadTasksFromEngine(taskId)
 }
 
-const loadTaskFromTaskService = (taskId: string) => {
-  callGetTaskDetailsFromTaskService(taskId)
-    .then(task => {
-      console.log("task from taskservice: ", task)
+const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskFromEngineResult> => {
+  return callGetTaskDetailsFromTaskService(taskId)
+    .then(response => {
+      const taskDetails = mapTaskDetailsFromTaskService(response);
+      return Promise.resolve<LoadTaskFromEngineResult>({
+        data: {
+          task: taskDetails,
+          hasDownloadButton: false,
+          model: taskDetails.form, // FIXME: I guess that is wrong
+          followUpDate: taskDetails.followUpDate!,
+          isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
+          cancelText: taskDetails.form?.buttons?.cancel!.buttonText || '',
+          downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ''
+        }
+      })
     })
+    .catch((error: Error | AxiosError) => {
+      if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
+        return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
+      } else {
+        return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
+      }
+    });
 }
 
 /**
@@ -145,7 +164,7 @@ const loadTaskFromTaskService = (taskId: string) => {
  * @param id
  */
 const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
-  console.log("loadTask")
+  console.log("loadTask from engine")
 
   const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
     if (task.form && task.form.buttons) {
@@ -159,7 +178,7 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
   return callGetTaskDetailsFromEngine(id).then(taskDetails => {
     return Promise.resolve<LoadTaskFromEngineResult>({
       data: {
-        task: taskDetails,
+        task: mapTaskDetailsFromEngineService(taskDetails),
         model: taskDetails.variables,
         followUpDate: taskDetails.followUpDate!,
         isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
@@ -169,13 +188,14 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
       },
       error: undefined,
     })
-  }).catch((error: Error | AxiosError) => {
-    if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
-      return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
-    } else {
-      return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
-    }
   })
+    .catch((error: Error | AxiosError) => {
+      if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
+        return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
+      } else {
+        return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
+      }
+    })
 }
 
 export interface CancelTaskResult {
