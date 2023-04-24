@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Profile;
 @EnableFeignClients(clients = { EasyLdapClient.class })
 public class AuthConfiguration {
 
-  @Autowired
-  private EasyLdapClient easyLdapClient;
 
   /**
    * Mock resolver not using LDAP but always returning groups "group1" and "group2".
@@ -33,7 +31,7 @@ public class AuthConfiguration {
 
   @Bean
   @Profile("!no-ldap")
-  public UserGroupResolverPort easyLdapUserGroupResolver() {
+  public UserGroupResolverPort easyLdapUserGroupResolver(EasyLdapClient easyLdapClient) {
     return new LdapUserGroupResolver(easyLdapClient);
   }
 

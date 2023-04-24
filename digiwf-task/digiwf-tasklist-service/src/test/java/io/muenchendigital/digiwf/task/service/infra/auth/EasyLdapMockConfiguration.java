@@ -1,11 +1,12 @@
-package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap;
+package io.muenchendigital.digiwf.task.service.infra.auth;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
@@ -13,8 +14,9 @@ import java.io.IOException;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 
-@TestConfiguration
-public class EasyLdapMockConfig {
+@Configuration
+@Profile("mocked-ldap-service")
+public class EasyLdapMockConfiguration {
     @Value("/v1/ldap/user")
     private String requestPath;
     @Value("${easyldap.client.port}")

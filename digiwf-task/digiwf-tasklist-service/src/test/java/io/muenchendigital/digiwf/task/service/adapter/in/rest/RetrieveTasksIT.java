@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * mapping to correct HTTP status.
  */
 @SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles({"itest", "embedded-kafka"})
+@ActiveProfiles({"itest", "embedded-kafka", "no-ldap"})
 @AutoConfigureMockMvc(addFilters = false)
 @EmbeddedKafka(
     partitions = 1,
