@@ -49,6 +49,10 @@ feign:
       default:
         url: "http://localhost:${ENGINE_SERVER_PORT}/engine-rest/"
 
+easyldap:
+  client:
+    url: ${EASYLDAP_ENDPOINT_URL}
+
 axon:
   serializer:
     events: jackson

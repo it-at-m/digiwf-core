@@ -46,3 +46,9 @@ feign:
         url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"
+
+easyldap:
+  client:
+    port: 19561
+    url: "http://localhost:${easyldap.client.port}"
+    request: "/test"
