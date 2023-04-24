@@ -18,7 +18,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 @Slf4j
 public class ImporterService {
 
-    public static final String CLIENT_IMPORT_TASKS = "client_";
+    public static final String CLIENT_IMPORT_TASKS = "clientrole_task_importer";
     private final TaskServiceCollectorService taskServiceCollectorService;
 
     @PostConstruct
