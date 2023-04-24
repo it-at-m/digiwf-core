@@ -45,9 +45,9 @@ feign:
   client:
     config:
       jsonschema:
-        url: "http://localhost:${ENGINE_SERVER_PORT}/"
+        url: ${ENGINE_REST_ENDPOINT_URL}
       default:
-        url: "http://localhost:${ENGINE_SERVER_PORT}/engine-rest/"
+        url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
 
 easyldap:
   client:
