@@ -48,8 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @EmbeddedKafka(
     partitions = 1,
-    topics = {"plf_data_entries", "plf_tasks"},
-    ports = {49092}
+    topics = {"plf_data_entries", "plf_tasks"}
 )
 @Slf4j
 public class RetrieveTasksIT {
