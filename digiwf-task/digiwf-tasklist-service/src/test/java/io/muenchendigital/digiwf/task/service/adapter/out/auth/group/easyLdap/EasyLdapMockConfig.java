@@ -15,7 +15,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 @TestConfiguration
 public class EasyLdapMockConfig {
-    @Value("${easyldap.client.request}")
+    @Value("/v1/ldap/user")
     private String requestPath;
     @Value("${easyldap.client.port}")
     private int port;

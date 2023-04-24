@@ -51,7 +51,7 @@ feign:
 
 easyldap:
   client:
-    url: "${EASYLDAP_ENDPOINT_URL}"
+    url: ${EASYLDAP_ENDPOINT_URL}
 
 axon:
   serializer:
