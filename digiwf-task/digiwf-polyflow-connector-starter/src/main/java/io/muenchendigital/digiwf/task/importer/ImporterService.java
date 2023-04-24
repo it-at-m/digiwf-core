@@ -4,10 +4,12 @@ import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 
 import static org.springframework.http.ResponseEntity.noContent;
 
@@ -16,6 +18,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 @Slf4j
 public class ImporterService {
 
+    public static final String CLIENT_IMPORT_TASKS = "client_";
     private final TaskServiceCollectorService taskServiceCollectorService;
 
     @PostConstruct
@@ -24,6 +27,7 @@ public class ImporterService {
     }
 
     @PostMapping("/rest/admin/tasks/import")
+    @RolesAllowed(CLIENT_IMPORT_TASKS)
     public ResponseEntity<Void> importExistingTasks() {
         log.info("Starting import of tasks.");
         taskServiceCollectorService.collectAndPopulateExistingTasks(

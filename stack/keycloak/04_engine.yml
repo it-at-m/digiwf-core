@@ -15,3 +15,8 @@ changes:
       clientRole: true
       name: clientrole_deployer
       description: Can deploy, assigns BACKEND_DEPLOY_RESOURCE authority on other stages then local.
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: clientrole_task_importer
+      description: Can import user task from the engine to Polyflow.
