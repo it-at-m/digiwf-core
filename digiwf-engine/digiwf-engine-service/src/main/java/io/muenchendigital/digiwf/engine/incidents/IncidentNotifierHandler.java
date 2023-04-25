@@ -102,15 +102,19 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
     }
     private String getProcessName(String processDefinitionId){
         String processName = "";
-        ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
-        if (procDef == null) {
-            throw new NullPointerException("PrcoessDefinition with Id " + processDefinitionId + " does not exist");
+        try {
+            ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+                processName = procDef.getName();
+            }
+            else {
+                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+                    processName = procDef.getKey();
+                }
+            }
         }
-        if(procDef.getName() != null && !procDef.getName().isBlank()) {
-            processName = procDef.getName();
-        }
-        else {
-            processName = procDef.getKey();
+        catch (Exception ex){
+            log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
     }

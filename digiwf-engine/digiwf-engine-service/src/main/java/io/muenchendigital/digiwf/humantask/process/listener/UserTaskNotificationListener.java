@@ -20,8 +20,6 @@ import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -43,10 +41,8 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 @Slf4j
 public class UserTaskNotificationListener {
 
-    @Autowired
-    @Lazy
-    private RepositoryService repositoryService;
 
+    private final RepositoryService repositoryService;
     private final MailingService mailingService;
     private final UserService userService;
     private final DigitalWFProperties properties;
@@ -222,15 +218,19 @@ public class UserTaskNotificationListener {
 
     private String getProcessName(String processDefinitionId){
         String processName = "";
-        ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
-        if (procDef == null) {
-            throw new NullPointerException("PrcoessDefinition with Id " + processDefinitionId + " does not exist");
+        try {
+            ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+                processName = procDef.getName();
+            }
+            else {
+                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+                    processName = procDef.getKey();
+                }
+            }
         }
-        if(procDef.getName() != null && !procDef.getName().isBlank()) {
-            processName = procDef.getName();
-        }
-        else {
-            processName = procDef.getKey();
+        catch (Exception ex){
+            log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
     }
