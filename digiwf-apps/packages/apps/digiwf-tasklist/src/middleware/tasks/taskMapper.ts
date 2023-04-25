@@ -18,7 +18,8 @@ export const mapTaskFromEngineService = (response: HumanTaskTO): HumanTask => {
     description: response.description,
     name: response.name || "-",
     processName: response.processName,
-    assigneeId: response.assignee
+    assigneeId: response.assignee,
+    assigneeFormatted: response.assigneeFormatted
   }
 }
 
@@ -56,7 +57,8 @@ export const mapTaskFromTaskService = (response: Task): HumanTask => {
     description: response.description,
     name: response.name || "-",
     processName: response.processName,
-    assigneeId: response.assignee
+    assigneeId: response.assignee,
+    assigneeFormatted: `TODO format assignee for ${response.assignee}`
   };
 }
 

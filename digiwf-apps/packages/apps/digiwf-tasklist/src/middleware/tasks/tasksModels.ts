@@ -6,10 +6,14 @@ export interface HumanTask {
   readonly name: string
   readonly description?: string;
   readonly assigneeId?: string;
-  // FIXME formatted assignee
+  readonly assigneeFormatted?: string  // FIXME formatted assignee
+
 }
 
 export interface HumanTaskDetails extends HumanTask{
+  /**
+   * @deprecated
+   */
   readonly form?: any;
   readonly schema?: any;
   readonly variables: any

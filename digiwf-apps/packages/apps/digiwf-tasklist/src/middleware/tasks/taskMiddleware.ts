@@ -13,8 +13,13 @@ import {
   callGetTasksFromTaskService,
   callPostAssignTaskInEngine,
   callPostAssignTaskInTaskService,
-  callSaveTaskInEngine, callSaveTaskInTaskService,
-  callSetFollowUpTaskInEngine, callDeferTask, callCompleteTaskInTaskService
+  callSaveTaskInEngine,
+  callSaveTaskInTaskService,
+  callSetFollowUpTaskInEngine,
+  callDeferTask,
+  callCompleteTaskInTaskService,
+  callAssignTaskInEngine,
+  callAssignTaskInTaskService
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
@@ -32,13 +37,16 @@ import {HumanTaskDetailTO} from "@muenchen/digiwf-engine-api-internal";
 import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import router from "../../router";
 import {queryClient} from "../queryClient";
+import store from "../../store";
 
 const shouldUseTaskService = isServiceTaskServiceEnabled();
 if (shouldUseTaskService) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
 }
 
-const userTasksQueryId = "user-tasks"
+const userTasksQueryId = "user-tasks";
+const assignedGroupTasksQueryId = "assigned-group-tasks";
+const openGroupTasksQueryId = "open-group-tasks";
 export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>, followUp: Ref<boolean | undefined>) => useQuery({
   queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
 
@@ -50,7 +58,7 @@ export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref
 });
 
 export const useOpenGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
-  queryKey: ["open-group-tasks", page.value, size.value, query.value],
+  queryKey: [openGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
       ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
@@ -59,7 +67,7 @@ export const useOpenGroupTasksQuery = (page: Ref<number>, size: Ref<number>, que
 });
 
 export const useAssignedGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
-  queryKey: ["assigned-group-tasks", page.value, size.value, query.value],
+  queryKey: [assignedGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
       ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
@@ -111,30 +119,42 @@ export interface LoadTaskFromEngineResultData {
   readonly task: HumanTaskDetails;
   readonly model?: { [key: string]: object; }
   readonly followUpDate: string // FIXME: check type
+  /**
+   * @deprecated only used for old forms
+   */
   readonly isCancelable: boolean
+  /**
+   * @deprecated only used for old forms
+   */
   readonly cancelText: string
+  /**
+   * @deprecated only used for old forms
+   */
   readonly hasDownloadButton: boolean;
+  /**
+   * @deprecated only used for old forms
+   */
   readonly downloadButtonText: string;
 }
 
-export interface LoadTaskFromEngineResult {
+export interface LoadTaskResult {
   readonly data?: LoadTaskFromEngineResultData;
   readonly error?: string
 }
 
 
-export const loadTask = (taskId: string): Promise<LoadTaskFromEngineResult> => {
+export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
   return shouldUseTaskService
     // return false
     ? loadTaskFromTaskService(taskId)
     : loadTasksFromEngine(taskId)
 }
 
-const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskFromEngineResult> => {
+const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
   return callGetTaskDetailsFromTaskService(taskId)
     .then(response => {
       const taskDetails = mapTaskDetailsFromTaskService(response);
-      return Promise.resolve<LoadTaskFromEngineResult>({
+      return Promise.resolve<LoadTaskResult>({
         data: {
           task: taskDetails,
           hasDownloadButton: false,
@@ -163,7 +183,7 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskFromEngineResu
  * @deprecated
  * @param id
  */
-const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
+const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
   const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
     if (task.form && task.form.buttons) {
       return task.form.buttons.statusPdf!.showButton || false
@@ -174,7 +194,7 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskFromEngineResult> => {
   }
 
   return callGetTaskDetailsFromEngine(id).then(taskDetails => {
-    return Promise.resolve<LoadTaskFromEngineResult>({
+    return Promise.resolve<LoadTaskResult>({
       data: {
         task: mapTaskDetailsFromEngineService(taskDetails),
         model: taskDetails.variables,
@@ -297,6 +317,25 @@ export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult
     }))
 }
 
+interface AssignTaskResult {
+  readonly isError: boolean;
+}
+
+export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
+  console.log("assign Task user info", store.getters['user/info'])
+  const userId = store.getters['user/info'].lhmObjectId;
+  return (
+    shouldUseTaskService
+      ? callAssignTaskInEngine(taskId)
+      : callAssignTaskInTaskService(taskId, userId)
+  ).then(() => {
+    router.push({path: '/task/' + taskId});
+    queryClient.invalidateQueries([userTasksQueryId])
+    queryClient.invalidateQueries([openGroupTasksQueryId])
+    queryClient.invalidateQueries([assignedGroupTasksQueryId])
+    return Promise.resolve(  {isError: false})
+  }).catch(() =>  Promise.resolve(  {isError: true}))
+}
 
 interface DownloadPdfResult {
   readonly errorMessage?: string;

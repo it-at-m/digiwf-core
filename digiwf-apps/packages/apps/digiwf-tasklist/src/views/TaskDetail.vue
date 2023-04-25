@@ -231,7 +231,20 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   created() {
     console.log("created")
-    this.loadTask();
+    loadTask(this.id).then(({data, error}) => {
+      if (!!data) {
+        this.task = data.task;
+        this.model = data.model;
+        this.followUpDate = data.followUpDate;
+        this.isCancelable = data.isCancelable;
+        this.cancelText = data.cancelText
+        this.hasDownloadButton = data.hasDownloadButton;
+        this.downloadButtonText = data.downloadButtonText;
+      }
+      if (!!error) {
+        this.errorMessage = error;
+      }
+    });
   }
 
   mounted() {
@@ -270,24 +283,6 @@ export default class TaskDetail extends SaveLeaveMixin {
         : Promise.resolve()
     })
   }
-
-  loadTask() {
-    loadTask(this.id).then(({data, error}) => {
-      if (!!data) {
-        this.task = data.task;
-        this.model = data.model;
-        this.followUpDate = data.followUpDate;
-        this.isCancelable = data.isCancelable;
-        this.cancelText = data.cancelText
-        this.hasDownloadButton = data.hasDownloadButton;
-        this.downloadButtonText = data.downloadButtonText;
-      }
-      if (!!error) {
-        this.errorMessage = error;
-      }
-    });
-  }
-
   openFollowUp(): void {
     this.followUp = true;
     this.fab = false;
