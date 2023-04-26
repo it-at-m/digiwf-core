@@ -10,7 +10,7 @@ spring:
     serialization:
       indent-output: on
   session:
-    timeout: 36000  # in seconds; Goal: same lifetime as SSO Session (e.g. 10 hours)
+    timeout: 1800  # in seconds; Goal: same lifetime as SSO Session, actual: 30 minutes
   zipkin:
     enabled: false
     sleuth:

@@ -311,7 +311,6 @@
             <version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
     <build>

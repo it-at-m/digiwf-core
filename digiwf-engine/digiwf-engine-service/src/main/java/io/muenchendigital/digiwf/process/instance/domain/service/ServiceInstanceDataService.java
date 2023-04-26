@@ -34,7 +34,7 @@ public class ServiceInstanceDataService {
 
     private final EngineDataMapper engineDataMapper;
 
-    public Map<String, Object> getVaribales(final String instanceId, final JsonSchema schema) {
+    public Map<String, Object> getVariables(final String instanceId, final JsonSchema schema) {
         final Map<String, Object> typedVariables = this.historyService.createHistoricVariableInstanceQuery().executionIdIn(instanceId).processInstanceId(instanceId).list()
                 .stream()
                 .filter(obj -> obj.getValue() != null)

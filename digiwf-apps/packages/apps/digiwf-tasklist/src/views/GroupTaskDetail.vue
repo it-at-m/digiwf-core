@@ -97,7 +97,7 @@ import AppToast from "@/components/UI/AppToast.vue";
 import router from "../router";
 import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {ApiConfig} from "../api/ApiConfig";
+import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
@@ -117,7 +117,7 @@ export default class MyTaskDetail extends Vue {
   get formContext(): FormContext { return {id: this.id, type: "task"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
+  apiEndpoint = EngineServiceApiConfig.base;
 
   created() {
     this.loadTask();
@@ -144,7 +144,7 @@ export default class MyTaskDetail extends Vue {
     this.showModal = false;
     try {
 
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await HumanTaskRestControllerApiFactory(cfg).assignTask(this.id);
 
       this.$store.dispatch('tasks/getTasks', true);
@@ -160,7 +160,7 @@ export default class MyTaskDetail extends Vue {
   async loadTask(): Promise<void> {
     const loadingTimeout = setTimeout(() => this.isLoading = true, 500);
     try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       cfg.baseOptions.validateStatus = function (status: number) {
         return status >= 200 && status < 500;
       }; // override axios default impl. (holding back http statuses >= 300)
