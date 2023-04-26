@@ -159,5 +159,25 @@ public class JsonValidatorTest {
         this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
     }
 
+    @Test
+    public void empty_date_string() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "37a17cf4-1028-4b13-a131-6e0ebc7bbfbf", ""
+        );
+
+        final String rawSchema = getSchemaString("/schema/validation/allInput.json");
+        this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+    }
+
+    @Test
+    public void empty_select_as_string() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db", ""
+        );
+
+        final String rawSchema = getSchemaString("/schema/validation/allInput.json");
+        this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+    }
+
 
 }

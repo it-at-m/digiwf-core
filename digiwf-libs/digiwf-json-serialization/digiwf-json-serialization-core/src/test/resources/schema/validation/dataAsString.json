@@ -1,0 +1,86 @@
+{
+  "key": "MyStartForm",
+  "type": "object",
+  "x-display": "stepper",
+  "allOf": [
+    {
+      "key": "sectionKey1",
+      "title": "Erster Abschnitt",
+      "type": "object",
+      "x-options": {
+        "sectionsTitlesClasses": [
+          "d-none"
+        ]
+      },
+      "allOf": [
+        {
+          "key": "feldgruppe1",
+          "title": "Erste Gruppe",
+          "type": "object",
+          "x-options": {
+            "childrenClass": "pr-5 pl-0"
+          },
+          "numberProp1": {
+            "fieldType": "integer",
+            "title": "Number",
+            "type": "integer",
+            "x-options": {
+              "fieldColProps": {
+                "cols": 12,
+                "sm": 6
+              }
+            },
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            }
+          },
+        "floatProp1": {
+          "fieldType": "number",
+          "title": "Floating Number",
+          "type": "number",
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 6
+            }
+          },
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+          "booleanprop": {
+            "fieldType": "boolean",
+            "title": "Checkbox",
+            "type": "boolean",
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            }
+          },
+          "dateprop": {
+            "fieldType": "date",
+            "x-display": "custom-date-input",
+            "title": "Date",
+            "type": "string",
+            "format": "date",
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            }
+          },
+          "selectprop": {
+            "fieldType": "select",
+            "title": "Select",
+            "type": "string",
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
