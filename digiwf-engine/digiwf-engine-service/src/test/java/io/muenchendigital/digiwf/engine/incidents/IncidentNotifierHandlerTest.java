@@ -49,8 +49,8 @@ public class IncidentNotifierHandlerTest {
     private MailingService mailingService;
 
     /**
-     * Tests if no notification is send out when all notification switches are off. 
-     */
+     * Tests if processname is read from ProcessDefinition and wriiten into E-Mail
+     *  */
     @Test
     public void testHandleIncident() throws Exception {
 
