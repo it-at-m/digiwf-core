@@ -1,0 +1,54 @@
+#
+# Configuration for the Spring Boot I-Test
+#
+
+spring:
+  main:
+    allow-bean-definition-overriding: true # Allow Bean re-definition in itest
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;INIT=create schema if not exists PUBLIC;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+    hikari:
+      connection-test-query: select 1 from dual;
+      schema: PUBLIC
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      # this is ok, since we won't match data type fields in I-Tests by using MS-SQL migration scripts.
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://local-itest
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: <itest-client-id>
+            client-secret: <itest-client-secret>
+          keycloak-service-account:
+            provider: keycloak
+            client-id: <itest-client-id2>
+            client-secret: <itest-client-secret2>
+        provider:
+          keycloak:
+            issuer-uri: http://local-itest
+
+feign:
+  client:
+    config:
+      jsonschema:
+        url: "http://localhost:7080/"
+      default:
+        url: "http://localhost:7080/engine-rest/"
+
+easyldap:
+  client:
+    port: 19561
+    url: "http://localhost:${easyldap.client.port}"
+    request: "/test"

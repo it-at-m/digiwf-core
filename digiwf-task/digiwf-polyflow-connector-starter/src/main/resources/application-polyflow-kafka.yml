@@ -1,0 +1,32 @@
+axon:
+  axonserver:
+    enabled: false
+  kafka:
+    clientid: ${STAGE:local}-${APPLICATION_NAME:engine}-${HOSTNAME:localhost}
+    # we intentionally provide no default values from here on to have a fail-fast behaviour
+    # ($ is not a legal character for a kafka topic name or a server URL)
+    defaulttopic: ${KAFKA_TOPIC_TASKS}
+    publisher:
+      confirmation-mode: wait_for_ack
+    producer:
+      retries: 0 # If we enabled retries, there is a chance of producing duplicate messages out of order.
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}:${KAFKA_BOOTSTRAP_SERVER_PORT:9092}
+      event-processor-mode: tracking
+      properties:
+        max.in.flight.requests.per.connection: "1" # Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of message re-ordering due to retries (i.e., if retries are enabled). Even though we disabled retries, we keep this configuration here because if we ever enable retries again, we don't want to forget it.
+        delivery.timeout.ms: "30000" # Even with no retries, Kafka can buffer messages and send them later if there is no connection to the broker. The publisherAckTimeout of the KafkaPublisher would throw an error after 1 second and cause an axon-side retry, which might happen on a different pod and cause the same out-of-order duplicate problem as the retry. So we reduce the delivery timeout to the minimum possible (must be at least as high as request.timeout.ms) and increase the publisherAckTimeout to a little more than this.
+    properties:
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL}
+
+polyflow:
+  axon:
+    kafka:
+      topics:
+        - payloadType: io.holunda.camunda.taskpool.api.task.TaskEvent
+          topic: ${KAFKA_TOPIC_TASKS}
+        - payloadType: io.holunda.camunda.taskpool.api.business.DataEntryCreatedEvent
+          topic: ${KAFKA_TOPIC_DATA_ENTRIES}
+        - payloadType: io.holunda.camunda.taskpool.api.business.DataEntryUpdatedEvent
+          topic: ${KAFKA_TOPIC_DATA_ENTRIES}
+        - payloadType: io.holunda.camunda.taskpool.api.business.DataEntryDeletedEvent
+          topic: ${KAFKA_TOPIC_DATA_ENTRIES}

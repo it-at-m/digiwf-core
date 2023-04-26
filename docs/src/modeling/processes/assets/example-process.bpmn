@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1rkkynw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:process id="Antragsprozess_V1" name="Antragsprozess V1" isExecutable="true">
+    <bpmn:documentation>Prozess um einen Antrag einzureichen</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_Gestartet" name="Antrag eingereicht" camunda:formKey="FeatureVorgangAnlegen_StartenV01">
+      <bpmn:outgoing>Flow_0gwtf4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0gwtf4p" sourceRef="StartEvent_Gestartet" targetRef="Task_Kontrollieren" />
+    <bpmn:endEvent id="EndEvent_Beendet" name="Antrag abgeschlossen">
+      <bpmn:incoming>Flow_17i5c4o</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_16pia9q" sourceRef="Task_Kontrollieren" targetRef="Event_00yfcbu" />
+    <bpmn:userTask id="Task_Kontrollieren" name="Antrag bearbeiten" camunda:formKey="FeatureVorgangAnlegen_KontrollierenV01" camunda:assignee="${starterOfInstance}" camunda:candidateGroups="itm,itm-km8">
+      <bpmn:incoming>Flow_0gwtf4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_16pia9q</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_00yfcbu" name="Antrag bearbeitet">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#39;antragBearbeitet&#39;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16pia9q</bpmn:incoming>
+      <bpmn:outgoing>Flow_17i5c4o</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_17i5c4o" sourceRef="Event_00yfcbu" targetRef="EndEvent_Beendet" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Antragsprozess_V1">
+      <bpmndi:BPMNEdge id="Flow_17i5c4o_di" bpmnElement="Flow_17i5c4o">
+        <di:waypoint x="528" y="117" />
+        <di:waypoint x="642" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16pia9q_di" bpmnElement="Flow_16pia9q">
+        <di:waypoint x="430" y="117" />
+        <di:waypoint x="492" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gwtf4p_di" bpmnElement="Flow_0gwtf4p">
+        <di:waypoint x="258" y="117" />
+        <di:waypoint x="330" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Gestartet">
+        <dc:Bounds x="222" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="196" y="142" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0i853pm_di" bpmnElement="EndEvent_Beendet">
+        <dc:Bounds x="642" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="623" y="142" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0l8s1u4_di" bpmnElement="Task_Kontrollieren">
+        <dc:Bounds x="330" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00yfcbu_di" bpmnElement="Event_00yfcbu">
+        <dc:Bounds x="492" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="468" y="142" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

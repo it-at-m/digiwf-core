@@ -1,0 +1,22 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      properties:
+        security.protocol: PLAINTEXT
+axon:
+  kafka:
+    defaulttopic: not_used_but_must_be_set_to_some_value
+    client-id: will_be_set_in_properties_manually
+    consumer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      event-processor-mode: TRACKING
+      auto-offset-reset: earliest
+    properties:
+      security.protocol: PLAINTEXT
+
+polyflow:
+  axon:
+    kafka:
+      topic-tasks: "plf_tasks"
+      topic-data-entries: "plf_data_entries"

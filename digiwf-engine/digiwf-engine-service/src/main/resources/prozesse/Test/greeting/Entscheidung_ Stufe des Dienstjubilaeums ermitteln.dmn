@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Grusskarten" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <decision id="StufeDienstjubilaeumErmitteln" name="Stufe des Dienstjubiläums ermitteln" camunda:versionTag="0.1">
+    <decisionTable id="DecisionTable_1h1b1mc">
+      <input id="Input_1" label="Zugehörigkeit">
+        <inputExpression id="InputExpression_1" typeRef="integer" expressionLanguage="feel">
+          <text>FormField_Zugehoerigkeit</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Stufe des Dienstjubiläums" name="stufeDienstjubilaeum" typeRef="string" biodi:width="505" />
+      <rule id="DecisionRule_0we904z">
+        <inputEntry id="UnaryTests_1g0xkou">
+          <text>5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1amc9im">
+          <text>"eisernen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1upbr8f">
+        <inputEntry id="UnaryTests_07dzx0h">
+          <text>10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1iyck72">
+          <text>"silbernen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ez9jlt">
+        <inputEntry id="UnaryTests_1mjyx82">
+          <text>15</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1k98zmu">
+          <text>"goldenen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ain5vc">
+        <inputEntry id="UnaryTests_1hc9dgb">
+          <text>20</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0narjxt">
+          <text>"platinen"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="StufeDienstjubilaeumErmitteln">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

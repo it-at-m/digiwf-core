@@ -1,0 +1,7 @@
+###
+GET http://localhost:39146/rest/task
+Accept: application/json
+
+###
+GET http://localhost:39146/rest/task/50c669ba-9d78-11ed-a2ac-7e52374077a9
+Accept: application/json
