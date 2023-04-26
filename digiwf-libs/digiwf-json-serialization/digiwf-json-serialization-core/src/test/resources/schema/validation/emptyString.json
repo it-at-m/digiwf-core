@@ -1,0 +1,93 @@
+{
+  "x-display": "tabs",
+  "allOf": [
+    {
+      "title": "Startseite",
+      "description": "Beschreibung der Startseite",
+      "x-options": {
+        "sectionsTitlesClasses": []
+      },
+      "key": "sectionKey1",
+      "allOf": [
+        {
+          "title": "Einfache Eingabefelder",
+          "description": "",
+          "containerType": "group",
+          "x-options": {
+            "childrenClass": "pl-0"
+          },
+          "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
+          "properties": {
+            "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db": {
+              "title": "Select",
+              "x-rules": [],
+              "fieldType": "select",
+              "x-options": {
+                "fieldColProps": {
+                  "messages": {},
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "key": "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              },
+              "anyOf": [
+                {
+                  "const": "1",
+                  "title": "1"
+                },
+                {
+                  "const": "2",
+                  "title": "2"
+                },
+                {
+                  "const": "3",
+                  "title": "3"
+                }
+              ],
+              "type": "string"
+            },
+            "e42d4942-057d-46bc-b0cc-79150c31c54d": {
+              "type": "integer",
+              "title": "Number",
+              "default": "1",
+              "fieldType": "integer",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "37a17cf4-1028-4b13-a131-6e0ebc7bbfbf": {
+              "type": "string",
+              "format": "date",
+              "title": "Date",
+              "x-display": "custom-date-input",
+              "fieldType": "date",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            }
+          }
+        }
+      ],
+      "type": "object"
+    }
+  ],
+  "type": "object"
+}

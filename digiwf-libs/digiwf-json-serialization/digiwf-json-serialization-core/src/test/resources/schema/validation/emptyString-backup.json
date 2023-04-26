@@ -1,0 +1,154 @@
+{
+  "x-display": "tabs",
+  "allOf": [
+    {
+      "title": "Startseite",
+      "description": "Beschreibung der Startseite",
+      "x-options": {
+        "sectionsTitlesClasses": []
+      },
+      "key": "sectionKey1",
+      "allOf": [
+        {
+          "title": "Einfache Eingabefelder",
+          "description": "",
+          "containerType": "group",
+          "x-options": {
+            "childrenClass": "pl-0"
+          },
+          "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
+          "properties": {
+            "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
+              "title": "Checkbox",
+              "fieldType": "boolean",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              },
+              "type": "boolean"
+            },
+            "7700f7ce-246c-49ea-a6b7-1b6cbbe409b3": {
+              "type": "string",
+              "title": "Textarea",
+              "x-display": "textarea",
+              "fieldType": "textarea",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db": {
+              "title": "Select",
+              "x-rules": [],
+              "fieldType": "select",
+              "x-options": {
+                "fieldColProps": {
+                  "messages": {},
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "key": "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              },
+              "anyOf": [
+                {
+                  "const": "1",
+                  "title": "1"
+                },
+                {
+                  "const": "2",
+                  "title": "2"
+                },
+                {
+                  "const": "3",
+                  "title": "3"
+                }
+              ],
+              "type": "string"
+            },
+            "93869487-cb5f-45f5-a333-530db309b8d1": {
+              "type": "string",
+              "title": "Textfield",
+              "fieldType": "text",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "246aee18-4fe2-403b-94fb-14aa0370f52d": {
+              "type": "number",
+              "title": "Floating Number",
+              "fieldType": "number",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "e42d4942-057d-46bc-b0cc-79150c31c54d": {
+              "type": "integer",
+              "title": "Number",
+              "default": "1",
+              "fieldType": "integer",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "37a17cf4-1028-4b13-a131-6e0ebc7bbfbf": {
+              "type": "string",
+              "format": "date",
+              "title": "Date",
+              "x-display": "custom-date-input",
+              "fieldType": "date",
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
+                }
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            }
+          }
+        }
+      ],
+      "type": "object"
+    }
+  ],
+  "type": "object"
+}
