@@ -11,6 +11,8 @@ import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
+import org.camunda.community.mockito.QueryMocks;
+import org.camunda.community.mockito.process.ProcessDefinitionFake;
 import org.mockito.Mock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +20,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import static org.junit.Assert.assertTrue;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 /**
@@ -40,30 +43,38 @@ public class IncidentNotifierHandlerTest {
     private IncidentEntity incidentEntity;
 
     @Mock
-    private ProcessDefinition processDefinition;
-
-    @Mock
-    private ProcessDefinitionQuery processDefinitionQuery;
-
-    @Mock
     private MailingService mailingService;
 
     /**
      * Tests if processname is read from ProcessDefinition and wriiten into E-Mail
      *  */
     @Test
-    public void testHandleIncident() throws Exception {
+    public void handlesIncidentWithProcessDefinitionWithKey() throws Exception {
 
-
+        ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder().key("Testprozess-key").id("Test123").build());
         Mockito.when(this.incidentEntity.getProcessDefinitionId()).thenReturn("Test123");
-        Mockito.when(this.processDefinition.getKey()).thenReturn("Testprozess");
-        Mockito.when(this.repositoryService.createProcessDefinitionQuery()).thenReturn(processDefinitionQuery);when(processDefinitionQuery.singleResult()).thenReturn(processDefinition);
-        Mockito.when(processDefinitionQuery.processDefinitionId(anyString())).thenReturn(processDefinitionQuery);
 
         this.incidentNotifierHandler.sendInfoMail(incidentEntity);
 
+        verify(query).processDefinitionId(this.incidentEntity.getProcessDefinitionId());
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService).sendMailTemplateWithLink(argument.capture());
-        assertTrue(argument.getValue().getBody().contains("In der Anwendung ist ein Incident aufgetreten (Prozessname: Testprozess)."));
+        assertThat(argument.getValue().getBody()).isEqualTo("In der Anwendung ist ein Incident aufgetreten (Prozessname: Testprozess-key).");
+    }
+
+    @Test
+    public void handlesIncidentWithProcessDefinitionWithName() throws Exception {
+
+        ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder().name("Testprozess1")
+                .key("Testprozess-key").id("Test123").build());
+        Mockito.when(this.incidentEntity.getProcessDefinitionId()).thenReturn("Test123");
+
+        this.incidentNotifierHandler.sendInfoMail(incidentEntity);
+
+        verify(query).processDefinitionId(this.incidentEntity.getProcessDefinitionId());
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService).sendMailTemplateWithLink(argument.capture());
+        assertThat(argument.getValue().getBody()).isEqualTo("In der Anwendung ist ein Incident aufgetreten (Prozessname: Testprozess1).");
+
     }
 }

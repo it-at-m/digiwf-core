@@ -4,6 +4,7 @@
  */
 package io.muenchendigital.digiwf.humantask.process.listener;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -15,13 +16,17 @@ import java.util.Optional;
 
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
+import org.camunda.community.mockito.QueryMocks;
+import org.camunda.community.mockito.process.ProcessDefinitionFake;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
@@ -119,24 +124,22 @@ public class UserTaskNotificationListenerTest {
         candidate1.setEmail(candidateName + "@muenchen.de");
         when(userService.getUser(candidateName)).thenReturn(candidate1);
         MailingService mailingService = Mockito.mock(MailingService.class);
-
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        ProcessDefinition processDefinition = Mockito.mock(ProcessDefinition.class);
-        when(processDefinition.getKey()).thenReturn("Testprozess");
-        ProcessDefinitionQuery processDefinitionQuery = Mockito.mock(ProcessDefinitionQuery.class);
-        when(repositoryService.createProcessDefinitionQuery()).thenReturn(processDefinitionQuery);when(processDefinitionQuery.singleResult()).thenReturn(processDefinition);
-        when(processDefinitionQuery.processDefinitionId(anyString())).thenReturn(processDefinitionQuery);
 
+        ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder()
+                .key("Testprozess-key").build());
         // execute
         new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
+
+        verify(query, times(2)).processDefinitionId(task.getProcessDefinitionId());
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
         List<MailTemplate> arguments = argument.getAllValues();
         assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user.getEmail())));
         assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(candidate1.getEmail())));
-        assertTrue(arguments.stream().anyMatch(a -> a.getBody().contains("Sie haben eine Aufgabe in DigiWF (Testprozess).")));
-        assertTrue(arguments.stream().anyMatch(a -> a.getBody().contains("Sie haben eine Gruppenaufgabe in DigiWF (Testprozess).")));
+        assertTrue(arguments.stream().anyMatch(a -> a.getBody().equals("Sie haben eine Aufgabe in DigiWF (Testprozess-key).")));
+        assertTrue(arguments.stream().anyMatch(a -> a.getBody().equals("Sie haben eine Gruppenaufgabe in DigiWF (Testprozess-key).")));
     }
 
     /**
