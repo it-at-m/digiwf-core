@@ -16,8 +16,6 @@ import java.util.Optional;
 
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
@@ -26,7 +24,6 @@ import org.camunda.community.mockito.process.ProcessDefinitionFake;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
@@ -95,7 +92,9 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the assignee and candidate users is send out when notification is on. 
+     * Tests if a notification to the assignee and candidate users is send out when notification is on.
+     * Process name should be read from ProcessDefinition.Key while ProcessDefinition.Name is not set
+     * and be written to Notification E-Mail.
      */
     @Test
     public void testDelegateTask_WithAssigneeAndCandidateUsers() throws Exception {
@@ -143,7 +142,52 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the candidate users is send out when notification is on. 
+     * Tests if a notification to the assignee and process name is read from ProcessDefinition.Name.
+     */
+    @Test
+    public void testDelegateTask_WithAssignee_AndProcessName_ReadFromProcessDefinition() throws Exception {
+        final String username = "flash.gordon";
+        final String candidateName = "dale.arden";
+        DelegateTask task = Mockito.mock(DelegateTask.class);
+        Mockito.when(task.getProcessDefinitionId()).thenReturn("test123");
+        Mockito.when(task.getEventName()).thenReturn("create");
+        Mockito.when(task.getVariable("digitalwf_notification_send_assignee")).thenReturn("true");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("false");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("false");
+        when(task.getAssignee()).thenReturn(username);
+        HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
+        IdentityLink identityLink = Mockito.mock(IdentityLink.class);
+        when(identityLink.getUserId()).thenReturn(candidateName);
+        when(identityLink.getType()).thenReturn(IdentityLinkType.CANDIDATE);
+        candidateSet.add(identityLink);
+        when(task.getCandidates()).thenReturn(candidateSet);
+
+        DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
+        UserService userService = Mockito.mock(UserService.class);
+        User user = new User();
+        user.setEmail(username + "@muenchen.de");
+        when(userService.getUser(username)).thenReturn(user);
+        User candidate1 = new User();
+        candidate1.setEmail(candidateName + "@muenchen.de");
+        when(userService.getUser(candidateName)).thenReturn(candidate1);
+        MailingService mailingService = Mockito.mock(MailingService.class);
+        RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+
+        ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder()
+                .key("Testprozess-name").build());
+        // execute
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+
+
+        verify(query).processDefinitionId(task.getProcessDefinitionId());
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService).sendMailTemplateWithLink(argument.capture());
+
+        assertThat(argument.getValue().getBody()).isEqualTo("Sie haben eine Aufgabe in DigiWF (Testprozess-name).");
+    }
+
+    /**
+     * Tests if a notification to the candidate users is send out when notification is on.
      */
     @Test
     public void testDelegateTask_WithCandidateUsers() throws Exception {
