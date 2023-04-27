@@ -5,6 +5,7 @@ import {PageOfTasks, TaskWithSchema} from "@muenchen/digiwf-task-api-internal";
 import {Task} from "@muenchen/digiwf-task-api-internal/src";
 import {DateTime} from "luxon";
 import {formatIsoDate, formatIsoDateTime} from "../../utils/time";
+import {User} from "../user/userModels";
 
 /**
  * @deprecated is only necessary until tasks will provided by task service in production
@@ -49,7 +50,7 @@ export const mapTaskDetailsFromEngineService = (response: HumanTaskDetailTO): Hu
   }
 }
 
-export const mapTaskFromTaskService = (response: Task): HumanTask => {
+export const mapTaskFromTaskService = (response: Task, user?: User): HumanTask => {
   return {
     createTime: response.createTime ? formatIsoDateTime(response.createTime) : "-",
     followUpDate: response.followUpDate ? formatIsoDate(response.followUpDate) : undefined,
@@ -58,19 +59,19 @@ export const mapTaskFromTaskService = (response: Task): HumanTask => {
     name: response.name || "-",
     processName: response.processName,
     assigneeId: response.assignee,
-    assigneeFormatted: `TODO format assignee for ${response.assignee}`
+    assigneeFormatted: user && user.fullInfo
   };
 }
 
-export const mapTaskPageFromTaskService = (response: PageOfTasks): Page<HumanTask> => {
+export const mapTaskPageFromTaskService = (response: PageOfTasks, taskMapperFunction: (task: Task) => HumanTask): Page<HumanTask> => {
   return {
-    content: response.content?.map(mapTaskFromTaskService),
+    content: response.content?.map(taskMapperFunction),
     totalElements: response.totalElements,
     totalPages: response.totalPages!,
   }
 }
 
-export const mapTaskDetailsFromTaskService = (response: TaskWithSchema): HumanTaskDetails => {
+export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: User): HumanTaskDetails => {
   return {
     createTime: response.createTime ? formatIsoDateTime(response.createTime) : "-",
     followUpDate: response.followUpDate ? formatIsoDate(response.followUpDate) : undefined,
@@ -79,6 +80,7 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema): HumanTa
     name: response.name || "-",
     processName: response.processName,
     assigneeId: response.assignee,
+    assigneeFormatted: user && `${user.firstName} ${user.surname} (${user.ou})`,
     form: undefined, // FIXME: check if it is correct
     variables: response.variables,
     processInstanceId: response.processInstanceId,

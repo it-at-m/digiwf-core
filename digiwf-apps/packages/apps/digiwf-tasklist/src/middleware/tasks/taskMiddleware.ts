@@ -27,7 +27,7 @@ import {HumanTask, HumanTaskDetails} from "./tasksModels";
 import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
-  mapTaskDetailsFromTaskService,
+  mapTaskDetailsFromTaskService, mapTaskFromTaskService,
   mapTaskPageFromEngineService,
   mapTaskPageFromTaskService
 } from "./taskMapper";
@@ -38,6 +38,8 @@ import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import router from "../../router";
 import {queryClient} from "../queryClient";
 import store from "../../store";
+import {getUserInfo} from "../user/userMiddleware";
+import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 
 const shouldUseTaskService = isServiceTaskServiceEnabled();
 if (shouldUseTaskService) {
@@ -47,31 +49,83 @@ if (shouldUseTaskService) {
 const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
-export const useMyTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>, followUp: Ref<boolean | undefined>) => useQuery({
+const addUserToTask = (r: Task): Promise<HumanTask> => {
+  return (
+    r.assignee
+      ? getUserInfo(r.assignee)
+      : Promise.resolve(undefined)
+  )
+    .then(user => Promise.resolve(mapTaskFromTaskService(r, user)))
+};
+
+const handlePageOfTaskResponse = (response: PageOfTasks) => {
+  const tasksWithUserPromises = response.content?.map(addUserToTask);
+  return Promise.all<HumanTask>(tasksWithUserPromises)
+    .then(tasks => Promise.resolve<Page<HumanTask>>({
+        content: tasks,
+        totalElements: response.totalElements,
+        totalPages: response.totalPages!,
+      })
+    )
+};
+
+const handleTaskLoadingFromTaskService = (
+  page: Ref<number>,
+  size: Ref<number>,
+  query: Ref<string | undefined>,
+  followUp: Ref<boolean | undefined>
+) => {
+  return callGetTasksFromTaskService(
+    page.value,
+    size.value,
+    query.value,
+    followUp.value ? getCurrentDate() : undefined
+  ).then(handlePageOfTaskResponse);
+}
+
+export const useMyTasksQuery = (
+  page: Ref<number>,
+  size: Ref<number>,
+  query: Ref<string | undefined>,
+  followUp: Ref<boolean | undefined>
+) => useQuery({
   queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
-      ? callGetTasksFromTaskService(page.value, size.value, query.value, followUp.value ? getCurrentDate() : undefined).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
-      : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+      ? handleTaskLoadingFromTaskService(page, size, query, followUp)
+      : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value)
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
   },
 });
 
-export const useOpenGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
+export const useOpenGroupTasksQuery = (
+  page: Ref<number>,
+  size: Ref<number>,
+  query: Ref<string | undefined>
+) => useQuery({
   queryKey: [openGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
-      ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
-      : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+      ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value)
+        .then(handlePageOfTaskResponse)
+      : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value)
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
   },
 });
 
-export const useAssignedGroupTasksQuery = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) => useQuery({
+export const useAssignedGroupTasksQuery = (
+  page: Ref<number>,
+  size: Ref<number>,
+  query: Ref<string | undefined>
+) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService
-      ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromTaskService(r)))
-      : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value).then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+      ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value)
+        .then(handlePageOfTaskResponse)
+      : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value)
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
   },
 });
 
@@ -88,6 +142,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   const {data: myTasksData} = useMyTasksQuery(dummyPage, dummyPageSize, dummyQuery, ref(false));
   const {data: assignGroupData} = useAssignedGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery);
   const {data: openGroupData} = useOpenGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery);
+
   return {
     myTasks: computed(() => myTasksData?.value?.totalElements || 0),
     assignedGroupTasks: computed(() => assignGroupData?.value?.totalElements || 0),
@@ -152,27 +207,37 @@ export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
 
 const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
   return callGetTaskDetailsFromTaskService(taskId)
-    .then(response => {
-      const taskDetails = mapTaskDetailsFromTaskService(response);
-      return Promise.resolve<LoadTaskResult>({
-        data: {
-          task: taskDetails,
-          hasDownloadButton: false,
-          model: taskDetails.form, // FIXME: I guess that is wrong
-          followUpDate: taskDetails.followUpDate!,
-          isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
-          cancelText: taskDetails.form?.buttons?.cancel!.buttonText || '',
-          downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ''
-        }
+    .then(taskResponse => {
+
+      return (taskResponse.assignee
+          ? getUserInfo(taskResponse.assignee)
+          : Promise.resolve()
+      ).then(user => {
+
+        console.log("then block of getUserInfo", user)
+        const taskDetails = mapTaskDetailsFromTaskService(taskResponse);
+        return Promise.resolve<LoadTaskResult>({
+          data: {
+            task: taskDetails,
+            hasDownloadButton: false,
+            model: taskDetails.variables, // FIXME: I guess that is wrong
+            followUpDate: taskDetails.followUpDate!,
+            isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
+            cancelText: taskDetails.form?.buttons?.cancel!.buttonText || '',
+            downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ''
+          }
+        })
       })
-    })
-    .catch((error: Error | AxiosError) => {
+
+    }).catch((error: Error | AxiosError) => {
       if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
         return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
       } else {
         return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
       }
     });
+
+
 }
 
 /**
@@ -277,6 +342,7 @@ interface SetFollowUpResult {
 }
 
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
+  console.log("deferTask: ", shouldUseTaskService)
   return (
     shouldUseTaskService
       ? callDeferTask(taskId, dateToIsoDateTime(followUp))
@@ -333,8 +399,8 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
     queryClient.invalidateQueries([userTasksQueryId])
     queryClient.invalidateQueries([openGroupTasksQueryId])
     queryClient.invalidateQueries([assignedGroupTasksQueryId])
-    return Promise.resolve(  {isError: false})
-  }).catch(() =>  Promise.resolve(  {isError: true}))
+    return Promise.resolve({isError: false})
+  }).catch(() => Promise.resolve({isError: true}))
 }
 
 interface DownloadPdfResult {
