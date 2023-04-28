@@ -1,7 +1,7 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
 import {FetchUtils, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface UserState {
   info: UserTO;
@@ -40,7 +40,7 @@ export default {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await UserRestControllerApiFactory(cfg).userinfo();

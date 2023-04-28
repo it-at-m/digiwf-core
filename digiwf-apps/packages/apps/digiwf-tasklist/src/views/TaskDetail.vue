@@ -227,7 +227,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   };
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
   created() {
     console.log("created")
@@ -249,11 +249,11 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   mounted() {
     // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
-    this.$el
-      .querySelector(".v-speed-dial__list")!
-      .addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
+    // this.$el
+    //   .querySelector(".v-speed-dial__list")!
+    //   .addEventListener("click", (e) => {
+    //     e.stopPropagation();
+    //   });
   }
 
   completeTask(model: any) {

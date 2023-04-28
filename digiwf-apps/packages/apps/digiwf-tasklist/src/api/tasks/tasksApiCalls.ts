@@ -2,18 +2,12 @@ import {
   CompleteTO, DocumentRestControllerApiFactory,
   FetchUtils,
   HumanTaskDetailTO,
+  Configuration,
   HumanTaskRestControllerApiFactory,
   PageHumanTaskTO, SaveTO, StatusDokumentTO
 } from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../ApiConfig";
 import {PageOfTasks, TaskApiFactory, TasksApiFactory, TaskWithSchema} from "@muenchen/digiwf-task-api-internal"
-import {
-  Configuration,
-  FetchUtils,
-  HumanTaskRestControllerApiFactory,
-  PageHumanTaskTO
-} from "@muenchen/digiwf-engine-api-internal";
-import {EngineServiceApiConfig} from "../EngineServiceApiConfig";
 import {configuredAxios} from "../statusCodeHandling";
 
 /**

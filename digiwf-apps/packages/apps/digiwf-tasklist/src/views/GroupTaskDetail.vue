@@ -100,7 +100,7 @@ import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
@@ -122,7 +122,7 @@ export default class GroupTaskDetail extends Vue {
   };
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
   created() {
     this.isLoading = true
