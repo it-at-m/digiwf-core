@@ -1,7 +1,11 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
+  callAssignTaskInEngine,
+  callAssignTaskInTaskService,
   callCancelTaskInEngine,
   callCompleteTaskInEngine,
+  callCompleteTaskInTaskService,
+  callDeferTask,
   callDownloadPdfFromEngine,
   callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
@@ -15,11 +19,7 @@ import {
   callPostAssignTaskInTaskService,
   callSaveTaskInEngine,
   callSaveTaskInTaskService,
-  callSetFollowUpTaskInEngine,
-  callDeferTask,
-  callCompleteTaskInTaskService,
-  callAssignTaskInEngine,
-  callAssignTaskInTaskService
+  callSetFollowUpTaskInEngine
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
@@ -27,9 +27,9 @@ import {HumanTask, HumanTaskDetails} from "./tasksModels";
 import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
-  mapTaskDetailsFromTaskService, mapTaskFromTaskService,
-  mapTaskPageFromEngineService,
-  mapTaskPageFromTaskService
+  mapTaskDetailsFromTaskService,
+  mapTaskFromTaskService,
+  mapTaskPageFromEngineService
 } from "./taskMapper";
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
@@ -208,12 +208,10 @@ export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
 const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
   return callGetTaskDetailsFromTaskService(taskId)
     .then(taskResponse => {
-
       return (taskResponse.assignee
           ? getUserInfo(taskResponse.assignee)
           : Promise.resolve()
       ).then(user => {
-
         console.log("then block of getUserInfo", user)
         const taskDetails = mapTaskDetailsFromTaskService(taskResponse);
         return Promise.resolve<LoadTaskResult>({
@@ -223,8 +221,8 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
             model: taskDetails.variables, // FIXME: I guess that is wrong
             followUpDate: taskDetails.followUpDate!,
             isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
-            cancelText: taskDetails.form?.buttons?.cancel!.buttonText || '',
-            downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ''
+            cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "",
+            downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
           }
         })
       })
@@ -236,8 +234,6 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
         return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
       }
     });
-
-
 }
 
 /**
@@ -265,9 +261,9 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
         model: taskDetails.variables,
         followUpDate: taskDetails.followUpDate!,
         isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
-        cancelText: taskDetails.form?.buttons?.cancel!.buttonText || '',
+        cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "",
         hasDownloadButton: hasDownloadButton(taskDetails),
-        downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ''
+        downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
       },
       error: undefined,
     })
@@ -294,7 +290,7 @@ export interface CancelTaskResult {
 export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
   return callCancelTaskInEngine(taskId).then(() => {
     queryClient.invalidateQueries([userTasksQueryId])
-    router.push({path: '/task'});
+    router.push({path: "/task"});
 
     return Promise.resolve<CancelTaskResult>({
       isError: false
@@ -303,7 +299,7 @@ export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> =>
   }).catch(_ => {
     return Promise.resolve<CancelTaskResult>({
       isError: true,
-      errorMessage: 'Die Aufgabe konnte nicht abgebrochen werden.'
+      errorMessage: "Die Aufgabe konnte nicht abgebrochen werden."
     })
   });
 }
@@ -350,7 +346,7 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
   )
     .then(() => {
       queryClient.invalidateQueries([userTasksQueryId])
-      router.push({path: '/task'});
+      router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
         errorMessage: undefined,
@@ -388,14 +384,14 @@ interface AssignTaskResult {
 }
 
 export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
-  console.log("assign Task user info", store.getters['user/info'])
-  const userId = store.getters['user/info'].lhmObjectId;
+  console.log("assign Task user info", store.getters["user/info"])
+  const userId = store.getters["user/info"].lhmObjectId;
   return (
     shouldUseTaskService
       ? callAssignTaskInEngine(taskId)
       : callAssignTaskInTaskService(taskId, userId)
   ).then(() => {
-    router.push({path: '/task/' + taskId});
+    router.push({path: "/task/" + taskId});
     queryClient.invalidateQueries([userTasksQueryId])
     queryClient.invalidateQueries([openGroupTasksQueryId])
     queryClient.invalidateQueries([assignedGroupTasksQueryId])
@@ -412,10 +408,10 @@ export const downloadPDFFromEngine = (taskId: string): Promise<DownloadPdfResult
 
   return callDownloadPdfFromEngine(taskId)
     .then(result => {
-      const fileURL = window.URL.createObjectURL(new Blob([base64ToArrayBuffer(result.data as any)], {type: 'application/pdf'}));
-      const fileLink = document.createElement('a');
+      const fileURL = window.URL.createObjectURL(new Blob([base64ToArrayBuffer(result.data as any)], {type: "application/pdf"}));
+      const fileLink = document.createElement("a");
       fileLink.href = fileURL;
-      fileLink.setAttribute('download', 'statusdokument.pdf');
+      fileLink.setAttribute("download", "statusdokument.pdf");
       document.body.appendChild(fileLink);
       fileLink.click();
       return Promise.resolve({
