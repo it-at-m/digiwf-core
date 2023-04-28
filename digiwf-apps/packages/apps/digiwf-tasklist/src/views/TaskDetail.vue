@@ -227,7 +227,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   };
 
   @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
+  apiEndpoint = EngineServiceApiConfig.base;
 
   created() {
     console.log("created")

@@ -41,7 +41,7 @@
       clipped
       width="300"
     >
-<AppMenuList :number-of-process-instances="processInstancesCount"/>
+      <AppMenuList :number-of-process-instances="processInstancesCount"/>
     </v-navigation-drawer>
     <v-main class="main">
       <v-banner
@@ -60,6 +60,29 @@
         <p class="body-2 my-1">
           {{ appInfo.maintenanceInfo2 }}
         </p>
+      </v-banner>
+      <v-banner
+        :value="!loggedIn"
+        icon="mdi-alert"
+        color="error"
+        single-line
+        sticky
+      >
+        <template v-if="loginLoading">
+          Sie werden angemeldet...
+        </template>
+        <template v-else>
+          Sie sind aktuell nicht (mehr) angemeldet!
+        </template>
+        <template #actions>
+          <v-btn
+            text
+            :loading="loginLoading"
+            @click="login"
+          >
+            Login
+          </v-btn>
+        </template>
       </v-banner>
       <v-container fluid>
         <v-fade-transition mode="out-in">
@@ -147,6 +170,8 @@ import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
+import {apiGatewayUrl} from "./utils/envVariables";
+import {queryClient} from "./middleware/queryClient";
 
 @Component({
   components: {AppMenuList}
@@ -156,6 +181,8 @@ export default class App extends Vue {
   processInstancesCount: number | null = null;
   username = "";
   appInfo: InfoTO | null = null;
+  loginLoading = false;
+  loggedIn = true;
 
   created(): void {
     this.loadData();
@@ -168,6 +195,12 @@ export default class App extends Vue {
     this.drawer = this.$store.getters["menu/open"];
   }
 
+  getUser(): void {
+    this.loginLoading = true;
+    this.$store.dispatch("user/getUserInfo", true);
+    this.loginLoading = false;
+  }
+
   @Watch("$store.state.menu.open")
   onMenuChanged(menuOpen: boolean): void {
     this.drawer = menuOpen;
@@ -176,6 +209,8 @@ export default class App extends Vue {
   @Watch("$store.state.user.info")
   setUserName(user: UserTO): void {
     this.username = user.forename + " " + user.surname;
+    // if session is not valid, user is updated to an empty object in redux store
+    this.loggedIn = !!user.username
   }
 
   @Watch("$store.state.processInstances.processInstances")
@@ -186,6 +221,19 @@ export default class App extends Vue {
   @Watch("$store.state.info.info")
   setAppInfo(info: InfoTO): void {
     this.appInfo = info;
+  }
+
+  login(): void {
+    let popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
+
+    popup?.focus();
+    let timer = setInterval(() => {
+      if (popup?.closed ?? true) {
+        clearInterval(timer);
+        this.getUser();
+        queryClient.refetchQueries();
+      }
+    }, 1000);
   }
 }
 </script>

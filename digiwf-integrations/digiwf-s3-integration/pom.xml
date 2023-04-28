@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <minio.version>8.3.9</minio.version>
+        <minio.version>8.5.2</minio.version>
         <commons-collections4.version>4.4</commons-collections4.version>
     </properties>
 
@@ -28,6 +28,7 @@
         <module>digiwf-s3-integration-client-starter</module>
         <module>digiwf-s3-integration-example</module>
         <module>digiwf-s3-integration-client-example</module>
+        <module>digiwf-s3-integration-service</module>
     </modules>
 
     <dependencies>

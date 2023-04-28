@@ -1,4 +1,4 @@
-# Technischer Setup
+# Technisches Setup
 
 Im Folgenden wird das technische Setup beschrieben.
 

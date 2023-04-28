@@ -40,13 +40,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration test sending JSON request to the API and checking the correct invocation and
  * mapping to correct HTTP status.
  */
-@SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles({"itest", "embedded-kafka"})
+@SpringBootTest(
+    classes = TaskListApplication.class,
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
+@ActiveProfiles({"itest", "embedded-kafka", "no-ldap"})
 @AutoConfigureMockMvc(addFilters = false)
 @EmbeddedKafka(
     partitions = 1,
-    topics = {"plf_data_entries", "plf_tasks"},
-    ports = {9092}
+    topics = {"plf_data_entries", "plf_tasks"}
 )
 @Slf4j
 public class RetrieveTasksIT {

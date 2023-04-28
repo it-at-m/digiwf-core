@@ -1,8 +1,7 @@
 import {useRouter} from "vue-router/composables";
-import {Ref, ref} from "vue";
-
-const DEFAULT_PAGE = 0;
-const DEFAULT_SIZE = 20;
+import {inject, ref, Ref} from "vue";
+import {usePageId} from "./pageId";
+import {DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
 
 interface PaginationData {
   readonly searchQuery: Ref<string | undefined>;
@@ -16,29 +15,39 @@ interface PaginationData {
 
 export const useGetPaginationData = (): PaginationData => {
   const router = useRouter();
+  const pageId = usePageId();
+  const pageKeyToPaginationData = inject<PageBasedPaginationProvider>("paginationData");
+  if (!pageKeyToPaginationData) {
+    throw Error("could not inject PageBasedPaginationProvider")
+  }
+  console.log("router: ", router)
 
-  const getPageOfUrl = (): number => {
+  const paginationInformationOfPage = pageKeyToPaginationData.getPaginationDataInSession(pageId.id || "unknown");
+  const getDefaultPage = (): number => {
     const pageString = router.currentRoute.query?.page as string | null;
     if (!!pageString && !isNaN(parseInt(pageString))) {
       return parseInt(pageString);
     }
-    return DEFAULT_PAGE;
+    return paginationInformationOfPage?.page || DEFAULT_PAGE;
   }
-  const getSizeOfUrl = (): number => {
+  const getDefaultSize = (): number => {
     const sizeString = router.currentRoute.query?.size as string | null;
     if (!!sizeString && !isNaN(parseInt(sizeString))) {
       return parseInt(sizeString);
     }
-    return DEFAULT_SIZE;
+    return paginationInformationOfPage?.size || DEFAULT_SIZE;
   }
   const getSearchQueryOfUrl = (): string | undefined => {
     const queryFilterValue = router.currentRoute.query?.filter as string | null
-    return !!queryFilterValue ? queryFilterValue : undefined;
+    if (!!queryFilterValue) {
+      return queryFilterValue;
+    }
+    return !!paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
   }
 
   const searchQuery = ref<string | undefined>(getSearchQueryOfUrl());
-  const page = ref<number>(getPageOfUrl());
-  const size = ref<number>(getSizeOfUrl());
+  const page = ref<number>(getDefaultPage());
+  const size = ref<number>(getDefaultSize());
 
   const setPage = (newPage: number) => {
     page.value = newPage;
@@ -48,6 +57,7 @@ export const useGetPaginationData = (): PaginationData => {
         page: page.value?.toString(),
       }
     });
+    pageKeyToPaginationData.setPageOfPageId(pageId.id, newPage)
   }
   const setSize = (newSize: number) => {
     size.value = newSize;
@@ -57,6 +67,7 @@ export const useGetPaginationData = (): PaginationData => {
         size: size.value?.toString(),
       }
     });
+    pageKeyToPaginationData.setSizeOfPageId(pageId.id, newSize)
   }
   const setSearchQuery = (newSearchQuery?: string) => {
     searchQuery.value = newSearchQuery
@@ -66,8 +77,18 @@ export const useGetPaginationData = (): PaginationData => {
         filter: newSearchQuery
       }
     });
+    // jump back to first page, so that user can see the first results again
     setPage(0);
+    pageKeyToPaginationData.setSearchQuery(pageId.id, searchQuery.value)
   }
+
+  // load pagination from session after page switch
+  if (paginationInformationOfPage) {
+    setSearchQuery(paginationInformationOfPage.searchQuery)
+    setSize(paginationInformationOfPage.size)
+    setPage(paginationInformationOfPage.page)
+  }
+
   return {
     searchQuery,
     page,
@@ -78,3 +99,4 @@ export const useGetPaginationData = (): PaginationData => {
     getSearchQueryOfUrl,
   }
 }
+

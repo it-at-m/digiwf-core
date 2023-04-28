@@ -16,12 +16,12 @@
         <maven.compiler.source>11</maven.compiler.source>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.10</spring-boot.version>
+        <spring-boot.version>2.7.11</spring-boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <okhttp.version>4.10.0</okhttp.version>
         <lombok.version>1.18.26</lombok.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
-        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <camunda.version.ce>7.18.0</camunda.version.ce>
         <camunda.version>${camunda.version.ce}</camunda.version>
         <camunda.version.ee>7.18.0-ee</camunda.version.ee>
@@ -153,7 +153,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <propertiesEncoding>UTF-8</propertiesEncoding>
                     </configuration>
@@ -166,7 +166,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.3.0</version>
                     <executions>
                         <execution>
                             <id>enforce-maven</id>
@@ -258,7 +258,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>

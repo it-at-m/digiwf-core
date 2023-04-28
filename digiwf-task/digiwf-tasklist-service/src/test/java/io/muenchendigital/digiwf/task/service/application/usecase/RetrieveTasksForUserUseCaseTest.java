@@ -1,8 +1,6 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import com.google.common.collect.Sets;
-import io.holunda.camunda.taskpool.api.task.ProcessReference;
-import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.RetrieveTasksForUser;
@@ -15,15 +13,8 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTasks;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.camunda.bpm.engine.variable.Variables.createVariables;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
@@ -84,19 +75,19 @@ class RetrieveTasksForUserUseCaseTest {
   }
 
   @Test
-  void getsTasksForCurrentUserGroup() {
+  void getsTasksForCurrentUser() {
 
     val pageOfTasks = new PageOfTasks(
-        generateTasks(17, Sets.newHashSet(), Sets.newHashSet("group1"), null),
+        generateTasks(17, Sets.newHashSet(), Sets.newHashSet(), user.getUsername()),
         17,
         pagingAndSorting
     );
 
-    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getTasksForCurrentUser(query, pagingAndSorting);
+    val tasks = useCase.getTasksForCurrentUser(query, null, pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUser(user, query, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 }

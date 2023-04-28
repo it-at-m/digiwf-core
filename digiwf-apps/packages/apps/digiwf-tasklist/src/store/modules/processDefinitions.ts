@@ -5,7 +5,7 @@ import {
   ServiceDefinitionControllerApiFactory,
   ServiceDefinitionTO
 } from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
 
 export interface ProcessDefinitionState {
   processDefinitions: ServiceDefinitionTO[];
@@ -55,7 +55,7 @@ export default {
         return;
       }
       //const processDefinitions = await ProcessService.loadProcesses();
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await ServiceDefinitionControllerApiFactory(cfg).getServiceDefinitions();

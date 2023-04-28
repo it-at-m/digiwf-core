@@ -1,0 +1,33 @@
+{
+  "lhmObjectId": "1234",
+  "uid": "Uid",
+  "anrede": "Anrede",
+  "vorname": "Vorname",
+  "nachname": "Nachname",
+  "cn": "Vorname Nachname",
+  "ou": "OU",
+  "lhmOULongname": "OU Name",
+  "lhmObjectPath": "OU Pfad",
+  "lhmOberOrga": "Ober Orga",
+  "lhmReferatName": "Referat",
+  "lhmFunctionalTitle": "Funktion",
+  "amtsbezeichnung": "Bezeichnung",
+  "erreichbarkeit": null,
+  "mail": "email@mail.de",
+  "lhmOrgaMail": "orga.email@mail.de",
+  "telephoneNumber": "123456789",
+  "facsimileTelephoneNumber": null,
+  "mobile": null,
+  "zimmer": "Zimmer",
+  "postanschrift": {
+    "strasse": "Straße",
+    "plz": "12345",
+    "ort": "Ort"
+  },
+  "bueroanschrift": {
+    "strasse": "Straße",
+    "plz": "12345",
+    "ort": "Ort"
+  },
+  "personalTitle": null
+}

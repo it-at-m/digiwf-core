@@ -7,6 +7,14 @@ import {
 } from "@muenchen/digiwf-engine-api-internal";
 import {ApiConfig} from "../ApiConfig";
 import {PageOfTasks, TaskApiFactory, TasksApiFactory, TaskWithSchema} from "@muenchen/digiwf-task-api-internal"
+import {
+  Configuration,
+  FetchUtils,
+  HumanTaskRestControllerApiFactory,
+  PageHumanTaskTO
+} from "@muenchen/digiwf-engine-api-internal";
+import {EngineServiceApiConfig} from "../EngineServiceApiConfig";
+import {configuredAxios} from "../statusCodeHandling";
 
 /**
  * old api for getting tasks. will be replaced by callGetTasksFromTaskService
@@ -203,3 +211,5 @@ export const callAssignTaskInTaskService = (taskId: string, userId: string): Pro
     assignee: userId,
   }).then(() => Promise.resolve());
 };
+
+const getFactoryFromConfig = (cfg: Configuration) => HumanTaskRestControllerApiFactory(cfg, undefined, configuredAxios);

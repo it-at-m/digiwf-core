@@ -10,6 +10,7 @@ import AssignedGroupTasks from "@/views/AssignedGroupTasks.vue";
 import GroupTaskDetail from "@/views/GroupTaskDetail.vue";
 import ProcessInstanceDetailView from "@/views/ProcessInstanceDetailView.vue";
 import store from "./store";
+import {baseUrl} from "./utils/envVariables";
 
 Vue.use(Router);
 
@@ -30,9 +31,8 @@ routerMethods.forEach((method: string) => {
 });
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-
 const router = new Router({
-  base: import.meta.env.BASE_URL,
+  base: baseUrl,
   routes: [
     {
       path: "/mytask",

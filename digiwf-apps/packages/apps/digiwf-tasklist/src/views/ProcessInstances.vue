@@ -199,7 +199,7 @@ export default class ProcessInstances extends Vue {
   }
 
   get filteredProcessInstances(): ServiceInstanceTO[] {
-    this.processInstances = this.$store.getters['processInstances/processInstances'];
+    this.processInstances = this.$store.getters['processInstances/processInstances'] || [];
     if (!this.filter) {
       return this.processInstances;
     }
@@ -250,7 +250,7 @@ export default class ProcessInstances extends Vue {
 
   async loadPersistentFilters(refresh = false): Promise<void> {
     try {
-      const serverSideFilters = await getPersistentFilterForNonHookCompatibleFunction();
+      const serverSideFilters = await getPersistentFilterForNonHookCompatibleFunction() || [];
       this.persistentFilters = serverSideFilters.filter((filter: FilterTO) => filter.pageId === "processinstances");
       this.errorMessage = "";
     } catch (error) {

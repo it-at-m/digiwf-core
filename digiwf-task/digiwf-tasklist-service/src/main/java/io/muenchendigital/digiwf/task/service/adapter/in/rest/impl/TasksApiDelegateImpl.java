@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 import static org.springframework.http.ResponseEntity.ok;
 
 /**
@@ -22,9 +24,9 @@ public class TasksApiDelegateImpl implements TasksApiDelegate {
   private final RetrieveTasksForUser retrieveTasksForUser;
 
   @Override
-  public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, String sort) {
+  public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, LocalDate followUp, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
-    var result = retrieveTasksForUser.getTasksForCurrentUser(query, pagingAndSorting);
+    var result = retrieveTasksForUser.getTasksForCurrentUser(query, followUp, pagingAndSorting);
     return ok(taskMapper.to(result));
   }
 
