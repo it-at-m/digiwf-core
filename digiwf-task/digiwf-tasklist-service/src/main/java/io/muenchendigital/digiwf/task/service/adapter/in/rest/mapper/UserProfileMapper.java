@@ -15,9 +15,6 @@ public interface UserProfileMapper {
     to.setLastName(profile.getLastName());
     to.setUserId(profile.getUserId());
     to.setPrimaryOrgUnit(profile.getPrimaryOrgUnit());
-
-    to.setLongName(String.format("%s %s", to.getFirstName(), to.getLastName()));
-    to.setLongNameWithOrgUnit(String.format("%s %s (%s)", to.getFirstName(), to.getLastName(), to.getPrimaryOrgUnit()));
     return to;
   }
 }

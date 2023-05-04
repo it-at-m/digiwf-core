@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static io.muenchendigital.digiwf.task.service.adapter.out.auth.group.MockUserGroupResolver.GROUP1;
+import static io.muenchendigital.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter.GROUP1;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @WithSecurityContext(factory = WithKeycloakUserSecurityContextFactory.class)

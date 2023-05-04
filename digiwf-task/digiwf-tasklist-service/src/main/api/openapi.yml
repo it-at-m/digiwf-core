@@ -619,18 +619,10 @@ components:
         primaryOrgUnit:
           description: Primary organizational unit.
           type: string
-        longName:
-          description: Long name.
-          type: string
-        longNameWithOrgUnit:
-          description: Long name with primary organizational unit.
-          type: string
       required:
         - userId
         - firstName
         - lastName
         - primaryOrgUnit
-        - longName
-        - longNameWithOrgUnit
 
 
