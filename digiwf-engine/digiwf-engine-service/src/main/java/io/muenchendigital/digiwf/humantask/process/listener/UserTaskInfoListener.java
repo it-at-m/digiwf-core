@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Listener that creats and upates the TaskInfoEntity
+ * Listener that creates and updates the TaskInfoEntity
  *
  * @author externer.dl.horn
  */
@@ -41,6 +41,8 @@ public class UserTaskInfoListener {
             case "delete":
                 log.debug("TaskInfo Listener: {}, Event: {}", delegateTask.getName(), delegateTask.getEventName());
                 this.taskInfoService.deleteTaskInfo(delegateTask.getId());
+                break;
+            default:
                 break;
         }
     }

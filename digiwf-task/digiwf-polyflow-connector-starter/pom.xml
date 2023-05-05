@@ -32,6 +32,12 @@
             <artifactId>polyflow-datapool-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Axon Framework -->
         <dependency>
             <groupId>org.axonframework</groupId>
