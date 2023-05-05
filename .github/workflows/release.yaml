@@ -117,14 +117,14 @@ jobs:
         with:
           context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
           push: true
-          tags: itatm/digiwf-verification-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-verification-integration:dev
+          tags: itatm/digiwf-verification-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-verification-integration-service:dev
 
       - name: Build and push s3-integration
         uses: docker/build-push-action@v4
         with:
           context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
           push: true
-          tags: itatm/digiwf-s3-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-s3-integration:dev
+          tags: itatm/digiwf-s3-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-s3-integration-service:dev
 
       - name: Build and push oss engine
         uses: docker/build-push-action@v4
