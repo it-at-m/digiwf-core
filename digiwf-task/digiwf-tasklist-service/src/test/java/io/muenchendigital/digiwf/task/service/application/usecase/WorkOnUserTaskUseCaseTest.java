@@ -238,6 +238,16 @@ class WorkOnUserTaskUseCaseTest {
 
   @Test
   void cancelsUserTask() {
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(
+        generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, true)
+    );
+    useCase.cancelUserTask("task_0");
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(taskCommandPort).cancelUserTask("task_0");
+    verifyNoMoreInteractions(taskCommandPort);
 
   }
 
