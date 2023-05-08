@@ -79,7 +79,7 @@
         </loading-fab>
 
         <loading-fab
-          v-if="isCancelable"
+          v-if="task.isCancelable"
           :is-loading="isCancelling"
           :has-error="hasCancelError"
           color="white"
@@ -199,8 +199,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   isCompleting = false;
   hasCompleteError = false;
   isCancelling = false;
-  hasCancelError = false;
-  isCancelable = false;
+  hasCancelError = false
   cancelText = "Aufgabe Abbrechen";
 
   isDownloading = false;
@@ -236,7 +235,6 @@ export default class TaskDetail extends SaveLeaveMixin {
         this.task = data.task;
         this.model = data.model;
         this.followUpDate = data.followUpDate;
-        this.isCancelable = data.isCancelable;
         this.cancelText = data.cancelText
         this.hasDownloadButton = data.hasDownloadButton;
         this.downloadButtonText = data.downloadButtonText;

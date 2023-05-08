@@ -384,6 +384,37 @@ export interface TaskWithSchema {
      */
     'variables': { [key: string]: object; };
 }
+/**
+ * Profile of the user.
+ * @export
+ * @interface UserProfile
+ */
+export interface UserProfile {
+    /**
+     * Unique user id.
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'userId': string;
+    /**
+     * First name.
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'firstName': string;
+    /**
+     * Last name.
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'lastName': string;
+    /**
+     * Primary organizational unit.
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'primaryOrgUnit': string;
+}
 
 /**
  * TaskApi - axios parameter creator
@@ -1321,11 +1352,12 @@ export const TasksApiAxiosParamCreator = function (configuration?: Configuration
          * @param {number} [page] Current page used index for paging operations started from zero.
          * @param {number} [size] Current page size used for paging operations started from 1.
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
+         * @param {string} [followUp] An optional flag to include tasks with follow-up date set to a day before today.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCurrentUserTasks: async (page?: number, size?: number, query?: string, sort?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCurrentUserTasks: async (page?: number, size?: number, query?: string, followUp?: string, sort?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tasks/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1348,6 +1380,12 @@ export const TasksApiAxiosParamCreator = function (configuration?: Configuration
 
             if (query !== undefined) {
                 localVarQueryParameter['query'] = query;
+            }
+
+            if (followUp !== undefined) {
+                localVarQueryParameter['followUp'] = (followUp as any instanceof Date) ?
+                    (followUp as any).toISOString().substr(0,10) :
+                    followUp;
             }
 
             if (sort !== undefined) {
@@ -1442,12 +1480,13 @@ export const TasksApiFp = function(configuration?: Configuration) {
          * @param {number} [page] Current page used index for paging operations started from zero.
          * @param {number} [size] Current page size used for paging operations started from 1.
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
+         * @param {string} [followUp] An optional flag to include tasks with follow-up date set to a day before today.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCurrentUserTasks(page?: number, size?: number, query?: string, sort?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageOfTasks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCurrentUserTasks(page, size, query, sort, options);
+        async getCurrentUserTasks(page?: number, size?: number, query?: string, followUp?: string, sort?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageOfTasks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCurrentUserTasks(page, size, query, followUp, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1490,12 +1529,13 @@ export const TasksApiFactory = function (configuration?: Configuration, basePath
          * @param {number} [page] Current page used index for paging operations started from zero.
          * @param {number} [size] Current page size used for paging operations started from 1.
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
+         * @param {string} [followUp] An optional flag to include tasks with follow-up date set to a day before today.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCurrentUserTasks(page?: number, size?: number, query?: string, sort?: string, options?: any): AxiosPromise<PageOfTasks> {
-            return localVarFp.getCurrentUserTasks(page, size, query, sort, options).then((request) => request(axios, basePath));
+        getCurrentUserTasks(page?: number, size?: number, query?: string, followUp?: string, sort?: string, options?: any): AxiosPromise<PageOfTasks> {
+            return localVarFp.getCurrentUserTasks(page, size, query, followUp, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
@@ -1575,6 +1615,13 @@ export interface TasksApiGetCurrentUserTasksRequest {
     readonly query?: string
 
     /**
+     * An optional flag to include tasks with follow-up date set to a day before today.
+     * @type {string}
+     * @memberof TasksApiGetCurrentUserTasks
+     */
+    readonly followUp?: string
+
+    /**
      * A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
      * @type {string}
      * @memberof TasksApiGetCurrentUserTasks
@@ -1643,7 +1690,7 @@ export class TasksApi extends BaseAPI {
      * @memberof TasksApi
      */
     public getCurrentUserTasks(requestParameters: TasksApiGetCurrentUserTasksRequest = {}, options?: AxiosRequestConfig) {
-        return TasksApiFp(this.configuration).getCurrentUserTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
+        return TasksApiFp(this.configuration).getCurrentUserTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.followUp, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1655,6 +1702,121 @@ export class TasksApi extends BaseAPI {
      */
     public getUnassignedGroupTasks(requestParameters: TasksApiGetUnassignedGroupTasksRequest = {}, options?: AxiosRequestConfig) {
         return TasksApiFp(this.configuration).getUnassignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * UserApi - axios parameter creator
+ * @export
+ */
+export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Resolves a user by id.
+         * @param {string} userId User id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resolveUser: async (userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('resolveUser', 'userId', userId)
+            const localVarPath = `/user/id/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UserApi - functional programming interface
+ * @export
+ */
+export const UserApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Resolves a user by id.
+         * @param {string} userId User id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resolveUser(userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserProfile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resolveUser(userId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * UserApi - factory interface
+ * @export
+ */
+export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UserApiFp(configuration)
+    return {
+        /**
+         * Resolves a user by id.
+         * @param {string} userId User id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resolveUser(userId: string, options?: any): AxiosPromise<UserProfile> {
+            return localVarFp.resolveUser(userId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for resolveUser operation in UserApi.
+ * @export
+ * @interface UserApiResolveUserRequest
+ */
+export interface UserApiResolveUserRequest {
+    /**
+     * User id.
+     * @type {string}
+     * @memberof UserApiResolveUser
+     */
+    readonly userId: string
+}
+
+/**
+ * UserApi - object-oriented interface
+ * @export
+ * @class UserApi
+ * @extends {BaseAPI}
+ */
+export class UserApi extends BaseAPI {
+    /**
+     * Resolves a user by id.
+     * @param {UserApiResolveUserRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public resolveUser(requestParameters: UserApiResolveUserRequest, options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).resolveUser(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

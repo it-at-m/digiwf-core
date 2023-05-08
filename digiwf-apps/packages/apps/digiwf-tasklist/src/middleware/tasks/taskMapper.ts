@@ -20,7 +20,7 @@ export const mapTaskFromEngineService = (response: HumanTaskTO): HumanTask => {
     name: response.name || "-",
     processName: response.processName,
     assigneeId: response.assignee,
-    assigneeFormatted: response.assigneeFormatted
+    assigneeFormatted: response.assigneeFormatted,
   }
 }
 
@@ -47,6 +47,7 @@ export const mapTaskDetailsFromEngineService = (response: HumanTaskDetailTO): Hu
     processInstanceId: response.processInstanceId,
     schema: response.jsonSchema,
     statusDocument: response.statusDocument || false,
+    isCancelable: response.form?.buttons?.cancel!.showButton || false
   }
 }
 
@@ -59,7 +60,7 @@ export const mapTaskFromTaskService = (response: Task, user?: User): HumanTask =
     name: response.name || "-",
     processName: response.processName,
     assigneeId: response.assignee,
-    assigneeFormatted: user && user.fullInfo
+    assigneeFormatted: user && user.fullInfo,
   };
 }
 
@@ -86,5 +87,7 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: U
     processInstanceId: response.processInstanceId,
     schema: response.schema?.schema,
     statusDocument: false,
+
+    isCancelable: false // TODO: change to Task property when Task Response is updated by TaskList backend service
   }
 }

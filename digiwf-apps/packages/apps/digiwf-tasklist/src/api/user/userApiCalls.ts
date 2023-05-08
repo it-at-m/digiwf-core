@@ -1,17 +1,11 @@
+import {ApiConfig} from "../ApiConfig";
+import {FetchUtils} from "@muenchen/digiwf-engine-api-internal";
+import {UserApiFactory, UserProfile} from "@muenchen/digiwf-task-api-internal";
 
+export const callGetUserInfoFromTaskService = (id: string): Promise<UserProfile> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
+  return UserApiFactory(cfg).resolveUser(id)
+    .then((res) => Promise.resolve(res.data))
+    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")))
+};
 
-export interface UserResponse {
-  readonly lhmObjectId: string;
-  readonly firstName: string,
-  readonly surname: string,
-  readonly ou: string
-}
-export const callGetUserInfoFromTaskService = (id: string): Promise<UserResponse> => {
-  console.log("mock user info request call", id)
-  return Promise.resolve({
-    firstName: "firstName",
-    lhmObjectId: "123456789",
-    ou: "ou",
-    surname: "surname"
-  })
-}

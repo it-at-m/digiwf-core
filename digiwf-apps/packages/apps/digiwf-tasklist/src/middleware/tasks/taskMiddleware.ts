@@ -153,7 +153,6 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
 export const useAssignTaskMutation = () => {
   const queryClient = useQueryClient();
 
-  // FIXME: remove useStore and replace it with context
   const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
   return useMutation<void, any, string>({
     mutationFn: (taskId) => {
@@ -173,11 +172,12 @@ export const useAssignTaskMutation = () => {
 export interface LoadTaskFromEngineResultData {
   readonly task: HumanTaskDetails;
   readonly model?: { [key: string]: object; }
-  readonly followUpDate: string // FIXME: check type
+
   /**
-   * @deprecated only used for old forms
+   * with moment.js formatted date
    */
-  readonly isCancelable: boolean
+  readonly followUpDate: string;
+
   /**
    * @deprecated only used for old forms
    */
@@ -200,7 +200,6 @@ export interface LoadTaskResult {
 
 export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
   return shouldUseTaskService
-    // return false
     ? loadTaskFromTaskService(taskId)
     : loadTasksFromEngine(taskId)
 }
@@ -212,7 +211,6 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
           ? getUserInfo(taskResponse.assignee)
           : Promise.resolve()
       ).then(user => {
-        console.log("then block of getUserInfo", user)
         const taskDetails = mapTaskDetailsFromTaskService(taskResponse);
         return Promise.resolve<LoadTaskResult>({
           data: {
@@ -220,8 +218,7 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
             hasDownloadButton: false,
             model: taskDetails.variables, // FIXME: I guess that is wrong
             followUpDate: taskDetails.followUpDate!,
-            isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
-            cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "",
+            cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
             downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
           }
         })
@@ -229,9 +226,13 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
 
     }).catch((error: Error | AxiosError) => {
       if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
-        return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
+        return Promise.resolve({
+          error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
+        })
       } else {
-        return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
+        return Promise.resolve({
+          error: "Die Aufgabe konnte nicht geladen werden."
+        })
       }
     });
 }
@@ -260,8 +261,7 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
         task: mapTaskDetailsFromEngineService(taskDetails),
         model: taskDetails.variables,
         followUpDate: taskDetails.followUpDate!,
-        isCancelable: taskDetails.form?.buttons?.cancel!.showButton || false,
-        cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "",
+        cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
         hasDownloadButton: hasDownloadButton(taskDetails),
         downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
       },
@@ -270,9 +270,13 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
   })
     .catch((error: Error | AxiosError) => {
       if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
-        return Promise.resolve({error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."})
+        return Promise.resolve({
+          error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
+        })
       } else {
-        return Promise.resolve({error: "Die Aufgabe konnte nicht geladen werden."})
+        return Promise.resolve({
+          error: "Die Aufgabe konnte nicht geladen werden."
+        })
       }
     })
 }
@@ -290,17 +294,17 @@ export interface CancelTaskResult {
 export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
   return callCancelTaskInEngine(taskId).then(() => {
     queryClient.invalidateQueries([userTasksQueryId])
-    router.push({path: "/task"});
+    router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
 
     return Promise.resolve<CancelTaskResult>({
       isError: false
-    })
+    });
 
   }).catch(_ => {
     return Promise.resolve<CancelTaskResult>({
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht abgebrochen werden."
-    })
+    });
   });
 }
 
@@ -310,7 +314,6 @@ interface CompleteTaskResult {
 }
 
 export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
-
   return (
     shouldUseTaskService
       ? callCompleteTaskInTaskService(taskId, variables)
@@ -318,7 +321,7 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
   )
     .then(() => {
       queryClient.invalidateQueries([userTasksQueryId]);
-      router.push({path: "/task"});
+      router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
       // normally it is not needed anymore because it will redirect to the task list path before
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
@@ -338,7 +341,6 @@ interface SetFollowUpResult {
 }
 
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
-  console.log("deferTask: ", shouldUseTaskService)
   return (
     shouldUseTaskService
       ? callDeferTask(taskId, dateToIsoDateTime(followUp))
@@ -384,7 +386,6 @@ interface AssignTaskResult {
 }
 
 export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
-  console.log("assign Task user info", store.getters["user/info"])
   const userId = store.getters["user/info"].lhmObjectId;
   return (
     shouldUseTaskService

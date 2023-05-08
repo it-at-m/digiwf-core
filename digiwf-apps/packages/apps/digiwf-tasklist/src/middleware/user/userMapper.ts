@@ -1,10 +1,10 @@
-import {UserResponse} from "../../api/user/userApiCalls";
 import {User} from "./userModels";
+import {UserProfile} from "@muenchen/digiwf-task-api-internal";
 
-export const mapUserResponse = (response: UserResponse):User => ({
-  lhmObjectId: response.lhmObjectId,
+export const mapUserResponse = (response: UserProfile):User => ({
+  lhmObjectId: response.userId,
   firstName: response.firstName,
-  surname: response.surname,
-  ou: response.ou,
-  fullInfo: `${response.firstName} ${response.surname} (${response.ou})`
+  surname: response.lastName,
+  ou: response.primaryOrgUnit,
+  fullInfo: `${response.firstName} ${response.lastName} (${response.primaryOrgUnit})`
 });

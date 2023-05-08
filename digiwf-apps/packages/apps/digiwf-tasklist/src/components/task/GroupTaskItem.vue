@@ -31,7 +31,7 @@
       style="min-width: 150px; max-width: 150px"
       class="taskColumn"
     >
-      <p v-if="task.assignee">
+      <p v-if="task.assigneeFormatted">
         <text-highlight :queries="searchString">
           {{ task.assigneeFormatted }}
         </text-highlight>
