@@ -15,8 +15,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.muenchendigital.digiwf.task.service.adapter.out.auth.user.CurrentUserSpringSecurityAdapter.USERNAME_CLAIM;
-import static io.muenchendigital.digiwf.task.service.adapter.out.auth.user.CurrentUserSpringSecurityAdapter.USER_ID_CLAIM;
+import static io.muenchendigital.digiwf.task.service.adapter.out.auth.CurrentUserSpringSecurityAdapter.USERNAME_CLAIM;
+import static io.muenchendigital.digiwf.task.service.adapter.out.auth.CurrentUserSpringSecurityAdapter.USER_ID_CLAIM;
 
 public class ControllerAuthorizationHelper {
 

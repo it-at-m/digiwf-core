@@ -1,8 +1,8 @@
-package io.muenchendigital.digiwf.task.service.adapter.out.auth.user;
+package io.muenchendigital.digiwf.task.service.adapter.out.auth;
 
 import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
-import io.muenchendigital.digiwf.task.service.application.port.out.auth.UserGroupResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.user.UserGroupResolverPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task.service.infra.auth;
+package io.muenchendigital.digiwf.task.service.infra.user;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;

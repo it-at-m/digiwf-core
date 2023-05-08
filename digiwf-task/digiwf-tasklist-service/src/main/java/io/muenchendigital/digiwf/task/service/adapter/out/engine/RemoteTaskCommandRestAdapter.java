@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
 
@@ -45,9 +46,9 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   public void deferUserTask(String taskId, Instant followUpDate) {
     var task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if (task != null) {
-      task.setDueDate(Date.from(followUpDate));
+      task.setDueDate(Date.from(followUpDate.truncatedTo(ChronoUnit.DAYS)));
+      taskService.saveTask(task);
     }
-    taskService.saveTask(task);
   }
 
   @Override
@@ -55,7 +56,7 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
     var task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if (task != null) {
       task.setDueDate(null);
+      taskService.saveTask(task);
     }
-    taskService.saveTask(task);
   }
 }

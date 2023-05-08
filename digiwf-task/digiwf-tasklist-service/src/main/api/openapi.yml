@@ -256,6 +256,23 @@ paths:
               schema:
                 $ref: "#/components/schemas/PageOfTasks"
 
+  /user/id/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/UserIdParam'
+    get:
+      description: Resolves a user by id.
+      operationId: resolveUser
+      tags:
+        - User
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+
+
 components:
 
   parameters:
@@ -323,6 +340,15 @@ components:
       required: true
       schema:
         type: string
+
+    UserIdParam:
+      name: userIdId
+      in: path
+      description: User id.
+      required: true
+      schema:
+        type: string
+
 
   schemas:
 
@@ -577,5 +603,26 @@ components:
       additionalProperties:
         type: object
 
+    UserProfile:
+      description: Profile of the user.
+      type: object
+      properties:
+        userId:
+          description: Unique user id.
+          type: string
+        firstName:
+          description: First name.
+          type: string
+        lastName:
+          description: Last name.
+          type: string
+        primaryOrgUnit:
+          description: Primary organizational unit.
+          type: string
+      required:
+        - userId
+        - firstName
+        - lastName
+        - primaryOrgUnit
 
 
