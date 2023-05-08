@@ -64,15 +64,10 @@ public class JsonSchemaValidator {
 
     private void validate(final Map<String, Object> schemaObject, final JSONObject data) {
         final Schema schema = this.createSchema(new JSONObject(schemaObject));
-        System.out.println("Schema:");
-        System.out.println(schema);
-        System.out.println("Data");
-        System.out.println(data);
         Validator validator = Validator.builder()
                 .primitiveValidationStrategy(PrimitiveValidationStrategy.LENIENT)
                 .build();
         validator.performValidation(schema, data);
-        //schema.validate(data);
     }
 
     private Schema createSchema(final JSONObject schemaObject) {
