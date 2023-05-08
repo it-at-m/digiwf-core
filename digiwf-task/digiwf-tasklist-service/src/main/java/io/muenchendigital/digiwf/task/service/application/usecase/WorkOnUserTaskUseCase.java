@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
+import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
@@ -13,7 +14,6 @@ import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentU
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -30,6 +30,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   private final JsonSchemaPort jsonSchemaPort;
   private final TaskCommandPort taskCommandPort;
   private final JsonSchemaValidationPort jsonSchemaValidationPort;
+  private final CancellationFlagOutPort cancellationFlagOutPort;
 
   @Override
   public JsonSchema loadSchema(String schemaId) throws JsonSchemaNotFoundException {
@@ -40,7 +41,8 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   public TaskWithSchemaRef loadUserTask(String taskId) throws TaskNotFoundException {
     val task = getTaskForUser(taskId);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
-    return new TaskWithSchemaRef(task, schemaRef);
+    val cancelable = cancellationFlagOutPort.apply(task);
+    return new TaskWithSchemaRef(task, schemaRef, cancelable);
   }
 
   @Override
@@ -48,7 +50,8 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     val task = getTaskForUser(taskId);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val schema = jsonSchemaPort.getSchemaById(schemaRef);
-    return new TaskWithSchema(task, schema);
+    val cancelable = cancellationFlagOutPort.apply(task);
+    return new TaskWithSchema(task, schema, cancelable);
   }
 
 
@@ -58,7 +61,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val schema = jsonSchemaPort.getSchemaById(schemaRef);
     val variables = jsonSchemaValidationPort.validateAndSerialize(schema, task, payload);
-    taskCommandPort.completeTask(taskId, variables);
+    taskCommandPort.completeUserTask(taskId, variables);
   }
 
   @Override
@@ -97,6 +100,16 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     val task = getTaskForUser(taskId);
     if (task.getFollowUpDate() != null) {
       taskCommandPort.undeferUserTask(taskId);
+    }
+  }
+
+  @Override
+  public void cancelUserTask(String taskId) throws TaskNotFoundException {
+    val task = getTaskForUser(taskId);
+    if (cancellationFlagOutPort.apply(task)) {
+      taskCommandPort.cancelUserTask(taskId);
+    } else {
+      throw new IllegalArgumentException("Task " + taskId + " can not be cancelled.");
     }
   }
 

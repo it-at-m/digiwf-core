@@ -198,6 +198,22 @@ paths:
         404:
           description: Task not found.
 
+  /tasks/id/{taskId}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    post:
+      description: Cancels the execution of a user task.
+      operationId: cancelTask
+      tags:
+        - Task
+      responses:
+        204:
+          description: Successful operation.
+        400:
+          description: Task can't be cancelled.
+        404:
+          description: Task not found.
+
   /tasks/user:
     parameters:
       - $ref: '#/components/parameters/PageParam'
@@ -512,10 +528,14 @@ components:
           type: object
           additionalProperties:
             type: object
+        cancelable:
+          description: Flag indicating if a task can be cancelled.
+          type: boolean
       required:
         - id
         - schemaRef
         - variables
+        - cancelable
 
     TaskWithSchema:
       description: Represents a user task with embedded combined schema.
@@ -557,10 +577,15 @@ components:
           type: object
           additionalProperties:
             type: object
+        cancelable:
+          description: Flag indicating if a task can be cancelled.
+          type: boolean
+
       required:
         - id
         - schema
         - variables
+        - cancelable
 
     TaskAssignment:
       description: Task assignment information.
