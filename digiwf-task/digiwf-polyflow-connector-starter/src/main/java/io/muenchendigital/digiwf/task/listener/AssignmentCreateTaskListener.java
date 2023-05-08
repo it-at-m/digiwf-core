@@ -25,7 +25,7 @@ import static io.muenchendigital.digiwf.task.TaskVariables.*;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class AssignmentTaskListener {
+public class AssignmentCreateTaskListener {
   private final TaskManagementProperties.AssignmentProperties properties;
 
   @PostConstruct
@@ -33,7 +33,7 @@ public class AssignmentTaskListener {
     log.info("DIGIWF-TASK-ASSIGNMENT-001: \n\tshadow: {}, \n\tlocal: {}, \n\tdelete {}", properties.isShadow(), properties.isLocal(), properties.isDelete());
   }
 
-  @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow, otherwise
+  @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
   @EventListener(condition = "#task.eventName.equals('create')")
   public void taskCreated(final DelegateTask task) {
     if (properties.isShadow()) {

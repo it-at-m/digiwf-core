@@ -11,10 +11,10 @@ import static io.muenchendigital.digiwf.task.TaskVariables.*;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.when;
 
-class AssignmentTaskListenerTest {
+class AssignmentCreateTaskListenerTest {
 
   private final TaskManagementProperties.AssignmentProperties properties = Mockito.mock(TaskManagementProperties.AssignmentProperties.class);
-  private final AssignmentTaskListener assignmentTaskListener = new AssignmentTaskListener(properties);
+  private final AssignmentCreateTaskListener assignmentCreateTaskListener = new AssignmentCreateTaskListener(properties);
 
   private DelegateTaskFake delegateTask;
 
@@ -32,7 +32,7 @@ class AssignmentTaskListenerTest {
   public void is_disabled_by_properties() {
     when(properties.isShadow()).thenReturn(false);
 
-    assignmentTaskListener.taskCreated(delegateTask);
+    assignmentCreateTaskListener.taskCreated(delegateTask);
     assertThat(delegateTask.getVariables()).isEmpty();
     assertThat(delegateTask.getAssignee()).isEqualTo("assignee");
     assertThat(DelegateTaskFake.candidateUserIds(delegateTask)).containsExactlyInAnyOrder("candidateUser1", "candidateUser2");
@@ -44,7 +44,7 @@ class AssignmentTaskListenerTest {
     when(properties.isShadow()).thenReturn(true);
     when(properties.isLocal()).thenReturn(true);
 
-    assignmentTaskListener.taskCreated(delegateTask);
+    assignmentCreateTaskListener.taskCreated(delegateTask);
 
     assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_ASSIGNEE.getName(), "assignee");
     assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
@@ -61,7 +61,7 @@ class AssignmentTaskListenerTest {
     when(properties.isShadow()).thenReturn(true);
     when(properties.isLocal()).thenReturn(false);
 
-    assignmentTaskListener.taskCreated(delegateTask);
+    assignmentCreateTaskListener.taskCreated(delegateTask);
     assertThat(delegateTask.getVariables()).containsEntry(TASK_ASSIGNEE.getName(), "assignee");
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidateGroup1", "candidateGroup2"));
@@ -77,7 +77,7 @@ class AssignmentTaskListenerTest {
     when(properties.isLocal()).thenReturn(true);
     when(properties.isDelete()).thenReturn(true);
 
-    assignmentTaskListener.taskCreated(delegateTask);
+    assignmentCreateTaskListener.taskCreated(delegateTask);
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidateGroup1", "candidateGroup2"));
 
