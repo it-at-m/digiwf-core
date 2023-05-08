@@ -17,9 +17,11 @@ import org.springframework.stereotype.Component;
  * Listener that creates and updates the TaskInfoEntity
  *
  * @author externer.dl.horn
+ * @deprecated due to new taskmanagement with polyflow
  */
 @Slf4j
 @Component
+@Deprecated
 @RequiredArgsConstructor
 public class UserTaskInfoListener {
 
