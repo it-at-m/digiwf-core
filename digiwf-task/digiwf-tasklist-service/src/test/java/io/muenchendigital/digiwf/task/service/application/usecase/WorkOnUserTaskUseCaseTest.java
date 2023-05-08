@@ -251,4 +251,22 @@ class WorkOnUserTaskUseCaseTest {
 
   }
 
+  @Test
+  void failsToCancelUserTask() {
+    when(cancellationFlagOutPort.apply(any())).thenReturn(false); // all tasks are not cancellable
+    val task = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, false);
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task);
+
+    val exception = assertThrows(IllegalArgumentException.class, () -> useCase.cancelUserTask("task_0"));
+    assertThat(exception.getMessage()).isEqualTo("Task task_0 can not be cancelled.");
+
+    verify(cancellationFlagOutPort).apply(task);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verifyNoInteractions(taskCommandPort);
+
+  }
+
 }
