@@ -1,6 +1,6 @@
-package io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap;
+package io.muenchendigital.digiwf.task.service.adapter.out.user.easyldap;
 
-import io.muenchendigital.digiwf.task.service.adapter.out.auth.group.easyLdap.model.UserInfoResponse;
+import io.muenchendigital.digiwf.task.service.adapter.out.user.easyldap.UserInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

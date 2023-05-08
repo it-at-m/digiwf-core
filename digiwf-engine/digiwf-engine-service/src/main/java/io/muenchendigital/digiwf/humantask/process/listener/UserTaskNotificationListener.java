@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
+import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.springframework.context.annotation.Profile;
@@ -39,6 +41,8 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 @Slf4j
 public class UserTaskNotificationListener {
 
+
+    private final RepositoryService repositoryService;
     private final MailingService mailingService;
     private final UserService userService;
     private final DigitalWFProperties properties;
@@ -94,13 +98,17 @@ public class UserTaskNotificationListener {
         if (StringUtils.isBlank(delegateTask.getAssignee())) {
             return;
         }
-
         try {
+            String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
             val address = this.getMailAddress(delegateTask.getAssignee());
+            String body = "Sie haben eine Aufgabe in DigiWF.";
+            if (!processName.isBlank()){
+                body = "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
+            }
 
             final MailTemplate mail = MailTemplate.builder()
                     .receivers(address)
-                    .body("Sie haben eine Aufgabe in DigiWF.")
+                    .body(body)
                     .buttonText("Aufgabe öffnen")
                     .link(this.properties.getFrontendUrl() + "/#/task/" + delegateTask.getId())
                     .subject("Es liegt eine neue Aufgabe für Sie bereit")
@@ -135,7 +143,7 @@ public class UserTaskNotificationListener {
             }
         }
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId());
+            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
         }
     }
 
@@ -168,8 +176,9 @@ public class UserTaskNotificationListener {
                 log.warn(ex.toString());
             }
         }
+
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId());
+            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
         }
     }
 
@@ -181,12 +190,19 @@ public class UserTaskNotificationListener {
         throw new RuntimeException("lhmObject {} has no mail address" + receiver);
     }
 
-    private void sendGroupMail(final List<String> addresses, final String taskId) {
+    private void sendGroupMail(final List<String> addresses, final String taskId, final String processDefinitionId) {
         try {
+
+            String processName = this.getProcessName(processDefinitionId);
+
+            String body = "Sie haben eine Gruppenaufgabe in DigiWF.";
+            if (!processName.isBlank()){
+                body = "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
+            }
             final String addresslist = String.join(",", addresses);
             final MailTemplate mail = MailTemplate.builder()
                     .receivers(addresslist)
-                    .body("Sie haben eine Gruppenaufgabe in DigiWF.")
+                    .body(body)
                     .buttonText("Gruppenaufgabe öffnen")
                     .link(this.properties.getFrontendUrl() + "/#/opengrouptask/" + taskId)
                     .subject("Es liegt eine neue Gruppenaufgabe für Sie bereit")
@@ -198,6 +214,25 @@ public class UserTaskNotificationListener {
             log.warn("Notification failed: {}", ex.getMessage());
         }
 
+    }
+
+    private String getProcessName(String processDefinitionId){
+        String processName = "";
+        try {
+            ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+                processName = procDef.getName();
+            }
+            else {
+                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+                    processName = procDef.getKey();
+                }
+            }
+        }
+        catch (Exception ex){
+            log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
+        }
+        return processName;
     }
 
 }
