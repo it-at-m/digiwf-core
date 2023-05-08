@@ -12,7 +12,7 @@
     "@muenchen/digiwf-engine-api-internal": "^0.21.9",
     "@muenchen/digiwf-form-renderer": "^0.21.9",
     "@muenchen/digiwf-multi-file-input": "^0.21.9",
-    "@muenchen/vjsf": "^2.21.5",
+    "@muenchen/vjsf": "^2.21.6",
     "@tanstack/vue-query": "^4.19.1",
     "core-js": "^3.8.3",
     "easymde": "^2.15.0",
