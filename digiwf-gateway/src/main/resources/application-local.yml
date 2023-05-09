@@ -18,7 +18,13 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
-
+        - id: tasklist
+          uri: http://${TASKSERVICE_SERVER_HOST:localhost}:${TASKSERVICE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-tasklist-service/rest/**
+          filters:
+            - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
         - id: frontend
           uri: http://localhost:8081/
           predicates:
