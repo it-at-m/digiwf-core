@@ -17,9 +17,4 @@ jobs:
         with:
           policy: GeekMasher/security-queries
           policy-path: policies/default.yml
-          # GitHub Personal Access Token to access the GitHub API.
-          # Secret Scanning and Dependabot do not allow their resources to be
-          #  exposed to Actions so this might need to be set using a token that has
-          #  the ability to access the resources
-          #          token: ${{ secrets.ACCESS_TOKEN }}
           argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
