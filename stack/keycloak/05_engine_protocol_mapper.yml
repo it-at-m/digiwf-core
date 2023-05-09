@@ -1,4 +1,4 @@
-id: engine
+id: engine_protocol_mapper
 author: Simon Zambrovski
 realm: ${SSO_REALM}
 changes:

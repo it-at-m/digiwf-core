@@ -26,7 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("io.muenchendigital.digiwf.schema.registry.gen.api.JsonSchemaApi")
 public class JsonSchemaApi {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class JsonSchemaApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public JsonSchemaApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

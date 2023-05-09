@@ -1,7 +1,7 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
 import {FetchUtils, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
 
 export interface UserState {
   info: UserTO;
@@ -40,8 +40,7 @@ export default {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
-      //const user = await UserService.userInfo();
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await UserRestControllerApiFactory(cfg).userinfo();
@@ -51,6 +50,9 @@ export default {
       } catch (error) {
         FetchUtils.defaultCatchHandler(error, "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
+    },
+    setUser({commit}: any, payload: any) {
+      commit("setUser", payload);
     }
   }
 };

@@ -36,7 +36,7 @@ public class FormEntity {
     @Column(name = "VERSION", nullable = false)
     private String version;
 
-    @Column(name = "AUTHORIZATION")
+    @Column(name = "AUTHORIZATION_")
     private String authorization;
 
     @Column(name = "CONFIG", columnDefinition = "CLOB")

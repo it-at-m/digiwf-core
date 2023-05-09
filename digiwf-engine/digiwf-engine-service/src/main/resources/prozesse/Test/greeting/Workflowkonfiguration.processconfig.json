@@ -1,0 +1,22 @@
+{
+  "key": "GruesseVersenden",
+  "statusConfig": [
+    {
+      "key": "GrusskarteVersendet",
+      "label": "Grußkarte versendet",
+      "position": 1
+    },
+    {
+      "key": "Bedankt",
+      "label": "Bedankt",
+      "position": 2
+    },
+    {
+      "key": "Beendet",
+      "label": "Beendet",
+      "position": 3
+    }
+  ],
+ "statusDokument" : "519650b7-87c2-41a6-8527-7b095675b13f",
+ "configs": []
+}

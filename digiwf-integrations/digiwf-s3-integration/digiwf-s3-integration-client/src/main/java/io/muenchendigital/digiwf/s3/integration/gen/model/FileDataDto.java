@@ -124,7 +124,6 @@ public class FileDataDto {
     this.endOfLife = endOfLife;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

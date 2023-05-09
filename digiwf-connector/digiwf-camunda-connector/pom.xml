@@ -36,7 +36,6 @@
         <dependency>
             <groupId>org.camunda.community</groupId>
             <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-            <version>${camunda.version}</version>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>
@@ -81,6 +80,10 @@
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

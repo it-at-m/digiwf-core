@@ -182,7 +182,6 @@ public class DataProviderInput {
     this.dataPoolId = dataPoolId;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
