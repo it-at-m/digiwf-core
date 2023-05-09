@@ -100,8 +100,6 @@ import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-import {ApiConfig} from "../api/ApiConfig";
-import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}

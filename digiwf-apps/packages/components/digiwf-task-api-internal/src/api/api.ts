@@ -316,6 +316,12 @@ export interface TaskWithDetails {
      * @memberof TaskWithDetails
      */
     'variables': { [key: string]: object; };
+    /**
+     * Flag indicating if a task can be cancelled.
+     * @type {boolean}
+     * @memberof TaskWithDetails
+     */
+    'cancelable': boolean;
 }
 /**
  * Represents a user task with embedded combined schema.
@@ -383,6 +389,12 @@ export interface TaskWithSchema {
      * @memberof TaskWithSchema
      */
     'variables': { [key: string]: object; };
+    /**
+     * Flag indicating if a task can be cancelled.
+     * @type {boolean}
+     * @memberof TaskWithSchema
+     */
+    'cancelable': boolean;
 }
 /**
  * Profile of the user.
@@ -455,6 +467,39 @@ export const TaskApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(taskAssignment, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Cancels the execution of a user task.
+         * @param {string} taskId Task id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cancelTask: async (taskId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'taskId' is not null or undefined
+            assertParamExists('cancelTask', 'taskId', taskId)
+            const localVarPath = `/tasks/id/{taskId}/cancel`
+                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -800,6 +845,16 @@ export const TaskApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Cancels the execution of a user task.
+         * @param {string} taskId Task id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cancelTask(taskId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelTask(taskId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Completes task specified by id.
          * @param {string} taskId Task id.
          * @param {{ [key: string]: object; }} requestBody Task variables to use during completion.
@@ -915,6 +970,15 @@ export const TaskApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.assignTask(taskId, taskAssignment, options).then((request) => request(axios, basePath));
         },
         /**
+         * Cancels the execution of a user task.
+         * @param {string} taskId Task id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cancelTask(taskId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.cancelTask(taskId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Completes task specified by id.
          * @param {string} taskId Task id.
          * @param {{ [key: string]: object; }} requestBody Task variables to use during completion.
@@ -1022,6 +1086,20 @@ export interface TaskApiAssignTaskRequest {
      * @memberof TaskApiAssignTask
      */
     readonly taskAssignment: TaskAssignment
+}
+
+/**
+ * Request parameters for cancelTask operation in TaskApi.
+ * @export
+ * @interface TaskApiCancelTaskRequest
+ */
+export interface TaskApiCancelTaskRequest {
+    /**
+     * Task id.
+     * @type {string}
+     * @memberof TaskApiCancelTask
+     */
+    readonly taskId: string
 }
 
 /**
@@ -1187,6 +1265,17 @@ export class TaskApi extends BaseAPI {
      */
     public assignTask(requestParameters: TaskApiAssignTaskRequest, options?: AxiosRequestConfig) {
         return TaskApiFp(this.configuration).assignTask(requestParameters.taskId, requestParameters.taskAssignment, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Cancels the execution of a user task.
+     * @param {TaskApiCancelTaskRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskApi
+     */
+    public cancelTask(requestParameters: TaskApiCancelTaskRequest, options?: AxiosRequestConfig) {
+        return TaskApiFp(this.configuration).cancelTask(requestParameters.taskId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

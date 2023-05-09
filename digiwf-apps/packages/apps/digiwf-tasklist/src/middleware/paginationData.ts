@@ -20,7 +20,6 @@ export const useGetPaginationData = (): PaginationData => {
   if (!pageKeyToPaginationData) {
     throw Error("could not inject PageBasedPaginationProvider")
   }
-
   const paginationInformationOfPage = pageKeyToPaginationData.getPaginationDataInSession(pageId.id || "unknown");
   const getDefaultPage = (): number => {
     const pageString = router.currentRoute.query?.page as string | null;

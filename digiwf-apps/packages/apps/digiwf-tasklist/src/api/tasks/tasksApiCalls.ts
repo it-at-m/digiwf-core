@@ -124,6 +124,11 @@ export const callCancelTaskInEngine = (taskId: string): Promise<void> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
   return HumanTaskRestControllerApiFactory(cfg).cancelTask(taskId).then(() => Promise.resolve());
 }
+export const callCancelTaskInTaskService = (taskId: string): Promise<void> => {
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
+  return TaskApiFactory(cfg).cancelTask(taskId).then(() => Promise.resolve());
+}
+
 
 /**
  * @deprecated
