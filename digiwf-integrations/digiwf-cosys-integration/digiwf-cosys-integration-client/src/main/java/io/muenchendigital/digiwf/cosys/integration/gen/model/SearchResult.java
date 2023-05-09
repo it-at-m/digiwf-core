@@ -249,7 +249,6 @@ public class SearchResult {
     this.active = active;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

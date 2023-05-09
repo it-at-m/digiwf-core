@@ -53,19 +53,16 @@ public class JsonSchemaRestController {
     /**
      * Get a json schema by key
      *
-     * @param key Key of the json schema
+     * @param key Key of the json schema.
      * @return json schema
      */
     @GetMapping("/{key}")
     @Operation(description = "get json schema by key")
-    @PreAuthorize("hasAuthority(T(io.muenchendigital.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<JsonSchemaTO> getJsonSchema(@PathVariable final String key) {
-        final Optional<JsonSchema> schema = this.schemaService.getByKey(key);
-        if (schema.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+        return this.schemaService.getByKey(key)
+            .map(jsonSchema -> ResponseEntity.ok(this.schemaApiMapper.map2TO(jsonSchema)))
+            .orElseGet(() -> ResponseEntity.notFound().build());
 
-        return ResponseEntity.ok(this.schemaApiMapper.map2TO(schema.get()));
     }
 
 

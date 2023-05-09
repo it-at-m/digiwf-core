@@ -1,0 +1,273 @@
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0la3igp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="GruesseVersenden" name="Grüße versenden" isExecutable="true" camunda:versionTag="0.1">
+    <bpmn:documentation>Ein Demo-Workflow zum Versenden von Grüßen an Mitarbeiter*innen der Landeshauptstadt</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_GrussVersenden" name="Gruß versenden" camunda:formKey="e8468c2e-4037-45a1-b26c-c25e7d61170c">
+      <bpmn:outgoing>Flow_1443maz</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1443maz" sourceRef="StartEvent_GrussVersenden" targetRef="Gateway_0xlihbd" />
+    <bpmn:sequenceFlow id="Flow_0wjuq3h" sourceRef="Task_StufeDesDienstjubilaeumsErmitteln" targetRef="Gateway_1h5r4ll" />
+    <bpmn:businessRuleTask id="Task_StufeDesDienstjubilaeumsErmitteln" name="Stufe des Dienstjubiläums ermitteln" camunda:asyncBefore="true" camunda:resultVariable="stufeDienstjubilaeum" camunda:decisionRef="StufeDienstjubilaeumErmitteln" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_1ldej4a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wjuq3h</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="Task_KarteVersenden" name="Karte versenden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.MailTask" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="MAILING_RECEIVERS">${EmpfaengerMailadresse}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_REPLY_TO">${AbsenderMailadresse}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_NAME">Grußkarte.pdf</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_ATTACHMENT_GUID">${idGrusskartenVorlage}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_SUBJECT">Liebe Grüße zum ${stufeDienstjubilaeum} ${FormField_ArtDesGrusses}</camunda:inputParameter>
+          <camunda:inputParameter name="MAILING_BODY">Hallo ${EmpfaengerVorname}!
+
+
+${AbsenderVorname} hat Ihnen mit DigiWF eine Grußkarte zu Ihrem ${stufeDienstjubilaeum} ${FormField_ArtDesGrusses} gesendet. Sie finden die Grußkarte anbei.
+
+
+Wenn Sie ${AbsenderVorname} in DigiWF für den Gruß danken wollen, so finden Sie dazu in Ihrer Aufgabenliste in DigiWF eine Aufgabe: ${digitalwf.urlMeineAufgaben()}.
+
+
+Viele Grüße
+Ihr Team von DigiWF
+
+
+PS: Sie können natürlich auch auf diese Mail antworten. Die Aufgabe in DigiWF zerstört sich nach 7 Tagen selbst.</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hoe2el</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gqfs1v</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1gqfs1v" sourceRef="Task_KarteVersenden" targetRef="Event_GrusskarteVersendet" />
+    <bpmn:userTask id="Task_DankUebermitteln" name="Dank übermitteln" camunda:asyncBefore="true" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">043fbae0-da60-4fca-8d0f-4cfb8366bc60</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_status_dokument_enabled">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">${Task_Bedanken_TaskTitle}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ikene3</bpmn:incoming>
+      <bpmn:outgoing>Flow_15lk11w</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_15lk11w" sourceRef="Task_DankUebermitteln" targetRef="Task_DankLesen" />
+    <bpmn:endEvent id="EndEvent_BeendetMitDank" name="Beendet mit Dank">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#39;Beendet&#39;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_149t94x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0iqyji0" sourceRef="Task_DankLesen" targetRef="Event_DankGelesen" />
+    <bpmn:boundaryEvent id="Event_TimeoutDankUebermitteln" name="Timeout 7 Tage" attachedToRef="Task_DankUebermitteln">
+      <bpmn:outgoing>Flow_1imppxp</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_03ijk4z">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P7D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="EndEvent_BeendetOhneDanke" name="Beendet ohne Dank">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#39;Beendet&#39;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1imppxp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1imppxp" sourceRef="Event_TimeoutDankUebermitteln" targetRef="EndEvent_BeendetOhneDanke" />
+    <bpmn:userTask id="Task_DankLesen" name="Dank lesen" camunda:asyncBefore="true" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">fe31405d-520b-4879-9794-9c34bae151ea</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_status_dokument_enabled">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="digitalwf_task_description">${Task_DankLesen_TaskTitle}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_15lk11w</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iqyji0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Task_VariablenSetzen" name="Variablen setzen" scriptFormat="Javascript">
+      <bpmn:incoming>Flow_0uzps1q</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hoe2el</bpmn:outgoing>
+      <bpmn:script>var AbsenderVorname = user.firstname(starterOfInstance);
+execution.setVariable('AbsenderVorname', AbsenderVorname);
+var AbsenderNachname = user.lastname(starterOfInstance);
+execution.setVariable('AbsenderNachname', AbsenderNachname);
+var AbsenderMailadresse = user.email(starterOfInstance);
+execution.setVariable('AbsenderMailadresse', AbsenderMailadresse);
+
+var EmpfaengerVorname = user.firstname(FormField_Empfaenger);
+execution.setVariable('EmpfaengerVorname', EmpfaengerVorname);
+var EmpfaengerNachname = user.lastname(FormField_Empfaenger);
+execution.setVariable('EmpfaengerNachname', EmpfaengerNachname);
+var EmpfaengerMailadresse = user.email(FormField_Empfaenger);
+execution.setVariable('EmpfaengerMailadresse', EmpfaengerMailadresse);
+
+var stufeDienstjubilaeum = execution.getVariable('stufeDienstjubilaeum');
+if (!stufeDienstjubilaeum) stufeDienstjubilaeum = '';
+execution.setVariable('stufeDienstjubilaeum', stufeDienstjubilaeum);
+
+process.setDescription('Grüße zum ' + stufeDienstjubilaeum + ' ' + FormField_ArtDesGrusses + " von " + AbsenderVorname + " " + AbsenderNachname + " an " + EmpfaengerVorname + " " + EmpfaengerNachname);
+
+execution.setVariable('Task_Bedanken_TaskTitle', 'Grüße von ' + AbsenderVorname + ' ' + AbsenderNachname + ' zum ' + stufeDienstjubilaeum + ' ' + FormField_ArtDesGrusses);
+execution.setVariable('Task_DankLesen_TaskTitle', 'Dank von ' + EmpfaengerVorname + ' ' + EmpfaengerNachname + ' für die Grüße zum ' + stufeDienstjubilaeum + ' ' + FormField_ArtDesGrusses);
+
+var idGrusskartenVorlage = '519650b7-87c2-41a6-8527-7b095675b13f';
+execution.setVariable('idGrusskartenVorlage', idGrusskartenVorlage);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:intermediateThrowEvent id="Event_GrusskarteVersendet" name="Grußkarte versendet" camunda:asyncBefore="true">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#39;GrusskarteVersendet&#39;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gqfs1v</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ikene3</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0ikene3" sourceRef="Event_GrusskarteVersendet" targetRef="Task_DankUebermitteln" />
+    <bpmn:intermediateThrowEvent id="Event_DankGelesen" name="Bedankt" camunda:asyncBefore="true">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${process.setStatus(&#39;Bedankt&#39;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0iqyji0</bpmn:incoming>
+      <bpmn:outgoing>Flow_149t94x</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_149t94x" sourceRef="Event_DankGelesen" targetRef="EndEvent_BeendetMitDank" />
+    <bpmn:exclusiveGateway id="Gateway_0xlihbd" name="Art?" default="Flow_1lqokng">
+      <bpmn:incoming>Flow_1443maz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ldej4a</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1lqokng</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1ldej4a" name="Dienstjubiläum" sourceRef="Gateway_0xlihbd" targetRef="Task_StufeDesDienstjubilaeumsErmitteln">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_ArtDesGrusses == 'Dienstjubilaeum'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_1h5r4ll">
+      <bpmn:incoming>Flow_0wjuq3h</bpmn:incoming>
+      <bpmn:incoming>Flow_1lqokng</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uzps1q</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0uzps1q" sourceRef="Gateway_1h5r4ll" targetRef="Task_VariablenSetzen" />
+    <bpmn:sequenceFlow id="Flow_1lqokng" name="Andere Arten" sourceRef="Gateway_0xlihbd" targetRef="Gateway_1h5r4ll" />
+    <bpmn:sequenceFlow id="Flow_1hoe2el" sourceRef="Task_VariablenSetzen" targetRef="Task_KarteVersenden" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GruesseVersenden">
+      <bpmndi:BPMNEdge id="Flow_1hoe2el_di" bpmnElement="Flow_1hoe2el">
+        <di:waypoint x="770" y="117" />
+        <di:waypoint x="870" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lqokng_di" bpmnElement="Flow_1lqokng">
+        <di:waypoint x="325" y="117" />
+        <di:waypoint x="535" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="99" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uzps1q_di" bpmnElement="Flow_0uzps1q">
+        <di:waypoint x="585" y="117" />
+        <di:waypoint x="670" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ldej4a_di" bpmnElement="Flow_1ldej4a">
+        <di:waypoint x="300" y="142" />
+        <di:waypoint x="300" y="290" />
+        <di:waypoint x="390" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="304" y="203" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_149t94x_di" bpmnElement="Flow_149t94x">
+        <di:waypoint x="1568" y="117" />
+        <di:waypoint x="1632" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ikene3_di" bpmnElement="Flow_0ikene3">
+        <di:waypoint x="1068" y="117" />
+        <di:waypoint x="1120" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1imppxp_di" bpmnElement="Flow_1imppxp">
+        <di:waypoint x="1170" y="175" />
+        <di:waypoint x="1170" y="300" />
+        <di:waypoint x="1252" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iqyji0_di" bpmnElement="Flow_0iqyji0">
+        <di:waypoint x="1480" y="117" />
+        <di:waypoint x="1532" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15lk11w_di" bpmnElement="Flow_15lk11w">
+        <di:waypoint x="1220" y="117" />
+        <di:waypoint x="1380" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gqfs1v_di" bpmnElement="Flow_1gqfs1v">
+        <di:waypoint x="970" y="117" />
+        <di:waypoint x="1032" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wjuq3h_di" bpmnElement="Flow_0wjuq3h">
+        <di:waypoint x="490" y="290" />
+        <di:waypoint x="560" y="290" />
+        <di:waypoint x="560" y="142" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1443maz_di" bpmnElement="Flow_1443maz">
+        <di:waypoint x="218" y="117" />
+        <di:waypoint x="275" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_GrussVersenden">
+        <dc:Bounds x="182" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="142" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cp5i8a_di" bpmnElement="Task_StufeDesDienstjubilaeumsErmitteln">
+        <dc:Bounds x="390" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vmzm89_di" bpmnElement="Task_KarteVersenden">
+        <dc:Bounds x="870" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jz88ys_di" bpmnElement="Task_DankUebermitteln">
+        <dc:Bounds x="1120" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11nw1yr_di" bpmnElement="EndEvent_BeendetMitDank">
+        <dc:Bounds x="1632" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1606" y="142" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0eqful6_di" bpmnElement="EndEvent_BeendetOhneDanke">
+        <dc:Bounds x="1252" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1236" y="325" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1svvudx_di" bpmnElement="Task_DankLesen">
+        <dc:Bounds x="1380" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zpu47a_di" bpmnElement="Task_VariablenSetzen">
+        <dc:Bounds x="670" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g40mas_di" bpmnElement="Event_GrusskarteVersendet">
+        <dc:Bounds x="1032" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1025" y="145" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0pocucr_di" bpmnElement="Event_DankGelesen">
+        <dc:Bounds x="1532" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1530" y="142" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xlihbd_di" bpmnElement="Gateway_0xlihbd" isMarkerVisible="true">
+        <dc:Bounds x="275" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="62" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1h5r4ll_di" bpmnElement="Gateway_1h5r4ll" isMarkerVisible="true">
+        <dc:Bounds x="535" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tzb6cu_di" bpmnElement="Event_TimeoutDankUebermitteln">
+        <dc:Bounds x="1152" y="139" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1082" y="182" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ReadPdfFieldsOutput {
   public static final String JSON_PROPERTY_FIELDS = "fields";
-  private List<Field> fields = new ArrayList<>();
+  private List<Field> fields;
 
   public ReadPdfFieldsOutput() {
   }
@@ -72,7 +72,6 @@ public class ReadPdfFieldsOutput {
   public void setFields(List<Field> fields) {
     this.fields = fields;
   }
-
 
   @Override
   public boolean equals(Object o) {

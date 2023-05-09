@@ -94,6 +94,7 @@ module.exports = {
                                 'architecture/system-integration',
                                 'architecture/json-schema',
                                 'architecture/filehandling',
+                                'architecture/adrs'
                             ]
                         },
                         {
@@ -103,6 +104,7 @@ module.exports = {
                                 'components/engine',
                                 'components/connector',
                                 'components/tasks',
+                                'components/frontend',
                             ]
                         },
                         {
@@ -150,17 +152,38 @@ module.exports = {
                     ],
                     '/modeling/': [
                         {
-                            title: 'Modellierung',
+                            title: 'Plattform',
                             collapsable: false,
                             children: [
                                 '',
+                                'plattform/project/',
+                                'plattform/artefact/',
+                                'plattform/deployment/',
                             ]
                         },
                         {
                             title: 'Prozesse',
                             collapsable: false,
                             children: [
-                                'processes/',
+                                'processes/modeling/',
+                                'processes/functions/',
+                                'processes/authorization/',
+                                'processes/config/',
+                            ]
+                        },
+                        {
+                            title: 'Benutzeraufgaben',
+                            collapsable: false,
+                            children: [
+                                'user-tasks/modeling/'
+                            ]
+                        },
+                        {
+                            title: 'Expressions',
+                            collapsable: false,
+                            children: [
+                                'expressions/basic/',
+                                'expressions/functions/',
                             ]
                         },
                         {
@@ -168,6 +191,17 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'forms/',
+                                'forms/fields/',
+                                'forms/objects/',
+                                'forms/optional-content/'
+                            ]
+                        },
+                        {
+                            title: 'Integrationen',
+                            collapsable: false,
+                            children: [
+                                'integrations/',
+                                'integrations/catalog/',
                             ]
                         },
                         {
@@ -175,23 +209,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'guides/modeling-first-process/',
-                            ]
-                        },
-                        {
-                            title: 'Integrationen',
-                            collapsable: false,
-                            children: [
-                                'integrations/email/',
-                                'integrations/cosys/',
-                            ]
-                        },
-                        {
-                            title: 'Vorlagen',
-                            collapsable: false,
-                            children: [
-                                'templates/element-templates/',
-                                'templates/bpmn/',
-                                'templates/examples/'
+                                'guides/form-v1-auf-v2/',
                             ]
                         }
                     ],
@@ -248,12 +266,8 @@ module.exports = {
                 label: 'English',
                 // Aria Label for locale in the dropdown
                 ariaLabel: 'Languages',
-                nav: [
-
-                ],
-                sidebar: {
-
-                }
+                nav: [],
+                sidebar: {}
             }
         },
     },

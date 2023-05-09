@@ -74,3 +74,13 @@ Nach jedem Deployment sendet die digiwf-engine ein Deployment-Status-Ereignis an
 
 > **Anmerkung:**
 > Wir benutzen springwolf, um asyncapi Dokumentationen zu generieren. Schauen Sie sich die asyncapi-Dokumentation der Dienste unter */springwolf/asyncapi-ui.html* an.
+
+### Domäne digiwf-task
+
+Die digiwf-task verwendet zwei topics um die User Tasks oder Daten zu empfangen. Diese sind:
+
+```
+dwf-taskmanagement-tasks-<STAGE>
+dwf-taskmanagement-data-<STAGE>
+```
+

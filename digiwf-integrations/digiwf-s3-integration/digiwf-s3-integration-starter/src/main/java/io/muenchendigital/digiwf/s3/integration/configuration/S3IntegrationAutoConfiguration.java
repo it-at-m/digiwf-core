@@ -47,7 +47,6 @@ public class S3IntegrationAutoConfiguration {
         );
     }
 
-    @Profile("streaming")
     @Bean
     public MessageProcessor presignedUrlEventListener(
             final CorrelateMessageService correlateMessageService,
@@ -57,7 +56,6 @@ public class S3IntegrationAutoConfiguration {
         return new MessageProcessor(correlateMessageService, fileHandlingService, presignedUrlMapper, this.s3IntegrationProperties.getPresignedUrlExpiresInMinutes());
     }
 
-    @Profile("streaming")
     @Bean
     public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final MessageProcessor messageProcessor) {
         return messageProcessor.createPresignedUrl();

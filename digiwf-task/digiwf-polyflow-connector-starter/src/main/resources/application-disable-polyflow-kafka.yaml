@@ -1,0 +1,4 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.axonframework.extensions.kafka.autoconfig.KafkaAutoConfiguration
