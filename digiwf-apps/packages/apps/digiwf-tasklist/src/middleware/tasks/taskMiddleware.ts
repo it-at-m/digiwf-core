@@ -24,7 +24,7 @@ import {
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
 import {HumanTask, HumanTaskDetails} from "./tasksModels";
-import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
+import {shouldUseTaskService} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
   mapTaskDetailsFromTaskService,
@@ -41,8 +41,7 @@ import store from "../../store";
 import {getUserInfo} from "../user/userMiddleware";
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 
-const shouldUseTaskService = isServiceTaskServiceEnabled();
-if (shouldUseTaskService) {
+if (shouldUseTaskService()) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
 }
 
@@ -92,7 +91,7 @@ export const useMyTasksQuery = (
   queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? handleTaskLoadingFromTaskService(page, size, query, followUp)
       : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value)
         .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
@@ -106,7 +105,7 @@ export const useOpenGroupTasksQuery = (
 ) => useQuery({
   queryKey: [openGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value)
@@ -121,7 +120,7 @@ export const useAssignedGroupTasksQuery = (
 ) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value)
@@ -156,7 +155,7 @@ export const useAssignTaskMutation = () => {
   const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
   return useMutation<void, any, string>({
     mutationFn: (taskId) => {
-      return shouldUseTaskService
+      return shouldUseTaskService()
         ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
         : callPostAssignTaskInEngine(taskId)
     },
@@ -199,7 +198,7 @@ export interface LoadTaskResult {
 
 
 export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
-  return shouldUseTaskService
+  return shouldUseTaskService()
     ? loadTaskFromTaskService(taskId)
     : loadTasksFromEngine(taskId)
 }
@@ -315,7 +314,7 @@ interface CompleteTaskResult {
 
 export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callCompleteTaskInTaskService(taskId, variables)
       : callCompleteTaskInEngine(taskId, variables)
   )
@@ -342,7 +341,7 @@ interface SetFollowUpResult {
 
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callDeferTask(taskId, dateToIsoDateTime(followUp))
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
@@ -368,7 +367,7 @@ interface SaveTaskResult {
 
 export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callSaveTaskInTaskService(taskId, variables)
       : callSaveTaskInEngine(taskId, variables)
   ).then(() => Promise.resolve({ // FIXME: invalide task list?
@@ -388,7 +387,7 @@ interface AssignTaskResult {
 export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
   const userId = store.getters["user/info"].lhmObjectId;
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callAssignTaskInEngine(taskId)
       : callAssignTaskInTaskService(taskId, userId)
   ).then(() => {
