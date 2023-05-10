@@ -28,8 +28,8 @@ public class MessageProcessor {
     public Consumer<Message<Mail>> emailIntegration() {
         return message -> {
             try {
-                final String test = message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class);
                 this.mailUseCase.sendMail(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class), message.getPayload());
+                this.monitoringService.sendMailSucceeded();
             } catch (final BpmnError bpmnError) {
                 this.monitoringService.sendMailFailed();
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
@@ -42,6 +42,5 @@ public class MessageProcessor {
             }
         };
     }
-
 
 }

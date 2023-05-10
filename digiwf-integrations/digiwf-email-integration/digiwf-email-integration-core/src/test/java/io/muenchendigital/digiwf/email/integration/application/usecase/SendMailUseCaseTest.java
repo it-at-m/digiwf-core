@@ -3,18 +3,19 @@ package io.muenchendigital.digiwf.email.integration.application.usecase;
 import io.muenchendigital.digiwf.email.integration.adapter.out.ProcessPort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
-import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
 import io.muenchendigital.digiwf.email.integration.model.FileAttachment;
 import io.muenchendigital.digiwf.email.integration.model.Mail;
 import io.muenchendigital.digiwf.email.integration.model.PresignedUrl;
 import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.MessagingException;
@@ -39,7 +40,7 @@ class SendMailUseCaseTest {
             "startProcessDestination"
     );
 
-    private final CorrelateMessagePort correlateMessagePort = new ProcessPort(processApi, Mockito.mock(MonitoringService.class));
+    private final CorrelateMessagePort correlateMessagePort = new ProcessPort(processApi);
     private final String fromAddress = "digiwf@muenchen.de";
 
     private final Mail mail = new Mail(
@@ -91,6 +92,16 @@ class SendMailUseCaseTest {
         verify(this.loadMailAttachmentPort, times(1)).loadAttachment(any());
         final FileAttachment result = this.loadMailAttachmentPort.loadAttachment(any());
         Assertions.assertEquals("Testanhang", result.getFileName());
+    }
+
+    @Test
+    void testThatABpmnErrorIsThrowIfSendMailFailsWithAMailException() {
+        doThrow(mock(MailException.class)).when(this.javaMailSender).send(any(MimeMessage.class));
+        final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, this.fromAddress);
+
+        Assertions.assertThrows(BpmnError.class, () -> {
+            sendMailUseCase.sendMail("processInstanceIde", this.mail);
+        });
     }
 
 
