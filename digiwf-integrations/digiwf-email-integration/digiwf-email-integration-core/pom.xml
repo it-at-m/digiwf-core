@@ -50,6 +50,10 @@
             <artifactId>jai-imageio-jpeg2000</artifactId>
             <version>${jai-imageio-jpeg2000.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
 
         <!-- testing -->
         <dependency>

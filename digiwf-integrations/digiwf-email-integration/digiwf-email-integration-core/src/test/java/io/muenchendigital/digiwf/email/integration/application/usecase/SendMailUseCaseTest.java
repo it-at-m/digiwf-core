@@ -1,11 +1,9 @@
 package io.muenchendigital.digiwf.email.integration.application.usecase;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import io.muenchendigital.digiwf.email.integration.adapter.out.ProcessPort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
 import io.muenchendigital.digiwf.email.integration.model.FileAttachment;
 import io.muenchendigital.digiwf.email.integration.model.Mail;
 import io.muenchendigital.digiwf.email.integration.model.PresignedUrl;
@@ -25,6 +23,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 class SendMailUseCaseTest {
 
     private final MessageApi messageApi = Mockito.spy(Mockito.mock(MessageApi.class));
@@ -38,7 +39,7 @@ class SendMailUseCaseTest {
             "startProcessDestination"
     );
 
-    private final CorrelateMessagePort correlateMessagePort = new ProcessPort(processApi);
+    private final CorrelateMessagePort correlateMessagePort = new ProcessPort(processApi, Mockito.mock(MonitoringService.class));
     private final String fromAddress = "digiwf@muenchen.de";
 
     private final Mail mail = new Mail(

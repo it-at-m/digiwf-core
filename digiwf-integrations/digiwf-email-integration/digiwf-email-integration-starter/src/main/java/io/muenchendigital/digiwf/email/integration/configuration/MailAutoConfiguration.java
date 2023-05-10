@@ -1,9 +1,11 @@
 package io.muenchendigital.digiwf.email.integration.configuration;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.muenchendigital.digiwf.email.integration.application.port.in.SendMail;
 import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import io.muenchendigital.digiwf.email.integration.application.usecase.SendMailUseCase;
+import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -20,11 +22,12 @@ import java.util.Properties;
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(basePackages = {"io.muenchendigital.digiwf.email.integration"})
-@EnableConfigurationProperties({MailProperties.class, CustomMailProperties.class})
+@EnableConfigurationProperties({MailProperties.class, CustomMailProperties.class, MetricsProperties.class})
 public class MailAutoConfiguration {
 
     private final MailProperties mailProperties;
     private final CustomMailProperties customMailProperties;
+    private final MetricsProperties metricsProperties;
 
     /**
      * Configures the {@link JavaMailSender}
@@ -60,6 +63,12 @@ public class MailAutoConfiguration {
     @ConditionalOnMissingBean
     public SendMail getSendMailUseCase(final JavaMailSender javaMailSender, final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort) {
         return new SendMailUseCase(javaMailSender, loadAttachmentPort, correlateMessagePort, this.customMailProperties.getFromAddress());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MonitoringService getMonitoringService(final MeterRegistry meterRegistry) {
+        return new MonitoringService(meterRegistry, this.metricsProperties.getTotalMailCounterName(), this.metricsProperties.getFailureCounterName());
     }
 
 }
