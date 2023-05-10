@@ -10,19 +10,20 @@ export const shouldUseTaskService = (): boolean => {
   const useTaskServiceCookieValue: boolean = getCookie(COOKIE_USE_TASKSERVICE_KEY).trim().toLowerCase() === "true";
   const showBetaButtonCookieValue: boolean = getCookie(COOKIE_SHOW_BETA_BUTTON_KEY).trim().toLowerCase() === "true";
   const isTaskServiceActivatedInLocalStorage = localStorage.getItem(LOCAL_STORAGE_USE_TASKSERVICE_KEY)?.toLocaleLowerCase().trim() === "true";
-  console.log("shouldUseTaskService", {
-    cookieTaskService: getCookie(COOKIE_USE_TASKSERVICE_KEY),
-    cookieBetaBtn: getCookie(COOKIE_SHOW_BETA_BUTTON_KEY),
-    useTaskServiceCookieValue,
-    showBetaButtonCookieValue,
-    isTaskServiceActivatedInLocalStorage
-  })
-  if (useTaskServiceCookieValue) {
+
+  if (useTaskServiceCookieValue && isTaskServiceActivatedInLocalStorage) {
     return true;
   }
   return showBetaButtonCookieValue && isTaskServiceActivatedInLocalStorage;
 }
 
+export const setShouldUseTaskService = (newValue: boolean) => {
+  localStorage.setItem(LOCAL_STORAGE_USE_TASKSERVICE_KEY, newValue ? "true" : "false")
+}
+
+export const shouldShowBetaButton = (): boolean => {
+  return getCookie(COOKIE_SHOW_BETA_BUTTON_KEY).trim().toLowerCase() === "true";
+}
 
 /**
  * returns the value of the cookie
