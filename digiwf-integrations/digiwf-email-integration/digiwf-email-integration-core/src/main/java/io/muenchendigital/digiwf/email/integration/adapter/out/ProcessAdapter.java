@@ -11,7 +11,7 @@ import java.util.Map;
 @ConditionalOnMissingBean
 @Component
 @RequiredArgsConstructor
-public class ProcessPort implements CorrelateMessagePort {
+public class ProcessAdapter implements CorrelateMessagePort {
 
     private final ProcessApi processApi;
 

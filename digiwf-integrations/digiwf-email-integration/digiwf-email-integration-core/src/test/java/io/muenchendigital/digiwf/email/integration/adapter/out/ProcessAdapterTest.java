@@ -10,19 +10,19 @@ import java.util.Map;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class ProcessPortTest {
+class ProcessAdapterTest {
 
     @Test
     public void testCorrelateMessage() {
         final ProcessApi processApiMock = Mockito.mock(ProcessApi.class);
 
-        final ProcessPort processPort = new ProcessPort(processApiMock);
+        final ProcessAdapter processAdapter = new ProcessAdapter(processApiMock);
 
         final String processInstanceId = "exampleProcessInstanceId";
         final String messageName = "exampleMessageName";
         final Map<String, Object> message = new HashMap<>();
 
-        processPort.correlateMessage(processInstanceId, messageName, message);
+        processAdapter.correlateMessage(processInstanceId, messageName, message);
 
         verify(processApiMock, times(1)).correlateMessage(processInstanceId, messageName, message);
     }

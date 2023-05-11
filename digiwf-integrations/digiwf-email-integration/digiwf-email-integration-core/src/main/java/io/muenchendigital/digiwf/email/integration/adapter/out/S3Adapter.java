@@ -4,6 +4,9 @@ import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMail
 import io.muenchendigital.digiwf.email.integration.model.FileAttachment;
 import io.muenchendigital.digiwf.email.integration.model.PresignedUrl;
 import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
+import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
@@ -11,30 +14,32 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Component;
 
 import javax.mail.util.ByteArrayDataSource;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 @Slf4j
 @ConditionalOnMissingBean
 @Component
+@RequiredArgsConstructor
 public class S3Adapter implements LoadMailAttachmentPort {
+
+    private final S3FileTransferRepository s3FileTransferRepository;
 
     @Override
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {
-            // TODO use digiwf s3 client to download the file instead of the stream below
-
-            // download file from s3
-            final URL binaryFile = new URL(attachment.getUrl());
-            final Tika tika = new Tika();
-            final InputStream fileInputStream = binaryFile.openStream();
-            final ByteArrayDataSource file = new ByteArrayDataSource(fileInputStream, tika.detect(binaryFile));
             final String fileName = StringUtils.substringAfterLast(attachment.getPath(), "/");
+            final Tika tika = new Tika();
 
+            final InputStream inputStream = this.s3FileTransferRepository.getFileInputStream(attachment.getUrl());
+            final ByteArrayDataSource file = new ByteArrayDataSource(inputStream, tika.detect(inputStream));
             return new FileAttachment(fileName, file);
-        } catch (final java.io.IOException ex) {
-            log.error("An attachment could not be loaded: {}", attachment);
-            throw new BpmnError("400", "An attachment could not be loaded: " + attachment);
+        } catch (final DocumentStorageException e) {
+            log.error("An attachment could not be loaded from presigned url: {}", attachment);
+            throw new BpmnError("LOAD_FILE_FAILED", "An attachment could not be loaded from presigned url: " + attachment);
+        } catch (final IOException e) {
+            log.error("File type not supported of the attachment: {}", attachment);
+            throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "File type not supported of the attachment: " + attachment);
         }
     }
 }

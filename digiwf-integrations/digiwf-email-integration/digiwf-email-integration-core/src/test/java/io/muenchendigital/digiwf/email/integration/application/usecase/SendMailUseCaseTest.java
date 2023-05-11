@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.email.integration.application.usecase;
 
-import io.muenchendigital.digiwf.email.integration.adapter.out.ProcessPort;
+import io.muenchendigital.digiwf.email.integration.adapter.out.ProcessAdapter;
 import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import io.muenchendigital.digiwf.email.integration.model.FileAttachment;
@@ -40,7 +40,7 @@ class SendMailUseCaseTest {
             "startProcessDestination"
     );
 
-    private final CorrelateMessagePort correlateMessagePort = new ProcessPort(processApi);
+    private final CorrelateMessagePort correlateMessagePort = new ProcessAdapter(processApi);
     private final String fromAddress = "digiwf@muenchen.de";
 
     private final Mail mail = new Mail(
