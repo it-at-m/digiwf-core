@@ -7,6 +7,7 @@ import io.muenchendigital.digiwf.message.process.api.ErrorApi;
 import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -24,6 +25,7 @@ public class MessageProcessor {
     private final SendMail mailUseCase;
     private final MonitoringService monitoringService;
 
+    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<Mail>> emailIntegration() {
         return message -> {

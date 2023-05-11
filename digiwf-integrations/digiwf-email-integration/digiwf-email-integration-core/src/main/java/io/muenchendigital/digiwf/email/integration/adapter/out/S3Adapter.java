@@ -7,6 +7,7 @@ import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import javax.mail.util.ByteArrayDataSource;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 @Slf4j
+@ConditionalOnMissingBean
 @Component
 public class S3Adapter implements LoadMailAttachmentPort {
 
