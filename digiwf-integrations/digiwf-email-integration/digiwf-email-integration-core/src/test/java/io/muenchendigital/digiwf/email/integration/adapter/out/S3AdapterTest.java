@@ -33,8 +33,7 @@ class S3AdapterTest {
         final String url = "http://localhost:3000/some-file.txt";
         final String fileContent = "This is the content of the file.";
         final PresignedUrl presignedUrl = new PresignedUrl(url, "/path/to/some-file.txt", "GET");
-
-
+        
         final InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
         when(s3FileTransferRepository.getFileInputStream(url)).thenReturn(inputStream);
 
@@ -54,5 +53,5 @@ class S3AdapterTest {
 
         Assertions.assertThrows(BpmnError.class, () -> s3Adapter.loadAttachment(presignedUrl));
     }
-    
+
 }

@@ -29,8 +29,9 @@ public class S3Adapter implements LoadMailAttachmentPort {
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {
             final String fileName = StringUtils.substringAfterLast(attachment.getPath(), "/");
+            // Note: Tika throws an IOException that is immediately caught and logged. It may be confusing but the
+            // IOException that is logged can be ignored. See https://stackoverflow.com/q/66592801
             final Tika tika = new Tika();
-
             final InputStream inputStream = this.s3FileTransferRepository.getFileInputStream(attachment.getUrl());
             final ByteArrayDataSource file = new ByteArrayDataSource(inputStream, tika.detect(inputStream));
             return new FileAttachment(fileName, file);
