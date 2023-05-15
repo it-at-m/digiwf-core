@@ -49,9 +49,14 @@ public class NoSecurityCamundaAuthenticationFilterConfiguration {
         @Override
         public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
             try {
-                final String userId = userAuthenticationProvider.getLoggedInUser();
-                val groups = userService.getGroups(userId);
-                identityService.setAuthentication(userId, groups);
+                final String username = userAuthenticationProvider.getLoggedInUser();
+                val user = userService.getUserByUserName(username);
+                if (user.isPresent()) {
+                    val groups = userService.getGroups(user.get().getLhmObjectId());
+                    identityService.setAuthentication(user.get().getLhmObjectId(), groups);
+                } else {
+                    identityService.setAuthentication(username, null);
+                }
                 chain.doFilter(request, response);
             } finally {
                 identityService.clearAuthentication();
