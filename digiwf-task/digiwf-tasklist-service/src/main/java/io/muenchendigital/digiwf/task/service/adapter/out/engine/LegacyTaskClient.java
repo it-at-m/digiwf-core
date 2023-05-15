@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Deprecated
 @FeignClient(
-    name = "${feign.client.config.legacy-task.name:jsonschema}",
+    name = "${feign.client.config.legacy-task.name:legacy-task}",
     url = "${feign.client.config.legacy-task.url:${feign.client.config.default.url:http://localhost:8080/engine-rest}}",
     configuration = {ClientConfiguration.class}
 )
