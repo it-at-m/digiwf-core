@@ -25,8 +25,8 @@ public class S3VariableTaskCreateListener {
         final Map<String, Object> taskVariables = task.getVariables();
         final String s3Topic = taskVariables.containsKey(PROCESS_S3_ASYNC_CONFIG) ? (String) taskVariables.get(PROCESS_S3_ASYNC_CONFIG) : this.s3Properties.getTopic();
         final String s3HttpApi = taskVariables.containsKey(PROCESS_S3_SYNC_CONFIG) ? (String) taskVariables.get(PROCESS_S3_SYNC_CONFIG) : this.s3Properties.getHttpAPI();
-        this.taskService.setVariable(delegateTask.getId(), PROCESS_S3_ASYNC_CONFIG, s3Topic);
-        this.taskService.setVariable(delegateTask.getId(), PROCESS_S3_SYNC_CONFIG, s3HttpApi);
+        this.taskService.setVariable(task.getId(), PROCESS_S3_ASYNC_CONFIG, s3Topic);
+        this.taskService.setVariable(task.getId(), PROCESS_S3_SYNC_CONFIG, s3HttpApi);
     }
 
 }
