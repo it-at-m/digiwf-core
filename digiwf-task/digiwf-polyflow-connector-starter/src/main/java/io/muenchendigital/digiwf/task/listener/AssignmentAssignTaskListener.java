@@ -1,5 +1,8 @@
 package io.muenchendigital.digiwf.task.listener;
 
+import io.holunda.camunda.taskpool.api.task.AssignTaskCommand;
+import io.holunda.camunda.taskpool.api.task.CamundaTaskEventType;
+import io.holunda.camunda.taskpool.api.task.EngineTaskCommandSorterKt;
 import io.holunda.polyflow.taskpool.collector.task.TaskEventCollectorService;
 import io.muenchendigital.digiwf.task.TaskManagementProperties;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,7 @@ public class AssignmentAssignTaskListener {
 
     @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
     @EventListener(condition = "#task.eventName.equals('assignment')")
-    public void taskAssigned(final DelegateTask task) {
+    public AssignTaskCommand taskAssigned(final DelegateTask task) {
 
         if (properties.isShadow()) {
             val assignee = task.getAssignee();
@@ -33,10 +36,21 @@ public class AssignmentAssignTaskListener {
                 log.debug("Shadowing assignment information for task {} in global variable: {}", task.getId(), assignee);
                 writer.set(TASK_ASSIGNEE, assignee);
             }
+
             if (properties.isDelete()) {
                 log.debug("Deleting assignment information from task attributes {}", task.getId());
                 task.setAssignee(null);
             }
+
+            // emitting an event in event listener will cause the collector to pick it up.
+            // manual assignment
+            return new AssignTaskCommand(
+                task.getId(),
+                EngineTaskCommandSorterKt.ORDER_TASK_ASSIGNMENT,
+                CamundaTaskEventType.ASSIGN,
+                assignee);
         }
+        // skip eventing
+        return null;
     }
 }
