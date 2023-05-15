@@ -23,7 +23,7 @@ public class CancelableTaskStatusCreateTaskListener {
   @Order(TaskEventCollectorService.ORDER - 1001) // be before polyflow
   @EventListener(condition = "#task.eventName.equals('create')")
   public void taskCreated(DelegateTask task) {
-    writer(task).set(TASK_CANCELABLE, hasAttachedErrorBoundaryEvent(task));
+    writer(task).setLocal(TASK_CANCELABLE, hasAttachedErrorBoundaryEvent(task));
   }
 
   /**
