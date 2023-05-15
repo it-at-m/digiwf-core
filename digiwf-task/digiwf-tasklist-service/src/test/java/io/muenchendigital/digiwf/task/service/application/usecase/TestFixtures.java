@@ -46,7 +46,7 @@ public class TestFixtures {
   }
 
   public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable) {
-    return generateTask(taskId, candidateUsers, candidateGroups, assignee, followUpDate, false, variables);
+    return generateTask(taskId, candidateUsers, candidateGroups, assignee, followUpDate, cancelable, variables);
   }
 
 
