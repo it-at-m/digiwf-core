@@ -46,6 +46,11 @@ public class TestFixtures {
   }
 
   public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable) {
+    return generateTask(taskId, candidateUsers, candidateGroups, assignee, followUpDate, false, variables);
+  }
+
+
+  public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable, VariableMap variables) {
     try {
       Thread.sleep(1);
     } catch (InterruptedException ignored) {
@@ -56,7 +61,7 @@ public class TestFixtures {
     vars.putAll(variables);
     val varsWriter = writer(vars);
     if (cancelable != null) {
-        varsWriter.set(TASK_CANCELABLE, cancelable);
+      varsWriter.set(TASK_CANCELABLE, cancelable);
     }
 
     val reference = new ProcessReference(instanceId, instanceId, "def:1", "def", "Sample process", "app1", null);

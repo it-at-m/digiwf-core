@@ -33,4 +33,9 @@ public class TaskVariables {
    */
   public static final VariableFactory<Boolean> TASK_CANCELABLE = booleanVariable("app_task_cancelable");
 
+  /**
+   * Reflects the type of the schema used in task.
+   */
+  public static final VariableFactory<TaskSchemaType> TASK_SCHEMA_TYPE = customVariable("app_task_schema_type", TaskSchemaType.class);
+
 }

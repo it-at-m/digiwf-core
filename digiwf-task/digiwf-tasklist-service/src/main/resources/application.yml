@@ -46,6 +46,8 @@ feign:
     config:
       jsonschema:
         url: ${ENGINE_REST_ENDPOINT_URL}
+      legacy-task:
+        url: ${ENGINE_REST_ENDPOINT_URL}
       default:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
 

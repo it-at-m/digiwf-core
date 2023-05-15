@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
+/**
+ * Task listener invoked on change of assignee, making sure that no assignment information is ever stored
+ * in the process engine.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor

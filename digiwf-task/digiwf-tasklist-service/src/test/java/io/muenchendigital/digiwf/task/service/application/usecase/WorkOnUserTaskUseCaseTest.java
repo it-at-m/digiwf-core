@@ -3,17 +3,22 @@ package io.muenchendigital.digiwf.task.service.application.usecase;
 import com.google.common.collect.Sets;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.polyflow.view.auth.User;
+import io.muenchendigital.digiwf.task.TaskSchemaType;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
+import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaTypeResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.engine.LegacyPayloadTaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaValidationPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
 import lombok.val;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +26,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_SCHEMA_TYPE;
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,9 +40,10 @@ class WorkOnUserTaskUseCaseTest {
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort = new VariableTaskSchemaResolverAdapter();
   private final JsonSchemaPort jsonSchemaPort = mock(JsonSchemaPort.class);
   private final TaskCommandPort taskCommandPort = mock(TaskCommandPort.class);
+  private final LegacyPayloadTaskCommandPort legacyTaskCommandPort = mock(LegacyPayloadTaskCommandPort.class);
   private final JsonSchemaValidationPort jsonSchemaValidationPort = mock(JsonSchemaValidationPort.class);
-
   private final CancellationFlagOutPort cancellationFlagOutPort = mock(CancellationFlagOutPort.class);
+  private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort = new VariableTaskSchemaTypeResolverAdapter();
 
   private final User user = new User("0123456789", Sets.newHashSet("group1", "group2"));
   private final WorkOnUserTask useCase = new WorkOnUserTaskUseCase(
@@ -45,8 +52,10 @@ class WorkOnUserTaskUseCaseTest {
       taskSchemaRefResolverPort,
       jsonSchemaPort,
       taskCommandPort,
+      legacyTaskCommandPort,
       jsonSchemaValidationPort,
-      cancellationFlagOutPort
+      cancellationFlagOutPort,
+      taskSchemaTypeResolverPort
   );
 
   @BeforeEach
@@ -81,7 +90,9 @@ class WorkOnUserTaskUseCaseTest {
 
   @Test
   void loads_existing_task() {
-    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(generateTasks(1, Collections.emptySet(), Collections.emptySet(), user.getUsername()).get(0));
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(
+       generateTask("task_1", Collections.emptySet(), Collections.emptySet(), null, null, true)
+    );
     val taskWithSchemaRef = useCase.loadUserTask("task_0");
     assertThat(taskWithSchemaRef.getSchemaRef()).isEqualTo("schema-1");
 
@@ -112,7 +123,12 @@ class WorkOnUserTaskUseCaseTest {
   @Test
   void completesTask() {
     val schema1 = generateSchema("schema-1");
-    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null);
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, false,
+        CamundaBpmData
+            .builder()
+            .set(TASK_SCHEMA_TYPE, TaskSchemaType.SCHEMA_BASED)
+            .build()
+        );
 
     val payload = CamundaBpmData
         .builder()
@@ -140,7 +156,12 @@ class WorkOnUserTaskUseCaseTest {
   @Test
   void savesTask() {
     val schema1 = generateSchema("schema-1");
-    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null);
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, true,
+        CamundaBpmData
+            .builder()
+            .set(TASK_SCHEMA_TYPE, TaskSchemaType.SCHEMA_BASED)
+            .build()
+    );
 
     val payload = CamundaBpmData
         .builder()
@@ -163,6 +184,69 @@ class WorkOnUserTaskUseCaseTest {
 
     verify(taskCommandPort).saveUserTask("task_0", payload);
     verifyNoMoreInteractions(taskCommandPort);
+
+  }
+
+  @Test
+  void completeTaskLegacy() {
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, true,
+        CamundaBpmData
+            .builder()
+            .set(TASK_SCHEMA_TYPE, TaskSchemaType.VUETIFY_FORM_BASE)
+            .build()
+    );
+
+    val payload = CamundaBpmData
+        .builder()
+        .set(STRING_VAL, "some")
+        .set(INTEGER_VAL, 42)
+        .build();
+
+
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task0);
+
+    useCase.completeUserTask("task_0", payload);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(legacyTaskCommandPort).completeOldSchemaUserTask("task_0", payload);
+
+    verifyNoInteractions(jsonSchemaValidationPort);
+    verifyNoInteractions(taskCommandPort);
+    verifyNoInteractions(jsonSchemaPort);
+
+  }
+
+
+  @Test
+  void savesTaskLegacy() {
+    val task0 = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, true,
+        CamundaBpmData
+            .builder()
+            .set(TASK_SCHEMA_TYPE, TaskSchemaType.VUETIFY_FORM_BASE)
+            .build()
+    );
+
+    val payload = CamundaBpmData
+        .builder()
+        .set(STRING_VAL, "some")
+        .set(INTEGER_VAL, 42)
+        .build();
+
+
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task0);
+
+    useCase.saveUserTask("task_0", payload);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(legacyTaskCommandPort).saveOldSchemaUserTask("task_0", payload);
+
+    verifyNoInteractions(jsonSchemaValidationPort);
+    verifyNoInteractions(taskCommandPort);
+    verifyNoInteractions(jsonSchemaPort);
 
   }
 
