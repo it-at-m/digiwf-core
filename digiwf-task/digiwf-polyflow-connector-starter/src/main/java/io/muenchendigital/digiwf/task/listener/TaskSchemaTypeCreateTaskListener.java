@@ -29,8 +29,9 @@ public class TaskSchemaTypeCreateTaskListener {
         val formKey = task.getProcessEngineServices().getFormService().getTaskFormKey(task.getProcessDefinitionId(), task.getTaskDefinitionKey());
         val writer = writer(task);
         if (StringUtils.hasText(formKey)) {
-            writer.setLocal(TASK_SCHEMA_TYPE, VUETIFY_FORM_BASE)
-                    .setLocal(TASK_SCHEMA_KEY, formKey);
+            writer
+                .setLocal(TASK_SCHEMA_TYPE, VUETIFY_FORM_BASE)
+                .setLocal(TASK_SCHEMA_KEY, formKey);
         } else {
             writer.setLocal(TASK_SCHEMA_TYPE, SCHEMA_BASED);
         }
