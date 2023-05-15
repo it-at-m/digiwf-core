@@ -20,7 +20,7 @@ public class S3VariableTaskCreateListener {
     private final S3Properties s3Properties;
 
     @EventListener(condition = "#task.eventName.equals('create')")
-    public void delegateTask(final DelegateTask delegateTask) {
+    public void delegateTask(final DelegateTask task) {
         // Note: As soon as we move to another tasklist solution like taskana or polyflow we should move this to a configEnricher
         final Map<String, Object> taskVariables = delegateTask.getVariables();
         final String s3Topic = taskVariables.containsKey(PROCESS_S3_ASYNC_CONFIG) ? (String) taskVariables.get(PROCESS_S3_ASYNC_CONFIG) : this.s3Properties.getTopic();
