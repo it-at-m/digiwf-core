@@ -1,23 +1,27 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.holunda.camunda.taskpool.api.task.ProcessReference;
 import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
+import io.holunda.camunda.taskpool.api.task.TaskDeletedEngineEvent;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import lombok.SneakyThrows;
 import lombok.val;
+import org.camunda.bpm.engine.variable.VariableMap;
+import org.camunda.bpm.engine.variable.Variables;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.*;
 
-import static io.holunda.camunda.bpm.data.CamundaBpmData.intVariable;
-import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
+import static io.holunda.camunda.bpm.data.CamundaBpmData.*;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANCELABLE;
 import static org.camunda.bpm.engine.variable.Variables.createVariables;
 
 public class TestFixtures {
@@ -32,22 +36,35 @@ public class TestFixtures {
     return new JsonSchema(schemaId, "{\"type\": \"object\"}");
   }
 
+  public static VariableMap variables = CamundaBpmData.builder()
+      .set(TaskVariables.TASK_SCHEMA_KEY, "schema-1")
+      .build();
+
+
   public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate) {
+    return generateTask(taskId, candidateUsers, candidateGroups, assignee, followUpDate, false);
+  }
+
+  public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable) {
     try {
       Thread.sleep(1);
     } catch (InterruptedException ignored) {
 
     }
-    val variables = CamundaBpmData.builder()
-        .set(TaskVariables.TASK_SCHEMA_KEY, "schema-1")
-        .build();
+
+    val vars = Variables.createVariables();
+    vars.putAll(variables);
+    val varsWriter = writer(vars);
+    if (cancelable != null) {
+        varsWriter.set(TASK_CANCELABLE, cancelable);
+    }
 
     val reference = new ProcessReference(instanceId, instanceId, "def:1", "def", "Sample process", "app1", null);
     return new Task(
         taskId,
         reference,
         "task_def_1",
-        variables,
+        varsWriter.variables(),
         createVariables(),
         null,
         "Task Name",
@@ -92,6 +109,29 @@ public class TestFixtures {
         task.getOwner(),
         task.getDueDate() == null ? null : Date.from(task.getDueDate()),
         task.getFollowUpDate() == null ? null : Date.from(task.getFollowUpDate())
+    );
+  }
+
+  public static TaskDeletedEngineEvent deleteEvent(Task task) {
+    return new TaskDeletedEngineEvent(
+        task.getId(),
+        task.getSourceReference(),
+        task.getTaskDefinitionKey(),
+        task.getPayload(),
+        task.getCorrelations(),
+        task.getBusinessKey(),
+        task.getName(),
+        task.getDescription(),
+        task.getFormKey(),
+        task.getPriority(),
+        task.getCreateTime() == null ? null : Date.from(task.getCreateTime()),
+        task.getCandidateUsers(),
+        task.getCandidateGroups(),
+        task.getAssignee(),
+        task.getOwner(),
+        task.getDueDate() == null ? null : Date.from(task.getDueDate()),
+        task.getFollowUpDate() == null ? null : Date.from(task.getFollowUpDate()),
+        "reason"
     );
   }
 

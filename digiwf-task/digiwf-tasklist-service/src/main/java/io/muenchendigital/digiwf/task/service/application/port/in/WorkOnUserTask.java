@@ -92,4 +92,11 @@ public interface WorkOnUserTask {
    * @throws TaskNotFoundException if task is not available or access is not permitted.
    */
   void undeferUserTask(String taskId) throws TaskNotFoundException;
+
+  /**
+   * Cancels the user task by throwing a BPMN Error.
+   * @param taskId task id to cancel.
+   * @throws TaskNotFoundException if task is not available or access is not permitted.
+   */
+  void cancelUserTask(String taskId) throws TaskNotFoundException;
 }

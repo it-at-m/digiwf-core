@@ -7,4 +7,5 @@ import lombok.Data;
 public class TaskWithSchemaRef {
   private final Task task;
   private final String schemaRef;
+  private final boolean cancelable;
 }

@@ -4,8 +4,7 @@ import io.holunda.camunda.bpm.data.factory.VariableFactory;
 
 import java.util.List;
 
-import static io.holunda.camunda.bpm.data.CamundaBpmData.listVariable;
-import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
+import static io.holunda.camunda.bpm.data.CamundaBpmData.*;
 
 /**
  * Definition of task variables.
@@ -28,5 +27,10 @@ public class TaskVariables {
    * Task variable containing the candidate groups of the task.
    */
   public static final VariableFactory<List<String>> TASK_CANDIDATE_GROUPS = listVariable("app_task_candidate_groups", String.class);
+
+  /**
+   * Flag indicating if the task is cancellable.
+   */
+  public static final VariableFactory<Boolean> TASK_CANCELABLE = booleanVariable("app_task_cancelable");
 
 }
