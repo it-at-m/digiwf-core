@@ -110,7 +110,7 @@
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
-      :value="followUp"
+      :value="isFollowUpDialogVisible"
       @cancel="closeFollowUp"
       @save="saveFollowUp"
     />
@@ -149,17 +149,6 @@
 </style>
 
 <script lang="ts">
-
-/**
- * FIXME: build a better solution
- * each:
- *     setTimeout(() => {
- *       this.isSaving = false;
- *       this.hasSaveError = hasError;
- *     }, Math.max(0, 500 - (new Date().getTime() - startTime)));
- *
- *  should create a minimal loading indicator
- */
 
 import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
@@ -207,10 +196,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   hasDownloadButton = false;
   downloadButtonText = "Dokument herunterladen";
 
-  /**
-   * FIXME: Is it only the variable for showing or hidding the dialog?
-   */
-  followUp = false;
+  isFollowUpDialogVisible = false;
 
   /**
    * toggle for showing fab menu
@@ -229,7 +215,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   apiEndpoint = ApiConfig.base;
 
   created() {
-    console.log("created")
     loadTask(this.id).then(({data, error}) => {
       if (!!data) {
         this.task = data.task;
@@ -247,11 +232,11 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   mounted() {
     // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
-    // this.$el
-    //   .querySelector(".v-speed-dial__list")!
-    //   .addEventListener("click", (e) => {
-    //     e.stopPropagation();
-    //   });
+    this.$el
+      .querySelector(".v-speed-dial__list")!
+      .addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
   }
 
   completeTask(model: any) {
@@ -282,12 +267,12 @@ export default class TaskDetail extends SaveLeaveMixin {
     })
   }
   openFollowUp(): void {
-    this.followUp = true;
+    this.isFollowUpDialogVisible = true;
     this.fab = false;
   }
 
   closeFollowUp(): void {
-    this.followUp = false;
+    this.isFollowUpDialogVisible = false;
   }
 
   switchFab(): void {
@@ -296,7 +281,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   saveFollowUp(followUpDate: string) {
     this.followUpDate = followUpDate;
-    this.followUp = false;
+    this.isFollowUpDialogVisible = false;
 
     (this.hasChanges
       ? this.saveTask()
@@ -318,7 +303,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     })
   }
 
-  async downloadPDF(): Promise<void> {
+  downloadPDF() {
     this.isDownloading = true;
     this.hasDownloadError = false;
     downloadPDFFromEngine(this.id).then(result => {

@@ -71,7 +71,6 @@ export default defineComponent({
     })
 
     const assignTask = async (id: string): Promise<void> => {
-      console.log("assign task: ", id)
       assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
     }
 

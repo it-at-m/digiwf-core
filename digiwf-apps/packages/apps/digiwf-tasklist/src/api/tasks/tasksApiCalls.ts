@@ -52,14 +52,12 @@ export const callGetOpenGroupTasksFromTaskService = (page: number, size: number,
     .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")))
 };
 
-// FIXME: before there was a never used parameter followUp. Why?
 /**
  * old api for getting tasks. will be replaced by callGetAssignedGroupTasksFromTaskService
  * @deprecated
  * @param page
  * @param size
  * @param query
- * @param followUp
  */
 export const callGetAssignedGroupTasksFromEngine = (page: number, size: number, query?: string): Promise<PageHumanTaskTO> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
@@ -113,7 +111,7 @@ export const callGetTaskDetailsFromTaskService = (taskId: string): Promise<TaskW
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
   return TaskApiFactory(cfg).getTaskWithSchemaByTaskId(taskId)
     .then((res) => Promise.resolve(res.data))
-    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht zugewiesen werden.")));
+    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht geladen werden.")));
 }
 
 /**
@@ -158,7 +156,6 @@ export const callSetFollowUpTaskInEngine = (taskId: string, followUpDate: string
 }
 
 export const callDeferTask = (taskId: string, followUpDate: string): Promise<void> => {
-  console.log("callDeferTask: ")
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
   return TaskApiFactory(cfg).deferTask(
     taskId,
