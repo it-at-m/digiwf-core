@@ -23,3 +23,33 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("loginUser", () => {
+    const username = Cypress.env('username');
+    const password = Cypress.env('password');
+    const home = Cypress.env('home');
+    //login
+    cy.visit(home)
+    cy.get("#username").type(username);
+    cy.get("#password").type(password);
+    cy.get('[id^=kc-login]').click();
+})
+
+Cypress.Commands.add("openVorgangStarten", () => {
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-backend-service/rest/service/definition',
+    }).as('dataGetAntraege');
+    cy.get('a.v-list-item:nth-child(5) > div:nth-child(1)').click();
+    cy.wait('@dataGetAntraege').its('response.statusCode').should('equal', 200);
+})
+
+Cypress.Commands.add("clickSingleButton", () => {
+    const singleButton = 'div.buttonGroup:nth-child(1)'
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-backend-service/rest/filter',
+    }).as('dataGetFilter');
+    cy.get(singleButton).click();
+    cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200);
+})
