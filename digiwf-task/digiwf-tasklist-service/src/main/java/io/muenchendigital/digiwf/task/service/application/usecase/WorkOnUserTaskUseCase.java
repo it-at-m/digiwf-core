@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -100,6 +101,14 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     }
   }
 
+  /*
+  public Optional<String> getVariableOfUserTask(String taskId, String variableName) {
+    val task = getTaskForUser(taskId);
+
+  }
+
+
+   */
   private Task getTaskForUser(String taskId) {
     val currentUser = currentUserPort.getCurrentUser();
     return taskQueryPort.getTaskByIdForCurrentUser(currentUser, taskId);
