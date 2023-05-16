@@ -45,7 +45,7 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
             if (ex.getMessage().contains("No handler specified for action")){
                 throw new RuntimeException(ex.getMessage());
             }
-            if (ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {
+            if (action == PresignedUrlAction.POST && ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {
                 throw new ConflictingResourceException(String.format("Getting presigned url for %s file %s failed", actionString, pathToFile));
             }
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting presigned url for %s file %s failed", actionString, pathToFile));

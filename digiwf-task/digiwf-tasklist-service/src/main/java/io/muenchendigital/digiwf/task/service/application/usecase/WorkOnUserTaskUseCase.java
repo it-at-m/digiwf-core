@@ -19,6 +19,7 @@ import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -101,14 +102,21 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     }
   }
 
-  /*
-  public Optional<String> getVariableOfUserTask(String taskId, String variableName) {
+
+  public String getVariableOfUserTask(String taskId, String variableName) {
     val task = getTaskForUser(taskId);
 
+    return null;
   }
 
 
-   */
+  public boolean hasAccess (final String taskId, final String userId, final List<String> groups) {
+    val task = getTaskForUser(taskId);
+    // Vergleich candidateUsers und candidateGroups
+
+    return true;
+  }
+
   private Task getTaskForUser(String taskId) {
     val currentUser = currentUserPort.getCurrentUser();
     return taskQueryPort.getTaskByIdForCurrentUser(currentUser, taskId);
