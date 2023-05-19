@@ -1,20 +1,22 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
+import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnTaskFile;
+import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.PresignedUrlPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.file.TaskFileConfigResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.domain.PresignedUrlAction;
-import io.muenchendigital.digiwf.task.service.domain.ProcessConstants;
+import io.muenchendigital.digiwf.task.service.domain.TaskFileConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,27 +25,28 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
-    public static final String FILEPATH_DELIMITER = ";";
-    public static final String ERRTEXT_ILLEGAL_ACCESS = "No access to defined property";
     protected final DocumentStorageFolderRepository documentStorageFolderRepository;
 
     private final PresignedUrlPort presignedUrlPort;
 
-    private final WorkOnUserTaskUseCase workOnUserTaskUseCase;
+    private final TaskFileConfigResolverPort taskFileConfigResolverPort;
+
+    private final TaskQueryPort taskQueryPort;
+
+    private final CurrentUserPort currentUserPort;
+
+    private TaskFileConfig fileConfig;
 
 
     public List<String> getFileNames(final String taskId, final String filePath, final String userId, final List<String> groups) {
 
-        if (!workOnUserTaskUseCase.hasAccess(taskId, userId, groups)) {
-            throw new AccessDeniedException("403 returned");
-        }
+        this.initializeFileConfig(taskId);
+        this.fileConfig.checkReadAccess(filePath);
 
-        //this.checkReadAccess(taskId, filePath);
-
-        final String fileContext = this.getFileContext(taskId);
+        final String fileContext = this.fileConfig.processFileContext;
 
         try {
-            String documentStorageUrl = this.getDocumentStorageUrl(taskId);
+            String documentStorageUrl = this.fileConfig.processSyncConfig;
             if (!documentStorageUrl.isEmpty()) {
                 return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl).block());
             }
@@ -56,21 +59,17 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
     public String getPresignedUrl(final PresignedUrlAction action, final String taskId, final String filePath, final String fileName, final String userId, final List<String> groups) {
 
-        if (!this.workOnUserTaskUseCase.hasAccess(taskId, userId, groups)) {
-            throw new AccessDeniedException("403 returned");
-        }
+        this.initializeFileConfig(taskId);
 
-        /*
         if (action.equals(PresignedUrlAction.GET)) {
-            this.checkReadAccess(taskId, filePath);
+            this.fileConfig.checkReadAccess(filePath);
         } else {
-            this.checkWriteAccess(taskId, filePath);
+            this.fileConfig.checkWriteAccess(filePath);
         }
-        */
 
-        final String fileContext = this.getFileContext(taskId);
+        final String fileContext = this.fileConfig.processFileContext;
 
-        String documentStorageUrl = this.getDocumentStorageUrl(taskId);
+        String documentStorageUrl = this.fileConfig.processSyncConfig;
         String pathToFile = fileContext + "/" + filePath + "/" + fileName;
 
         if (!documentStorageUrl.isEmpty()) {
@@ -79,50 +78,26 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         return presignedUrlPort.getPresignedUrl(pathToFile, 5, action);
     }
 
-    protected String getDocumentStorageUrl(final String taskId) {
-        return this.workOnUserTaskUseCase.getVariableOfUserTask(taskId, ProcessConstants.PROCESS_S3_SYNC_CONFIG);
-    }
-
-    private String getFileContext(final String taskId) {
-
-        String fileContext =  this.workOnUserTaskUseCase.getVariableOfUserTask(taskId, ProcessConstants.PROCESS_FILE_CONTEXT);
-
-        if (!fileContext.isEmpty()) {
-            return fileContext;
-        }
-        //throw  new NoFileContextException("No file context found for task");
-        return null;
-    }
-
-//    private void checkReadAccess(final String identifier, final String filePath) {
-//        try {
-//            this.checkAccess(identifier, filePath, ProcessTaskConstants.FILE_PATHS);
-//        } catch (final IllegalResourceAccessException ex) {
-//            this.checkAccess(identifier, filePath, ProcessTaskConstants.FILE_PATHS_READONLY);
-//        }
-//    }
-//
-//    private void checkWriteAccess(final String identifier, final String filePath) {
-//        this.checkAccess(identifier, filePath, ProcessTaskConstants.FILE_PATHS);
-//    }
-//
-//    private void checkAccess(final String identifier, final String filePath, final String variable) {
-//
-//
-//        final String filePaths = this.workOnUserTaskUseCase.getVariableOfUserTask(identifier, variable);
-//        if (filePaths.isEmpty()) {
-//            throw new IllegalResourceAccessException(ERRTEXT_ILLEGAL_ACCESS);
-//        }
-//        Arrays.stream(filePaths.split(FILEPATH_DELIMITER))
-//                .filter(filePath::startsWith)
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalResourceAccessException(ERRTEXT_ILLEGAL_ACCESS));
-//    }
-
     private List<String> removeFolderFromPaths(final Set<String> fileList) {
         return fileList.stream()
                 .map(file -> file.substring(file.lastIndexOf("/") + 1))
                 .collect(Collectors.toList());
+    }
+
+    public String getVariableOfUserTask(String taskId, String variableName) {
+        val task = getTaskForUser(taskId);
+
+        return null;
+    }
+
+    private void initializeFileConfig(String taskId) {
+        Task task = getTaskForUser(taskId);
+        this.fileConfig = taskFileConfigResolverPort.apply(task);
+    }
+
+    private Task getTaskForUser(String taskId) {
+        val currentUser = currentUserPort.getCurrentUser();
+        return taskQueryPort.getTaskByIdForCurrentUser(currentUser, taskId);
     }
 
 

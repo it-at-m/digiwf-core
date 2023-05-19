@@ -33,4 +33,11 @@ public class TaskVariables {
    */
   public static final VariableFactory<Boolean> TASK_CANCELABLE = booleanVariable("app_task_cancelable");
 
+  //TODO description
+  public static final VariableFactory<String> PROCESS_FILE_CONTEXT = stringVariable("app_file_context");
+  public static final VariableFactory<String> PROCESS_ASYNC_CONFIG = stringVariable("app_file_s3_async_config");
+  public static final VariableFactory<String> PROCESS_SYNC_CONFIG = stringVariable("app_file_s3_sync_config");
+  public static final VariableFactory<String> FILE_PATHS = stringVariable("app_file_paths");
+  public static final VariableFactory<String> FILE_PATHS_READONLY = stringVariable("app_file_paths_readonly");
+
 }
