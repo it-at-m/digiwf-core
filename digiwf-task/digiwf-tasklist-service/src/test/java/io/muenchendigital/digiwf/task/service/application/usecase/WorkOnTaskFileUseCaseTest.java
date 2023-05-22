@@ -1,14 +1,105 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
+import com.google.common.collect.Sets;
+import io.holunda.polyflow.view.Task;
+import io.holunda.polyflow.view.auth.User;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.PropertyNotSetException;
+import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.file.PresignedUrlPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.file.TaskFileConfigResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
+import io.muenchendigital.digiwf.task.service.domain.TaskFileConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpServerErrorException;
+import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+import java.util.List;
+
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class WorkOnTaskFileUseCaseTest {
 
-    @Test
-    void getFileNames() {
+    private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
+
+    private final PresignedUrlPort presignedUrlPort = mock(PresignedUrlPort.class);
+
+    private final TaskFileConfigResolverPort taskFileConfigResolverPort = mock(TaskFileConfigResolverPort.class);
+
+    private final TaskQueryPort taskQueryPort = mock(TaskQueryPort.class);
+
+    private final CurrentUserPort currentUserPort = mock(CurrentUserPort.class);
+
+    private final WorkOnTaskFileUseCase useCase = new WorkOnTaskFileUseCase(documentStorageFolderRepository,presignedUrlPort,taskFileConfigResolverPort,taskQueryPort,currentUserPort);
+
+    private final User user = new User("0123456789", Sets.newHashSet("group1", "group2"));
+
+    @BeforeEach
+    void setupMocks() {
+        Task task = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, false);
+        when(currentUserPort.getCurrentUser()).thenReturn(user);
+        when(taskQueryPort.getTaskByIdForCurrentUser(any(), anyString())).thenReturn(task);
     }
+
+    @Test
+    void getFileNamesDocumentWithStorageUrl() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file1.txt","able/to/read/secondfile1.pdf")));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(),anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file2.txt","able/to/read/secondfile2.pdf")));
+
+        List<String> listOfNames = useCase.getFileNames("task_0","able/to/read");
+
+        assertEquals(2, listOfNames.size());
+        assertTrue(listOfNames.contains("file2.txt"));
+        assertTrue(listOfNames.contains("secondfile2.pdf"));
+    }
+
+    @Test
+    void getFileNamesDocumentWithoutStorageUrl() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", null,paths,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file1.txt","able/to/read/secondfile1.pdf")));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(),anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file2.txt","able/to/read/secondfile2.pdf")));
+
+        List<String> listOfNames = useCase.getFileNames("task_0","able/to/read");
+
+        assertEquals(2, listOfNames.size());
+        assertTrue(listOfNames.contains("file1.txt"));
+        assertTrue(listOfNames.contains("secondfile1.pdf"));
+    }
+
+    @Test
+    void getFileNamesThrowsException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenThrow(new DocumentStorageException("DocumentStorageException",new Exception()));
+
+        HttpServerErrorException exception = assertThrows(HttpServerErrorException.class, () -> { useCase.getFileNames("task_0","able/to/read");});
+
+        String expectedMessage = "Getting all files of folder able/to/read failed";
+        String actualMessage = exception.getStatusText();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    // Test für Read und Write Access-Abfrage
+    // Test für mit und ohne DocumentStorageUrl
 
     @Test
     void getPresignedUrl() {

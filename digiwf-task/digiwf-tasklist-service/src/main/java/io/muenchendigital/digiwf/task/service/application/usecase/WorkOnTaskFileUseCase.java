@@ -38,7 +38,7 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
     private TaskFileConfig fileConfig;
 
 
-    public List<String> getFileNames(final String taskId, final String filePath, final String userId, final List<String> groups) {
+    public List<String> getFileNames(final String taskId, final String filePath) {
 
         this.initializeFileConfig(taskId);
         this.fileConfig.checkReadAccess(filePath);
@@ -57,7 +57,7 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         }
     }
 
-    public String getPresignedUrl(final PresignedUrlAction action, final String taskId, final String filePath, final String fileName, final String userId, final List<String> groups) {
+    public String getPresignedUrl(final PresignedUrlAction action, final String taskId, final String filePath, final String fileName) {
 
         this.initializeFileConfig(taskId);
 
