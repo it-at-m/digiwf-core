@@ -47,7 +47,7 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
         try {
             String documentStorageUrl = this.fileConfig.processSyncConfig;
-            if (!documentStorageUrl.isEmpty()) {
+            if (documentStorageUrl != null) {
                 return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl).block());
             }
             return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath).block());
@@ -72,7 +72,7 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         String documentStorageUrl = this.fileConfig.processSyncConfig;
         String pathToFile = fileContext + "/" + filePath + "/" + fileName;
 
-        if (!documentStorageUrl.isEmpty()) {
+        if (documentStorageUrl != null) {
             return presignedUrlPort.getPresignedUrl(documentStorageUrl, pathToFile, 5, action);
         }
         return presignedUrlPort.getPresignedUrl(pathToFile, 5, action);

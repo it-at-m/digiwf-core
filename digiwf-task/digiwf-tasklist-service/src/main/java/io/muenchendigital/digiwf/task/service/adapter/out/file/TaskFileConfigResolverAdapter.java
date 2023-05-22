@@ -5,6 +5,7 @@ import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.TaskFileConfigResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.TaskFileConfig;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,9 +29,16 @@ public class TaskFileConfigResolverAdapter implements TaskFileConfigResolverPort
 
         final String filePathsReadonly = reader(task.getPayload()).getOrDefault(TaskVariables.FILE_PATHS_READONLY, null);
 
-        List<String> filePathsList = Arrays.stream(filePaths.split(FILEPATH_DELIMITER)).collect(Collectors.toList());
+        List<String> filePathsList = new ArrayList<>();
+        List<String> filePathsReadOnlyList = new ArrayList<>();
 
-        List<String> filePathsReadOnlyList = Arrays.stream(filePathsReadonly.split(FILEPATH_DELIMITER)).collect(Collectors.toList());
+        if (filePaths != null) {
+            filePathsList = Arrays.stream(filePaths.split(FILEPATH_DELIMITER)).collect(Collectors.toList());
+        }
+
+        if (filePathsReadonly != null) {
+           filePathsReadOnlyList = Arrays.stream(filePathsReadonly.split(FILEPATH_DELIMITER)).collect(Collectors.toList());
+        }
 
         if (processFileContext == null) {
             throw  new NoFileContextException("No file context found for task");

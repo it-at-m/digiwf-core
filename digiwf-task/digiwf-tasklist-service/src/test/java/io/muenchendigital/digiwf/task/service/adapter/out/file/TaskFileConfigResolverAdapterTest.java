@@ -70,8 +70,8 @@ class TaskFileConfigResolverAdapterTest {
         assertEquals("File context", config.processFileContext);
         assertNull(config.processAsyncConfig);
         assertNull(config.processSyncConfig);
-        assertNull(config.filePaths);
-        assertNull(config.filePathsReadonly);
+        assertTrue(config.filePaths.isEmpty());
+        assertTrue(config.filePathsReadonly.isEmpty());
     }
 
     @Test
