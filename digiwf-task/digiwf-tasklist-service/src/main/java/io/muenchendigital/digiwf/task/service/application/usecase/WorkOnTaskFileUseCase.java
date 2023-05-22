@@ -84,12 +84,6 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
                 .collect(Collectors.toList());
     }
 
-    public String getVariableOfUserTask(String taskId, String variableName) {
-        val task = getTaskForUser(taskId);
-
-        return null;
-    }
-
     private void initializeFileConfig(String taskId) {
         Task task = getTaskForUser(taskId);
         this.fileConfig = taskFileConfigResolverPort.apply(task);

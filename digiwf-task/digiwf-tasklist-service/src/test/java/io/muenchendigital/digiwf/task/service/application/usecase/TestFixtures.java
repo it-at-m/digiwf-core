@@ -46,6 +46,11 @@ public class TestFixtures {
   }
 
   public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable) {
+    return generateTask(taskId, candidateUsers, candidateGroups, assignee, followUpDate, cancelable, variables);
+  }
+
+
+  public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable, VariableMap variables) {
     try {
       Thread.sleep(1);
     } catch (InterruptedException ignored) {

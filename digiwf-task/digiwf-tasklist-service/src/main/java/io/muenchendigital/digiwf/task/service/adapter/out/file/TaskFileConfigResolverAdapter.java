@@ -32,7 +32,7 @@ public class TaskFileConfigResolverAdapter implements TaskFileConfigResolverPort
 
         List<String> filePathsReadOnlyList = Arrays.stream(filePathsReadonly.split(FILEPATH_DELIMITER)).collect(Collectors.toList());
 
-        if (processFileContext.isEmpty()) {
+        if (processFileContext == null) {
             throw  new NoFileContextException("No file context found for task");
         }
 
