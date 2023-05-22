@@ -38,4 +38,14 @@ public class TaskVariables {
    */
   public static final VariableFactory<TaskSchemaType> TASK_SCHEMA_TYPE = customVariable("app_task_schema_type", TaskSchemaType.class);
 
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION = stringVariable("app_task_description");
+
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION_LEGACY = stringVariable("digitalwf_task_description");
+
 }

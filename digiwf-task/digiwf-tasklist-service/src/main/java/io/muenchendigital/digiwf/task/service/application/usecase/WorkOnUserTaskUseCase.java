@@ -40,15 +40,30 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   @Override
   public TaskWithSchemaRef loadUserTask(String taskId) throws TaskNotFoundException {
     val task = getTaskForUser(taskId);
+
+    // FIXME: filter vars
+
     val cancelable = cancellationFlagOutPort.apply(task);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val type = taskSchemaTypeResolverPort.apply(task);
+
+    switch(type) {
+      case VUETIFY_FORM_BASE:
+        break;
+      case SCHEMA_BASED:
+      default:
+        break;
+    }
+
     return new TaskWithSchemaRef(task, schemaRef, cancelable, type);
   }
 
   @Override
   public TaskWithSchema loadUserTaskWithSchema(String taskId) throws TaskNotFoundException, JsonSchemaNotFoundException {
     val task = getTaskForUser(taskId);
+
+    // FIXME: filter vars
+
     val cancelable = cancellationFlagOutPort.apply(task);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val type = taskSchemaTypeResolverPort.apply(task);

@@ -3,6 +3,7 @@ package io.muenchendigital.digiwf.task.importer;
 import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
 import io.muenchendigital.digiwf.task.listener.AssignmentCreateTaskListener;
 import io.muenchendigital.digiwf.task.listener.CancelableTaskStatusCreateTaskListener;
+import io.muenchendigital.digiwf.task.listener.TaskDescriptionCreateTaskListener;
 import io.muenchendigital.digiwf.task.listener.TaskSchemaTypeCreateTaskListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class TaskImporterService {
     private final AssignmentCreateTaskListener assignmentCreateTaskListener;
     private final CancelableTaskStatusCreateTaskListener cancelableTaskStatusCreateTaskListener;
     private final TaskSchemaTypeCreateTaskListener taskSchemaTypeCreateTaskListener;
+    private final TaskDescriptionCreateTaskListener taskDescriptionCreateTaskListener;
 
     @PostConstruct
     void inform() {
@@ -49,6 +51,7 @@ public class TaskImporterService {
             assignmentCreateTaskListener.taskCreated(taskEntity);
             cancelableTaskStatusCreateTaskListener.taskCreated(taskEntity);
             taskSchemaTypeCreateTaskListener.taskCreated(taskEntity);
+            taskDescriptionCreateTaskListener.taskCreated(taskEntity);
         });
 
         return noContent().build();
