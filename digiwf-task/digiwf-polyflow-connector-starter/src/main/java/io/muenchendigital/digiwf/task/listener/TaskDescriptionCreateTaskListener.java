@@ -22,8 +22,13 @@ public class TaskDescriptionCreateTaskListener {
     @EventListener(condition = "#task.eventName.equals('create')")
     public void taskCreated(final DelegateTask task) {
 
-        val description = reader(task.getExecution()).getLocalOptional(TASK_DESCRIPTION)
-            .orElseGet(() -> reader(task.getExecution()).getLocalOrDefault(TASK_DESCRIPTION_LEGACY, null));
+        val executionReader = reader(task.getExecution());
+        val taskReader = reader(task);
+
+        val description = executionReader.getLocalOptional(TASK_DESCRIPTION)
+            .orElseGet(() -> executionReader.getLocalOptional(TASK_DESCRIPTION_LEGACY)
+                .orElseGet(() -> taskReader.getLocalOptional(TASK_DESCRIPTION)
+                    .orElseGet(() -> taskReader.getLocalOrDefault(TASK_DESCRIPTION_LEGACY, null))));
         if (description != null) {
             task.setDescription(description);
         }
