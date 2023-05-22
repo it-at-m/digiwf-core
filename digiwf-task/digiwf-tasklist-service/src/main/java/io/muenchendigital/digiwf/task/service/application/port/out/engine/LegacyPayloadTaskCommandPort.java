@@ -21,4 +21,11 @@ public interface LegacyPayloadTaskCommandPort {
    * @param payload payload to use on completion.
    */
   void saveOldSchemaUserTask(String taskId, Map<String, Object> payload);
+
+  /**
+   * Loads form data by task id.
+   * @param taskId id of the task.
+   * @return form data of the task.
+   */
+  Map<String, Object> loadFormById(String taskId);
 }

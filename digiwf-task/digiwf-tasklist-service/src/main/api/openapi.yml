@@ -486,9 +486,12 @@ components:
         schemaRef:
           description: Reference to schema id.
           type: string
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
       required:
         - id
         - schemaRef
+        - schemaType
 
     TaskWithDetails:
       description: Represents a user task.
@@ -531,11 +534,14 @@ components:
         cancelable:
           description: Flag indicating if a task can be cancelled.
           type: boolean
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
       required:
         - id
         - schemaRef
         - variables
         - cancelable
+        - schemaType
 
     TaskWithSchema:
       description: Represents a user task with embedded combined schema.
@@ -580,12 +586,25 @@ components:
         cancelable:
           description: Flag indicating if a task can be cancelled.
           type: boolean
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
+
 
       required:
         - id
         - schema
+        - schemaType
         - variables
         - cancelable
+
+
+    TaskSchemaType:
+      description: Task schema type.
+      type: string
+      enum:
+        - SCHEMA_BASED
+        - VUETIFY_FORM_BASE
+      default: SCHEMA_BASED
 
     TaskAssignment:
       description: Task assignment information.

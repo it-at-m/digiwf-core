@@ -1,13 +1,17 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import com.google.common.collect.Sets;
+import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.auth.User;
+import io.muenchendigital.digiwf.task.TaskSchemaType;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
+import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaTypeResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
 import lombok.val;
@@ -27,11 +31,13 @@ class RetrieveTasksForUserUseCaseTest {
 
   private final CancellationFlagOutPort cancellationFlagOutPort = mock(CancellationFlagOutPort.class);
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort = new VariableTaskSchemaResolverAdapter();
+  private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort = new VariableTaskSchemaTypeResolverAdapter();
 
   private final RetrieveTasksForUser useCase = new RetrieveTasksForUserUseCase(
       taskQueryPort,
       currentUserPort,
       taskSchemaRefResolverPort,
+      taskSchemaTypeResolverPort,
       cancellationFlagOutPort
   );
 

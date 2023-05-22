@@ -112,5 +112,5 @@ logging:
     org.apache.kafka.clients.consumer.ConsumerConfig: WARN
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
-    org.camunda.community.rest.client.api: DEBUG
-    org.springframework.security: DEBUG
+    org.camunda.community.rest.client.api: INFO
+    org.springframework.security: INFO
