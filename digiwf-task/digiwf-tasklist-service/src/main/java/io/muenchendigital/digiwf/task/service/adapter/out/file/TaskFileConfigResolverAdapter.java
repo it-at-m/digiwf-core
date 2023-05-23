@@ -4,6 +4,7 @@ import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.TaskFileConfigResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.TaskFileConfig;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 
+@Component
 public class TaskFileConfigResolverAdapter implements TaskFileConfigResolverPort {
 
     public static final String FILEPATH_DELIMITER = ";";

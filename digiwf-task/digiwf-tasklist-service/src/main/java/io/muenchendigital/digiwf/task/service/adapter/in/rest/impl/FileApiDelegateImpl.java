@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.task.service.adapter.in.rest.impl;
 
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnTaskFile;
 import io.muenchendigital.digiwf.task.service.application.port.in.rest.api.FileApiDelegate;
+import io.muenchendigital.digiwf.task.service.domain.PresignedUrlAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class FileApiDelegateImpl implements FileApiDelegate {
     }
 
     @Override
-    default ResponseEntity<String> getPresignedUrlForFile(String taskId, String fileName, String filePath, String requestMethod){
-        return ok(workOnTaskFile.getPresignedUrl(requestMethod, taskId, filePath, fileName));
+    public ResponseEntity<String> getPresignedUrlForFile(String taskId, String fileName, String filePath, String requestMethod){
+        return ok(workOnTaskFile.getPresignedUrl(PresignedUrlAction.valueOf(requestMethod), taskId, filePath, fileName));
     }
 
 
