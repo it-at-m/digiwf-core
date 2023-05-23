@@ -12,6 +12,8 @@ import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentU
 import io.muenchendigital.digiwf.task.service.application.port.out.file.PresignedUrlPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.TaskFileConfigResolverPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
+import io.muenchendigital.digiwf.task.service.domain.IllegalResourceAccessException;
+import io.muenchendigital.digiwf.task.service.domain.PresignedUrlAction;
 import io.muenchendigital.digiwf.task.service.domain.TaskFileConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,7 @@ import java.util.List;
 
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -98,10 +99,57 @@ class WorkOnTaskFileUseCaseTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    // Test für Read und Write Access-Abfrage
-    // Test für mit und ohne DocumentStorageUrl
+    @Test
+    void getPresignedUrlForGETWithReadAccessAndDocumentStorageUrl() {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyInt(),any())).thenReturn("Without DocumentStorageUrl");
+
+        String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/read","filename1.txt");
+
+        assertEquals("With DocumentStorageUrl",presignedUrl);
+    }
 
     @Test
-    void getPresignedUrl() {
+    void getPresignedUrlForGETWithWriteAccessAndWithoutDocumentStorageUrl() {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", null,paths,pathsReadonly));
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyInt(),any())).thenReturn("Without DocumentStorageUrl");
+
+        String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/write","filename1.txt");
+
+        assertEquals("Without DocumentStorageUrl",presignedUrl);
+    }
+
+    @Test
+    void getPresignedUrlForPUTWithWriteAccess() {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
+
+        String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","able/to/write","filename1.txt");
+
+        assertEquals("With DocumentStorageUrl",presignedUrl);
+    }
+
+    @Test
+    void getPresignedUrlForPUTWithReadAccess() {
+        List<String> paths =List.of("able/to/write");
+        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
+
+        Exception exception = assertThrows(IllegalResourceAccessException.class, () -> { useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","able/to/read","filename1.txt");});
+
+        String expectedMessage = "No access to defined property";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
     }
 }
