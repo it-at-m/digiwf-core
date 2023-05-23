@@ -35,21 +35,3 @@ Cypress.Commands.add("loginUser", () => {
     cy.get('[id^=kc-login]').click();
 })
 
-Cypress.Commands.add("openVorgangStarten", () => {
-    cy.intercept({
-        method: 'GET',
-        url: '/api/digitalwf-backend-service/rest/service/definition',
-    }).as('dataGetAntraege');
-    cy.get('a.v-list-item:nth-child(5) > div:nth-child(1)').click();
-    cy.wait('@dataGetAntraege').its('response.statusCode').should('equal', 200);
-})
-
-Cypress.Commands.add("clickSingleButton", () => {
-    const singleButton = 'div.buttonGroup:nth-child(1)'
-    cy.intercept({
-        method: 'GET',
-        url: '/api/digitalwf-backend-service/rest/filter',
-    }).as('dataGetFilter');
-    cy.get(singleButton).click();
-    cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200);
-})

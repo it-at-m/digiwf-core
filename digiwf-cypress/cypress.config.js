@@ -1,6 +1,18 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  videosFolder: "output/videos",
+  reporter: "cypress-multi-reporters",
+  reporterOptions: {
+    reporterEnabled: "mochawesome",
+    mochawesomeReporterOptions: {
+      reportDir: "output/reports/mocha",
+      quite: true,
+      overwrite: false,
+      html: false,
+      json: true
+    }
+  },
   env: {
     username: "user",
     password: "pw",

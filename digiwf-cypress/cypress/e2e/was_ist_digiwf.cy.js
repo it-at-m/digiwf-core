@@ -1,62 +1,63 @@
+import vorgangStarten from "../pages/vorgangStarten"
+import startDigiWFErleben from "../pages/startDigiWFErleben"
+import aktuelleVorgaenge from "../pages/aktuelleVorgaenge"
+import aktuellDigiWFErleben from "../pages/aktuellDigiWFErleben"
+import meineAufgaben from "../pages/meineAufgaben"
+import aufgabeWasIstDigiWF from "../pages/aufgabeWasIstDigiWF"
+
 describe('template spec', () => {
     it('passes', () => {
-        const firstListElement = '.v-data-iterator > div:nth-child(1) > div:nth-child(1)';
-        const firstListElementMeineAufgaben = '.taskTitel > span:nth-child(1)'
-        const checkboxWasIstDigiWF = 'div.col-12:nth-child(6) > div:nth-child(1)';
-        const navBar = ".v-app-bar__nav-icon > span:nth-child(1)";
-        const navBarAktuelleVorgaenge = 'a.v-list-item:nth-child(3) > div:nth-child(1)';
-        const navBarMeineAufgaben = 'a.v-list-item:nth-child(1) > div:nth-child(1)';
-        const headlineAufgaben = 'div.flex:nth-child(1) > h1:nth-child(2)';
-
         cy.loginUser();
 
         //Test auf korrekten Startzustand
-        cy.log("Fails if there are any open tasks")
-        cy.get('.v-list-item--active > div:nth-child(1) > div:nth-child(1) > span:nth-child(2)').should('not.exist');
+        meineAufgaben.checkStartConditions();
 
-        // TODO: Texte bezueglich der Leerzeichen ueberpruefen
         //Vorgang starten
-        cy.openVorgangStarten();
-        cy.get('#suchfeld').type("DigiWF erleben");
-        cy.get(firstListElement).click();
-        cy.get(checkboxWasIstDigiWF).click();
-        cy.clickSingleButton();
-        cy.get(navBar).click();
-
+        meineAufgaben.openVorgangStarten();
+        vorgangStarten.findProcess("DigiWF erleben");
+        vorgangStarten.clickFirstElement();
+        startDigiWFErleben.checkHeadline("DigiWF erleben");
+        startDigiWFErleben.tickWasIstDigiWF();
+        startDigiWFErleben.clickLosGehts();
 
         //Aktuelle Vorgeange pruefen
-        cy.get(navBarAktuelleVorgaenge).click();
-        cy.get(firstListElement + " > a:nth-child(1) > div:nth-child(2)").should('have.text'," Was ist DigiWF");
-        cy.get(firstListElement).click();
-        cy.get(".d-flex").should('have.text'," offen ");
+        meineAufgaben.clickNavbar();
+        meineAufgaben.openAktuelleVorgaenge();
+        aktuelleVorgaenge.taskIsCorrect(1, "DigiWF erleben");
+        aktuelleVorgaenge.checkStatusElement(1,"Was ist DigiWF");
+        aktuelleVorgaenge.clickElement(1);
+        aktuellDigiWFErleben.taskIsCorrect(1,'Was ist DigiWF?');
+        aktuellDigiWFErleben.isOpen(1);
+
 
 
         //Meine Aufgaben pruefen
         //Task1
-        cy.get(navBar).click();
-        cy.get(navBarMeineAufgaben).click();
-        cy.get(firstListElementMeineAufgaben).should('have.text'," Was ist DigiWF? ");
-        cy.get(firstListElementMeineAufgaben).click();
+        aktuellDigiWFErleben.clickNavbar();
+        aktuellDigiWFErleben.openMeineAufgaben();
+        meineAufgaben.elementIsCorrect(1,"Was ist DigiWF?");
+        meineAufgaben.clickElement(1);
 
-
-        cy.get(headlineAufgaben).should('have.text',"Was ist DigiWF?");
-        cy.clickSingleButton();
+        aufgabeWasIstDigiWF.checkHeadline("Was ist DigiWF?");
+        aufgabeWasIstDigiWF.finishTask();
 
         //Task2
-        cy.get(firstListElementMeineAufgaben).should('have.text'," Auf Wiedersehen bei DigiWF! ");
-        cy.get(firstListElementMeineAufgaben).click();
-        cy.get(headlineAufgaben).should('have.text',"Auf Wiedersehen bei DigiWF!");
-        cy.clickSingleButton();
+        meineAufgaben.elementIsCorrect(1,"Auf Wiedersehen bei DigiWF!");
+        meineAufgaben.clickElement(1);
+
+        aufgabeWasIstDigiWF.checkHeadline("Auf Wiedersehen bei DigiWF!");
+        aufgabeWasIstDigiWF.finishTask();
 
         //Aufgaben abgearbeitet
-        cy.get(".v-data-iterator > div:nth-child(1)").should('have.text',"Keine Aufgaben gefunden");
+        meineAufgaben.tasksEmpty("Keine Aufgaben gefunden");
 
         //aktuelle Vorgaenge beendet
-        cy.get(navBar).should("be.visible");
-        cy.get(navBar).click();
-        cy.get(navBarAktuelleVorgaenge).click({force:true});
+        meineAufgaben.clickNavbar();
+        meineAufgaben.openAktuelleVorgaenge();
         // TODO: reload kann entfernt werden, wenn Daten automatisch nachgeladen werden
+        // TODO: ladeanimation des aktualisierenbuttons entfernen wenn nichts geladen wird um klick zu ermoeglichen
         cy.reload(true);
-        cy.get(firstListElement +' > a:nth-child(1) > div:nth-child(2)').should('have.text',' Beendet');
+        aktuelleVorgaenge.taskIsCorrect(1, "DigiWF erleben");
+        aktuelleVorgaenge.checkStatusElement(1,"Beendet");
     })
 })
