@@ -22,7 +22,7 @@
         v-else
         :readonly="true"
         :value="task.variables"
-        :schema="task.jsonSchema"
+        :schema="task.schema"
       />
     </v-flex>
     <v-flex
@@ -42,14 +42,14 @@
     </v-flex>
 
     <app-yes-no-dialog v-if="task"
-      dialogtitle="Aufgabenzuweisung"
-      :value="showModal"
-      @yes="assignTask"
-      @no="showModal = false"
+                       dialogtitle="Aufgabenzuweisung"
+                       :value="showModal"
+                       @yes="triggerAssignTask"
+                       @no="showModal = false"
     >
       <div>
         Die Aufgabe ist aktuell folgender Person zugewiesen:
-        <h3>{{task.assigneeFormatted}}</h3>
+        <h3>{{ task.assigneeFormatted }}</h3>
         <br>
         Wollen Sie die Aufgabe übernehmen?
       </div>
@@ -95,17 +95,20 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import router from "../router";
-import {FetchUtils, HumanTaskDetailTO, HumanTaskRestControllerApiFactory} from '@muenchen/digiwf-engine-api-internal';
+import {UserTO} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
+import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {ApiConfig} from "../api/ApiConfig";
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
 })
-export default class MyTaskDetail extends Vue {
+export default class GroupTaskDetail extends Vue {
 
-  task: HumanTaskDetailTO | null = null;
+  task: HumanTaskDetails | null = null;
   isLoading = false;
   errorMessage = "";
   showModal = false;
@@ -114,74 +117,51 @@ export default class MyTaskDetail extends Vue {
   id!: string;
 
   @Provide('formContext')
-  get formContext(): FormContext { return {id: this.id, type: "task"}};
+  get formContext(): FormContext {
+    return {id: this.id, type: "task"}
+  };
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
   created() {
-    this.loadTask();
-  }
-
-  async checkTaskAssignment(): Promise<void> {
-    await this.loadTask();
-    if (this.task?.assignee) {
-      const currentUser: UserTO = this.$store.getters['user/info'];
-      if (this.task?.assignee != currentUser.lhmObjectId){
-        this.showModal = true;
-        setTimeout(() => this.showModal = false, 10000);
-      }
-      else {
-        router.push({path: '/task/' + this.id});
-      }
-    }
-    else {
-      this.assignTask();
-    }
-  }
-
-  async assignTask(): Promise<void> {
-    this.showModal = false;
-    try {
-
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).assignTask(this.id);
-
-      this.$store.dispatch('tasks/getTasks', true);
-      this.$store.dispatch('openGroupTasks/getTasks', true);
-      this.$store.dispatch('assignedGroupTasks/getTasks', true);
-      this.errorMessage = "";
-      router.push({path: '/task/' + this.id});
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht zugewiesen werden.';
-    }
-  }
-
-  async loadTask(): Promise<void> {
-    const loadingTimeout = setTimeout(() => this.isLoading = true, 500);
-    try {
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      cfg.baseOptions.validateStatus = function (status: number) {
-        return status >= 200 && status < 500;
-      }; // override axios default impl. (holding back http statuses >= 300)
-      const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
-      if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-        this.task = res.data;
-        this.errorMessage = "";
-      } else {
-        if (res.status === 404) {
-          this.errorMessage = 'Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.';
-        } else {
-          this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
+    this.isLoading = true
+    loadTask(this.id)
+      .then(result => {
+        this.isLoading = false;
+        if (result.data) {
+          this.task = result.data.task
+          this.errorMessage = "";
         }
-      }
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
-    }
-
-    clearTimeout(loadingTimeout);
-    this.isLoading = false;
+        if (result.error) {
+          this.errorMessage = result.error;
+        }
+      })
   }
 
+  checkTaskAssignment() {
+    loadTask(this.id)
+      .then(result => {
+        if (result.data?.task?.assigneeId) {
+          const currentUser: UserTO = this.$store.getters['user/info'];
+          if (this.task?.assigneeId != currentUser.lhmObjectId) {
+            this.showModal = true;
+            setTimeout(() => this.showModal = false, 10000);
+          } else {
+            router.push({path: '/task/' + this.id});
+          }
+        } else {
+          this.triggerAssignTask();
+        }
+      })
+  }
+
+  triggerAssignTask() {
+    this.showModal = false;
+
+    assignTask(this.id).then((result) => {
+      this.errorMessage = result.isError ? "Die Aufgabe konnte nicht zugewiesen werden." : "";
+    })
+  }
 }
 </script>

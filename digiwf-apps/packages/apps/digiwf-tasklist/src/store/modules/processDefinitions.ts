@@ -5,7 +5,7 @@ import {
   ServiceDefinitionControllerApiFactory,
   ServiceDefinitionTO
 } from '@muenchen/digiwf-engine-api-internal';
-import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface ProcessDefinitionState {
   processDefinitions: ServiceDefinitionTO[];
@@ -55,14 +55,14 @@ export default {
         return;
       }
       //const processDefinitions = await ProcessService.loadProcesses();
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await ServiceDefinitionControllerApiFactory(cfg).getServiceDefinitions();
 
         context.commit('setLastFetch', new Date().getTime());
         context.commit('setProcessDefinitions', res.data);
-      } catch (error) {
+      } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Die Vorgänge konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     }

@@ -1,16 +1,14 @@
 <template>
   <app-view-layout>
     <task-list
-      :tasks="data?.content || []"
-      :on-filter-change="onFilterChange"
-      :is-loading="isLoading"
-      :data-loading-error-message="errorMessage"
-      :filter.sync="filter"
-      @loadTasks="reloadTasks"
-
       view-name="Offene Gruppenaufgaben"
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
-      pageId="opengrouptasks"
+      :tasks="data?.content || []"
+      :is-loading="isLoading"
+      :errorMessage="errorMessage"
+      :filter="filter"
+      @loadTasks="reloadTasks"
+      @changeFilter="onFilterChange"
 
     >
       <template #default="props">
@@ -18,7 +16,7 @@
           :key="props.item.id"
           :task="props.item"
           :search-string="props.item.searchInput"
-          @on-edit="assignTask(props.item.id)"
+          @edit="assignTask(props.item.id)"
         />
         <hr class="hrDivider">
       </template>

@@ -25,7 +25,7 @@
       <app-json-form
         v-else
         :value="task.variables"
-        :schema="task.jsonSchema"
+        :schema="task.schema"
         @input="modelChanged"
         @complete-form="completeTask"
       />
@@ -79,7 +79,7 @@
         </loading-fab>
 
         <loading-fab
-          v-if="isCancelable"
+          v-if="task.isCancelable"
           :is-loading="isCancelling"
           :has-error="hasCancelError"
           color="white"
@@ -110,7 +110,7 @@
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
-      :value="followUp"
+      :value="isFollowUpDialogVisible"
       @cancel="closeFollowUp"
       @save="saveFollowUp"
     />
@@ -154,22 +154,21 @@ import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "../router";
 import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {
-  CompleteTO,
-  DocumentRestControllerApiFactory,
-  FetchUtils,
-  FollowUpTO,
-  HumanTaskDetailTO,
-  HumanTaskRestControllerApiFactory,
-  SaveTO
-} from '@muenchen/digiwf-engine-api-internal';
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
+import {
+  cancelTaskInEngine,
+  completeTask,
+  downloadPDFFromEngine,
+  loadTask,
+  saveTask,
+  deferTask
+} from "../middleware/tasks/taskMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
 
 @Component({
@@ -177,7 +176,7 @@ import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
 })
 export default class TaskDetail extends SaveLeaveMixin {
 
-  task: HumanTaskDetailTO | null = null;
+  task: HumanTaskDetails | null = null;
   followUpDate: string | null = "";
   model: any = null;
 
@@ -189,8 +188,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   isCompleting = false;
   hasCompleteError = false;
   isCancelling = false;
-  hasCancelError = false;
-  isCancelable = false;
+  hasCancelError = false
   cancelText = "Aufgabe Abbrechen";
 
   isDownloading = false;
@@ -198,21 +196,38 @@ export default class TaskDetail extends SaveLeaveMixin {
   hasDownloadButton = false;
   downloadButtonText = "Dokument herunterladen";
 
-  followUp = false;
+  isFollowUpDialogVisible = false;
 
+  /**
+   * toggle for showing fab menu
+   */
   fab = false;
 
   @Prop()
   id!: string;
 
   @Provide('formContext')
-  get formContext(): FormContext { return {id: this.id, type: "task"}};
+  get formContext(): FormContext {
+    return {id: this.id, type: "task"}
+  };
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
   created() {
-    this.loadTask();
+    loadTask(this.id).then(({data, error}) => {
+      if (!!data) {
+        this.task = data.task;
+        this.model = data.model;
+        this.followUpDate = data.followUpDate;
+        this.cancelText = data.cancelText
+        this.hasDownloadButton = data.hasDownloadButton;
+        this.downloadButtonText = data.downloadButtonText;
+      }
+      if (!!error) {
+        this.errorMessage = error;
+      }
+    });
   }
 
   mounted() {
@@ -224,200 +239,77 @@ export default class TaskDetail extends SaveLeaveMixin {
       });
   }
 
-  async completeTask(model: any): Promise<void> {
+  completeTask(model: any) {
     this.isCompleting = true;
-    this.hasCompleteError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-
-    const request: CompleteTO = {
-      taskId: this.id,
-      variables: model
-    };
-    try {
-      //await TaskService.completeTask(request);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).completeTask(request);
-
-      this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
-      this.hasChanges = false;
-      router.push({path: '/task'});
-    } catch (error) {
-      hasError = true;
-      this.errorMessage = 'Die Aufgabe konnte nicht abgeschlossen werden.';
-    }
-
-    setTimeout(() => {
-      this.isCompleting = false;
-      this.hasCompleteError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+    completeTask(this.id, model)
+      .then(result => {
+        this.isCompleting = false;
+        this.hasCompleteError = result.isError;
+        this.errorMessage = result.errorMessage || "";
+      })
   }
 
   async saveTask(): Promise<void> {
     this.isSaving = true;
     this.hasSaveError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
 
-    const request: SaveTO = {
-      taskId: this.id,
-      variables: this.model,
-    };
-    try {
-      //await TaskService.saveTask(request);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPUTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).saveTask(request);
-
-      this.errorMessage = "";
-      this.hasChanges = false;
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht gespeichert werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
+    return saveTask(this.id, this.model).then((result) => {
       this.isSaving = false;
-      this.hasSaveError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
-
-  async loadTask(): Promise<void> {
-    try {
-      // this.task = await TaskService.getTaskDetail(this.id);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      cfg.baseOptions.validateStatus = function (status: number) {
-        return status >= 200 && status < 500;
-      }; // override axios default impl. (holding back http statuses >= 300)
-      const res = await HumanTaskRestControllerApiFactory(cfg).getTaskDetail(this.id);
-      if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-        this.task = res.data;
-        this.model = this.task.variables;
-        this.followUpDate = this.task.followUpDate!;
-        if (this.task.form && this.task.form.buttons) {
-          this.isCancelable = this.task.form.buttons.cancel!.showButton || false;
-          this.cancelText = this.task.form.buttons.cancel!.buttonText || '';
-          this.hasDownloadButton = this.task.form.buttons.statusPdf!.showButton || false;
-          this.downloadButtonText = this.task.form.buttons.statusPdf!.buttonText || '';
-        } else if (this.task.statusDocument) {
-          this.hasDownloadButton = true;
-        }
-        this.errorMessage = "";
-      } else {
-        if (res.status === 404) {
-          this.errorMessage = 'Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.';
-        } else {
-          this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
-        }
+      this.errorMessage = result.errorMessage || "";
+      this.hasSaveError = result.isError
+      if(!result.isError) {
+        this.hasChanges = false;
       }
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht geladen werden.';
-    }
+
+      return result.isError
+        ? Promise.reject()
+        : Promise.resolve()
+    })
   }
-
-  async followUpTask(request: FollowUpTO): Promise<void> {
-    try {
-      //await TaskService.followUpTask(request);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).followUpTask(request);
-
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht gespeichert werden.';
-    }
-  }
-
   openFollowUp(): void {
-    this.followUp = true;
+    this.isFollowUpDialogVisible = true;
     this.fab = false;
   }
 
   closeFollowUp(): void {
-    this.followUp = false;
+    this.isFollowUpDialogVisible = false;
   }
 
   switchFab(): void {
     this.fab = !this.fab;
   }
 
-  async saveFollowUp(followUpDate: string): Promise<void> {
+  saveFollowUp(followUpDate: string) {
     this.followUpDate = followUpDate;
-    this.followUp = false;
-    if (this.hasChanges) {
-      await this.saveTask();
-    }
+    this.isFollowUpDialogVisible = false;
 
-    const request: FollowUpTO = {
-      taskId: this.id,
-      followUpDate: followUpDate
-    };
-
-    await this.followUpTask(request);
-    this.$store.dispatch('tasks/getTasks', true);
-    router.push({path: '/task'});
+    (this.hasChanges
+      ? this.saveTask()
+      : Promise.resolve())
+      .then(() => {
+        deferTask(this.id, followUpDate)
+          .then(result => {
+            this.errorMessage = result.errorMessage || ""
+          })
+      });
   }
 
-  async cancelTask(): Promise<void> {
+  cancelTask() {
     this.isCancelling = true;
-    this.hasCancelError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-    try {
-      //await TaskService.cancelTask(this.id);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await HumanTaskRestControllerApiFactory(cfg).cancelTask(this.id);
-
-      this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
-      router.push({path: '/task'});
-    } catch (error) {
-      this.errorMessage = 'Die Aufgabe konnte nicht abgebrochen werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
+    cancelTaskInEngine(this.id).then(result => {
       this.isCancelling = false;
-      this.hasCancelError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
+      this.hasCancelError = result.isError;
+      this.errorMessage = result.errorMessage || ""
+    })
   }
 
-  async downloadPDF(): Promise<void> {
+  downloadPDF() {
     this.isDownloading = true;
     this.hasDownloadError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
-
-    try {
-      //const statusDoc = await DocumentService.getStatusDocument(this.id);
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      const res = await DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(this.id);
-
-      const fileURL = window.URL.createObjectURL(new Blob([this.base64ToArrayBuffer(res.data.data)], {type: 'application/pdf'}));
-      const fileLink = document.createElement('a');
-      fileLink.href = fileURL;
-      fileLink.setAttribute('download', 'statusdokument.pdf');
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Das Statusdokument konnte nicht erstellt werden.';
-      hasError = true;
-    }
-
-    setTimeout(() => {
-      this.isDownloading = false;
-      this.hasDownloadError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
-
-  base64ToArrayBuffer(base64: any) {
-    const binaryString = window.atob(base64);
-    const binaryLen = binaryString.length;
-    const bytes = new Uint8Array(binaryLen);
-    for (let i = 0; i < binaryLen; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
+    downloadPDFFromEngine(this.id).then(result => {
+      this.errorMessage = result.errorMessage || "";
+      this.hasDownloadError = result.isError;
+    })
   }
 
   modelChanged(model: any) {
@@ -428,6 +320,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   isDirty(): boolean {
     return this.hasChanges;
   }
-
 }
+
 </script>
