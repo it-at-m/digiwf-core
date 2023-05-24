@@ -6,13 +6,13 @@ import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaValidationPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
-import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +36,8 @@ class WorkOnUserTaskUseCaseTest {
   private final TaskCommandPort taskCommandPort = mock(TaskCommandPort.class);
   private final JsonSchemaValidationPort jsonSchemaValidationPort = mock(JsonSchemaValidationPort.class);
 
+  private final CancellationFlagOutPort cancellationFlagOutPort = mock(CancellationFlagOutPort.class);
+
   private final User user = new User("0123456789", Sets.newHashSet("group1", "group2"));
   private final WorkOnUserTask useCase = new WorkOnUserTaskUseCase(
       taskQueryPort,
@@ -43,12 +45,14 @@ class WorkOnUserTaskUseCaseTest {
       taskSchemaRefResolverPort,
       jsonSchemaPort,
       taskCommandPort,
-      jsonSchemaValidationPort
+      jsonSchemaValidationPort,
+      cancellationFlagOutPort
   );
 
   @BeforeEach
   void setupMocks() {
     when(currentUserPort.getCurrentUser()).thenReturn(user);
+    when(cancellationFlagOutPort.apply(any())).thenReturn(true);
   }
 
   @Test
@@ -129,7 +133,7 @@ class WorkOnUserTaskUseCaseTest {
     verify(jsonSchemaValidationPort).validateAndSerialize(schema1, task0, payload);
     verifyNoMoreInteractions(jsonSchemaValidationPort);
 
-    verify(taskCommandPort).completeTask("task_0", payload);
+    verify(taskCommandPort).completeUserTask("task_0", payload);
     verifyNoMoreInteractions(taskCommandPort);
   }
 
@@ -216,7 +220,7 @@ class WorkOnUserTaskUseCaseTest {
   }
 
   @Test
-  void undeferesUserTask() {
+  void undefersUserTask() {
     val until = Instant.now();
 
     when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(
@@ -230,6 +234,39 @@ class WorkOnUserTaskUseCaseTest {
 
     verify(taskCommandPort).undeferUserTask("task_0");
     verifyNoMoreInteractions(taskCommandPort);
+  }
+
+  @Test
+  void cancelsUserTask() {
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(
+        generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, true)
+    );
+    useCase.cancelUserTask("task_0");
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verify(taskCommandPort).cancelUserTask("task_0");
+    verifyNoMoreInteractions(taskCommandPort);
+
+  }
+
+  @Test
+  void failsToCancelUserTask() {
+    when(cancellationFlagOutPort.apply(any())).thenReturn(false); // all tasks are not cancellable
+    val task = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, false);
+    when(taskQueryPort.getTaskByIdForCurrentUser(any(), any())).thenReturn(task);
+
+    val exception = assertThrows(IllegalArgumentException.class, () -> useCase.cancelUserTask("task_0"));
+    assertThat(exception.getMessage()).isEqualTo("Task task_0 can not be cancelled.");
+
+    verify(cancellationFlagOutPort).apply(task);
+
+    verify(taskQueryPort).getTaskByIdForCurrentUser(user, "task_0");
+    verifyNoMoreInteractions(taskQueryPort);
+
+    verifyNoInteractions(taskCommandPort);
+
   }
 
 }

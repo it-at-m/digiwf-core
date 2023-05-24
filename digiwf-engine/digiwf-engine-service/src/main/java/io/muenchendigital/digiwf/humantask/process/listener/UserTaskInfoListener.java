@@ -14,12 +14,14 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Listener that creats and upates the TaskInfoEntity
+ * Listener that creates and updates the TaskInfoEntity
  *
  * @author externer.dl.horn
+ * @deprecated due to new taskmanagement with polyflow
  */
 @Slf4j
 @Component
+@Deprecated
 @RequiredArgsConstructor
 public class UserTaskInfoListener {
 
@@ -41,6 +43,8 @@ public class UserTaskInfoListener {
             case "delete":
                 log.debug("TaskInfo Listener: {}, Event: {}", delegateTask.getName(), delegateTask.getEventName());
                 this.taskInfoService.deleteTaskInfo(delegateTask.getId());
+                break;
+            default:
                 break;
         }
     }

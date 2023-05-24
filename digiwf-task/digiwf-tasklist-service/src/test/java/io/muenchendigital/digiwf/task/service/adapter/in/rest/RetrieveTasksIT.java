@@ -10,6 +10,8 @@ import io.muenchendigital.digiwf.task.service.infra.security.TestUser;
 import io.muenchendigital.digiwf.task.service.infra.security.WithKeycloakUser;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.messaging.MetaData;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,7 @@ import java.util.Arrays;
 
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.BASE_PATH;
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
-import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.createEvent;
-import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -62,7 +63,7 @@ public class RetrieveTasksIT {
 
   private final Task[] tasks = {
       // user id
-      generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null),
+      generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null, true),
       // candidate group
       generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.GROUP1, "ANOTHER"), "OTHER", null),
       // candidate user -> This is a special case, we don't expect candidate user assignment
@@ -82,6 +83,11 @@ public class RetrieveTasksIT {
           assertThat(count).isEqualTo(tasks.length);
         }
     );
+  }
+
+  @AfterEach
+  public void clean_tasks() {
+    Arrays.stream(tasks).forEach(t -> service.on(deleteEvent(t), MetaData.emptyInstance()));
   }
 
 

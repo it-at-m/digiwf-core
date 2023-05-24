@@ -10,6 +10,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
 
+import static io.muenchendigital.digiwf.task.BpmnErrors.DEFAULT_TASK_CANCELLATION_ERROR;
+
 /**
  * Encapsulation of the Camunda remote client.
  */
@@ -22,7 +24,7 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   }
 
   @Override
-  public void completeTask(String taskId, Map<String, Object> variables) {
+  public void completeUserTask(String taskId, Map<String, Object> variables) {
     taskService.complete(taskId, variables);
   }
 
@@ -58,5 +60,10 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
       task.setDueDate(null);
       taskService.saveTask(task);
     }
+  }
+
+  @Override
+  public void cancelUserTask(String taskId) {
+    taskService.handleBpmnError(taskId, DEFAULT_TASK_CANCELLATION_ERROR);
   }
 }

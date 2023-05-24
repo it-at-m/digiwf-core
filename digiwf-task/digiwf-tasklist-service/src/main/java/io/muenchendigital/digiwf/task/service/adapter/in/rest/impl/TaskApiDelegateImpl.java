@@ -40,13 +40,13 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
   @Override
   public ResponseEntity<TaskWithSchemaTO> getTaskWithSchemaByTaskId(String taskId) {
     val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
-    return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema()));
+    return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema(), taskWithSchema.isCancelable()));
   }
 
   @Override
   public ResponseEntity<TaskWithDetailsTO> getTaskByTaskId(String taskId) {
     val taskWithSchemaRef = workOnUserTask.loadUserTask(taskId);
-    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef()));
+    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef(), taskWithSchemaRef.isCancelable()));
   }
 
   @Override
@@ -85,4 +85,9 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
     return noContent().build();
   }
 
+  @Override
+  public ResponseEntity<Void> cancelTask(String taskId) {
+    workOnUserTask.cancelUserTask(taskId);
+    return noContent().build();
+  }
 }

@@ -16,6 +16,7 @@ import org.axonframework.springboot.autoconfig.ObjectMapperAutoConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,9 @@ import org.springframework.context.annotation.Configuration;
         FallbackPayloadObjectMapperAutoConfiguration.class,
         SenderConfiguration.class
 })
+@EnableConfigurationProperties(
+    TaskManagementProperties.class
+)
 public class PolyflowConnectorAutoConfiguration {
 
     /**
@@ -54,5 +58,15 @@ public class PolyflowConnectorAutoConfiguration {
     @Qualifier("defaultAxonObjectMapper")
     public ObjectMapper defaultAxonObjectMapper() {
         return PolyflowObjectMapper.DEFAULT;
+    }
+
+    /**
+     * Expose assignment properties as bean.
+     * @param properties task management properties.
+     * @return assignment part of the properties.
+     */
+    @Bean
+    public TaskManagementProperties.AssignmentProperties assignmentProperties(TaskManagementProperties properties) {
+        return properties.getAssignment();
     }
 }
