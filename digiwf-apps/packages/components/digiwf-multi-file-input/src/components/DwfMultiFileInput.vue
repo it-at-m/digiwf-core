@@ -50,12 +50,9 @@ import {DocumentData, FormContext} from "../../types";
 import {
   Configuration,
   FetchUtils,
-  HumanTaskFileRestControllerApiFactory,
-  ServiceInstanceFileRestControllerApiFactory,
-  ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
 import {computed, defineComponent, inject, onMounted, ref} from "vue";
-import {getPresignedUrlForDelete, getPresignedUrlForGet, getPresignedUrlForPost} from "@/middleware/presignedUrls";
+import {getPresignedUrlForDelete, getPresignedUrlForGet, getPresignedUrlForPost, getFilenames} from "@/middleware/presignedUrls";
 
 export default defineComponent({
   props: [
@@ -129,7 +126,14 @@ export default defineComponent({
         isLoading.value = true;
 
         // get filenames
-        const filenames = await getFilenames();
+        const filenames = await getFilenames({
+          filePath,
+          apiEndpoint: apiEndpoint || "",
+          formContext,
+          axiosConfig: axiosConfig(),
+          shouldUseTaskService: shouldUseTaskService || false,
+          taskServiceApiEndpoint: taskServiceApiEndpoint || ""
+        });
         for (const filename of filenames) {
           await loadFile(filename);
         }
@@ -268,34 +272,6 @@ export default defineComponent({
       cfg.basePath = apiEndpoint;
       return cfg;
     }
-
-    // FIXME: move to middleware
-    const getFilenames = async (): Promise<string[]> => {
-      const cfg = axiosConfig();
-
-      let res: any;
-      if (formContext!.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
-            formContext!.id,
-            filePath.value
-        );
-      } else if (formContext!.type == "task") {
-        res = await HumanTaskFileRestControllerApiFactory(cfg).getFileNames(
-            formContext!.id,
-            filePath.value
-        );
-      } else {
-        //type "instance"
-        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getFileNames2(
-            formContext!.id,
-            filePath.value
-        );
-      }
-
-      return res.data;
-    }
-
-
 
     const changeInput = () => {
       if (!fileValue.value) {

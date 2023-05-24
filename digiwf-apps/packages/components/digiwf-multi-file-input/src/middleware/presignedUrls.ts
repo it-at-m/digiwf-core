@@ -1,12 +1,22 @@
 import {
   Configuration,
   FetchUtils,
-  HumanTaskFileRestControllerApiFactory, ServiceInstanceFileRestControllerApiFactory,
+  ServiceInstanceFileRestControllerApiFactory,
   ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
 import {Ref} from "vue";
-import {getPresignedUrlForFileUploadFromEngine} from "@/apiClient/engineCalls";
-import {getPresignedUrlForFileUploadFromTaskservice} from "@/apiClient/taskServiceCalls";
+import {
+  getFileNamesFromEngine,
+  getPresignedUrlForFileDeletionFromEngine,
+  getPresignedUrlForFileDownloadFromEngine,
+  getPresignedUrlForFileUploadFromEngine
+} from "@/apiClient/engineCalls";
+import {
+  getFileNamesFromTaskservice,
+  getPresignedUrlForFileDeletionFromTaskservice,
+  getPresignedUrlForFileDownloadFromTaskservice,
+  getPresignedUrlForFileUploadFromTaskservice
+} from "@/apiClient/taskServiceCalls";
 
 interface EngineInteractionConfig {
   readonly axiosConfig: Configuration;
@@ -47,7 +57,7 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
 }
 
 export const getPresignedUrlForGet = async (filename: string, config: EngineInteractionConfig): Promise<string> => {
-  const  {axiosConfig: cfg, filePath, formContext} = config;
+  const  {axiosConfig: cfg, filePath, formContext, shouldUseTaskService} = config;
 
   let res: any;
   if (formContext!.type === "start") {
@@ -59,13 +69,22 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    res = await HumanTaskFileRestControllerApiFactory(
-      cfg
-    ).getPresignedUrlForFileDownload(
-      formContext!.id,
-      filename,
-      filePath.value
-    );
+    if(shouldUseTaskService) {
+      // FIXME: replace cfg with tasklist cfg
+      res = await getPresignedUrlForFileDownloadFromTaskservice(
+        cfg,
+        formContext!.id,
+        filename,
+        filePath.value
+      );
+    } else {
+      res = await getPresignedUrlForFileDownloadFromEngine(
+        cfg,
+        formContext!.id,
+        filename,
+        filePath.value
+      );
+    }
   } else {
     //type "instance"
     res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDownload2(
@@ -79,7 +98,7 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
 }
 
 export const getPresignedUrlForDelete = async (filename: string, config: EngineInteractionConfig): Promise<string> => {
-  const  {apiEndpoint, filePath, formContext} = config;
+  const  {apiEndpoint, filePath, formContext, shouldUseTaskService} = config;
   const cfg = FetchUtils.getAxiosConfig(FetchUtils.getDELETEConfig());
   cfg.basePath = apiEndpoint;
 
@@ -93,18 +112,62 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    res = await HumanTaskFileRestControllerApiFactory(
-      cfg
-    ).getPresignedUrlForFileDeletion(
-      formContext!.id,
-      filename,
-      filePath.value
-    );
+    if(shouldUseTaskService) {
+      // FIXME: replace cfg with tasklist cfg
+      res = await getPresignedUrlForFileDeletionFromTaskservice(
+        cfg,
+        formContext!.id,
+        filename,
+        filePath.value
+      );
+    } else {
+      res = await getPresignedUrlForFileDeletionFromEngine(
+        cfg,
+        formContext!.id,
+        filename,
+        filePath.value
+      );
+    }
   } else {
     //type "instance"
     res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion2(
       formContext!.id,
       filename,
+      filePath.value
+    );
+  }
+
+  return res.data;
+}
+
+export const getFilenames = async (config: EngineInteractionConfig): Promise<string[]> => {
+  const  {axiosConfig: cfg, filePath, formContext, shouldUseTaskService} = config;
+
+  let res: any;
+  if (formContext!.type === "start") {
+    res = await ServiceStartFileRestControllerApiFactory(cfg).getFileNames1(
+      formContext!.id,
+      filePath.value
+    );
+  } else if (formContext!.type == "task") {
+    if(shouldUseTaskService) {
+      // FIXME: replace cfg with tasklist cfg
+      res = await getFileNamesFromTaskservice(
+        cfg,
+        formContext!.id,
+        filePath.value
+      );
+    } else {
+      res = await getFileNamesFromEngine(
+        cfg,
+        formContext!.id,
+        filePath.value
+      );
+    }
+  } else {
+    //type "instance"
+    res = await ServiceInstanceFileRestControllerApiFactory(cfg).getFileNames2(
+      formContext!.id,
       filePath.value
     );
   }
