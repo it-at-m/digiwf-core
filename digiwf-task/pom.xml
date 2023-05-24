@@ -16,10 +16,10 @@
     <description>Task management used by DigiWF</description>
 
     <properties>
-        <polyflow.version>3.10.0</polyflow.version>
+        <polyflow.version>3.11.0</polyflow.version>
         <axon-framework.version>4.6.6</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <kotlin.version>1.8.10</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
     </properties>
 
     <dependencyManagement>

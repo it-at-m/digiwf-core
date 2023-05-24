@@ -14,23 +14,23 @@ import org.springframework.stereotype.Component;
 
 /**
  * UserTask assignment listener for no-security mode.
- * Always sets 260 as default user.
+ * Always sets 123456789 as default user.
  *
  * @author externer.dl.horn
  */
 @Component
 @Profile("no-security")
+@Deprecated
 @RequiredArgsConstructor
 public class NoSecurityUserTaskListener {
 
     private final UserAuthenticationProvider userAuthenticationProvider;
 
-    //TODO 260 in application props auslagern
     @EventListener
     public void delegateTask(final DelegateTask delegateTask) {
         if (delegateTask.getEventName().equals("assignment")) {
             if (!StringUtils.isBlank(delegateTask.getAssignee())) {
-                delegateTask.setAssignee("260");
+                delegateTask.setAssignee("123456789");
             }
         }
 

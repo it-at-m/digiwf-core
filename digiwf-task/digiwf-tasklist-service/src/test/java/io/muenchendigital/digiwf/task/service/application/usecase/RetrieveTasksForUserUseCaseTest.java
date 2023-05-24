@@ -5,6 +5,7 @@ import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import io.muenchendigital.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
@@ -23,12 +24,15 @@ class RetrieveTasksForUserUseCaseTest {
 
   private final TaskQueryPort taskQueryPort = mock(TaskQueryPort.class);
   private final CurrentUserPort currentUserPort = mock(CurrentUserPort.class);
+
+  private final CancellationFlagOutPort cancellationFlagOutPort = mock(CancellationFlagOutPort.class);
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort = new VariableTaskSchemaResolverAdapter();
 
   private final RetrieveTasksForUser useCase = new RetrieveTasksForUserUseCase(
       taskQueryPort,
       currentUserPort,
-      taskSchemaRefResolverPort
+      taskSchemaRefResolverPort,
+      cancellationFlagOutPort
   );
 
   private final String query = "";
@@ -38,6 +42,7 @@ class RetrieveTasksForUserUseCaseTest {
   @BeforeEach
   void setupMocks() {
     when(currentUserPort.getCurrentUser()).thenReturn(user);
+    when(cancellationFlagOutPort.apply(any())).thenReturn(true);
   }
 
   @Test
