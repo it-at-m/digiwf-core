@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
+import camundajar.impl.scala.jdk.FunctionWrappers;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
+
+import static org.aspectj.bridge.MessageUtil.fail;
 
 @Component
 @RequiredArgsConstructor
@@ -41,16 +44,18 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   public TaskWithSchemaRef loadUserTask(String taskId) throws TaskNotFoundException {
     val task = getTaskForUser(taskId);
 
-    // FIXME: filter vars
-
     val cancelable = cancellationFlagOutPort.apply(task);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val type = taskSchemaTypeResolverPort.apply(task);
 
     switch(type) {
       case VUETIFY_FORM_BASE:
-        break;
+        throw new RuntimeException("Vuetify form base forms are not supported yet");
       case SCHEMA_BASED:
+        val schema = jsonSchemaPort.getSchemaById(schemaRef);
+        val filteredPayload =  this.jsonSchemaValidationPort.filterVariables(task.getPayload(), schema);
+        task.getPayload().clear();
+        task.getPayload().putAll(filteredPayload);
       default:
         break;
     }
@@ -72,6 +77,11 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         return new TaskWithSchema(task, cancelable, type, null, legacyPayloadTasCommandPort.loadFormById(schemaRef));
       case SCHEMA_BASED:
       default:
+        val schema = jsonSchemaPort.getSchemaById(schemaRef);
+        val filteredPayload =  this.jsonSchemaValidationPort.filterVariables(task.getPayload(), schema);
+        task.getPayload().clear();
+        task.getPayload().putAll(filteredPayload);
+
         return new TaskWithSchema(task, cancelable, type, jsonSchemaPort.getSchemaById(schemaRef), null);
     }
   }
