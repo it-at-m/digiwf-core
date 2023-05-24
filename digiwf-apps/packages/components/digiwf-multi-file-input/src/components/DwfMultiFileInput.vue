@@ -55,6 +55,7 @@ import {
   ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
 import {computed, defineComponent, inject, onMounted, ref} from "vue";
+import {getPresignedUrlForDelete, getPresignedUrlForGet, getPresignedUrlForPost} from "@/middleware/presignedUrls";
 
 export default defineComponent({
   props: [
@@ -81,6 +82,8 @@ export default defineComponent({
     let uuid = "";
 
     const apiEndpoint = inject<string>('apiEndpoint');
+    const taskServiceApiEndpoint = inject<string>('taskServiceApiEndpoint');
+    const shouldUseTaskService = inject<boolean>('shouldUseTaskService');
     const formContext = inject<FormContext>('formContext');
 
     const input = (value: any): any => {
@@ -145,7 +148,14 @@ export default defineComponent({
 
     const loadFile = async (filename: string) => {
       // get presigned url
-      const presignedUrl = await getPresignedUrlForGet(filename);
+      const presignedUrl = await getPresignedUrlForGet(filename, {
+        filePath,
+        apiEndpoint: apiEndpoint || "",
+        formContext,
+        axiosConfig: axiosConfig(),
+        shouldUseTaskService: shouldUseTaskService || false,
+        taskServiceApiEndpoint: taskServiceApiEndpoint || ""
+      });
 
       // get file content
       const res = await globalAxios.get(presignedUrl, {
@@ -184,9 +194,16 @@ export default defineComponent({
         isLoading.value = true;
 
         validateFileSize(mydata);
-        const presignedUrl = await getPresignedUrlForPost(file);
+        const presignedUrl = await getPresignedUrlForPost(file, {
+          filePath,
+          apiEndpoint: apiEndpoint || "",
+          formContext,
+          axiosConfig: axiosConfig(),
+          shouldUseTaskService: shouldUseTaskService || false,
+          taskServiceApiEndpoint: taskServiceApiEndpoint || ""
+        });
 
-        await globalAxios.put(presignedUrl, mydata);
+        await globalAxios.put(presignedUrl, mydata); // FIXME: move to calls
 
         let content = arrayBufferToString(mydata);
 
@@ -252,6 +269,7 @@ export default defineComponent({
       return cfg;
     }
 
+    // FIXME: move to middleware
     const getFilenames = async (): Promise<string[]> => {
       const cfg = axiosConfig();
 
@@ -277,98 +295,7 @@ export default defineComponent({
       return res.data;
     }
 
-    const getPresignedUrlForPost = async (file: File): Promise<string> => {
-      const cfg = axiosConfig();
 
-      let res: any;
-      if (formContext!.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload1(
-            formContext!.id,
-            file!.name,
-            filePath.value
-        );
-      } else if (formContext!.type == "task") {
-        res = await HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload(
-            formContext!.id,
-            file!.name,
-            filePath.value
-        );
-      } else {
-        //type "instance"
-        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload2(
-            formContext!.id,
-            file!.name,
-            filePath.value
-        );
-      }
-
-      return res.data;
-    }
-
-    const getPresignedUrlForGet = async (filename: string): Promise<string> => {
-      const cfg = axiosConfig();
-
-      let res: any;
-      if (formContext!.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileDownload1(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      } else if (formContext!.type == "task") {
-        res = await HumanTaskFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileDownload(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      } else {
-        //type "instance"
-        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDownload2(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      }
-
-      return res.data;
-    }
-
-    const getPresignedUrlForDelete = async (filename: string): Promise<string> => {
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getDELETEConfig());
-      cfg.basePath = apiEndpoint;
-
-      let res: any;
-      if (formContext!.type === "start") {
-        res = await ServiceStartFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileDeletion1(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      } else if (formContext!.type == "task") {
-        res = await HumanTaskFileRestControllerApiFactory(
-            cfg
-        ).getPresignedUrlForFileDeletion(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      } else {
-        //type "instance"
-        res = await ServiceInstanceFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion2(
-            formContext!.id,
-            filename,
-            filePath.value
-        );
-      }
-
-      return res.data;
-    }
 
     const changeInput = () => {
       if (!fileValue.value) {
@@ -394,7 +321,15 @@ export default defineComponent({
         if (documents.value[i].name == document.name) {
           try {
             const presignedDeleteUrl = await getPresignedUrlForDelete(
-                document.name
+                document.name,
+              {
+                filePath,
+                apiEndpoint: apiEndpoint || "",
+                formContext,
+                axiosConfig: axiosConfig(),
+                shouldUseTaskService: shouldUseTaskService || false,
+                taskServiceApiEndpoint: taskServiceApiEndpoint || ""
+              }
             );
             await globalAxios.delete(presignedDeleteUrl);
             documents.value.splice(i, 1);

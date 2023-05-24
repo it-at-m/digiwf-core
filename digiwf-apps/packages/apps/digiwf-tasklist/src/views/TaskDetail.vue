@@ -166,7 +166,8 @@ import {
   downloadPDFFromEngine,
   loadTask,
   saveTask,
-  deferTask
+  deferTask,
+  shouldUseTaskService as shouldUseTaskServiceFromMiddleware
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
@@ -206,13 +207,20 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Prop()
   id!: string;
 
-  @Provide('formContext')
+  @Provide("formContext")
   get formContext(): FormContext {
     return {id: this.id, type: "task"}
   };
 
-  @Provide('apiEndpoint')
+  @Provide("apiEndpoint")
   apiEndpoint = ApiConfig.base;
+
+  @Provide("taskServiceApiEndpoint")
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+
+  @Provide("shouldUseTaskService")
+  shouldUseTaskService = shouldUseTaskServiceFromMiddleware;
+
 
   created() {
     loadTask(this.id).then(({data, error}) => {

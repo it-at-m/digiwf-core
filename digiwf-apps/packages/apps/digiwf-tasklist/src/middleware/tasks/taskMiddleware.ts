@@ -41,7 +41,7 @@ import store from "../../store";
 import {getUserInfo} from "../user/userMiddleware";
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 
-const shouldUseTaskService = isServiceTaskServiceEnabled();
+export const shouldUseTaskService = isServiceTaskServiceEnabled();
 if (shouldUseTaskService) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
 }
