@@ -3,6 +3,7 @@ import {DateTime} from "luxon";
 export const formatIsoDateTime = (isoDateTime: string) => DateTime
   .fromISO(isoDateTime)
   .setLocale("de")
+  .setZone("Europe/Berlin")
   .toLocaleString({
     ...DateTime.DATETIME_SHORT,
     day: "2-digit",
