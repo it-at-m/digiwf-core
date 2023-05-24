@@ -7,7 +7,8 @@ import {HumanTaskFileRestControllerApiFactory} from "@muenchen/digiwf-engine-api
  * @param fileName
  * @param filePath
  */
-export const getPresignedUrlForFileUploadFromEngine = (cfg: any, formContextId: string, fileName: string, filePath: string) => {
+export const getPresignedUrlForFileUploadFromEngine = (cfg: any, formContextId: string, fileName: string, filePath: string): Promise<string> => {
+  // FIXME: return
   HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileUpload(
     formContextId,
     fileName,
@@ -23,6 +24,7 @@ export const getPresignedUrlForFileUploadFromEngine = (cfg: any, formContextId: 
  * @param filePath
  */
 export const getPresignedUrlForFileDownloadFromEngine = (cfg: any, formContextId: string, fileName: string, filePath: string) => {
+  // FIXME: return
   HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileDownload(
     formContextId,
     fileName,
@@ -38,6 +40,7 @@ export const getPresignedUrlForFileDownloadFromEngine = (cfg: any, formContextId
  * @param filePath
  */
 export const getPresignedUrlForFileDeletionFromEngine = (cfg: any, formContextId: string, fileName: string, filePath: string) => {
+  // FIXME: return
   HumanTaskFileRestControllerApiFactory(cfg).getPresignedUrlForFileDeletion(
     formContextId,
     fileName,
@@ -52,6 +55,7 @@ export const getPresignedUrlForFileDeletionFromEngine = (cfg: any, formContextId
  * @param filePath
  */
 export const getFileNamesFromEngine = (cfg: any, formContextId: string, filePath: string) => {
+  // FIXME: return
   HumanTaskFileRestControllerApiFactory(cfg).getFileNames(
     formContextId,
     filePath
