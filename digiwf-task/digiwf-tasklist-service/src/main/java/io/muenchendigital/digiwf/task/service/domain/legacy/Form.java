@@ -2,15 +2,18 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik der Landeshauptstadt München, 2020
  */
 
-package io.muenchendigital.digiwf.legacy.form.domain.model;
+package io.muenchendigital.digiwf.task.service.domain.legacy;
 
-import io.muenchendigital.digiwf.legacy.form.domain.validator.ValidationHandler;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -19,71 +22,32 @@ import java.util.stream.Collectors;
  *
  * @author externer.dl.horn
  */
-@Getter
-@Builder
-@ToString
-@EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Form {
-
-    /**
-     * Key of the form.
-     */
-    @NotBlank
-    private final String key;
-
-    /**
-     * description of the form.
-     */
-    private final String description;
-
-    /**
-     * authorized groups.
-     */
-    private final String authorizedGroups;
-
-    /**
-     * Buttons of the form.
-     */
-    private final Buttons buttons;
 
     /**
      * Sections of the form including all form fields.
      */
-    @Size(min = 1, max = 100)
-    @Builder.Default
     private final List<Group> groups = new ArrayList<>();
-
-    public List<String> getFormFieldKeys() {
-        return this.groups.stream()
-                .map(Group::getFormFieldKeys)
-                .flatMap(Collection::stream)
-                .filter(key -> !StringUtils.isBlank(key))
-                .collect(Collectors.toList());
-    }
-
-    private List<FormField> getFormFields() {
-        return this.groups.stream()
-                .map(Group::getSchema)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    public boolean validateVariables(final Map<String, Object> variables, final List<ValidationHandler> validationHandlers) {
-        final List<String> formFields = this.getFormFieldKeys();
-        if (!formFields.containsAll(variables.keySet())) {
-            return false;
-        }
-        return this.getFormFields().stream().allMatch(obj -> obj.validate(variables.get(obj.getKey()), validationHandlers));
-    }
-
-    public Optional<FormField> getFormField(final String key) {
-        return this.groups.stream()
-                .map(Group::getSchema)
-                .flatMap(Collection::stream)
-                .filter(field -> key.equals(field.getKey()))
-                .findFirst();
-    }
+    /**
+     * Key of the form.
+     */
+    @NotBlank
+    private String key;
+    /**
+     * description of the form.
+     */
+    private String description;
+    /**
+     * authorized groups.
+     */
+    private String authorizedGroups;
+    /**
+     * Buttons of the form.
+     */
+    private Map<String, Object> buttons;
 
     public Map<String, FormField> getFormFieldMap() {
         return this.groups.stream()
@@ -91,5 +55,138 @@ public class Form {
                 .flatMap(Collection::stream)
                 .filter(field -> !StringUtils.isBlank(field.getKey()))
                 .collect(Collectors.toMap(FormField::getKey, f -> f));
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Group {
+
+        /**
+         * Label of the group.
+         */
+        private String label;
+
+        /**
+         * Schema of the group.
+         * Includes form fields.
+         */
+        private List<FormField> schema = new ArrayList<>();
+
+        public List<String> getFormFieldKeys() {
+            return this.schema.stream()
+                    .map(FormField::getKey)
+                    .collect(Collectors.toList());
+        }
+
+    }
+
+
+    /**
+     * Form field obejct.
+     */
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class FormField {
+
+        /**
+         * Type of the form field.
+         */
+        private String type;
+
+        /**
+         * Key of the form field.
+         */
+        private String key;
+
+        /**
+         * Default value that is used if no value is present.
+         */
+        private String defaultValue;
+
+        /**
+         * Default value field is used to fill a value from the data.
+         */
+        private String defaultValueField;
+
+        /**
+         * Label of the field.
+         */
+        private String label;
+
+        /**
+         * Prepend icon for the input field.
+         */
+        private String prependIcon;
+
+        /**
+         * Tooltip of the field.
+         */
+        private String tooltip;
+
+        /**
+         * Specifies the exact type of the input field.
+         * Relevant for text fields
+         */
+        private String ext;
+
+        /**
+         * Indicates whether it is a multiple selection.
+         * Relevant for select fields
+         */
+        private boolean multiple;
+
+        /**
+         * Description of the field.
+         */
+        private String description;
+
+        /**
+         * Ldap groups are relevant for the ldap-input.
+         * Restrict the field to the specified groups.
+         */
+        private String ldapOus;
+
+        /**
+         * Height of the image.
+         * Relevant for the image field.
+         */
+        private String imageHeight;
+
+        /**
+         * Width of the image.
+         * Relevant for the image field.
+         */
+        private String imageWidth;
+
+        /**
+         * Indicates if the field is readonly.
+         * Readonly fields are filtered when a form is completed.
+         */
+        private boolean readonly;
+
+        /**
+         * Rows of the textarea.
+         */
+        private Integer rows;
+
+        /**
+         * Width of the field.
+         * Between 1 and 12.
+         */
+        private Integer col = 12;
+
+        /**
+         * Items of the select field.
+         */
+        private List<Map<String, Object>> items = new ArrayList<>();
+
+        /**
+         * Rules of the field.
+         * Used for validation in the frontend.
+         */
+        private List<Map<String, Object>> rules = new ArrayList<>();
+
     }
 }

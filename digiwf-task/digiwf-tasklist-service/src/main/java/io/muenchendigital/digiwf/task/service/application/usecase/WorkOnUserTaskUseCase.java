@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
-import camundajar.impl.scala.jdk.FunctionWrappers;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.engine.LegacyFormValidationPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.LegacyPayloadTaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
@@ -13,6 +13,7 @@ import io.muenchendigital.digiwf.task.service.application.port.out.schema.*;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   private final JsonSchemaPort jsonSchemaPort;
   private final TaskCommandPort taskCommandPort;
   private final LegacyPayloadTaskCommandPort legacyPayloadTasCommandPort;
+  private final LegacyFormValidationPort legacySchemaValidationPort;
   private final JsonSchemaValidationPort jsonSchemaValidationPort;
   private final CancellationFlagOutPort cancellationFlagOutPort;
   private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
@@ -50,12 +52,11 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
 
     switch(type) {
       case VUETIFY_FORM_BASE:
-        throw new RuntimeException("Vuetify form base forms are not supported yet");
+        val form = legacyPayloadTasCommandPort.loadFormById(schemaRef);
+        this.filterLegacyFormBased(task, form);
       case SCHEMA_BASED:
         val schema = jsonSchemaPort.getSchemaById(schemaRef);
-        val filteredPayload =  this.jsonSchemaValidationPort.filterVariables(task.getPayload(), schema);
-        task.getPayload().clear();
-        task.getPayload().putAll(filteredPayload);
+        filterSchemaBased(task, schema);
       default:
         break;
     }
@@ -67,22 +68,19 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
   public TaskWithSchema loadUserTaskWithSchema(String taskId) throws TaskNotFoundException, JsonSchemaNotFoundException {
     val task = getTaskForUser(taskId);
 
-    // FIXME: filter vars
-
     val cancelable = cancellationFlagOutPort.apply(task);
     val schemaRef = taskSchemaRefResolverPort.apply(task);
     val type = taskSchemaTypeResolverPort.apply(task);
     switch (type) {
       case VUETIFY_FORM_BASE:
-        return new TaskWithSchema(task, cancelable, type, null, legacyPayloadTasCommandPort.loadFormById(schemaRef));
+        val form = legacyPayloadTasCommandPort.loadFormById(schemaRef);
+        this.filterLegacyFormBased(task, form);
+        return new TaskWithSchema(task, cancelable, type, null, form);
       case SCHEMA_BASED:
       default:
         val schema = jsonSchemaPort.getSchemaById(schemaRef);
-        val filteredPayload =  this.jsonSchemaValidationPort.filterVariables(task.getPayload(), schema);
-        task.getPayload().clear();
-        task.getPayload().putAll(filteredPayload);
-
-        return new TaskWithSchema(task, cancelable, type, jsonSchemaPort.getSchemaById(schemaRef), null);
+        filterSchemaBased(task, schema);
+        return new TaskWithSchema(task, cancelable, type, schema, null);
     }
   }
 
@@ -164,4 +162,17 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     val currentUser = currentUserPort.getCurrentUser();
     return taskQueryPort.getTaskByIdForCurrentUser(currentUser, taskId);
   }
+
+  private void filterSchemaBased(Task task, JsonSchema schema) {
+    val filteredPayload =  this.jsonSchemaValidationPort.filterVariables(task.getPayload(), schema);
+    task.getPayload().clear();
+    task.getPayload().putAll(filteredPayload);
+  }
+
+  private void filterLegacyFormBased(Task task, Form form) {
+    val filteredPayload = legacySchemaValidationPort.filterVariables(task.getPayload(), form);
+    task.getPayload().clear();
+    task.getPayload().putAll(filteredPayload);
+  }
+
 }

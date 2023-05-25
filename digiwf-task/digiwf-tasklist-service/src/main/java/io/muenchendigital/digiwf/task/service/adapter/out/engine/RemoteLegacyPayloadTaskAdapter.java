@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapLikeType;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.LegacyPayloadTaskCommandPort;
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -39,8 +40,8 @@ public class RemoteLegacyPayloadTaskAdapter implements LegacyPayloadTaskCommandP
   }
 
   @Override
-  public Map<String, Object> loadFormById(String formKey) {
+  public Form loadFormById(String formKey) {
     LegacyTaskClient.FormTO form = legacyTaskClient.getForm(formKey);
-    return objectMapper.convertValue(form, mapType);
+    return objectMapper.convertValue(form, Form.class);
   }
 }

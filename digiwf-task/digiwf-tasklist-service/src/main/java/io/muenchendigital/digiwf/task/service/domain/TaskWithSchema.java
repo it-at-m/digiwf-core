@@ -2,6 +2,7 @@ package io.muenchendigital.digiwf.task.service.domain;
 
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskSchemaType;
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
@@ -17,5 +18,5 @@ public class TaskWithSchema {
   private final TaskSchemaType taskSchemaType;
 
   private final JsonSchema schema;
-  private final Map<String, Object> legacyForm;
+  private final Form legacyForm;
 }
