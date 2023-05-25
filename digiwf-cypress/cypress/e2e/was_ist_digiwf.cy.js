@@ -53,10 +53,19 @@ describe('template spec', () => {
 
         //aktuelle Vorgaenge beendet
         meineAufgaben.clickNavbar();
+
+
+
+
         meineAufgaben.openAktuelleVorgaenge();
+
         // TODO: reload kann entfernt werden, wenn Daten automatisch nachgeladen werden
         // TODO: ladeanimation des aktualisierenbuttons entfernen wenn nichts geladen wird um klick zu ermoeglichen
-        cy.reload(true);
+
+        aktuelleVorgaenge.checkHeadline();
+        aktuelleVorgaenge.clickUpdate();
+
+        //cy.reload(true);
         aktuelleVorgaenge.taskIsCorrect(1, "DigiWF erleben");
         aktuelleVorgaenge.checkStatusElement(1,"Beendet");
     })
