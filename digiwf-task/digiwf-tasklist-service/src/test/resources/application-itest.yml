@@ -47,8 +47,8 @@ feign:
       default:
         url: "http://localhost:7080/engine-rest/"
 
-easyldap:
+ezldap:
   client:
     port: 19561
-    url: "http://localhost:${easyldap.client.port}"
+    url: "http://localhost:${ezldap.client.port}"
     request: "/test"
