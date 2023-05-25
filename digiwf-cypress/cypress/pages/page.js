@@ -1,6 +1,6 @@
 class Page{
 
-    checkStartConditions(){
+    checkIfTasksAreEmpty(){
         cy.log("Fails if there are any open tasks")
         cy.get('.v-list-item--active > div:nth-child(1) > div:nth-child(1) > span:nth-child(2)').should('not.exist');
     }

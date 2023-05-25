@@ -10,7 +10,7 @@ describe('template spec', () => {
         cy.loginUser();
 
         //Test auf korrekten Startzustand
-        meineAufgaben.checkStartConditions();
+        meineAufgaben.checkIfTasksAreEmpty();
 
         //Vorgang starten
         meineAufgaben.openVorgangStarten();
