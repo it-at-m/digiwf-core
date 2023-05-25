@@ -91,7 +91,6 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
 
   @Override
   public void deferUserTask(String taskId, OffsetDateTime followUpDate) throws TaskNotFoundException {
-    val task = getTaskForUser(taskId);
     taskCommandPort.deferUserTask(taskId, followUpDate.toInstant());
   }
 
