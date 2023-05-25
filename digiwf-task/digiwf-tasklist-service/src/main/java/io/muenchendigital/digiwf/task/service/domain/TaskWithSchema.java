@@ -7,4 +7,5 @@ import lombok.Data;
 public class TaskWithSchema {
   private final Task task;
   private final JsonSchema schema;
+  private final boolean cancelable;
 }

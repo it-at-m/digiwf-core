@@ -75,7 +75,7 @@
         </template>
         <v-list>
           <v-list-item
-            :aria-label="'Aufgabe '+task.name+ ' öffnen'"
+            :aria-label="'Aufgabe '+ task.name+ ' öffnen'"
             link
             :to="'/opengrouptask/'+task.id"
             @click="(event) => { event.preventDefault()}"

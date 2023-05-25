@@ -6,6 +6,7 @@ import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.application.port.in.rest.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.lang.NonNull;
 
 import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
@@ -13,6 +14,12 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", uses = DateMapper.class)
 public interface TaskMapper {
 
+  /**
+   * Mapper for Task TO, used in list operations.
+   * @param task task from polyflow.
+   * @param schemaRef schema reference.
+   * @return Task TO.
+   */
   @Mapping(target = "processName", source = "task.sourceReference.name")
   @Mapping(target = "schemaRef", source = "schemaRef")
   TaskTO to(Task task, String schemaRef);
@@ -21,7 +28,8 @@ public interface TaskMapper {
   @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
   @Mapping(target = "variables", source = "task.payload")
   @Mapping(target = "schemaRef", source = "schemaRef")
-  TaskWithDetailsTO toWithDetails(Task task, String schemaRef);
+  @Mapping(target = "cancelable", source = "cancelable")
+  TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable);
 
   @Mapping(target = "schemaId", source = "id")
   @Mapping(target = "schemaJson", source = "schema")
@@ -32,7 +40,8 @@ public interface TaskMapper {
   @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
   @Mapping(target = "variables", source = "task.payload")
   @Mapping(target = "schema", expression = "java(schema.asMap())")
-  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull JsonSchema schema);
+  @Mapping(target = "cancelable", source = "cancelable")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull JsonSchema schema, @NonNull Boolean cancelable);
 
   default PageOfTasksTO to(PageOfTasksWithSchema domain) {
     var pagingAndSorting = domain.getPagingAndSorting();

@@ -1,14 +1,31 @@
-import moment from "moment-timezone";
-export const formatIsoDateTime = (isoDateTime: string) => moment(isoDateTime).format("DD.MM.YYYY, HH:mm"); // FIXME: add tests
-export const formatIsoDate = (isoDateTime: string) => moment(isoDateTime).format("DD.MM.YYYY"); // FIXME: add tests
+import {DateTime} from "luxon";
 
-export const getCurrentDate = () =>  moment().format("DD.MM.YYYY")
+export const formatIsoDateTime = (isoDateTime: string) => DateTime
+  .fromISO(isoDateTime)
+  .setLocale("de")
+  .setZone("Europe/Berlin")
+  .toLocaleString({
+    ...DateTime.DATETIME_SHORT,
+    day: "2-digit",
+    month: "2-digit"
+  });
+export const formatIsoDate = (isoDateTime: string) => DateTime
+  .fromISO(isoDateTime)
+  .setLocale("de")
+  .toLocaleString({
+    ...DateTime.DATE_SHORT,
+    day: "2-digit",
+    month: "2-digit"
+  });
+
+export const getCurrentDate = () => DateTime
+  .now()
+  .toISODate();
 
 /**
  *
  * @param date format: YYYY.MM.DD
  */
-export const dateToIsoDateTime = (date: string): string => { // FIXME: add tests
-  const reformattedDate = date.replace(".", "-")
-  return moment(reformattedDate).tz("Europe/Berlin").utc().format()
-}
+export const dateToIsoDateTime = (date: string): string => DateTime
+  .fromFormat(date, "yyyy.MM.dd", {locale: "de", zone: "Europe/Berlin"})
+  .toISO();

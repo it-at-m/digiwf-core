@@ -139,27 +139,25 @@ export default class GroupTaskDetail extends Vue {
       })
   }
 
-  async checkTaskAssignment(): Promise<void> {
-    loadTask(this.id) // FIXME: why should the task be loaded again?
+  checkTaskAssignment() {
+    loadTask(this.id)
       .then(result => {
         if (result.data?.task?.assigneeId) {
           const currentUser: UserTO = this.$store.getters['user/info'];
           if (this.task?.assigneeId != currentUser.lhmObjectId) {
             this.showModal = true;
-            setTimeout(() => this.showModal = false, 10000); // FIXME why do we use auto close?
+            setTimeout(() => this.showModal = false, 10000);
           } else {
-            router.push({path: '/task/' + this.id}); // FIXME: why auto forwarding to
+            router.push({path: '/task/' + this.id});
           }
         } else {
           this.triggerAssignTask();
         }
       })
-
   }
 
   triggerAssignTask() {
     this.showModal = false;
-    console.log("onEdit: ")
 
     assignTask(this.id).then((result) => {
       this.errorMessage = result.isError ? "Die Aufgabe konnte nicht zugewiesen werden." : "";

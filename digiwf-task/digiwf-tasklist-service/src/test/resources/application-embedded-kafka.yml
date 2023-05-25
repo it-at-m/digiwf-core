@@ -20,3 +20,9 @@ polyflow:
     kafka:
       topic-tasks: "plf_tasks"
       topic-data-entries: "plf_data_entries"
+
+logging:
+  level:
+    org.apache.kafka.clients.admin: WARN
+    org.apache.kafka.clients.consumer: WARN
+    org.apache.kafka.clients.producer: WARN

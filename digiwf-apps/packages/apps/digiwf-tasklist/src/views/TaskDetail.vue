@@ -110,7 +110,7 @@
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
-      :value="followUp"
+      :value="isFollowUpDialogVisible"
       @cancel="closeFollowUp"
       @save="saveFollowUp"
     />
@@ -207,10 +207,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   hasDownloadButton = false;
   downloadButtonText = "Dokument herunterladen";
 
-  /**
-   * FIXME: Is it only the variable for showing or hidding the dialog?
-   */
-  followUp = false;
+  isFollowUpDialogVisible = false;
 
   /**
    * toggle for showing fab menu
@@ -229,7 +226,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   apiEndpoint = ApiConfig.base;
 
   created() {
-    console.log("created")
     loadTask(this.id).then(({data, error}) => {
       if (!!data) {
         this.task = data.task;
@@ -282,12 +278,12 @@ export default class TaskDetail extends SaveLeaveMixin {
     })
   }
   openFollowUp(): void {
-    this.followUp = true;
+    this.isFollowUpDialogVisible = true;
     this.fab = false;
   }
 
   closeFollowUp(): void {
-    this.followUp = false;
+    this.isFollowUpDialogVisible = false;
   }
 
   switchFab(): void {
@@ -296,7 +292,7 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   saveFollowUp(followUpDate: string) {
     this.followUpDate = followUpDate;
-    this.followUp = false;
+    this.isFollowUpDialogVisible = false;
 
     (this.hasChanges
       ? this.saveTask()
@@ -318,7 +314,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     })
   }
 
-  async downloadPDF(): Promise<void> {
+  downloadPDF() {
     this.isDownloading = true;
     this.hasDownloadError = false;
     downloadPDFFromEngine(this.id).then(result => {

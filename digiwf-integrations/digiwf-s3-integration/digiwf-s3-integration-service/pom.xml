@@ -18,7 +18,7 @@
         <apache.commons.csv>1.8</apache.commons.csv>
         <apache.commons.io>2.9.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
-        <apache.commons.text>1.9</apache.commons.text>
+        <apache.commons.text>1.10.0</apache.commons.text>
         <apache.commons.validator>1.7</apache.commons.validator>
     </properties>
 
