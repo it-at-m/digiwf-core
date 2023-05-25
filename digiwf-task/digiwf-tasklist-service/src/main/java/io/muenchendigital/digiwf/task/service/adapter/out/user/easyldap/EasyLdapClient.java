@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 @FeignClient(
-        name = "easyldap",
-        url = "${easyldap.client.url}"
+        name = "ezldap",
+        url = "${ezldap.client.url}"
 )
 public interface EasyLdapClient {
 
