@@ -149,18 +149,6 @@
 </style>
 
 <script lang="ts">
-
-/**
- * FIXME: build a better solution
- * each:
- *     setTimeout(() => {
- *       this.isSaving = false;
- *       this.hasSaveError = hasError;
- *     }, Math.max(0, 500 - (new Date().getTime() - startTime)));
- *
- *  should create a minimal loading indicator
- */
-
 import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -180,7 +168,6 @@ import {
   deferTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -243,11 +230,11 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   mounted() {
     // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
-    // this.$el
-    //   .querySelector(".v-speed-dial__list")!
-    //   .addEventListener("click", (e) => {
-    //     e.stopPropagation();
-    //   });
+    this.$el
+      .querySelector(".v-speed-dial__list")!
+      .addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
   }
 
   completeTask(model: any) {

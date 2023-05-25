@@ -85,6 +85,7 @@ declare module '@vue/runtime-core' {
     VStepper: typeof import('vuetify/lib')['VStepper']
     VStepperHeader: typeof import('vuetify/lib')['VStepperHeader']
     VStepperStep: typeof import('vuetify/lib')['VStepperStep']
+    VSwitch: typeof import('vuetify/lib')['VSwitch']
     VTextField: typeof import('vuetify/lib')['VTextField']
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
     VTooltip: typeof import('vuetify/lib')['VTooltip']

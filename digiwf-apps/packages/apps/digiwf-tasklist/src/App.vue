@@ -231,7 +231,6 @@ export default class App extends Vue {
   switchBetaVersion(): void {
     setShouldUseTaskService(!this.isTaskserviceUsed)
     this.isTaskserviceUsed = !this.isTaskserviceUsed;
-    // location.reload();
   }
 
 
