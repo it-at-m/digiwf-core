@@ -21,16 +21,8 @@ class Page{
         return cy.get('a.v-list-item:nth-child(5) > div:nth-child(1)')
     }
 
-    aktualisieren(){
-        return cy.get('.v-size--large > span:nth-child(1)')
-    }
-
     clickNavbar(){
         this.navBar().click()
-    }
-
-    clickAktualisieren(){
-        this.aktualisieren().click()
     }
 
     openMeineAufgaben(){
