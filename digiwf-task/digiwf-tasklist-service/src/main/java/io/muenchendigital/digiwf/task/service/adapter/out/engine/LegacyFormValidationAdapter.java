@@ -1,0 +1,32 @@
+package io.muenchendigital.digiwf.task.service.application.port.out.schema;
+
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
+import lombok.val;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LegacyFormValidationAdapter implements LegacyFormValidationPort {
+    @Override
+    public Map<String, Object> filterVariables(Map<String, Object> variables, Form form) {
+        val formKeys = form.getFormFieldMap();
+        return formKeys.values().stream()
+                .map(field -> new AbstractMap.SimpleEntry<>(field.getKey(),
+                        this.calculateDefaultValue(variables, field.getKey(), field.getDefaultValueField())))
+                .collect(HashMap::new, (m, v) -> m.put(v.getKey(), v.getValue()), HashMap::putAll);
+    }
+
+
+    private Object calculateDefaultValue(final Map<String, Object> variables, final String fieldKey, final String defaultValueField) {
+        if (variables.containsKey(fieldKey)) {
+            return variables.get(fieldKey);
+        }
+
+        if (StringUtils.isNoneBlank(defaultValueField) && variables.containsKey(defaultValueField)) {
+            return variables.get(defaultValueField);
+        }
+        return null;
+    }
+}
