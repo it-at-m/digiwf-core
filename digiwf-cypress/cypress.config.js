@@ -16,7 +16,7 @@ module.exports = defineConfig({
   env: {
     username: "user",
     password: "pw",
-    home: "https://portal-digiwf-test.apps.capk.muenchen.de/#/mytask"
+    home: "localhost:8082"
   },
   e2e: {
     setupNodeEvents(on, config) {
