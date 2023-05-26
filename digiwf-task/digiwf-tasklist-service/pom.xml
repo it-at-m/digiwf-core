@@ -17,6 +17,7 @@
         <spin.version>1.18.1</spin.version>
         <archunit.version>1.0.1</archunit.version>
         <wiremock.version>2.35.0</wiremock.version>
+        <camunda-platform-7-mockito.version>6.18.0</camunda-platform-7-mockito.version>
     </properties>
 
     <dependencies>
@@ -238,7 +239,7 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>6.18.0</version>
+            <version>${camunda-platform-7-mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
