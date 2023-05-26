@@ -38,6 +38,4 @@ public class UserGroupResolverIntegrationTest {
         Assertions.assertEquals(Set.of("FOO", "BAR", "GROUP1"), groups);
     }
 
-    // How to test against real EzLdap -> remove no-ldap profile from test and add a new test case with your lhmObjectId
-
 }

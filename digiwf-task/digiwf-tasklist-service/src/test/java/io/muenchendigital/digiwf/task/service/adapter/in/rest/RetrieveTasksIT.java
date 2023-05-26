@@ -9,6 +9,7 @@ import io.muenchendigital.digiwf.task.service.adapter.out.user.MockUserGroupReso
 import io.muenchendigital.digiwf.task.service.infra.security.TestUser;
 import io.muenchendigital.digiwf.task.service.infra.security.WithKeycloakUser;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.axonframework.messaging.MetaData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +79,7 @@ public class RetrieveTasksIT {
     Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
     await().untilAsserted(
         () -> {
-          final var count = this.service.query(new AllTasksQuery()).getTotalElementCount();
+          val count = this.service.query(new AllTasksQuery()).getTotalElementCount();
           assertThat(count).isEqualTo(this.tasks.length);
         }
     );
