@@ -6,8 +6,8 @@ import io.muenchendigital.digiwf.task.BpmnErrors;
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import lombok.val;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.task.Task;
 import org.camunda.community.mockito.QueryMocks;
+import org.camunda.community.mockito.task.TaskFake;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,9 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class RemoteTaskCommandRestAdapterTest {
     private final TaskService taskService = mock(TaskService.class);
@@ -65,20 +67,20 @@ class RemoteTaskCommandRestAdapterTest {
     @Test
     public void deferUserTask() {
         val instant = LocalDateTime.of(2023, 5, 24, 12, 0).toInstant(ZoneOffset.UTC);
-        final Task task = mock(Task.class);
+        final TaskFake task = TaskFake.builder().build();
         QueryMocks.mockTaskQuery(taskService).singleResult(task);
 
         taskCommandPort.deferUserTask(taskId, instant);
+        assertThat(task.getFollowUpDate()).isNotNull(); // check only if there is an interaction, no Instant to DateTime transformation is tested
         verify(taskService).saveTask(task);
-        verify(task).setFollowUpDate(any()); // check only if there is an interaction, no Instant to DateTime transformation is tested
     }
     @Test
     public void undeferUserTask() {
-        final Task task = mock(Task.class);
+        final TaskFake task = TaskFake.builder().build();
         QueryMocks.mockTaskQuery(taskService).singleResult(task);
 
         taskCommandPort.undeferUserTask(taskId);
+        assertThat(task.getFollowUpDate()).isNull(); // check only if there is an interaction, no Instant to DateTime transformation is tested
         verify(taskService).saveTask(task);
-        verify(task).setFollowUpDate(isNull()); // check only if there is an interaction, no Instant to DateTime transformation is tested
     }
 }
