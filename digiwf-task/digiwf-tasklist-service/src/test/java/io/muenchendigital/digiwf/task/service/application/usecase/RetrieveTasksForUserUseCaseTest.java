@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import com.google.common.collect.Sets;
-import io.holunda.polyflow.view.Task;
+import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.polyflow.view.auth.User;
 import io.muenchendigital.digiwf.task.TaskSchemaType;
 import io.muenchendigital.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
@@ -18,11 +18,12 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_SCHEMA_TYPE;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTasks;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 class RetrieveTasksForUserUseCaseTest {
 
@@ -101,4 +102,30 @@ class RetrieveTasksForUserUseCaseTest {
     verify(taskQueryPort).getTasksForCurrentUser(user, query, null, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
+
+  @Test
+  void getsLegacyAndSchemaBasedTasksForCurrentUser() {
+
+    val allTasks = generateTasks(15, Sets.newHashSet(), Sets.newHashSet(), user.getUsername());
+    allTasks.add(generateTask("task_15", Sets.newHashSet(), Sets.newHashSet(), user.getUsername(), null, true,
+        CamundaBpmData.builder().set(TASK_SCHEMA_TYPE, TaskSchemaType.VUETIFY_FORM_BASE).build())
+    );
+    allTasks.add(generateTask("task_16", Sets.newHashSet(), Sets.newHashSet(), user.getUsername(), null, true,
+        CamundaBpmData.builder().set(TASK_SCHEMA_TYPE, TaskSchemaType.VUETIFY_FORM_BASE).build())
+    );
+
+    val pageOfTasks = new PageOfTasks(
+        allTasks,
+        17,
+        pagingAndSorting
+    );
+
+    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any(), any())).thenReturn(pageOfTasks);
+
+    val tasks = useCase.getTasksForCurrentUser(query, null, pagingAndSorting);
+    assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
+    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, pagingAndSorting);
+    verifyNoMoreInteractions(taskQueryPort);
+  }
+
 }

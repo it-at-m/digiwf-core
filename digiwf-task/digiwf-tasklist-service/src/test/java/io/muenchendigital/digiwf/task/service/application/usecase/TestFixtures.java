@@ -8,6 +8,7 @@ import io.holunda.camunda.taskpool.api.task.ProcessReference;
 import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
 import io.holunda.camunda.taskpool.api.task.TaskDeletedEngineEvent;
 import io.holunda.polyflow.view.Task;
+import io.muenchendigital.digiwf.task.TaskSchemaType;
 import io.muenchendigital.digiwf.task.TaskVariables;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import lombok.SneakyThrows;
@@ -38,6 +39,7 @@ public class TestFixtures {
 
   public static VariableMap variables = CamundaBpmData.builder()
       .set(TaskVariables.TASK_SCHEMA_KEY, "schema-1")
+      .set(TaskVariables.TASK_SCHEMA_TYPE, TaskSchemaType.SCHEMA_BASED)
       .build();
 
 
