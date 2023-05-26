@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static io.muenchendigital.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter.GROUP1;
+import static io.muenchendigital.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter.PRIMARY_USERGROUP;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @WithSecurityContext(factory = WithKeycloakUserSecurityContextFactory.class)
@@ -24,5 +24,5 @@ public @interface WithKeycloakUser {
 
   String username() default TestUser.USERNAME;
 
-  String[] roles() default {GROUP1};
+  String[] roles() default {PRIMARY_USERGROUP};
 }

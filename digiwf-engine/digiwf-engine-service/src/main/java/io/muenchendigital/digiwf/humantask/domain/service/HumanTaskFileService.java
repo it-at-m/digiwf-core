@@ -106,5 +106,4 @@ public class HumanTaskFileService extends AbstractFileService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalResourceAccessException(ERRTEXT_ILLEGAL_ACCESS));
     }
-
 }

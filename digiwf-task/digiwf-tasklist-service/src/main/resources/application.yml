@@ -51,9 +51,9 @@ feign:
       default:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
 
-easyldap:
+ezldap:
   client:
-    url: ${EASYLDAP_ENDPOINT_URL}
+    url: ${EZLDAP_ENDPOINT_URL}
 
 axon:
   serializer:

@@ -358,7 +358,7 @@ components:
         type: string
 
     UserIdParam:
-      name: userIdId
+      name: userId
       in: path
       description: User id.
       required: true
