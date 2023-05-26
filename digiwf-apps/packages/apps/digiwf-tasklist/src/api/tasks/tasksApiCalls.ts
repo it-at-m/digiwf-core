@@ -209,4 +209,3 @@ export const callAssignTaskInTaskService = (taskId: string, userId: string): Pro
   }).then(() => Promise.resolve());
 };
 
-const getFactoryFromConfig = (cfg: Configuration) => HumanTaskRestControllerApiFactory(cfg, undefined, configuredAxios);
