@@ -24,7 +24,7 @@ import {
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
 import {HumanTask, HumanTaskDetails} from "./tasksModels";
-import {isServiceTaskServiceEnabled} from "../../utils/featureToggles";
+import {shouldUseTaskService} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
   mapTaskDetailsFromTaskService,
@@ -41,8 +41,7 @@ import store from "../../store";
 import {getUserInfo} from "../user/userMiddleware";
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 
-const shouldUseTaskService = isServiceTaskServiceEnabled();
-if (shouldUseTaskService) {
+if (shouldUseTaskService()) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
 }
 
@@ -92,7 +91,7 @@ export const useMyTasksQuery = (
   queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? handleTaskLoadingFromTaskService(page, size, query, followUp)
       : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value)
         .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
@@ -106,7 +105,7 @@ export const useOpenGroupTasksQuery = (
 ) => useQuery({
   queryKey: [openGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value)
@@ -121,7 +120,7 @@ export const useAssignedGroupTasksQuery = (
 ) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService
+    return shouldUseTaskService()
       ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value)
@@ -167,7 +166,6 @@ export const useAssignTaskMutation = () => {
     },
   })
 }
-
 
 export interface LoadTaskFromEngineResultData {
   readonly task: HumanTaskDetails;
@@ -290,9 +288,12 @@ export interface CancelTaskResult {
 /**
  * @deprecated
  * @param taskId
- */
-export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
-  return callCancelTaskInEngine(taskId).then(() => {
+ */export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
+  return (
+    shouldUseTaskService()
+      ? callCancelTaskInTaskService(taskId)
+      : callCancelTaskInEngine(taskId)
+  ).then(() => {
     queryClient.invalidateQueries([userTasksQueryId])
     router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
 
@@ -300,7 +301,7 @@ export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> =>
       isError: false
     });
 
-  }).catch(_ => {
+  }).catch((_: any) => {
     return Promise.resolve<CancelTaskResult>({
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht abgebrochen werden."
