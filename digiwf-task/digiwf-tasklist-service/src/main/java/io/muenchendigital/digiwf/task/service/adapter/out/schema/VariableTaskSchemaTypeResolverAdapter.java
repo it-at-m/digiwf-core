@@ -16,7 +16,7 @@ public class VariableTaskSchemaTypeResolverAdapter implements TaskSchemaTypeReso
     } else if (value instanceof TaskSchemaType){
       return (TaskSchemaType) value;
     } else {
-      throw new IllegalStateException("Unknown value for task schema type" + value);
+      throw new IllegalStateException("Unknown value for task schema type " + value);
     }
     // FIXME camunda BPM Data
     //return reader(task.getPayload()).getOrDefault(TaskVariables.TASK_SCHEMA_TYPE, null);
