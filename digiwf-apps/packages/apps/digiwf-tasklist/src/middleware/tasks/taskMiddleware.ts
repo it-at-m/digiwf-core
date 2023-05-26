@@ -288,14 +288,15 @@ export interface CancelTaskResult {
 /**
  * @deprecated
  * @param taskId
- */export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
+ */
+export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
   return (
     shouldUseTaskService()
       ? callCancelTaskInTaskService(taskId)
       : callCancelTaskInEngine(taskId)
   ).then(() => {
     queryClient.invalidateQueries([userTasksQueryId])
-    router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
+    router.push({path: "/task"});
 
     return Promise.resolve<CancelTaskResult>({
       isError: false
