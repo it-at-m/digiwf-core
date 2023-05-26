@@ -37,11 +37,9 @@ import static io.muenchendigital.digiwf.task.service.application.usecase.TestFix
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,38 +72,38 @@ public class TaskOperationsIT {
 
   private final Task[] tasks = {
       // user id
-      generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, followUpDate, true),
+      generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true),
       // candidate group
-      generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.GROUP1, "ANOTHER"), "OTHER", null, false),
+      generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP, "ANOTHER"), "OTHER", null, false),
       // candidate user -> This is a special case, we don't expect candidate user assignment
       generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
       // some white noise
       generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
-      generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.GROUP1), null, null),
+      generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP), null, null),
   };
 
 
   @BeforeEach
   public void produce_task_events() {
-    Arrays.stream(tasks).forEach(t -> service.on(createEvent(t), MetaData.emptyInstance()));
+    Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
     await().untilAsserted(
         () -> {
-          var count = service.query(new AllTasksQuery()).getTotalElementCount();
-          assertThat(count).isEqualTo(tasks.length);
+          final var count = this.service.query(new AllTasksQuery()).getTotalElementCount();
+          assertThat(count).isEqualTo(this.tasks.length);
         }
     );
   }
 
   @AfterEach
   public void clean_tasks() {
-    Arrays.stream(tasks).forEach(t -> service.on(deleteEvent(t), MetaData.emptyInstance()));
+    Arrays.stream(this.tasks).forEach(t -> this.service.on(deleteEvent(t), MetaData.emptyInstance()));
   }
 
 
   @Test
   @WithKeycloakUser
   public void retrieve_task_with_details() throws Exception {
-    mockMvc
+    this.mockMvc
         .perform(
             get(BASE_PATH + "/tasks/id/task_0")
                 .servletPath(SERVLET_PATH)
@@ -131,7 +129,7 @@ public class TaskOperationsIT {
             )
     );
 
-    mockMvc
+    this.mockMvc
         .perform(
             get(BASE_PATH + "/tasks/id/task_0/with-schema")
                 .servletPath(SERVLET_PATH)
@@ -147,7 +145,7 @@ public class TaskOperationsIT {
   @Test
   @WithKeycloakUser
   public void unassign_task() throws Exception {
-    mockMvc
+    this.mockMvc
         .perform(
             post(BASE_PATH + "/tasks/id/task_0/unassign")
                 .servletPath(SERVLET_PATH)
@@ -157,14 +155,14 @@ public class TaskOperationsIT {
         .andExpect(status().isNoContent())
     ;
 
-    verify(taskCommandPort).unassignUserTask("task_0");
+    verify(this.taskCommandPort).unassignUserTask("task_0");
   }
 
 
   @Test
   @WithKeycloakUser
   public void undefer_task() throws Exception {
-    mockMvc
+    this.mockMvc
         .perform(
             post(BASE_PATH + "/tasks/id/task_0/undefer")
                 .servletPath(SERVLET_PATH)
@@ -174,14 +172,14 @@ public class TaskOperationsIT {
         .andExpect(status().isNoContent())
     ;
 
-    verify(taskCommandPort).undeferUserTask("task_0");
+    verify(this.taskCommandPort).undeferUserTask("task_0");
   }
 
 
   @Test
   @WithKeycloakUser
   public void cancel_task() throws Exception {
-    mockMvc
+    this.mockMvc
         .perform(
             post(BASE_PATH + "/tasks/id/task_0/cancel")
                 .servletPath(SERVLET_PATH)
@@ -191,7 +189,7 @@ public class TaskOperationsIT {
         .andExpect(status().isNoContent())
     ;
 
-    verify(taskCommandPort).cancelUserTask("task_0");
+    verify(this.taskCommandPort).cancelUserTask("task_0");
   }
 
 }

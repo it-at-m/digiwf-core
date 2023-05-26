@@ -49,6 +49,6 @@ feign:
 
 ezldap:
   client:
-    port: 19561
+    port: 8183
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
