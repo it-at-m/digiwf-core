@@ -156,7 +156,7 @@ export const useAssignTaskMutation = () => {
   const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
   return useMutation<void, any, string>({
     mutationFn: (taskId) => {
-      return shouldUseTaskService
+      return shouldUseTaskService()
         ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
         : callPostAssignTaskInEngine(taskId)
     },
@@ -199,7 +199,7 @@ export interface LoadTaskResult {
 
 
 export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
-  return shouldUseTaskService
+  return shouldUseTaskService()
     ? loadTaskFromTaskService(taskId)
     : loadTasksFromEngine(taskId)
 }
@@ -287,12 +287,12 @@ export interface CancelTaskResult {
 
 }
 
-export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
-  return (
-    shouldUseTaskService
-      ? callCancelTaskInTaskService(taskId)
-      : callCancelTaskInEngine(taskId)
-  ).then(() => {
+/**
+ * @deprecated
+ * @param taskId
+ */
+export const cancelTaskInEngine = (taskId: string): Promise<CancelTaskResult> => {
+  return callCancelTaskInEngine(taskId).then(() => {
     queryClient.invalidateQueries([userTasksQueryId])
     router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
 
@@ -315,7 +315,7 @@ interface CompleteTaskResult {
 
 export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callCompleteTaskInTaskService(taskId, variables)
       : callCompleteTaskInEngine(taskId, variables)
   )
@@ -342,7 +342,7 @@ interface SetFollowUpResult {
 
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callDeferTask(taskId, dateToIsoDateTime(followUp))
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
@@ -368,7 +368,7 @@ interface SaveTaskResult {
 
 export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult> => {
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callSaveTaskInTaskService(taskId, variables)
       : callSaveTaskInEngine(taskId, variables)
   ).then(() => Promise.resolve({ // FIXME: invalide task list?
@@ -388,7 +388,7 @@ interface AssignTaskResult {
 export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
   const userId = store.getters["user/info"].lhmObjectId;
   return (
-    shouldUseTaskService
+    shouldUseTaskService()
       ? callAssignTaskInEngine(taskId)
       : callAssignTaskInTaskService(taskId, userId)
   ).then(() => {

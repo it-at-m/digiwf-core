@@ -6,6 +6,6 @@ export const callGetUserInfoFromTaskService = (id: string): Promise<UserProfile>
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
   return UserApiFactory(cfg).resolveUser(id)
     .then((res) => Promise.resolve(res.data))
-    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")))
+    .catch((err: any) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Der Nutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.")))
 };
 

@@ -159,5 +159,15 @@ public class JsonValidatorTest {
         this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
     }
 
+    @Test
+    public void number_as_string_is_valid() throws URISyntaxException, IOException {
+        final Map<String, Object> data = Map.of(
+                "integerProp1", "12",
+                "numberProp1", "1.5"
+
+        );
+        final String rawSchema = getSchemaString("/schema/validation/simpleNumberSchema.json");
+        this.validationService.validate(new JSONObject(rawSchema).toMap(), data);
+    }
 
 }

@@ -35,6 +35,8 @@ spring:
         - RemoveRequestHeader=cookie
         - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
+        - AddResponseHeader=set-cookie, FEATURE_USE_TASK_SERVICE=${FEATURETOGGLES_FRONTEND_USETASKSERVICE}
+        - AddResponseHeader=set-cookie, FEATURE_SHOW_BETA_BUTTON=${FEATURETOGGLES_FRONTEND_SHOWBETABUTTON}
 
   mvc:
     log-request-details: on
