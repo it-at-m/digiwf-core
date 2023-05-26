@@ -1,5 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.port.out.engine;
 
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
+
 import java.util.Map;
 
 /**
@@ -27,5 +29,5 @@ public interface LegacyPayloadTaskCommandPort {
    * @param taskId id of the task.
    * @return form data of the task.
    */
-  Map<String, Object> loadFormById(String taskId);
+  Form loadFormById(String taskId);
 }

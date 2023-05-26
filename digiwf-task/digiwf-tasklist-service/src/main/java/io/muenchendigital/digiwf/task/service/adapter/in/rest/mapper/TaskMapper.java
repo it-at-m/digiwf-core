@@ -1,10 +1,13 @@
 package io.muenchendigital.digiwf.task.service.adapter.in.rest.mapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.holunda.polyflow.view.Task;
 import io.muenchendigital.digiwf.task.TaskSchemaType;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.application.port.in.rest.model.*;
+import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
+import lombok.val;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.lang.NonNull;
@@ -53,6 +56,27 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Map<String, Object> schema, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType);
+
+
+  @Mapping(target = "id", source = "task.id")
+  @Mapping(target = "processName", source = "task.sourceReference.name")
+  @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
+  @Mapping(target = "variables", source = "task.payload")
+  @Mapping(target = "createTime", source = "task.createTime")
+  @Mapping(target = "description", source = "task.description")
+  @Mapping(target = "name", source = "task.name")
+  @Mapping(target = "assignee", source = "task.assignee")
+  @Mapping(target = "followUpDate", source = "task.followUpDate")
+  @Mapping(target = "schema", source = "form")
+  @Mapping(target = "cancelable", source = "cancelable")
+  @Mapping(target = "schemaType", source = "schemaType")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType);
+
+  default Map<String,Object> map(Form value) {
+    val objectMapper = new ObjectMapper();
+    val mapType = objectMapper.getTypeFactory().constructMapLikeType(Map.class, String.class, Object.class);
+    return objectMapper.convertValue(value, mapType);
+  }
 
   default TaskSchemaTypeTO toSchemaTO(TaskSchemaType taskSchemaType) {
     switch (taskSchemaType) {
