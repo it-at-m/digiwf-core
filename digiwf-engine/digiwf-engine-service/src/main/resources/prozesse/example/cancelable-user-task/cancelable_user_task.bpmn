@@ -1,6 +1,6 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0csm48f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
   <bpmn:process id="process_cancelable_user_task" name="Example Cancelable User Task" isExecutable="true">
-    <bpmn:startEvent id="StartForm" name="Start" camunda:formKey="33e5d31e-3fec-4738-8dbf-6d655c9cd91f">
+<bpmn:startEvent id="StartForm" name="Start" camunda:formKey="start-form-cancelable-usertask">
       <bpmn:outgoing>Flow_1q0d4ug</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1q0d4ug" sourceRef="StartForm" targetRef="cancelable_user_task" />
