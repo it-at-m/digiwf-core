@@ -27,10 +27,9 @@ import java.util.List;
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-// FIXME verify bei mocks nachtragen
 class WorkOnTaskFileUseCaseTest {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
@@ -67,6 +66,12 @@ class WorkOnTaskFileUseCaseTest {
         assertEquals(2, listOfNames.size());
         assertTrue(listOfNames.contains("file2.txt"));
         assertTrue(listOfNames.contains("secondfile2.pdf"));
+
+        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString(),anyString());
+        verifyNoMoreInteractions(documentStorageFolderRepository);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
     }
 
     @Test
@@ -82,6 +87,12 @@ class WorkOnTaskFileUseCaseTest {
         assertEquals(2, listOfNames.size());
         assertTrue(listOfNames.contains("file1.txt"));
         assertTrue(listOfNames.contains("secondfile1.pdf"));
+
+        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString());
+        verifyNoMoreInteractions(documentStorageFolderRepository);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
     }
 
     @Test
@@ -98,6 +109,13 @@ class WorkOnTaskFileUseCaseTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
         assertEquals(expectedMessage, actualMessage);
+
+        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString(),anyString());
+        verifyNoMoreInteractions(documentStorageFolderRepository);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
+
     }
 
     @Test
@@ -111,6 +129,13 @@ class WorkOnTaskFileUseCaseTest {
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/read","filename1.txt");
 
         assertEquals("With DocumentStorageUrl",presignedUrl);
+
+        verify(presignedUrlPort).getPresignedUrl(anyString(),anyString(),anyInt(),any());
+        verifyNoMoreInteractions(presignedUrlPort);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
+
     }
 
     @Test
@@ -124,6 +149,12 @@ class WorkOnTaskFileUseCaseTest {
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/write","filename1.txt");
 
         assertEquals("Without DocumentStorageUrl",presignedUrl);
+
+        verify(presignedUrlPort).getPresignedUrl(anyString(),anyInt(),any());
+        verifyNoMoreInteractions(presignedUrlPort);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
     }
 
     @Test
@@ -136,6 +167,12 @@ class WorkOnTaskFileUseCaseTest {
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","able/to/write","filename1.txt");
 
         assertEquals("With DocumentStorageUrl",presignedUrl);
+
+        verify(presignedUrlPort).getPresignedUrl(anyString(),anyString(),anyInt(),any());
+        verifyNoMoreInteractions(presignedUrlPort);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
     }
 
     @Test
@@ -151,6 +188,11 @@ class WorkOnTaskFileUseCaseTest {
         String actualMessage = exception.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
+
+        verifyNoInteractions(presignedUrlPort);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
 
     }
 }
