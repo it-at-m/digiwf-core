@@ -5,9 +5,12 @@ import aktuellDigiWFErleben from "../pages/aktuellDigiWFErleben"
 import meineAufgaben from "../pages/meineAufgaben"
 import aufgabeWasIstDigiWF from "../pages/aufgabeWasIstDigiWF"
 
+beforeEach(() => {
+    cy.loginUser();
+})
+
 describe('template spec', () => {
     it('passes', () => {
-        cy.loginUser();
 
         //Test auf korrekten Startzustand
         meineAufgaben.checkIfTasksAreEmpty();
@@ -21,7 +24,6 @@ describe('template spec', () => {
         startDigiWFErleben.clickLosGehts();
 
         //Aktuelle Vorgeange pruefen
-        meineAufgaben.clickNavbar();
         meineAufgaben.openAktuelleVorgaenge();
         aktuelleVorgaenge.taskIsCorrect(1, "DigiWF erleben");
         aktuelleVorgaenge.checkStatusElement(1,"Was ist DigiWF");
@@ -33,7 +35,6 @@ describe('template spec', () => {
 
         //Meine Aufgaben pruefen
         //Task1
-        aktuellDigiWFErleben.clickNavbar();
         aktuellDigiWFErleben.openMeineAufgaben();
         meineAufgaben.elementIsCorrect(1,"Was ist DigiWF?");
         meineAufgaben.clickElement(1);
@@ -52,11 +53,6 @@ describe('template spec', () => {
         meineAufgaben.tasksEmpty("Keine Aufgaben gefunden");
 
         //aktuelle Vorgaenge beendet
-        meineAufgaben.clickNavbar();
-
-
-
-
         meineAufgaben.openAktuelleVorgaenge();
 
         // TODO: reload kann entfernt werden, wenn Daten automatisch nachgeladen werden
