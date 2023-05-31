@@ -125,11 +125,6 @@ Verbindet sich mit Keycloak für den Login / die Erneuerung der Access Tokens.
 Tauscht bei jedem, vom Frontend kommenden, Netzwerkrequest die Session gegen den Accesstoken aus und leitet den Requests
 weiter an das jeweilige Backend (aktuell nur DigiWFEngineService) weiter.
 
-### Camunda Cockpit
-
-Das Camunda Cockpit ist unter [http://localhost:8084](http://localhost:8084) erreichbar.
-Einloggen kann man sich mit den Nutzerdaten: demo demo.
-
 ### PostgreSQL
 
 Datenbank für DigiWFEngine und DigiWFTasklist.
