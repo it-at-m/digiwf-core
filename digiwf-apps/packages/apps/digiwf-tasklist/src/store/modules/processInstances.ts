@@ -1,8 +1,7 @@
 import {ActionContext} from "vuex";
 import {RootState} from "../index";
-import {TasksState} from "./tasks";
 import {FetchUtils, ServiceInstanceControllerApiFactory, ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
-import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
+import {ApiConfig} from "../../api/ApiConfig";
 
 export interface ProcessInstancesState {
   processInstances: ServiceInstanceTO[];
@@ -18,7 +17,7 @@ export default {
     filter: ""
   } as ProcessInstancesState,
   getters: {
-    shouldUpdate: (state: TasksState) => (): boolean => {
+    shouldUpdate: (state: ProcessInstancesState) => (): boolean => {
       const lastFetch = state.lastFetch;
       if (!lastFetch) {
         return true;
@@ -37,7 +36,7 @@ export default {
     setProcessInstances(state: ProcessInstancesState, processInstances: ServiceInstanceTO[]): void {
       state.processInstances = processInstances;
     },
-    setLastFetch(state: TasksState, date: number): void {
+    setLastFetch(state: ProcessInstancesState, date: number): void {
       state.lastFetch = date;
     },
     setFilter(state: ProcessInstancesState, filter: string): void {
@@ -50,14 +49,14 @@ export default {
         return;
       }
       //const processInstances = await ProcessService.loadMyInstances();
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
         const res = await ServiceInstanceControllerApiFactory(cfg).getAssignedInstances();
 
         context.commit('setLastFetch', new Date().getTime());
         context.commit('setProcessInstances', res.data);
-      } catch (error) {
+      } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Die Vorgänge konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
       }
     }

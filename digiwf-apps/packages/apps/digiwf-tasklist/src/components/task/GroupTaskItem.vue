@@ -1,12 +1,12 @@
 <template>
   <v-list-item
-      :aria-label="'Gruppenaufgabe '+task.name+ ' öffnen'"
-      class="d-flex align-center"
-      :to="'/opengrouptask/'+task.id"
+    :aria-label="'Gruppenaufgabe '+task.name+ ' öffnen'"
+    class="d-flex align-center"
+    :to="'/opengrouptask/'+task.id"
   >
     <v-flex
-        class="d-flex flex-column taskColumn"
-        style="min-height: 5rem; max-height: 6.5rem; margin: 8px 0"
+      class="d-flex flex-column taskColumn"
+      style="min-height: 5rem; max-height: 6.5rem; margin: 8px 0"
     >
       <h2 class="taskTitel">
         <text-highlight :queries="searchString">
@@ -14,11 +14,11 @@
         </text-highlight>
       </h2>
       <p
-          v-if="task.followUpDate"
-          class="grey--text"
-          style="font-size: 0.9rem"
+        v-if="task.followUpDate"
+        class="grey--text"
+        style="font-size: 0.9rem"
       >
-        Wiedervorlage am {{ followUp }}
+        Wiedervorlage am {{ task.followUpDate }}
       </p>
       <p>
         <text-highlight :queries="searchString">
@@ -27,19 +27,19 @@
       </p>
     </v-flex>
     <v-flex
-        v-if="showAssignee"
-        style="min-width: 150px; max-width: 150px"
-        class="taskColumn"
+      v-if="showAssignee"
+      style="min-width: 150px; max-width: 150px"
+      class="taskColumn"
     >
-      <p v-if="task.assignee">
+      <p v-if="task.assigneeFormatted">
         <text-highlight :queries="searchString">
           {{ task.assigneeFormatted }}
         </text-highlight>
       </p>
     </v-flex>
     <v-flex
-        style="min-width: 200px; max-width: 200px"
-        class="taskColumn"
+      style="min-width: 200px; max-width: 200px"
+      class="taskColumn"
     >
       <p class="taskInfo">
         <text-highlight :queries="searchString">
@@ -48,45 +48,45 @@
       </p>
     </v-flex>
     <v-flex
-        style="min-width: 80px; max-width: 80px"
-        class="taskColumn"
+      style="min-width: 80px; max-width: 80px"
+      class="taskColumn"
     >
       <p class="taskInfo">
-        {{ createdAt }}
+        {{ task.createTime }}
       </p>
     </v-flex>
     <v-flex
-        style="min-width: 25px; max-width: 25px"
-        class="d-flex justify-end align-center ml-2"
+      style="min-width: 25px; max-width: 25px"
+      class="d-flex justify-end align-center ml-2"
     >
       <v-menu
-          top
-          offset-x
+        top
+        offset-x
       >
         <template #activator="{ on, attrs }">
           <v-btn
-              icon
-              v-bind="attrs"
-              @click="(event) => { event.preventDefault()}"
-              v-on.prevent="on"
+            icon
+            v-bind="attrs"
+            @click="(event) => { event.preventDefault()}"
+            v-on.prevent="on"
           >
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
         <v-list>
           <v-list-item
-              :aria-label="'Aufgabe '+task.name+ ' öffnen'"
-              link
-              :to="'/opengrouptask/'+task.id"
-              @click="(event) => { event.preventDefault()}"
+            :aria-label="'Aufgabe '+ task.name+ ' öffnen'"
+            link
+            :to="'/opengrouptask/'+task.id"
+            @click="(event) => { event.preventDefault()}"
           >
             <v-list-item-title>Öffnen</v-list-item-title>
           </v-list-item>
           <v-list-item
-              :aria-label="'Aufgabe '+task.name+ ' bearbeiten'"
-              link
-              @click="(event) => {
-              onEdit();
+            :aria-label="'Aufgabe '+task.name+ ' bearbeiten'"
+            link
+            @click="(event) => {
+              this.$emit('edit', task.id);
               event.preventDefault();
             }"
           >
@@ -124,30 +124,29 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {HumanTaskTO} from '@/api/api-client/api';
-import {DateTime} from "luxon";
+import {HumanTask} from "../../middleware/tasks/tasksModels";
+import {PropType} from "vue";
 
-@Component
-export default class GroupTaskItem extends Vue {
-
-  @Prop()
-  task!: HumanTaskTO;
-
-  @Prop()
-  searchString!: string;
-
-  @Prop()
-  showAssignee: boolean | undefined;
-
-  @Emit()
-  onEdit(): string {
-    return this.task.id!;
+export default {
+  props: {
+    task: {
+      type: Object as PropType<HumanTask>,
+      required: true
+    },
+    searchString: {
+      type: String,
+      default: ""
+    },
+    showAssignee: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: {
+    edit: {
+      type: Function as PropType<(id: string) => void>
+    }
   }
-
-  get createdAt(): string {
-    return DateTime.fromISO(this.task.creationTime!).toLocaleString(DateTime.DATETIME_SHORT);
-  }
-
 }
+
 </script>

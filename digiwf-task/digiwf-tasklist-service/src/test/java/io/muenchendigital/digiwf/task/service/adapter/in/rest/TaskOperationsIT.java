@@ -59,40 +59,44 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 public class TaskOperationsIT {
 
-    private final Instant followUpDate = Instant.now().plus(2, ChronoUnit.DAYS);
-    private final Task[] tasks = {
-            // user id
-            generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, followUpDate, true),
-            // candidate group
-            generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.GROUP1, "ANOTHER"), "OTHER", null, false),
-            // candidate user -> This is a special case, we don't expect candidate user assignment
-            generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
-            // some white noise
-            generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
-            generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.GROUP1), null, null),
-    };
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private JpaPolyflowViewTaskService service;
-    @MockBean
-    private TaskCommandPort taskCommandPort;
+  private final Instant followUpDate = Instant.now().plus(2, ChronoUnit.DAYS);
 
-    @BeforeEach
-    public void produce_task_events() {
-        Arrays.stream(tasks).forEach(t -> service.on(createEvent(t), MetaData.emptyInstance()));
-        await().untilAsserted(
-                () -> {
-                    var count = service.query(new AllTasksQuery()).getTotalElementCount();
-                    assertThat(count).isEqualTo(tasks.length);
-                }
-        );
-    }
+  private final Task[] tasks = {
+          // user id
+          generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true),
+          // candidate group
+          generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP, "ANOTHER"), "OTHER", null, false),
+          // candidate user -> This is a special case, we don't expect candidate user assignment
+          generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
+          // some white noise
+          generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
+          generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP), null, null),
+  };
 
-    @AfterEach
-    public void clean_tasks() {
-        Arrays.stream(tasks).forEach(t -> service.on(deleteEvent(t), MetaData.emptyInstance()));
-    }
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Autowired
+  private JpaPolyflowViewTaskService service;
+
+  @MockBean
+  private TaskCommandPort taskCommandPort;
+
+  @BeforeEach
+  public void produce_task_events() {
+    Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
+    await().untilAsserted(
+        () -> {
+          final var count = this.service.query(new AllTasksQuery()).getTotalElementCount();
+          assertThat(count).isEqualTo(this.tasks.length);
+        }
+    );
+  }
+
+  @AfterEach
+  public void clean_tasks() {
+    Arrays.stream(this.tasks).forEach(t -> this.service.on(deleteEvent(t), MetaData.emptyInstance()));
+  }
 
 
     @Test

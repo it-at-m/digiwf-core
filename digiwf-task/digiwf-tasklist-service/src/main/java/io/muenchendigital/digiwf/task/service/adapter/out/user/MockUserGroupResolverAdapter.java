@@ -3,7 +3,6 @@ package io.muenchendigital.digiwf.task.service.adapter.out.user;
 import io.muenchendigital.digiwf.task.service.application.port.out.user.UserGroupResolverPort;
 import org.springframework.lang.NonNull;
 
-import java.util.Collections;
 import java.util.Set;
 
 
@@ -12,11 +11,12 @@ import java.util.Set;
  */
 public class MockUserGroupResolverAdapter implements UserGroupResolverPort {
 
-  public static final String GROUP1 = "group1";
+  public static final String PRIMARY_USERGROUP = "GROUP1";
+  private final Set<String> userGroups = Set.of("FOO", "BAR", PRIMARY_USERGROUP);
 
   @NonNull
   @Override
-  public Set<String> resolveGroups(@NonNull String userId) {
-    return Collections.singleton(GROUP1);
+  public Set<String> resolveGroups(@NonNull final String userId) {
+    return this.userGroups;
   }
 }
