@@ -47,12 +47,13 @@ import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
 import {DocumentData, FormContext} from "../../types";
-import {
-  Configuration,
-  FetchUtils,
-} from "@muenchen/digiwf-engine-api-internal";
 import {computed, defineComponent, inject, onMounted, ref} from "vue";
-import {getPresignedUrlForDelete, getPresignedUrlForGet, getPresignedUrlForPost, getFilenames} from "@/middleware/presignedUrls";
+import {
+  getFilenames,
+  getPresignedUrlForDelete,
+  getPresignedUrlForGet,
+  getPresignedUrlForPost
+} from "@/middleware/presignedUrls";
 
 export default defineComponent({
   props: [
@@ -130,7 +131,6 @@ export default defineComponent({
           filePath,
           apiEndpoint: apiEndpoint || "",
           formContext,
-          axiosConfig: axiosConfig(),
           shouldUseTaskService: shouldUseTaskService || false,
           taskServiceApiEndpoint: taskServiceApiEndpoint || ""
         });
@@ -156,7 +156,6 @@ export default defineComponent({
         filePath,
         apiEndpoint: apiEndpoint || "",
         formContext,
-        axiosConfig: axiosConfig(),
         shouldUseTaskService: shouldUseTaskService || false,
         taskServiceApiEndpoint: taskServiceApiEndpoint || ""
       });
@@ -202,12 +201,11 @@ export default defineComponent({
           filePath,
           apiEndpoint: apiEndpoint || "",
           formContext,
-          axiosConfig: axiosConfig(),
           shouldUseTaskService: shouldUseTaskService || false,
           taskServiceApiEndpoint: taskServiceApiEndpoint || ""
         });
 
-        await globalAxios.put(presignedUrl, mydata); // FIXME: move to calls
+        await globalAxios.put(presignedUrl, mydata);
 
         let content = arrayBufferToString(mydata);
 
@@ -266,13 +264,6 @@ export default defineComponent({
       return `data:${type};base64, ${data}`;
     }
 
-    const axiosConfig = (): Configuration => {
-      const cfg = FetchUtils.getAxiosConfig(FetchUtils.getGETConfig());
-      cfg.baseOptions.headers = {"Content-Type": "application/json"};
-      cfg.basePath = apiEndpoint;
-      return cfg;
-    }
-
     const changeInput = () => {
       if (!fileValue.value) {
         return;
@@ -302,7 +293,6 @@ export default defineComponent({
                 filePath,
                 apiEndpoint: apiEndpoint || "",
                 formContext,
-                axiosConfig: axiosConfig(),
                 shouldUseTaskService: shouldUseTaskService || false,
                 taskServiceApiEndpoint: taskServiceApiEndpoint || ""
               }
@@ -340,7 +330,7 @@ export default defineComponent({
     }
 
     const isBase64Encoded = (content: string) => {
-      var base64Regex =
+      const base64Regex =
           /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
       return base64Regex.test(content);
     }
