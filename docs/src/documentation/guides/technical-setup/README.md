@@ -68,19 +68,12 @@ Plugin [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) nutzen)
 Ist das Backend erfolgreich gestartet, startet man noch das Frontend. (`npm run serve:tasklist` im _digiwf-apps_
 Ordner).
 
-Anschließend kann die Tasklist unter [http://localhost:8083](http://localhost:8083) aufgerufen werden.
-Beim ersten Aufruf der Tasklist wird eine Fehlermeldung "Sie sind aktuell nicht (mehr) angemeldet!" angezeigt (siehe
-folgender Screenshot). In diesem Fall klickt man auf **Login** und meldet sich im aufgehenden Fenster an.
-Anschließend wechselt man zurück zur Tasklist [http://localhost:8083](http://localhost:8083) und lädt die Seite neu.
-
-![Sie sind aktuell nicht (mehr) angemeldet Fehler](~@source/images/platform/guides/technical-setup/Tasklist-Error-not-logged-in.png)
+Anschließend kann man im Browser [http://localhost:8082](http://localhost:8082) aufrufen, sich einloggen und
+anschließend zur
+Tasklist [http://localhost:8083](http://localhost:8083) wechseln.
+Nachdem erfolgreichen Login kommt eine leere weiße Seite. Das ist gewollt und zeigt, dass der Login erfolgreich war.
 
 Anmelden können Sie sich mit dem Nutzername _johndoe_ und dem Passwort _test_.
-
-**Alternativ**
-
-Können Sie im Browser [http://localhost:8082](http://localhost:8082) aufrufen, sich einloggen und anschließend zur
-Tasklist [http://localhost:8083](http://localhost:8083) wechseln.
 
 ### Szenario 2: lokale Infrastruktur starten, um Tasklist-Frontend in Docker Containern zu betreiben
 
