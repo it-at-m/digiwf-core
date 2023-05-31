@@ -1,0 +1,54 @@
+server:
+  port: ${COCKPIT_PORT}
+
+info:
+  application:
+    name: digiwf-engine-cockpit
+    description: camunda cockpit for digiwf-engine
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: health, info, prometheus
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health.enabled: true
+    info.enabled: true
+    prometheus.enabled: true
+  health:
+    ldap:
+      enabled: false
+
+camunda:
+  bpm:
+    webapp:
+      index-redirect-enabled: true
+    job-execution:
+      deployment-aware: true
+      enabled: false
+    webapp.header-security:
+      content-security-policy-disabled: false
+      content-security-policy-value: base-uri 'self'; default-src 'self' 'unsafe-inline';
+    history-level: FULL
+    # user is created in digiwf-engine
+#    admin-user:
+#      id: admin
+#      password: admin
+
+spring:
+  datasource:
+    url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
+    username: '${ENGINE_DATASOURCE_USER:sa}'
+    password: '${ENGINE_DATASOURCE_PASSWORD:}'
+    driver-class-name: '${ENGINE_DATASOURCE_DRIVERCLASSNAME:org.h2.Driver}'
+  jpa:
+    database-platform: '${ENGINE_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    org.camunda: DEBUG
