@@ -77,16 +77,7 @@ Anmelden können Sie sich mit dem Nutzername _johndoe_ und dem Passwort _test_.
 
 ### Szenario 2: lokale Infrastruktur starten, um Tasklist-Frontend in Docker Containern zu betreiben
 
-In der `stack/docker-compose.yaml` muss die Konfiguration des Api Gateways (Servicename: digiwf-gateway) angepasst
-werden:
-
-Environments:
-
-```
-SPRING_PROFILES_ACTIVE: local, docker
-```
-
-Danach im Ordner _stack_ ausführen:
+Im Ordner _stack_ ausführen:
 
 ```docker compose --profile tasklist-frotend up -d```
 
@@ -133,6 +124,11 @@ Verbindet sich mit Keycloak für den Login / die Erneuerung der Access Tokens.
 
 Tauscht bei jedem, vom Frontend kommenden, Netzwerkrequest die Session gegen den Accesstoken aus und leitet den Requests
 weiter an das jeweilige Backend (aktuell nur DigiWFEngineService) weiter.
+
+### Camunda Cockpit
+
+Das Camunda Cockpit ist unter [http://localhost:8084](http://localhost:8084) erreichbar.
+Einloggen kann man sich mit den Nutzerdaten: demo demo.
 
 ### PostgreSQL
 
