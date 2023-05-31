@@ -2,6 +2,7 @@ import Page from './page'
 
 class VorgangStarten extends Page{
     elements = {
+        headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(1)'),
         searchBox: () => cy.get('#suchfeld'),
         listElement: (elementNumber) => cy.get(`.v-data-iterator > div:nth-child(1) > div:nth-child(${elementNumber})`),
         processList: () => cy.get(`.v-data-iterator > div:nth-child(1)`),
@@ -15,6 +16,9 @@ class VorgangStarten extends Page{
 
     }
 
+    checkHeadline(text){
+        this.elements.headline().should('contain.text', text)
+    }
     checkPageNumber(number){
         this.elements.pageNumber().should('contain.text','Seite '+ number)
     }
@@ -66,6 +70,13 @@ class VorgangStarten extends Page{
             }
         })
     }
+
+    getLastPageNumber(){
+        return this.elements.pageNumber().invoke('text').then((txt) => {
+            return (parseInt((txt.split(" "))[4]));
+        })
+    }
+
 
 
 }

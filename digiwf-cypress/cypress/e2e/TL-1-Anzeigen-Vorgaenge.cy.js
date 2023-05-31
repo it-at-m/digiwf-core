@@ -6,7 +6,7 @@ beforeEach(() => {
 })
 
 describe('Vorgaenge Anzeigen', () => {
-    it('passes', () => {
+    it('passes', async () => {
 
         //Test auf korrekten Startzustand
         meineAufgaben.checkIfTasksAreEmpty();
@@ -18,7 +18,7 @@ describe('Vorgaenge Anzeigen', () => {
         //TODO Zahl optimieren
         vorgangStarten.getFoundProcesses().should('be.gt',10);
         //TODO Anzahl der angezeigten Listenelemente pruefen
-        //vorgangStarten.getListSize().should('have.value', 10);
+
 
         //Step2
         vorgangStarten.clickRightArrow();
@@ -34,11 +34,23 @@ describe('Vorgaenge Anzeigen', () => {
         vorgangStarten.changePageSize(10);
         vorgangStarten.goToLastPage();
         vorgangStarten.checkPageSize(10)
-        //TODO pruefen, dass es die letzte seite ist
+        //TODO pruefen, dass es die letzte Seite ist
         //TODO andere Anzahl an Vorgaengen pruefen
 
         //Step5
+        let comparePageNumber = await vorgangStarten.getLastPageNumber();
+        vorgangStarten.changePageSize(20);
+        vorgangStarten.checkPageSize(20);
+        vorgangStarten.getLastPageNumber().should('be.closeTo', comparePageNumber/2, 1);
 
+        //Step6
+        vorgangStarten.findProcess("all");
+        //TODO alle Prozesse starten mit all
 
+        //Step7
+        vorgangStarten.clickListElement(1);
+        vorgangStarten.checkHeadline("All")
+
+        //vorgangStarten.getLastPageNumber()
     })
 })
