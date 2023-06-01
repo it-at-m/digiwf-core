@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Service to resolve currently logged-in user.
@@ -31,7 +32,7 @@ public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
     if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
       var jwt = (Jwt) authentication.getPrincipal();
       var username = Objects.requireNonNull((String) jwt.getClaims().get(USER_ID_CLAIM));
-      var groups = userGroupResolver.resolveGroups(username);
+      var groups = userGroupResolver.resolveGroups(username).stream().map(String::toLowerCase).collect(Collectors.toSet());
       return new User(username, groups);
     } else {
       throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");

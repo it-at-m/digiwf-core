@@ -48,7 +48,7 @@ class AssignmentCreateTaskListenerTest {
 
     assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_ASSIGNEE.getName(), "assignee");
     assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
-    assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidateGroup1", "candidateGroup2"));
+    assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidategroup1", "candidategroup2"));
 
     assertThat(delegateTask.getAssignee()).isEqualTo("assignee");
     assertThat(DelegateTaskFake.candidateUserIds(delegateTask)).containsExactlyInAnyOrder("candidateUser1", "candidateUser2");
@@ -64,7 +64,7 @@ class AssignmentCreateTaskListenerTest {
     assignmentCreateTaskListener.taskCreated(delegateTask);
     assertThat(delegateTask.getVariables()).containsEntry(TASK_ASSIGNEE.getName(), "assignee");
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
-    assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidateGroup1", "candidateGroup2"));
+    assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidategroup1", "candidategroup2"));
 
     assertThat(delegateTask.getAssignee()).isEqualTo("assignee");
     assertThat(DelegateTaskFake.candidateUserIds(delegateTask)).containsExactlyInAnyOrder("candidateUser1", "candidateUser2");
@@ -79,7 +79,7 @@ class AssignmentCreateTaskListenerTest {
 
     assignmentCreateTaskListener.taskCreated(delegateTask);
     assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_USERS.getName(), Lists.newArrayList("candidateUser1", "candidateUser2"));
-    assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidateGroup1", "candidateGroup2"));
+    assertThat(delegateTask.getVariables()).containsEntry(TASK_CANDIDATE_GROUPS.getName(), Lists.newArrayList("candidategroup1", "candidategroup2"));
 
     assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_ASSIGNEE.getName(), "assignee");
     assertThat(delegateTask.getAssignee()).isNull();
