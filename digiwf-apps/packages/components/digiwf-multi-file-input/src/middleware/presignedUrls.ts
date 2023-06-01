@@ -143,8 +143,9 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
 }
 
 export const getFilenames = async (config: EngineInteractionConfig): Promise<string[]> => {
-  const {apiEndpoint, taskServiceApiEndpoint, filePath, formContext, shouldUseTaskService} = config;
+  const {apiEndpoint, filePath, formContext, shouldUseTaskService, taskServiceApiEndpoint} = config;
   const engineAxiosConfig = axiosConfig(apiEndpoint);
+
   const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
 
   let res: any;
@@ -162,7 +163,7 @@ export const getFilenames = async (config: EngineInteractionConfig): Promise<str
       );
     } else {
       res = await getFileNamesFromEngine(
-        taskServiceAxiosConfig,
+        engineAxiosConfig,
         formContext!.id,
         filePath.value
       );
