@@ -82,12 +82,12 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: U
     processName: response.processName,
     assigneeId: response.assignee,
     assigneeFormatted: user && `${user.firstName} ${user.surname} (${user.ou})`,
-    form: undefined, // FIXME: check if it is correct
+    form: response.schemaType === "VUETIFY_FORM_BASE" ? response.schema : undefined,
     variables: response.variables,
     processInstanceId: response.processInstanceId,
-    schema: response.schema?.schema,
+    schema: response.schemaType === "SCHEMA_BASED" ? response.schema : undefined,
     statusDocument: false,
 
-    isCancelable: false // TODO: change to Task property when Task Response is updated by TaskList backend service
+    isCancelable: response.cancelable
   }
 }

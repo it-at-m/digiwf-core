@@ -18,4 +18,14 @@ public interface JsonSchemaValidationPort {
    * @return serialized and validated version.
    */
   Map<String, Object> validateAndSerialize(JsonSchema schema, Task task, Map<String, Object> variables);
+
+  /**
+   * Filters variables by schema.
+   *
+   * @param data data to filter
+   * @param schema schema to use for filtering
+   * @return filtered data
+   */
+   Map<String, Object> filterVariables(final Map<String, Object> data, JsonSchema schema);
+
 }

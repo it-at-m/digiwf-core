@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.*;
 
@@ -36,18 +37,25 @@ public class AssignmentCreateTaskListener {
     @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
     @EventListener(condition = "#task.eventName.equals('create')")
     public void taskCreated(final DelegateTask task) {
+        val reader = reader(task);
         if (properties.isShadow()) {
             val assignee = task.getAssignee();
             val candidateUsers = task.getCandidates().stream().filter(link -> link.getUserId() != null && link.getType().equals(IdentityLinkType.CANDIDATE)).map(IdentityLink::getUserId).collect(Collectors.toList());
             val candidateGroups = task.getCandidates().stream().map(IdentityLink::getGroupId).filter(Objects::nonNull).collect(Collectors.toList());
             val writer = writer(task);
             if (properties.isLocal()) {
+                if (reader.getLocalOptional(TASK_ASSIGNEE).isPresent() || reader.getLocalOptional(TASK_CANDIDATE_USERS).isPresent() || reader.getLocalOptional(TASK_CANDIDATE_GROUPS).isPresent()) {
+                    return;
+                }
                 log.debug("Shadowing assignment information for task {} in local variables: {}, {}, {}", task.getId(), assignee, candidateUsers, candidateGroups);
                 writer
                         .setLocal(TASK_ASSIGNEE, assignee)
                         .setLocal(TASK_CANDIDATE_USERS, candidateUsers)
                         .setLocal(TASK_CANDIDATE_GROUPS, candidateGroups);
             } else {
+                if (reader.getOptional(TASK_ASSIGNEE).isPresent() || reader.getOptional(TASK_CANDIDATE_USERS).isPresent() || reader.getOptional(TASK_CANDIDATE_GROUPS).isPresent()) {
+                    return;
+                }
                 log.debug("Shadowing assignment information for task {} in global variables: {}, {}, {}", task.getId(), assignee, candidateUsers, candidateGroups);
                 writer
                         .set(TASK_ASSIGNEE, assignee)

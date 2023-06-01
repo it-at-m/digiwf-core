@@ -113,6 +113,7 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
+                                'guides/taskservice-integration/',
                                 'guides/custom-integration-service/',
 
                             ]

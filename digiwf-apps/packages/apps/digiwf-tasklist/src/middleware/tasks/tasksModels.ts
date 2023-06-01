@@ -11,7 +11,7 @@ export interface HumanTask {
 
 }
 
-export interface HumanTaskDetails extends HumanTask{
+export interface HumanTaskDetails extends HumanTask {
   /**
    * @deprecated old formular
    */

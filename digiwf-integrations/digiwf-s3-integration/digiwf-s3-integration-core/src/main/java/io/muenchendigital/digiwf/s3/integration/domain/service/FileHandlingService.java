@@ -33,6 +33,7 @@ public class FileHandlingService {
     /**
      * Get a list of presigned urls for all files in the paths.
      * If the path is a file the presigned url for the file is returned.
+     * The end of life for the files to save is not set und therefore the files are not deleted automatically.
      *
      * @param paths            list of paths to files and/or folders
      * @param action           http method for the presigned url
@@ -42,7 +43,7 @@ public class FileHandlingService {
      * @throws FileExistanceException
      */
     public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes) throws S3AccessException, FileExistanceException {
-        return this.getPresignedUrls(paths, action, expiresInMinutes, Optional.empty());
+        return this.getPresignedUrls(paths, action, expiresInMinutes, null);
     }
 
     /**
@@ -52,12 +53,12 @@ public class FileHandlingService {
      * @param paths            list of paths to files and/or folders
      * @param action           http method for the presigned url
      * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife
+     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
      * @return
      * @throws S3AccessException
      * @throws FileExistanceException
      */
-    public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, final Optional<LocalDate> endOfLife) throws S3AccessException, FileExistanceException {
+    public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, LocalDate endOfLife) throws S3AccessException, FileExistanceException {
         final List<PresignedUrl> presignedUrls = new ArrayList<>();
         for (String p : paths) {
             presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes, endOfLife));
@@ -72,15 +73,15 @@ public class FileHandlingService {
      * @param path             path to file or folder
      * @param action           http method for the presigned url
      * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife
+     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
      * @return
      * @throws S3AccessException
      * @throws FileExistanceException
      */
-    public List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final Optional<LocalDate> endOfLife) throws S3AccessException, FileExistanceException {
+    public List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws S3AccessException, FileExistanceException {
         // make sure the folder exists before saving files
         if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-            this.setupFolder(path, endOfLife.orElse(LocalDate.now().plusDays(20)));
+            this.setupFile(path, endOfLife);
         }
 
         // special case file creation (POST)
@@ -106,7 +107,8 @@ public class FileHandlingService {
     }
 
     /**
-     * Get a single presigned url for the path
+     * Get a single presigned url for the path.
+     * The end of life for the files to save is not set und therefore the files are not deleted automatically.
      *
      * @param path             path to file or folder
      * @param action           http method for the presigned url
@@ -115,7 +117,7 @@ public class FileHandlingService {
      * @throws S3AccessException
      */
     public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes) throws S3AccessException {
-        return this.getPresignedUrl(path, action, expiresInMinutes, Optional.empty());
+        return this.getPresignedUrl(path, action, expiresInMinutes, null);
     }
 
     /**
@@ -124,14 +126,14 @@ public class FileHandlingService {
      * @param path             path to file or folder
      * @param action           http method for the presigned url
      * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife
+     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
      * @return
      * @throws S3AccessException
      */
-    public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final Optional<LocalDate> endOfLife) throws S3AccessException {
-        // make sure the folder exists before saving files
+    public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws S3AccessException {
+        // make sure the file exists before saving files
         if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-            this.setupFolder(path, endOfLife.orElse(LocalDate.now().plusDays(20)));
+            this.setupFile(path, endOfLife);
         }
         return new PresignedUrl(this.s3Repository.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
     }
@@ -182,14 +184,14 @@ public class FileHandlingService {
      */
     @Transactional
     public PresignedUrl updateFile(final FileData fileData) throws S3AccessException {
-        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes(), Optional.ofNullable(fileData.getEndOfLife()));
+        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes(), fileData.getEndOfLife());
     }
 
     /**
      * Updates the end of life for the given file.
      *
      * @param pathToFile identifies the path to file.
-     * @param endOfLife  the new end of life or null.
+     * @param endOfLife  the files endOfLife. May be null. If null, no end of life is set
      * @throws FileExistanceException if no database entry exists.
      */
     @Transactional
@@ -254,7 +256,14 @@ public class FileHandlingService {
                 : StringUtils.EMPTY;
     }
 
-    private void setupFolder(final String pathToFile, final LocalDate endOfLife) {
+    /**
+     * Creates a new file entity within the database, if no entity identified by pathToFile is available.
+     * Otherwise the exisiting file entity is updated with endOfLife.
+     *
+     * @param pathToFile for which a file entity should be set up in the database
+     * @param endOfLife  the files endOfLife. May be null. If null, no end of life is set
+     */
+    private void setupFile(final String pathToFile, final LocalDate endOfLife) {
         final Optional<File> fileOptional = this.fileRepository.findByPathToFile(pathToFile);
         if (fileOptional.isEmpty()) {
             log.info("The database entry for file ${} does not exist.", pathToFile);

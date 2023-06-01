@@ -23,7 +23,7 @@ public interface TaskCommandPort {
   void saveUserTask(String taskId, Map<String, Object> payload);
 
   /**
-   * Assignes user task to a user.
+   * Assigns user task to a user.
    * @param taskId id of the task.
    * @param assignee user id of the user.
    * @deprecated should not be used anymore.

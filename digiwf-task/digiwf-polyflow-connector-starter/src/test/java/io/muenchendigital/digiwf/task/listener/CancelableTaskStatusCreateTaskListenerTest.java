@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.test.Deployment;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANCELABLE;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.task;
 
 class CancelableTaskStatusCreateTaskListenerTest {
 
@@ -33,6 +35,7 @@ class CancelableTaskStatusCreateTaskListenerTest {
       .build();
 
   private final RuntimeService runtimeService = extension.getRuntimeService();
+  private final TaskService taskService = extension.getTaskService();
 
 
   @BeforeEach
@@ -48,7 +51,7 @@ class CancelableTaskStatusCreateTaskListenerTest {
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("user_task");
 
-    val cancelable = reader(runtimeService, instance.getId()).get(TASK_CANCELABLE);
+    val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
     Assertions.assertThat(cancelable).isTrue();
   }
 
@@ -60,7 +63,7 @@ class CancelableTaskStatusCreateTaskListenerTest {
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("user_task");
 
-    val cancelable = reader(runtimeService, instance.getId()).get(TASK_CANCELABLE);
+    val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
     Assertions.assertThat(cancelable).isTrue();
   }
 
@@ -72,7 +75,7 @@ class CancelableTaskStatusCreateTaskListenerTest {
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("user_task");
 
-    val cancelable = reader(runtimeService, instance.getId()).get(TASK_CANCELABLE);
+    val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
     Assertions.assertThat(cancelable).isFalse();
   }
 
@@ -84,7 +87,7 @@ class CancelableTaskStatusCreateTaskListenerTest {
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("user_task");
 
-    val cancelable = reader(runtimeService, instance.getId()).get(TASK_CANCELABLE);
+    val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
     Assertions.assertThat(cancelable).isFalse();
   }
 

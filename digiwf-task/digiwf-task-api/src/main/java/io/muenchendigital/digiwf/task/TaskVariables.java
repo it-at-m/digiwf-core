@@ -34,6 +34,21 @@ public class TaskVariables {
   public static final VariableFactory<Boolean> TASK_CANCELABLE = booleanVariable("app_task_cancelable");
 
   /**
+   * Reflects the type of the schema used in task.
+   */
+  public static final VariableFactory<TaskSchemaType> TASK_SCHEMA_TYPE = customVariable("app_task_schema_type", TaskSchemaType.class);
+
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION = stringVariable("app_task_description");
+
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION_LEGACY = stringVariable("digitalwf_task_description");
+
+  /**
    * Task variable containing the process file context of the task.
    */
   public static final VariableFactory<String> PROCESS_FILE_CONTEXT = stringVariable("app_file_context");

@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        show_sql: false
   security:
     oauth2:
       resourceserver:
@@ -44,11 +45,13 @@ feign:
     config:
       jsonschema:
         url: "http://localhost:7080/"
+      legacy-task:
+        url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"
 
-easyldap:
+ezldap:
   client:
-    port: 19561
-    url: "http://localhost:${easyldap.client.port}"
+    port: 8183
+    url: "http://localhost:${ezldap.client.port}"
     request: "/test"

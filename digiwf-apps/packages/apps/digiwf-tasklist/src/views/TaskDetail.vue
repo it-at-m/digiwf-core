@@ -84,7 +84,7 @@
           :has-error="hasCancelError"
           color="white"
           :button-text="cancelText"
-          @on-click="cancelTask"
+          @on-click="handleCancelTask"
         >
           <v-icon> mdi-cancel</v-icon>
         </loading-fab>
@@ -149,7 +149,6 @@
 </style>
 
 <script lang="ts">
-
 import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -161,13 +160,12 @@ import LoadingFab from "@/components/UI/LoadingFab.vue";
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
-  cancelTaskInEngine,
+  cancelTask,
   completeTask,
   downloadPDFFromEngine,
   loadTask,
   saveTask,
-  deferTask,
-  shouldUseTaskService as shouldUseTaskServiceFromMiddleware
+  deferTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
@@ -207,20 +205,13 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Prop()
   id!: string;
 
-  @Provide("formContext")
+  @Provide('formContext')
   get formContext(): FormContext {
     return {id: this.id, type: "task"}
   };
 
-  @Provide("apiEndpoint")
+  @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
-
-  @Provide("taskServiceApiEndpoint")
-  taskServiceApiEndpoint = ApiConfig.tasklistBase;
-
-  @Provide("shouldUseTaskService")
-  shouldUseTaskService = shouldUseTaskServiceFromMiddleware;
-
 
   created() {
     loadTask(this.id).then(({data, error}) => {
@@ -302,9 +293,9 @@ export default class TaskDetail extends SaveLeaveMixin {
       });
   }
 
-  cancelTask() {
+  handleCancelTask() {
     this.isCancelling = true;
-    cancelTaskInEngine(this.id).then(result => {
+    cancelTask(this.id).then(result => {
       this.isCancelling = false;
       this.hasCancelError = result.isError;
       this.errorMessage = result.errorMessage || ""
