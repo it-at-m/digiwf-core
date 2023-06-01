@@ -51,4 +51,4 @@ spring:
 
 logging:
   level:
-    org.camunda: DEBUG
+    org.camunda: WARN
