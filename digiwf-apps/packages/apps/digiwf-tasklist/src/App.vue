@@ -40,7 +40,7 @@
           </v-btn>
         </template>
         <v-list v-if="showUseBetaButton">
-          <v-list-item @click="switchBetaVersion">
+          <v-list-item>
             <v-list-item-title>
               <v-switch
                 :value="!isTaskserviceUsed"
@@ -228,7 +228,9 @@ export default class App extends Vue {
     this.loginLoading = false;
   }
 
-  switchBetaVersion(): void {
+  switchBetaVersion(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
     setShouldUseTaskService(!this.isTaskserviceUsed)
     this.isTaskserviceUsed = !this.isTaskserviceUsed;
   }
