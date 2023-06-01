@@ -44,7 +44,7 @@
             <v-list-item-title>
               <v-switch
                 :value="!isTaskserviceUsed"
-                @click="switchBetaVersion"
+                @click.stop.prevent="switchBetaVersion"
                 label="DigiWF-Classic nutzen"
               ></v-switch>
             </v-list-item-title>
@@ -228,9 +228,7 @@ export default class App extends Vue {
     this.loginLoading = false;
   }
 
-  switchBetaVersion(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
+  switchBetaVersion(): void {
     setShouldUseTaskService(!this.isTaskserviceUsed)
     this.isTaskserviceUsed = !this.isTaskserviceUsed;
   }
