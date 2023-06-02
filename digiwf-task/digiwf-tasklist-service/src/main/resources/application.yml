@@ -46,12 +46,14 @@ feign:
     config:
       jsonschema:
         url: ${ENGINE_REST_ENDPOINT_URL}
+      legacy-task:
+        url: ${ENGINE_REST_ENDPOINT_URL}
       default:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
 
-easyldap:
+ezldap:
   client:
-    url: ${EASYLDAP_ENDPOINT_URL}
+    url: ${EZLDAP_ENDPOINT_URL}
 
 axon:
   serializer:
@@ -110,5 +112,10 @@ logging:
     org.apache.kafka.clients.consumer.ConsumerConfig: WARN
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
-    org.camunda.community.rest.client.api: DEBUG
-    org.springframework.security: DEBUG
+    org.camunda.community.rest.client.api: INFO
+    org.springframework.security: INFO
+
+digiwf:
+  s3service:
+    topic: 'dwf-s3-${DIGIWF_ENV}'
+    httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}

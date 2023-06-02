@@ -64,7 +64,8 @@ import {
 } from '@muenchen/digiwf-engine-api-internal';
 
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
+import {invalideUserTasks} from "../middleware/tasks/taskMiddleware";
 
 @Component({
   components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
@@ -84,7 +85,7 @@ export default class StartProcess extends SaveLeaveMixin {
   get formContext(): FormContext { return {id: this.processKey, type: "start"}};
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
 
   created() {
@@ -102,14 +103,14 @@ export default class StartProcess extends SaveLeaveMixin {
       variables: model
     };
     try {
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
       await ServiceDefinitionControllerApiFactory(cfg).startInstance(request);
 
       this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
+      invalideUserTasks();
       this.$store.dispatch('processInstances/getProcessInstances', true);
 
-      //hier evenutell zum userTask routen
+      // hier eventuell zum userTask routen
       this.hasChanges = false;
       router.push({path: '/process'});
     } catch (error) {
@@ -124,7 +125,7 @@ export default class StartProcess extends SaveLeaveMixin {
   }
 
   async loadProcess(): Promise<void> {
-    const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
     cfg.baseOptions.validateStatus = function (status: number) {
       return status >= 200 && status < 500;
     }; // override axios default impl. (holding back http statuses >= 300)

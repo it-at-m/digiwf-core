@@ -40,13 +40,20 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
   @Override
   public ResponseEntity<TaskWithSchemaTO> getTaskWithSchemaByTaskId(String taskId) {
     val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
-    return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema()));
+    switch (taskWithSchema.getTaskSchemaType()) {
+      case VUETIFY_FORM_BASE:
+        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getLegacyForm(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType()));
+      case SCHEMA_BASED:
+      default:
+        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema().asMap(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType()));
+    }
+
   }
 
   @Override
   public ResponseEntity<TaskWithDetailsTO> getTaskByTaskId(String taskId) {
     val taskWithSchemaRef = workOnUserTask.loadUserTask(taskId);
-    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef()));
+    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef(), taskWithSchemaRef.isCancelable(), taskWithSchemaRef.getTaskSchemaType()));
   }
 
   @Override
@@ -85,4 +92,9 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
     return noContent().build();
   }
 
+  @Override
+  public ResponseEntity<Void> cancelTask(String taskId) {
+    workOnUserTask.cancelUserTask(taskId);
+    return noContent().build();
+  }
 }

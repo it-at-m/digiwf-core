@@ -2,8 +2,10 @@ package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.muenchendigital.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
@@ -21,6 +23,8 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final TaskQueryPort taskQueryPort;
   private final CurrentUserPort currentUserPort;
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort;
+  private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
+  private final CancellationFlagOutPort cancellationFlagOutPort;
 
   @Override
   public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, PagingAndSorting pagingAndSorting) {
@@ -45,7 +49,13 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
 
   private PageOfTasksWithSchema enrichWithSchema(PageOfTasks result) {
     return new PageOfTasksWithSchema(
-        result.getTasks().stream().map(task -> new TaskWithSchemaRef(task, taskSchemaRefResolverPort.apply(task))).collect(Collectors.toList()),
+        result.getTasks().stream().map(task -> new TaskWithSchemaRef(
+                task,
+                taskSchemaRefResolverPort.apply(task),
+                cancellationFlagOutPort.apply(task),
+                taskSchemaTypeResolverPort.apply(task)
+            )
+        ).collect(Collectors.toList()),
         result.getTotalElementsCount(),
         result.getPagingAndSorting()
     );

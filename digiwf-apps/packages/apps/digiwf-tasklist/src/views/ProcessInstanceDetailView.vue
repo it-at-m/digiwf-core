@@ -152,7 +152,7 @@ import {
 } from '@muenchen/digiwf-engine-api-internal';
 import AppJsonRenderer from "@/components/schema/AppJsonRenderer.vue";
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {EngineServiceApiConfig} from "../api/EngineServiceApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
 
 @Component({
   components: {AppJsonRenderer, AppToast, AppViewLayout}
@@ -172,7 +172,7 @@ export default class ProcessInstanceDetailView extends Vue {
   };
 
   @Provide('apiEndpoint')
-  apiEndpoint = EngineServiceApiConfig.base;
+  apiEndpoint = ApiConfig.base;
 
   created() {
     this.loadProcessInstanceDetail();
@@ -180,7 +180,7 @@ export default class ProcessInstanceDetailView extends Vue {
 
   async loadProcessInstanceDetail(): Promise<void> {
     try {
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await ServiceInstanceControllerApiFactory(cfg).getProcessInstanceDetail(this.processId);
       this.processInstanceDetail = res.data;
 

@@ -56,7 +56,7 @@ import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 import {VAutocomplete} from "vuetify/lib";
 import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
 import {AxiosResponse} from 'axios';
-import {EngineServiceApiConfig} from "../../api/EngineServiceApiConfig";
+import {ApiConfig} from "../../api/ApiConfig";
 
 @Component({
   components: {
@@ -116,7 +116,7 @@ export default class VUserInput extends Vue {
   async loadInitialValue(id: string): Promise<void> {
     try {
       this.locked = true;
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       let res: AxiosResponse;
 
       //if number search by objectId, if string search by username
@@ -186,7 +186,7 @@ export default class VUserInput extends Vue {
         ous: this.ldapOus ? this.ldapOus : undefined
       };
 
-      const cfg = EngineServiceApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
       const res = await UserRestControllerApiFactory(cfg).getUsers(to);
 
       if (this.lastSearch === this.search.slice(0, 3)) {

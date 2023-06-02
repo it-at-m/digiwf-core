@@ -72,7 +72,7 @@ import {Component, Emit, Prop, Ref, Vue} from "vue-property-decorator";
 import FormBase from "vuetify-form-base";
 import AppLoadingButton from "@/components/UI/AppLoadingButton.vue";
 import {DateTime} from "luxon";
-import {FormTO, RuleTO} from "@/api/api-client/api";
+import { FormTO, RuleTO } from "@muenchen/digiwf-engine-api-internal";
 
 @Component({
   components: {
