@@ -65,8 +65,11 @@ Dazu startet man dieses mit folgenden Profilen: local, streaming, no-ldap
 Zusätzlich bindet man die .env Datei aus dem Stack Ordner ein (Dafür kann man das Idea
 Plugin [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) nutzen)
 
-Ist das Backend erfolgreich gestartet, startet man noch das Frontend. (`npm run serve:tasklist` im _digiwf-apps_
-Ordner).
+Ist das Backend erfolgreich gestartet, startet man noch das Frontend im Ordner _digiwf-apps_.
+Hierfür sollte das Frontend zuerst einmal gebaut werden `npm run build`.
+Anschließend kann das Frontend mit `npm run serve:tasklist` gestartet werden.
+Beim ersten Start des Frontends muss noch ein `npm run init` durchgeführt werden, damit alle notwendigen Dependencies installiert werden. 
+
 
 Anschließend kann man im Browser [http://localhost:8082](http://localhost:8082) aufrufen, sich einloggen und
 anschließend zur
@@ -131,11 +134,11 @@ Datenbank für DigiWFEngine und DigiWFTasklist.
 
 ### Mailhog
 
-Mail Server für DigiWFEngineService.
+Mailhog ist ein Mail Server, der unter [http://localhost:8025](http://localhost:8025) erreichbar ist. 
 
 ### Minio
 
-S3-kompatibler ObjectStorage für DigiWFEngineService.
+S3-kompatibler ObjectStorage für S3IntegrationApplication. Minio ist unter [http://localhost:9000](http://localhost:9000) erreichbar.
 
 ## DigiWFEngine
 
