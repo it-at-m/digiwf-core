@@ -41,6 +41,8 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
   } else if (formContext!.type == "task") {
     if (shouldUseTaskService) {
       res = await getPresignedUrlForFileUploadFromTaskservice(taskServiceAxiosConfig, formContext!.id, file!.name, filePath.value)
+      // res.data does not exist
+      return res;
     } else {
       res = await getPresignedUrlForFileUploadFromEngine(engineAxiosConfig, formContext!.id, file!.name, filePath.value)
     }
@@ -78,6 +80,8 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
         filename,
         filePath.value
       );
+      // res.data does not exist
+      return res;
     } else {
       res = await getPresignedUrlForFileDownloadFromEngine(
         engineAxiosConfig,
@@ -122,6 +126,8 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
         filename,
         filePath.value
       );
+      // res.data does not exist
+      return res;
     } else {
       res = await getPresignedUrlForFileDeletionFromEngine(
         engineDeleteAxiosConfig,
@@ -161,6 +167,8 @@ export const getFilenames = async (config: EngineInteractionConfig): Promise<str
         formContext!.id,
         filePath.value
       );
+      // res.data does not exist
+      return res;
     } else {
       res = await getFileNamesFromEngine(
         engineAxiosConfig,
@@ -175,7 +183,6 @@ export const getFilenames = async (config: EngineInteractionConfig): Promise<str
       filePath.value
     );
   }
-
   return res.data;
 }
 
