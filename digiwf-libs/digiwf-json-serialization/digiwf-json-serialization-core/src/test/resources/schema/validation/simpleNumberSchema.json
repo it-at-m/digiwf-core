@@ -1,0 +1,11 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "integerProp1": {
+      "type": "integer"
+    },
+    "numberProp1": {
+      "type": "number"
+    }
+  }
+}

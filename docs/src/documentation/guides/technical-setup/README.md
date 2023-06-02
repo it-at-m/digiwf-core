@@ -146,3 +146,23 @@ Mail Server für DigiWFEngineService.
 
 S3-kompatibler ObjectStorage für DigiWFEngineService.
 
+## DigiWFEngine
+
+Die DigiWF Engine ist eine Camunda Engine, welche um einige Funktionalitäten erweitert wurde.
+Die DigiWF Engine kann mit dem Befehl `mvn install` gebaut und anschließend gestartet werden.
+
+### Camunda Cockpit
+
+Die DigiWF Engine kann direkt mit einem Camunda Cockpit gestartet werden.
+Hierfür muss das Profil `camunda-ce` (bzw. `camunda-ee` für die Enterprise Variant) verwendet werden.
+
+```bash
+# community edition
+mvn install -Pcamunda-ce
+# enterprise edition
+mvn install -Pcamunda-ee
+```
+
+Ggf. muss das Projekt in der IDE neu importiert werden, damit das Profil richtig erkannt wird.
+
+Anschließend kann die Engine gestartet werden und im Browser kann das Cockpit unter [http://localhost:39146/camunda/app/](http://localhost:39146/camunda/app/) aufgerufen werden.

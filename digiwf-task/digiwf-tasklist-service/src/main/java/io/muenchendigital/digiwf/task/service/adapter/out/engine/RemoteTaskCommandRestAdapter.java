@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.engine;
 
 import io.muenchendigital.digiwf.task.service.application.port.out.engine.TaskCommandPort;
+import lombok.val;
 import org.camunda.bpm.engine.TaskService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
+
+import static io.muenchendigital.digiwf.task.BpmnErrors.DEFAULT_TASK_CANCELLATION_ERROR;
 
 /**
  * Encapsulation of the Camunda remote client.
@@ -22,18 +25,21 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   }
 
   @Override
-  public void completeTask(String taskId, Map<String, Object> variables) {
+  public void completeUserTask(String taskId, Map<String, Object> variables) {
     taskService.complete(taskId, variables);
   }
 
   @Override
   public void saveUserTask(String taskId, Map<String, Object> payload) {
+    // setVariables does not trigger update event
     taskService.setVariables(taskId, payload);
+    // fetch task and save it to trigger update event
+    val task = taskService.createTaskQuery().taskId(taskId).singleResult();
+    taskService.saveTask(task);
   }
 
   @Override
   public void assignUserTask(String taskId, String assignee) {
-    // TODO: will be switched to polyflow assignment
     taskService.setAssignee(taskId, assignee);
   }
 
@@ -46,7 +52,7 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   public void deferUserTask(String taskId, Instant followUpDate) {
     var task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if (task != null) {
-      task.setDueDate(Date.from(followUpDate.truncatedTo(ChronoUnit.DAYS)));
+      task.setFollowUpDate(Date.from(followUpDate.truncatedTo(ChronoUnit.DAYS)));
       taskService.saveTask(task);
     }
   }
@@ -55,8 +61,13 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   public void undeferUserTask(String taskId) {
     var task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if (task != null) {
-      task.setDueDate(null);
+      task.setFollowUpDate(null);
       taskService.saveTask(task);
     }
+  }
+
+  @Override
+  public void cancelUserTask(String taskId) {
+    taskService.handleBpmnError(taskId, DEFAULT_TASK_CANCELLATION_ERROR);
   }
 }

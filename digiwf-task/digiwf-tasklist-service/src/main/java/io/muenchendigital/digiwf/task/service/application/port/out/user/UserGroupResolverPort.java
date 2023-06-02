@@ -14,7 +14,7 @@ public interface UserGroupResolverPort {
    * Resolves groups.
    *
    * @param userId identity of the user.
-   * @return a set of groups or empty set, if no groups are found.
+   * @return a set of groups in <strong>lower case</strong> or empty set, if no groups are found.
    */
   @Nonnull
   Set<String> resolveGroups(@NonNull String userId);

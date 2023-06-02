@@ -13,12 +13,12 @@ public class MockUserProfileAdapter implements UserProfilePort {
       "123456789",
       "John",
       "Doe",
-      MockUserGroupResolverAdapter.GROUP1
+      MockUserGroupResolverAdapter.PRIMARY_USERGROUP
   );
 
   @Override
   @NonNull
-  public UserProfile findUser(@NonNull String userId) throws UserNotFoundException {
-    return user;
+  public UserProfile findUser(@NonNull final String userId) throws UserNotFoundException {
+    return this.user;
   }
 }

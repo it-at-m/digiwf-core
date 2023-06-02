@@ -35,5 +35,11 @@ public class JsonSchemaValidationAdapter implements JsonSchemaValidationPort {
     return this.engineDataMapper.mapObjectsToVariables(serializedDataWithDefaultValues);
   }
 
+  @Override
+  public Map<String, Object> filterVariables(Map<String, Object> data, JsonSchema schema) {
+    return this.engineDataMapper.mapToData(this.serializationService.deserializeData(schema.asMap(), data));
+
+  }
+
 
 }

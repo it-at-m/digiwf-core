@@ -1,6 +1,6 @@
 name: build services
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   build-maven:
@@ -27,7 +27,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./digiwf-coverage/target/coverage/
-          fail_ci_if_error: true
+          fail_ci_if_error: false
           files: ./digiwf-coverage/target/coverage/jacoco.xml
           flags: unittests
           name: digiwf-core

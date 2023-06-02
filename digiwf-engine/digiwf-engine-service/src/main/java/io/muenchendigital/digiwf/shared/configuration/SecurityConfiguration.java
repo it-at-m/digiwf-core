@@ -36,6 +36,9 @@ public class SecurityConfiguration {
       "/swagger-ui/index.html", // allow access to swagger
       "/swagger-ui*/*swagger-initializer.js", // allow access to swagger
       "/swagger-ui*/**", // allow access to swagger
+      "/v3/api-docs/*", // allow access to swagger
+      "/v3/api-docs", // allow access to swagger
+      "/camunda/**" // allow access to camunda cockpit
   };
 
   private final RestTemplateBuilder restTemplateBuilder;

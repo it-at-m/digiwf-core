@@ -4,8 +4,10 @@
 
 package io.muenchendigital.digiwf.json.validation;
 
+import org.everit.json.schema.PrimitiveValidationStrategy;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
+import org.everit.json.schema.Validator;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.everit.json.schema.regexp.RE2JRegexpFactory;
 import org.json.JSONObject;
@@ -62,7 +64,10 @@ public class JsonSchemaValidator {
 
     private void validate(final Map<String, Object> schemaObject, final JSONObject data) {
         final Schema schema = this.createSchema(new JSONObject(schemaObject));
-        schema.validate(data);
+        Validator validator = Validator.builder()
+                .primitiveValidationStrategy(PrimitiveValidationStrategy.LENIENT)
+                .build();
+        validator.performValidation(schema, data);
     }
 
     private Schema createSchema(final JSONObject schemaObject) {

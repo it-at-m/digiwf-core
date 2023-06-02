@@ -5,7 +5,7 @@
     </v-flex>
     <v-flex class="d-flex justify-space-between align-center searchField">
       <search-field
-        :on-filter-change="onFilterChange"
+        :on-filter-change="(v) => $emit('changeFilter', v)"
       />
       <div class="d-flex align-center">
         <v-btn
@@ -13,7 +13,7 @@
           text
           color="primary"
           large
-          @click="loadTasks"
+          @click="$emit('loadTasks')"
         >
           <div style="min-width: 30px">
             <v-progress-circular
@@ -57,7 +57,7 @@
         hide-default-footer
       >
         <template v-for="item in tasks">
-          <slot :item="{ ...item, searchInput: syncedFilter || '' }"/>
+          <slot :item="{ ...item, searchInput: filter || '' }"/>
         </template>
       </v-data-iterator>
   </div>
@@ -81,42 +81,50 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, PropSync, Vue} from "vue-property-decorator";
 import AppToast from "@/components/UI/AppToast.vue";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {HumanTaskTO} from "@muenchen/digiwf-engine-api-internal";
 import SearchField from "./SearchField.vue";
+import {HumanTask} from "../../middleware/tasks/tasksModels";
+import {PropType} from "vue";
 
-@Component({
+export default {
   components: {SearchField, TaskItem, AppToast, AppViewLayout},
-})
-export default class TaskList extends Vue {
-  @PropSync("filter", {type: String})
-  syncedFilter!: string;
-
-  @Prop({required: false})
-  onFilterChange: ((newValue: string) => void) | undefined;
-
-  @Prop()
-  errorMessage: string | undefined;
-
-  @Prop()
-  isLoading: boolean | undefined;
-
-  @Prop()
-  tasks: HumanTaskTO[] | undefined;
-
-  @Prop()
-  viewName: string | undefined;
-
-  @Prop()
-  showAssignee: boolean | undefined;
-
-  @Emit("loadTasks")
-  loadTasks(): boolean {
-    return true;
-  }
-
+  props: {
+    filter: {
+      type: String,
+      default: "",
+    },
+    errorMessage: {
+      type: String
+    },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
+    tasks: {
+      type: Array as PropType<HumanTask[]>,
+      default: [],
+    },
+    viewName: {
+      type: String,
+      required: true
+    },
+    /**
+     * render the "Bearbeiter*in" column if true
+     */
+    showAssignee: {
+      type: Boolean,
+      default: false
+    },
+  },
+  emits: {
+    loadTasks: {
+      type: Function as PropType<() => boolean>,
+    },
+    changeFilter: {
+      type: Function as PropType<(newValue: string) => void>,
+    },
+  },
 }
 </script>

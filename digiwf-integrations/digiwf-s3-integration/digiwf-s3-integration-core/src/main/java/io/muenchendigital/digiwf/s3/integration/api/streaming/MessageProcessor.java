@@ -54,6 +54,7 @@ public class MessageProcessor {
 
             try {
                 // 7 days is max expiration
+                // No end of life is set for files to be saved
                 final List<PresignedUrl> presignedUrls = this.fileHandlingService.getPresignedUrls(List.of(event.getPath().split(";")), Method.valueOf(event.getAction()), this.presignedUrlExpiresInMinutes);
                 this.emitResponse(message.getHeaders(), presignedUrls);
             } catch (final S3AccessException | FileExistanceException e) {

@@ -27,20 +27,20 @@ public class TasksApiDelegateImpl implements TasksApiDelegate {
   public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, LocalDate followUp, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
     var result = retrieveTasksForUser.getTasksForCurrentUser(query, followUp, pagingAndSorting);
-    return ok(taskMapper.to(result));
+    return ok(taskMapper.toSchemaTO(result));
   }
 
   @Override
   public ResponseEntity<PageOfTasksTO> getAssignedGroupTasks(Integer page, Integer size, String query, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
     var result = retrieveTasksForUser.getAssignedTasksForCurrentUserGroup(query, pagingAndSorting);
-    return ok(taskMapper.to(result));
+    return ok(taskMapper.toSchemaTO(result));
   }
 
   @Override
   public ResponseEntity<PageOfTasksTO> getUnassignedGroupTasks(Integer page, Integer size, String query, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
     var result = retrieveTasksForUser.getUnassignedTasksForCurrentUserGroup(query, pagingAndSorting);
-    return ok(taskMapper.to(result));
+    return ok(taskMapper.toSchemaTO(result));
   }
 }
