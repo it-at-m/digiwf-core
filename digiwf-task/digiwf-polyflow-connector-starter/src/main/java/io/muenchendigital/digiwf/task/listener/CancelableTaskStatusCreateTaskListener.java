@@ -12,9 +12,16 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANCELABLE;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_SCHEMA_TYPE;
 
+/**
+ * Detects status of the task and writes it into a local task variable.
+ * If the task has an attached boundary error event with no ERROR_CODE of with ERROR_CODE=`default_error_code`,
+ * the task is considered as cancelable.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +30,9 @@ public class CancelableTaskStatusCreateTaskListener {
   @Order(TaskEventCollectorService.ORDER - 1001) // be before polyflow
   @EventListener(condition = "#task.eventName.equals('create')")
   public void taskCreated(DelegateTask task) {
+    if (reader(task).getLocalOptional(TASK_CANCELABLE).isPresent()) {
+      return;
+    }
     writer(task).setLocal(TASK_CANCELABLE, hasAttachedErrorBoundaryEvent(task));
   }
 

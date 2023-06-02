@@ -20,14 +20,14 @@
         :form="task.form"
         :init-model="task.variables"
         @model-changed="modelChanged"
-        @complete-form="completeTask"
+        @complete-form="handleCompleteTask"
       />
       <app-json-form
         v-else
         :value="task.variables"
         :schema="task.schema"
         @input="modelChanged"
-        @complete-form="completeTask"
+        @complete-form="handleCompleteTask"
       />
     </v-flex>
     <v-flex class="buttonWrapper">
@@ -79,7 +79,7 @@
         </loading-fab>
 
         <loading-fab
-          v-if="task.isCancelable"
+          v-if="task?.isCancelable"
           :is-loading="isCancelling"
           :has-error="hasCancelError"
           color="white"
@@ -167,8 +167,9 @@ import {
   saveTask,
   deferTask
 } from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
+import router from "../router";
+import { shouldUseTaskService } from "../utils/featureToggles";
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -213,6 +214,12 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
 
+  @Provide('taskServiceApiEndpoint')
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+
+  @Provide('shouldUseTaskService')
+  shouldUseTaskService = shouldUseTaskService();
+
   created() {
     loadTask(this.id).then(({data, error}) => {
       if (!!data) {
@@ -238,13 +245,15 @@ export default class TaskDetail extends SaveLeaveMixin {
       });
   }
 
-  completeTask(model: any) {
+  handleCompleteTask(model: any) {
     this.isCompleting = true;
     completeTask(this.id, model)
       .then(result => {
+        this.hasChanges = false;
         this.isCompleting = false;
         this.hasCompleteError = result.isError;
         this.errorMessage = result.errorMessage || "";
+        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
       })
   }
 

@@ -195,18 +195,3 @@ export const callDownloadPdfFromEngine = (taskId: string): Promise<StatusDokumen
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
   return DocumentRestControllerApiFactory(cfg).getStatusDokumentForTask(taskId).then(res => Promise.resolve(res.data));
 }
-
-
-export const callAssignTaskInEngine = (taskId: string): Promise<void> => {
-  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-  return HumanTaskRestControllerApiFactory(cfg).assignTask(taskId).then(() => Promise.resolve());
-}
-
-export const callAssignTaskInTaskService = (taskId: string, userId: string): Promise<void> => {
-  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-  return TaskApiFactory(cfg).assignTask(taskId, {
-    assignee: userId,
-  }).then(() => Promise.resolve());
-};
-
-const getFactoryFromConfig = (cfg: Configuration) => HumanTaskRestControllerApiFactory(cfg, undefined, configuredAxios);

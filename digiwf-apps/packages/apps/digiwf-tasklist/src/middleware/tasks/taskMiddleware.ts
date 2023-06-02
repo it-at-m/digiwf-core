@@ -1,8 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callAssignTaskInEngine,
-  callAssignTaskInTaskService,
-  callCancelTaskInEngine, 
+  callCancelTaskInEngine,
   callCancelTaskInTaskService,
   callCompleteTaskInEngine,
   callCompleteTaskInTaskService,
@@ -49,6 +47,9 @@ if (shouldUseTaskService()) {
 const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
+
+export const invalideUserTasks = () =>
+  queryClient.invalidateQueries([userTasksQueryId])
 const addUserToTask = (r: Task): Promise<HumanTask> => {
   return (
     r.assignee
@@ -323,9 +324,7 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
       : callCompleteTaskInEngine(taskId, variables)
   )
     .then(() => {
-      queryClient.invalidateQueries([userTasksQueryId]);
-      router.push({path: "/task"}); // FIXME: copied from old source code. Question is why /task is called (path does not exist)
-      // normally it is not needed anymore because it will redirect to the task list path before
+      invalideUserTasks()
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
         errorMessage: undefined,
@@ -350,7 +349,7 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
     .then(() => {
-      queryClient.invalidateQueries([userTasksQueryId])
+      invalideUserTasks()
       router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
@@ -392,11 +391,11 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
   const userId = store.getters["user/info"].lhmObjectId;
   return (
     shouldUseTaskService()
-      ? callAssignTaskInEngine(taskId)
-      : callAssignTaskInTaskService(taskId, userId)
+      ? callPostAssignTaskInTaskService(taskId, userId)
+      : callPostAssignTaskInEngine(taskId)
   ).then(() => {
     router.push({path: "/task/" + taskId});
-    queryClient.invalidateQueries([userTasksQueryId])
+    invalideUserTasks()
     queryClient.invalidateQueries([openGroupTasksQueryId])
     queryClient.invalidateQueries([assignedGroupTasksQueryId])
     return Promise.resolve({isError: false})

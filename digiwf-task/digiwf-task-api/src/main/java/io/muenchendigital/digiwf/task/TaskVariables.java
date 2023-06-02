@@ -33,4 +33,44 @@ public class TaskVariables {
    */
   public static final VariableFactory<Boolean> TASK_CANCELABLE = booleanVariable("app_task_cancelable");
 
+  /**
+   * Reflects the type of the schema used in task.
+   */
+  public static final VariableFactory<TaskSchemaType> TASK_SCHEMA_TYPE = customVariable("app_task_schema_type", TaskSchemaType.class);
+
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION = stringVariable("app_task_description");
+
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_DESCRIPTION_LEGACY = stringVariable("digitalwf_task_description");
+
+  /**
+   * Task variable containing the process file context of the task.
+   */
+  public static final VariableFactory<String> PROCESS_FILE_CONTEXT = stringVariable("app_file_context");
+
+  /**
+   * Task variable containing the process async config of the task.
+   */
+  public static final VariableFactory<String> PROCESS_ASYNC_CONFIG = stringVariable("app_file_s3_async_config");
+
+  /**
+   * Task variable containing the process sync config of the task.
+   */
+  public static final VariableFactory<String> PROCESS_SYNC_CONFIG = stringVariable("app_file_s3_sync_config");
+
+  /**
+   * Task variable containing the editable paths of the task.
+   */
+  public static final VariableFactory<String> FILE_PATHS = stringVariable("app_file_paths");
+
+  /**
+   * Task variable containing the readonly file paths of the task.
+   */
+  public static final VariableFactory<String> FILE_PATHS_READONLY = stringVariable("app_file_paths_readonly");
+
 }

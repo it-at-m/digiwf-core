@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        show_sql: false
   security:
     oauth2:
       resourceserver:
@@ -43,6 +44,8 @@ feign:
   client:
     config:
       jsonschema:
+        url: "http://localhost:7080/"
+      legacy-task:
         url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"

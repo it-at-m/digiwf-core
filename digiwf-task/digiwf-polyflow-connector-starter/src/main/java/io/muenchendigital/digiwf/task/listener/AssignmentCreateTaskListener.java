@@ -13,9 +13,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.*;
 
@@ -36,23 +38,31 @@ public class AssignmentCreateTaskListener {
     @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
     @EventListener(condition = "#task.eventName.equals('create')")
     public void taskCreated(final DelegateTask task) {
+        val reader = reader(task);
         if (properties.isShadow()) {
             val assignee = task.getAssignee();
             val candidateUsers = task.getCandidates().stream().filter(link -> link.getUserId() != null && link.getType().equals(IdentityLinkType.CANDIDATE)).map(IdentityLink::getUserId).collect(Collectors.toList());
             val candidateGroups = task.getCandidates().stream().map(IdentityLink::getGroupId).filter(Objects::nonNull).collect(Collectors.toList());
+            val lowerCaseCandidateGroups = toLowerCase(candidateGroups);
             val writer = writer(task);
             if (properties.isLocal()) {
-                log.debug("Shadowing assignment information for task {} in local variables: {}, {}, {}", task.getId(), assignee, candidateUsers, candidateGroups);
+                if (reader.getLocalOptional(TASK_ASSIGNEE).isPresent() || reader.getLocalOptional(TASK_CANDIDATE_USERS).isPresent() || reader.getLocalOptional(TASK_CANDIDATE_GROUPS).isPresent()) {
+                    return;
+                }
+                log.debug("Shadowing assignment information for task {} in local variables: {}, {}, {}", task.getId(), assignee, candidateUsers, lowerCaseCandidateGroups);
                 writer
                         .setLocal(TASK_ASSIGNEE, assignee)
                         .setLocal(TASK_CANDIDATE_USERS, candidateUsers)
-                        .setLocal(TASK_CANDIDATE_GROUPS, candidateGroups);
+                        .setLocal(TASK_CANDIDATE_GROUPS, lowerCaseCandidateGroups);
             } else {
-                log.debug("Shadowing assignment information for task {} in global variables: {}, {}, {}", task.getId(), assignee, candidateUsers, candidateGroups);
+                if (reader.getOptional(TASK_ASSIGNEE).isPresent() || reader.getOptional(TASK_CANDIDATE_USERS).isPresent() || reader.getOptional(TASK_CANDIDATE_GROUPS).isPresent()) {
+                    return;
+                }
+                log.debug("Shadowing assignment information for task {} in global variables: {}, {}, {}", task.getId(), assignee, candidateUsers, lowerCaseCandidateGroups);
                 writer
                         .set(TASK_ASSIGNEE, assignee)
                         .set(TASK_CANDIDATE_USERS, candidateUsers)
-                        .set(TASK_CANDIDATE_GROUPS, candidateGroups);
+                        .set(TASK_CANDIDATE_GROUPS, lowerCaseCandidateGroups);
             }
             if (properties.isDelete()) {
                 log.debug("Deleting assignment information from task attributes {}", task.getId());
@@ -61,5 +71,9 @@ public class AssignmentCreateTaskListener {
                 candidateGroups.forEach(task::deleteCandidateGroup);
             }
         }
+    }
+
+    private List<String> toLowerCase(List<String> strings) {
+        return strings.stream().map(String::toLowerCase).collect(Collectors.toList());
     }
 }

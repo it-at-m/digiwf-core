@@ -82,10 +82,10 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: U
     processName: response.processName,
     assigneeId: response.assignee,
     assigneeFormatted: user && `${user.firstName} ${user.surname} (${user.ou})`,
-    form: undefined, // TODO: check if it is correct
+    form: response.schemaType === "VUETIFY_FORM_BASE" ? response.schema : undefined,
     variables: response.variables,
     processInstanceId: response.processInstanceId,
-    schema: response.schema?.schema,
+    schema: response.schemaType === "SCHEMA_BASED" ? response.schema : undefined,
     statusDocument: false,
 
     isCancelable: response.cancelable
