@@ -65,6 +65,7 @@ import {
 
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
+import {invalideUserTasks} from "../middleware/tasks/taskMiddleware";
 
 @Component({
   components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
@@ -106,10 +107,10 @@ export default class StartProcess extends SaveLeaveMixin {
       await ServiceDefinitionControllerApiFactory(cfg).startInstance(request);
 
       this.errorMessage = "";
-      this.$store.dispatch('tasks/getTasks', true);
+      invalideUserTasks();
       this.$store.dispatch('processInstances/getProcessInstances', true);
 
-      //hier evenutell zum userTask routen
+      // hier eventuell zum userTask routen
       this.hasChanges = false;
       router.push({path: '/process'});
     } catch (error) {
