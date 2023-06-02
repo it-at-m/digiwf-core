@@ -168,6 +168,7 @@ import {
   deferTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import { shouldUseTaskService } from "../utils/featureToggles";
 
 
 @Component({
@@ -212,6 +213,12 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
+
+  @Provide('taskServiceApiEndpoint')
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+
+  @Provide('shouldUseTaskService')
+  shouldUseTaskService = shouldUseTaskService();
 
   created() {
     loadTask(this.id).then(({data, error}) => {
