@@ -1,7 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callAssignTaskInEngine,
-  callAssignTaskInTaskService,
   callCancelTaskInEngine,
   callCancelTaskInTaskService,
   callCompleteTaskInEngine,
@@ -393,8 +391,8 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
   const userId = store.getters["user/info"].lhmObjectId;
   return (
     shouldUseTaskService()
-      ? callAssignTaskInTaskService(taskId, userId)
-      : callAssignTaskInEngine(taskId)
+      ? callPostAssignTaskInTaskService(taskId, userId)
+      : callPostAssignTaskInEngine(taskId)
   ).then(() => {
     router.push({path: "/task/" + taskId});
     invalideUserTasks()
