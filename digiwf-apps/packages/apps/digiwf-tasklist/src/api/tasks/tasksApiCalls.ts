@@ -203,7 +203,7 @@ export const callAssignTaskInEngine = (taskId: string): Promise<void> => {
 }
 
 export const callAssignTaskInTaskService = (taskId: string, userId: string): Promise<void> => {
-  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+  const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
   return TaskApiFactory(cfg).assignTask(taskId, {
     assignee: userId,
   }).then(() => Promise.resolve());
