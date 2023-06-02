@@ -32,6 +32,12 @@
             <artifactId>digiwf-json-serialization-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Polyflow View -->
         <dependency>
             <groupId>io.holunda.polyflow</groupId>

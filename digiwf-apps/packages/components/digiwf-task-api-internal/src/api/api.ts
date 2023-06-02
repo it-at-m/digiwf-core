@@ -461,6 +461,259 @@ export interface UserProfile {
 }
 
 /**
+ * FileApi - axios parameter creator
+ * @export
+ */
+export const FileApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get file names for task and fieldKey
+         * @param {string} taskId Task id.
+         * @param {string} filePath File path
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFileNames: async (taskId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'taskId' is not null or undefined
+            assertParamExists('getFileNames', 'taskId', taskId)
+            // verify required parameter 'filePath' is not null or undefined
+            assertParamExists('getFileNames', 'filePath', filePath)
+            const localVarPath = `/tasks/id/{taskId}/file`
+                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (filePath !== undefined) {
+                localVarQueryParameter['filePath'] = filePath;
+            }
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get a presigned url to load, upload or delete a file for a specific field key and file name
+         * @param {string} taskId Task id.
+         * @param {string} fileName Filename.
+         * @param {string} filePath File path
+         * @param {'GET' | 'PUT' | 'POST' | 'DELETE'} requestMethod HTTP request method.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPresignedUrlForFile: async (taskId: string, fileName: string, filePath: string, requestMethod: 'GET' | 'PUT' | 'POST' | 'DELETE', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'taskId' is not null or undefined
+            assertParamExists('getPresignedUrlForFile', 'taskId', taskId)
+            // verify required parameter 'fileName' is not null or undefined
+            assertParamExists('getPresignedUrlForFile', 'fileName', fileName)
+            // verify required parameter 'filePath' is not null or undefined
+            assertParamExists('getPresignedUrlForFile', 'filePath', filePath)
+            // verify required parameter 'requestMethod' is not null or undefined
+            assertParamExists('getPresignedUrlForFile', 'requestMethod', requestMethod)
+            const localVarPath = `/tasks/id/{taskId}/file/{fileName}`
+                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
+                .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (filePath !== undefined) {
+                localVarQueryParameter['filePath'] = filePath;
+            }
+
+            if (requestMethod !== undefined) {
+                localVarQueryParameter['requestMethod'] = requestMethod;
+            }
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FileApi - functional programming interface
+ * @export
+ */
+export const FileApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FileApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get file names for task and fieldKey
+         * @param {string} taskId Task id.
+         * @param {string} filePath File path
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFileNames(taskId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames(taskId, filePath, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get a presigned url to load, upload or delete a file for a specific field key and file name
+         * @param {string} taskId Task id.
+         * @param {string} fileName Filename.
+         * @param {string} filePath File path
+         * @param {'GET' | 'PUT' | 'POST' | 'DELETE'} requestMethod HTTP request method.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPresignedUrlForFile(taskId: string, fileName: string, filePath: string, requestMethod: 'GET' | 'PUT' | 'POST' | 'DELETE', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFile(taskId, fileName, filePath, requestMethod, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * FileApi - factory interface
+ * @export
+ */
+export const FileApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FileApiFp(configuration)
+    return {
+        /**
+         * Get file names for task and fieldKey
+         * @param {string} taskId Task id.
+         * @param {string} filePath File path
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFileNames(taskId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getFileNames(taskId, filePath, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get a presigned url to load, upload or delete a file for a specific field key and file name
+         * @param {string} taskId Task id.
+         * @param {string} fileName Filename.
+         * @param {string} filePath File path
+         * @param {'GET' | 'PUT' | 'POST' | 'DELETE'} requestMethod HTTP request method.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPresignedUrlForFile(taskId: string, fileName: string, filePath: string, requestMethod: 'GET' | 'PUT' | 'POST' | 'DELETE', options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFile(taskId, fileName, filePath, requestMethod, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for getFileNames operation in FileApi.
+ * @export
+ * @interface FileApiGetFileNamesRequest
+ */
+export interface FileApiGetFileNamesRequest {
+    /**
+     * Task id.
+     * @type {string}
+     * @memberof FileApiGetFileNames
+     */
+    readonly taskId: string
+
+    /**
+     * File path
+     * @type {string}
+     * @memberof FileApiGetFileNames
+     */
+    readonly filePath: string
+}
+
+/**
+ * Request parameters for getPresignedUrlForFile operation in FileApi.
+ * @export
+ * @interface FileApiGetPresignedUrlForFileRequest
+ */
+export interface FileApiGetPresignedUrlForFileRequest {
+    /**
+     * Task id.
+     * @type {string}
+     * @memberof FileApiGetPresignedUrlForFile
+     */
+    readonly taskId: string
+
+    /**
+     * Filename.
+     * @type {string}
+     * @memberof FileApiGetPresignedUrlForFile
+     */
+    readonly fileName: string
+
+    /**
+     * File path
+     * @type {string}
+     * @memberof FileApiGetPresignedUrlForFile
+     */
+    readonly filePath: string
+
+    /**
+     * HTTP request method.
+     * @type {'GET' | 'PUT' | 'POST' | 'DELETE'}
+     * @memberof FileApiGetPresignedUrlForFile
+     */
+    readonly requestMethod: 'GET' | 'PUT' | 'POST' | 'DELETE'
+}
+
+/**
+ * FileApi - object-oriented interface
+ * @export
+ * @class FileApi
+ * @extends {BaseAPI}
+ */
+export class FileApi extends BaseAPI {
+    /**
+     * Get file names for task and fieldKey
+     * @param {FileApiGetFileNamesRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public getFileNames(requestParameters: FileApiGetFileNamesRequest, options?: AxiosRequestConfig) {
+        return FileApiFp(this.configuration).getFileNames(requestParameters.taskId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get a presigned url to load, upload or delete a file for a specific field key and file name
+     * @param {FileApiGetPresignedUrlForFileRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public getPresignedUrlForFile(requestParameters: FileApiGetPresignedUrlForFileRequest, options?: AxiosRequestConfig) {
+        return FileApiFp(this.configuration).getPresignedUrlForFile(requestParameters.taskId, requestParameters.fileName, requestParameters.filePath, requestParameters.requestMethod, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * TaskApi - axios parameter creator
  * @export
  */

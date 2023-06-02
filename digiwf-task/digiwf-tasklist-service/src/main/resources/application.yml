@@ -114,3 +114,8 @@ logging:
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
     org.camunda.community.rest.client.api: INFO
     org.springframework.security: INFO
+
+digiwf:
+  s3service:
+    topic: 'dwf-s3-${DIGIWF_ENV}'
+    httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}

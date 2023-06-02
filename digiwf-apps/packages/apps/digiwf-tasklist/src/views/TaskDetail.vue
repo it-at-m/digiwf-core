@@ -167,9 +167,9 @@ import {
   saveTask,
   deferTask
 } from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
 import router from "../router";
-
+import { shouldUseTaskService } from "../utils/featureToggles";
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -213,6 +213,12 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
+
+  @Provide('taskServiceApiEndpoint')
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+
+  @Provide('shouldUseTaskService')
+  shouldUseTaskService = shouldUseTaskService();
 
   created() {
     loadTask(this.id).then(({data, error}) => {

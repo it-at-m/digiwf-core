@@ -214,6 +214,42 @@ paths:
         404:
           description: Task not found.
 
+  /tasks/id/{taskId}/file:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+      - $ref: '#/components/parameters/FilePathParam'
+    get:
+      description: Get file names for task and fieldKey
+      operationId: getFileNames
+      tags:
+        - File
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListOfFilenames"
+
+  /tasks/id/{taskId}/file/{fileName}:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+      - $ref: '#/components/parameters/FileNameParam'
+      - $ref: '#/components/parameters/FilePathParam'
+      - $ref: '#/components/parameters/RequestMethodParam'
+    get:
+      description: Get a presigned url to load, upload or delete a file for a specific field key and file name
+      operationId: getPresignedUrlForFile
+      tags:
+        - File
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresignedUrl"
+
   /tasks/user:
     parameters:
       - $ref: '#/components/parameters/PageParam'
@@ -365,6 +401,34 @@ components:
       schema:
         type: string
 
+    FilePathParam:
+      name: filePath
+      in: query
+      description: File path
+      required: true
+      schema:
+        type: string
+
+    FileNameParam:
+      name: fileName
+      in: path
+      description: Filename.
+      required: true
+      schema:
+        type: string
+
+    RequestMethodParam:
+      name: requestMethod
+      in: query
+      description: HTTP request method.
+      required: true
+      schema:
+        type: string
+        enum:
+          - GET
+          - PUT
+          - POST
+          - DELETE
 
   schemas:
 
@@ -668,5 +732,15 @@ components:
         - firstName
         - lastName
         - primaryOrgUnit
+
+    ListOfFilenames:
+      description: List of filenames.
+      type: array
+      items:
+        type: string
+
+    PresignedUrl:
+      description: Presigned Url.
+      type: string
 
 
