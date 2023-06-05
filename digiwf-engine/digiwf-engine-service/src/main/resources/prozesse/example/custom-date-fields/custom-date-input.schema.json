@@ -6,7 +6,7 @@
     "allOf": [
       {
         "key": "sectionKey1",
-        "title": "Datumsfelder",
+        "title": "Date Input",
         "type": "object",
         "description": "Neuer custom date input",
         "x-options": {
@@ -15,7 +15,7 @@
         "allOf": [
           {
             "containerType": "group",
-            "title": "Group",
+            "title": "Datumsfelder",
             "description": "",
             "x-options": {
               "childrenClass": "pl-0"
@@ -26,6 +26,7 @@
                 "title": "Datum",
                 "x-display": "custom-date-input",
                 "type": "string",
+                "format": "date",
                 "key": "date-field",
                 "x-options": {
                   "fieldColProps": {
@@ -46,6 +47,7 @@
                 "title": "Datum mit Default Wert",
                 "x-display": "custom-date-input",
                 "type": "string",
+                "format": "date",
                 "key": "date-field-with-default",
                 "default": "2023-06-01",
                 "x-options": {

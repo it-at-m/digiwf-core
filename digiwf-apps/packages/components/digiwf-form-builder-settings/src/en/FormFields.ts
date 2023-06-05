@@ -366,6 +366,9 @@ const dateSchema = {
         "x-display": {
           "const": "custom-date-input"
         },
+        "format": {
+          "const": "date"
+        },
         "default": {
           "type": "string",
           "format": "date",
