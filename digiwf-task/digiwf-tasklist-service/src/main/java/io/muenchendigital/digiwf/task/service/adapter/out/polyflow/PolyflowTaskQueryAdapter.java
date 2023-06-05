@@ -4,6 +4,7 @@ import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.auth.User;
 import io.holunda.polyflow.view.query.task.TaskForIdQuery;
+import io.holunda.polyflow.view.query.task.TasksForCandidateUserAndGroupQuery;
 import io.holunda.polyflow.view.query.task.TasksForGroupQuery;
 import io.holunda.polyflow.view.query.task.TasksForUserQuery;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
@@ -33,6 +34,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
     var filters = buildFilters(query, followUp);
     var result = taskQueryClient.query(new TasksForUserQuery(
         new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
+        true, // assigned to me only
         pagingAndSorting.getPageIndex(),
         pagingAndSorting.getPageSize(),
         pagingAndSorting.getSanitizedSort(),
@@ -48,7 +50,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
   @Override
   public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
     var filters = buildFilters(query, null);
-    var result = taskQueryClient.query(new TasksForGroupQuery(
+    var result = taskQueryClient.query(new TasksForCandidateUserAndGroupQuery(
         currentUser,
         includeAssigned,
         pagingAndSorting.getPageIndex(),

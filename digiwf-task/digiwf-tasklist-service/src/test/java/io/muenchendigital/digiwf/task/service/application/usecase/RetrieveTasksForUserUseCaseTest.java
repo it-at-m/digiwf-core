@@ -53,6 +53,23 @@ class RetrieveTasksForUserUseCaseTest {
   }
 
   @Test
+  void getsUnassignedTasksForCurrentUserGroupAndCandidate() {
+
+    val content = generateTasks(11, Sets.newHashSet(), Sets.newHashSet("group1"), null);
+    content.addAll(generateTasks(6, Sets.newHashSet("0123456789", "987654321"), Sets.newHashSet(), null));
+
+    val pageOfTasks = new PageOfTasks(content, 17, pagingAndSorting);
+
+    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), anyBoolean(), any())).thenReturn(pageOfTasks);
+
+    val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
+    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, false, pagingAndSorting);
+    verifyNoMoreInteractions(taskQueryPort);
+  }
+
+
+  @Test
   void getsUnassignedTasksForCurrentUserGroup() {
 
     val pageOfTasks = new PageOfTasks(
