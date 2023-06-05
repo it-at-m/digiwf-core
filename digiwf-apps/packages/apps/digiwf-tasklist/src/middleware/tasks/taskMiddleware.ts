@@ -39,6 +39,7 @@ import {queryClient} from "../queryClient";
 import store from "../../store";
 import {getUserInfo} from "../user/userMiddleware";
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
+import {addFinishedTaskIds, removeFinishedTasks} from "./finishedTaskFilter";
 
 if (shouldUseTaskService()) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
@@ -60,10 +61,10 @@ const addUserToTask = (r: Task): Promise<HumanTask> => {
 };
 
 const handlePageOfTaskResponse = (response: PageOfTasks) => {
-  const tasksWithUserPromises = response.content?.map(addUserToTask);
+  const tasksWithUserPromises = response.content?.map(addUserToTask) || [];
   return Promise.all<HumanTask>(tasksWithUserPromises)
     .then(tasks => Promise.resolve<Page<HumanTask>>({
-        content: tasks,
+        content: removeFinishedTasks(tasks),
         totalElements: response.totalElements,
         totalPages: response.totalPages!,
       })
@@ -324,7 +325,8 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
       : callCompleteTaskInEngine(taskId, variables)
   )
     .then(() => {
-      invalideUserTasks()
+      addFinishedTaskIds(taskId);
+      invalideUserTasks();
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
         errorMessage: undefined,
