@@ -34,7 +34,7 @@ describe("time", () => {
       expect(getDateFormat("2022-01-01")).toBe("yyyy-MM-dd");
     });
     it("should return 'yyyy.MM.dd' by correct input", () => {
-      expect(getDateFormat("2022-01-01")).toBe("yyyy-MM-dd");
+      expect(getDateFormat("2022.01.01")).toBe("yyyy.MM.dd");
     });
     it("should return undefined if input does not match to any formats", () => {
       expect(getDateFormat("2022_01_01")).toBeUndefined();
