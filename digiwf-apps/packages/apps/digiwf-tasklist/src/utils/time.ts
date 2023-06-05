@@ -24,8 +24,25 @@ export const getCurrentDate = () => DateTime
 
 /**
  *
- * @param date format: YYYY.MM.DD
+ * @param date format: YYYY.MM.DD or YYYY-MM-DD
+ * @throws Error: when format of date is incorrect
  */
-export const dateToIsoDateTime = (date: string): string => DateTime
-  .fromFormat(date, "yyyy.MM.dd", {locale: "de", zone: "Europe/Berlin"})
-  .toISO();
+export const dateToIsoDateTime = (date: string): string => {
+  const format = getDateFormat(date)
+  if(!format) {
+    throw new Error("incorrect date format")
+  }
+
+  return DateTime
+    .fromFormat(date, format, {locale: "de", zone: "Europe/Berlin"})
+    .toISO();
+}
+export const getDateFormat = (date: string) => {
+  if(/\d{4}\.\d{2}\.\d{2}/g.test(date) ) {
+    return "yyyy.MM.dd"
+  }
+  if(/\d{4}-\d{2}-\d{2}/g.test(date) ) {
+    return "yyyy-MM-dd"
+  }
+  return undefined
+}
