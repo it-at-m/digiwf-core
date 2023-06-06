@@ -91,7 +91,7 @@ services:
       - internal
 
   digiwf-gateway:
-    image: itatm/digiwf-gateway:dev
+    image: itatm/digiwf-gateway:local
     depends_on:
       init-keycloak:
         condition: service_completed_successfully
@@ -110,7 +110,7 @@ services:
       - internal
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8081
   digiwf-tasklist:
-    image: itatm/digiwf-tasklist:dev
+    image: itatm/digiwf-tasklist:0.21.9
     ports:
       - "8091:8080"
     profiles:
