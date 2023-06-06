@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.task;
+package io.muenchendigital.digiwf.task.enricher;
 
 import io.holunda.camunda.taskpool.api.task.TaskIdentityWithPayloadAndCorrelations;
 import io.holunda.polyflow.taskpool.collector.task.TaskVariableLoader;
@@ -6,16 +6,16 @@ import io.holunda.polyflow.taskpool.collector.task.VariablesEnricher;
 import io.holunda.polyflow.taskpool.collector.task.enricher.ProcessVariablesCorrelator;
 import io.holunda.polyflow.taskpool.collector.task.enricher.ProcessVariablesFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
-import java.util.ArrayList;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 @Component
 @RequiredArgsConstructor
@@ -34,20 +34,20 @@ public class CustomTaskCommandEnricher implements VariablesEnricher {
 
         // Payload enrichment
         command.getPayload().putAll(
-            processVariablesFilter.filterVariables(
-                command.getSourceReference().getDefinitionKey(),
-                command.getTaskDefinitionKey(),
-                variablesTyped
-            )
+                processVariablesFilter.filterVariables(
+                        command.getSourceReference().getDefinitionKey(),
+                        command.getTaskDefinitionKey(),
+                        variablesTyped
+                )
         );
 
         // Correlations
         command.getCorrelations().putAll(
-            processVariablesCorrelator.correlateVariables(
-                command.getSourceReference().getDefinitionKey(),
-                command.getTaskDefinitionKey(),
-                variablesTyped
-            )
+                processVariablesCorrelator.correlateVariables(
+                        command.getSourceReference().getDefinitionKey(),
+                        command.getTaskDefinitionKey(),
+                        variablesTyped
+                )
         );
 
         // Mark as enriched
@@ -60,26 +60,16 @@ public class CustomTaskCommandEnricher implements VariablesEnricher {
         variables.forEach((key, value) -> {
             // JSON
             if (value instanceof JacksonJsonNode) {
-                data.put(key, mapJsonToData((JacksonJsonNode) value));
-            }
-            // candidate user and groups
-            else if (value instanceof ArrayList) {
-                data.put(key, SerializationUtils.serialize((ArrayList) value));
+                val jacksonJsonNode = (JacksonJsonNode) value;
+                data.putValue(key, Map.ofEntries(
+                        entry("type", "json"),
+                        entry("value", jacksonJsonNode.value().toString())));
             } else {
-                data.put(key, value);
+                data.putValue(key, value);
             }
         });
         return data;
     }
 
-    byte[] mapJsonToData(final JacksonJsonNode object) {
-        Object out;
-        if (object.isArray()) {
-            out = new JSONArray(object.toString()).toList();
-        } else {
-            out = new JSONObject(object.toString()).toMap();
-        }
-        return SerializationUtils.serialize(out);
-    }
 }
 
