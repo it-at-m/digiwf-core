@@ -43,7 +43,7 @@
           <v-list-item>
             <v-list-item-title>
               <v-switch
-                :value="!isTaskserviceUsed"
+                v-model="isDigiWFClassicUsed"
                 @click.stop.prevent="switchBetaVersion"
                 label="DigiWF-Classic nutzen"
               ></v-switch>
@@ -51,8 +51,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
-
     </v-app-bar>
 
     <v-navigation-drawer
@@ -192,7 +190,12 @@ import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-in
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
-import {setShouldUseTaskService, shouldShowBetaButton, shouldUseTaskService} from "./utils/featureToggles";
+import {
+  setShouldUseTaskService,
+  shouldShowBetaButton,
+  shouldUseTaskService,
+  switchShouldUseTaskService
+} from "./utils/featureToggles";
 
 @Component({
   components: {AppMenuList}
@@ -206,7 +209,7 @@ export default class App extends Vue {
   loggedIn = true;
 
   showUseBetaButton = false;
-  isTaskserviceUsed = false;
+  isDigiWFClassicUsed = true;
 
   created(): void {
     this.loadData();
@@ -217,8 +220,7 @@ export default class App extends Vue {
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
-
-    this.isTaskserviceUsed = shouldUseTaskService();
+    this.isDigiWFClassicUsed = !shouldUseTaskService();
     this.showUseBetaButton = shouldShowBetaButton();
   }
 
@@ -229,10 +231,8 @@ export default class App extends Vue {
   }
 
   switchBetaVersion(): void {
-    setShouldUseTaskService(!this.isTaskserviceUsed)
-    this.isTaskserviceUsed = !this.isTaskserviceUsed;
+    switchShouldUseTaskService()
   }
-
 
   @Watch("$store.state.menu.open")
   onMenuChanged(menuOpen: boolean): void {

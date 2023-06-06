@@ -345,7 +345,7 @@ interface SetFollowUpResult {
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
   return (
     shouldUseTaskService()
-      ? callDeferTask(taskId, dateToIsoDateTime(followUp))
+      ? handleDeferTaskInTaskService(taskId, followUp)
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
     .then(() => {
@@ -357,10 +357,24 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
         isError: false,
       })
     })
-    .catch(_ => Promise.resolve<SetFollowUpResult>({
-      errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
-      isError: true,
-    }))
+    .catch(error => {
+      return Promise.resolve<SetFollowUpResult>({
+        errorMessage: error.message === "incorrect date format"
+          ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
+          : "Die Aufgabe konnte nicht gespeichert werden.",
+        isError: true,
+      })
+    })
+}
+
+const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
+  let date: string | undefined = undefined
+  try {
+    date = dateToIsoDateTime(followUp)
+  } catch (e: any) {
+    return Promise.reject(e)
+  }
+  return callDeferTask(taskId, date)
 }
 
 interface SaveTaskResult {
