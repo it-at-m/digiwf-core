@@ -63,7 +63,7 @@ public class CustomTaskCommandEnricher implements VariablesEnricher {
                 val jacksonJsonNode = (JacksonJsonNode) value;
                 data.putValue(key, Map.ofEntries(
                         entry("type", "json"),
-                        entry("value", jacksonJsonNode.value().toString())));
+                        entry("value", jacksonJsonNode.toString())));
             } else {
                 data.putValue(key, value);
             }

@@ -1,7 +1,9 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.schema;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.val;
 import org.camunda.bpm.engine.variable.Variables;
-import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.camunda.spin.plugin.variable.SpinValues;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +14,8 @@ import java.util.Map;
 // FIXME -> Hard copy of "io.muenchendigital.digiwf.engine.mapper.EngineDataMapper" from digiwf-engine-service
 @Mapper(componentModel = "spring")
 public interface EngineDataMapper {
+
+  ObjectMapper objectMapper = new ObjectMapper();
 
   default Map<String, Object> mapObjectsToVariables(final Map<String, Object> data) {
     final JSONObject jsonData = new JSONObject(data);
@@ -31,8 +35,13 @@ public interface EngineDataMapper {
   default Map<String, Object> mapToData(final Map<String, Object> variables) {
     final Map<String, Object> data = Variables.createVariables();
     variables.forEach((key, value) -> {
-      if (value instanceof JacksonJsonNode) {
-        data.put(key, this.mapToData((JacksonJsonNode) value));
+      if (value instanceof Map) {
+        Map<?, ?> mValue = (Map<?, ?>) value;
+        if (mValue.get("type").equals("json")) {
+          data.put(key, mapToData(mValue.get("value").toString()));
+        } else {
+          data.put(key, value);
+        }
       } else {
         data.put(key, value);
       }
@@ -45,10 +54,15 @@ public interface EngineDataMapper {
   }
 
   //TODO Is there a more elegant way?
-  default Object mapToData(final JacksonJsonNode object) {
-    if (object.isArray()) {
-      return new JSONArray(object.toString()).toList();
+  default Object mapToData(final String jsonString) {
+    try {
+      val jacksonNode = objectMapper.readTree(jsonString);
+      if (jacksonNode.isArray()) {
+        return new JSONArray(jacksonNode.toString()).toList();
+      }
+      return new JSONObject(jacksonNode.toString()).toMap();
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
-    return new JSONObject(object.toString()).toMap();
   }
 }
