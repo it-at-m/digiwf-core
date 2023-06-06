@@ -35,7 +35,7 @@ polyflow:
             candidate-users: app_task_candidate_users
             candidate-groups: app_task_candidate_groups
           enricher:
-            type: processVariables
+            type: custom
           importer:
             enabled: true
             task-filter-type: eventstore
