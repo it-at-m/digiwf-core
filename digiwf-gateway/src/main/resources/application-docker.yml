@@ -10,6 +10,14 @@ spring:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
+        - id: tasklist-dockerized
+          uri: http://host.docker.internal:${TASKSERVICE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-tasklist-service/rest/**
+          filters:
+            - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend-dockerized
           uri: http://digiwf-tasklist:8080/
           predicates:

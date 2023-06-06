@@ -19,10 +19,12 @@ import {queryClient} from "./middleware/queryClient";
 import {initStatusCodeHandling} from "./api/statusCodeHandling";
 import {startSessionReloading} from "./api/sessionReloadHandler";
 import {PageBasedPaginationProvider} from "./middleware/PageBasedPaginationProvider";
+import {initShouldUseTaskServiceFeatureToggle} from "./utils/featureToggles";
 
 
 initStatusCodeHandling();
 startSessionReloading();
+initShouldUseTaskServiceFeatureToggle();
 Vue.config.productionTip = false;
 
 Vue.use(VueQueryPlugin, {

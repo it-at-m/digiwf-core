@@ -29,6 +29,7 @@ npm run serve
 
 # Run a specific application from packages/apps
 npm run serve:forms
+npm run serve:tasklist
 ```
 
 The `npm run dev` command is a shortcut for `npx lerna run watch --stream --parallel` command.
