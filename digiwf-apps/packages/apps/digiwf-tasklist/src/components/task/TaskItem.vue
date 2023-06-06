@@ -3,7 +3,7 @@
     :aria-label="task.inFinishProcess ? 'Aufgabe wird gerade abgeschlossen' :'Aufgabe '+task.name+ ' öffnen'"
     class="d-flex align-center"
     :style="task.inFinishProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
-    :to="{ path: '/task/'+task.id }"
+    :to="!task.inFinishProcess && {path: '/task/'+task.id }"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
@@ -57,6 +57,7 @@
       class="d-flex justify-end align-center ml-2"
     >
       <v-menu
+        v-if="!task.inFinishProcess"
         top
         offset-x
       >
