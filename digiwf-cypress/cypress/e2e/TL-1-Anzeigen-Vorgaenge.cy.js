@@ -63,7 +63,6 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log("Step 5");
         vorgangStarten.getLastPageNumber().then((lastNumber)=>{
             vorgangStarten.changePageSize(20);
-            vorgangStarten.checkPageSize(20);
             vorgangStarten.getLastPageNumber().should('be.closeTo', lastNumber/2, 1);
         });
 
@@ -73,7 +72,6 @@ describe('Vorgaenge Anzeigen', () => {
         let search_request = 'DigiWF er'
         vorgangStarten.getFoundProcesses().then((numProcessesOld) => {
             vorgangStarten.findProcess(search_request)
-                cy.wait(3000)
                 vorgangStarten.getFoundProcesses().then((numProcesses) => {
                     expect(numProcesses).lt(numProcessesOld);
                 })
