@@ -1,4 +1,4 @@
-import {addFinishedTaskIds, FINISHED_TASK_IDS_KEY, getFinishedTaskIds, removeFinishedTasks} from "./finishedTaskFilter";
+import {addFinishedTaskIds, FINISHED_TASK_IDS_KEY, getFinishedTaskIds} from "./finishedTaskFilter";
 import {HumanTask} from "./tasksModels";
 
 /*
@@ -41,20 +41,6 @@ describe("finishedTaskFilter", () => {
     });
   });
 
-  describe("removeFinishedTasks", () => {
-    it("should filter tasks corrrectly", ()=> {
-      localStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","c"]')
-
-      const taskA = createDummyTask("a");
-      const taskB = createDummyTask("b");
-      const taskC = createDummyTask("c");
-
-      const result = removeFinishedTasks([taskA, taskB, taskC]);
-      expect(result.length).toBe(1);
-      expect(result[0].id).toBe(taskB.id);
-    });
-  })
-
   describe("getFinishedTaskIds", () => {
     it("should return parsed array from sessionStorage", () => {
       localStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
@@ -79,5 +65,6 @@ const createDummyTask = (id: string): HumanTask => ({
   createTime:"createTime",
   name: `Task ${id}`,
   processName: "processName",
-  description: "description"
+  description: "description",
+  inFinishProcess: false,
 })

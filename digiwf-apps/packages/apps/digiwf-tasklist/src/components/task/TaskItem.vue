@@ -1,7 +1,8 @@
 <template>
   <v-list-item
-    :aria-label="'Aufgabe '+task.name+ ' öffnen'"
+    :aria-label="task.inFinishProcess ? 'Aufgabe wird gerade abgeschlossen' :'Aufgabe '+task.name+ ' öffnen'"
     class="d-flex align-center"
+    :style="task.inFinishProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
     :to="{ path: '/task/'+task.id }"
   >
     <v-flex
@@ -13,6 +14,13 @@
           {{ task.name }}
         </text-highlight>
       </h2>
+      <p
+        v-if="task.inFinishProcess"
+        class="grey--text"
+        style="font-size: 0.9rem"
+      >
+        <v-icon>mdi-progress-clock</v-icon> Task wird aktuell abgeschlossen
+      </p>
       <p
         v-if="task.followUpDate"
         class="grey--text"

@@ -6,7 +6,8 @@ export interface HumanTask {
   readonly name: string
   readonly description?: string;
   readonly assigneeId?: string;
-  readonly assigneeFormatted?: string  // FIXME formatted assignee
+  readonly assigneeFormatted?: string;
+  readonly inFinishProcess: boolean;
 
 
 }

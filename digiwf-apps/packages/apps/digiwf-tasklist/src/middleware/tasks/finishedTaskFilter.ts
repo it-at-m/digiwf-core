@@ -20,8 +20,5 @@ const setFinishedTaskIds = (ids: string[]) => {
   sessionStorage.setItem(FINISHED_TASK_IDS_KEY, JSON.stringify(ids));
 }
 
-export const removeFinishedTasks = (tasks: HumanTask[]): HumanTask[] => {
-  const finishedTasks = getFinishedTaskIds();
-  return tasks.filter(it => !finishedTasks.includes(it.id));
-}
+export const isInFinishedProcess = (taskId: string): boolean => getFinishedTaskIds().includes(taskId);
 export const addFinishedTaskIds = (taskId: string) => setFinishedTaskIds([...getFinishedTaskIds(), taskId]);
