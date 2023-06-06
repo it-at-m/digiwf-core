@@ -1,0 +1,72 @@
+{
+  "key": "custom-date-input",
+  "schema": {
+    "type": "object",
+    "x-display": "tabs",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Date Input",
+        "type": "object",
+        "description": "Neuer custom date input",
+        "x-options": {
+          "sectionsTitlesClasses": []
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Datumsfelder",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "date-field": {
+                "fieldType": "date",
+                "title": "Datum",
+                "x-display": "custom-date-input",
+                "type": "string",
+                "format": "date",
+                "key": "date-field",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "date-field-with-default": {
+                "fieldType": "date",
+                "title": "Datum mit Default Wert",
+                "x-display": "custom-date-input",
+                "type": "string",
+                "format": "date",
+                "key": "date-field-with-default",
+                "default": "2023-06-01",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
+          }
+        ]
+      }
+    ]
+  }
+}
