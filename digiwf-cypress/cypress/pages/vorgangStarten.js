@@ -5,7 +5,6 @@ class VorgangStarten extends Page{
         headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(1)'),
         searchBox: () => cy.get('#suchfeld'),
         listElement: (elementNumber) => cy.get(`.v-data-iterator > div:nth-child(1) > div:nth-child(${elementNumber})`),
-        processList: () => cy.get(`.v-data-iterator > div:nth-child(1)`),
         pageNumber: () => cy.get(`.mr-4`),
         numberOfProcesses: () => cy.get(`span.mr-1:nth-child(5)`),
         rightArrow: () => cy.get(`.ml-1`),
@@ -27,8 +26,26 @@ class VorgangStarten extends Page{
         this.elements.pageSize().should('contain.text',size)
     }
 
-    getListSize(){
-        return this.elements.processList
+    getPageSize(){
+        return this.elements.pageSize().invoke('text').then((txt) => {
+            return parseInt((txt));
+        });
+    }
+
+    getFoundProcesses(){
+        return this.elements.numberOfProcesses().invoke('text').then((txt) => {
+            return parseInt((txt.split(" "))[0]);
+        })
+    }
+
+    getLastPageNumber(){
+        return this.elements.pageNumber().invoke('text').then((txt) => {
+            return (parseInt((txt.split(" "))[4]));
+        })
+    }
+
+    getListElement(num){
+        return this.elements.listElement(num)
     }
 
     findProcess(text){
@@ -37,12 +54,6 @@ class VorgangStarten extends Page{
 
     clickListElement(elementNumber){
         this.elements.listElement(elementNumber).click()
-    }
-
-    getFoundProcesses(){
-        return this.elements.numberOfProcesses().invoke('text').then((txt) => {
-            return parseInt((txt.split(" "))[0]);
-        })
     }
 
     clickRightArrow(){
@@ -70,15 +81,6 @@ class VorgangStarten extends Page{
             }
         })
     }
-
-    getLastPageNumber(){
-        return this.elements.pageNumber().invoke('text').then((txt) => {
-            return (parseInt((txt.split(" "))[4]));
-        })
-    }
-
-
-
 }
 
 module.exports = new VorgangStarten();
