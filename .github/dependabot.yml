@@ -22,3 +22,10 @@ updates:
       - "Technical Dept"
     schedule:
       interval: weekly
+  - package-ecosystem: npm
+    directory: "/digiwf-apps"
+    target-branch: "dev"
+    labels:
+      - "Technical Dept"
+    schedule:
+      interval: weekly
