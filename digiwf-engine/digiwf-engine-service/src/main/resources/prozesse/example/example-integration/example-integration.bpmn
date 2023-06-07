@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_11454is" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Example-Integration" name="Example Integration" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="example-integration-start-form">
+      <bpmn:outgoing>Flow_0epw3c6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_1lewv4i">
+      <bpmn:incoming>Flow_17e1rk1</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:callActivity id="Activity_1481t7n" name="Call Example Integration" camunda:modelerTemplate="de.muenchen.digitalwf.templates.example-integration" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in source="digiwf-example-integration-local-01" target="app_topic_name" />
+        <camunda:in source="genericEvent" target="app_message_name" />
+        <camunda:in source="exampleIntegration" target="app_type_name" />
+        <camunda:in source="${processInstanceId}" target="processInstanceId" />
+        <camunda:in source="${FORMFIELD_someData}" target="someData" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02m8s4s</bpmn:incoming>
+      <bpmn:outgoing>Flow_17e1rk1</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_17e1rk1" sourceRef="Activity_1481t7n" targetRef="Event_1lewv4i" />
+    <bpmn:sequenceFlow id="Flow_02m8s4s" sourceRef="Activity_090kvbz" targetRef="Activity_1481t7n" />
+    <bpmn:boundaryEvent id="Event_1hunkeq" attachedToRef="Activity_1481t7n">
+      <bpmn:outgoing>Flow_0zworjj</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_16jo4bm" />
+    </bpmn:boundaryEvent>
+    <bpmn:userTask id="Activity_090kvbz" name="User Task" camunda:assignee="${FORMFIELD_User}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">example-integration-form</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vnh00j</bpmn:incoming>
+      <bpmn:outgoing>Flow_02m8s4s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0cztw3a">
+      <bpmn:incoming>Flow_0epw3c6</bpmn:incoming>
+      <bpmn:incoming>Flow_0zworjj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vnh00j</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0epw3c6" sourceRef="StartEvent_1" targetRef="Gateway_0cztw3a" />
+    <bpmn:sequenceFlow id="Flow_0vnh00j" sourceRef="Gateway_0cztw3a" targetRef="Activity_090kvbz" />
+    <bpmn:sequenceFlow id="Flow_0zworjj" sourceRef="Event_1hunkeq" targetRef="Gateway_0cztw3a" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Example-Integration">
+      <bpmndi:BPMNShape id="Event_1lewv4i_di" bpmnElement="Event_1lewv4i">
+        <dc:Bounds x="692" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hjpz5f_di" bpmnElement="Activity_1481t7n">
+        <dc:Bounds x="520" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dpt429_di" bpmnElement="Activity_090kvbz">
+        <dc:Bounds x="340" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0cztw3a_di" bpmnElement="Gateway_0cztw3a" isMarkerVisible="true">
+        <dc:Bounds x="235" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hunkeq_di" bpmnElement="Event_1hunkeq">
+        <dc:Bounds x="602" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_17e1rk1_di" bpmnElement="Flow_17e1rk1">
+        <di:waypoint x="620" y="120" />
+        <di:waypoint x="692" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02m8s4s_di" bpmnElement="Flow_02m8s4s">
+        <di:waypoint x="440" y="120" />
+        <di:waypoint x="520" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0epw3c6_di" bpmnElement="Flow_0epw3c6">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="235" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vnh00j_di" bpmnElement="Flow_0vnh00j">
+        <di:waypoint x="285" y="120" />
+        <di:waypoint x="340" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zworjj_di" bpmnElement="Flow_0zworjj">
+        <di:waypoint x="620" y="178" />
+        <di:waypoint x="620" y="198" />
+        <di:waypoint x="260" y="198" />
+        <di:waypoint x="260" y="145" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
