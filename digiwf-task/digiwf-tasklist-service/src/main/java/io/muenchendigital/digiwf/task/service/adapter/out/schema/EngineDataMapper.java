@@ -55,7 +55,6 @@ public class EngineDataMapper {
         return SpinValues.jsonValue(object.toString()).create();
     }
 
-    //TODO Is there a more elegant way?
     public Object mapToData(final String jsonString) {
         try {
             val jacksonNode = objectMapper.readTree(jsonString);
