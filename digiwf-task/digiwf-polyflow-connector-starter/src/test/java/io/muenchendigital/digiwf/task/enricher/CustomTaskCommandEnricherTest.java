@@ -45,7 +45,7 @@ class CustomTaskCommandEnricherTest {
     }
 
     @Test
-    public void is_disabled_by_properties() {
+    public void enrich_task() {
         val variables = generateVariables();
         when(taskVariableLoader.getTypeVariables(task)).thenReturn(variables);
         when(processVariablesFilter.filterVariables(any(), any(), any())).thenAnswer(i -> i.getArguments()[2]);
