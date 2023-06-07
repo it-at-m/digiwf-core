@@ -38,13 +38,6 @@
             <version>${minio.version}</version>
         </dependency>
 
-        <!-- Spring Cloud Stream -->
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!--apache-->
         <dependency>
             <groupId>org.apache.commons</groupId>
