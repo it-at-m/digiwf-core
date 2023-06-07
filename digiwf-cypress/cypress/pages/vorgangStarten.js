@@ -73,14 +73,34 @@ class VorgangStarten extends Page{
         }
     }
 
-    goToLastPage(){
-        this.elements.pageNumber().invoke('text').then((txt) => {
-            for(let i=1; i<=(parseInt((txt.split(" "))[4])-parseInt((txt.split(" "))[2])); i++){
-                this.elements.rightArrow().click();
-                this.checkPageNumber(parseInt((txt.split(" "))[2])+i)
-            }
-        })
+    goToLastPage() {
+        let iteration = 1;
+        this.isLast(iteration);
     }
+
+    isLast(iteration) {
+        const maxIterations = 1000;
+        cy.log(iteration.toString())
+        if (iteration > maxIterations) {
+            cy.log("Maximum iterations reached. Exiting loop.");
+            return;
+        }
+        this.elements.rightArrow().then(($btn) => {
+            if ($btn.is(":disabled")) {
+                return true;
+            } else {
+                return cy.wrap($btn).click().then(() => {
+                    return false;
+                });
+            }
+        }).then((last) => {
+            if (!last) {
+                iteration = iteration+1
+                this.isLast(iteration++);
+            }
+        });
+    }
+
 }
 
 module.exports = new VorgangStarten();
