@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="email-example-V02_3fe75308-ab8c-410d-a09b-2b4b856c15fd" name="example-email-V02" isExecutable="true">
+    <bpmn:documentation />
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1" name="Start" camunda:formKey="email-example-V02_sendMail">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_0ryqzye</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_0soknkl" name="Mit Anhängen?">
+      <bpmn:incoming>Flow_0ryqzye</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n9f7m4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vgikue</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0ryqzye" sourceRef="StartEvent_1" targetRef="Gateway_0soknkl" />
+    <bpmn:callActivity id="Activity_0g2rzzy" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
+        <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
+        <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
+        <camunda:in sourceExpression="digiwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0n9f7m4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rqxdmr</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_10z9ygh" name="Anhänge laden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
+        <camunda:out source="presignedUrls" target="${presignedUrls}" />
+        <camunda:in sourceExpression="GET" target="action" />
+        <camunda:in sourceExpression="${app_file_context}/test" target="path" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1vgikue</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lp426t</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1lp426t" sourceRef="Activity_10z9ygh" targetRef="Activity_1olcqz6" />
+    <bpmn:callActivity id="Activity_1olcqz6" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
+        <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
+        <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
+        <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
+        <camunda:in sourceExpression="digiwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1lp426t</bpmn:incoming>
+      <bpmn:outgoing>Flow_06uw57q</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_1gfmojl">
+      <bpmn:incoming>Flow_06uw57q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_06uw57q" sourceRef="Activity_1olcqz6" targetRef="Event_1gfmojl" />
+    <bpmn:endEvent id="Event_0d0izic">
+      <bpmn:incoming>Flow_0rqxdmr</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0rqxdmr" sourceRef="Activity_0g2rzzy" targetRef="Event_0d0izic" />
+    <bpmn:sequenceFlow id="Flow_0n9f7m4" sourceRef="Gateway_0soknkl" targetRef="Activity_0g2rzzy">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FORMFIELD_Anhang != true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1vgikue" sourceRef="Gateway_0soknkl" targetRef="Activity_10z9ygh">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FORMFIELD_Anhang}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-example-V02_3fe75308-ab8c-410d-a09b-2b4b856c15fd">
+      <bpmndi:BPMNShape id="Gateway_0soknkl_di" bpmnElement="Gateway_0soknkl" isMarkerVisible="true">
+        <dc:Bounds x="255" y="75" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="51" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04xeovz_di" bpmnElement="Activity_0g2rzzy">
+        <dc:Bounds x="380" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0i7oz0v_di" bpmnElement="Activity_10z9ygh">
+        <dc:Bounds x="380" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08ku4qo_di" bpmnElement="Activity_1olcqz6">
+        <dc:Bounds x="560" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gfmojl_di" bpmnElement="Event_1gfmojl">
+        <dc:Bounds x="742" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0d0izic_di" bpmnElement="Event_0d0izic">
+        <dc:Bounds x="552" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="112" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="118" y="125" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ryqzye_di" bpmnElement="Flow_0ryqzye">
+        <di:waypoint x="148" y="100" />
+        <di:waypoint x="255" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lp426t_di" bpmnElement="Flow_1lp426t">
+        <di:waypoint x="480" y="230" />
+        <di:waypoint x="560" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06uw57q_di" bpmnElement="Flow_06uw57q">
+        <di:waypoint x="660" y="230" />
+        <di:waypoint x="742" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rqxdmr_di" bpmnElement="Flow_0rqxdmr">
+        <di:waypoint x="480" y="97" />
+        <di:waypoint x="552" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n9f7m4_di" bpmnElement="Flow_0n9f7m4">
+        <di:waypoint x="305" y="100" />
+        <di:waypoint x="380" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vgikue_di" bpmnElement="Flow_1vgikue">
+        <di:waypoint x="280" y="125" />
+        <di:waypoint x="280" y="230" />
+        <di:waypoint x="380" y="230" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

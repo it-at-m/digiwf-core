@@ -1,6 +1,6 @@
 {
-  "name": "Send simple E-Mail",
-  "id": "de.muenchen.digitalwf.templates.send-simple-email",
+  "name": "Send E-Mail",
+  "id": "de.muenchen.digitalwf.templates.send-email",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
@@ -20,7 +20,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_topic_name",
         "target": "app_topic_name"
@@ -35,7 +35,7 @@
       "editable": false,
       "value": "genericEvent",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_message_name",
         "target": "app_message_name"
@@ -50,7 +50,7 @@
       "editable": false,
       "value": "sendMailFromEventBus",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_type_name",
         "target": "app_type_name"
@@ -64,7 +64,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "receivers",
         "target": "receivers"
@@ -74,11 +74,39 @@
       }
     },
     {
+      "label": "Receiver (CC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receiversCc",
+        "target": "receiversCc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Receiver (BCC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receiversBcc",
+        "target": "receiversBcc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
       "label": "Subject",
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "subject",
         "target": "subject"
@@ -92,7 +120,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "body",
         "target": "body"
@@ -106,10 +134,25 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "replyTo",
         "target": "replyTo"
+      }
+    },
+    {
+      "label": "Attachment Paths (S3)",
+      "type": "String",
+      "value": "",
+      "description": "Array of presigned urls created with s3 integration",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "attachments",
+        "target": "attachments"
+      },
+      "constraints": {
+        "notEmpty": false
       }
     },
     {
@@ -124,8 +167,5 @@
         "notEmpty": false
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }
