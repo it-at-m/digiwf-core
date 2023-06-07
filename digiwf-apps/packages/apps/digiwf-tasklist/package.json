@@ -10,9 +10,9 @@
   "dependencies": {
     "@muenchen/digiwf-date-input": "^0.21.9",
     "@muenchen/digiwf-engine-api-internal": "^0.21.9",
-    "@muenchen/digiwf-task-api-internal": "^0.21.9",
     "@muenchen/digiwf-form-renderer": "^0.21.9",
     "@muenchen/digiwf-multi-file-input": "^0.21.9",
+    "@muenchen/digiwf-task-api-internal": "^0.21.9",
     "@muenchen/vjsf": "^2.21.6",
     "@tanstack/vue-query": "^4.19.1",
     "core-js": "^3.8.3",
@@ -45,6 +45,7 @@
     "@vue/vue2-jest": "^28.1.0",
     "eslint": "^6.8.0",
     "jest": "^28.1.3",
+    "jest-environment-jsdom": "^29.5.0",
     "stylus": "^0.54.8",
     "ts-jest": "^28.0.8"
   }
