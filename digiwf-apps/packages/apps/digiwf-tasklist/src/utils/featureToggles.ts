@@ -28,6 +28,7 @@ export const shouldUseTaskService = (): boolean => {
 }
 
 export const setShouldUseTaskService = (newValue: boolean) => {
+  setCookie(COOKIE_USE_TASKSERVICE_KEY, newValue ? "true" : "false");
   localStorage.setItem(LOCAL_STORAGE_USE_TASKSERVICE_KEY, newValue ? "true" : "false")
 }
 
@@ -58,4 +59,8 @@ function getCookie(cname: string): string {
     }
   }
   return "";
+}
+
+function setCookie(cname: string, value: string): void {
+  document.cookie = `${cname}=${value}`;
 }
