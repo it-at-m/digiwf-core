@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@ConditionalOnMissingBean(CorrelateMessagePort.class)
-@Component
 @RequiredArgsConstructor
 public class ProcessAdapter implements CorrelateMessagePort {
 

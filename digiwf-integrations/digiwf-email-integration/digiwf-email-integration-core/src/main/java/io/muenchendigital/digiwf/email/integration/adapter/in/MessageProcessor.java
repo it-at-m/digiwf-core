@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 
 import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
-@Configuration
 @RequiredArgsConstructor
 public class MessageProcessor {
 
