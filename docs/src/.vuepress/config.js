@@ -212,6 +212,15 @@ module.exports = {
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
                             ]
+                        },
+                        {
+                            title: 'Templates und Beispiele',
+                            collapsable: true,
+                            children: [
+                                'templates/bpmn/',
+                                'templates/element-templates/',
+                                'templates/examples/'
+                            ]
                         }
                     ],
                     '/apis/': [
