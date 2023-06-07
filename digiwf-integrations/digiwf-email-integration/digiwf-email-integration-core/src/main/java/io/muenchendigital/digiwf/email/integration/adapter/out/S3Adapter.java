@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
-@ConditionalOnMissingBean
+@ConditionalOnMissingBean(LoadMailAttachmentPort.class)
 @Component
 @RequiredArgsConstructor
 public class S3Adapter implements LoadMailAttachmentPort {
