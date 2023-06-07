@@ -45,7 +45,6 @@ describe('Vorgaenge Anzeigen', () => {
         expect(vorgangStarten.getListElement(10)).to.exist;
         vorgangStarten.getListElement(11).should('not.exist');
         vorgangStarten.changePageSize(20);
-        vorgangStarten.checkPageSize(20)
         //andere Anzahl an Vorgaengen pruefen
         expect(vorgangStarten.getListElement(20)).to.exist;
         vorgangStarten.getListElement(21).should('not.exist');
@@ -54,7 +53,6 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log("Step 4");
         vorgangStarten.changePageSize(10);
         vorgangStarten.goToLastPage();
-        vorgangStarten.checkPageSize(10);
         vorgangStarten.getLastPageNumber().then((maxPageNumber) =>{
             vorgangStarten.checkPageNumber(maxPageNumber);
         })

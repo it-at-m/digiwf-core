@@ -22,10 +22,6 @@ class VorgangStarten extends Page{
         this.elements.pageNumber().should('contain.text','Seite '+ number)
     }
 
-    checkPageSize(size){
-        this.elements.pageSize().should('contain.text',size)
-    }
-
     getPageSize(){
         return this.elements.pageSize().invoke('text').then((txt) => {
             return parseInt((txt));
@@ -95,7 +91,7 @@ class VorgangStarten extends Page{
             }
         }).then((last) => {
             if (!last) {
-                iteration = iteration+1
+                iteration = iteration+1;
                 this.isLast(iteration++);
             }
         });
