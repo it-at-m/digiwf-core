@@ -21,6 +21,7 @@ export const mapTaskFromEngineService = (response: HumanTaskTO): HumanTask => {
     processName: response.processName,
     assigneeId: response.assignee,
     assigneeFormatted: response.assigneeFormatted,
+    inFinishProcess: false,
   }
 }
 
@@ -51,7 +52,7 @@ export const mapTaskDetailsFromEngineService = (response: HumanTaskDetailTO): Hu
   }
 }
 
-export const mapTaskFromTaskService = (response: Task, user?: User): HumanTask => {
+export const mapTaskFromTaskService = (response: Task, inFinishProcess: boolean , user?: User): HumanTask => {
   return {
     createTime: response.createTime ? formatIsoDateTime(response.createTime) : "-",
     followUpDate: response.followUpDate ? formatIsoDate(response.followUpDate) : undefined,
@@ -61,6 +62,7 @@ export const mapTaskFromTaskService = (response: Task, user?: User): HumanTask =
     processName: response.processName,
     assigneeId: response.assignee,
     assigneeFormatted: user && user.fullInfo,
+    inFinishProcess,
   };
 }
 
@@ -72,7 +74,7 @@ export const mapTaskPageFromTaskService = (response: PageOfTasks, taskMapperFunc
   }
 }
 
-export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: User): HumanTaskDetails => {
+export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, inFinishProcess: boolean, user?: User): HumanTaskDetails => {
   return {
     createTime: response.createTime ? formatIsoDateTime(response.createTime) : "-",
     followUpDate: response.followUpDate ? formatIsoDate(response.followUpDate) : undefined,
@@ -87,7 +89,7 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, user?: U
     processInstanceId: response.processInstanceId,
     schema: response.schemaType === "SCHEMA_BASED" ? response.schema : undefined,
     statusDocument: false,
-
+    inFinishProcess,
     isCancelable: response.cancelable
   }
 }
