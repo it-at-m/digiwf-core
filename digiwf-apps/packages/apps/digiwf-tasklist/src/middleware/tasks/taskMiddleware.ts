@@ -39,6 +39,7 @@ import {queryClient} from "../queryClient";
 import store from "../../store";
 import {getUserInfo} from "../user/userMiddleware";
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
+import {addFinishedTaskIds, isInFinishedProcess} from "./finishedTaskFilter";
 
 if (shouldUseTaskService()) {
   console.log("feature toggle enabled. New tasklist service is used for network requests.")
@@ -56,11 +57,11 @@ const addUserToTask = (r: Task): Promise<HumanTask> => {
       ? getUserInfo(r.assignee)
       : Promise.resolve(undefined)
   )
-    .then(user => Promise.resolve(mapTaskFromTaskService(r, user)))
+    .then(user => Promise.resolve(mapTaskFromTaskService(r, isInFinishedProcess(r.id), user)))
 };
 
 const handlePageOfTaskResponse = (response: PageOfTasks) => {
-  const tasksWithUserPromises = response.content?.map(addUserToTask);
+  const tasksWithUserPromises = response.content?.map(addUserToTask) || [];
   return Promise.all<HumanTask>(tasksWithUserPromises)
     .then(tasks => Promise.resolve<Page<HumanTask>>({
         content: tasks,
@@ -209,9 +210,9 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
     .then(taskResponse => {
       return (taskResponse.assignee
           ? getUserInfo(taskResponse.assignee)
-          : Promise.resolve()
-      ).then(user => {
-        const taskDetails = mapTaskDetailsFromTaskService(taskResponse);
+          : Promise.resolve<undefined>(undefined)
+      ).then((user) => {
+        const taskDetails = mapTaskDetailsFromTaskService(taskResponse, isInFinishedProcess(taskId), user);
         return Promise.resolve<LoadTaskResult>({
           data: {
             task: taskDetails,
@@ -324,7 +325,8 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
       : callCompleteTaskInEngine(taskId, variables)
   )
     .then(() => {
-      invalideUserTasks()
+      addFinishedTaskIds(taskId);
+      invalideUserTasks();
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
         errorMessage: undefined,

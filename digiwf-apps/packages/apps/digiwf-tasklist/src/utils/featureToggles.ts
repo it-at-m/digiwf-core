@@ -10,15 +10,12 @@ const COOKIE_SHOW_BETA_BUTTON_KEY = "FEATURE_SHOW_BETA_BUTTON";
 export const initShouldUseTaskServiceFeatureToggle = () => {
   const useTaskServiceCookieValue: boolean = getCookie(COOKIE_USE_TASKSERVICE_KEY).trim().toLowerCase() === "true";
   const showBetaButtonCookieValue: boolean = getCookie(COOKIE_SHOW_BETA_BUTTON_KEY).trim().toLowerCase() === "true";
-  const isTaskServiceActivatedInLocalStorage = localStorage.getItem(LOCAL_STORAGE_USE_TASKSERVICE_KEY);
 
-  if(useTaskServiceCookieValue) {
-    setShouldUseTaskService(true);
-  }
-  if(isTaskServiceActivatedInLocalStorage === null) {
+  // if cookie and localStorage values are different, cookie wins
+  if (showBetaButtonCookieValue !== shouldUseTaskService()) {
     setShouldUseTaskService(useTaskServiceCookieValue);
-    return
   }
+
   if(!showBetaButtonCookieValue) { // if the user has not the permission to change
     setShouldUseTaskService(useTaskServiceCookieValue);
   }
@@ -28,6 +25,7 @@ export const shouldUseTaskService = (): boolean => {
 }
 
 export const setShouldUseTaskService = (newValue: boolean) => {
+  setCookie(COOKIE_USE_TASKSERVICE_KEY, newValue ? "true" : "false");
   localStorage.setItem(LOCAL_STORAGE_USE_TASKSERVICE_KEY, newValue ? "true" : "false")
 }
 
@@ -58,4 +56,8 @@ function getCookie(cname: string): string {
     }
   }
   return "";
+}
+
+function setCookie(cname: string, value: string): void {
+  document.cookie = `${cname}=${value}`;
 }
