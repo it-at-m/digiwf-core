@@ -70,7 +70,15 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
       })
     )
 };
-
+/**
+ *
+ * possible sort columns: https://github.com/holunda-io/camunda-bpm-taskpool/blob/develop/view/jpa/src/main/kotlin/io/holunda/polyflow/view/jpa/task/TaskEntity.kt
+ *
+ * @param page
+ * @param size
+ * @param query
+ * @param followUp
+ */
 const handleTaskLoadingFromTaskService = (
   page: Ref<number>,
   size: Ref<number>,
@@ -81,7 +89,8 @@ const handleTaskLoadingFromTaskService = (
     page.value,
     size.value,
     query.value,
-    followUp.value ? getCurrentDate() : undefined
+    followUp.value ? getCurrentDate() : undefined,
+    "-createdDate"
   ).then(handlePageOfTaskResponse);
 }
 
