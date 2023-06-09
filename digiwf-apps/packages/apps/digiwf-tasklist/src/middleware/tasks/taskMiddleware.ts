@@ -42,7 +42,7 @@ import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 import {addFinishedTaskIds, isInFinishedProcess} from "./finishedTaskFilter";
 
 if (shouldUseTaskService()) {
-  console.log("feature toggle enabled. New tasklist service is used for network requests.")
+  console.log("feature toggle enabled. New tasklist service is used for network requests.");
 }
 
 const userTasksQueryId = "user-tasks";
@@ -50,14 +50,14 @@ const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
 
 export const invalideUserTasks = () =>
-  queryClient.invalidateQueries([userTasksQueryId])
+  queryClient.invalidateQueries([userTasksQueryId]);
 const addUserToTask = (r: Task): Promise<HumanTask> => {
   return (
     r.assignee
       ? getUserInfo(r.assignee)
       : Promise.resolve(undefined)
   )
-    .then(user => Promise.resolve(mapTaskFromTaskService(r, isInFinishedProcess(r.id), user)))
+    .then(user => Promise.resolve(mapTaskFromTaskService(r, isInFinishedProcess(r.id), user)));
 };
 
 const handlePageOfTaskResponse = (response: PageOfTasks) => {
@@ -68,36 +68,36 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
         totalElements: response.totalElements,
         totalPages: response.totalPages!,
       })
-    )
+    );
 };
 
 const handleTaskLoadingFromTaskService = (
   page: Ref<number>,
   size: Ref<number>,
   query: Ref<string | undefined>,
-  followUp: Ref<boolean | undefined>
+  shouldIgnoreFollowUpTasks: Ref<boolean | undefined>
 ) => {
   return callGetTasksFromTaskService(
     page.value,
     size.value,
     query.value,
-    followUp.value ? getCurrentDate() : undefined
+    shouldIgnoreFollowUpTasks.value ? undefined : getCurrentDate()
   ).then(handlePageOfTaskResponse);
-}
+};
 
 export const useMyTasksQuery = (
   page: Ref<number>,
   size: Ref<number>,
   query: Ref<string | undefined>,
-  followUp: Ref<boolean | undefined>
+  shouldIgnoreFollowUp: Ref<boolean | undefined>
 ) => useQuery({
-  queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
+  queryKey: [userTasksQueryId, page.value, size.value, query.value, !shouldIgnoreFollowUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService()
-      ? handleTaskLoadingFromTaskService(page, size, query, followUp)
-      : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value)
-        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+      ? handleTaskLoadingFromTaskService(page, size, query, shouldIgnoreFollowUp)
+      : callGetTasksFromEngine(page.value, size.value, query.value, !shouldIgnoreFollowUp.value)
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
   },
 });
 
@@ -112,7 +112,7 @@ export const useOpenGroupTasksQuery = (
       ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value)
-        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
   },
 });
 
@@ -127,7 +127,7 @@ export const useAssignedGroupTasksQuery = (
       ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value)
         .then(handlePageOfTaskResponse)
       : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value)
-        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)))
+        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
   },
 });
 
@@ -149,8 +149,8 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
     myTasks: computed(() => myTasksData?.value?.totalElements || 0),
     assignedGroupTasks: computed(() => assignGroupData?.value?.totalElements || 0),
     openGroupTasks: computed(() => openGroupData?.value?.totalElements || 0),
-  }
-}
+  };
+};
 
 export const useAssignTaskMutation = () => {
   const queryClient = useQueryClient();
@@ -160,18 +160,19 @@ export const useAssignTaskMutation = () => {
     mutationFn: (taskId) => {
       return shouldUseTaskService()
         ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
-        : callPostAssignTaskInEngine(taskId)
+        : callPostAssignTaskInEngine(taskId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["user-tasks"]);
       queryClient.invalidateQueries(["assigned-group-tasks"]);
       queryClient.invalidateQueries(["open-group-tasks"]);
     },
-  })
-}
+  });
+};
 
 export interface LoadTaskFromEngineResultData {
   readonly task: HumanTaskDetails;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   readonly model?: { [key: string]: object; }
 
   /**
@@ -202,8 +203,8 @@ export interface LoadTaskResult {
 export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
   return shouldUseTaskService()
     ? loadTaskFromTaskService(taskId)
-    : loadTasksFromEngine(taskId)
-}
+    : loadTasksFromEngine(taskId);
+};
 
 const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
   return callGetTaskDetailsFromTaskService(taskId)
@@ -222,21 +223,21 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
             cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
             downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
           }
-        })
-      })
+        });
+      });
 
     }).catch((error: Error | AxiosError) => {
       if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
         return Promise.resolve({
           error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
-        })
+        });
       } else {
         return Promise.resolve({
           error: "Die Aufgabe konnte nicht geladen werden."
-        })
+        });
       }
     });
-}
+};
 
 /**
  * requests for TaskDetailsView
@@ -249,12 +250,12 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
 const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
   const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
     if (task.form && task.form.buttons) {
-      return task.form.buttons.statusPdf!.showButton || false
+      return task.form.buttons.statusPdf!.showButton || false;
     } else if (task.statusDocument) {
       return true;
     }
     return false; // I guess that is the default value, before it could be nullable
-  }
+  };
 
   return callGetTaskDetailsFromEngine(id).then(taskDetails => {
     return Promise.resolve<LoadTaskResult>({
@@ -267,25 +268,24 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
         downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
       },
       error: undefined,
-    })
+    });
   })
     .catch((error: Error | AxiosError) => {
       if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
         return Promise.resolve({
           error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
-        })
+        });
       } else {
         return Promise.resolve({
           error: "Die Aufgabe konnte nicht geladen werden."
-        })
+        });
       }
-    })
-}
+    });
+};
 
 export interface CancelTaskResult {
   readonly isError: boolean;
   readonly errorMessage?: string;
-
 }
 
 /**
@@ -298,7 +298,7 @@ export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
       ? callCancelTaskInTaskService(taskId)
       : callCancelTaskInEngine(taskId)
   ).then(() => {
-    queryClient.invalidateQueries([userTasksQueryId])
+    queryClient.invalidateQueries([userTasksQueryId]);
     router.push({path: "/task"});
 
     return Promise.resolve<CancelTaskResult>({
@@ -311,7 +311,7 @@ export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
       errorMessage: "Die Aufgabe konnte nicht abgebrochen werden."
     });
   });
-}
+};
 
 interface CompleteTaskResult {
   readonly errorMessage?: string;
@@ -335,9 +335,9 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
       return Promise.resolve<CompleteTaskResult>({
         isError: true,
         errorMessage: "Die Aufgabe konnte nicht abgeschlossen werden."
-      })
+      });
     });
-}
+};
 
 interface SetFollowUpResult {
   readonly errorMessage?: string;
@@ -351,13 +351,13 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
     .then(() => {
-      invalideUserTasks()
+      invalideUserTasks();
       router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
         errorMessage: undefined,
         isError: false,
-      })
+      });
     })
     .catch(error => {
       return Promise.resolve<SetFollowUpResult>({
@@ -365,19 +365,19 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
           ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
           : "Die Aufgabe konnte nicht gespeichert werden.",
         isError: true,
-      })
-    })
-}
+      });
+    });
+};
 
 const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
-  let date: string | undefined = undefined
+  let date: string | undefined = undefined;
   try {
-    date = dateToIsoDateTime(followUp)
+    date = dateToIsoDateTime(followUp);
   } catch (e: any) {
-    return Promise.reject(e)
+    return Promise.reject(e);
   }
-  return callDeferTask(taskId, date)
-}
+  return callDeferTask(taskId, date);
+};
 
 interface SaveTaskResult {
   readonly errorMessage?: string;
@@ -396,8 +396,8 @@ export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult
     .catch(_ => Promise.resolve({
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
-    }))
-}
+    }));
+};
 
 interface AssignTaskResult {
   readonly isError: boolean;
@@ -411,12 +411,12 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
       : callPostAssignTaskInEngine(taskId)
   ).then(() => {
     router.push({path: "/task/" + taskId});
-    invalideUserTasks()
-    queryClient.invalidateQueries([openGroupTasksQueryId])
-    queryClient.invalidateQueries([assignedGroupTasksQueryId])
-    return Promise.resolve({isError: false})
-  }).catch(() => Promise.resolve({isError: true}))
-}
+    invalideUserTasks();
+    queryClient.invalidateQueries([openGroupTasksQueryId]);
+    queryClient.invalidateQueries([assignedGroupTasksQueryId]);
+    return Promise.resolve({isError: false});
+  }).catch(() => Promise.resolve({isError: true}));
+};
 
 interface DownloadPdfResult {
   readonly errorMessage?: string;
@@ -436,15 +436,15 @@ export const downloadPDFFromEngine = (taskId: string): Promise<DownloadPdfResult
       return Promise.resolve({
         isError: false,
         errorMessage: undefined,
-      })
+      });
     })
     .catch(_ => {
       return Promise.resolve({
         isError: true,
         errorMessage: "Das Statusdokument konnte nicht erstellt werden."
-      })
+      });
     });
-}
+};
 
 const base64ToArrayBuffer = (base64: string): Uint8Array => {
   const binaryString = window.atob(base64);
@@ -454,4 +454,4 @@ const base64ToArrayBuffer = (base64: string): Uint8Array => {
     bytes[i] = binaryString.charCodeAt(i);
   }
   return bytes;
-}
+};
