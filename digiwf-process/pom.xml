@@ -11,7 +11,7 @@
     <parent>
         <artifactId>digiwf-core</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.10-SNAPSHOT</version>
+        <version>0.17.11-SNAPSHOT</version>
     </parent>
 
     <modules>
