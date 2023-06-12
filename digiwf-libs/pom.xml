@@ -19,6 +19,7 @@
         <module>digiwf-spring-cloudstream-utils</module>
         <module>digiwf-camunda-prometheus</module>
         <module>digiwf-message</module>
+        <module>digiwf-spring-security</module>
     </modules>
 
 </project>

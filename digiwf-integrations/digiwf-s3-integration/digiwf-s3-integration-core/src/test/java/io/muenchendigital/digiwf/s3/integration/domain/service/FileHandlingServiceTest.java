@@ -1,13 +1,13 @@
 package io.muenchendigital.digiwf.s3.integration.domain.service;
 
 import io.minio.http.Method;
-import io.muenchendigital.digiwf.s3.integration.domain.exception.FileExistanceException;
+import io.muenchendigital.digiwf.s3.integration.domain.exception.FileExistenceException;
 import io.muenchendigital.digiwf.s3.integration.domain.model.FileData;
 import io.muenchendigital.digiwf.s3.integration.domain.model.PresignedUrl;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.entity.File;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.exception.S3AccessException;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.FileRepository;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.S3Repository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.File;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AccessException;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +72,7 @@ class FileHandlingServiceTest {
     }
 
     @Test
-    void getPresignedUrlForFile() throws S3AccessException, FileExistanceException {
+    void getPresignedUrlForFile() throws S3AccessException, FileExistenceException {
         final String pathToFile = "folder/test.txt";
         final int expiresInMinutes = 5;
         final List<Method> actions = List.of(Method.GET, Method.PUT, Method.DELETE);
@@ -94,7 +94,7 @@ class FileHandlingServiceTest {
                     Assertions.assertEquals(presignedUrl.getPath(), pathToFile);
                 });
                 Mockito.reset();
-            } catch (final FileExistanceException | S3AccessException e) {
+            } catch (final FileExistenceException | S3AccessException e) {
                 Assertions.fail(e.getMessage());
             }
         });
@@ -114,7 +114,7 @@ class FileHandlingServiceTest {
     }
 
     @Test
-    void getPresignedUrlsForDirectory() throws S3AccessException, FileExistanceException {
+    void getPresignedUrlsForDirectory() throws S3AccessException, FileExistenceException {
         final String pathToDirectory = "folder/";
         final Set<String> files = Set.of("folder/test.txt", "folder/test1.txt");
         final int expiresInMinutes = 5;
@@ -139,7 +139,7 @@ class FileHandlingServiceTest {
                     Assertions.assertTrue(files.stream().anyMatch(file -> file.equals(presignedUrl.getPath())));
                 });
                 Mockito.reset();
-            } catch (final FileExistanceException | S3AccessException e) {
+            } catch (final FileExistenceException | S3AccessException e) {
                 Assertions.fail(e.getMessage());
             }
         });
@@ -159,7 +159,7 @@ class FileHandlingServiceTest {
     }
 
     @Test
-    void getPresignedUrlsForMultipleFiles() throws S3AccessException, FileExistanceException {
+    void getPresignedUrlsForMultipleFiles() throws S3AccessException, FileExistenceException {
         final List<String> pathToFiles = List.of("folder/first.txt", "folder/second.txt", "folder/third.txt");
         final int expiresInMinutes = 5;
         final List<Method> actions = List.of(Method.GET, Method.PUT, Method.DELETE);
@@ -182,7 +182,7 @@ class FileHandlingServiceTest {
                     Assertions.assertEquals(presignedUrl.getAction(), action.toString());
                 });
                 Mockito.reset();
-            } catch (final FileExistanceException | S3AccessException e) {
+            } catch (final FileExistenceException | S3AccessException e) {
                 Assertions.fail(e.getMessage());
             }
         });
@@ -209,11 +209,11 @@ class FileHandlingServiceTest {
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;
         Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
-        Assertions.assertThrows(FileExistanceException.class, () -> this.fileHandlingService.getFile(pathToFile, expiresInMinutes));
+        Assertions.assertThrows(FileExistenceException.class, () -> this.fileHandlingService.getFile(pathToFile, expiresInMinutes));
     }
 
     @Test
-    void getFile() throws S3AccessException, FileExistanceException {
+    void getFile() throws S3AccessException, FileExistenceException {
         final String pathToFile = "folder/test.txt";
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;
@@ -240,7 +240,7 @@ class FileHandlingServiceTest {
         fileData.setExpiresInMinutes(5);
 
         Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
-        Assertions.assertThrows(FileExistanceException.class, () -> this.fileHandlingService.saveFile(fileData));
+        Assertions.assertThrows(FileExistenceException.class, () -> this.fileHandlingService.saveFile(fileData));
         // happy path is tested in updateFile
     }
 
@@ -297,11 +297,11 @@ class FileHandlingServiceTest {
         final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
 
         Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.empty());
-        Assertions.assertThrows(FileExistanceException.class, () -> this.fileHandlingService.updateEndOfLife(pathToFile, endOfLife));
+        Assertions.assertThrows(FileExistenceException.class, () -> this.fileHandlingService.updateEndOfLife(pathToFile, endOfLife));
     }
 
     @Test
-    void updateEndOfLife() throws FileExistanceException {
+    void updateEndOfLife() throws FileExistenceException {
         final String pathToFile = "folder/test.txt";
         final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
 
@@ -327,11 +327,11 @@ class FileHandlingServiceTest {
 
         Mockito.reset(this.s3Repository);
         Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
-        Assertions.assertThrows(FileExistanceException.class, () -> this.fileHandlingService.deleteFile(pathToFile, expiresInMinutes));
+        Assertions.assertThrows(FileExistenceException.class, () -> this.fileHandlingService.deleteFile(pathToFile, expiresInMinutes));
     }
 
     @Test
-    void deleteFile() throws S3AccessException, FileExistanceException {
+    void deleteFile() throws S3AccessException, FileExistenceException {
         final String pathToFile = "folder/test.txt";
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;

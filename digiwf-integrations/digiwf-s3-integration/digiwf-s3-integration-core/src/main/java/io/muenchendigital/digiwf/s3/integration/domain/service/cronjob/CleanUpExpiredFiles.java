@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.s3.integration.domain.service.cronjob;
 
 import io.muenchendigital.digiwf.s3.integration.domain.service.FileHandlingService;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.entity.File;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.FileRepository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.File;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class CleanUpExpiredFiles {
 
     private final FileRepository fileRepository;
-
     private final FileHandlingService fileHandlingService;
 
     /**

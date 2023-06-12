@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.s3.integration.domain.service.cronjob;
 
 import io.muenchendigital.digiwf.s3.integration.domain.service.FileHandlingService;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.entity.File;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.exception.S3AccessException;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.exception.S3AndDatabaseAsyncException;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.FileRepository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.File;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AccessException;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AndDatabaseAsyncException;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

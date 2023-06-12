@@ -5,8 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.muenchendigital.digiwf.s3.integration.api.validator.FolderInFilePath;
+import io.muenchendigital.digiwf.s3.integration.domain.model.FileData;
 import io.muenchendigital.digiwf.s3.integration.domain.service.FileHandlingService;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.FileRepository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ import java.time.LocalDate;
 public class FileDataDto {
 
     @NotEmpty
-    @Size(max = FileRepository.LENGTH_PATH_TO_FILE)
+    @Size(max = FileData.LENGTH_PATH_TO_FILE)
     @FolderInFilePath
     private String pathToFile;
 
@@ -29,7 +30,7 @@ public class FileDataDto {
      * Definition of the validity period of the presigned URL.
      */
     @NotNull
-    @Min(FileHandlingService.MIN_EXPIRES_IN_MINUTES)
+    @Min(FileData.MIN_EXPIRES_IN_MINUTES)
     private Integer expiresInMinutes;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
