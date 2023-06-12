@@ -9,7 +9,7 @@ beforeEach(() => {
     cy.loginUser();
 })
 
-describe('template spec', () => {
+describe('was ist digiwf', () => {
     it('passes', () => {
 
         //Test auf korrekten Startzustand
@@ -18,7 +18,7 @@ describe('template spec', () => {
         //Vorgang starten
         meineAufgaben.openVorgangStarten();
         vorgangStarten.findProcess("DigiWF erleben");
-        vorgangStarten.clickFirstElement();
+        vorgangStarten.clickListElement(1);
         startDigiWFErleben.checkHeadline("DigiWF erleben");
         startDigiWFErleben.tickWasIstDigiWF();
         startDigiWFErleben.clickLosGehts();
