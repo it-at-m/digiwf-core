@@ -316,7 +316,7 @@ const numberSchema = {
       properties: {
         ...basicValidation.properties,
         "minimum": {
-          "type": "integer",
+          "type": "number",
           "title": "min. value",
           "x-props": {
             "outlined": true,
@@ -324,7 +324,7 @@ const numberSchema = {
           }
         },
         "maximum": {
-          "type": "integer",
+          "type": "number",
           "title": "max. value",
           "x-props": {
             "outlined": true,
