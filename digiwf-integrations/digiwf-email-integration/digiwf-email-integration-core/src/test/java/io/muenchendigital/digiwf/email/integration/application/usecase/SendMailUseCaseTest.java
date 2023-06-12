@@ -66,7 +66,7 @@ class SendMailUseCaseTest {
 
         final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, fromAddress);
 
-        sendMailUseCase.sendMail("processInstanceIde", this.mail);
+        sendMailUseCase.sendMail("processInstanceIde", "messageName", this.mail);
 
         final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
 
@@ -81,7 +81,7 @@ class SendMailUseCaseTest {
         final Mail mailWithAttachments = this.mail;
         mailWithAttachments.setAttachments(List.of(new PresignedUrl("http://localhost:9000/some-url", "test.txt", "GET")));
         final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, this.fromAddress);
-        sendMailUseCase.sendMail("processInstanceIde", mailWithAttachments);
+        sendMailUseCase.sendMail("processInstanceIde", "messageName", mailWithAttachments);
 
         final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
         verify(this.javaMailSender).send(messageArgumentCaptor.capture());
@@ -100,7 +100,7 @@ class SendMailUseCaseTest {
         final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, this.fromAddress);
 
         Assertions.assertThrows(BpmnError.class, () -> {
-            sendMailUseCase.sendMail("processInstanceIde", this.mail);
+            sendMailUseCase.sendMail("processInstanceIde", "messageName", this.mail);
         });
     }
 

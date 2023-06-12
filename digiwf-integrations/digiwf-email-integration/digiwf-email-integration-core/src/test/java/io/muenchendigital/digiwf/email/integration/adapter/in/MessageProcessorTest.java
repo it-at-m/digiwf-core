@@ -17,6 +17,7 @@ import org.springframework.messaging.MessageHeaders;
 import javax.validation.ValidationException;
 import java.util.Map;
 
+import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -41,7 +42,7 @@ class MessageProcessorTest {
             "digiwf@muenchen.de",
             null
     );
-    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId));
+    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
 
     @BeforeEach
     void setup() {
@@ -63,12 +64,12 @@ class MessageProcessorTest {
     void testEmailIntegrationSendsMailSuccessfully() {
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailMock, times(1)).sendMail(processInstanceId, mail);
+        verify(sendMailMock, times(1)).sendMail(processInstanceId, "messageName", mail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMail(any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMail(any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -78,7 +79,7 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMail(any(), any());
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMail(any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -88,7 +89,7 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMail(any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMail(any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);

@@ -15,6 +15,7 @@ import org.springframework.messaging.Message;
 import javax.validation.ValidationException;
 import java.util.function.Consumer;
 
+import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @RequiredArgsConstructor
@@ -29,7 +30,10 @@ public class MessageProcessor {
     public Consumer<Message<Mail>> emailIntegration() {
         return message -> {
             try {
-                this.mailUseCase.sendMail(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class), message.getPayload());
+                this.mailUseCase.sendMail(
+                        message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME, String.class),
+                        message.getPayload());
                 this.monitoringService.sendMailSucceeded();
             } catch (final BpmnError bpmnError) {
                 this.monitoringService.sendMailFailed();

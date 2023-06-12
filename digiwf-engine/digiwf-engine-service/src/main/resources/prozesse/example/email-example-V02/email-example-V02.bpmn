@@ -21,7 +21,7 @@
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
         <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
-        <camunda:in sourceExpression="digiwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
         <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0n9f7m4</bpmn:incoming>

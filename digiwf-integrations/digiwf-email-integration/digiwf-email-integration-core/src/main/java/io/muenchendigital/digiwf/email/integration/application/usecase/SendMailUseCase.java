@@ -40,7 +40,7 @@ public class SendMailUseCase implements SendMail {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMail(final String processInstanceIde, @Valid final Mail mail) throws BpmnError {
+    public void sendMail(final String processInstanceIde, final String messageName, @Valid final Mail mail) throws BpmnError {
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
 
         try {
@@ -82,9 +82,9 @@ public class SendMailUseCase implements SendMail {
             log.error("Sending mail failed with exception: {}", ex.getMessage());
             throw new BpmnError("MAIL_SENDING_FAILED", ex.getMessage());
         }
-        
+
         final Map<String, Object> correlatePayload = new HashMap<>();
         correlatePayload.put("mailSentStatus", true);
-        this.correlateMessagePort.correlateMessage(processInstanceIde, "mailSent", correlatePayload);
+        this.correlateMessagePort.correlateMessage(processInstanceIde, messageName, correlatePayload);
     }
 }
