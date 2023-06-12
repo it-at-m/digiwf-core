@@ -52,7 +52,7 @@ public class PolyflowTaskQueryAdapterTest {
         true,
         0,
         100,
-        "+createdDate",
+        "-createTime",
         Lists.newArrayList("task.textSearch%" + query)
     ));
   }
@@ -82,7 +82,7 @@ public class PolyflowTaskQueryAdapterTest {
         true,
         0,
         100,
-        "+createdDate",
+        "-createTime",
         Lists.newArrayList("task.textSearch%" + query)
     ));
   }
