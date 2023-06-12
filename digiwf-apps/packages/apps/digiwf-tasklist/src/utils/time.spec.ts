@@ -1,4 +1,4 @@
-import {dateToIsoDateTime, formatIsoDate, formatIsoDateTime, getDateFormat} from "./time";
+import {dateToIsoDateTime, formatIsoDate, formatIsoDateTime, getDateFormat, getDateFromIsoDateTime} from "./time";
 
 describe("time", () => {
   describe("formatIsoDateTime", () => {
@@ -12,6 +12,12 @@ describe("time", () => {
     it("should format IsoDateTime correctly", () => {
       const result = formatIsoDate("2009-01-02T12:00:00+01:00");
       expect(result).toBe("02.01.2009");
+    })
+  })
+  describe("getDateFromIsoDateTime", () => {
+    it("should format IsoDateTime to IsoDate correctly", () => {
+      const result = getDateFromIsoDateTime("2009-01-02T12:00:00+01:00");
+      expect(result).toBe("2009-01-02");
     })
   })
 

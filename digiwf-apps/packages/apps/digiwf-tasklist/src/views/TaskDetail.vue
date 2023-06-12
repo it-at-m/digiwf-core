@@ -225,7 +225,7 @@ export default class TaskDetail extends SaveLeaveMixin {
       if (!!data) {
         this.task = data.task;
         this.model = data.model;
-        this.followUpDate = data.followUpDate?.replaceAll(".", "-"); // only for usage in v-date-picker
+        this.followUpDate = data.followUpDate
         this.cancelText = data.cancelText
         this.hasDownloadButton = data.hasDownloadButton;
         this.downloadButtonText = data.downloadButtonText;
