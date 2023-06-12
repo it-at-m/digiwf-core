@@ -96,7 +96,7 @@ public class RetrieveTasksIT {
   public void retrieve_tasks_assigned_to_user() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/user?sort=+taskId")
+            get(BASE_PATH + "/tasks/user?sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -118,7 +118,7 @@ public class RetrieveTasksIT {
   public void retrieve_tasks_assigned_to_user_paged() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/user?page=0&size=1&sort=+taskId")
+            get(BASE_PATH + "/tasks/user?page=0&size=1&sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -136,7 +136,7 @@ public class RetrieveTasksIT {
     ;
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/user?page=1&size=1&sort=+taskId")
+            get(BASE_PATH + "/tasks/user?page=1&size=1&sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -159,7 +159,7 @@ public class RetrieveTasksIT {
   public void retrieve_assigned_tasks_via_group() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/group/assigned?sort=+taskId")
+            get(BASE_PATH + "/tasks/group/assigned?sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -182,7 +182,7 @@ public class RetrieveTasksIT {
   public void retrieve_unassigned_tasks_via_group() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/group/unassigned?sort=+taskId")
+            get(BASE_PATH + "/tasks/group/unassigned?sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
