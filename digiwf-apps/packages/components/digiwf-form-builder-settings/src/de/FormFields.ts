@@ -246,6 +246,96 @@ const textFeldSchema = {
   ]
 };
 
+const integerSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      "properties": {
+        ...basicAttributes.properties,
+        "default": {
+          "type": "integer",
+          "title": "Default",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minimum": {
+          "type": "integer",
+          "title": "min. Wert",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maximum": {
+          "type": "integer",
+          "title": "max. Wert",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    }
+  ]
+};
+
+const numberSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      "properties": {
+        ...basicAttributes.properties,
+        "default": {
+          "type": "integer",
+          "title": "Default",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minimum": {
+          "type": "number",
+          "title": "min. Wert",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maximum": {
+          "type": "number",
+          "title": "max. Wert",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    }
+  ]
+};
+
 const markdownSchema = {
   ...basicSchema,
   allOf: [
@@ -1107,6 +1197,8 @@ export const genericSchema = {
 export const schemaMap: any = {
   "textarea": textAreaSchema,
   "text": textFeldSchema,
+  "integer": integerSchema,
+  "number": numberSchema,
   "date": dateSchema,
   "time": timeSchema,
   "boolean": checkboxSchema,
