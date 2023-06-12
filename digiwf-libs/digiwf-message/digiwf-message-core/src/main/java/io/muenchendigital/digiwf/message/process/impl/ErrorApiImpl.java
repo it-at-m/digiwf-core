@@ -19,6 +19,9 @@ public class ErrorApiImpl implements ErrorApi {
     private final String incidentDestination;
     private final String bpmnErrorDestination;
 
+    private static final String BPMN_ERROR_MESSAGE_TYPE = "bpmnerror";
+    private static final String BPMN_ERROR_MESSAGE_NAME = "bpmnError";
+
     /**
      * Handles an incident by sending a message to the incident destination.
      * The incident message contains the process instance id, message name and error message.
@@ -55,9 +58,14 @@ public class ErrorApiImpl implements ErrorApi {
                 .processInstanceId(processInstanceId)
                 .errorCode(errorCode)
                 .errorMessage(errorMessage)
-                .messageName(this.bpmnErrorDestination)
+                .messageName(BPMN_ERROR_MESSAGE_NAME)
                 .build();
-        return this.messageApi.sendMessage(payload, Map.of(TYPE, this.bpmnErrorDestination), this.bpmnErrorDestination);
+        final Map<String, Object> headers = Map.of(
+                TYPE, BPMN_ERROR_MESSAGE_TYPE,
+                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
+                DIGIWF_MESSAGE_NAME, BPMN_ERROR_MESSAGE_NAME
+        );
+        return this.messageApi.sendMessage(payload, headers, this.bpmnErrorDestination);
     }
 
     @Override

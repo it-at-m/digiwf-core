@@ -53,7 +53,7 @@ class ErrorApiImplTest {
         final String errorMessage = "someErrorMessage";
         final boolean success = this.errorApi.handleBpmnError(this.processInstanceId, errorCode, errorMessage);
         Assertions.assertTrue(success);
-        this.verifyBpmnErrorMessageApiCall(new BpmnError(errorCode, errorMessage), this.bpmnErrorDestination, this.bpmnErrorDestination);
+        this.verifyBpmnErrorMessageApiCall(new BpmnError(errorCode, errorMessage), this.bpmnErrorDestination);
     }
 
     @Test
@@ -61,7 +61,7 @@ class ErrorApiImplTest {
         final BpmnError bpmnError = new BpmnError("400", "someErrorMessage");
         final boolean success = this.errorApi.handleBpmnError(this.messageHeaders, bpmnError);
         Assertions.assertTrue(success);
-        this.verifyBpmnErrorMessageApiCall(bpmnError, this.bpmnErrorDestination, this.bpmnErrorDestination);
+        this.verifyBpmnErrorMessageApiCall(bpmnError, this.bpmnErrorDestination);
     }
 
     @Test
@@ -92,7 +92,7 @@ class ErrorApiImplTest {
                 this.errorApi.handleIncident(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId), incidentError));
     }
 
-    private void verifyBpmnErrorMessageApiCall(final BpmnError payload, final String typeHeader, final String destination) {
+    private void verifyBpmnErrorMessageApiCall(final BpmnError payload, final String destination) {
         final ArgumentCaptor<BpmnErrorDto> payloadCaptor = ArgumentCaptor.forClass(BpmnErrorDto.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
@@ -101,8 +101,9 @@ class ErrorApiImplTest {
         Assertions.assertEquals(payload.getErrorMessage(), payloadCaptor.getValue().getErrorMessage());
         Assertions.assertEquals(payload.getErrorCode(), payloadCaptor.getValue().getErrorCode());
         Assertions.assertEquals(this.processInstanceId, payloadCaptor.getValue().getProcessInstanceId());
-        Assertions.assertEquals(typeHeader, headersCaptor.getValue().get(TYPE));
         Assertions.assertEquals(destination, destinationCaptor.getValue());
+        Assertions.assertEquals("bpmnError", headersCaptor.getValue().get(DIGIWF_MESSAGE_NAME), "Message name should be bpmnError");
+        Assertions.assertEquals("bpmnerror", headersCaptor.getValue().get(TYPE), "Message type should be bpmnerror");
     }
 
     private void verifyIncidentMessageApiCall(final String payload, final String typeHeader, final String messageNameHeader, final String destination) {
