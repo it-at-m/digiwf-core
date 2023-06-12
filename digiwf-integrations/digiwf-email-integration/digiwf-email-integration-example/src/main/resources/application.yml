@@ -13,7 +13,7 @@ spring:
           group: "dwf-email-service"
           destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: "dwf-digiwf-engine-${DIGIWF_ENV}"
+          destination: "dwf-connector-${DIGIWF_ENV}"
       kafka:
         binder:
           configuration:
@@ -79,7 +79,7 @@ io:
           failureCounterName: "digiwf.email.integration.send_mail.failure"
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
-        technicalErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-digiwf-engine-${DIGIWF_ENV}"
         typeMappings:
-          sendMailFromEventBus: "emailIntegration"
+          sendMailFromEventBus: "emailMessageProcessor"

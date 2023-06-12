@@ -9,7 +9,7 @@ spring:
           group: "dwf-example-integration-local-01"
           destination: "digiwf-example-integration-local-01"
         sendMessage-out-0:
-          destination: "digiwf-example-integration-local-01"
+          destination: "dwf-connector-local-01"
       kafka:
         binder:
           brokers: "${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}"
