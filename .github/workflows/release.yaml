@@ -35,262 +35,278 @@ on:
         default: true
 
 jobs:
-  release-services:
-    if: github.event.inputs.services == true
+  test:
+    if: github.event.inputs.snapshot-build == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-
-      - name: Install Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          distribution: 'adopt'
-
-      - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == false
+      - name: Test
         run: |
-          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+          echo "${{ github.event.inputs.snapshot-build }}"
+          echo "${{ github.event.inputs.release-tag }}"
+          echo "${{ github.event.inputs.apps }}"
+          echo "${{ github.event.inputs.services }}"
+          echo "${{ github.event.inputs.maven }}"
+          echo "${{ github.event.inputs.docs }}"
+        
 
-      - name: Build with Maven
-        if: github.event.inputs.maven == true
-        run: mvn --batch-mode install -DskipTests
-
-      - name: Release Maven package
-        if: github.event.inputs.maven == true
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_KEY }}
-
-      - name: Set Release version env variable
-        run: |
-          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Build and push connector
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-connector/digiwf-camunda-connector-service
-          push: true
-          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-camunda-connector-service:dev
-
-      - name: Build and push gateway
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-gateway
-          push: true
-          tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }},itatm/digiwf-gateway:dev
-
-      - name: Build and push cosys
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
-          push: true
-          tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
-
-      - name: Build and push email integration
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
-          push: true
-          tags: itatm/digiwf-email-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-email-integration-service:dev
-
-      - name: Build and push alw-integration
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
-          push: true
-          tags: itatm/digiwf-alw-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-alw-integration-service:dev
-
-      - name: Build and push verification-integration
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
-          push: true
-          tags: itatm/digiwf-verification-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-verification-integration-service:dev
-
-      - name: Build and push s3-integration
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
-          push: true
-          tags: itatm/digiwf-s3-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-s3-integration-service:dev
-
-      - name: Build and push oss engine
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-engine/digiwf-engine-service
-          push: true
-          tags: itatm/digiwf-engine-service-community:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service-community:dev
-
-      - name: Build and push tasklist backend
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-task/digiwf-tasklist-service
-          push: true
-          tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
-
-  release-services-camunda-ee:
-    if: github.event.inputs.services == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v3
-
-      - name: Install Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          server-id: camunda-bpm-nexus-ee
-          server-username: CAMUNDA_USER_REF
-          server-password: CAMUNDA_TOKEN_REF
-
-      - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == true
-        run: |
-          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
-
-      - name: Build with Maven
-        run: mvn --batch-mode -Pcamunda-ee install
-        env:
-          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
-          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_KEY }}
-
-      - name: Set release version env variable
-        run: |
-          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Build and push engine
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-engine/digiwf-engine-service
-          push: true
-          tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service:dev
-
-  release-apps:
-    runs-on: ubuntu-latest
-    if: github.event.inputs.apps == true
-    defaults:
-      run:
-        working-directory: ./digiwf-apps
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
-          cache-dependency-path: "./digiwf-apps/package-lock.json"
-      - run: npm install && lerna bootstrap --ci
-      - run: npm run build
-      - run: npm run test
-      - run: lerna publish from-package --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_KEY }}
-
-      - name: Set Release version env variable
-        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'n'
-        run: |
-          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
-
-      - name: Set Snapshot Release version env variable
-        if: github.event.inputs.snapshot-build == 'y'
-        run: |
-          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
-
-      - name: Build and push tasklist
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-apps/packages/apps/digiwf-tasklist
-          push: true
-          tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist:dev
-
-  release-docs:
-    runs-on: ubuntu-latest
-    if: github.event.inputs.docs == true
-    defaults:
-      run:
-        working-directory: ./docs
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
-          cache-dependency-path: "./docs/package-lock.json"
-      - run: npm install
-      - run: npm run build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/dist
-
-  github-release:
-    name: Create Release
-    if: github.event.inputs.snapshot-build == false
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create tag
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ github.event.inputs.release-tag }}',
-              sha: context.sha
-            })
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.inputs.release-tag }}
-          release_name: Release ${{ github.event.inputs.release-tag }}
-          draft: false
-          prerelease: false
+#  release-services:
+#    if: github.event.inputs.services == true
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out Git repository
+#        uses: actions/checkout@v3
+#
+#      - name: Install Java and Maven
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: 11
+#          distribution: 'adopt'
+#
+#      - name: Remove SNAPSHOT
+#        if: github.event.inputs.snapshot-build == false
+#        run: |
+#          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+#
+#      - name: Build with Maven
+#        if: github.event.inputs.maven == true
+#        run: mvn --batch-mode install -DskipTests
+#
+#      - name: Release Maven package
+#        if: github.event.inputs.maven == true
+#        uses: samuelmeuli/action-maven-publish@v1
+#        with:
+#          gpg_private_key: ${{ secrets.gpg_private_key }}
+#          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+#          nexus_username: ${{ secrets.nexus_username }}
+#          nexus_password: ${{ secrets.nexus_password }}
+#
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v2
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v2
+#
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_KEY }}
+#
+#      - name: Set Release version env variable
+#        run: |
+#          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+#
+#      - name: Build and push connector
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-connector/digiwf-camunda-connector-service
+#          push: true
+#          tags: itatm/digiwf-camunda-connector-service:${{ env.RELEASE_VERSION }},itatm/digiwf-camunda-connector-service:dev
+#
+#      - name: Build and push gateway
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-gateway
+#          push: true
+#          tags: itatm/digiwf-gateway:${{ env.RELEASE_VERSION }},itatm/digiwf-gateway:dev
+#
+#      - name: Build and push cosys
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
+#          push: true
+#          tags: itatm/digiwf-cosys-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-cosys-integration-service:dev
+#
+#      - name: Build and push email integration
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
+#          push: true
+#          tags: itatm/digiwf-email-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-email-integration-service:dev
+#
+#      - name: Build and push alw-integration
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
+#          push: true
+#          tags: itatm/digiwf-alw-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-alw-integration-service:dev
+#
+#      - name: Build and push verification-integration
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
+#          push: true
+#          tags: itatm/digiwf-verification-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-verification-integration-service:dev
+#
+#      - name: Build and push s3-integration
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
+#          push: true
+#          tags: itatm/digiwf-s3-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-s3-integration-service:dev
+#
+#      - name: Build and push oss engine
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-engine/digiwf-engine-service
+#          push: true
+#          tags: itatm/digiwf-engine-service-community:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service-community:dev
+#
+#      - name: Build and push tasklist backend
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-task/digiwf-tasklist-service
+#          push: true
+#          tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
+#
+#  release-services-camunda-ee:
+#    if: github.event.inputs.services == true
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out Git repository
+#        uses: actions/checkout@v3
+#
+#      - name: Install Java and Maven
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '11'
+#          distribution: 'adopt'
+#          server-id: camunda-bpm-nexus-ee
+#          server-username: CAMUNDA_USER_REF
+#          server-password: CAMUNDA_TOKEN_REF
+#
+#      - name: Remove SNAPSHOT
+#        if: github.event.inputs.snapshot-build == true
+#        run: |
+#          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+#
+#      - name: Build with Maven
+#        run: mvn --batch-mode -Pcamunda-ee install
+#        env:
+#          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
+#          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
+#
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v2
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v2
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_KEY }}
+#
+#      - name: Set release version env variable
+#        run: |
+#          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+#
+#      - name: Build and push engine
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-engine/digiwf-engine-service
+#          push: true
+#          tags: itatm/digiwf-engine-service:${{ env.RELEASE_VERSION }},itatm/digiwf-engine-service:dev
+#
+#  release-apps:
+#    runs-on: ubuntu-latest
+#    if: github.event.inputs.apps == true
+#    defaults:
+#      run:
+#        working-directory: ./digiwf-apps
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16'
+#          cache: 'npm'
+#          registry-url: 'https://registry.npmjs.org'
+#          cache-dependency-path: "./digiwf-apps/package-lock.json"
+#      - run: npm install && lerna bootstrap --ci
+#      - run: npm run build
+#      - run: npm run test
+#      - run: lerna publish from-package --yes
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v2
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v2
+#
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_KEY }}
+#
+#      - name: Set Release version env variable
+#        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'n'
+#        run: |
+#          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
+#
+#      - name: Set Snapshot Release version env variable
+#        if: github.event.inputs.snapshot-build == 'y'
+#        run: |
+#          echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
+#
+#      - name: Build and push tasklist
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-apps/packages/apps/digiwf-tasklist
+#          push: true
+#          tags: itatm/digiwf-tasklist:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist:dev
+#
+#  release-docs:
+#    runs-on: ubuntu-latest
+#    if: github.event.inputs.docs == true
+#    defaults:
+#      run:
+#        working-directory: ./docs
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16'
+#          cache: 'npm'
+#          registry-url: 'https://registry.npmjs.org'
+#          cache-dependency-path: "./docs/package-lock.json"
+#      - run: npm install
+#      - run: npm run build
+#      - name: Deploy
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./docs/dist
+#
+#  github-release:
+#    name: Create Release
+#    if: github.event.inputs.snapshot-build == false
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Create tag
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            github.rest.git.createRef({
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              ref: 'refs/tags/${{ github.event.inputs.release-tag }}',
+#              sha: context.sha
+#            })
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.event.inputs.release-tag }}
+#          release_name: Release ${{ github.event.inputs.release-tag }}
+#          draft: false
+#          prerelease: false
