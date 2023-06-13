@@ -36,7 +36,6 @@ on:
 
 jobs:
   test:
-    if: github.event.inputs.snapshot-build == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
