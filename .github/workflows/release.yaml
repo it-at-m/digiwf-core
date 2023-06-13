@@ -303,12 +303,12 @@ jobs:
 
   bump-services-version:
     name: Bump Maven Version
-#    if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services == 'true'
+    if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services == 'true'
     runs-on: ubuntu-latest
     needs:
       - github-release
-#      - release-services
-#      - release-services-camunda-ee
+      - release-services
+      - release-services-camunda-ee
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
