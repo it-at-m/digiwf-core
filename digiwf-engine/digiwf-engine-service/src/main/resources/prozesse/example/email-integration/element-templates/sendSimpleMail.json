@@ -20,7 +20,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_topic_name",
         "target": "app_topic_name"
@@ -35,7 +35,7 @@
       "editable": false,
       "value": "genericEvent",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_message_name",
         "target": "app_message_name"
@@ -50,7 +50,7 @@
       "editable": false,
       "value": "sendMailFromEventBus",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "app_type_name",
         "target": "app_type_name"
@@ -64,7 +64,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "receivers",
         "target": "receivers"
@@ -78,7 +78,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "subject",
         "target": "subject"
@@ -92,7 +92,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "body",
         "target": "body"
@@ -106,7 +106,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:inputParameter",
+        "type": "camunda:in",
         "expression": true,
         "name": "replyTo",
         "target": "replyTo"
