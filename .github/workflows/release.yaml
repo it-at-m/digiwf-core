@@ -324,7 +324,7 @@ jobs:
     needs:
       - github-release
       - release-services
-      - release-camunda-ee
+      - release-services-camunda-ee
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
