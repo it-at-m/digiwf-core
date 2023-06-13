@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ValidationException;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -44,6 +45,8 @@ public class MessageProcessor {
                 this.correlateMessage((message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString()), "documentCreated", Map.of("status", true));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
+            } catch (final ValidationException validationException) {
+                this.errorApi.handleBpmnError(message.getHeaders(), new BpmnError("VALIDATION_ERROR", validationException.getMessage()));
             } catch (final IncidentError incidentError) {
                 this.errorApi.handleIncident(message.getHeaders(), incidentError);
             }

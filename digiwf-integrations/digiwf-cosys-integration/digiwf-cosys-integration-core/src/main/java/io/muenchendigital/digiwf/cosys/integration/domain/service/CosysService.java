@@ -5,6 +5,7 @@ import io.muenchendigital.digiwf.cosys.integration.configuration.CosysConfigurat
 import io.muenchendigital.digiwf.cosys.integration.domain.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.cosys.integration.domain.model.GenerateDocument;
 import io.muenchendigital.digiwf.cosys.integration.gen.api.GenerationApi;
+import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -68,7 +69,7 @@ public class CosysService {
             );
         } catch (final Exception ex) {
             log.error("Document could not be created.", ex);
-            throw new RuntimeException("Document could not be created.");
+            throw new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", ex.getMessage());
         }
     }
 
@@ -93,7 +94,7 @@ public class CosysService {
             }
         } catch (final DocumentStorageClientErrorException | DocumentStorageServerErrorException | DocumentStorageException ex) {
             log.error("Document could not be saved.", ex);
-            throw new RuntimeException("Document could not be saved.");
+            throw new BpmnError("S3_FILE_SAVE_ERROR", ex.getMessage());
         }
     }
 
