@@ -5,33 +5,38 @@ on:
   workflow_dispatch:
     inputs:
       snapshot-build:
-        description: 'Snapshot build (y/n)?'
+        description: 'Snapshot build?'
+        type: boolean
         required: true
-        default: 'y'
+        default: false
       release-tag:
         description: 'Release Tag (only if not snapshot)'
         required: false
         default: 'services_XXX_apps_XXX'
       apps:
-        description: 'Release apps (y/n)?'
+        description: 'Release apps?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
       services:
         description: 'Release services (y/n)?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
       maven:
         description: 'Release Maven (y/n)?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
       docs:
         description: 'Release docs (y/n)?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
 
 jobs:
   release-services:
-    if: github.event.inputs.services == 'y'
+    if: github.event.inputs.services
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -44,12 +49,12 @@ jobs:
           distribution: 'adopt'
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'n'
+        if: github.event.inputs.snapshot-build
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        if: github.event.inputs.maven == 'n'
+        if: github.event.inputs.maven
         run: mvn --batch-mode install -DskipTests
 
       - name: Release Maven package
@@ -141,7 +146,7 @@ jobs:
           tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
 
   release-services-camunda-ee:
-    if: github.event.inputs.services == 'y'
+    if: github.event.inputs.services
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -157,7 +162,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'n'
+        if: github.event.inputs.snapshot-build
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -190,7 +195,7 @@ jobs:
 
   release-apps:
     runs-on: ubuntu-latest
-    if: github.event.inputs.apps == 'y'
+    if: github.event.inputs.apps
     defaults:
       run:
         working-directory: ./digiwf-apps
@@ -240,7 +245,7 @@ jobs:
 
   release-docs:
     runs-on: ubuntu-latest
-    if: github.event.inputs.docs == 'y'
+    if: github.event.inputs.docs
     defaults:
       run:
         working-directory: ./docs
@@ -262,7 +267,7 @@ jobs:
 
   github-release:
     name: Create Release
-    if: github.event.inputs.snapshot-build == 'n'
+    if: github.event.inputs.snapshot-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
