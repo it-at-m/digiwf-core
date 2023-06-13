@@ -52,7 +52,7 @@ jobs:
         
 
 #  release-services:
-#    if: github.event.inputs.services == true
+#    if: github.event.inputs.services == 'true'
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Check out Git repository
@@ -65,16 +65,16 @@ jobs:
 #          distribution: 'adopt'
 #
 #      - name: Remove SNAPSHOT
-#        if: github.event.inputs.snapshot-build == false
+#        if: github.event.inputs.snapshot-build == 'false'
 #        run: |
 #          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 #
 #      - name: Build with Maven
-#        if: github.event.inputs.maven == true
+#        if: github.event.inputs.maven == 'true'
 #        run: mvn --batch-mode install -DskipTests
 #
 #      - name: Release Maven package
-#        if: github.event.inputs.maven == true
+#        if: github.event.inputs.maven == 'true'
 #        uses: samuelmeuli/action-maven-publish@v1
 #        with:
 #          gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -162,7 +162,7 @@ jobs:
 #          tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
 #
 #  release-services-camunda-ee:
-#    if: github.event.inputs.services == true
+#    if: github.event.inputs.services == 'true'
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Check out Git repository
@@ -178,7 +178,7 @@ jobs:
 #          server-password: CAMUNDA_TOKEN_REF
 #
 #      - name: Remove SNAPSHOT
-#        if: github.event.inputs.snapshot-build == true
+#        if: github.event.inputs.snapshot-build == 'true'
 #        run: |
 #          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 #
@@ -211,7 +211,7 @@ jobs:
 #
 #  release-apps:
 #    runs-on: ubuntu-latest
-#    if: github.event.inputs.apps == true
+#    if: github.event.inputs.apps == 'true'
 #    defaults:
 #      run:
 #        working-directory: ./digiwf-apps
@@ -261,7 +261,7 @@ jobs:
 #
 #  release-docs:
 #    runs-on: ubuntu-latest
-#    if: github.event.inputs.docs == true
+#    if: github.event.inputs.docs == 'true'
 #    defaults:
 #      run:
 #        working-directory: ./docs
@@ -283,7 +283,7 @@ jobs:
 #
 #  github-release:
 #    name: Create Release
-#    if: github.event.inputs.snapshot-build == false
+#    if: github.event.inputs.snapshot-build == 'false'
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
