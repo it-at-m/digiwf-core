@@ -39,6 +39,9 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
             } else if (action == PresignedUrlAction.DELETE) {
                 actionString = "deleting";
                 return this.presignedUrlRepository.getPresignedUrlDeleteFile(pathToFile, expireInMinutes, documentStorageUrl);
+            } else {
+                log.warn("No handler specified for action {}", action);
+                throw new RuntimeException(String.format("No handler specified for action %s", action));
             }
         } catch (final Exception ex) {
             log.error("Getting presigned url for %s file {} failed: {}", actionString, pathToFile, ex);
