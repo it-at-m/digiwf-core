@@ -27,7 +27,7 @@ on:
         required: true
         default: true
       services-new-version:
-        description: 'New services version (only if apps)'
+        description: 'New services version (only if services) - do not use SNAPSHOT'
         required: false
       maven:
         description: 'Release Maven?'
@@ -340,7 +340,7 @@ jobs:
       - name: Raise mvn version
         if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services-new-version != ''
         run: |
-          mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ github.event.inputs.services-new-version }}
+          mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ github.event.inputs.services-new-version }}-SNAPSHOT
           mvn versions:commit
           git add .
           git commit -m "chore: mvn auto version bump to ${{ github.event.inputs.services-new-version }}"
@@ -352,7 +352,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - github-release
-      - release-apps
+#      - release-apps
     defaults:
       run:
         working-directory: ./digiwf-apps
