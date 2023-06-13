@@ -29,6 +29,7 @@
                                 "x-display": "markdown",
                                 "key": "5c418504-c805-4168-9466-9c2f24f68645",
                                 "readOnly": true,
+                                "default": "With this test process you start a process to send emails with the email integration.",
                                 "x-options": {
                                     "fieldColProps": {
                                         "cols": 12,
