@@ -197,6 +197,23 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- digiwf-task -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-task-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-tasklist-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
