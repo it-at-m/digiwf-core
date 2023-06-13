@@ -101,6 +101,9 @@ public class MessageProcessor {
 }
 ```
 
+> Wichtig ist hierbei, dass die `processInstanceId` und `messageName` der eingehenden Message und des ausgehenden CorrelateMessage Events
+> identisch sind. Ansonsten kann die Message keinem Prozess zugeordnet werden.
+
 ## Fehlerbehandlung implementieren
 
 Wir unterstützen unterschiedliche Möglichkeiten, um Fehler in der Integration an den Prozess zurückzuspielen.
