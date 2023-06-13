@@ -372,13 +372,7 @@ jobs:
       - run: npm install && lerna bootstrap --ci
       - name: Raise lerna version
         if: github.event.inputs.apps-new-version != ''
-        run: lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes  --no-commit-hooks --no-git-tag-version --yes
-      - name: Rasie lerna version
+        run: lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes --yes
+      - name: Raise lerna version
         if: github.event.inputs.apps-new-version == ''
-        run: lerna version patch --ignore-changes  --no-commit-hooks --no-git-tag-version --yes
-      - name: Commit and push
-        run: |
-          git add .
-          git commit -m "chore: lerna auto version bump to ${{ github.event.inputs.apps-new-version }}"
-          git push
-
+        run: lerna version patch --ignore-changes --yes
