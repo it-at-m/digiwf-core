@@ -69,19 +69,6 @@
       "constraints": {
         "notEmpty": true
       }
-    },
-    {
-      "label": "Pocess Instance ID",
-      "type": "String",
-      "value": "${processInstanceId}",
-      "binding": {
-        "type": "camunda:inputParameter",
-        "name": "processInstanceId",
-        "target": "processInstanceId"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
     }
   ]
 }
