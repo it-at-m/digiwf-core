@@ -94,6 +94,9 @@ polyflow:
   view:
     jpa:
       stored-items: TASK, DATA_ENTRY # currently only tasks and data entries, no process definition or process instances
+      payload-attribute-level-limit: 1
+      task-filters:
+        include: unknown
 
 springdoc:
   swagger-ui:
