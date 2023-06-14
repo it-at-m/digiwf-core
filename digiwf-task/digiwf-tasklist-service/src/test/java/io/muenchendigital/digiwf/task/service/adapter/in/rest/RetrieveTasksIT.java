@@ -27,7 +27,9 @@ import java.util.Arrays;
 
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.BASE_PATH;
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
-import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.*;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.createEvent;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.deleteEvent;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;

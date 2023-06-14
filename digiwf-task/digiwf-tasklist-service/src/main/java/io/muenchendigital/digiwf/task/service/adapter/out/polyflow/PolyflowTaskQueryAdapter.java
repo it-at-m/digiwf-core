@@ -5,6 +5,7 @@ import io.holunda.polyflow.view.TaskQueryClient;
 import io.holunda.polyflow.view.auth.User;
 import io.holunda.polyflow.view.query.task.TaskForIdQuery;
 import io.holunda.polyflow.view.query.task.TasksForCandidateUserAndGroupQuery;
+import io.holunda.polyflow.view.query.task.TasksForGroupQuery;
 import io.holunda.polyflow.view.query.task.TasksForUserQuery;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
