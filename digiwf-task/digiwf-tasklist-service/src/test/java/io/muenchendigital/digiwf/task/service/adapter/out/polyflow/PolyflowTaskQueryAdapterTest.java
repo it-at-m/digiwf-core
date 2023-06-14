@@ -17,7 +17,9 @@ import java.util.concurrent.CompletableFuture;
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTasks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PolyflowTaskQueryAdapterTest {
 
@@ -52,7 +54,7 @@ public class PolyflowTaskQueryAdapterTest {
         true,
         0,
         100,
-        "+createdDate",
+        "-createdTime",
         Lists.newArrayList("task.textSearch%" + query)
     ));
   }
@@ -82,7 +84,7 @@ public class PolyflowTaskQueryAdapterTest {
         true,
         0,
         100,
-        "+createdDate",
+        "-createdTime",
         Lists.newArrayList("task.textSearch%" + query)
     ));
   }

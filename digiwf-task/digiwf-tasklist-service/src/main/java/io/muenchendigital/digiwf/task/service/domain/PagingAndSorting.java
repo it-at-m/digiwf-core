@@ -14,7 +14,7 @@ public class PagingAndSorting {
   /**
    * Default sort column.
    */
-  public static final String DEFAULT_SORT = "+createdDate";
+  public static final String DEFAULT_SORT = "-createdTime";
 
   public String getSanitizedSort() {
     if (sort == null) {
