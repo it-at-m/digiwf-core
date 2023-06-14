@@ -6,49 +6,10 @@
       </v-flex>
       <v-flex class="d-flex justify-space-between align-center searchField">
         <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
-        <v-combobox
-          id="suchfeld"
-          v-model="filter"
-          :items="persistentFilters.map((f) => f.filterString)"
-          flat
-          dense
-          outlined
-          hide-details
-          label="Vorgänge durchsuchen"
-          clearable
-          color="black"
-          style="max-width: 500px"
-          @input.native="onFilterChanged"
-        >
-          <template #append>
-            <div class="v-input__icon">
-              <v-btn
-                v-if="isFilterPersistent"
-                icon
-                aria-label="Filter speichern"
-                class="v-icon"
-                @click="deletePersistentFilter()"
-              >
-                <v-icon color="primary"> mdi-star</v-icon>
-              </v-btn>
-              <v-btn
-                v-else-if="filter"
-                icon
-                aria-label="Filter löschen"
-                class="v-icon"
-                @click="savePersistentFilter()"
-              >
-                <v-icon color="primary">
-                  mdi-star-outline
-                </v-icon>
-              </v-btn>
-            </div>
-            <v-icon class="ml-2">
-              mdi-magnify
-            </v-icon>
-          </template>
-        </v-combobox>
 
+        <search-field
+          :on-filter-change="onFilterChanged"
+        />
         <div class="d-flex align-center">
           <v-btn
             aria-label="Vorgänge aktualisieren"
@@ -56,7 +17,7 @@
             style="padding-left: 13px;"
             large
             color="primary"
-            @click="loadProcesses(true)"
+            @click="refetch"
           >
             <div style="min-width: 30px">
               <v-progress-circular
@@ -82,165 +43,110 @@
           type="error"
         />
       </v-flex>
-      <pageable-list
-        :items="filteredProcesses"
-        found-data-text="Vorgänge gefunden"
-        no-data-text="Keine Vorgänge gefunden"
-      >
-        <template #default="props">
-          <template v-for="item in props.items">
-            <process-definition-item
-              :key="item.key"
-              :item="item"
-              :search-string="filter || ''"
-            />
-          </template>
+
+      <v-list>
+        <template v-for="item in data?.content || []">
+          <process-definition-item
+            :key="item.key"
+            :item="item"
+            :search-string="searchQuery || ''"
+          />
         </template>
-      </pageable-list>
+      </v-list>
+
+      <AppPaginationFooter
+        found-data-text="Vorgänge gefunden"
+        :size="pagination.size?.value || 20"
+        :on-size-change="pagination.onSizeChange"
+        :last-page="pagination.lastPage"
+        :last-page-button-disabled="pagination.isLastPageButtonDisabled()"
+        :next-page="pagination.nextPage"
+        :total-number-of-items="data?.totalElements || 0"
+        :next-page-button-disabled="pagination.isNextPageButtonDisabled()"
+        :number-of-pages="data?.totalPages || 1"
+        :page="pagination.getCurrentPageLabel()"
+        :update-items-per-page="pagination.updateItemsPerPage"
+      />
     </div>
   </app-view-layout>
 </template>
 
-<style scoped>
-
-
-.searchField {
-  margin: 1rem 0 1rem 0;
-}
-</style>
-
 <script lang="ts">
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import {FilterTO, SaveFilterTO, ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
-import AppPageableList from "@/components/UI/AppPageableList.vue";
-import {
-  deletePersistentFilterForNonHookCompatibleFunction,
-  getPersistentFilterForNonHookCompatibleFunction,
-  savePersistentFilterForNonHookCompatibleFunction
-} from "../middleware/persistentFilter/persistentFilters";
-import {defineComponent, ref, Ref} from "vue";
-import store from "../store";
-import {useRouter} from "vue-router/composables";
+import {defineComponent, watch} from "vue";
+import {useGetPaginationData} from "../middleware/paginationData";
+import SearchField from "../components/task/SearchField.vue";
+import {useGetProcessDefinitions} from "../middleware/processDefinitions/processDefinitionMiddleware";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 
 export default defineComponent({
-  components: {PageableList: AppPageableList, ProcessDefinitionItem, AppToast, AppViewLayout},
+  components: {
+    AppPaginationFooter,
+    SearchField, ProcessDefinitionItem, AppToast, AppViewLayout
+  },
   props: [],
   setup: () => {
-    const router = useRouter();
 
-    let processDefinitions: Ref<ServiceDefinitionTO[]> = ref([]);
-    let isLoading: Ref<boolean> = ref(false);
-    let filter: Ref<string> = ref("");
-    let errorMessage: Ref<string> = ref("");
-    let persistentFilters: Ref<FilterTO[]> = ref([]);
-    let filteredProcesses: Ref<ServiceDefinitionTO[]> = ref([]);
+    const {searchQuery, setSearchQuery, page, size, setSize, setPage} = useGetPaginationData();
 
-    const created = () => {
-      loadProcesses();
-      loadFilter();
-      loadPersistentFilters();
+    const {isLoading, data, error: errorMessage, refetch} = useGetProcessDefinitions(page, size, searchQuery);
+
+    watch(page, (newPage) => {
+      setPage(newPage);
+      refetch();
+    });
+    watch(size, (newSize) => {
+      setSize(newSize);
+      refetch();
+    });
+
+    const onFilterChanged = (value: string) => {
+      setSearchQuery(value);
+      refetch();
     };
 
-    const loadProcesses = async (refresh = false): Promise<void> => {
-      processDefinitions.value = store.getters['processDefinitions/processDefinitions'];
-      isLoading.value = true;
-      try {
-        await store.dispatch('processDefinitions/loadProcessDefinitions', refresh);
-        isLoading.value = false;
-        errorMessage.value = "";
-      } catch (error: any) {
-        isLoading.value = false;
-        errorMessage.value = error.message;
-      }
-      filterProcesses();
-    };
-
-    const loadFilter = () => {
-      filter.value = router.currentRoute.query.filter as string ?? "";
-      if (!filter.value) {
-        filter.value = store.getters["processDefinitions/filter"];
-        router.replace({query: {filter: filter.value}});
-      }
-      filterProcesses();
-    };
-
-    const onFilterChanged = (event: Event) => {
-      const el = event.target as HTMLInputElement;
-      filter.value = el.value;
-      store.commit('processDefinitions/setFilter', filter);
-      router.replace({path: "process", query: {filter: el.value}});
-      filterProcesses();
-    };
-
-    const filterProcesses = () => {
-      processDefinitions.value = store.getters['processDefinitions/processDefinitions'];
-      if (!filter.value) {
-        filteredProcesses.value = processDefinitions.value;
-      }
-      filteredProcesses.value = processDefinitions.value.filter(task => JSON.stringify(Object.values(task)).toLocaleLowerCase().includes(filter.value.toLocaleLowerCase()));
-    };
-
-    const isFilterPersistent = (): boolean => {
-      if (
-        !filter.value ||
-        filter.value.length == 0 ||
-        !persistentFilters.value ||
-        persistentFilters.value.length == 0
-      ) {
-        return false;
-      }
-      return (
-        persistentFilters.value.find(
-          (fl: FilterTO) => fl.filterString == filter.value
-        ) != undefined // can not work
-      );
-    };
-
-    const savePersistentFilter = async () => {
-      if (!filter.value) {
-        return;
-      }
-      const request: SaveFilterTO = {
-        pageId: "processes",
-        filterString: filter.value,
-      };
-      savePersistentFilterForNonHookCompatibleFunction(request);
-    };
-
-    const deletePersistentFilter = () => {
-      const id = persistentFilters.value.find((f: FilterTO) => f.filterString == filter.value)?.id;
-      if (!id) {
-        return;
-      }
-      deletePersistentFilterForNonHookCompatibleFunction(id);
-    };
-
-    const loadPersistentFilters = async (): Promise<void> => {
-      try {
-        const filterResponse = await getPersistentFilterForNonHookCompatibleFunction();
-        persistentFilters.value = filterResponse.filter((filter: FilterTO) => filter.pageId === "processes");
-        errorMessage.value = "";
-      } catch (error: any) {
-        errorMessage.value = error.message;
-      }
-    };
-
-    created();
     return {
-      processDefinitions,
+      data,
+      processDefinitions: data.value?.content || [],
       isLoading,
-      filter,
+      searchQuery,
       errorMessage,
-      persistentFilters,
       onFilterChanged,
-      savePersistentFilter,
-      deletePersistentFilter,
-      isFilterPersistent,
-      filteredProcesses,
-      loadProcesses
+      refetch,
+      pagination: {
+        page,
+        size,
+        onSizeChange: setSize,
+        getCurrentPageLabel: () => page.value + 1,
+        setPage,
+        lastPage: () => {
+          if (page.value === 0) {
+            return;
+          }
+          setPage(page.value - 1);
+          refetch();
+        },
+        nextPage: () => {
+          const totalPages = data.value?.totalPages;
+          if (!totalPages || page.value === totalPages - 1) {
+            return;
+          }
+          setPage(page.value + 1);
+          refetch();
+        },
+        isLastPageButtonDisabled: () => page.value === 0,
+        isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize
+      },
     };
   }
 });
 </script>
+
+<style scoped>
+.searchField {
+  margin: 1rem 0 1rem 0;
+}
+</style>

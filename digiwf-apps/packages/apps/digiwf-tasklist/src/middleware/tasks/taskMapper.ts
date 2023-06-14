@@ -23,8 +23,8 @@ export const mapTaskFromEngineService = (response: HumanTaskTO): HumanTask => {
     assigneeId: response.assignee,
     assigneeFormatted: response.assigneeFormatted,
     inFinishProcess: false,
-  }
-}
+  };
+};
 
 /**
  * @deprecated is only necessary until tasks will provided by task service in production
@@ -32,11 +32,13 @@ export const mapTaskFromEngineService = (response: HumanTaskTO): HumanTask => {
  */
 export const mapTaskPageFromEngineService = (response: PageHumanTaskTO): Page<HumanTask> => {
   return {
-    content: response.content?.map(mapTaskFromEngineService),
+    content: response.content?.map(mapTaskFromEngineService) ||  [],
     totalElements: response.totalElements,
-    totalPages: response.totalPages!,
-  }
-}
+    totalPages: response.totalPages || 0,
+    page: response.number || 0,
+    size: response.size || 0,
+  };
+};
 /**
  * @deprecated
  * @param response
@@ -49,9 +51,9 @@ export const mapTaskDetailsFromEngineService = (response: HumanTaskDetailTO): Hu
     processInstanceId: response.processInstanceId,
     schema: response.jsonSchema,
     statusDocument: response.statusDocument || false,
-    isCancelable: response.form?.buttons?.cancel!.showButton || false
-  }
-}
+    isCancelable: response.form?.buttons?.cancel!.showButton || false,
+  };
+};
 
 export const mapTaskFromTaskService = (response: Task, inFinishProcess: boolean , user?: User): HumanTask => {
   return {
@@ -66,15 +68,17 @@ export const mapTaskFromTaskService = (response: Task, inFinishProcess: boolean 
     assigneeFormatted: user && user.fullInfo,
     inFinishProcess,
   };
-}
+};
 
 export const mapTaskPageFromTaskService = (response: PageOfTasks, taskMapperFunction: (task: Task) => HumanTask): Page<HumanTask> => {
   return {
     content: response.content?.map(taskMapperFunction),
     totalElements: response.totalElements,
-    totalPages: response.totalPages!,
-  }
-}
+    totalPages: response.totalPages || 0,
+    page: response.page || 0,
+    size: response.size || 0,
+  };
+};
 
 export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, inFinishProcess: boolean, user?: User): HumanTaskDetails => {
   return {
@@ -95,5 +99,5 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, inFinish
     statusDocument: false,
     inFinishProcess,
     isCancelable: response.cancelable
-  }
-}
+  };
+};

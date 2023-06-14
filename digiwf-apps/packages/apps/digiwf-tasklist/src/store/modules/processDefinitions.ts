@@ -10,7 +10,7 @@ import {ApiConfig} from "../../api/ApiConfig";
 export interface ProcessDefinitionState {
   processDefinitions: ServiceDefinitionTO[];
   lastFetch: number;
-  filter: string;
+  // filter: string;
 }
 
 export default {
@@ -18,7 +18,7 @@ export default {
   state: {
     processDefinitions: new Array<ServiceDefinitionTO>(),
     lastFetch: 0,
-    filter: ""
+    // filter: ""
   } as ProcessDefinitionState,
   getters: {
     shouldUpdate: (state: ProcessDefinitionState) => (): boolean => {
@@ -29,14 +29,14 @@ export default {
       const currentTimeStamp = new Date().getTime();
       return (currentTimeStamp - lastFetch) / 1000 > 60;
     },
-    processDefinitions(state: ProcessDefinitionState): ServiceDefinitionTO[] {
-      return state.processDefinitions
-        .map(obj => ({...obj, name: obj.name ?? "Unbekannt"}))
-        .filter(Boolean).sort((a, b) => a.name.localeCompare(b.name));
-    },
-    filter(state: ProcessDefinitionState): string | null {
-      return state.filter;
-    }
+    // processDefinitions(state: ProcessDefinitionState): ServiceDefinitionTO[] {
+    //   return state.processDefinitions
+    //     .map(obj => ({...obj, name: obj.name ?? "Unbekannt"}))
+    //     .filter(Boolean).sort((a, b) => a.name.localeCompare(b.name));
+    // },
+    // filter(state: ProcessDefinitionState): string | null {
+    //   return state.filter;
+    // }
   },
   mutations: {
     setProcessDefinitions(state: ProcessDefinitionState, processDefinitions: ServiceDefinitionTO[]): void {
@@ -45,9 +45,9 @@ export default {
     setLastFetch(state: ProcessDefinitionState, date: number): void {
       state.lastFetch = date;
     },
-    setFilter(state: ProcessDefinitionState, filter: string): void {
-      state.filter = filter;
-    }
+    // setFilter(state: ProcessDefinitionState, filter: string): void {
+    //   state.filter = filter;
+    // }
   },
   actions: {
     async loadProcessDefinitions(context: ActionContext<ProcessDefinitionState, RootState>, forceRefresh: boolean): Promise<void> {

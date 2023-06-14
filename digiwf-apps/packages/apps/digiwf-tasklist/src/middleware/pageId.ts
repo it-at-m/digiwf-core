@@ -1,12 +1,12 @@
 import {useRouter} from "vue-router/composables";
 
-
-export type PageId = "tasks" | "assignedgrouptasks" | "opengrouptasks" | "unknown";
+export type PageId = "tasks" | "assignedgrouptasks" | "opengrouptasks" | "processes" | "unknown";
 const pathToPageId: { [key: string]: PageId } = {
   "/mytask": "tasks",
   "/assignedgrouptask": "assignedgrouptasks",
-  "/opengrouptask": "opengrouptasks"
-}
+  "/opengrouptask": "opengrouptasks",
+  "/process": "processes"
+};
 
 interface PageData {
   readonly id: PageId;
@@ -21,10 +21,10 @@ export const usePageId = (): PageData => {
   const path = router.currentRoute.path;
   const pageId = pathToPageId[path] as PageId;
   if(!pageId) {
-    console.error(`Digiwf: no pageId set for path ${path}`)
+    console.error(`Digiwf: no pageId set for path ${path}`);
   }
   return {
     id: pageId || "unknown",
     path
   };
-}
+};
