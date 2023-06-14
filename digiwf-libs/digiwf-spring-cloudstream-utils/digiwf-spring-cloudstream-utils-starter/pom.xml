@@ -10,7 +10,7 @@
     <parent>
         <artifactId>digiwf-spring-cloudstream-utils</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.12-SNAPSHOT</version>
+        <version>0.17.13-SNAPSHOT</version>
     </parent>
 
     <dependencies>
