@@ -57,9 +57,9 @@ public class ProcessInstancePageMapper {
                                 || StringUtils.containsIgnoreCase(it.getDefinitionName(), lowerCaseQuery)
                                 || StringUtils.containsIgnoreCase(it.getStatusKey(), lowerCaseQuery)
                                 || StringUtils.containsIgnoreCase(it.getStatus(), lowerCaseQuery)
-                                || StringUtils.containsIgnoreCase(it.getStartTime().toString(), lowerCaseQuery)
-                                || StringUtils.containsIgnoreCase(it.getEndTime().toString(), lowerCaseQuery)
-                                || StringUtils.containsIgnoreCase(it.getRemovalTime().toString(), lowerCaseQuery)
+                                || StringUtils.containsIgnoreCase(it.getStartTime() != null ? it.getStartTime().toString() : "", lowerCaseQuery)
+                                || StringUtils.containsIgnoreCase(it.getEndTime() != null ? it.getEndTime().toString() : "", lowerCaseQuery)
+                                || StringUtils.containsIgnoreCase(it.getRemovalTime() != null ? it.getRemovalTime().toString() : "", lowerCaseQuery)
         ).collect(Collectors.toList());
     }
 }

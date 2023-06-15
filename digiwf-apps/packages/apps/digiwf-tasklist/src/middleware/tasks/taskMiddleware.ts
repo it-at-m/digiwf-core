@@ -49,7 +49,7 @@ const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
 
-export const invalideUserTasks = () =>
+export const invalidUserTasks = () =>
   queryClient.invalidateQueries([userTasksQueryId]);
 const addUserToTask = (r: Task): Promise<HumanTask> => {
   return (
@@ -329,7 +329,7 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
   )
     .then(() => {
       addFinishedTaskIds(taskId);
-      invalideUserTasks();
+      invalidUserTasks();
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
         errorMessage: undefined,
@@ -354,7 +354,7 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
     .then(() => {
-      invalideUserTasks();
+      invalidUserTasks();
       router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
@@ -414,7 +414,7 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
       : callPostAssignTaskInEngine(taskId)
   ).then(() => {
     router.push({path: "/task/" + taskId});
-    invalideUserTasks();
+    invalidUserTasks();
     queryClient.invalidateQueries([openGroupTasksQueryId]);
     queryClient.invalidateQueries([assignedGroupTasksQueryId]);
     return Promise.resolve({isError: false});

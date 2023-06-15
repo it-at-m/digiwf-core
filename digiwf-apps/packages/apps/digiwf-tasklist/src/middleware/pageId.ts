@@ -1,11 +1,12 @@
 import {useRouter} from "vue-router/composables";
 
-export type PageId = "tasks" | "assignedgrouptasks" | "opengrouptasks" | "processes" | "unknown";
+export type PageId = "tasks" | "assignedgrouptasks" | "opengrouptasks" | "processes" | "processinstances" | "unknown";
 const pathToPageId: { [key: string]: PageId } = {
   "/mytask": "tasks",
   "/assignedgrouptask": "assignedgrouptasks",
   "/opengrouptask": "opengrouptasks",
-  "/process": "processes"
+  "/process": "processes",
+  "/instance": "processinstances"
 };
 
 interface PageData {

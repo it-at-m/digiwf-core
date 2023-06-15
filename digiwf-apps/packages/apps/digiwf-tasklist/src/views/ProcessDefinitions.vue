@@ -109,7 +109,6 @@ export default defineComponent({
 
     return {
       data,
-      processDefinitions: data.value?.content || [],
       isLoading,
       searchQuery,
       errorMessage,
