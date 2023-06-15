@@ -2,10 +2,11 @@ package io.muenchendigital.digiwf.s3.integration.adapter.in.streaming;
 
 import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import io.muenchendigital.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import io.muenchendigital.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import io.muenchendigital.digiwf.s3.integration.application.port.out.IntegrationOutPort;
-import io.muenchendigital.digiwf.s3.integration.domain.exception.FileExistenceException;
-import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AccessException;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.FileExistenceException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
@@ -13,17 +14,21 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-@Profile("streaming")
 public class MessageProcessor {
+  /**
+   * Key in the result map.
+   */
+  public static final String RESULT_PRESIGNED_URLS = "presignedUrls";
+  private static final String VALIDATION_ERROR_CODE = "VALIDATION_ERROR";
+  private static final String FILE_DOES_NOT_EXIST_ERROR_CODE = "FILE_DOES_NOT_EXIST_ERROR";
 
   private final CreatePresignedUrlsInPort createPresignedUrlsInPort;
   private final IntegrationOutPort integration;
-
-  private static final String VALIDATION_ERROR_CODE = "VALIDATION_ERROR";
-  private static final String FILE_DOES_NOT_EXIST_ERROR_CODE = "FILE_DOES_NOT_EXIST_ERROR";
+  private final PresignedUrlMapper presignedUrlMapper;
 
   /**
    * Create pre-signed urls for the given path in {@link CreatePresignedUrlEvent}.
@@ -35,14 +40,16 @@ public class MessageProcessor {
     return message -> {
 
       val headers = message.getHeaders();
-
       try {
-        createPresignedUrlsInPort.createPresignedUrls(message.getPayload());
+        val presignedUrls = createPresignedUrlsInPort.createPresignedUrls(message.getPayload());
+        Map<String, Object> result = Map.of(RESULT_PRESIGNED_URLS, this.presignedUrlMapper.models2Dtos(presignedUrls));
+        integration.correlateProcessMessage(headers, result);
+
       } catch (ConstraintViolationException cve) {
         integration.handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
       } catch (FileExistenceException fee) {
         integration.handleBpmnError(headers, new BpmnError(FILE_DOES_NOT_EXIST_ERROR_CODE, fee.getMessage()));
-      } catch (S3AccessException sae) {
+      } catch (FileSystemAccessException sae) {
         integration.handleIncident(headers, new IncidentError(sae.getMessage()));
       }
     };

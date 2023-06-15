@@ -1,30 +1,99 @@
 package io.muenchendigital.digiwf.s3.integration.application;
 
+import io.muenchendigital.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.File;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3Repository;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import io.muenchendigital.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
 import io.muenchendigital.digiwf.s3.integration.domain.model.FilesInFolder;
-import io.muenchendigital.digiwf.s3.integration.domain.service.FolderHandlingService;
-import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AccessException;
-import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3AndDatabaseAsyncException;
-import io.muenchendigital.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
-import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.SetUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.Size;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+@Slf4j
+@Service
 @RequiredArgsConstructor
-@Validated
 public class FolderOperationsUseCase implements FolderOperationsInPort {
-  private final FolderHandlingService folderHandlingService;
 
+  private final S3Repository s3Repository;
+  private final FileRepository fileRepository;
+
+  /**
+   * Deletes the folder with all containing files specified in the parameter together with the corresponding database entries.
+   *
+   * @param pathToFolder identifies the path to the folder.
+   * @throws FileSystemAccessException if the S3 storage cannot be accessed.
+   */
+  @Transactional
   @Override
-  @NonNull
-  public FilesInFolder getAllFilesInFolderRecursively(@Size(max = FileRepository.LENGTH_PATH_TO_FILE) @NonNull String pathToFolder) throws S3AccessException {
-    return folderHandlingService.getAllFilesInFolderRecursively(pathToFolder);
+  public void deleteFolder(@NotNull final String pathToFolder) throws FileSystemAccessException {
+    final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
+    final Set<String> filePathsInDatabase = this.fileRepository.findByPathToFileStartingWith(pathToFolderWithSeparatorAtTheEnd)
+        .map(File::getPathToFile)
+        .collect(Collectors.toSet());
+    final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
+    if (filePathsInDatabase.isEmpty() && filePathsInFolder.isEmpty()) {
+      log.info("Folder in S3 and file entities in database for this folder does not exist -> everything ok.");
+    } else if (SetUtils.isEqualSet(filePathsInDatabase, filePathsInFolder)) {
+      // Delete all files on S3
+      log.info("All ${} files in folder ${} will be deleted.", filePathsInFolder.size(), pathToFolderWithSeparatorAtTheEnd);
+      for (final String pathToFile : filePathsInFolder) {
+        // Delete file on S3
+        this.s3Repository.deleteFile(pathToFile);
+        // Delete database entry
+        this.fileRepository.deleteByPathToFile(pathToFile);
+      }
+      log.info("All ${} files in folder ${} will be deleted..", filePathsInFolder.size(), pathToFolderWithSeparatorAtTheEnd);
+    } else {
+      // Out of sync
+      final Set<String> filePathDisjunction = SetUtils.disjunction(filePathsInDatabase, filePathsInFolder).toSet();
+      final StringBuilder message = new StringBuilder(String.format("The following files on S3 and the file entities in database for folder %s are out of sync.\n", pathToFolderWithSeparatorAtTheEnd));
+      filePathDisjunction.stream()
+          .map(pathToFile -> pathToFile.concat("\n"))
+          .forEach(message::append);
+      log.error(message.toString());
+      throw new FileSystemAccessException(message.toString());
+    }
   }
 
+  /**
+   * Returns all files identified by file paths for all files contained within the folder and subfolder recursively.
+   *
+   * @param pathToFolder identifies the path to the folder.
+   * @return the paths to the files within the folder and subfolder.
+   * @throws FileSystemAccessException if the S3 storage cannot be accessed.
+   */
+  @NotNull
   @Override
-  public void deleteFolder(@Size(max = FileRepository.LENGTH_PATH_TO_FILE) @NonNull String pathToFolder) throws S3AccessException, S3AndDatabaseAsyncException {
-    folderHandlingService.deleteFolder(pathToFolder);
+  public FilesInFolder getAllFilesInFolderRecursively(@NotNull final String pathToFolder) throws FileSystemAccessException {
+    final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
+    final FilesInFolder filesInFolder = new FilesInFolder();
+    final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
+    filesInFolder.setPathToFiles(filePathsInFolder);
+    return filesInFolder;
   }
+
+  /**
+   * The method adds a path separator to the end of the parameter if no separator is already added.
+   *
+   * @param pathToFolder to add a separator.
+   * @return the path to folder
+   */
+  public static String addPathSeparatorToTheEnd(final String pathToFolder) {
+    String correctedPathToFolder = pathToFolder;
+    if (StringUtils.isNotEmpty(pathToFolder) &&
+        !StringUtils.endsWith(pathToFolder, FolderInFilePathValidator.SEPARATOR)) {
+      correctedPathToFolder = correctedPathToFolder + FolderInFilePathValidator.SEPARATOR;
+    }
+    return correctedPathToFolder;
+  }
+
 }

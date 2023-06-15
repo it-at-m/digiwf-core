@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "digiwf.s3")
+@ConfigurationProperties(prefix = "io.muenchendigital.digiwf.s3")
 public class S3IntegrationProperties {
 
   @NotBlank

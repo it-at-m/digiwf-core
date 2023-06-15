@@ -8,7 +8,6 @@
 
     <properties>
         <logstash.encoder>7.3</logstash.encoder>
-        <okhttp.version>4.10.0</okhttp.version>
     </properties>
 
     <parent>
@@ -31,7 +30,6 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
         </dependency>
 
         <dependency>
@@ -62,7 +60,6 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-
 
         <!-- spring cloud stream -->
         <dependency>

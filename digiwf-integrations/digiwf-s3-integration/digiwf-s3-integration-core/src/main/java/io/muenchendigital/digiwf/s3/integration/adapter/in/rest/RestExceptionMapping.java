@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.s3.integration.adapter.in.rest;
 
-import io.muenchendigital.digiwf.s3.integration.domain.exception.FileExistenceException;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.FileExistenceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

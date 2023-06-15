@@ -26,12 +26,17 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Security -->
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -45,7 +50,7 @@
         <!-- Spring Cloud Stream -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
+            <artifactId>digiwf-message-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

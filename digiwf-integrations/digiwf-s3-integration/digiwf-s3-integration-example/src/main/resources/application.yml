@@ -16,6 +16,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: validate
+    open-in-view: true
 
   cloud:
     stream:
@@ -42,12 +43,10 @@ spring:
         functionRouter-in-0:
           group: "dwf-s3-service"
           destination: dwf-s3-client-${DIGIWF_ENV}
-        sendCorrelateMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
         sendMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: "dwf-connector-${DIGIWF_ENV}"
     function:
-      definition: functionRouter;sendMessage;sendCorrelateMessage;sendBpmnError;sendIncident;
+      definition: functionRouter;sendMessage;
   kafka:
     consumer:
       properties:
@@ -82,6 +81,6 @@ io:
             unused-files: 0 15 10 16 * ?
             expired-files: 0 15 10 15 * ?
         proxyEnabled: 'false'
-      streaming:
-        typeMappings:
-          createPresignedUrl: createPresignedUrl
+#      streaming:
+#        typeMappings:
+#          createPresignedUrl: createPresignedUrl

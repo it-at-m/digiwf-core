@@ -79,22 +79,28 @@ digiwf:
     engine:
       topics: dwf-digiwf-engine-${DIGIWF_ENV}
     group: dwf-s3-service
-    typeMappings:
-      createPresignedUrl: createPresignedUrl
-  s3:
-    bucketname: ${S3_BUCKETNAME}
-    accesskey: ${S3_ACCESSKEY}
-    url: ${S3_URL:http://localhost:9000}
-    secretkey: ${S3_SECRETKEY}
-    client:
-      document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
-      securityEnabled: false
-    proxyUrl: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
-    cronjob:
-      cleanup:
-        unused-files: 0 15 10 16 * ?
-        expired-files: 0 15 10 15 * ?
-    proxyEnabled: 'false'
+
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        bucketname: ${S3_BUCKETNAME}
+        accesskey: ${S3_ACCESSKEY}
+        url: ${S3_URL:http://localhost:9000}
+        secretkey: ${S3_SECRETKEY}
+        client:
+          document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+          securityEnabled: false
+        proxyUrl: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
+        cronjob:
+          cleanup:
+            unused-files: 0 15 10 16 * ?
+            expired-files: 0 15 10 15 * ?
+        proxyEnabled: 'false'
+      streaming:
+        typeMappings:
+          createPresignedUrl: createPresignedUrl
+
 
 
 server:
