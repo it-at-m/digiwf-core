@@ -122,3 +122,10 @@ digiwf:
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          documentStorageUrl: '${digiwf.s3service.httpAPI}'
