@@ -740,6 +740,18 @@ export interface PageHumanTaskTO {
     'content'?: Array<HumanTaskTO>;
     /**
      * 
+     * @type {number}
+     * @memberof PageHumanTaskTO
+     */
+    'number'?: number;
+    /**
+     * 
+     * @type {SortObject}
+     * @memberof PageHumanTaskTO
+     */
+    'sort'?: SortObject;
+    /**
+     * 
      * @type {boolean}
      * @memberof PageHumanTaskTO
      */
@@ -752,12 +764,6 @@ export interface PageHumanTaskTO {
     'last'?: boolean;
     /**
      * 
-     * @type {SortObject}
-     * @memberof PageHumanTaskTO
-     */
-    'sort'?: SortObject;
-    /**
-     * 
      * @type {number}
      * @memberof PageHumanTaskTO
      */
@@ -768,12 +774,6 @@ export interface PageHumanTaskTO {
      * @memberof PageHumanTaskTO
      */
     'pageable'?: PageableObject;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'number'?: number;
     /**
      * 
      * @type {boolean}
@@ -813,6 +813,18 @@ export interface PageServiceDefinitionTO {
     'content'?: Array<ServiceDefinitionTO>;
     /**
      * 
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
+    'number'?: number;
+    /**
+     * 
+     * @type {SortObject}
+     * @memberof PageServiceDefinitionTO
+     */
+    'sort'?: SortObject;
+    /**
+     * 
      * @type {boolean}
      * @memberof PageServiceDefinitionTO
      */
@@ -823,12 +835,6 @@ export interface PageServiceDefinitionTO {
      * @memberof PageServiceDefinitionTO
      */
     'last'?: boolean;
-    /**
-     * 
-     * @type {SortObject}
-     * @memberof PageServiceDefinitionTO
-     */
-    'sort'?: SortObject;
     /**
      * 
      * @type {number}
@@ -843,14 +849,81 @@ export interface PageServiceDefinitionTO {
     'pageable'?: PageableObject;
     /**
      * 
-     * @type {number}
+     * @type {boolean}
      * @memberof PageServiceDefinitionTO
+     */
+    'empty'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PageServiceInstanceTO
+ */
+export interface PageServiceInstanceTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'totalPages'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'size'?: number;
+    /**
+     * 
+     * @type {Array<ServiceInstanceTO>}
+     * @memberof PageServiceInstanceTO
+     */
+    'content'?: Array<ServiceInstanceTO>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
      */
     'number'?: number;
     /**
      * 
+     * @type {SortObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'sort'?: SortObject;
+    /**
+     * 
      * @type {boolean}
-     * @memberof PageServiceDefinitionTO
+     * @memberof PageServiceInstanceTO
+     */
+    'first'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'last'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
      */
     'empty'?: boolean;
 }
@@ -877,13 +950,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'pageNumber'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
+    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
@@ -4601,10 +4674,13 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
     return {
         /**
          * 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedInstances: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAssignedInstances: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/service/instance`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4620,6 +4696,18 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             // authentication spring_oauth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
 
 
     
@@ -4681,11 +4769,14 @@ export const ServiceInstanceControllerApiFp = function(configuration?: Configura
     return {
         /**
          * 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAssignedInstances(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ServiceInstanceTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedInstances(options);
+        async getAssignedInstances(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageServiceInstanceTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedInstances(page, size, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4710,11 +4801,14 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
     return {
         /**
          * 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedInstances(options?: any): AxiosPromise<Array<ServiceInstanceTO>> {
-            return localVarFp.getAssignedInstances(options).then((request) => request(axios, basePath));
+        getAssignedInstances(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageServiceInstanceTO> {
+            return localVarFp.getAssignedInstances(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4727,6 +4821,34 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
         },
     };
 };
+
+/**
+ * Request parameters for getAssignedInstances operation in ServiceInstanceControllerApi.
+ * @export
+ * @interface ServiceInstanceControllerApiGetAssignedInstancesRequest
+ */
+export interface ServiceInstanceControllerApiGetAssignedInstancesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly page?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly size?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly query?: string
+}
 
 /**
  * Request parameters for getProcessInstanceDetail operation in ServiceInstanceControllerApi.
@@ -4751,12 +4873,13 @@ export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
 export class ServiceInstanceControllerApi extends BaseAPI {
     /**
      * 
+     * @param {ServiceInstanceControllerApiGetAssignedInstancesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceControllerApi
      */
-    public getAssignedInstances(options?: AxiosRequestConfig) {
-        return ServiceInstanceControllerApiFp(this.configuration).getAssignedInstances(options).then((request) => request(this.axios, this.basePath));
+    public getAssignedInstances(requestParameters: ServiceInstanceControllerApiGetAssignedInstancesRequest = {}, options?: AxiosRequestConfig) {
+        return ServiceInstanceControllerApiFp(this.configuration).getAssignedInstances(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -50,7 +50,7 @@ public class ServiceDefinitionController {
      */
     @GetMapping
     @Operation(description = "load all available service definitions")
-    public ResponseEntity<Page<ServiceDefinitionTO>> getServiceDefinitions(
+    public Page<ServiceDefinitionTO> getServiceDefinitions(
             @RequestParam(value = "page", defaultValue = "0", required = false) @Min(0)  final int page,
             @RequestParam(value = "size", defaultValue = "50", required = false) @Min(1) @Max(50) final int size,
             @RequestParam(value = "query", required = false) @Nullable final String query
@@ -62,7 +62,7 @@ public class ServiceDefinitionController {
                 size,
                 query
         );
-        return ResponseEntity.ok(definitions.map(this.serviceDefinitionApiMapper::map2TO));
+        return definitions.map(this.serviceDefinitionApiMapper::map2TO);
     }
 
     /**

@@ -10,10 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceDefinitionPageMapperTest {
 
+    private final ServiceDefinitionPageMapper mapper = new ServiceDefinitionPageMapper();
 
-    private ServiceDefinitionPageMapper mapper = new ServiceDefinitionPageMapper();
-
-    private List<ServiceDefinition> definitions = List.of(
+    private final List<ServiceDefinition> definitions = List.of(
             new ServiceDefinition("key-1", "name-1", "description-A", "1.0.0"),
             new ServiceDefinition("key-2", "name-2", "description-A", "1.0.0"),
             new ServiceDefinition("key-3", "name-3", "description-B", "1.0.0"),
@@ -35,12 +34,11 @@ class ServiceDefinitionPageMapperTest {
 
         val resultOfSecondPage = mapper.toPage(definitions, 1, 3, null);
         assertEquals(8, resultOfSecondPage.getTotalElements());
-        assertEquals(0, resultOfSecondPage.getNumber());
+        assertEquals(1, resultOfSecondPage.getNumber());
         assertEquals(3, resultOfSecondPage.getSize());
         assertEquals(3, resultOfFirstPage.getTotalPages());
         assertArrayEquals(List.of("key-4", "key-5", "key-6").toArray(), resultOfSecondPage.getContent().stream().map(ServiceDefinition::getKey).toArray());
     }
-
 
     @Test
     public void shouldSearchCorrectlyInProperties() {
@@ -59,6 +57,4 @@ class ServiceDefinitionPageMapperTest {
         assertEquals(0, resultOfNonSuccessfullySearch.getNumber());
         assertEquals(0, resultOfNonSuccessfullySearch.getContent().size());
     }
-
-
 }

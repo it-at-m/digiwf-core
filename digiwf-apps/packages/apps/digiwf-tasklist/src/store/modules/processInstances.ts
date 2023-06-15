@@ -55,7 +55,7 @@ export default {
         const res = await ServiceInstanceControllerApiFactory(cfg).getAssignedInstances();
 
         context.commit('setLastFetch', new Date().getTime());
-        context.commit('setProcessInstances', res.data);
+        context.commit('setProcessInstances', res.data.content);
       } catch (error: any) {
         FetchUtils.defaultCatchHandler(error, "Die Vorgänge konnten nicht geladen werden. Bitte versuchen Sie es erneut.");
       }

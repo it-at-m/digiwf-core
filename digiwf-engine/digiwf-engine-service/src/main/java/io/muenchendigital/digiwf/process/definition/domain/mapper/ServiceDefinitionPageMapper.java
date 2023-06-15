@@ -7,6 +7,7 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 @NoArgsConstructor
 public class ServiceDefinitionPageMapper {
@@ -38,8 +38,7 @@ public class ServiceDefinitionPageMapper {
         val from = page * size;
         val to = Math.min((page + 1) * size, definitions.size());
         val pageContent = definitions.subList(from, to);
-
-        return new PageImpl<ServiceDefinition>(pageContent, Pageable.ofSize(size), definitions.size());
+        return new PageImpl<ServiceDefinition>(pageContent, PageRequest.of(page, size), definitions.size());
     }
 
     private List<ServiceDefinition> filterByQuery(
