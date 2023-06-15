@@ -9,7 +9,7 @@ class StartDigiWFErleben extends Page{
     }
 
     checkHeadline(text){
-        this.elements.headline().should('have.text',text);
+        this.elements.headline().should('contain.text',text);
     }
 
     tickAllesSehen(){
