@@ -4,6 +4,7 @@ import {callGetProcessDefinitionsFromEngine} from "../../api/processDefinitions/
 import {Page} from "../commonModels";
 import {callGetProcessInstances} from "../../api/processInstances/processInstancesApiCalls";
 import {queryClient} from "../queryClient";
+import {DateTime} from "luxon";
 
 export interface ProcessInstance { // FIXME: check nullable properties
   readonly id: string;
@@ -28,7 +29,7 @@ export const useGetProcessInstances = (page: Ref<number>, size: Ref<number>, que
           const content = data.content?.map<ProcessInstance>(it => ({
             id: it.id || "", // FIXME: look if key could be really undefined
             definitionName: it.definitionName || "Unbekannt",
-            startTime: it.startTime,
+            startTime: it.startTime ? DateTime.fromISO(it.startTime).toLocaleString(DateTime.DATETIME_SHORT) : "-",
             endTime: it.endTime,
           })) ?? [];
 

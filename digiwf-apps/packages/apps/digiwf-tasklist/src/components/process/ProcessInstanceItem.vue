@@ -31,7 +31,7 @@
         class="processColumn"
       >
         <span class="taskInfo">
-          {{ createdAt }}
+          {{ item.startTime }}
         </span>
       </v-flex>
       <div
@@ -89,27 +89,24 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {ServiceInstanceTO} from '@muenchen/digiwf-engine-api-internal';
-import {DateTime} from "luxon";
+import {PropType} from "vue";
+import {ProcessInstance} from "../../middleware/processInstances/processInstancesMiddleware";
 
-@Component
-export default class ProcessDefinitionItem extends Vue {
-
-  @Prop()
-  item!: ServiceInstanceTO;
-
-  @Prop()
-  searchString!: string;
-
-  @Emit("on-click")
-  onClick(): string {
-    return this.item.id!;
+export default {
+  props: {
+    item: {
+      type: Object as PropType<ProcessInstance>,
+      required: true
+    },
+    searchString: {
+      type: String,
+      default: ""
+    }
+  },
+  emits: {
+    click: {
+      type: Function as PropType<(id: string) => void>
+    }
   }
-
-  get createdAt(): string {
-    return DateTime.fromISO(this.item.startTime!).toLocaleString(DateTime.DATETIME_SHORT);
-  }
-
-}
+};
 </script>

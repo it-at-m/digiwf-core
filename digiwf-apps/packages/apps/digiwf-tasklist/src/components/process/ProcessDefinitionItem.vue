@@ -43,6 +43,7 @@
               :aria-label="'Vorgang '+item.name+ ' starten'"
               link
               :to="'/process/'+item.key"
+              :data-process-definition-key="item.key"
               @click="(event) => { event.preventDefault()}"
             >
               <v-list-item-title>Starten</v-list-item-title>
@@ -64,22 +65,24 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
+import {PropType} from "vue";
+import {ProcessDefinition} from "../../middleware/processDefinitions/processDefinitionMiddleware";
 
-@Component
-export default class ProcessDefinitionItem extends Vue {
-
-  @Prop()
-  item!: ServiceDefinitionTO;
-
-  @Prop()
-  searchString!: string;
-
-  @Emit("on-click")
-  onClick(): string {
-    return this.item.key!;
+export default {
+  props: {
+    item: {
+      type: Object as PropType<ProcessDefinition>,
+      required: true
+    },
+    searchString: {
+      type: String,
+      default: ""
+    }
+  },
+  emits: {
+    click: {
+      type: Function as PropType<(id: string) => void>
+    }
   }
-
-}
+};
 </script>
