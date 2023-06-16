@@ -4,17 +4,24 @@
       :aria-label="'Vorgang '+item.name+ ' starten'"
       class="d-flex justify-space-between"
       :to="'/process/'+item.key"
+      data-cy="process-definition-item"
+      :data-element-key="item.key"
     >
       <v-flex
         class="d-flex flex-column"
         style="height: 5rem; margin: 15px 0"
       >
-        <h2 class="processTitle">
+        <h2
+          class="processTitle"
+          data-cy="name"
+        >
           <text-highlight :queries="searchString">
             {{ item.name }}
           </text-highlight>
         </h2>
-        <p>
+        <p
+          data-cy="description"
+        >
           <text-highlight :queries="searchString">
             {{ item.description }}
           </text-highlight>
@@ -32,6 +39,7 @@
             <v-btn
               icon
               v-bind="attrs"
+              data-cy="dropdown-menu-button"
               @click="(event) => { event.preventDefault()}"
               v-on.prevent="on"
             >
@@ -43,6 +51,7 @@
               :aria-label="'Vorgang '+item.name+ ' starten'"
               link
               :to="'/process/'+item.key"
+              data-cy="start-button"
               :data-process-definition-key="item.key"
               @click="(event) => { event.preventDefault()}"
             >
@@ -55,14 +64,6 @@
     <hr class="hrDivider">
   </div>
 </template>
-
-<style scoped>
-
-.processTitle {
-  font-size: 1.2rem;
-}
-
-</style>
 
 <script lang="ts">
 import {PropType} from "vue";
@@ -86,3 +87,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+.processTitle {
+  font-size: 1.2rem;
+}
+
+</style>

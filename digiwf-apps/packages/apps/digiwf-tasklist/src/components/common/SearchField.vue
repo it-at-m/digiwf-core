@@ -4,16 +4,17 @@
     id="suchfeld"
     class="searchField"
     :value="syncedFilter"
-    @change="changeFilter"
-    :items="persistentFilters?.map((f) => f.filterString) || []"
+    data-cy="search-field"
+    color="black"
     flat
     dense
     outlined
     hide-details
+    :items="persistentFilters?.map((f) => f.filterString) || []"
     label="Aufgaben durchsuchen"
     clearable
-    color="black"
     style="max-width: 500px"
+    @change="changeFilter"
     @input.native="(e) => changeFilter(e.target.value)"
   >
     <template #append>
@@ -25,7 +26,9 @@
           class="v-icon"
           @click="deletePersistentFilter()"
         >
-          <v-icon color="primary"> mdi-star</v-icon>
+          <v-icon color="primary">
+            mdi-star
+          </v-icon>
         </v-btn>
         <v-btn
           v-else-if="showSaveBtn()"
@@ -34,10 +37,14 @@
           class="v-icon"
           @click="savePersistentFilter()"
         >
-          <v-icon color="primary"> mdi-star-outline</v-icon>
+          <v-icon color="primary">
+            mdi-star-outline
+          </v-icon>
         </v-btn>
       </div>
-      <v-icon class="ml-2"> mdi-magnify</v-icon>
+      <v-icon class="ml-2">
+        mdi-magnify
+      </v-icon>
     </template>
   </v-combobox>
 </template>
