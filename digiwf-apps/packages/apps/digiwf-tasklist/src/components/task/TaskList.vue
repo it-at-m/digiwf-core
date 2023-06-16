@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import AppToast from "@/components/UI/AppToast.vue";
-import SearchField from "./SearchField.vue";
+import SearchField from "../common/SearchField.vue";
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
 

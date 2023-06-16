@@ -77,7 +77,7 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import ProcessDefinitionItem from "@/components/process/ProcessDefinitionItem.vue";
 import {defineComponent, watch} from "vue";
 import {useGetPaginationData} from "../middleware/paginationData";
-import SearchField from "../components/task/SearchField.vue";
+import SearchField from "../components/common/SearchField.vue";
 import {useGetProcessDefinitions} from "../middleware/processDefinitions/processDefinitionMiddleware";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 

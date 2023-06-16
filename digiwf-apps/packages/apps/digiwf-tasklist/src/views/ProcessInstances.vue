@@ -97,7 +97,7 @@ import {defineComponent, watch} from "vue";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {useGetProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
-import SearchField from "../components/task/SearchField.vue";
+import SearchField from "../components/common/SearchField.vue";
 
 export default defineComponent({
     components: {
