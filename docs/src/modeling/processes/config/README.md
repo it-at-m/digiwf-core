@@ -79,7 +79,7 @@ In den configs können zudem DigiWF-spezifische Einstellungen angegeben werden:
   persistiert.
 - **app_file_s3_async_config:** Wird die Einstellung gesetzt, dann wird der Wert als Konfiguration für den S3-Service
   verwendet. Dabei handelt es sich um das Topic für den verwendeten S3-Service. Die Konfig wird von der Plattform 
-  autom. gesetzt und nur benötigt, wenn man es überschreiben möchte.
+  autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
 - **app_file_s3_sync_config:** Wird die Einstellung gesetzt, dann wird der Wert als Konfiguration für den S3-Service
   verwendet. Dabei handelt es sich um die URL des verwendeten S3-Service. Die Konfig wird von der Plattform 
   autom. gesetzt und nur benötigt, wenn man es überschreiben möchte.
