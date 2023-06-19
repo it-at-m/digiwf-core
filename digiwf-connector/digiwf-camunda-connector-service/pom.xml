@@ -13,7 +13,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>0.17.14-SNAPSHOT</version>
+        <version>0.17.15-SNAPSHOT</version>
     </parent>
 
     <dependencies>
