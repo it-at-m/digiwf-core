@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
-import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 
-import static io.muenchendigital.digiwf.task.TaskVariables.TASK_SCHEMA_TYPE;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
 import static org.springframework.http.ResponseEntity.noContent;
 
 @RequiredArgsConstructor
@@ -45,14 +46,25 @@ public class TaskImporterService {
     @RolesAllowed(CLIENT_IMPORT_TASKS)
     public ResponseEntity<Void> enrichExistingTasks(@RequestParam(name = "firstResult") int firstResult, @RequestParam(name = "maxResults") int maxResults) {
 
-        val tasks = taskService.createTaskQuery().active().or().taskAssigned().withCandidateUsers().withCandidateGroups().endOr().listPage(firstResult, maxResults);
+        val tasks = new HashSet<TaskEntity>();
+        tasks.addAll(taskService.createTaskQuery()
+            .active()
+            .withCandidateUsers()
+            .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
+        tasks.addAll(taskService.createTaskQuery()
+          .active()
+          .withCandidateGroups()
+          .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
+        tasks.addAll(taskService.createTaskQuery()
+          .active()
+          .taskAssigned()
+          .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
 
         tasks.forEach((task) -> {
-            val taskEntity = ((TaskEntity)task);
-            assignmentCreateTaskListener.taskCreated(taskEntity);
-            cancelableTaskStatusCreateTaskListener.taskCreated(taskEntity);
-            taskSchemaTypeCreateTaskListener.taskCreated(taskEntity);
-            taskDescriptionCreateTaskListener.taskCreated(taskEntity);
+            assignmentCreateTaskListener.taskCreated(task);
+            cancelableTaskStatusCreateTaskListener.taskCreated(task);
+            taskSchemaTypeCreateTaskListener.taskCreated(task);
+            taskDescriptionCreateTaskListener.taskCreated(task);
         });
 
         return noContent().build();
