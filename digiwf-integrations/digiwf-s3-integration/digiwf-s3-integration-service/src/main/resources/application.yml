@@ -1,15 +1,6 @@
 spring:
   application:
     name: @project.artifactId@
-  # Spring data rest
-  data:
-    rest:
-      # Definition of page size for PagingAndSortingRepository
-      max-page-size: 0x7fffffff
-      default-page-size: 0x7fffffff
-      return-body-on-update: true
-      return-body-on-create: true
-
   # Spring JPA
   datasource:
     url: '${S3INTEGRATION_DATASOURCE_URL}'
@@ -25,11 +16,13 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: validate
+    open-in-view: true
 
   cloud:
     stream:
       kafka:
         binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
           producerProperties:
             value:
               serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -46,15 +39,12 @@ spring:
           configuration:
             security:
               protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
-          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
       bindings:
         functionRouter-in-0:
-          group: ${digiwf.streaming.group}
-          destination: ${digiwf.streaming.s3.topics}
-        sendCorrelateMessage-out-0:
-          destination: ${digiwf.streaming.engine.topics}
+          group: "dwf-s3-service"
+          destination: dwf-s3-${DIGIWF_ENV}
         sendMessage-out-0:
-          destination: ${digiwf.streaming.engine.topics}
+          destination: dwf-digiwf-engine-${DIGIWF_ENV}
       default:
         consumer:
           maxAttempts: '1'
@@ -63,7 +53,7 @@ spring:
         routing:
           enabled: 'true'
     function:
-      definition: functionRouter;sendMessage;sendCorrelateMessage;
+      definition: functionRouter;sendMessage;
   kafka:
     consumer:
       properties:
@@ -71,14 +61,6 @@ spring:
           json:
             trusted:
               packages: '*'
-
-digiwf:
-  streaming:
-    s3:
-      topics: dwf-s3-${DIGIWF_ENV}
-    engine:
-      topics: dwf-digiwf-engine-${DIGIWF_ENV}
-    group: dwf-s3-service
 
 io:
   muenchendigital:
@@ -97,10 +79,6 @@ io:
             unused-files: 0 15 10 16 * ?
             expired-files: 0 15 10 15 * ?
         proxyEnabled: 'false'
-      streaming:
-        typeMappings:
-          createPresignedUrl: createPresignedUrl
-
 
 
 server:

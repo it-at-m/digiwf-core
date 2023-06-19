@@ -47,6 +47,7 @@ spring:
           destination: "dwf-connector-${DIGIWF_ENV}"
     function:
       definition: functionRouter;sendMessage;
+
   kafka:
     consumer:
       properties:
@@ -81,6 +82,4 @@ io:
             unused-files: 0 15 10 16 * ?
             expired-files: 0 15 10 15 * ?
         proxyEnabled: 'false'
-#      streaming:
-#        typeMappings:
-#          createPresignedUrl: createPresignedUrl
+
