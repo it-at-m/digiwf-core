@@ -11,9 +11,11 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.impl.telemetry.TelemetryRegistry;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.ArgumentCaptor;
@@ -22,6 +24,8 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertT
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
+@Disabled("This test is disabled from CI, since it uses the same in-mem H2 DB as CancelableTaskStatusCreateTaskListenerTest and interfers with it")
+// FIXME - make sure we can run multiple tests with the engine -> maybe a dedicted ITEst-module for this is required.
 class TaskImporterServiceTest {
 
   @RegisterExtension
@@ -30,7 +34,10 @@ class TaskImporterServiceTest {
       .useProcessEngine(
           ProcessEngineConfiguration
               .createStandaloneInMemProcessEngineConfiguration()
-              .setJdbcUrl("jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000")
+              .setHistory("none")
+              .setJdbcUrl("jdbc:h2:mem:camunda-importer;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;")
+              .setSkipHistoryOptimisticLockingExceptions(true)
+              .setTelemetryRegistry(mock(TelemetryRegistry.class))
               .buildProcessEngine()
       )
       .build();
@@ -64,7 +71,7 @@ class TaskImporterServiceTest {
     val instance = runtimeService.startProcessInstanceByKey("assignment_test_process");
     assertThat(instance).isStarted();
 
-    Assertions.assertThat(taskService.createTaskQuery().count()).isEqualTo(5);
+    Assertions.assertThat(taskService.createTaskQuery().processDefinitionKey("assignment_test_process").count()).isEqualTo(5);
 
     service.enrichExistingTasks();
 
