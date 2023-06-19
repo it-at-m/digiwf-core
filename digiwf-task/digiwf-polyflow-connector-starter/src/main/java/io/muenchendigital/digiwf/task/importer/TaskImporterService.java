@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
@@ -42,9 +43,9 @@ public class TaskImporterService {
 
     @PostMapping("/rest/admin/tasks/enrich")
     @RolesAllowed(CLIENT_IMPORT_TASKS)
-    public ResponseEntity<Void> enrichExistingTasks() {
+    public ResponseEntity<Void> enrichExistingTasks(@RequestParam(name = "firstResult") int firstResult, @RequestParam(name = "maxResults") int maxResults) {
 
-        val tasks = taskService.createTaskQuery().active().withCandidateUsers().withCandidateGroups().list();
+        val tasks = taskService.createTaskQuery().active().or().taskAssigned().withCandidateUsers().withCandidateGroups().endOr().listPage(firstResult, maxResults);
 
         tasks.forEach((task) -> {
             val taskEntity = ((TaskEntity)task);
