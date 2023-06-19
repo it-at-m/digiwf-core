@@ -3,7 +3,6 @@ package io.muenchendigital.digiwf.task.listener;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.assertj.core.api.Assertions;
-import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -89,6 +88,18 @@ class CancelableTaskStatusCreateTaskListenerTest {
 
     val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
     Assertions.assertThat(cancelable).isFalse();
+  }
+
+  @Test
+  @Deployment(resources = "process_cancelable_user_task_no_errorcode.bpmn")
+  public void is_cancellable_no_errorcode() {
+
+    val instance = runtimeService.startProcessInstanceByKey("process_cancelable_user_task");
+    assertThat(instance).isStarted();
+    assertThat(instance).isWaitingAt("user_task");
+
+    val cancelable = reader(taskService, task().getId()).getLocal(TASK_CANCELABLE);
+    Assertions.assertThat(cancelable).isTrue();
   }
 
   /**
