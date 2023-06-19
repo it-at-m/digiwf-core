@@ -1,13 +1,14 @@
-package io.muenchendigital.digiwf.cosys.integration.api;
+package io.muenchendigital.digiwf.cosys.integration.adapter.in;
 
-import io.muenchendigital.digiwf.cosys.integration.domain.model.GenerateDocument;
-import io.muenchendigital.digiwf.cosys.integration.domain.service.CosysService;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+
+import io.muenchendigital.digiwf.cosys.integration.application.port.in.CreateDocument;
+import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
 import io.muenchendigital.digiwf.message.process.api.ErrorApi;
 import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import javax.validation.ValidationException;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Slf4j
@@ -23,9 +25,7 @@ import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_P
 @RequiredArgsConstructor
 public class MessageProcessor {
 
-    private final CosysService cosysService;
-
-    private final ProcessApi processApi;
+    private final CreateDocument documentUseCase;
 
     private final ErrorApi errorApi;
 
@@ -34,6 +34,7 @@ public class MessageProcessor {
      *
      * @return the consumer
      */
+    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<GenerateDocument>> createCosysDocument() {
         return message -> {
@@ -41,8 +42,10 @@ public class MessageProcessor {
             log.info("Processing generate document request from eventbus");
             final GenerateDocument document = message.getPayload();
             log.debug("Generate document request: {}", document);
-                this.cosysService.createDocument(document);
-                this.correlateMessage((message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString()), "documentCreated", Map.of("status", true));
+                this.documentUseCase.createDocument(
+                        message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME, String.class),
+                        document);
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final ValidationException validationException) {
@@ -51,10 +54,6 @@ public class MessageProcessor {
                 this.errorApi.handleIncident(message.getHeaders(), incidentError);
             }
         };
-    }
-
-    public void correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> message) {
-        this.processApi.correlateMessage(processInstanceId, messageName, message);
     }
 
 }

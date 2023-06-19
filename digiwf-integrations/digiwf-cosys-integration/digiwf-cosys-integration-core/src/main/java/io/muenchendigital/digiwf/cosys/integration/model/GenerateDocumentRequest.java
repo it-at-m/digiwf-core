@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.cosys.integration.domain.model;
+package io.muenchendigital.digiwf.cosys.integration.model;
 
 import lombok.Data;
 

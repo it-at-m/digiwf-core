@@ -2,9 +2,20 @@ package io.muenchendigital.digiwf.cosys.integration.configuration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.muenchendigital.digiwf.cosys.integration.adapter.in.MessageProcessor;
+import io.muenchendigital.digiwf.cosys.integration.adapter.out.ProcessAdapter;
+import io.muenchendigital.digiwf.cosys.integration.adapter.out.S3Adapter;
+import io.muenchendigital.digiwf.cosys.integration.application.port.in.CreateDocument;
+import io.muenchendigital.digiwf.cosys.integration.application.port.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
+import io.muenchendigital.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
 import io.muenchendigital.digiwf.cosys.integration.gen.ApiClient;
 import io.muenchendigital.digiwf.cosys.integration.gen.api.GenerationApi;
+import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
+import io.muenchendigital.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
+import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
 import io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +33,11 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.messaging.Message;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
@@ -96,6 +109,31 @@ public class CosysAutoConfiguration {
                         .build())
                 .apply(oauth.oauth2Configuration())
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
+        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CorrelateMessagePort getCorrelateMessagePort(final ProcessApi processApi) {
+        return new ProcessAdapter(processApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SaveFileToStoragePort getSaveFileToStoragePort(final S3FileTransferRepository s3FileTransferRepository) {
+        return new S3Adapter(s3FileTransferRepository);
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public Consumer<Message<GenerateDocument>> documentMessageProcessor(final CreateDocument documentUseCase, final ErrorApi errorApi) {
+        final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
+        return messageProcessor.createCosysDocument();
     }
 
 
