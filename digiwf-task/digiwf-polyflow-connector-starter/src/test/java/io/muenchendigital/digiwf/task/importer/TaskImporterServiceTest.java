@@ -66,7 +66,7 @@ class TaskImporterServiceTest {
 
     Assertions.assertThat(taskService.createTaskQuery().count()).isEqualTo(5);
 
-    service.enrichExistingTasks(0, Integer.MAX_VALUE);
+    service.enrichExistingTasks();
 
     val invokedOnTasks = taskParamCaptor.getAllValues();
     Assertions.assertThat(invokedOnTasks.stream().map(DelegateTask::getTaskDefinitionKey)).containsExactlyInAnyOrder("user_assigned", "user_candidate_users", "user_candidate_groups", "user_assigned_and_candidate_group");

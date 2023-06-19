@@ -44,21 +44,21 @@ public class TaskImporterService {
 
     @PostMapping("/rest/admin/tasks/enrich")
     @RolesAllowed(CLIENT_IMPORT_TASKS)
-    public ResponseEntity<Void> enrichExistingTasks(@RequestParam(name = "firstResult") int firstResult, @RequestParam(name = "maxResults") int maxResults) {
+    public ResponseEntity<Void> enrichExistingTasks() {
 
         val tasks = new HashSet<TaskEntity>();
         tasks.addAll(taskService.createTaskQuery()
             .active()
             .withCandidateUsers()
-            .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
+            .list().stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
         tasks.addAll(taskService.createTaskQuery()
           .active()
           .withCandidateGroups()
-          .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
+          .list().stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
         tasks.addAll(taskService.createTaskQuery()
           .active()
           .taskAssigned()
-          .listPage(firstResult, maxResults).stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
+          .list().stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
 
         tasks.forEach((task) -> {
             assignmentCreateTaskListener.taskCreated(task);
