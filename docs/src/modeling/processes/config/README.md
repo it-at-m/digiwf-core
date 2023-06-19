@@ -82,7 +82,7 @@ In den configs können zudem DigiWF-spezifische Einstellungen angegeben werden:
   autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
 - **app_file_s3_sync_config:** Wird die Einstellung gesetzt, dann wird der Wert als Konfiguration für den S3-Service
   verwendet. Dabei handelt es sich um die URL des verwendeten S3-Service. Die Konfig wird von der Plattform 
-  autom. gesetzt und nur benötigt, wenn man es überschreiben möchte.
+  autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
 - **app_instance_schema_key:** Das Schema, das in der Prozessinstanzübersicht verwendet werden soll, um Daten
   anzuzeigen.
 - **app_instance_file_paths_readonly:** Die Dateipfade,die in der Prozessinstanzübersicht gelesen werden können
