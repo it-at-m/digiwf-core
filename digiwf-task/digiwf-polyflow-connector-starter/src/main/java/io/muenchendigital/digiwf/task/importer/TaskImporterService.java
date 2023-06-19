@@ -46,6 +46,7 @@ public class TaskImporterService {
     @RolesAllowed(CLIENT_IMPORT_TASKS)
     public ResponseEntity<Void> enrichExistingTasks() {
 
+        log.info("Selecting candidates for task enrichment from " + taskService.createTaskQuery().active().count() + " tasks.");
         val tasks = new HashSet<TaskEntity>();
         tasks.addAll(taskService.createTaskQuery()
             .active()
@@ -60,6 +61,8 @@ public class TaskImporterService {
           .taskAssigned()
           .list().stream().map(task -> ((TaskEntity)task)).collect(Collectors.toList()));
 
+        log.info("Selected for enrichment " + tasks.size() + " tasks");
+
         tasks.forEach((task) -> {
             assignmentCreateTaskListener.taskCreated(task);
             cancelableTaskStatusCreateTaskListener.taskCreated(task);
@@ -67,6 +70,7 @@ public class TaskImporterService {
             taskDescriptionCreateTaskListener.taskCreated(task);
         });
 
+        log.info("Enrichment of " + tasks.size() + " tasks finished");
         return noContent().build();
     }
 
