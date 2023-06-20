@@ -15,14 +15,15 @@
             <bpmn:outgoing>Flow_1fbmdks</bpmn:outgoing>
         </bpmn:startEvent>
         <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:candidateGroups="${FORMFIELD_group}">
+            <bpmn:extensionElements>
+                <camunda:inputOutput>
+                    <camunda:inputParameter name="app_task_schema_key">group-user-task</camunda:inputParameter>
+                </camunda:inputOutput>
+            </bpmn:extensionElements>
             <bpmn:incoming>Flow_1fbmdks</bpmn:incoming>
             <bpmn:outgoing>Flow_1uh0l8y</bpmn:outgoing>
             <bpmn:multiInstanceLoopCharacteristics>
-                <bpmn:extensionElements>
-                    <camunda:inputOutput>
-                        <camunda:inputParameter name="app_task_schema_key">group-user-task</camunda:inputParameter>
-                    </camunda:inputOutput>
-                </bpmn:extensionElements>
+
                 <bpmn:loopCardinality>${FORMFIELD_NumberOfTasks}</bpmn:loopCardinality>
             </bpmn:multiInstanceLoopCharacteristics>
         </bpmn:userTask>
