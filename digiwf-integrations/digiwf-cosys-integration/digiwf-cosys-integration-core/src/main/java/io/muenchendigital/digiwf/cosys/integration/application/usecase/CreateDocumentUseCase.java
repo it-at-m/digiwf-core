@@ -47,7 +47,7 @@ public class CreateDocumentUseCase implements CreateDocument {
 
         final Map<String, Object> correlatePayload = new HashMap<>();
         correlatePayload.put("status", true);
-        this.correlateMessagePort.correlateMessage(processInstanceIde,messageName,);
+        this.correlateMessagePort.correlateMessage(processInstanceIde,messageName,correlatePayload);
     }
 
     /**

@@ -111,11 +111,11 @@ public class CosysAutoConfiguration {
                 .build();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
-        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
+//        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
+//    }
 
     @Bean
     @ConditionalOnMissingBean
