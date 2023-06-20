@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:collaboration id="Collaboration_0e6ak52">
-    <bpmn:extensionElements>
-      <camunda:properties>
-        <camunda:property />
-      </camunda:properties>
-    </bpmn:extensionElements>
+    <bpmn:extensionElements />
     <bpmn:participant id="Participant_1nz00x0" name="User Task process" processRef="Usertask-Example" />
   </bpmn:collaboration>
   <bpmn:process id="Usertask-Example" name="Example Usertask" isExecutable="true">
@@ -13,13 +9,16 @@
       <bpmn:outgoing>Flow_1fbmdks</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="Task_UserTask" name="User Task" camunda:assignee="${FORMFIELD_User}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1fbmdks</bpmn:incoming>
       <bpmn:outgoing>Flow_091qwfe</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+        <bpmn:loopCardinality>${FORMFIELD_NumberOfTasks}</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
     <bpmn:endEvent id="Event_17q2n00" name="End">
       <bpmn:incoming>Flow_091qwfe</bpmn:incoming>
