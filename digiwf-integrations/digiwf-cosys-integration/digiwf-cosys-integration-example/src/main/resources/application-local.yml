@@ -14,8 +14,6 @@ io:
   muenchendigital:
     digiwf:
       cosys:
-        messageTopic: dwf-connector-local-01
-        topic: dwf-cosys-local-01
         url:
         merge:
           datafile: //multi
@@ -23,6 +21,3 @@ io:
           outputLanguage: Deutsch
           keepFields: unresolved-ref
 
-digiwf:
-  streaming:
-    group: 'dwf-cosys-local-01'

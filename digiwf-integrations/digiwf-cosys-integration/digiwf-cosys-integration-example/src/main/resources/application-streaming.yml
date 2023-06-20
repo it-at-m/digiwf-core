@@ -1,8 +1,11 @@
 spring:
   cloud:
     function:
-      definition: functionRouter;sendMessage;sendCorrelateMessage;
+      definition: functionRouter;sendMessage;
     stream:
+      function:
+        routing:
+          enabled: 'true'
       kafka:
         binder:
           producerProperties:
@@ -24,10 +27,10 @@ spring:
 
       bindings:
         functionRouter-in-0:
-          destination: ${io.muenchendigital.digiwf.cosys.topic}
-          group: ${digiwf.streaming.group}
-        sendCorrelateMessage-out-0:
-          destination: ${io.muenchendigital.digiwf.cosys.messageTopic}
+          group: "dwf-cosys-service"
+          destination: "dwf-cosys-${DIGIWF_ENV}"
+        sendMessage-out-0:
+          destination: "dwf-connector-${DIGIWF_ENV}"
   kafka:
     consumer:
       properties:
@@ -35,3 +38,13 @@ spring:
           json:
             trusted:
               packages: *
+
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          createDocumentFromEventBus: "cosysMessageProcessor"

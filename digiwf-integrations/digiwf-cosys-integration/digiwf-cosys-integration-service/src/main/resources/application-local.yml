@@ -1,7 +1,3 @@
-logging:
-  level:
-    org.springframework.cloud.function: DEBUG
-
 spring:
   cloud:
     stream:
@@ -13,12 +9,3 @@ spring:
           configuration:
             security:
               #protocol: SSL
-
-io:
-  muenchendigital:
-    digiwf:
-      cosys:
-        topic: dwf-cosys-local-01
-        group: dwf-cosys-local-01
-        messageTopic: dwf-connector-local-01
-        incidentTopic: dwf-connector-incident-local-01
