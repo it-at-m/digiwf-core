@@ -1,0 +1,24 @@
+logging:
+  level:
+    org.springframework.cloud.function: DEBUG
+
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          consumerProperties:
+            auto.offset.reset: latest
+          configuration:
+            security:
+              #protocol: SSL
+
+io:
+  muenchendigital:
+    digiwf:
+      cosys:
+        topic: dwf-cosys-local-01
+        group: dwf-cosys-local-01
+        messageTopic: dwf-connector-local-01
+        incidentTopic: dwf-connector-incident-local-01

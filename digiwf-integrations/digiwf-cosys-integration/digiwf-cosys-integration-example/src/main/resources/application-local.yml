@@ -1,0 +1,28 @@
+logging:
+  level:
+    io.muenchendigital: info
+    org.simpleframework: info
+
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+io:
+  muenchendigital:
+    digiwf:
+      cosys:
+        messageTopic: dwf-connector-local-01
+        topic: dwf-cosys-local-01
+        url:
+        merge:
+          datafile: //multi
+          inputLanguage: Deutsch
+          outputLanguage: Deutsch
+          keepFields: unresolved-ref
+
+digiwf:
+  streaming:
+    group: 'dwf-cosys-local-01'

@@ -1,0 +1,47 @@
+spring:
+  cloud:
+    function:
+      definition: sendCorrelateMessage;sendIncident;functionRouter;
+    stream:
+      function:
+        routing:
+          enabled: true
+      bindings:
+        functionRouter-in-0:
+          destination: ${io.muenchendigital.digiwf.cosys.topic}
+          group: ${io.muenchendigital.digiwf.cosys.group}
+        sendCorrelateMessage-out-0:
+          destination: ${io.muenchendigital.digiwf.cosys.messageTopic}
+        sendIncident-out-0:
+          destination: ${io.muenchendigital.digiwf.cosys.incidentTopic}
+      kafka:
+        binder:
+          consumerProperties:
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          producerProperties:
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+        ##DLQ Config -> only possible if group for functionRouter is set
+        default:
+          consumer:
+            #dlqName:
+            #enableDlq: true
+      default:
+        consumer:
+          #maxAttempts: 1
+
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: *
+
+

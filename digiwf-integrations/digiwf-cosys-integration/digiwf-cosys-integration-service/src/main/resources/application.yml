@@ -1,0 +1,9 @@
+io:
+  muenchendigital:
+    digiwf:
+      cosys:
+        merge:
+          datafile: /root/multi
+          inputLanguage: Deutsch
+          outputLanguage: unresolved-ref
+          keepFields: unresolved-ref

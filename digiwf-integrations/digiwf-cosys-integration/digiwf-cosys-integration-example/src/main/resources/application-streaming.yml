@@ -1,0 +1,37 @@
+spring:
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;sendCorrelateMessage;
+    stream:
+      kafka:
+        binder:
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            auto:
+              offset:
+                reset: latest
+          configuration:
+            security:
+              #protocol: SSL
+
+      bindings:
+        functionRouter-in-0:
+          destination: ${io.muenchendigital.digiwf.cosys.topic}
+          group: ${digiwf.streaming.group}
+        sendCorrelateMessage-out-0:
+          destination: ${io.muenchendigital.digiwf.cosys.messageTopic}
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: *
