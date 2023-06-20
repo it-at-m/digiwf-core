@@ -16,14 +16,10 @@ import io.muenchendigital.digiwf.message.process.api.ErrorApi;
 import io.muenchendigital.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
 import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.function.context.MessageRoutingCallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +38,7 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @AutoConfigureAfter({S3IntegrationClientAutoConfiguration.class})
-@AutoConfigureBefore({StreamingConfiguration.class})
+//@AutoConfigureBefore({StreamingConfiguration.class})
 @ComponentScan(basePackages = {"io.muenchendigital.digiwf.cosys.integration"})
 @EnableConfigurationProperties({CosysProperties.class})
 public class CosysAutoConfiguration {
@@ -69,13 +65,13 @@ public class CosysAutoConfiguration {
         return cosysConfiguration;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public MessageRoutingCallback getEventBusRouter() {
-        final Map<String, String> typeMappings = new HashMap<>();
-        typeMappings.put(TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS, TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS);
-        return new RoutingCallback(typeMappings);
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public MessageRoutingCallback getEventBusRouter() {
+//        final Map<String, String> typeMappings = new HashMap<>();
+//        typeMappings.put(TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS, TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS);
+//        return new RoutingCallback(typeMappings);
+//    }
 
     @Bean
     public GenerationApi generationApi(final ApiClient apiClient) {
@@ -111,11 +107,11 @@ public class CosysAutoConfiguration {
                 .build();
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
-//        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
-//    }
+    @Bean
+    @ConditionalOnMissingBean
+    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
+        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
+    }
 
     @Bean
     @ConditionalOnMissingBean

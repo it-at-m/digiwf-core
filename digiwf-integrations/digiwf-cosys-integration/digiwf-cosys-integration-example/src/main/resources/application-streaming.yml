@@ -37,7 +37,7 @@ spring:
         spring:
           json:
             trusted:
-              packages: *
+              packages: "*"
 
 io:
   muenchendigital:
