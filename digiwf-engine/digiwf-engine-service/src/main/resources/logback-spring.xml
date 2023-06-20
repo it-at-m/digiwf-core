@@ -96,20 +96,8 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="digitalwf"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT"/>
-        </logger>
-
-        <logger name="de.muenchen.allgemein"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT"/>
-        </logger>
-
-        <logger name="org.springframework.web"
-                level="info"
+        <logger name="org.apache.kafka"
+                level="warn"
                 additivity="false">
             <appender-ref ref="JSON_STDOUT"/>
         </logger>
