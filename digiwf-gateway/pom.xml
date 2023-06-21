@@ -15,7 +15,6 @@
     </parent>
 
     <properties>
-        <logstash.encoder.version>7.3</logstash.encoder.version>
         <apache.commons.lang.version>3.12.0</apache.commons.lang.version>
         <hazelcast.version>4.2.4</hazelcast.version>
     </properties>
@@ -111,7 +110,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash.encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>

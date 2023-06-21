@@ -28,6 +28,7 @@
         <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <tika.version>2.7.0</tika.version>
+        <logstash.encoder.version>7.3</logstash.encoder.version>
     </properties>
 
     <modules>
@@ -120,6 +121,12 @@
                 <version>${camunda.version.ce}</version>
             </dependency>
 
+            <!-- Logging -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.encoder.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
