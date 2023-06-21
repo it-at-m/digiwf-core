@@ -91,11 +91,6 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="org.apache.kafka"
-                level="warn"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT"/>
-        </logger>
 
         <!-- Logger usage -->
         <root level="info">
