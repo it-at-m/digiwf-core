@@ -256,6 +256,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>banner.txt</include>
+                    <include>*.yml</include>
                 </includes>
                 <targetPath>${project.build.outputDirectory}</targetPath>
                 <filtering>true</filtering>

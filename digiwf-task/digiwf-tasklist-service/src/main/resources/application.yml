@@ -1,6 +1,7 @@
 server:
   port: ${TASKSERVICE_SERVER_PORT}
 spring:
+  application.name: @project.artifactId@
   profiles:
     active: no-ldap # this profile is activating mock group resolution and should be replaced by the LDAP-aware client on production
   datasource:
