@@ -14,7 +14,6 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ValidationException;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
@@ -36,7 +35,7 @@ public class MessageProcessor {
      */
     @ConditionalOnMissingBean
     @Bean
-    public Consumer<Message<GenerateDocument>> createCosysDocument() {
+    public Consumer<Message<GenerateDocument>> cosysIntegration() {
         return message -> {
             try {
             log.info("Processing generate document request from eventbus");

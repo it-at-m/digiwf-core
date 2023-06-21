@@ -129,7 +129,7 @@ public class CosysAutoConfiguration {
     @Bean
     public Consumer<Message<GenerateDocument>> documentMessageProcessor(final CreateDocument documentUseCase, final ErrorApi errorApi) {
         final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
-        return messageProcessor.createCosysDocument();
+        return messageProcessor.cosysIntegration();
     }
 
 
