@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
     <artifactId>digiwf-core</artifactId>
-    <version>0.17.14-SNAPSHOT</version>
+    <version>0.17.15-SNAPSHOT</version>
     <name>digiwf-core</name>
     <packaging>pom</packaging>
     <description>DigiWF Core Services</description>
