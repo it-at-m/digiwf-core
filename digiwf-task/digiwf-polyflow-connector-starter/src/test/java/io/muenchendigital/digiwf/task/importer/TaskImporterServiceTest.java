@@ -25,7 +25,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
 @Disabled("This test is disabled from CI, since it uses the same in-mem H2 DB as CancelableTaskStatusCreateTaskListenerTest and interfers with it")
-// FIXME - make sure we can run multiple tests with the engine -> maybe a dedicted ITEst-module for this is required.
+// FIXME - make sure we can run multiple tests with the engine -> maybe a dedicated ITEst-module for this is required.
 class TaskImporterServiceTest {
 
   @RegisterExtension
@@ -51,6 +51,7 @@ class TaskImporterServiceTest {
   private final TaskImporterService service = new TaskImporterService(
       mock(TaskServiceCollectorService.class),
       taskService,
+      extension.getProcessEngineConfiguration(),
       listenerMock,
       mock(CancelableTaskStatusCreateTaskListener.class),
       mock(TaskSchemaTypeCreateTaskListener.class),
