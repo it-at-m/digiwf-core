@@ -3,10 +3,12 @@ package io.muenchendigital.digiwf.cosys.integration.configuration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.muenchendigital.digiwf.cosys.integration.adapter.in.MessageProcessor;
+import io.muenchendigital.digiwf.cosys.integration.adapter.out.CosysAdapter;
 import io.muenchendigital.digiwf.cosys.integration.adapter.out.ProcessAdapter;
 import io.muenchendigital.digiwf.cosys.integration.adapter.out.S3Adapter;
 import io.muenchendigital.digiwf.cosys.integration.application.port.in.CreateDocument;
 import io.muenchendigital.digiwf.cosys.integration.application.port.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
 import io.muenchendigital.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
 import io.muenchendigital.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
 import io.muenchendigital.digiwf.cosys.integration.gen.ApiClient;
@@ -109,8 +111,8 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, CosysConfiguration cosysConfiguration, GenerationApi generationApi) {
-        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, cosysConfiguration, generationApi);
+    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, final GenerateDocumentPort generateDocumentPort) {
+        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, generateDocumentPort);
     }
 
     @Bean
@@ -123,6 +125,12 @@ public class CosysAutoConfiguration {
     @ConditionalOnMissingBean
     public SaveFileToStoragePort getSaveFileToStoragePort(final S3FileTransferRepository s3FileTransferRepository) {
         return new S3Adapter(s3FileTransferRepository);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GenerateDocumentPort getGenerateDocumentPort(final CosysConfiguration cosysConfiguration, final GenerationApi generationApi) {
+        return new CosysAdapter(cosysConfiguration, generationApi);
     }
 
     @ConditionalOnMissingBean

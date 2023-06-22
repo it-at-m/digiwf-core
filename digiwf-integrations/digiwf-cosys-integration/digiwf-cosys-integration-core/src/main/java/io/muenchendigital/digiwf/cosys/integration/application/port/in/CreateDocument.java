@@ -9,5 +9,4 @@ public interface CreateDocument {
 
     void createDocument(final String processInstanceIde, final String messageName, @Valid final GenerateDocument generateDocument);
 
-    Mono<byte[]> generateCosysDocument(final GenerateDocument generateDocument);
 }
