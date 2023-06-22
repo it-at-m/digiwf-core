@@ -1,10 +1,10 @@
 # Digiwf Mail Integration
 
-## Architektur
+## Architecture
 
 ![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)
 
-## Dokumentation
+## Documentation
 
 To send an e-mail through the eventbus, simply create
 a [Mail](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-core/src/main/java/io/muenchendigital/digiwf/email/integration/domain/model/Mail.java)
@@ -129,5 +129,4 @@ All other file action will not work and result in an error.
 ### Element Template
 
 To speed up process development you can use the element template [sendMail.json](/element-template/sendMail.json) to define a call
-activity
-that uses this integration.
+activity that uses this integration.
