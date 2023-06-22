@@ -13,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,8 +42,14 @@ public class AssignmentCreateTaskListener {
         val reader = reader(task);
         if (properties.isShadow()) {
             val assignee = task.getAssignee();
-            val candidateUsers = task.getCandidates().stream().filter(link -> link.getUserId() != null && link.getType().equals(IdentityLinkType.CANDIDATE)).map(IdentityLink::getUserId).collect(Collectors.toList());
-            val candidateGroups = task.getCandidates().stream().map(IdentityLink::getGroupId).filter(Objects::nonNull).collect(Collectors.toList());
+            List<String> candidateUsers = Collections.emptyList();
+            List<String> candidateGroups = Collections.emptyList();
+            try {
+              candidateUsers = task.getCandidates().stream().filter(link -> link.getUserId() != null && link.getType().equals(IdentityLinkType.CANDIDATE)).map(IdentityLink::getUserId).collect(Collectors.toList());
+              candidateGroups = task.getCandidates().stream().map(IdentityLink::getGroupId).filter(Objects::nonNull).collect(Collectors.toList());
+            } catch (NullPointerException npe) {
+              log.warn("Recovered from error loading candidates for user task {}. Set candidate users and groups to none.", task.getId());
+            }
             val lowerCaseCandidateGroups = toLowerCase(candidateGroups);
             val writer = writer(task);
             if (properties.isLocal()) {
