@@ -873,7 +873,26 @@ const multiselectSchema = {
       ...basicOptions
     },
     {
-      ...basicValidation
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minItems": {
+          "type": "integer",
+          "title": "minimum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxItems": {
+          "type": "integer",
+          "title": "maximum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
     }
   ]
 };
@@ -1047,6 +1066,7 @@ const multiUserinputSchema = {
     {
       ...basicValidation,
       properties: {
+        ...basicValidation.properties,
         "minItems": {
           "type": "integer",
           "title": "minimum",
@@ -1115,6 +1135,28 @@ const arrayInput = {
     },
     {
       ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minItems": {
+          "type": "integer",
+          "title": "minimum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxItems": {
+          "type": "integer",
+          "title": "maximum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
     }
   ]
 };

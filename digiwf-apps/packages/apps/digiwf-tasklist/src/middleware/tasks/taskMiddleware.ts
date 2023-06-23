@@ -72,18 +72,29 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
       })
     );
 };
-
+/**
+ *
+ * possible sort columns: https://github.com/holunda-io/camunda-bpm-taskpool/blob/develop/view/view-api/src/main/kotlin/Task.kt
+ *
+ * @param page
+ * @param size
+ * @param query
+ * @param followUp
+ */
 const handleTaskLoadingFromTaskService = (
   page: Ref<number>,
   size: Ref<number>,
   query: Ref<string | undefined>,
-  followUp: Ref<boolean | undefined>
+  shouldIgnoreFollowUpTasks: Ref<boolean | undefined>
 ) => {
   return callGetTasksFromTaskService(
     page.value,
     size.value,
     query.value,
-    followUp.value ? getCurrentDate() : undefined
+    shouldIgnoreFollowUpTasks.value
+      ? undefined
+      : getCurrentDate(),
+    "-createTime"
   ).then(handlePageOfTaskResponse);
 };
 
@@ -91,14 +102,14 @@ export const useMyTasksQuery = (
   page: Ref<number>,
   size: Ref<number>,
   query: Ref<string | undefined>,
-  followUp: Ref<boolean | undefined>
+  shouldIgnoreFollowUp: Ref<boolean | undefined>
 ) => useQuery({
-  queryKey: [userTasksQueryId, page.value, size.value, query.value, followUp.value],
+  queryKey: [userTasksQueryId, page.value, size.value, query.value, !shouldIgnoreFollowUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
     return shouldUseTaskService()
-      ? handleTaskLoadingFromTaskService(page, size, query, followUp)
-      : callGetTasksFromEngine(page.value, size.value, query.value, followUp.value)
+      ? handleTaskLoadingFromTaskService(page, size, query, shouldIgnoreFollowUp)
+      : callGetTasksFromEngine(page.value, size.value, query.value, !shouldIgnoreFollowUp.value)
         .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
   },
 });
@@ -288,7 +299,6 @@ const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
 export interface CancelTaskResult {
   readonly isError: boolean;
   readonly errorMessage?: string;
-
 }
 
 /**

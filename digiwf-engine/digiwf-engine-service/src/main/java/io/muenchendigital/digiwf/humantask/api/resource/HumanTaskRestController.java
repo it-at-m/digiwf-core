@@ -58,7 +58,7 @@ public class HumanTaskRestController {
             @RequestParam(value = "query", required = false) @Nullable final String query,
             @RequestParam(value="followUp", defaultValue = "false",required = false) final Boolean followUp
             ) {
-        final Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
+        final Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         return this.taskService.getTasksForUser(this.authenticationProvider.getCurrentUserId(), query, followUp, pageable).map(this.taskMapper::map2TO);
     }
 

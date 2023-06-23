@@ -20,39 +20,15 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf"
-                level="debug"
+        <logger name="org.apache.kafka"
+                level="warn"
                 additivity="false">
-            <appender-ref ref="STDOUT" />
-        </logger>
-
-        <logger name="de.muenchen.digiwf"
-                level="debug"
-                additivity="false">
-            <appender-ref ref="STDOUT" />
-        </logger>
-
-        <logger name="de.muenchen.allgemein"
-                level="debug"
-                additivity="false">
-            <appender-ref ref="STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.cache"
-                level="trace"
-                additivity="false">
-            <appender-ref ref="STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.web"
-                level="debug"
-                additivity="false">
-            <appender-ref ref="STDOUT" />
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <!-- Logger usage -->
         <root level="info">
-            <appender-ref ref="STDOUT" />
+            <appender-ref ref="STDOUT"/>
         </root>
 
     </springProfile>
@@ -60,7 +36,6 @@
 
     <springProfile name="dev,kon,prod">
 
-        <!-- Log appender -->
         <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
@@ -91,26 +66,15 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf"
-                level="debug"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="de.muenchen.digiwf"
-                level="debug"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
         <logger name="org.apache.kafka"
                 level="warn"
                 additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
+            <appender-ref ref="JSON_STDOUT"/>
         </logger>
 
         <!-- Logger usage -->
         <root level="info">
-            <appender-ref ref="JSON_STDOUT" />
+            <appender-ref ref="JSON_STDOUT"/>
         </root>
 
     </springProfile>

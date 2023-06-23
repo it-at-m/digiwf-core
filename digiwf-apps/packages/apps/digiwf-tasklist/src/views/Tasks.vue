@@ -20,7 +20,7 @@
     </task-list>
     <div style="margin-left: auto">
       <v-checkbox
-        v-model="followUp"
+        v-model="shouldIgnoreFollowUpTasks"
         label="Wiedervorlage anzeigen"
         hide-details
         dense
@@ -69,8 +69,8 @@ export default defineComponent({
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
 
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
-    const followUp = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, followUp);
+    const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, shouldIgnoreFollowUpTasks);
 
     watch(page, (newPage) => {
       setPage(newPage);
@@ -81,7 +81,7 @@ export default defineComponent({
       refetch();
     });
 
-    watch(followUp, (followUp) => {
+    watch(shouldIgnoreFollowUpTasks, (followUp) => {
       router.replace({
         query: {
           ...router.currentRoute.query,
@@ -93,7 +93,7 @@ export default defineComponent({
 
     return {
       pageId,
-      followUp,
+      shouldIgnoreFollowUpTasks,
       isLoading,
       errorMessage: error,
       data,

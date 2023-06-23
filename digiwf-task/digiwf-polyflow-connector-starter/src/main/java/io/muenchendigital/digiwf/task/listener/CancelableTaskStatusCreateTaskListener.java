@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANCELABLE;
-import static io.muenchendigital.digiwf.task.TaskVariables.TASK_SCHEMA_TYPE;
 
 /**
  * Detects status of the task and writes it into a local task variable.
@@ -55,7 +54,8 @@ public class CancelableTaskStatusCreateTaskListener {
   }
 
   static boolean matchesErrorDefinition(ErrorEventDefinition errorEventDefinition) {
-    return errorEventDefinition.getError().getErrorCode() == null
+    return errorEventDefinition.getError() == null
+        || errorEventDefinition.getError().getErrorCode() == null
         || errorEventDefinition.getError().getErrorCode().isBlank()
         || BpmnErrors.DEFAULT_TASK_CANCELLATION_ERROR.equals(errorEventDefinition.getError().getErrorCode());
   }
