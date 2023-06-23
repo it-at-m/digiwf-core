@@ -22,7 +22,7 @@ import {
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
-import {HumanTask, HumanTaskDetails} from "./tasksModels";
+import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
 import {shouldUseTaskService} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
@@ -77,7 +77,7 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
  * @param page
  * @param size
  * @param query
- * @param followUp
+ * @param shouldIgnoreFollowUpTasks
  */
 const handleTaskLoadingFromTaskService = (
   page: Ref<number>,
@@ -329,7 +329,7 @@ interface CompleteTaskResult {
   readonly isError: boolean;
 }
 
-export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
+export const completeTask = (taskId: string, variables: TaskVariables): Promise<CompleteTaskResult> => {
   return (
     shouldUseTaskService()
       ? callCompleteTaskInTaskService(taskId, variables)
@@ -342,10 +342,10 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
         isError: false,
         errorMessage: undefined,
       });
-    }).catch(_ => {
+    }).catch(error => {
       return Promise.resolve<CompleteTaskResult>({
         isError: true,
-        errorMessage: "Die Aufgabe konnte nicht abgeschlossen werden."
+        errorMessage: error.message
       });
     });
 };
@@ -395,7 +395,7 @@ interface SaveTaskResult {
   readonly isError: boolean;
 }
 
-export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult> => {
+export const saveTask = (taskId: string, variables: TaskVariables): Promise<SaveTaskResult> => {
   return (
     shouldUseTaskService()
       ? callSaveTaskInTaskService(taskId, variables)
