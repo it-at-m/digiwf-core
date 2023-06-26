@@ -1,155 +1,60 @@
 # DigiWF S3 Integration
 
 Die DigiWF S3 Integration ermöglicht Dateianhänge in Prozessen zu verwenden. Mit dieser Integration können Prozessentwickler
-Formulare entwickeln, in den Dateien hoch- und herunterladen werden können. 
+Formulare entwickeln, in den Dateien hoch- und herunterladen werden können. Auch weitere Services können Dateien erzeugen und 
+diese integriert über einen Prozess in einer Dateiablage ablegen, sodass andere Services diese wieder verwenden können.
+Ein gutes Beispiel hierfür ist die Erzeugung eines PDF Dokuments und Versand dieses über E-Mail.
 
+Der entsprechende Service bietet diese Funktionalität als Integration (also asynchron via Messaging) an und via REST 
+(also für die synchrone Verwendung).
 
+## Verwendung
 
+Die Bibliothek bietet mehrere Funktionalitäten an. Wir haben einige Beispiele zusammengestellt, um die Verwendung zu demonstrieren:
 
+_Diese sind im Ordner [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
+zu finden._
 
-## Getting started
+### Synchrone Verwendung via REST
 
-_Below is an example of how you can install and setup your service_
+Um die Funktionalität **synchron** zu nutzen wurde ein spezieller Client aufgebaut. Jede Methode des Clients kommuniziert direkt
+mit der entsprechenden Methode des S3 Integration Dienstes. Der Client kann in zwei unterschiedlichen
+Modi betrieben: 
+ - Die URL des S3 Integration Dienstes wird aus einem Parameter (property) ausgelesen.
+ - Die URL des S3 Integration Dienstes wird in die jeweilige Methode durch den Aufrufer übergeben. Damit können mehrere Dienste 
+   aus demselben Client aufgerufen werden.
 
-1. Use the spring initializer and create a Spring Boot application with `Spring Web`
-   dependencies [https://start.spring.io](https://start.spring.io)
-2. Add the `digiwf-s3-integration-starter` dependency
+#### Einbindung
 
-With Maven:
+Der spezielle Client kann in die Anwendung ganz einfach angebunden werden.
+Dazu muss die `digiwf-s3-integration-client-starter` Abhängigkeit hinzugefügt werden:
 
-```
-   <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-s3-integration-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
-```
-
-With Gradle:
-
-```
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-s3-integration-starter', version: '${digiwf.version}'
-```
-
-3. Configure your S3 bucket with the following properties:
-    - `io.muenchendigital.digiwf.s3.bucketName`
-    - `io.muenchendigital.digiwf.s3.secretKey`
-    - `io.muenchendigital.digiwf.s3.accessKey`
-    - `io.muenchendigital.digiwf.s3.url`
-    - `io.muenchendigital.digiwf.s3.initialConnectionTest`
-
-`io.muenchendigital.digiwf.s3.initialConnectionTest` is an optional property which allows to enable or disable an
-initial connection test to the s3 bucket during boot up.
-If the property is `true` or not set, the connection test is performed.
-If the property is explicitly set to `false`, no connection test is carried out.
-
-If you want to use the cron job cleanup, take a look at the <a href="#cron-job-cleanup">usage example</a> .
-
-5. OpenAPI specification:
-
-    - Enjoy the [OpenAPI definition](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
-    - Get the [Api-Docs](http://localhost:8080/v3/api-docs)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-**For more information and code examples see [documentation.md](documentation.md)**
-
-
-
-## S3 Integration Library
-
-### Usage
-
-The library has several functionalities that can be configured. We have provided examples that show how you can use
-them.
-
-_For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
-folder._
-
-### Minimum necessary spring boot annotations
-
-Listed below are the required Spring boot annotations, which are minimal.
-
-* `@SpringBootApplication`
-* `@EnableJpaAuditing`
-* `@EnableScheduling`
-
-### Cron Job Cleanup
-
-Files need to be deleted after some time. We have developed a file structure to which an end of life timestamp can be
-saved.
-The cron job setting determines how often and when the files are checked and deleted. To use this functionality
-configure the property:
-
-``io.muenchendigital.digiwf.s3.cronjob.cleanup.expired-files=0 15 10 15 * ?``
-
-This job cleans the metadata of the S3 files in the database if no corresponding file within the S3 storage exists.
-
-``io.muenchendigital.digiwf.s3.cronjob.cleanup.unused-files=0 15 10 16 * ?``
-
-## Getting the integration client library
-
-_Below is an example of how you can installing and setup up your service_
-
-1. Use the spring initializer and create a Spring Boot application with `Spring Web`
-   dependencies [https://start.spring.io](https://start.spring.io)
-2. Add the `digiwf-s3-integration-client-starter` dependency
-
-With Maven:
-
-```
-   <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-s3-integration-client-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
+Mit Maven:
+```xml
+<dependency>
+     <groupId>io.muenchendigital.digiwf</groupId>
+     <artifactId>digiwf-s3-integration-client-starter</artifactId>
+     <version>${digiwf.version}</version>
+</dependency>
 ```
 
-With Gradle:
-
-```
+Mit Gradle:
+```groovy
 implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-s3-integration-client-starter', version: '${digiwf.version}'
 ```
 
-3. Configure your service which uses this starter with the following properties:
-    - `io.muenchendigital.digiwf.s3.client.document-storage-url`
+Und der Wert der Eigenschaft `io.muenchendigital.digiwf.s3.client.document-storage-url` auf die Lokation des S3 Integration Dienstes zeigen.
 
-### Usage
 
-The client library provides several beans that can be used to interact with the `digiwf-s3-integration-starter`.
-We have provided examples that show how you can use them.
+### Asynchrone Verwendung via Messaging
 
-Each method within the client library, which communicates directly with a `digiwf-s3-integration-service`, is available
-in two different flavors.
-One method that uses the document storage url defined in `io.muenchendigital.digiwf.s3.client.document-storage-url`.
-Another method that expects the document storage url within the method parameter.
-This allows to use different `digiwf-s3-integration-service` with the same client lib.
+Neben der synchronen Verwendung kann die S3 Integration auch im Rahmen einer **asynchronen nachrichten-basierten** Anbindung
+verwendet werden. Dabei werden per Nachricht eine Anfrage für die Erstellung der vor-signierten URL für Dateizugriff versandt 
+und als Korrelationsnachricht dazu eine Antwort empfangen. Die vor-signierte URLs sind dann in der Regel 7 Tage gültig.
+(Die Eigenschaft im Dienst `io.muenchendigital.digiwf.s3.presignedUrlExpiresInMinutes` steuert diesen Zeitraum, 7 Tage = 10080 min)
 
-_For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example/)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
-folder._
-
-The images used in this example are not subject to any license.
-
-### Minimum necessary spring boot annotations
-
-Listed below are the required Spring boot annotations, which are minimal.
-
-* ```@SpringBootApplication```
-
-## Get presigned urls asynchronously
-
-Besides, the REST api the **S3 Integration Library** provides an asynchrones api.
-The asynchrones api creates presigned urls for you which may be used to interact with files.
-Asynchronously created presigned urls are usually valid for 7 days.
-You can customize the presigned url expiration time with the
-property `io.muenchendigital.digiwf.s3.presignedUrlExpiresInMinutes` (Note: the max value is 7 days = 10080 min).
-
-To get a presigned urls for a file or directory you have to send a `CreatePresignedUrlEvent` to the according kafka
-topic:
+Um eine vor-signierte URL für den Zugriff auf eine Datei oder ein Verzeichnis zu bekommen muss die folgende 
+Nachricht `CreatePresignedUrlEvent` versandt werden: 
 
 ```json
 {
@@ -158,12 +63,8 @@ topic:
 }
 ```
 
-Valid actions are `GET`, `POST`, `PUT` and `DELETE`.
-
-In return, you get a correlate message event that contains a list of presigned urls in its payload variables in the
-following format.
-These presigned url objects may be passed to other integration artifacts to download and/or store files in the s3
-storage.
+Valide Werte für das Feld `action` sind `GET`, `POST`, `PUT` und `DELETE`. Als Antwort in Form einer korrelierten Nachricht 
+werden vor-signierte URLs im folgenden Format versendet:
 
 ```json
 {
@@ -176,59 +77,87 @@ storage.
   ]
 }
 ```
+Diese URLs können direkt benutzt werden oder an andere Integrationen weitergegeben werden, um auf die Dateien zuzugreifen.
 
-If you request a file directly you just get the presigned url for the file.
-If you request presigned urls for a directory presigned urls for all files inside the directory are created.
 
-In the `path` you can specify multiple file paths by concatenating them with a semicolon `;` (e.g. `folder/first.txt;folder/second.txt;folder/third.txt`).
-
-_For more examples, please refer to
-the [example-s3-integration](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-example/)
-and/or [example-s3-integration-client](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-client-example)
-folder._
-
-## S3 proxy
-
-If you cannot access the s3 storage directly, you may want to send requests to the s3 storage over a proxy.
-To configure such a proxy you can enable the proxy settings and define a `proxyUrl`.
-The proxy url is used to redirect requests from presigned urls to a proxy that forwards to the s3 storage.
-
-````properties
-io.muenchendigital.digiwf.s3.proxyEnabled=true
-io.muenchendigital.digiwf.s3.proxyUrl=http://localhost:9000
-````
-
-The proxy is disabled by default.
-
-Checkout [https://digiwf.muenchendigital.io/resources/documentation/concept/filehandling/](https://digiwf.muenchendigital.io/resources/documentation/concept/filehandling/)
-for more information about the topic file handling in digiwf.
-
-### Fehlerbehandlung
+## Fehlerbehandlung
 
 Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.
 BPMN Errors können im Prozess behandelt werden, während Incident Errors nicht im Prozess behandelt werden können
-und einen Incident erzeugen.
+und einen Incident erzeugen. Dieser deutet auf einen durch Benutzer nicht behebbaren Fehler hin, unterbricht die 
+Prozessausführung und ist danach im Camunda Cockpit sichtbar.
 
-Nachfolgend sind die BPMN Errors aufgeführt, die von der Email Integration geworfen werden können:
+Nachfolgend sind die BPMN Errors aufgeführt, die von der S3 Integration geworfen werden können:
 
 #### BPMN Error
 
-| Error Code                | Error Message                                                    | Beschreibung                                                                                                                               | Handlungsempfehlung                                                                                                            | 
-|---------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `VALIDATION_ERROR`        | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen Email Daten sind nicht valide.                                                                                             | Korrigieren Sie die Daten und versuchen es erneut                                                                              |
-| `MESSAGING_EXCEPTION`     | Fehlermeldung der auftretenden `MessagingException`              | Die Email konnte mit den übergebenen Daten nicht erstellt werden.                                                                          | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut.                                                              | 
-| `MAIL_SENDING_FAILED`     | Fehlermeldung der auftretenden `MailException`                   | Die Email konnte nicht versand werden. Es kann sein, dass die Email Adressen nicht valide sind oder ein technischer Fehler aufgetreten ist | Analysieren Sie die Fehlermeldung, korrigieren invalide Email Adressen und versuchen es erneut.                                |
-| `LOAD_FILE_FAILED`        | An attachment could not be loaded from presigned url: attachment | Die Datei konnte nicht geladen werden                                                                                                      | Stellen Sie sicher, dass die presigned Url nicht abgelaufen ist. Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist |
-| `FILE_TYPE_NOT_SUPPORTED` | File type not supported of the attachment: attachment            | Der Dateityp der Datei wird nicht unterstützt oder wurde nicht erkannt                                                                     | Die Datei kann nicht als Email Anhang versendet werden.                                                                        | 
+| Error Code                  | Error Message                                                    | Beschreibung                                                                                                                               | Handlungsempfehlung                                                                                                            | 
+|-----------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| `VALIDATION_ERROR`          | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen Anforderungen an Dateioperationen sind nicht valide.                                                                       | Korrigieren Sie die Daten und versuchen es erneut                                                                              |
+| `FILE_DOES_NOT_EXIST_ERROR` | Fehlermeldung der auftretenden `FileExistenceException`          | Die übergebenen Anforderungen referenzieren eine nicht existierende Datei oder Ordner.                                                     | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut.                                                              | 
 
-### Ressourcen
+Alle anderen Fehler im Zugriff auf die S3 werden als Incidents reported.
+
+## Weitere Ressourcen
 
 Um die Prozessentwicklung zu beschleunigen, können Sie die
 Element-Templates [sendMail.json](/element-template/sendMail.json)
 in einer Call Activity verwenden, um diese Integration zu verwenden.
 
-## DigiWF Mail Integration anpassen
+## DigiWF S3 Integration Dienst betreiben und anpassen
 
-Die DigiWF Mail Integration wird als Spring Boot Starter Projekt bereitgestellt.
-Um die Email Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
+Die DigiWF S3 Integration wird als Spring Boot Starter Projekt bereitgestellt.
+Um die S3 Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
 bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
+
+Den `digiwf-s3-integration-starter` können Sie wie folgt in Ihr Projekt einbinden
+
+Mit Maven:
+
+```xml
+<dependency>
+     <groupId>io.muenchendigital.digiwf</groupId>
+     <artifactId>digiwf-s3-integration-starter</artifactId>
+     <version>${digiwf.version}</version>
+</dependency>
+```
+
+Mit Gradle:
+
+```
+implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-s3-integration-starter', version: '${digiwf.version}'
+```
+
+### Konfiguration
+
+Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
+sind, können Sie die folgenden Konfigurationen für die DigiWF S3 Integration verwenden:
+
+| Eigenschaft                                                   | Bedeutung                                                                                              |
+|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| `io.muenchendigital.digiwf.s3.bucketName`                     | Name des S3 Buckets                                                                                    |
+| `io.muenchendigital.digiwf.s3.secretKey`                      | Secret für den Zugriff auf den Bucket                                                                  |
+| `io.muenchendigital.digiwf.s3.accessKey`                      | Access Key für den Zugriff auf den Bucket                                                              | 
+| `io.muenchendigital.digiwf.s3.url`                            | URL des S3 Servers                                                                                     |
+| `io.muenchendigital.digiwf.s3.initialConnectionTest`          | Optionale Eigenschaft ('true', 'false') um den Verbindungstest zu S3 während des Starts durchzuführen. |
+| `io.muenchendigital.digiwf.s3.cronjob.cleanup.expired-files`  | Cron Ausdruck um die abgelaufende Dateien abzuräumen (z.B. `0 15 10 15 * ?`)                           |
+| `io.muenchendigital.digiwf.s3.cronjob.cleanup.unused-files`   | Cron Ausdruck um die ungenutze Dateien abzuräumen (z.B. `0 15 10 16 * ?`)                              |
+
+
+### S3 proxy
+
+Wenn der Zugriff auf S3 Speicher nicht direkt möglich ist, kann dieser über einen Proxy versendet werden.
+Dazu muss die Verwendung des Proxies aktiviert und die Proxy URL konfiguriert werden.
+
+```yaml
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        proxyEnabled: true
+        proxyUrl: http://localhost:9000
+```
+
+Standardmäßig ist kein Proxy konfiguriert.
+Mehr Details zur Arbeit mit Dateien erfahren Sie unter [https://digiwf.muenchendigital.io/resources/documentation/concept/filehandling/](https://digiwf.muenchendigital.io/resources/documentation/concept/filehandling/).
