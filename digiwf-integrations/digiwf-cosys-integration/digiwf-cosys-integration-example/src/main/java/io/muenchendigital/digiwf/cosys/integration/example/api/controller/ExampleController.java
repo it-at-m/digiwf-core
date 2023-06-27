@@ -1,7 +1,6 @@
 package io.muenchendigital.digiwf.cosys.integration.example.api.controller;
 
-
-import io.muenchendigital.digiwf.cosys.integration.application.port.in.CreateDocument;
+import io.muenchendigital.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
 import io.muenchendigital.digiwf.cosys.integration.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
 import io.muenchendigital.digiwf.message.common.MessageConstants;
@@ -20,12 +19,12 @@ import java.util.Map;
 @Slf4j
 public class ExampleController {
 
-    private final CreateDocument cosysService;
+    private final GenerateDocumentPort generateDocumentPort;
     private final MessageApi messageApi;
 
     @PostMapping(value = "/test/document")
     public ResponseEntity<byte[]> testCreateCosysDocument() {
-        final byte[] file = this.cosysService.generateCosysDocument(this.generateDocument()).block();
+        final byte[] file = this.generateDocumentPort.generateCosysDocument(this.generateDocument()).block();
         return ResponseEntity.ok(file);
     }
 
