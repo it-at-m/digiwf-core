@@ -85,4 +85,18 @@ class AssignmentAssignTaskListenerTest {
     assertThat(event.getAssignee()).isEqualTo("assignee");
   }
 
+  @Test
+  public void sets_empty_assigne_to_null_with_empty_assignee() {
+    when(properties.isShadow()).thenReturn(true);
+    when(properties.isLocal()).thenReturn(true);
+    delegateTask.setAssignee("");
+
+    assignmentAssignTaskListener.taskAssigned(delegateTask);
+
+    assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_ASSIGNEE.getName(), null);
+
+    assertThat(delegateTask.getAssignee()).isEqualTo("");
+
+  }
+
 }
