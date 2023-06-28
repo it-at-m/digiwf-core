@@ -404,9 +404,9 @@ export const saveTask = (taskId: string, variables: TaskVariables): Promise<Save
     isError: false,
     errorMessage: undefined
   }))
-    .catch(_ => Promise.resolve({
+    .catch(error => Promise.resolve({
       isError: true,
-      errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
+      errorMessage: error.message,
     }));
 };
 
