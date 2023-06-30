@@ -2,8 +2,14 @@ io:
   muenchendigital:
     digiwf:
       cosys:
+        url:
+        messageTopic: "dwf-connector-${DIGIWF_ENV}"
+        incidentTopic: "dwf-connector-incident-${DIGIWF_ENV}"
         merge:
           datafile: /root/multi
           inputLanguage: Deutsch
-          outputLanguage: unresolved-ref
+          outputLanguage: Deutsch
           keepFields: unresolved-ref
+      s3:
+        client:
+          documentStorageUrl: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'

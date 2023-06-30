@@ -3,7 +3,6 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: localhost:9092
           consumerProperties:
             auto.offset.reset: latest
           configuration:

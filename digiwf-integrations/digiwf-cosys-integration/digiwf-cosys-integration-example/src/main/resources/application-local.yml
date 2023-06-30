@@ -3,18 +3,13 @@ logging:
     io.muenchendigital: info
     org.simpleframework: info
 
-spring:
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: localhost:9092
-
 io:
   muenchendigital:
     digiwf:
       cosys:
         url:
+        messageTopic: "dwf-connector-${DIGIWF_ENV}"
+        incidentTopic: "dwf-connector-incident-${DIGIWF_ENV}"
         merge:
           datafile: //multi
           inputLanguage: Deutsch
