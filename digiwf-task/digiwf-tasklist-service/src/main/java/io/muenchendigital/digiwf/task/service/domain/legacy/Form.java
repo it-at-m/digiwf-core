@@ -178,6 +178,21 @@ public class Form {
         private Integer col = 12;
 
         /**
+         * label for select fields
+         */
+        private String itemText = "name";
+
+        /**
+         * value for select fields
+         */
+        private String itemValue = "value";
+
+        /**
+         * for object fields
+         */
+        private Boolean returnObject = false;
+
+        /**
          * Items of the select field.
          */
         private List<Map<String, Object>> items = new ArrayList<>();
