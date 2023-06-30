@@ -87,6 +87,7 @@ public class TaskImporterService {
             cancelableTaskStatusCreateTaskListener.taskCreated(task);
             taskSchemaTypeCreateTaskListener.taskCreated(task);
             taskDescriptionCreateTaskListener.taskCreated(task);
+            taskService.saveTask(task);
           });
           log.info("Enrichment of {} tasks finished", tasks.size());
           return null;
