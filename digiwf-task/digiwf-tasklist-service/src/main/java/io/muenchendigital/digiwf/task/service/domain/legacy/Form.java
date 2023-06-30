@@ -189,6 +189,11 @@ public class Form {
         private String itemValue = "value";
 
         /**
+         * for object fields
+         */
+        private Boolean returnObject = false;
+
+        /**
          * Items of the select field.
          */
         private List<Map<String, Object>> items = new ArrayList<>();
