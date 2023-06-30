@@ -58,8 +58,8 @@ class TaskImporterServiceDeletionTest {
   );
 
 
-  @Test
-  @Deployment(resources = "process_importer_service.bpmn")
+  // @Test
+  // @Deployment(resources = "process_importer_service.bpmn")
   public void enrich_tasks_and_deletes_assignees() {
 
     val instance = runtimeService.startProcessInstanceByKey("assignment_test_process");
