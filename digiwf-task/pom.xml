@@ -71,6 +71,7 @@
         <module>digiwf-task-api</module>
         <module>digiwf-tasklist-service</module>
         <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
     </modules>
 
 </project>
