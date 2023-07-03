@@ -21,6 +21,7 @@ import java.util.List;
 public interface ServiceInstanceApiMapper {
 
     List<ServiceInstanceTO> map2TO(List<ServiceInstance> list);
+    ServiceInstanceTO map2TO(ServiceInstance item);
 
     ServiceInstanceDetailTO map2TO(ServiceInstanceDetail instanceDetail);
 

@@ -15,10 +15,14 @@ import io.muenchendigital.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -46,12 +50,19 @@ public class ServiceDefinitionController {
      */
     @GetMapping
     @Operation(description = "load all available service definitions")
-    public ResponseEntity<List<ServiceDefinitionTO>> getServiceDefinitions() {
-        final List<ServiceDefinition> definitions = this.serviceDefinitionFacade.getStartableServiceDefinitions(
+    public Page<ServiceDefinitionTO> getServiceDefinitions(
+            @RequestParam(value = "page", defaultValue = "0", required = false) @Min(0)  final int page,
+            @RequestParam(value = "size", defaultValue = "50", required = false) @Min(1) @Max(50) final int size,
+            @RequestParam(value = "query", required = false) @Nullable final String query
+    ) {
+        final Page<ServiceDefinition> definitions = this.serviceDefinitionFacade.getStartableServiceDefinitions(
                 this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups()
+                this.authenticationProvider.getCurrentUserGroups(),
+                page,
+                size,
+                query
         );
-        return ResponseEntity.ok(this.serviceDefinitionApiMapper.map2TO(definitions));
+        return definitions.map(this.serviceDefinitionApiMapper::map2TO);
     }
 
     /**
