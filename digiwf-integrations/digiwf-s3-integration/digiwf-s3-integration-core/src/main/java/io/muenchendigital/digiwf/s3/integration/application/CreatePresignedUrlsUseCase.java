@@ -7,6 +7,7 @@ import io.muenchendigital.digiwf.s3.integration.application.port.in.FileSystemAc
 import io.muenchendigital.digiwf.s3.integration.domain.model.PresignedUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Validated
+@Transactional
 public class CreatePresignedUrlsUseCase implements CreatePresignedUrlsInPort {
 
   private final FileOperationsUseCase fileHandlingService;

@@ -16,6 +16,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CleanUpDatabaseFilesWithoutCorrespondingS3FolderUseCase implements CleanUpUnusedFoldersInPort {
 
   private final S3Repository s3Repository;
@@ -27,7 +28,6 @@ public class CleanUpDatabaseFilesWithoutCorrespondingS3FolderUseCase implements 
    * <p>
    * The deletion is performed only if the file entity was created more than a month ago.
    */
-  @Transactional
   @Override
   public void cleanUpUnusedFolders() {
     log.info("Database clean up for folder without corresponding S3 folders started.");

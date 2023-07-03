@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CleanUpExpiredFilesUseCase implements CleanUpExpiredFilesInPort {
 
   private final FileRepository fileRepository;
@@ -23,7 +24,6 @@ public class CleanUpExpiredFilesUseCase implements CleanUpExpiredFilesInPort {
    * Cronjob scheduled method which deletes all folders in the S3 storage and database
    * for which the {@link File#getEndOfLife()} attribute is exceeded.
    */
-  @Transactional
   @Override
   public void cleanUpExpiredFolders() {
     log.info("S3 and database clean up for expired files started.");

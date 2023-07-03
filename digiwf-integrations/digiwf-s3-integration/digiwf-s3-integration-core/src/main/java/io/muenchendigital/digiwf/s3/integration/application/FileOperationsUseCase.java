@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FileOperationsUseCase implements FileOperationsInPort {
 
   private final S3Repository s3Repository;
@@ -46,66 +47,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
   }
 
   /**
-   * Get a list of presigned urls for all files in the paths.
-   * If the path is a file the presigned url for the file is returned.
-   *
-   * @param paths            list of paths to files and/or folders
-   * @param action           http method for the presigned url
-   * @param expiresInMinutes presigned url expiration time
-   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
-   * @return list of pre-signed urls.
-   * @throws FileSystemAccessException on S3 access errors.
-   * @throws FileExistenceException    if file doesn't exist.
-   */
-  public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
-    final List<PresignedUrl> presignedUrls = new ArrayList<>();
-    for (String p : paths) {
-      presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes, endOfLife));
-    }
-    return presignedUrls;
-  }
-
-  /**
-   * Get a list of presigned urls for all files in the path.
-   * If the path is a file the presigned url for the file is returned.
-   *
-   * @param path             path to file or folder
-   * @param action           http method for the presigned url
-   * @param expiresInMinutes presigned url expiration time
-   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
-   * @return list of pre-signed urls.
-   * @throws FileSystemAccessException on S3 access errors.
-   * @throws FileExistenceException    if file doesn't exist.
-   */
-  public List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
-    // make sure the folder exists before saving files
-    if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-      this.setupFile(path, endOfLife);
-    }
-
-    // special case file creation (POST)
-    // Use method PUT and return a single presignedUrl for the file the user wants to create
-    if (action.equals(Method.POST)) {
-      return List.of(this.getPresignedUrl(path, Method.PUT, expiresInMinutes, endOfLife));
-    }
-
-    // PUT, GET, DELETE return single presignedUrl if path is file. Return list of presignedUrls if path is directory
-    final List<String> paths = new ArrayList<>(this.s3Repository.getFilePathsFromFolder(path));
-    final List<PresignedUrl> presignedUrlList = paths.stream()
-        .map(filePath -> this.getPresignedUrlForFile(filePath, action, expiresInMinutes))
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
-
-    if (presignedUrlList.isEmpty()) {
-      final String message = String.format("The file %s does not exist.", path);
-      log.error(message);
-      throw new FileExistenceException(message);
-    }
-
-    return presignedUrlList;
-  }
-
-  /**
    * Get a single presigned url for the path.
    * The end of life for the files to save is not set und therefore the files are not deleted automatically.
    *
@@ -118,24 +59,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
   @Override
   public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes) throws FileSystemAccessException {
     return this.getPresignedUrl(path, action, expiresInMinutes, null);
-  }
-
-  /**
-   * Get a single presigned url for the path
-   *
-   * @param path             path to file or folder
-   * @param action           http method for the presigned url
-   * @param expiresInMinutes presigned url expiration time
-   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
-   * @return pre-signed url.
-   * @throws FileSystemAccessException on S3 access errors.
-   */
-  public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException {
-    // make sure the file exists before saving files
-    if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-      this.setupFile(path, endOfLife);
-    }
-    return new PresignedUrl(this.s3Repository.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
   }
 
   /**
@@ -164,7 +87,7 @@ public class FileOperationsUseCase implements FileOperationsInPort {
    * @throws FileExistenceException    if the file already exists.
    * @throws FileSystemAccessException if the S3 storage cannot be accessed.
    */
-  @Transactional
+
   @Override
   public PresignedUrl saveFile(final FileData fileData) throws FileSystemAccessException, FileExistenceException {
     if (this.fileExists(fileData.getPathToFile())) {
@@ -185,7 +108,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
    * @param fileData with the file metadata for re-saving.
    * @throws FileSystemAccessException if the S3 storage cannot be accessed.
    */
-  @Transactional
   @Override
   public PresignedUrl updateFile(final FileData fileData) throws FileSystemAccessException {
     return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes(), fileData.getEndOfLife());
@@ -198,7 +120,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
    * @param endOfLife  the files endOfLife. May be null. If null, no end of life is set
    * @throws FileExistenceException if no database entry exists.
    */
-  @Transactional
   @Override
   public void updateEndOfLife(final String pathToFile, final LocalDate endOfLife) throws FileExistenceException {
     final Optional<File> fileOptional = this.fileRepository.findByPathToFile(pathToFile);
@@ -222,7 +143,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
    * @throws FileExistenceException    if the file does not exist in the folder.
    * @throws FileSystemAccessException if the S3 storage cannot be accessed.
    */
-  @Transactional
   @Override
   public PresignedUrl deleteFile(final String pathToFile, final int expiresInMinutes) throws FileExistenceException, FileSystemAccessException {
     if (!this.fileExists(pathToFile)) {
@@ -234,18 +154,21 @@ public class FileOperationsUseCase implements FileOperationsInPort {
   }
 
   /**
-   * Return the path to the folder for the given file path in the parameter.
-   * <p>
-   * pathToFile: FOLDER/SUBFOLDER/file.txt
-   * pathToFolder: FOLDER/SUBFOLDER
+   * Get a single presigned url for the path
    *
-   * @param pathToFile for which the path to folder should be returned.
-   * @return the path to the folder for the given path to file.
+   * @param path             path to file or folder
+   * @param action           http method for the presigned url
+   * @param expiresInMinutes presigned url expiration time
+   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
+   * @return pre-signed url.
+   * @throws FileSystemAccessException on S3 access errors.
    */
-  public static String getPathToFolder(final String pathToFile) {
-    return StringUtils.contains(pathToFile, FolderInFilePathValidator.SEPARATOR)
-        ? StringUtils.substringBeforeLast(pathToFile, FolderInFilePathValidator.SEPARATOR)
-        : StringUtils.EMPTY;
+  private PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException {
+    // make sure the file exists before saving files
+    if (action.equals(Method.PUT) || action.equals(Method.POST)) {
+      this.setupFile(path, endOfLife);
+    }
+    return new PresignedUrl(this.s3Repository.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
   }
 
   /**
@@ -278,6 +201,66 @@ public class FileOperationsUseCase implements FileOperationsInPort {
     return filePathsInFolder.contains(filePath);
   }
 
+  /**
+   * Get a list of presigned urls for all files in the path.
+   * If the path is a file the presigned url for the file is returned.
+   *
+   * @param path             path to file or folder
+   * @param action           http method for the presigned url
+   * @param expiresInMinutes presigned url expiration time
+   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
+   * @return list of pre-signed urls.
+   * @throws FileSystemAccessException on S3 access errors.
+   * @throws FileExistenceException    if file doesn't exist.
+   */
+  private List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
+    // make sure the folder exists before saving files
+    if (action.equals(Method.PUT) || action.equals(Method.POST)) {
+      this.setupFile(path, endOfLife);
+    }
+
+    // special case file creation (POST)
+    // Use method PUT and return a single presignedUrl for the file the user wants to create
+    if (action.equals(Method.POST)) {
+      return List.of(this.getPresignedUrl(path, Method.PUT, expiresInMinutes, endOfLife));
+    }
+
+    // PUT, GET, DELETE return single presignedUrl if path is file. Return list of presignedUrls if path is directory
+    final List<String> paths = new ArrayList<>(this.s3Repository.getFilePathsFromFolder(path));
+    final List<PresignedUrl> presignedUrlList = paths.stream()
+        .map(filePath -> this.getPresignedUrlForFile(filePath, action, expiresInMinutes))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+
+    if (presignedUrlList.isEmpty()) {
+      final String message = String.format("The file %s does not exist.", path);
+      log.error(message);
+      throw new FileExistenceException(message);
+    }
+
+    return presignedUrlList;
+  }
+
+  /**
+   * Get a list of presigned urls for all files in the paths.
+   * If the path is a file the presigned url for the file is returned.
+   *
+   * @param paths            list of paths to files and/or folders
+   * @param action           http method for the presigned url
+   * @param expiresInMinutes presigned url expiration time
+   * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
+   * @return list of pre-signed urls.
+   * @throws FileSystemAccessException on S3 access errors.
+   * @throws FileExistenceException    if file doesn't exist.
+   */
+  private List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
+    final List<PresignedUrl> presignedUrls = new ArrayList<>();
+    for (String p : paths) {
+      presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes, endOfLife));
+    }
+    return presignedUrls;
+  }
+
   private PresignedUrl getPresignedUrlForFile(final String filePath, final Method action, final int expiresInMinutes) {
     try {
       final String presignedUrl = this.s3Repository.getPresignedUrl(filePath, action, expiresInMinutes);
@@ -287,4 +270,20 @@ public class FileOperationsUseCase implements FileOperationsInPort {
     }
     return null;
   }
+
+  /**
+   * Return the path to the folder for the given file path in the parameter.
+   * <p>
+   * pathToFile: FOLDER/SUBFOLDER/file.txt
+   * pathToFolder: FOLDER/SUBFOLDER
+   *
+   * @param pathToFile for which the path to folder should be returned.
+   * @return the path to the folder for the given path to file.
+   */
+  public static String getPathToFolder(final String pathToFile) {
+    return StringUtils.contains(pathToFile, FolderInFilePathValidator.SEPARATOR)
+        ? StringUtils.substringBeforeLast(pathToFile, FolderInFilePathValidator.SEPARATOR)
+        : StringUtils.EMPTY;
+  }
+
 }
