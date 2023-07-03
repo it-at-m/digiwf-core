@@ -14,7 +14,7 @@
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
-        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="${FormField_EmailTopic}" target="app_topic_name" />
         <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
         <camunda:in sourceExpression="${FormField_Message}" target="body" />
         <camunda:in sourceExpression="${FormField_Subject}" target="subject" />
