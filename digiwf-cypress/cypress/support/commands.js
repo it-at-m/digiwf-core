@@ -34,6 +34,7 @@ Cypress.Commands.add("loginUser", () => {
     cy.get("#password").type(password);
     cy.get('[id^=kc-login]').click();
     if(home.toString().includes("local")){
+        // Only necessary for local, since slightly different keycloak setup
         cy.contains("http://keycloak:8080/auth/realms/P82").click();
     }
 });
