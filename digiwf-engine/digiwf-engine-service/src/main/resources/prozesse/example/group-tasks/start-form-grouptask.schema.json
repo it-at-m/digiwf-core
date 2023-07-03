@@ -43,6 +43,30 @@
                 },
                 "x-rules": []
               },
+              "FORMFIELD_NumberOfTasks": {
+                "fieldType": "integer",
+                "title": "Anzahl an parallel ausgeführten Tasks",
+                "type": "integer",
+                "key": "FORMFIELD_NumberOfTasks",
+                "description": "Anzahl an parallel ausgeführten Tasks",
+                "default": 1,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ],
+                "minimum": 1,
+                "pattern": ""
+              },
               "FORMFIELD_group": {
                 "fieldType": "text",
                 "title": "Select a group",

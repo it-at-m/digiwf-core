@@ -216,7 +216,6 @@ export default class App extends Vue {
   }
 
   loadData(refresh = false): void {
-    this.$store.dispatch("processInstances/getProcessInstances", refresh);
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
@@ -231,7 +230,7 @@ export default class App extends Vue {
   }
 
   switchBetaVersion(): void {
-    switchShouldUseTaskService()
+    switchShouldUseTaskService();
   }
 
   @Watch("$store.state.menu.open")
@@ -243,7 +242,7 @@ export default class App extends Vue {
   setUserName(user: UserTO): void {
     this.username = user.forename + " " + user.surname;
     // if session is not valid, user is updated to an empty object in redux store
-    this.loggedIn = !!user.username
+    this.loggedIn = !!user.username;
   }
 
   @Watch("$store.state.processInstances.processInstances")

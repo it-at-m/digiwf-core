@@ -28,7 +28,7 @@
       />
     </div>
     <AppPaginationFooter
-      found-data-text="Vorgänge gefunden"
+      found-data-text="Aufgaben gefunden"
       :size="pagination.size?.value || 20"
       :on-size-change="pagination.onSizeChange"
       :last-page="pagination.lastPage"

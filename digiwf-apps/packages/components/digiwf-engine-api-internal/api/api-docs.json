@@ -14,7 +14,7 @@
     "url" : "https://wilma.muenchen.de/workspaces/digitale-workflows/apps/wiki/wiki/list"
   },
   "servers" : [ {
-    "url" : "http://localhost:39146",
+    "url" : "http://localhost:8082/api/digitalwf-backend-service",
     "description" : "Generated server url"
   } ],
   "security" : [ {
@@ -26,9 +26,6 @@
   }, {
     "name" : "HumanTaskRestController",
     "description" : "API to load human tasks and perform actions on them"
-  }, {
-    "name" : "MessageController",
-    "description" : "API to interact with messages"
   }, {
     "name" : "HumanTaskFileRestController",
     "description" : "API to perform actions on human task files"
@@ -602,16 +599,42 @@
         "tags" : [ "ServiceDefinitionController" ],
         "description" : "load all available service definitions",
         "operationId" : "getServiceDefinitions",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 50
+          }
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/ServiceDefinitionTO"
-                  }
+                  "$ref" : "#/components/schemas/PageServiceDefinitionTO"
                 }
               }
             }
@@ -692,27 +715,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/rest/input/message/send/message" : {
-      "post" : {
-        "tags" : [ "MessageController" ],
-        "operationId" : "sendMessage",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SendMessageTO"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
           }
         }
       }
@@ -844,6 +846,28 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/rest/admin/tasks/import" : {
+      "post" : {
+        "tags" : [ "task-importer-service" ],
+        "operationId" : "importExistingTasks",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/rest/admin/tasks/enrich" : {
+      "post" : {
+        "tags" : [ "task-importer-service" ],
+        "operationId" : "enrichExistingTasks",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           }
         }
       }
@@ -1194,16 +1218,42 @@
       "get" : {
         "tags" : [ "ServiceInstanceController" ],
         "operationId" : "getAssignedInstances",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 50
+          }
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/ServiceInstanceTO"
-                  }
+                  "$ref" : "#/components/schemas/PageServiceInstanceTO"
                 }
               }
             }
@@ -1812,17 +1862,6 @@
           }
         }
       },
-      "SendMessageTO" : {
-        "type" : "object",
-        "properties" : {
-          "instanceId" : {
-            "type" : "string"
-          },
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
       "GetMetadataTO" : {
         "required" : [ "url" ],
         "type" : "object",
@@ -1949,19 +1988,6 @@
             "type" : "integer",
             "format" : "int64"
           },
-          "numberOfElements" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "first" : {
-            "type" : "boolean"
-          },
-          "last" : {
-            "type" : "boolean"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
-          },
           "size" : {
             "type" : "integer",
             "format" : "int32"
@@ -1977,7 +2003,20 @@
             "format" : "int32"
           },
           "sort" : {
-            "$ref" : "#/components/schemas/Sort"
+            "$ref" : "#/components/schemas/SortObject"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
           },
           "empty" : {
             "type" : "boolean"
@@ -1987,6 +2026,13 @@
       "PageableObject" : {
         "type" : "object",
         "properties" : {
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/SortObject"
+          },
           "pageNumber" : {
             "type" : "integer",
             "format" : "int32"
@@ -2000,26 +2046,19 @@
           },
           "unpaged" : {
             "type" : "boolean"
-          },
-          "offset" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "sort" : {
-            "$ref" : "#/components/schemas/Sort"
           }
         }
       },
-      "Sort" : {
+      "SortObject" : {
         "type" : "object",
         "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
           "sorted" : {
             "type" : "boolean"
           },
           "unsorted" : {
-            "type" : "boolean"
-          },
-          "empty" : {
             "type" : "boolean"
           }
         }
@@ -2072,6 +2111,52 @@
             }
           },
           "statusDocument" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "PageServiceInstanceTO" : {
+        "type" : "object",
+        "properties" : {
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ServiceInstanceTO"
+            }
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/SortObject"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
+          "empty" : {
             "type" : "boolean"
           }
         }
@@ -2165,6 +2250,52 @@
           }
         }
       },
+      "PageServiceDefinitionTO" : {
+        "type" : "object",
+        "properties" : {
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ServiceDefinitionTO"
+            }
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/SortObject"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
       "ServiceDefinitionTO" : {
         "type" : "object",
         "properties" : {
@@ -2245,9 +2376,9 @@
         "description" : "Oauth2 flow",
         "flows" : {
           "password" : {
-            "authorizationUrl" : "https://ssodev.muenchen.de/auth/realms/P82/protocol/openid-connect/auth",
-            "tokenUrl" : "https://ssodev.muenchen.de/auth/realms/P82/protocol/openid-connect/token",
-            "refreshUrl" : "https://ssodev.muenchen.de/auth/realms/P82/protocol/openid-connect/token",
+            "authorizationUrl" : "http://keycloak:8080/auth/realms/P82/protocol/openid-connect/auth",
+            "tokenUrl" : "http://keycloak:8080/auth/realms/P82/protocol/openid-connect/token",
+            "refreshUrl" : "http://keycloak:8080/auth/realms/P82/protocol/openid-connect/token",
             "scopes" : {
               "lhm_extended" : "lhm_extended"
             }
