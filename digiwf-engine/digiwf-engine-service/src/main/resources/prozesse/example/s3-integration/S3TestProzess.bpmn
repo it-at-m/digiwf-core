@@ -99,9 +99,6 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
-        <camunda:in sourceExpression="" target="receiversCc" />
-        <camunda:in sourceExpression="" target="receiversBcc" />
-        <camunda:in sourceExpression="" target="replyTo" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
         <camunda:in sourceExpression="S3 Test" target="subject" />
