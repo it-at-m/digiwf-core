@@ -3,7 +3,7 @@
  */
 package io.muenchendigital.digiwf.shared.security;
 
-import lombok.RequiredArgsConstructor;
+import io.muenchendigital.digiwf.application.port.out.CurrentUserPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class RequestResponseLoggingFilter implements Filter {
     private String requestLoggingMode;
 
     @Autowired
-    private UserAuthenticationProvider userAuthenticationProvider;
+    private CurrentUserPort userAuthenticationProvider;
 
     /**
      * {@inheritDoc}
@@ -60,7 +60,7 @@ public class RequestResponseLoggingFilter implements Filter {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         if (this.checkForLogging(httpRequest)) {
             log.info("User {} executed {} on URI {}",
-                    userAuthenticationProvider.getLoggedInUser(),
+                    userAuthenticationProvider.getLoggedInUsername(),
                     httpRequest.getMethod(),
                     httpRequest.getRequestURI()
             );

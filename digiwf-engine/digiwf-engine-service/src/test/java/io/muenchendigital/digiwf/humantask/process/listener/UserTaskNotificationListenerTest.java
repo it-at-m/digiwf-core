@@ -4,16 +4,11 @@
  */
 package io.muenchendigital.digiwf.humantask.process.listener;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-
+import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
+import io.muenchendigital.digiwf.legacy.mailing.domain.service.MailingService;
+import io.muenchendigital.digiwf.legacy.user.domain.model.User;
+import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
+import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
@@ -26,21 +21,25 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
-import io.muenchendigital.digiwf.legacy.mailing.domain.service.MailingService;
-import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
-import io.muenchendigital.digiwf.legacy.user.domain.model.User;
-import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for UserTaskNotificationListener.
- * 
+ *
  * @author martin.dietrich
  */
 public class UserTaskNotificationListenerTest {
 
     /**
-     * Tests if no notification is send out when all notification switches are off. 
+     * Tests if no notification is send out when all notification switches are off.
      */
     @Test
     public void testDelegateTask_WithNotificationOff() throws Exception {
@@ -62,7 +61,7 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the assignee is send out when notification is on. 
+     * Tests if a notification to the assignee is send out when notification is on.
      */
     @Test
     public void testDelegateTask_WithAssignee() throws Exception {
@@ -232,7 +231,7 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests that no notification is send out when notification is on but no assignee/candidates are defined. 
+     * Tests that no notification is send out when notification is on but no assignee/candidates are defined.
      */
     @Test
     public void testDelegateTask_WithoutUsers() throws Exception {
@@ -253,7 +252,7 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the candidate groups is send out when notification is on. 
+     * Tests if a notification to the candidate groups is send out when notification is on.
      */
     @Test
     public void testDelegateTask_WithCandidateGroups() throws Exception {
@@ -297,7 +296,7 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the assignee and candidate groups is send out when notification is on. 
+     * Tests if a notification to the assignee and candidate groups is send out when notification is on.
      */
     @Test
     public void testDelegateTask_WithCandidateGroupsAndAssignee() throws Exception {
@@ -347,7 +346,7 @@ public class UserTaskNotificationListenerTest {
     }
 
     /**
-     * Tests if a notification to the candidate users and groups is send out when notification is on. 
+     * Tests if a notification to the candidate users and groups is send out when notification is on.
      */
     @Test
     public void testDelegateTask_WithCandidateUsersAndCandidateGroups() throws Exception {

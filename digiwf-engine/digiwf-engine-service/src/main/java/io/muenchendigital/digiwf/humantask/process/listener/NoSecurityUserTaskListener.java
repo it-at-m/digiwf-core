@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.humantask.process.listener;
 
-import io.muenchendigital.digiwf.shared.security.UserAuthenticationProvider;
+import io.muenchendigital.digiwf.application.port.out.CurrentUserPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateTask;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NoSecurityUserTaskListener {
 
-    private final UserAuthenticationProvider userAuthenticationProvider;
+    private final CurrentUserPort userAuthenticationProvider;
 
     @EventListener
     public void delegateTask(final DelegateTask delegateTask) {

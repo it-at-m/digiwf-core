@@ -4,13 +4,13 @@
 
 package io.muenchendigital.digiwf.humantask.process.listener;
 
+import io.holunda.camunda.bpm.data.factory.VariableFactory;
+import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
 import io.muenchendigital.digiwf.legacy.mailing.domain.model.MailTemplate;
 import io.muenchendigital.digiwf.legacy.mailing.domain.service.MailingService;
 import io.muenchendigital.digiwf.legacy.user.domain.model.User;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
 import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
-import io.holunda.camunda.bpm.data.factory.VariableFactory;
-import io.muenchendigital.digiwf.humantask.process.ProcessTaskConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -42,20 +42,18 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 public class UserTaskNotificationListener {
 
 
-    private final RepositoryService repositoryService;
-    private final MailingService mailingService;
-    private final UserService userService;
-    private final DigitalWFProperties properties;
-
     @Deprecated // use other switches instead
     private static final VariableFactory<String> NOTIFICATION_SEND = stringVariable("digitalwf_notification_send");
-
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_ASSIGNEE = stringVariable("digitalwf_notification_send_assignee");
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_CANDIDATE_USERS = stringVariable("digitalwf_notification_send_candidate_users");
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_CANDIDATE_GROUPS = stringVariable("digitalwf_notification_send_candidate_groups");
+    private final RepositoryService repositoryService;
+    private final MailingService mailingService;
+    private final UserService userService;
+    private final DigitalWFProperties properties;
 
     @EventListener
     public void delegateTask(final DelegateTask delegateTask) throws Exception {
@@ -102,7 +100,7 @@ public class UserTaskNotificationListener {
             String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
             val address = this.getMailAddress(delegateTask.getAssignee());
             String body = "Sie haben eine Aufgabe in DigiWF.";
-            if (!processName.isBlank()){
+            if (!processName.isBlank()) {
                 body = "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
             }
 
@@ -196,7 +194,7 @@ public class UserTaskNotificationListener {
             String processName = this.getProcessName(processDefinitionId);
 
             String body = "Sie haben eine Gruppenaufgabe in DigiWF.";
-            if (!processName.isBlank()){
+            if (!processName.isBlank()) {
                 body = "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
             }
             final String addresslist = String.join(",", addresses);
@@ -216,20 +214,18 @@ public class UserTaskNotificationListener {
 
     }
 
-    private String getProcessName(String processDefinitionId){
+    private String getProcessName(String processDefinitionId) {
         String processName = "";
         try {
             ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
-            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+            if (procDef.getName() != null && !procDef.getName().isBlank()) {
                 processName = procDef.getName();
-            }
-            else {
-                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+            } else {
+                if (procDef.getKey() != null && !procDef.getKey().isBlank()) {
                     processName = procDef.getKey();
                 }
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;

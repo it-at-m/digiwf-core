@@ -31,18 +31,16 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 @RequiredArgsConstructor
 public class UserTaskCompleteListener {
 
-    private final RuntimeService runtimeService;
-    private final UserService userService;
-    private final AppAuthenticationProvider camundaUserAuthenticationProvider;
-    private final ServiceInstanceAuthService serviceInstanceAuthService;
-
     /**
      * @deprecated Use APP_ASSIGN_USER_TO_PROCESSINSTANCE instead.
      */
     @Deprecated
     private static final VariableFactory<String> ASSIGN_USER_TO_PROCESSINSTANCE = stringVariable("digitalwf_assign_user_to_processinstance");
-
     private static final VariableFactory<String> APP_ASSIGN_USER_TO_PROCESSINSTANCE = stringVariable("app_assign_user_to_processinstance");
+    private final RuntimeService runtimeService;
+    private final UserService userService;
+    private final AppAuthenticationProvider camundaUserAuthenticationProvider;
+    private final ServiceInstanceAuthService serviceInstanceAuthService;
 
     @EventListener
     public void delegateTask(final DelegateTask delegateTask) {

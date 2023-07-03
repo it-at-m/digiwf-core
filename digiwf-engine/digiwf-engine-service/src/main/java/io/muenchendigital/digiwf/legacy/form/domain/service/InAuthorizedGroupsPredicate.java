@@ -3,9 +3,9 @@
  */
 package io.muenchendigital.digiwf.legacy.form.domain.service;
 
+import io.muenchendigital.digiwf.application.port.out.CurrentUserPort;
 import io.muenchendigital.digiwf.legacy.form.infrastructure.entity.FormEntity;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.shared.security.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
@@ -24,14 +24,14 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor
 public class InAuthorizedGroupsPredicate implements Predicate<FormEntity> {
 
-    private final UserAuthenticationProvider userProvider;
+    private final CurrentUserPort userProvider;
     private final UserService userService;
 
     @Override
     public boolean test(final FormEntity form) {
         if (StringUtils.isEmpty(form.getAuthorization()))
             return true;
-        final String username = this.userProvider.getLoggedInUser();
+        final String username = this.userProvider.getLoggedInUsername();
         val user = this.userService.getUserByUserName(username);
         if (user.isPresent()) {
             final List<String> userGroups = this.userService.getGroups(user.get().getLhmObjectId());

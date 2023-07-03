@@ -7,7 +7,6 @@ package io.muenchendigital.digiwf.legacy.user.process;
 import io.muenchendigital.digiwf.legacy.user.domain.model.User;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import lombok.val;
 import org.springframework.stereotype.Component;
 
