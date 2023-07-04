@@ -168,7 +168,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'true'
+        if: github.event.inputs.snapshot-build == 'false'
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
