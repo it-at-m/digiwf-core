@@ -17,8 +17,9 @@ module.exports = defineConfig({
   },
   env: {
     username: "johndoe",
+    fullUsername: "John Doe",
     password: "test",
-    home: "localhost:8082/"
+    home: "localhost:8083/"
   },
   e2e: {
     setupNodeEvents(on, config) {

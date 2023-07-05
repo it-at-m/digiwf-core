@@ -3,8 +3,41 @@ import Page from './page'
 class MeineAufgaben extends Page{
     elements = {
         elementBox: () => cy.get(".v-data-iterator > div:nth-child(1)"),
-        listElement: (elementNumber) => cy.get(`.taskTitel > span:nth-child(${elementNumber})`),
+        actualize: () => cy.get(".v-size--large"),
+        listElement: (elementNumber) => cy.get(`a.d-flex:nth-child(${elementNumber})`),
+        numberOfTasks: () => cy.get(`span.mr-1:nth-child(5)`),
+        rightArrow: () => cy.get(`.ml-1`),
+        leftArrow: () => cy.get(`.mr-1`),
+        pageSize: () => cy.get(`button.ml-2`),
+        pageSize5: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(1)`),
+        pageSize10: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(2)`),
+        pageSize20: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(3)`),
     }
+
+    getFoundTasks(){
+        return this.elements.numberOfTasks().invoke('text').then((txt) => {
+            return parseInt((txt.split(" "))[0]);
+        })
+    }
+
+    clickActualize(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api/digitalwf-backend-service/rest/filter',
+        }).as('dataGetTasks')
+        this.elements.actualize().click()
+        cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
+        cy.log("ready")
+    }
+
+    clickRightArrow(){
+        this.elements.rightArrow().click()
+    }
+
+    clickLeftArrow(){
+        this.elements.leftArrow().click()
+    }
+
 
     elementIsCorrect(elementNumber,text){
         this.elements.listElement(elementNumber).should('contain.text',text)
@@ -14,8 +47,25 @@ class MeineAufgaben extends Page{
         this.elements.listElement(elementNumber).click()
     }
 
+    getElement(elementNumber){
+        return this.elements.listElement(elementNumber)
+    }
+
     tasksEmpty(text){
         this.elements.elementBox().should('contain.text',text);
+    }
+
+    changePageSize(number){
+        this.elements.pageSize().click()
+        if(number == 5){
+            this.elements.pageSize5().click()
+        }
+        else if(number == 20){
+            this.elements.pageSize20().click()
+        }
+        else{
+            this.elements.pageSize10().click()
+        }
     }
 }
 
