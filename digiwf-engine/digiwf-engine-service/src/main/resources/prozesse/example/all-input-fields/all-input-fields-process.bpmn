@@ -4,18 +4,32 @@
     <bpmn:participant id="Participant_15gffdu" name="all inputs fields process" processRef="example-all-input-fields" />
   </bpmn:collaboration>
   <bpmn:process id="example-all-input-fields" name="Example All Input Fields" isExecutable="true">
-    <bpmn:userTask id="Task_UserTask" name="User Task" camunda:assignee="${FORMFIELD_User}">
+    <bpmn:userTask id="Task_UserTask" name="User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${FormField_User}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">all-inputs</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1fbmdks</bpmn:incoming>
       <bpmn:outgoing>Flow_091qwfe</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1ih56xh" name="Second User Task" camunda:assignee="${FORMFIELD_User}">
+    <bpmn:userTask id="Activity_1ih56xh" name="Second User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${FormField_User}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">all-inputs</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
