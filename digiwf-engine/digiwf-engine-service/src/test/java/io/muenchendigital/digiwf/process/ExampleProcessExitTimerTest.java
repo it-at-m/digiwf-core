@@ -23,7 +23,7 @@ public class ExampleProcessExitTimerTest {
   public void terminates_all_fields_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("example-all-input-fields",
-        createVariables().putValue("FORMFIELD_User", "1234567")
+        createVariables().putValue("FormField_User", "1234567")
     );
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("Task_UserTask");
