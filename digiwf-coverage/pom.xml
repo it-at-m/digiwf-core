@@ -127,11 +127,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-s3-integration-example</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>digiwf-verification-integration-core</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -13,10 +13,9 @@
     </parent>
 
     <properties>
-        <logstash.encoder>7.3</logstash.encoder>
         <apache.commons.collections4>4.4</apache.commons.collections4>
         <apache.commons.csv>1.10.0</apache.commons.csv>
-        <apache.commons.io>2.11.0</apache.commons.io>
+        <apache.commons.io>2.13.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.10.0</apache.commons.text>
         <apache.commons.validator>1.7</apache.commons.validator>
@@ -258,7 +257,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash.encoder}</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
