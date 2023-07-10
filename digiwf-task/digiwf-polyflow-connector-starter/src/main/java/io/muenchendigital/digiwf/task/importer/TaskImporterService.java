@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.context.ProcessEngineContext;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.ResponseEntity.internalServerError;
 import static org.springframework.http.ResponseEntity.noContent;
 
 @RequiredArgsConstructor
@@ -54,32 +51,33 @@ public class TaskImporterService {
     @RolesAllowed(CLIENT_IMPORT_TASKS)
     public ResponseEntity<Void> enrichExistingTasks() {
         log.info("Starting task enrichment");
-        val tasks = new HashSet<TaskEntity>();
-        tasks.addAll(taskService.createTaskQuery()
-            .active()
-            .taskAssigned()
-            .list()
-            .stream().map(task -> ((TaskEntity) task))
-            .collect(Collectors.toList()));
-        tasks.addAll(taskService.createTaskQuery()
-            .active()
-            .withCandidateGroups()
-            .list()
-            .stream().map(task -> ((TaskEntity) task))
-            .collect(Collectors.toList()));
-        tasks.addAll(taskService.createTaskQuery()
-            .active()
-            .withCandidateUsers()
-            .list()
-            .stream().map(task -> ((TaskEntity) task))
-            .collect(Collectors.toList()));
+        val tasks = taskService.createTaskQuery().active().list().stream().map(task -> ((TaskEntity) task)).collect(Collectors.toCollection(HashSet::new));
+//        val tasks = new HashSet<TaskEntity>();
+//        tasks.addAll(taskService.createTaskQuery()
+//            .active()
+//            .taskAssigned()
+//            .list()
+//            .stream().map(task -> ((TaskEntity) task))
+//            .collect(Collectors.toList()));
+//        tasks.addAll(taskService.createTaskQuery()
+//            .active()
+//            .withCandidateGroups()
+//            .list()
+//            .stream().map(task -> ((TaskEntity) task))
+//            .collect(Collectors.toList()));
+//        tasks.addAll(taskService.createTaskQuery()
+//            .active()
+//            .withCandidateUsers()
+//            .list()
+//            .stream().map(task -> ((TaskEntity) task))
+//            .collect(Collectors.toList()));
         enrichTasks(tasks);
         return noContent().build();
     }
 
   @SneakyThrows
   private void enrichTasks(Set<TaskEntity> tasks) {
-      log.info("Selected for enrichment {} tasks", tasks.size());
+    log.info("Selected for enrichment {} tasks.", tasks.size());
     ((ProcessEngineConfigurationImpl)processEngineConfiguration).getCommandExecutorTxRequired().execute(
         (context) -> {
           tasks.forEach((task) -> {
