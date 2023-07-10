@@ -295,7 +295,8 @@
                             <inputSpec>${project.basedir}/src/main/api/openapi.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <removeOperationIdPrefix>true</removeOperationIdPrefix>
-                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore
+                            </ignoreFileOverride>
                             <library>spring-boot</library>
                             <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <modelNameSuffix>TO</modelNameSuffix>

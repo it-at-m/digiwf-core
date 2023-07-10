@@ -65,8 +65,8 @@ class TaskImporterServiceTest {
     doNothing().when(listenerMock).taskCreated(taskParamCaptor.capture());
   }
 
-  // @Test
-  // @Deployment(resources = "process_importer_service.bpmn")
+  @Test
+  @Deployment(resources = "process_importer_service.bpmn")
   public void queries_tasks() {
 
     val instance = runtimeService.startProcessInstanceByKey("assignment_test_process");

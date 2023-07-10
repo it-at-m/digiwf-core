@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Connector;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.ApplicationListener;
@@ -75,7 +76,7 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
      * @param event The {@link ContextClosedEvent} to gracefully shutdown.
      */
     @Override
-    public void onApplicationEvent(final ContextClosedEvent event) {
+    public void onApplicationEvent(@NotNull final ContextClosedEvent event) {
         log.info("context close event happened");
 
         healthCheck.setStatusDown();

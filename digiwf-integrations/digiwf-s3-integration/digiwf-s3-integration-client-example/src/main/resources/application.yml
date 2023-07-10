@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: "example client app"
@@ -28,12 +29,10 @@ spring:
         functionRouter-in-0:
           group: "dwf-s3-service"
           destination: dwf-s3-${DIGIWF_ENV}
-        sendCorrelateMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
         sendMessage-out-0:
           destination: dwf-digiwf-engine-${DIGIWF_ENV}
     function:
-      definition: functionRouter;sendMessage;sendCorrelateMessage;sendBpmnError;sendIncident;
+      definition: functionRouter;sendMessage
   kafka:
     consumer:
       properties:
@@ -41,20 +40,32 @@ spring:
           json:
             trusted:
               packages: '*'
+  security:
+    oauth2:
+      client:
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_S3_CLIENT_ID}
+            client-secret: ${SSO_S3_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
+
 io:
   muenchendigital:
     digiwf:
       s3:
         client:
           document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
-          # It's just an example application. Security is not needed.
-          securityEnabled: false
+          securityEnabled: true # security is on and uses the "s3" client
       streaming:
         typeMappings:
           correlatemessagev01: correlatemessagev01
 logging:
   level:
-    org:
-      springframework: info
+    org.springframework: info
+    org.springframework.security: debug
     io:
       muenchendigital: info
+server:
+  port: 8079

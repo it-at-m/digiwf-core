@@ -1,0 +1,36 @@
+### Start process
+POST http://localhost:8091/process/start
+Content-Type: application/json
+
+{
+  "key": "my-awesome-process",
+  "variables": {
+
+  }
+}
+
+### Correlate Message
+
+POST http://localhost:8091/process/correlate
+Content-Type: application/json
+
+{
+  "processInstanceId": "my-awesome-process-01",
+  "messageName": "finish-user-task",
+  "variables": {
+    "input": "test"
+  }
+}
+
+### Bpmn Error
+
+POST http://localhost:8091/process/correlate
+Content-Type: application/json
+
+{
+  "processInstanceId": "my-awesome-process-01",
+  "messageName": "finish-user-task",
+  "variables": {
+
+  }
+}

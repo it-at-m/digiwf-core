@@ -15,6 +15,7 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.i
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class IncidentService {
 
     private static final String MESSAGE_TYPE = "createIncident";
@@ -26,8 +27,13 @@ public class IncidentService {
      *
      * @param messageHeaders incoming message headers
      * @param errorMessage   the specific error message
+     *
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
+     * @deprecated This function is no longer supported and may be removed in a future release
+     *
      * @return success flag
      */
+    @Deprecated
     public boolean sendIncident(final MessageHeaders messageHeaders, final String errorMessage) {
         final Message<String> message = MessageBuilder
                 .withPayload(errorMessage)
