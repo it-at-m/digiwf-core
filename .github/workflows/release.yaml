@@ -210,10 +210,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-#          cache: 'npm'
+          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
-#          cache-dependency-path: "./digiwf-apps/package-lock.json"
-      - run: npm install && lerna bootstrap --ci
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - run: npm run init
       - run: npm run build
       - run: npm run test
       - run: lerna publish from-package --yes
