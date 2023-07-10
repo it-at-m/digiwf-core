@@ -53,4 +53,4 @@ polyflow:
         application-name: ${spring.application.name}
 logging:
   level:
-    io.holunda.polyflow.taskpool.sender.task: TRACE
+    io.holunda.polyflow.taskpool.sender.task: INFO
