@@ -5,33 +5,44 @@ on:
   workflow_dispatch:
     inputs:
       snapshot-build:
-        description: 'Snapshot build (y/n)?'
+        description: 'Snapshot build?'
+        type: boolean
         required: true
-        default: 'y'
+        default: false
       release-tag:
         description: 'Release Tag (only if not snapshot)'
         required: false
         default: 'services_XXX_apps_XXX'
       apps:
-        description: 'Release apps (y/n)?'
+        description: 'Release apps?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
+      apps-new-version:
+        description: 'New apps version (only if apps)'
+        required: false
       services:
-        description: 'Release services (y/n)?'
+        description: 'Release services?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
+      services-new-version:
+        description: 'New services version (only if services) - SNAPSHOT will be added to the version'
+        required: false
       maven:
-        description: 'Release Maven (y/n)?'
+        description: 'Release Maven?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
       docs:
-        description: 'Release docs (y/n)?'
+        description: 'Release docs?'
+        type: boolean
         required: true
-        default: 'y'
+        default: true
 
 jobs:
   release-services:
-    if: github.event.inputs.services == 'y'
+    if: github.event.inputs.services == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -44,16 +55,16 @@ jobs:
           distribution: 'adopt'
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'n'
+        if: github.event.inputs.snapshot-build == 'false'
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        if: github.event.inputs.maven == 'n'
+        if: github.event.inputs.maven == 'true'
         run: mvn --batch-mode install -DskipTests
 
       - name: Release Maven package
-        if: github.event.inputs.maven == 'y'
+        if: github.event.inputs.maven == 'true'
         uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -141,7 +152,7 @@ jobs:
           tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
 
   release-services-camunda-ee:
-    if: github.event.inputs.services == 'y'
+    if: github.event.inputs.services == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -157,7 +168,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'n'
+        if: github.event.inputs.snapshot-build == 'false'
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -190,7 +201,7 @@ jobs:
 
   release-apps:
     runs-on: ubuntu-latest
-    if: github.event.inputs.apps == 'y'
+    if: github.event.inputs.apps == 'true'
     defaults:
       run:
         working-directory: ./digiwf-apps
@@ -222,12 +233,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Set Release version env variable
-        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'n'
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.snapshot-build == 'false'
         run: |
           echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
 
       - name: Set Snapshot Release version env variable
-        if: github.event.inputs.snapshot-build == 'y'
+        if: github.event.inputs.snapshot-build == 'true'
         run: |
           echo "RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
 
@@ -240,7 +251,7 @@ jobs:
 
   release-docs:
     runs-on: ubuntu-latest
-    if: github.event.inputs.docs == 'y'
+    if: github.event.inputs.docs == 'true'
     defaults:
       run:
         working-directory: ./docs
@@ -262,7 +273,7 @@ jobs:
 
   github-release:
     name: Create Release
-    if: github.event.inputs.snapshot-build == 'n'
+    if: github.event.inputs.snapshot-build == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -289,3 +300,70 @@ jobs:
           release_name: Release ${{ github.event.inputs.release-tag }}
           draft: false
           prerelease: false
+
+  bump-services-version:
+    name: Bump Maven Version
+    if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services == 'true'
+    runs-on: ubuntu-latest
+    needs:
+      - github-release
+      - release-services
+      - release-services-camunda-ee
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup git
+        run: |
+          git config --global user.email "digiwf@muenchen.de"
+          git config --global user.name "DigiWF Github Bot"
+      - name: Install Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Raise mvn version
+        if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services-new-version != ''
+        run: |
+          mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ github.event.inputs.services-new-version }}-SNAPSHOT
+          mvn versions:commit
+      - name: Raise mvn version
+        if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.services-new-version == ''
+        run: |
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
+          mvn versions:commit
+      - name: Git commit
+        run: |
+          git add .
+          git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          git push
+
+  bump-apps-version:
+    name: Bump Lerna Version
+    if: github.event.inputs.snapshot-build == 'false' && github.event.inputs.apps == 'true'
+    runs-on: ubuntu-latest
+    needs:
+      - github-release
+      - release-apps
+    defaults:
+      run:
+        working-directory: ./digiwf-apps
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup git
+        run: |
+          git config --global user.email "digiwf@muenchen.de"
+          git config --global user.name "DigiWF Github Bot"
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - run: npm install && lerna bootstrap --ci
+      - name: Raise lerna version
+        if: github.event.inputs.apps-new-version != ''
+        run: lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes --yes
+      - name: Raise lerna version
+        if: github.event.inputs.apps-new-version == ''
+        run: lerna version patch --ignore-changes --yes

@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driverclassname: org.h2.Driver
+  jpa:
+    open-in-view: true
+    hibernate:
+      hbm2ddl:
+        schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
+      ddl-auto: create-drop
+    database:
+      platform: org.hibernate.dialect.H2Dialect
+
+camunda:
+  bpm:
+    authorization:
+      enabled: false
+    job-executor-acquire-by-priority: true
+    deployment-resource-pattern: "prozesse/**/*.bpmn, bausteine/**/*.bpmn, bausteine/**/*.dmn"
+    generic-properties:
+      properties:
+        history-time-to-live: '185'
+        history-cleanup-strategy: removalTimeBased
+        history-cleanup-batch-window-start-time: '22:00'
+        history-cleanup-batch-window-end-time: '06:00'
+        history-removal-time-strategy: end
+        history-cleanup-degree-of-parallelism: '4'
+        enable-exceptions-after-unhandled-bpmn-error: true
+    default-serialization-format: application/json
+    database:
+      schema-update: false
+

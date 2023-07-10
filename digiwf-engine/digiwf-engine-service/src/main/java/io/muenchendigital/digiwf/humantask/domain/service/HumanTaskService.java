@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+
 /**
  * Service to handle HumanTasks in DigiWF.
  *
@@ -162,10 +164,7 @@ public class HumanTaskService {
      */
     public void completeTask(final String taskId, final Map<String, Object> variables, final String userId) {
         val task = this.getTask(taskId);
-
-        if (!userId.equals(task.getAssignee())) {
-            throw new ObjectNotFoundException(String.format("The task with the id %s is not available.", taskId));
-        }
+        checkTaskAccess(taskId, userId);
 
         final Map<String, Object> filteredVariables = this.humanTaskDataService.serializeGivenVariables(task, variables);
         this.taskService.complete(taskId, filteredVariables);
@@ -181,13 +180,18 @@ public class HumanTaskService {
      */
     public void saveTask(final String taskId, final Map<String, Object> variables, final String userId) {
         val task = this.getTask(taskId);
-
-        if (!userId.equals(task.getAssignee())) {
-            throw new ObjectNotFoundException(String.format("The task with the id %s is not available.", taskId));
-        }
+        checkTaskAccess(taskId, userId);
 
         final Map<String, Object> filteredVariables = this.humanTaskDataService.serializeGivenVariables(task, variables);
         this.taskService.setVariables(taskId, filteredVariables);
+    }
+
+    private void checkTaskAccess(String taskId, String userId) {
+        val assignedUserId = TASK_ASSIGNEE.from(taskService, taskId).getLocal();
+
+        if (!userId.equals(assignedUserId)) {
+            throw new ObjectNotFoundException(String.format("The task with the id %s is not available.", taskId));
+        }
     }
 
     /**

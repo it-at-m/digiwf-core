@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.muenchendigital.digiwf</groupId>
+        <artifactId>digiwf-task</artifactId>
+        <version>0.18.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>digiwf-task-itest</artifactId>
+    <dependencies>
+
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- json etc. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine-plugin-spin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.spin</groupId>
+            <artifactId>camunda-spin-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.spin</groupId>
+            <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- this is an itest, no deployments needed -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>camunda-ce</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.holunda</groupId>
+                    <artifactId>camunda-platform-7-autologin</artifactId>
+                    <version>0.0.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>camunda-ee</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.holunda</groupId>
+                    <artifactId>camunda-platform-7-autologin</artifactId>
+                    <version>0.0.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

@@ -9,7 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static io.muenchendigital.digiwf.task.TaskVariables.*;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_GROUPS;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_USERS;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

@@ -105,12 +105,6 @@
             <appender-ref ref="JSON_STDOUT" />
         </logger>
 
-        <logger name="org.springframework.cloud.gateway"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
         <!-- Logger usage -->
         <root level="info">
             <appender-ref ref="JSON_STDOUT" />
