@@ -365,22 +365,25 @@
                     <execution>
                         <id>generate-sources</id>
                         <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
                         <configuration>
                             <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                            <additionalJvmArgs>-Dlogback.configurationFile=${project.basedir}/src/test/resources/logback-codegen.xml</additionalJvmArgs>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/dms.wsdl</wsdl>
+                                    <extraargs>
+                                        <extraarg>-quiet</extraarg>
+                                    </extraargs>
                                     <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
-
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/binding.xml</bindingFile>
                                     </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

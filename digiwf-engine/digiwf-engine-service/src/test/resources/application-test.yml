@@ -13,10 +13,12 @@ spring:
     enabled: false
   jpa:
     hibernate:
+      ddl-auto: create-drop
       hbm2ddl:
         schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
-      ddl-auto: create-drop
-    show-sql: false
+    properties:
+      hibernate:
+        show_sql: false
 
   # Spring data rest
   data:
