@@ -6,8 +6,10 @@ import io.muenchendigital.digiwf.cosys.integration.configuration.CosysConfigurat
 import io.muenchendigital.digiwf.cosys.integration.gen.api.GenerationApi;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
 import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -36,7 +38,7 @@ public class CosysAdapter implements GenerateDocumentPort {
     @Override
     public Mono<byte[]> generateCosysDocument(final GenerateDocument generateDocument) {
         try {
-            return this.generationApi.generatePdf(
+            return this.generationApi.generatePdfWithResponseSpec(
                     generateDocument.getGuid(),
                     generateDocument.getClient(),
                     generateDocument.getRole(),
@@ -50,8 +52,14 @@ public class CosysAdapter implements GenerateDocumentPort {
                     this.createFile(MERGE_FILE_NAME, this.configuration.getMergeOptions()),
                     null,
                     null
-            );
-        } catch (final Exception ex) {
+            )
+            .onStatus(HttpStatus::is5xxServerError,
+                    response -> response.bodyToMono(byte[].class).flatMap(body -> Mono.error(new IncidentError("Document could not be created."))))
+            .onStatus(HttpStatus::is4xxClientError,
+                    response -> response.bodyToMono(byte[].class).flatMap(body -> Mono.error(new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", "Document could not be created."))))
+            .bodyToMono(byte[].class);
+
+        } catch (final IOException ex) {
             log.error("Document could not be created.", ex);
             throw new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", ex.getMessage());
         }
