@@ -15,6 +15,10 @@
         </encoder>
     </appender>
 
+    <logger name="org.hibernate.SQL">
+        <level value="warn"/>
+    </logger>
+
     <!-- Logger usage -->
     <root level="info">
         <appender-ref ref="STDOUT"/>

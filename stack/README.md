@@ -2,12 +2,11 @@
 
 For local development you can use the following tools:
 
-- **SSO**: Keycloak
+- **SSO**: [Keycloak](https://www.keycloak.org/)
 - **Event Bus**: Kafka (and Zookeeper)
 - **S3 Storage**: [Minio](https://min.io/docs/minio/linux/index.html)
 - **Email Server**: [Mailhog](https://github.com/mailhog/MailHog)
-- **SSO**: [Keycloak](https://www.keycloak.org/)
-- **DB**: Postgresql database 
+- **DB**: Postgresql databases 
 
 ## Docker
 
@@ -39,10 +38,9 @@ add the env file to your run configuration.
 3. Create a bucket
 4. Create a service account
 5. Add the bucket name and service account secrets as env variables to the digiwf-s3-integration
-    * `IO_MUENCHENDIGITAL_DIGIWF_S3_BUCKETNAME`
-    * `IO_MUENCHENDIGITAL_DIGIWF_S3_ACCESSKEY`
-    * `IO_MUENCHENDIGITAL_DIGIWF_S3_SECRETKEY`
-    * `IO_MUENCHENDIGITAL_DIGIWF_S3_URL=http://localhost:9000`
+    * `S3_BUCKETNAME`
+    * `S3_ACCESSKEY`
+    * `S3_SECRETKEY`
 
 ## Additional Properties/Envs
 
@@ -50,11 +48,6 @@ There is a set of properties defined in `local-docker.env`.
 Set the following properties either in an `.env` file or add them in a `custom application-*.properties`.
 
 ```
-IO_MUENCHENDIGITAL_DIGIWF_S3_BUCKETNAME=
-IO_MUENCHENDIGITAL_DIGIWF_S3_ACCESSKEY=
-IO_MUENCHENDIGITAL_DIGIWF_S3_URL=http://localhost:9000
-IO_MUENCHENDIGITAL_DIGIWF_S3_SECRETKEY=
-
 IO_MUENCHENDIGITAL_DIGIWF_COSYS_SSOTOKENREQUESTURL=
 IO_MUENCHENDIGITAL_DIGIWF_COSYS_URL=
 IO_MUENCHENDIGITAL_DIGIWF_COSYS_SSOTOKENCLIENTID=

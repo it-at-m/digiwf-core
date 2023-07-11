@@ -14,7 +14,7 @@
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>
-                    %date{yyyy.MM.dd HH:mm:ss.SSS} | [${springAppName}, TraceId: %X{X-B3-TraceId:-}, SpanId: %X{X-B3-SpanId:-}, Span-Export: %X{X-Span-Export:-}] | %level | [%thread] | %logger{0} | [%file : %line]  -  %msg%n
+                    %date{yyyy.MM.dd HH:mm:ss.SSS} | %highlight(%level) | [%thread] | %cyan(%logger{0}) | [%file : %line] - %msg%n
                 </pattern>
             </encoder>
         </appender>
@@ -69,19 +69,20 @@
                         <!-- the pattern that defines what to include -->
                         <pattern>
                             {
-                            "timestamp" : "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
-                            "appName" : "${springAppName}",
-                            "X-B3-TraceId" : "%mdc{X-B3-TraceId}",
-                            "X-B3-SpanId" : "%mdc{X-B3-SpanId}",
-                            "X-Span-Export" : "%mdc{X-Span-Export}",
-                            "thread" : "%thread",
-                            "level" : "%level",
-                            "logger": "%logger",
-                            "location" : {
-                            "fileName" : "%file",
-                            "line" : "%line"
-                            },
-                            "message": "%message"
+                                "timestamp" : "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
+                                "appName" : "${springAppName}",
+                                "X-B3-TraceId" : "%mdc{X-B3-TraceId}",
+                                "X-B3-SpanId" : "%mdc{X-B3-SpanId}",
+                                "X-Span-Export" : "%mdc{X-Span-Export}",
+                                "thread" : "%thread",
+                                "level" : "%level",
+                                "logger": "%logger",
+                                "location" : {
+                                    "fileName" : "%file",
+                                    "line" : "%line"
+                                },
+                                "message": "%msg",
+                                "stacktrace": "%rEx"
                             }
                         </pattern>
                     </pattern>
@@ -90,29 +91,6 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf.gateway"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="io.muenchendigital.allgemein"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.web"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.cloud.gateway"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
 
         <!-- Logger usage -->
         <root level="info">

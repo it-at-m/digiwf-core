@@ -163,6 +163,12 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -256,6 +262,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>banner.txt</include>
+                    <include>*.yml</include>
                 </includes>
                 <targetPath>${project.build.outputDirectory}</targetPath>
                 <filtering>true</filtering>
@@ -276,7 +283,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.2.1</version>
+                <version>6.6.0</version>
                 <executions>
                     <execution>
                         <id>generate-server-stubs</id>
