@@ -13,24 +13,24 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties(prefix = "io.muenchendigital.digiwf.s3")
 public class S3IntegrationProperties {
 
-    @NotBlank
-    private String url;
+  @NotBlank
+  private String url;
 
-    @NotBlank
-    private String accessKey;
+  @NotBlank
+  private String accessKey;
 
-    @NotBlank
-    private String secretKey;
+  @NotBlank
+  private String secretKey;
 
-    @NotBlank
-    private String bucketName;
+  @NotBlank
+  private String bucketName;
 
-    private Boolean initialConnectionTest;
+  private Boolean initialConnectionTest;
 
-    private int presignedUrlExpiresInMinutes = 10080; // 7 days
+  private int presignedUrlExpiresInMinutes = 10080; // 7 days
 
-    private Boolean proxyEnabled = false;
+  private Boolean proxyEnabled = false;
 
-    private String proxyUrl;
+  private String proxyUrl;
 
 }

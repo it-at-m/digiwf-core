@@ -30,7 +30,7 @@ declare module '@vue/runtime-core' {
     PdfOutput: typeof import('./src/components/form/PdfOutput.vue')['default']
     ProcessDefinitionItem: typeof import('./src/components/process/ProcessDefinitionItem.vue')['default']
     ProcessInstanceItem: typeof import('./src/components/process/ProcessInstanceItem.vue')['default']
-    SearchField: typeof import('./src/components/task/SearchField.vue')['default']
+    SearchField: typeof import('./src/components/common/SearchField.vue')['default']
     TaskFollowUpDialog: typeof import('./src/components/task/TaskFollowUpDialog.vue')['default']
     TaskItem: typeof import('./src/components/task/TaskItem.vue')['default']
     TaskList: typeof import('./src/components/task/TaskList.vue')['default']

@@ -1,16 +1,24 @@
-# get presigned url
-POST http://localhost:8080/presignedurl
-Content-Type: application/json
-Accept: application/json
+#@name AccessToklenFromKeycloak
+# Generate access token from Keycloak and set it globally
+POST http://keycloak:8080/auth/realms/P82/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "path": "folder/first.txt;folder/second.txt;folder/third.txt",
-  "action": "GET"
-}
+grant_type=client_credentials&client_secret=s3creT&client_id=s3
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
 
 ###
 
-# get /all
-
-GET http://localhost:8080/all
+#@name ExecuteAllS3ClientMethods
+# Call a controller invoking all S3 REST endpoints. Check the output in the console.
+GET http://localhost:8079/all
 Content-Type: application/json
+Authorization: Bearer {{ access_token }}
+
+> {%
+ client.test("All requests are executed successfully", function() {
+     client.assert(response.status == 200, "Expected to receive HTTP 200, but got " + response.status)
+ })
+ %}

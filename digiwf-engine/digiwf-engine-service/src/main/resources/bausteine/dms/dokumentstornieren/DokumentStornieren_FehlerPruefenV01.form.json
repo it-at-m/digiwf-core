@@ -21,7 +21,7 @@
         {
           "key": "FormField_Meldung",
           "label": "Meldung",
-          "type": "textare",
+          "type": "textarea",
           "ext": "",
           "defaultValue": "",
           "tooltip": "",

@@ -5,6 +5,7 @@ import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.muenchendigital.digiwf.legacy.form.domain.model.Form;
 import io.muenchendigital.digiwf.legacy.form.domain.service.FormService;
 import io.muenchendigital.digiwf.process.config.process.ProcessConfigFunctions;
+import io.muenchendigital.digiwf.process.definition.domain.mapper.ServiceDefinitionPageMapper;
 import io.muenchendigital.digiwf.process.definition.domain.model.ServiceDefinition;
 import io.muenchendigital.digiwf.process.definition.domain.model.ServiceDefinitionDetail;
 import io.muenchendigital.digiwf.process.definition.domain.model.StartContext;
@@ -16,8 +17,10 @@ import io.muenchendigital.digiwf.process.instance.process.properties.S3Propertie
 import io.muenchendigital.digiwf.shared.exception.IllegalResourceAccessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,6 +38,7 @@ public class ServiceDefinitionFacade {
     private final ServiceDefinitionAuthService serviceDefinitionAuthService;
     private final ServiceDefinitionDataService serviceDefinitionDataService;
     private final ServiceStartContextService serviceStartContextService;
+    private final ServiceDefinitionPageMapper serviceDefinitionPageMapper;
 
     private final JsonSchemaService jsonSchemaService;
 
@@ -89,11 +93,18 @@ public class ServiceDefinitionFacade {
     }
 
 
-    public List<ServiceDefinition> getStartableServiceDefinitions(final String userId, final List<String> groups) {
-        final List<ServiceDefinition> serviceDefinitions = this.serviceDefinitionService.getServiceDefinitions();
-        return serviceDefinitions.stream()
+    public Page<ServiceDefinition> getStartableServiceDefinitions(
+            final String userId,
+            final List<String> groups,
+            final int page,
+            final int size,
+            @Nullable
+            final String query
+            ) {
+        final List<ServiceDefinition> serviceDefinitions = this.serviceDefinitionService.getServiceDefinitions().stream()
                 .filter(definition -> this.serviceDefinitionAuthService.allowedToStartDefinition(userId, groups, definition.getKey()))
                 .collect(Collectors.toList());
+        return serviceDefinitionPageMapper.toPage(serviceDefinitions, page, size, query);
     }
 
     //--------------------------------------- Helper Methods ---------------------------------------//

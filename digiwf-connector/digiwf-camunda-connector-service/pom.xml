@@ -7,7 +7,6 @@
     <name>digiwf-camunda-connector-service</name>
 
     <properties>
-        <logstash.encoder>7.3</logstash.encoder>
     </properties>
 
     <parent>
@@ -56,7 +55,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash.encoder}</version>
         </dependency>
 
         <!-- database -->

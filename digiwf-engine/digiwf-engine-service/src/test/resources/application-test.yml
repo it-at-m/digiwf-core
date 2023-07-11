@@ -13,9 +13,12 @@ spring:
     enabled: false
   jpa:
     hibernate:
+      ddl-auto: create-drop
       hbm2ddl:
         schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
-      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: false
 
   # Spring data rest
   data:
@@ -25,3 +28,6 @@ spring:
       default-page-size: 0x7fffffff
       return-body-on-update: true
       return-body-on-create: true
+logging:
+  level:
+    root: info

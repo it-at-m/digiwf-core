@@ -246,6 +246,96 @@ const textFeldSchema = {
   ]
 };
 
+const integerSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      "properties": {
+        ...basicAttributes.properties,
+        "default": {
+          "type": "integer",
+          "title": "Default",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minimum": {
+          "type": "integer",
+          "title": "min. value",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maximum": {
+          "type": "integer",
+          "title": "max. value",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    }
+  ]
+};
+
+const numberSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      "properties": {
+        ...basicAttributes.properties,
+        "default": {
+          "type": "integer",
+          "title": "Default",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minimum": {
+          "type": "number",
+          "title": "min. value",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maximum": {
+          "type": "number",
+          "title": "max. value",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    }
+  ]
+};
+
 const markdownSchema = {
   ...basicSchema,
   allOf: [
@@ -783,7 +873,26 @@ const multiselectSchema = {
       ...basicOptions
     },
     {
-      ...basicValidation
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minItems": {
+          "type": "integer",
+          "title": "minimum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxItems": {
+          "type": "integer",
+          "title": "maximum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
     }
   ]
 };
@@ -957,6 +1066,7 @@ const multiUserinputSchema = {
     {
       ...basicValidation,
       properties: {
+        ...basicValidation.properties,
         "minItems": {
           "type": "integer",
           "title": "minimum",
@@ -1025,6 +1135,28 @@ const arrayInput = {
     },
     {
       ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        ...basicValidation.properties,
+        "minItems": {
+          "type": "integer",
+          "title": "minimum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxItems": {
+          "type": "integer",
+          "title": "maximum",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
     }
   ]
 };
@@ -1108,6 +1240,8 @@ export const genericSchema = {
 export const schemaMap: any = {
   "textarea": textAreaSchema,
   "text": textFeldSchema,
+  "integer": integerSchema,
+  "number": numberSchema,
   "date": dateSchema,
   "time": timeSchema,
   "boolean": checkboxSchema,

@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "io.muenchendigital.digiwf.s3.client")
 public class S3IntegrationClientProperties {
 
-    private String documentStorageUrl;
-    private boolean enableSecurity;
+  private String documentStorageUrl;
+  private boolean enableSecurity;
 
 }

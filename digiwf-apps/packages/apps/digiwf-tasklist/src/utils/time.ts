@@ -12,11 +12,17 @@ export const formatIsoDateTime = (isoDateTime: string) => DateTime
 export const formatIsoDate = (isoDateTime: string) => DateTime
   .fromISO(isoDateTime)
   .setLocale("de")
+  .setZone("Europe/Berlin")
   .toLocaleString({
     ...DateTime.DATE_SHORT,
     day: "2-digit",
     month: "2-digit"
   });
+export const getDateFromIsoDateTime = (isoDateTime: string) => DateTime
+  .fromISO(isoDateTime)
+  .setLocale("de")
+  .setZone("Europe/Berlin")
+  .toISODate()
 
 export const getCurrentDate = () => DateTime
   .now()

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The possibly existing properties concerning the "logging.level" in the application.yml
+     have priority over the log level maintained in this file.  -->
+<configuration>
+
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <!-- Log appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %date{yyyy.MM.dd HH:mm:ss.SSS} | %level | [%thread] | %logger{0} | [%file : %line] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- entries below silence excessive logging from cxf-codegen-plugin -->
+    <logger name="org.apache.cxf" level="info"/>
+    <logger name="org.apache.velocity" level="info"/>
+
+    <!-- Logger usage -->
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+</configuration>

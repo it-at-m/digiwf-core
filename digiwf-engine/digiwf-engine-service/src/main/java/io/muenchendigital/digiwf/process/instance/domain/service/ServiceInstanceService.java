@@ -7,6 +7,7 @@ package io.muenchendigital.digiwf.process.instance.domain.service;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
 import io.muenchendigital.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.muenchendigital.digiwf.process.config.domain.service.ProcessConfigService;
+import io.muenchendigital.digiwf.process.instance.api.mapper.ProcessInstancePageMapper;
 import io.muenchendigital.digiwf.process.instance.domain.mapper.HistoryTaskMapper;
 import io.muenchendigital.digiwf.process.instance.domain.mapper.ServiceInstanceMapper;
 import io.muenchendigital.digiwf.process.instance.domain.model.ServiceInstance;
@@ -18,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,7 @@ public class ServiceInstanceService {
 
     private final JsonSchemaService jsonSchemaService;
     private final ServiceInstanceDataService serviceInstanceDataService;
+    private final ProcessInstancePageMapper processInstancePageMapper;
 
 
     /**
@@ -54,15 +58,22 @@ public class ServiceInstanceService {
      *
      * @return assigned  instances
      */
-    public List<ServiceInstance> getProcessInstanceByUser(final String userId) {
+    public Page<ServiceInstance> getProcessInstanceByUser(
+            final String userId,
+            final int page,
+            final int size,
+            @Nullable
+            final String query
+            ) {
         final List<String> processAuthIds = this.serviceInstanceAuthService.getAllServiceInstanceIdsByUser(userId);
-        return this.serviceInstanceMapper.map2Model(this.processInstanceInfoRepository.findAllByInstanceIdIn(processAuthIds));
+        val instances =  this.serviceInstanceMapper.map2Model(this.processInstanceInfoRepository.findAllByInstanceIdIn(processAuthIds));
+        return processInstancePageMapper.toPage(instances, page, size, query);
     }
 
     /**
-     * Get detail information of a instance.
+     * Get detail information of an instance.
      *
-     * @param infoId Id of the  instance
+     * @param infoId id of the  instance
      * @return instance detail
      */
     public ServiceInstanceDetail getServiceInstanceDetail(final String infoId) {

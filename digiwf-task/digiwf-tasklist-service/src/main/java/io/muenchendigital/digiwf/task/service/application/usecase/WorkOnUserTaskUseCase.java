@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.holunda.polyflow.view.Task;
+import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
@@ -11,6 +12,7 @@ import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.Task
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.*;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
+import io.muenchendigital.digiwf.task.service.domain.JsonSchemaValidationException;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.TaskWithSchemaRef;
 import io.muenchendigital.digiwf.task.service.domain.legacy.Form;
@@ -94,10 +96,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
                 break;
             case SCHEMA_BASED:
             default:
-                val schemaRef = taskSchemaRefResolverPort.apply(task);
-                val schema = jsonSchemaPort.getSchemaById(schemaRef);
-                val variables = jsonSchemaValidationPort.validateAndSerialize(schema, task, payload);
-                taskCommandPort.completeUserTask(taskId, variables);
+                completeSchemaBasedUserTask(taskId, task, payload);
                 break;
         }
     }
@@ -111,10 +110,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
                 break;
             case SCHEMA_BASED:
             default:
-                val schemaRef = taskSchemaRefResolverPort.apply(task);
-                val schema = jsonSchemaPort.getSchemaById(schemaRef);
-                val variables = jsonSchemaValidationPort.validateAndSerialize(schema, task, payload);
-                taskCommandPort.saveUserTask(taskId, variables);
+                this.saveSchemaBasedUserTask(taskId, task, payload);
                 break;
         }
     }
@@ -176,4 +172,24 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         task.getPayload().putAll(filteredPayload);
     }
 
+    private void  saveSchemaBasedUserTask(String taskId, Task task, Map<String, Object> payload) {
+        val schemaRef = taskSchemaRefResolverPort.apply(task);
+        val schema = jsonSchemaPort.getSchemaById(schemaRef);
+        try {
+            val variables = jsonSchemaValidationPort.validateAndSerialize(schema, task, payload);
+            taskCommandPort.saveUserTask(taskId, variables);
+        } catch (DigiWFValidationException exception) {
+            throw new JsonSchemaValidationException("json schema validation failed"); // todo extract field information
+        }
+    }
+    private void  completeSchemaBasedUserTask(String taskId, Task task, Map<String, Object> payload) {
+        val schemaRef = taskSchemaRefResolverPort.apply(task);
+        val schema = jsonSchemaPort.getSchemaById(schemaRef);
+        try {
+            val variables = jsonSchemaValidationPort.validateAndSerialize(schema, task, payload);
+            taskCommandPort.completeUserTask(taskId, variables);
+        } catch (DigiWFValidationException exception) {
+            throw new JsonSchemaValidationException("json schema validation failed"); // todo extract field information
+        }
+    }
 }
