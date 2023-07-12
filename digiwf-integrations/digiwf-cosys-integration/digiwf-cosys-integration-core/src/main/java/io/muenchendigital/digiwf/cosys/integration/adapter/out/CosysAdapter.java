@@ -61,7 +61,7 @@ public class CosysAdapter implements GenerateDocumentPort {
 
         } catch (final IOException ex) {
             log.error("Document could not be created.", ex);
-            throw new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", ex.getMessage());
+            throw new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", "Document could not be created.");
         }
     }
 
