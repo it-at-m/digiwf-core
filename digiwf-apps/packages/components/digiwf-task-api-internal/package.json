@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-task-api-internal",
   "description": "Internal digiWF tasklist api",
-  "version": "0.21.10",
+  "version": "0.21.11",
   "module": "dist/digiwf-task-api-internal.mjs",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
