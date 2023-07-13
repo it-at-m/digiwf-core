@@ -26,7 +26,7 @@ public class S3Adapter implements SaveFileToStoragePort {
                 } else if (presignedUrl.getAction().equalsIgnoreCase("PUT")) {
                     this.s3FileTransferRepository.updateFile(presignedUrl.getUrl(), data);
                 } else {
-                    throw new BpmnError("S3_FILE_SAVE_ERROR","Document could not be saved.");
+                    throw new BpmnError("S3_FILE_SAVE_ERROR", String.format("Document storage action %s is not supported.", presignedUrl.getAction()));
                 }
             }
         } catch (final DocumentStorageClientErrorException | DocumentStorageServerErrorException |
