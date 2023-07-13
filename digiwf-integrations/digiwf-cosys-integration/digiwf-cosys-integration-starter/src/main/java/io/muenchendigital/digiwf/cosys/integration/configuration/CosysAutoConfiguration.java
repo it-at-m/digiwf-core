@@ -46,7 +46,6 @@ import java.util.function.Consumer;
 public class CosysAutoConfiguration {
 
     private final CosysProperties cosysProperties;
-    public static final String TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS = "createCosysDocument";
 
     @Bean
     public CosysConfiguration cosysConfiguration() throws JsonProcessingException {
