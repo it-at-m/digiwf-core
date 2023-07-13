@@ -40,7 +40,6 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @AutoConfigureAfter({S3IntegrationClientAutoConfiguration.class})
-//@AutoConfigureBefore({StreamingConfiguration.class})
 @ComponentScan(basePackages = {"io.muenchendigital.digiwf.cosys.integration"})
 @EnableConfigurationProperties({CosysProperties.class})
 public class CosysAutoConfiguration {
