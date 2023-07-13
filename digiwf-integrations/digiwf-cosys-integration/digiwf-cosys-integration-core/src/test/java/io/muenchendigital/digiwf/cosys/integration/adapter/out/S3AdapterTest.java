@@ -75,7 +75,7 @@ class S3AdapterTest {
 
         BpmnError bpmnError = assertThrows(BpmnError.class,  () -> { s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);});
 
-        String expectedMessage = "Document could not be saved.";
+        String expectedMessage = "Document storage action GET is not supported.";
         String actualMessage = bpmnError.getErrorMessage();
 
         assertEquals(expectedMessage, actualMessage);
