@@ -69,8 +69,8 @@ Nachfolgend sind die BPMN Errors aufgeführt, die von der Cosys Integration gewo
 
 ## DigiWF Cosys Integration anpassen
 
-Die DigiWF Mail Integration wird als Spring Boot Starter Projekt bereitgestellt.
-Um die Email Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
+Die DigiWF Cosys Integration wird als Spring Boot Starter Projekt bereitgestellt.
+Um die Cosys Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
 bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
 
 Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
