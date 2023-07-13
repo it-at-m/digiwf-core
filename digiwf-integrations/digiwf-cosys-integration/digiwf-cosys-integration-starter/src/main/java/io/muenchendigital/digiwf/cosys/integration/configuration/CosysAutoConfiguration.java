@@ -67,14 +67,6 @@ public class CosysAutoConfiguration {
         return cosysConfiguration;
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public MessageRoutingCallback getEventBusRouter() {
-//        final Map<String, String> typeMappings = new HashMap<>();
-//        typeMappings.put(TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS, TYPE_HEADER_CREATE_COSYS_DOCUMENT_EVENT_BUS);
-//        return new RoutingCallback(typeMappings);
-//    }
-
     @Bean
     public GenerationApi generationApi(final ApiClient apiClient) {
         return new GenerationApi(apiClient);
