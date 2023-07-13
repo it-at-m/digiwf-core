@@ -46,7 +46,7 @@ Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Proze
 
 Zur Erstellung von presigned URLs können Sie das Element-Template [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 
 
-In der folgenden Grafik wird ein Beispiel für einen BPMN Prozess zu dargestellt. Wie oben beschrieben, wird zuerst eine presigned URL erstellt bevor ein Dokument erstellt wird. 
+In der folgenden Grafik wird ein Beispiel für einen BPMN Prozess dargestellt. Wie oben beschrieben, wird zuerst eine presigned URL erstellt bevor ein Dokument erstellt wird. 
 
 ![Cosys Feature Prozess.](~@source/documentation/featureprocesses/cosys/cosys-feature-process.png)
 
