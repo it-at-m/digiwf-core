@@ -1,89 +1,19 @@
 # DigiWF Cosys Integration
 
-The goal of the DigiWF [Cosys](https://www.cib.de/cosys/) Integration is to allow async document creation in cosys with an event broker and s3 storage.
+Die Cosys Integration ermöglicht eine asynchrone Erstellung von Dokumenten in [Cosys](https://www.cib.de/cosys/) mit anschließender Speicherung in einem S3 Speicher. 
+Mit dieser Integration können Dokumente erstellt und in einem S3-kompatiblen Speicher abgelegt werden. Diese Dokumente können im Anschluss beispielweise in einer E-Mail versendet werden.    
 
-Features:
+## Verwendung
 
-* Can be used to create documents in cosys and save them in a s3 compatible storage
-* Can inform the receiver through an event if the creation was successful or if there was a problem
+Durch die Cosys Integration wird die Erstellungen von Dokumenten ermöglicht, die anschließend in einem S3 Speicher abgelegt werden. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden. 
 
-Checkout the [source code](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration).
+### Dokument erstellen
 
-## Getting started
+Zur asynchronen Erstellung eines Dokumentens in Cosys, erzeugen Sie zuerst ein `GenerateDocument`-Objekt und setzen den TYPE-Header auf `createCosysDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des Topics können Sie in der Konfiguration der Cosys Integration unter spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-Below is an example of how you can install and set up your service.
+> Standardmäßig heißen die Topics *dwf-cosys-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
-1. Use the spring initalizer and create a Spring Boot application with `Spring Web`
-   dependencies [https://start.spring.io](https://start.spring.io)
-2. Add the digiwf-cosys-integration-starter dependency.
-
-With Maven:
-
-```xml
-   <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-cosys-integration-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
-```
-
-With Gradle:
-
-```gradle
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
-```
-
-3. Add your preferred binder (see [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)). In this
-   example, we use kafka.
-
-Maven:
-
- ```xml
-     <dependency>
-         <groupId>org.springframework.cloud</groupId>
-         <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-     </dependency>
-```
-
-Gradle:
-
-```gradle
-implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka'
-```
-
-4. Configure your binder.<br>
-   For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
-   Note that you DO have to
-   configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
-   typeMappings. These are configured for you by the digiwf-cosys-integration-starter. You also have to configure the
-   topics you want to read / send messages from / to.
-
-5. Configure S3
-
-```gradle
-io.muenchendigital.digiwf.s3.client.document-storage-url: http://s3-integration-url:port
-```
-
-See [this](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils) for an example.
-
-6. Configure your application
-
-```
-io.muenchendigital.digiwf.cosys.url=localhost:800
-io.muenchendigital.digiwf.cosys.merge.datafile=/root/multi
-io.muenchendigital.digiwf.cosys.merge.inputLanguage=Deutsch
-io.muenchendigital.digiwf.cosys.merge.outputLanguage=Deutsch
-io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
-```
-
-7. Define a RestTemplate. For an example, please refer to
-   the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-example).
-
-## Usage
-
-To create a cosys document asynchronously, simply create a `GenerateDocument` object, set the TYPE-Header
-to `createCosysDocument` and send it to the corresponding kafka topic.
+Nachfolgend ist ein Beispiel für ein `GenerateDocument`-Objekt aufgeführt:
 
 ```json
 {
@@ -101,18 +31,89 @@ to `createCosysDocument` and send it to the corresponding kafka topic.
 }
 ```
 
-The cosys integration will generate a cosys document with the variables given and save it in a s3 storage.
-Therefore, you have to pass a valid presigned url for document creation (action `POST` or `PUT`) within the `documentStorageUrls` variable.
+Die Cosys Integration erzeugt ein Dokument mit den angegebenen Variablen und speichert dieses in einem S3 Speicher. Dafür muss vorab eine `presigned URL` für das Dokument erstellt werden. Diese wird in der Variable `documentStorageUrls` übergeben. 
 
-The cosys integration only accepts a single presigned url in the `documentStorageUrls` variable with the action `POST` or `PUT`.
-The action `POST` is used for the creation of new files in the s3 storage and the action `PUT` to override an already existing document.
+In der Variable `documentStorageUrls`  wird lediglich eine einzige `presigned URL` akzeptiert und es können die Aktionen `POST` oder `PUT` verwendet werden.
+Die Aktion `POST` wird für die Erstellung neuer Dateien im S3 Speicher verwendet und die Aktion `PUT` um ein bereits vorhandenes Dokument zu überschreiben.
 
-**Usage in bpmn processes**
+**Verwendung in BPMN Prozessen**
 
-Create a *Callactivity*, use on of our Element-Templates and fill it with the required information:
+Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Prozessentwicklung zu beschleunigen und befüllen Sie es mit den gewünschten Informationen:
 
-* [Cosys all data](/element-template/cosys-alle-daten.json)
-* [Cosys create document](/element-template/cosys-dokument-erstellen.json)
-* [Cosys create document (V02)](/public/element-template/cosys_generate_document_template_V02.json)
+* [Cosys all data](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-alle-daten.json)
+* [Cosys create document](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
+* [Cosys create document (V02)](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
 
-To create presigend urls with the digiwf-s3-integration you can also use a *Callactivity* and the Element-Tempalate [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) and pass the results to the cosys integration.
+Zur Erstellung von presigned URLs können Sie das Element-Template [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 
+
+In der folgenden Grafik wird ein Beispiel für einen BPMN Prozess dargestellt. Wie oben beschrieben, wird zuerst eine presigned URL erstellt bevor ein Dokument erstellt wird. 
+
+![Cosys Feature Prozess.](~@source/documentation/featureprocesses/cosys/cosys-feature-process.png)
+
+### Fehlerbehandlung
+
+Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.
+BPMN Errors können im Prozess behandelt werden, während Incident Errors nicht im Prozess behandelt werden können
+und einen Incident erzeugen.
+
+Nachfolgend sind die BPMN Errors aufgeführt, die von der Cosys Integration geworfen werden können:
+
+#### BPMN Error
+
+| Error Code                | Error Message                                                    | Beschreibung                                                                                                                                                     | Handlungsempfehlung                                               | 
+|---------------------------|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `VALIDATION_ERROR`        | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen Daten sind nicht valide.                                                                                                                | Korrigieren Sie die Daten und versuchen es erneut                 |
+| `S3_FILE_SAVE_ERROR`      | Document could not be saved.                                     | Die in Cosys erzeugte Datei kann nicht im S3 Storage gespeichert werden. Die übergebene Presigned Url ist fehlerhaft (nicht valide, abgelaufen, falsche Action). | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut. | 
+| `COSYS_DOCUMENT_CREATION_FAILED`     | Document could not be created.                   | Das Dokument konnte nicht erstellt werden. Es kann sein, dass ein technischer Fehler aufgetreten ist                                                             | Analysieren Sie die Fehlermeldung und versuchen es erneut.        |
+
+
+## DigiWF Cosys Integration anpassen
+
+Die DigiWF Cosys Integration wird als Spring Boot Starter Projekt bereitgestellt.
+Um die Cosys Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
+bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
+
+Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
+
+**Mit Maven**
+
+```xml
+   <dependency>
+        <groupId>io.muenchendigital.digiwf</groupId>
+        <artifactId>digiwf-cosys-integration-starter</artifactId>
+        <version>${digiwf.version}</version>
+   </dependency>
+```
+
+**Mit Gradle**
+
+```gradle
+implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
+```
+
+Machen Sie sich mit
+dem [`digiwf-cosys-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-core)
+und [`digiwf-cosys-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-starter)
+Modul vertraut und fügen Sie Ihre eigenen `@bean`s hinzu oder überschreiben Sie die bereitgestellten `@bean`s.
+
+## Konfigurationen
+
+Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
+sind, können Sie die folgenden Konfigurationen für die DigiWF Cosys Integration verwenden:
+
+### Cosys Konfigurationen
+
+| Eigenschaft                                            | Bedeutung             |
+|--------------------------------------------------------|-----------------------|
+| `io.muenchendigital.digiwf.cosys.url`                  | URL des Cosys Servers |
+| `io.muenchendigital.digiwf.cosys.merge.datafile`       |                       |
+| `io.muenchendigital.digiwf.cosys.merge.inputLanguage`  | Sprache Eingabe       |
+| `io.muenchendigital.digiwf.cosys.merge.outputLanguage` | Sprache Ausgabe       |
+| `io.muenchendigital.digiwf.cosys.merge.keepFields`     |                       |
+
+### S3 Konfigurationen
+
+| Eigenschaft                                                | Bedeutung             |
+|------------------------------------------------------------|-----------------------|
+| `io.muenchendigital.digiwf.s3.client.document-storage-url` | 	Document Storage URL |
