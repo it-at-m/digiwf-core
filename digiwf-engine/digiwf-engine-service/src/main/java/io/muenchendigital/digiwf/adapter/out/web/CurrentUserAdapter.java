@@ -5,7 +5,6 @@
 package io.muenchendigital.digiwf.adapter.out.web;
 
 import io.muenchendigital.digiwf.application.port.out.CurrentUserPort;
-import lombok.val;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,14 +31,12 @@ class CurrentUserAdapter implements CurrentUserPort {
     static final String ROLES_ATTRIBUTE = "roles";
     static final String NAME_UNAUTHENTICATED_USER = "unauthenticated";
 
+
     @Override
     public String getLoggedInUsername() {
-        val username = extractUserNameFromHeader();
-        if (username.isPresent()) {
-            return username.get();
-        }
-
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        //check if user is a user string -> AnonymousAuthenticationToken
         if (authentication.getPrincipal() instanceof Jwt) {
             final Jwt jwt = (Jwt) authentication.getPrincipal();
             return (String) jwt.getClaims().get(USER_ATTRIBUTE);
@@ -58,6 +55,8 @@ class CurrentUserAdapter implements CurrentUserPort {
         return Set.of();
     }
 
+
+    //TODO in einem ersten Filter als user setzen, wenn vorhanden -> AnonymousAuthenticationToken
     private Optional<String> extractUserNameFromHeader() {
         return getCurrentHttpRequest().map(it -> it.getHeader(HEADER_AUTHORIZED_USERNAME));
     }

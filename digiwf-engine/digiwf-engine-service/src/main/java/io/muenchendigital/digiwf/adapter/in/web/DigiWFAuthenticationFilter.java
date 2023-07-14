@@ -49,7 +49,7 @@ public class DigiWFAuthenticationFilter {
         @Override
         public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
             try {
-                handleAuthenticationUseCase.initalizeAuthentication();
+                handleAuthenticationUseCase.initializeAuthentication();
                 chain.doFilter(request, response);
             } finally {
                 handleAuthenticationUseCase.clearAuthentication();

@@ -21,9 +21,9 @@ public class HandleAuthenticationService implements HandleAuthenticationUseCase 
     private final CurrentUserPort currentUserPort;
 
     @Override
-    public void initalizeAuthentication() {
+    public void initializeAuthentication() {
         val username = currentUserPort.getLoggedInUsername();
-        val roles = currentUserPort.getLoggedInUserRoles();
+        val roles = currentUserPort.getLoggedInUserRoles(); //TODO -> hier mit Gruppen
         val user = userPort.findByUsername(username);
         if (user.isPresent()) {
             val groups = userPort.getGroups(user.get().getLhmObjectId());

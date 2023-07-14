@@ -1,5 +1,6 @@
-package io.muenchendigital.digiwf.application.port.out;
+package io.muenchendigital.digiwf.adapter.out.camunda;
 
+import io.muenchendigital.digiwf.application.port.out.AuthenticationPort;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.IdentityService;
 import org.springframework.stereotype.Component;
