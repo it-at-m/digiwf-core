@@ -34,7 +34,7 @@ public class ExampleProcessExitTimerTest {
   }
 
   @Test
-  @Deployment(resources = {"prozesse/example/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV01.bpmn"})
+  @Deployment(resources = {"prozesse/example/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV02.bpmn"})
   public void terminates_email_integration_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("email-integration-example",
@@ -45,12 +45,12 @@ public class ExampleProcessExitTimerTest {
     );
     assertThat(instance).isStarted();
     assertThat(instance).isWaitingAt("send-mail");
-    Assertions.assertThat(rule.getRuntimeService().createProcessInstanceQuery().processDefinitionKey("StreamingTemplateV01").count()).isEqualTo(1);
+    Assertions.assertThat(rule.getRuntimeService().createProcessInstanceQuery().processDefinitionKey("StreamingTemplateV02").count()).isEqualTo(1);
     execute(job());
     assertThat(instance).isEnded();
     assertThat(instance).hasNotPassed("End_completed");
     assertThat(instance).hasPassed("End_terminated"); // process terminated
-    Assertions.assertThat(rule.getRuntimeService().createProcessInstanceQuery().processDefinitionKey("StreamingTemplateV01").count()).isEqualTo(0); // streaming process terminated
+    Assertions.assertThat(rule.getRuntimeService().createProcessInstanceQuery().processDefinitionKey("StreamingTemplateV02").count()).isEqualTo(0); // streaming process terminated
   }
 
   @Test
