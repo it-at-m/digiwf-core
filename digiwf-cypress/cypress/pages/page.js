@@ -26,7 +26,7 @@ class Page{
     }
 
     openMeineAufgaben(){
-        this.navBarMeineAufgaben().click()
+        this.navBarMeineAufgaben().click({ multiple: true } )
     }
 
     openAktuelleVorgaenge(){

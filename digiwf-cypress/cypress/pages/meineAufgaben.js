@@ -6,8 +6,8 @@ class MeineAufgaben extends Page{
         actualize: () => cy.get(".v-size--large"),
         listElement: (elementNumber) => cy.get(`a.d-flex:nth-child(${elementNumber})`),
         numberOfTasks: () => cy.get(`span.mr-1:nth-child(5)`),
-        rightArrow: () => cy.get(`.ml-1`),
-        leftArrow: () => cy.get(`.mr-1`),
+        rightArrow: () => cy.get(`.mdi-chevron-right`),
+        leftArrow: () => cy.get(`.mdi-chevron-left`),
         pageSize: () => cy.get(`button.ml-2`),
         pageSize5: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(1)`),
         pageSize10: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(2)`),
@@ -31,11 +31,11 @@ class MeineAufgaben extends Page{
     }
 
     clickRightArrow(){
-        this.elements.rightArrow().click()
+        this.elements.rightArrow().click({ multiple: true })
     }
 
     clickLeftArrow(){
-        this.elements.leftArrow().click()
+        this.elements.leftArrow().click({ multiple: true })
     }
 
 

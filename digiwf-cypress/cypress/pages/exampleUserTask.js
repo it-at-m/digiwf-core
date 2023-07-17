@@ -12,7 +12,12 @@ class ExampleUserTask extends Page{
     }
 
     setUserName(user){
+        cy.intercept({
+            method: 'POST',
+            url: '/api/digitalwf-backend-service/rest/user/search',
+        }).as('dataGetTasks')
         this.elements.userForTask().type(user)
+        cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
         this.elements.userForTask().type('{enter}')
     }
 
