@@ -10,6 +10,7 @@ import io.muenchendigital.digiwf.shared.properties.DigitalWFProperties;
 import io.muenchendigital.digiwf.legacy.user.domain.model.User;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.IdentityLinkType;
@@ -44,14 +45,15 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn("flash.gordon");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn("flash.gordon");
         DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
         UserService userService = Mockito.mock(UserService.class);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         Mockito.verify(mailingService, times(0)).sendMailTemplateWithLink(ArgumentMatchers.any(MailTemplate.class));
     }
@@ -67,7 +69,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(username);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
@@ -77,9 +79,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getUser(username)).thenReturn(user);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService).sendMailTemplateWithLink(argument.capture());
@@ -98,7 +101,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(username);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink = Mockito.mock(IdentityLink.class);
         when(identityLink.getUserId()).thenReturn(candidateName);
@@ -116,9 +119,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getUser(candidateName)).thenReturn(candidate1);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
@@ -139,7 +143,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getUserId()).thenReturn(candidateName1);
@@ -161,9 +165,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getUser(candidateName2)).thenReturn(user2);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         // check if service is called with defined mail addresses
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
@@ -186,9 +191,10 @@ public class UserTaskNotificationListenerV02Test {
         UserService userService = Mockito.mock(UserService.class);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         Mockito.verify(mailingService, times(0)).sendMailTemplateWithLink(ArgumentMatchers.any(MailTemplate.class));
     }
@@ -205,7 +211,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);
@@ -227,9 +233,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService).sendMailTemplateWithLink(argument.capture());
@@ -250,7 +257,7 @@ public class UserTaskNotificationListenerV02Test {
 //        Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
 //        Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(userName1);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(userName1);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);
@@ -275,9 +282,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
@@ -300,7 +308,7 @@ public class UserTaskNotificationListenerV02Test {
 //        Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
 //        Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);
@@ -329,9 +337,10 @@ public class UserTaskNotificationListenerV02Test {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
