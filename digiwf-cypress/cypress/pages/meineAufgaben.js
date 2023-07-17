@@ -67,6 +67,19 @@ class MeineAufgaben extends Page{
             this.elements.pageSize10().click()
         }
     }
+
+    checkPageSize(pageSize, numberOfTasks){
+        //separator line is an Element, too
+        cy.get('.v-data-iterator').children().its('length').should('eq', pageSize*2)
+        for (let i=1; i<= numberOfTasks/pageSize; i++){
+            this.clickRightArrow();
+        }
+        cy.get('.v-data-iterator').children().its('length').should('eq', 1*2)
+        cy.wait(3000)
+        for (let i=1; i<= numberOfTasks/pageSize; i++){
+            this.clickLeftArrow();
+        }
+    }
 }
 
 module.exports = new MeineAufgaben();

@@ -2,13 +2,11 @@ import vorgangStarten from "../pages/vorgangStarten"
 import meineAufgaben from "../pages/meineAufgaben"
 import exampleUserTask from "../pages/exampleUserTask"
 
-const numberOfTasks = 6
+const numberOfTasks = 21
 
 before(() => {
     cy.login()
-    cy.wait(3000)
     //cy.getCookie('XSRF-TOKEN')
-    cy.wait(3000)
 })
 
 
@@ -22,6 +20,7 @@ before(() => {
 
 describe('Vorgaenge Anzeigen', () => {
     it('passes', () => {
+        let pageSize = 11;
         //Cypress.session.getCurrentSessionData()
         //Cypress.Cookies.debug(true, { verbose: true })
         //cy.getCookie('XSRF-TOKEN')
@@ -42,11 +41,18 @@ describe('Vorgaenge Anzeigen', () => {
         meineAufgaben.getElement(1).should('contain.text', 'User Task')
         cy.wait(3000)
         meineAufgaben.getFoundTasks().should('eq',numberOfTasks)
-        meineAufgaben.changePageSize(5);
-        meineAufgaben.clickRightArrow();
-        cy.wait(3000)
-        meineAufgaben.clickLeftArrow();
 
+        pageSize = 5;
+        meineAufgaben.changePageSize(pageSize);
+        meineAufgaben.checkPageSize(pageSize,numberOfTasks)
+
+        pageSize = 10;
+        meineAufgaben.changePageSize(pageSize);
+        meineAufgaben.checkPageSize(pageSize,numberOfTasks)
+
+        pageSize = 20;
+        meineAufgaben.changePageSize(pageSize);
+        meineAufgaben.checkPageSize(pageSize,numberOfTasks)
 
             for (let i=1; i<= numberOfTasks; i++){
                 meineAufgaben.clickElement(1);
