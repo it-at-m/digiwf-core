@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.engine.task.IdentityLink;
@@ -55,10 +54,9 @@ public class UserTaskNotificationListenerTest {
         UserService userService = Mockito.mock(UserService.class);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         Mockito.verify(mailingService, times(0)).sendMailTemplateWithLink(ArgumentMatchers.any(MailTemplate.class));
     }
@@ -84,10 +82,9 @@ public class UserTaskNotificationListenerTest {
         when(userService.getUser(username)).thenReturn(user);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService).sendMailTemplateWithLink(argument.capture());
@@ -127,12 +124,11 @@ public class UserTaskNotificationListenerTest {
         when(userService.getUser(candidateName)).thenReturn(candidate1);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder()
                 .key("Testprozess-key").build());
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
 
         verify(query, times(2)).processDefinitionId(task.getProcessDefinitionId());
@@ -176,12 +172,11 @@ public class UserTaskNotificationListenerTest {
         when(userService.getUser(candidateName)).thenReturn(candidate1);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         ProcessDefinitionQuery query = QueryMocks.mockProcessDefinitionQuery(repositoryService).singleResult(ProcessDefinitionFake.builder()
                 .key("Testprozess-name").build());
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
 
         verify(query).processDefinitionId(task.getProcessDefinitionId());
@@ -225,10 +220,9 @@ public class UserTaskNotificationListenerTest {
         when(userService.getUser(candidateName2)).thenReturn(user2);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         // check if service is called with defined mail addresses
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
@@ -251,10 +245,9 @@ public class UserTaskNotificationListenerTest {
         UserService userService = Mockito.mock(UserService.class);
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         Mockito.verify(mailingService, times(0)).sendMailTemplateWithLink(ArgumentMatchers.any(MailTemplate.class));
     }
@@ -293,10 +286,9 @@ public class UserTaskNotificationListenerTest {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService).sendMailTemplateWithLink(argument.capture());
@@ -342,10 +334,9 @@ public class UserTaskNotificationListenerTest {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
@@ -397,10 +388,9 @@ public class UserTaskNotificationListenerTest {
         when(userService.getOuByShortName(groupName2)).thenReturn(Optional.of(user2));
         MailingService mailingService = Mockito.mock(MailingService.class);
         RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
-        TaskService camundaTaskService = Mockito.mock(TaskService.class);
 
         // execute
-        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties, camundaTaskService).delegateTask(task);
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
 
         ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
         verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
