@@ -21,13 +21,13 @@ class MeineAufgaben extends Page{
     }
 
     clickActualize(){
+
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/filter',
         }).as('dataGetTasks')
         this.elements.actualize().click()
         cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
-        cy.log("ready")
     }
 
     clickRightArrow(){
