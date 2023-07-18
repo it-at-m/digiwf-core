@@ -11,6 +11,7 @@ spring:
             - Path=/api/sso/userinfo
           filters:
             - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
+
         - id: backend
           uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
           predicates:
@@ -18,6 +19,12 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
+        - id: backend-cockpit
+          uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}
+          predicates:
+            - Path=/camunda/**
+
         - id: tasklist
           uri: http://${TASKSERVICE_SERVER_HOST:localhost}:${TASKSERVICE_SERVER_PORT}/
           predicates:
@@ -25,10 +32,11 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend
           uri: http://localhost:8081/
           predicates:
-            - Path=/**
+            - Path=/app/**
 
       default-filters:
         - RemoveResponseHeader=Expires

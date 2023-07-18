@@ -3,11 +3,13 @@ package io.muenchendigital.digiwf.spring.security;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.caffeine.CaffeineCache;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,10 +29,10 @@ import java.util.stream.Stream;
 
 /**
  * Service, der einen OIDC /userinfo Endpoint aufruft (mit JWT Bearer Auth) und dort die enthaltenen
- * "Authorities" und "User_Roles extrahiert.
+ * "authorities" und "user_roles" extrahiert.
  */
 @Slf4j
-public class UserInfoAuthoritiesService {
+public class UserInfoAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 
   private static final String NAME_AUTHENTICATION_CACHE = "authentication_cache";
   private static final int AUTHENTICATION_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60;
@@ -48,7 +50,7 @@ public class UserInfoAuthoritiesService {
    * @param userInfoUri         userinfo Endpoint URI
    * @param restTemplateBuilder ein {@link RestTemplateBuilder}
    */
-  public UserInfoAuthoritiesService(final String userInfoUri, final RestTemplateBuilder restTemplateBuilder) {
+  public UserInfoAuthoritiesConverter(final String userInfoUri, final RestTemplateBuilder restTemplateBuilder) {
     this.userInfoUri = userInfoUri;
     this.restTemplate = restTemplateBuilder.build();
     this.cache = new CaffeineCache(NAME_AUTHENTICATION_CACHE,
@@ -58,6 +60,12 @@ public class UserInfoAuthoritiesService {
             .build());
   }
 
+  @Override
+  public Collection<GrantedAuthority> convert(@NonNull Jwt source) {
+    return loadAuthorities(source);
+  }
+
+
   /**
    * Ruft den /userinfo Endpoint und extrahiert {@link GrantedAuthority}s aus dem "authorities"
    * Claim.
@@ -65,11 +73,11 @@ public class UserInfoAuthoritiesService {
    * @param jwt der JWT
    * @return die {@link GrantedAuthority}s gem. Claim "authorities" des /userinfo Endpoints
    */
-  public Collection<SimpleGrantedAuthority> loadAuthorities(final Jwt jwt) {
+  public Collection<GrantedAuthority> loadAuthorities(final Jwt jwt) {
     final ValueWrapper valueWrapper = this.cache.get(jwt.getSubject());
     if (valueWrapper != null) {
       // value present in cache
-      @SuppressWarnings("unchecked") final Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) valueWrapper.get();
+      @SuppressWarnings("unchecked") final Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) valueWrapper.get();
       log.debug("Resolved authorities (from cache): {}", authorities);
       return authorities;
     }
@@ -79,7 +87,7 @@ public class UserInfoAuthoritiesService {
     headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue());
     final HttpEntity<String> entity = new HttpEntity<>(headers);
 
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    Collection<GrantedAuthority> authorities = new ArrayList<>();
     try {
       @SuppressWarnings("unchecked") final Map<String, Object> map = this.restTemplate.exchange(this.userInfoUri, HttpMethod.GET, entity,
           Map.class).getBody();
@@ -102,8 +110,8 @@ public class UserInfoAuthoritiesService {
     return authorities;
   }
 
-  private static List<SimpleGrantedAuthority> asAuthorities(Object object) {
-    final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+  private static List<GrantedAuthority> asAuthorities(Object object) {
+    final List<GrantedAuthority> authorities = new ArrayList<>();
     if (object instanceof Collection) {
       final Collection<?> collection = (Collection<?>) object;
       object = collection.toArray(new Object[0]);

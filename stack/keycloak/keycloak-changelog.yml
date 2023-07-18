@@ -10,3 +10,4 @@ includes:
   - path: 07_task-management_service_account.yml
   - path: 08_s3.yml
   - path: 10_johndoe.yml
+  - path: 11_johndoe_webapp.yml

@@ -5,7 +5,7 @@ package io.muenchendigital.digiwf.legacy.form.domain.service;
 
 import io.muenchendigital.digiwf.legacy.form.infrastructure.entity.FormEntity;
 import io.muenchendigital.digiwf.legacy.user.domain.service.UserService;
-import io.muenchendigital.digiwf.shared.security.UserAuthenticationProvider;
+import io.muenchendigital.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
