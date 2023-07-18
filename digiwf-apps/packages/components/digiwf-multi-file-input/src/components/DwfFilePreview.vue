@@ -55,7 +55,7 @@ import {fileIcons} from "../util";
 
 export default defineComponent({
   props: ['document', 'readonly'],
-  emits: ['remove-document'],
+  emits: ['remove-document', 'update-document'],
   setup(props, {emit}) {
 
     const calcByteCharacters = computed(() => atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
@@ -109,6 +109,9 @@ export default defineComponent({
     const removeDocument = () => {
       emit('remove-document', props.document)
     }
+    const updateDocument = () => {
+      emit('update-document', props.document)
+    }
 
     return {
       calcByteCharacters,
@@ -116,10 +119,10 @@ export default defineComponent({
       isImage,
       openInTab,
       formatBytes,
-      removeDocument
+      removeDocument,
+      updateDocument
     }
   }
-
 })
 
 </script>

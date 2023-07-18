@@ -36,6 +36,17 @@ export const getPresignedUrlForFileDeletionFromTaskservice = (cfg: Configuration
     .getPresignedUrlForFile(formContextId,fileName,filePath,"DELETE")
     .then((response: AxiosResponse<string>) => Promise.resolve(response.data));
 }
+/**
+ * @param cfg
+ * @param taskId
+ * @param fileName
+ * @param filePath
+ */
+export const getPresignedUrlForFileUpdateFromTaskservice = (cfg: Configuration, taskId: string, fileName: string, filePath: string): Promise<string> => {
+  return FileApiFactory(cfg)
+    .getPresignedUrlForFile(taskId,fileName,filePath,"PUT")
+    .then((response: AxiosResponse<string>) => Promise.resolve(response.data));
+}
 
 /**
  * @param cfg

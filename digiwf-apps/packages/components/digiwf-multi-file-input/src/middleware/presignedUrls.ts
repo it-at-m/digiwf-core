@@ -14,7 +14,7 @@ import {
 import {
   getFileNamesFromTaskservice,
   getPresignedUrlForFileDeletionFromTaskservice,
-  getPresignedUrlForFileDownloadFromTaskservice,
+  getPresignedUrlForFileDownloadFromTaskservice, getPresignedUrlForFileUpdateFromTaskservice,
   getPresignedUrlForFileUploadFromTaskservice
 } from "@/apiClient/taskServiceCalls";
 
@@ -45,6 +45,32 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
       return res;
     } else {
       res = await getPresignedUrlForFileUploadFromEngine(engineAxiosConfig, formContext!.id, file!.name, filePath.value)
+    }
+  } else {
+    //type "instance"
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload2(
+      formContext!.id,
+      file!.name,
+      filePath.value
+    );
+  }
+
+  return res.data;
+}
+
+export const getPresignedUrlForPut = async (fileName: string, config: EngineInteractionConfig): Promise<string> => {
+  const {filePath, formContext, shouldUseTaskService, apiEndpoint, taskServiceApiEndpoint} = config;
+  const engineAxiosConfig = axiosConfig(apiEndpoint);
+  const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
+
+  let res: any;
+  if (formContext!.type == "task") {
+    if (shouldUseTaskService) {
+      res = await getPresignedUrlForFileUpdateFromTaskservice(taskServiceAxiosConfig, formContext!.id, fileName, filePath.value)
+      // res.data does not exist
+      return res;
+    } else {
+      throw Error("Update a file is not supported from the engine service backend")
     }
   } else {
     //type "instance"
