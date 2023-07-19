@@ -1,6 +1,7 @@
 import vorgangStarten from "../pages/vorgangStarten"
 import meineAufgaben from "../pages/meineAufgaben"
 import exampleUserTask from "../pages/exampleUserTask"
+import userTask from "../pages/userTask"
 
 const numberOfTasks =21
 
@@ -13,18 +14,24 @@ describe('Vorgaenge Anzeigen', () => {
     it('passes', () => {
         let pageSize = 20;
 
-        //Step 1
+        //Step 0
+        cy.log('Step 0');
         meineAufgaben.openVorgangStarten(0,20);
         vorgangStarten.findProcess("Example Usertask",0,20);
         vorgangStarten.clickListElement("Usertask-Example");
         exampleUserTask.setNumberOfTasks(numberOfTasks);
         exampleUserTask.setUserName(Cypress.env('fullUsername'));
         exampleUserTask.clickAbschliessen();
+
+        //Step 1
+        cy.log('Step 1');
         vorgangStarten.openMeineAufgaben(0,pageSize);
         reloadPageUntilTasksVisible();
-
         meineAufgaben.getFoundTasks().should('eq',numberOfTasks);
         meineAufgaben.getElement(1).should('contain.text', 'User Task');
+
+        //Step 2-5
+        cy.log('Step 2-5');
 
         pageSize = 5;
         meineAufgaben.changePageSize(pageSize);
@@ -38,9 +45,15 @@ describe('Vorgaenge Anzeigen', () => {
         meineAufgaben.changePageSize(pageSize);
         meineAufgaben.checkPageSize(pageSize,numberOfTasks)
 
-            for (let i=1; i<= numberOfTasks; i++){
+        //Step 6-7
+        cy.log('Step 6-7');
+        meineAufgaben.clickElement(1);
+        userTask.checkHeadline("User Task");
+        userTask.clickAbschliessen();
+
+            for (let i=1; i< numberOfTasks; i++){
                 meineAufgaben.clickElement(1);
-                exampleUserTask.clickAbschliessen();
+                userTask.clickAbschliessen();
                 //necessary to wait for the task to be deleted
                 cy.wait(3000);
                 meineAufgaben.clickActualize();
