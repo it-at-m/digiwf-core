@@ -1,12 +1,17 @@
 import Page from './page'
 
-class ExampleUserTask extends Page{
+class UserTask extends Page{
     elements = {
-        abschliessenButton: () => cy.get(`button.mt-5`,{timeout:3000})
+        abschliessenButton: () => cy.get(`button.mt-5`,{timeout:3000}),
+        headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(2)')
     }
     setNumberOfTasks(number){
         this.elements.numberOfParallelTasks().clear()
         this.elements.numberOfParallelTasks().type(number)
+    }
+
+    checkHeadline(text){
+        this.elements.headline().should('contain.text',text)
     }
 
     clickAbschliessen(){
@@ -21,4 +26,4 @@ class ExampleUserTask extends Page{
 }
 
 
-module.exports = new ExampleUserTask();
+module.exports = new UserTask();
