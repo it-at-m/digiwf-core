@@ -2,7 +2,7 @@ import vorgangStarten from "../pages/vorgangStarten"
 import meineAufgaben from "../pages/meineAufgaben"
 import exampleUserTask from "../pages/exampleUserTask"
 
-const numberOfTasks = 21
+const numberOfTasks =21
 
 before(() => {
     cy.login()
@@ -21,11 +21,10 @@ describe('Vorgaenge Anzeigen', () => {
         exampleUserTask.setUserName(Cypress.env('fullUsername'));
         exampleUserTask.clickAbschliessen();
         vorgangStarten.openMeineAufgaben(0,pageSize);
-        cy.wait(3000)
-        meineAufgaben.clickActualize();
-        cy.wait(3000)
-        meineAufgaben.getElement(1).should('contain.text', 'User Task')
-        meineAufgaben.getFoundTasks().should('eq',numberOfTasks)
+        reloadPageUntilTasksVisible();
+
+        meineAufgaben.getFoundTasks().should('eq',numberOfTasks);
+        meineAufgaben.getElement(1).should('contain.text', 'User Task');
 
         pageSize = 5;
         meineAufgaben.changePageSize(pageSize);
@@ -42,8 +41,25 @@ describe('Vorgaenge Anzeigen', () => {
             for (let i=1; i<= numberOfTasks; i++){
                 meineAufgaben.clickElement(1);
                 exampleUserTask.clickAbschliessen();
+                //necessary to wait for the task to be deleted
                 cy.wait(3000);
                 meineAufgaben.clickActualize();
             }
     })
+
+
+    //ensures all of the tasks are loaded
+    function reloadPageUntilTasksVisible(maxAttempts=10, attempts=0) {
+        if (attempts > maxAttempts) {
+            throw new Error("Timed out waiting")
+        }
+        meineAufgaben.getFoundTasks().then(numTasks => {
+            if (numTasks != numberOfTasks) {
+                cy.wait(1)
+                cy.log('iteration')
+                meineAufgaben.clickActualize();
+                reloadPageUntilTasksVisible(maxAttempts, attempts+1)
+            }
+        })
+    }
 })

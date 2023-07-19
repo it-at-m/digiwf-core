@@ -21,13 +21,12 @@ class MeineAufgaben extends Page{
     }
 
     clickActualize(){
-
-        cy.intercept({
+       cy.intercept({
             method: 'GET',
-            url: '/api/digitalwf-backend-service/rest/filter',
-        }).as('dataGetTasks')
+            url: '/api/digitalwf-tasklist-service/rest/tasks/*',
+        }).as('dataGetFilter')
         this.elements.actualize().click()
-        cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200)
     }
 
     clickRightArrow(){
@@ -75,7 +74,6 @@ class MeineAufgaben extends Page{
             this.clickRightArrow();
         }
         cy.get('.v-data-iterator').children().its('length').should('eq', 1*2)
-        cy.wait(3000)
         for (let i=1; i<= numberOfTasks/pageSize; i++){
             this.clickLeftArrow();
         }
