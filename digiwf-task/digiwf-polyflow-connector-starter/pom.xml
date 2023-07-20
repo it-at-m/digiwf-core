@@ -49,6 +49,11 @@
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.camunda.community.batch</groupId>
+            <artifactId>camunda-platform-7-custom-batch-core</artifactId>
+            <version>1.18.1</version>
+        </dependency>
 
         <!-- json etc. -->
         <dependency>

@@ -1,18 +1,13 @@
 package io.muenchendigital.digiwf.task.importer;
 
 import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
-import io.muenchendigital.digiwf.task.listener.AssignmentCreateTaskListener;
-import io.muenchendigital.digiwf.task.listener.CancelableTaskStatusCreateTaskListener;
-import io.muenchendigital.digiwf.task.listener.TaskDescriptionCreateTaskListener;
-import io.muenchendigital.digiwf.task.listener.TaskSchemaTypeCreateTaskListener;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
+import org.camunda.bpm.engine.task.Task;
+import org.camunda.community.batch.CustomBatchBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.noContent;
@@ -35,12 +28,8 @@ public class TaskImporterService {
     public static final String CLIENT_IMPORT_TASKS = "clientrole_task_importer";
     private final TaskServiceCollectorService taskServiceCollectorService;
     private final TaskService taskService;
-    private final ProcessEngineConfiguration processEngineConfiguration;
-
-    private final AssignmentCreateTaskListener assignmentCreateTaskListener;
-    private final CancelableTaskStatusCreateTaskListener cancelableTaskStatusCreateTaskListener;
-    private final TaskSchemaTypeCreateTaskListener taskSchemaTypeCreateTaskListener;
-    private final TaskDescriptionCreateTaskListener taskDescriptionCreateTaskListener;
+    private final ProcessEngineConfiguration engineConfiguration;
+    private final TaskEnrichBatchJobHandler taskEnrichBatchJobHandler;
 
     @PostConstruct
     void inform() {
@@ -51,48 +40,18 @@ public class TaskImporterService {
     @RolesAllowed(CLIENT_IMPORT_TASKS)
     public ResponseEntity<Void> enrichExistingTasks() {
         log.info("Starting task enrichment");
-        val tasks = taskService.createTaskQuery().active().list().stream().map(task -> ((TaskEntity) task)).collect(Collectors.toCollection(HashSet::new));
-//        val tasks = new HashSet<TaskEntity>();
-//        tasks.addAll(taskService.createTaskQuery()
-//            .active()
-//            .taskAssigned()
-//            .list()
-//            .stream().map(task -> ((TaskEntity) task))
-//            .collect(Collectors.toList()));
-//        tasks.addAll(taskService.createTaskQuery()
-//            .active()
-//            .withCandidateGroups()
-//            .list()
-//            .stream().map(task -> ((TaskEntity) task))
-//            .collect(Collectors.toList()));
-//        tasks.addAll(taskService.createTaskQuery()
-//            .active()
-//            .withCandidateUsers()
-//            .list()
-//            .stream().map(task -> ((TaskEntity) task))
-//            .collect(Collectors.toList()));
-        enrichTasks(tasks);
+        val taskIds = taskService.createTaskQuery()
+                .active().list().stream()
+                .map(Task::getId).collect(Collectors.toList());
+        log.info("Selected {} tasks for enrichment", taskIds.size());
+        CustomBatchBuilder
+                .of(taskIds)
+                .jobHandler(taskEnrichBatchJobHandler)
+                .configuration(engineConfiguration)
+                .invocationsPerBatchJob(100)
+                .create();
         return noContent().build();
     }
-
-  @SneakyThrows
-  private void enrichTasks(Set<TaskEntity> tasks) {
-    log.info("Selected for enrichment {} tasks.", tasks.size());
-    ((ProcessEngineConfigurationImpl)processEngineConfiguration).getCommandExecutorTxRequired().execute(
-        (context) -> {
-          tasks.forEach((task) -> {
-            assignmentCreateTaskListener.taskCreated(task);
-            cancelableTaskStatusCreateTaskListener.taskCreated(task);
-            taskSchemaTypeCreateTaskListener.taskCreated(task);
-            taskDescriptionCreateTaskListener.taskCreated(task);
-            taskService.saveTask(task);
-          });
-          log.info("Enrichment of {} tasks finished", tasks.size());
-          return null;
-        }
-    );
-    }
-
 
     @PostMapping("/rest/admin/tasks/import")
     @RolesAllowed(CLIENT_IMPORT_TASKS)

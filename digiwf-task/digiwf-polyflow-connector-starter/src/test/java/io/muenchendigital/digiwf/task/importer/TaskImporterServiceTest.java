@@ -52,10 +52,7 @@ class TaskImporterServiceTest {
       mock(TaskServiceCollectorService.class),
       taskService,
       extension.getProcessEngineConfiguration(),
-      listenerMock,
-      mock(CancelableTaskStatusCreateTaskListener.class),
-      mock(TaskSchemaTypeCreateTaskListener.class),
-      mock(TaskDescriptionCreateTaskListener.class)
+      mock(TaskEnrichBatchJobHandler.class)
   );
 
   private final ArgumentCaptor<DelegateTask> taskParamCaptor = ArgumentCaptor.forClass(DelegateTask.class);
