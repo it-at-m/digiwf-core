@@ -96,7 +96,7 @@ public class UserTaskNotificationListener {
     }
 
     private void notifyAssignee(final DelegateTask delegateTask) throws Exception {
-        val assignedUserId = TASK_ASSIGNEE.from(delegateTask).getOrNull();
+        String assignedUserId = TASK_ASSIGNEE.from(delegateTask).getOptional().orElseGet(delegateTask::getAssignee);
         if (StringUtils.isBlank(assignedUserId)) {
             return;
         }
