@@ -50,13 +50,15 @@ describe('Vorgaenge Anzeigen', () => {
         meineAufgaben.clickElement(1);
         userTask.checkHeadline("User Task");
         userTask.clickAbschliessen();
+    })
 
+    after(() => {
             for (let i=1; i< numberOfTasks; i++){
                 meineAufgaben.clickElement(1);
                 userTask.clickAbschliessen();
                 //necessary to wait for the task to be deleted
                 cy.wait(3000);
-                meineAufgaben.clickActualize();
+                meineAufgaben.clickAktualisieren();
             }
     })
 
@@ -70,7 +72,7 @@ describe('Vorgaenge Anzeigen', () => {
             if (numTasks != numberOfTasks) {
                 cy.wait(1)
                 cy.log('iteration')
-                meineAufgaben.clickActualize();
+                meineAufgaben.clickAktualisieren();
                 reloadPageUntilTasksVisible(maxAttempts, attempts+1)
             }
         })

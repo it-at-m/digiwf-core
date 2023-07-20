@@ -3,7 +3,7 @@ import Page from './page'
 class MeineAufgaben extends Page{
     elements = {
         elementBox: () => cy.get(".v-data-iterator > div:nth-child(1)"),
-        actualize: () => cy.get(".v-size--large"),
+        update: () => cy.get(".v-size--large"),
         listElement: (elementNumber) => cy.get(`a.d-flex:nth-child(${elementNumber})`),
         numberOfTasks: () => cy.get(`span.mr-1:nth-child(5)`),
         rightArrow: () => cy.get(`.mdi-chevron-right`),
@@ -20,12 +20,12 @@ class MeineAufgaben extends Page{
         })
     }
 
-    clickActualize(){
+    clickAktualisieren(){
        cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-tasklist-service/rest/tasks/*',
         }).as('dataGetFilter')
-        this.elements.actualize().click()
+        this.elements.update().click()
         cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200)
     }
 
