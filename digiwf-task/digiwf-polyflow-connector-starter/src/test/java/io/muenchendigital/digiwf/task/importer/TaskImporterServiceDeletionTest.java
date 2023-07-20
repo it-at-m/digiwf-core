@@ -51,10 +51,7 @@ class TaskImporterServiceDeletionTest {
       mock(TaskServiceCollectorService.class),
       taskService,
       extension.getProcessEngineConfiguration(),
-      realListener,
-      mock(CancelableTaskStatusCreateTaskListener.class),
-      mock(TaskSchemaTypeCreateTaskListener.class),
-      mock(TaskDescriptionCreateTaskListener.class)
+      mock(TaskEnrichBatchJobHandler.class)
   );
 
 
