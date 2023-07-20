@@ -45,7 +45,7 @@ public class DocumentService {
 
     public byte[] getStatusDokumentForTask(final String taskId, final String userId) {
         final Task task = this.taskService.getTask(taskId);
-        val assignedUserId = TASK_ASSIGNEE.from(camundaTaskService, taskId).getLocal();
+        val assignedUserId = TASK_ASSIGNEE.from(camundaTaskService, taskId).getLocalOptional().orElseGet(task::getAssignee);
         if (!userId.equals(assignedUserId)) {
             throw new ObjectNotFoundException(String.format("The task with the id %s is not available.", taskId));
         }
