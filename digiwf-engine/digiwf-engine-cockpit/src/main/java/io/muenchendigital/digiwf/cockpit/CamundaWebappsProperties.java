@@ -8,5 +8,8 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 @Data
 public class CamundaWebappsProperties {
+  /**
+   * The role required to access camunda webapp.
+   */
   private final String webAppRole;
 }

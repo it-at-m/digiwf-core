@@ -1,8 +1,9 @@
-package io.muenchendigital.digiwf.spring.security;
+package io.muenchendigital.digiwf.spring.security.userinfo;
 
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
+import io.muenchendigital.digiwf.spring.security.JwtClaims;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,9 +38,6 @@ public class UserInfoAuthoritiesConverter implements Converter<Jwt, Collection<G
   private static final String NAME_AUTHENTICATION_CACHE = "authentication_cache";
   private static final int AUTHENTICATION_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60;
 
-  private static final String CLAIM_AUTHORITIES = "authorities";
-  private static final String CLAIM_ROLES = "user_roles";
-
   private final String userInfoUri;
   private final RestTemplate restTemplate;
   private final Cache cache;
@@ -68,7 +66,7 @@ public class UserInfoAuthoritiesConverter implements Converter<Jwt, Collection<G
 
   /**
    * Ruft den /userinfo Endpoint und extrahiert {@link GrantedAuthority}s aus dem "authorities"
-   * Claim.
+   * Claim und roles aus dem "user_roles" claim.
    *
    * @param jwt der JWT
    * @return die {@link GrantedAuthority}s gem. Claim "authorities" des /userinfo Endpoints
@@ -86,27 +84,23 @@ public class UserInfoAuthoritiesConverter implements Converter<Jwt, Collection<G
     final HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue());
     final HttpEntity<String> entity = new HttpEntity<>(headers);
-
     Collection<GrantedAuthority> authorities = new ArrayList<>();
     try {
-      @SuppressWarnings("unchecked") final Map<String, Object> map = this.restTemplate.exchange(this.userInfoUri, HttpMethod.GET, entity,
-          Map.class).getBody();
-
+      @SuppressWarnings("unchecked")
+      final Map<String, Object> map = this.restTemplate.exchange(this.userInfoUri, HttpMethod.GET, entity, Map.class).getBody();
       log.debug("Response from user-info Endpoint: {}", map);
-      if (map != null && map.containsKey(CLAIM_AUTHORITIES)) {
-        authorities.addAll(asAuthorities(map.get(CLAIM_AUTHORITIES)));
+      if (map != null && map.containsKey(JwtClaims.AUTHORITIES)) {
+        authorities.addAll(asAuthorities(map.get(JwtClaims.AUTHORITIES)));
       }
-      if (map != null && map.containsKey(CLAIM_ROLES)) {
-        authorities.addAll(asAuthorities(map.get(CLAIM_ROLES)));
+      if (map != null && map.containsKey(JwtClaims.ROLES)) {
+        authorities.addAll(asAuthorities(map.get(JwtClaims.ROLES)));
       }
       log.debug("Resolved Authorities (from /userinfo Endpoint): {}", authorities);
       // store
       this.cache.put(jwt.getSubject(), authorities);
     } catch (final Exception e) {
-      log.error(String.format("Could not fetch user details from %s - user is granted NO authorities",
-          this.userInfoUri), e);
+      log.error(String.format("Could not fetch user details from %s - user is granted NO authorities", this.userInfoUri), e);
     }
-
     return authorities;
   }
 

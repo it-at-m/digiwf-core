@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -50,7 +51,7 @@ public class UserAuthenticationProviderImpl implements UserAuthenticationProvide
   @NonNull
   public String getLoggedInUser() {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication.getPrincipal() instanceof Jwt) {
+    if (authentication instanceof AbstractAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
       final Jwt jwt = (Jwt) authentication.getPrincipal();
       return (String) jwt.getClaims().get(userNameAttribute);
     }

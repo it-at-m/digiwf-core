@@ -9,10 +9,13 @@ import io.muenchendigital.digiwf.spring.security.authentication.UserAuthenticati
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.IdentityService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Camunda Security configuration.

@@ -1,4 +1,4 @@
-package io.muenchendigital.digiwf.cockpit.security.spring;
+package io.muenchendigital.digiwf.spring.security.userinfo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;

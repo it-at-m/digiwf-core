@@ -5,6 +5,7 @@
 package io.muenchendigital.digiwf.spring.security;
 
 import io.muenchendigital.digiwf.spring.security.client.ClientParameters;
+import io.muenchendigital.digiwf.spring.security.userinfo.UserInfoAuthoritiesConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -34,10 +35,16 @@ import static io.muenchendigital.digiwf.spring.security.SecurityConfiguration.SE
  */
 @Configuration
 @Profile(SECURITY)
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.debug(true);
+  }
+
   /**
    * Activates security.
    */
@@ -64,19 +71,19 @@ public class SecurityConfiguration {
   ) throws Exception {
     // @formatter:off
     http
-        .csrf()
-          .ignoringAntMatchers(springSecurityProperties.getPermittedUrls())
-          .disable()
-        .authorizeRequests()
-          .antMatchers(HttpMethod.OPTIONS).permitAll()
-          .antMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
-          .anyRequest().authenticated()
-          .and()
-        .oauth2ResourceServer()
-          .jwt()
+        .csrf( csrf -> csrf
+            .ignoringAntMatchers(springSecurityProperties.getPermittedUrls())
+            .disable()
+        )
+        .authorizeRequests( requests -> requests
+            .antMatchers(HttpMethod.OPTIONS).permitAll()
+            .antMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
+            .anyRequest().authenticated()
+        )
+        .oauth2ResourceServer( server -> server
+            .jwt()
             .jwtAuthenticationConverter(jwtAuthenticationConverter)
-            .and()
-          .and()
+        )
         ;
     // @formatter:on
     return http.build();

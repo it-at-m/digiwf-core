@@ -21,7 +21,7 @@ logging:
   level:
     io.muenchendigital.digiwf.legacy.form.domain.service.FormService: WARN
     io.muenchendigital.digiwf.shared.configuration: INFO
-    org.springframework.boot.web: DEBUG
+    org.springframework.boot.web: TRACE
     org.springframework.security: TRACE
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
 

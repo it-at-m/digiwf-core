@@ -1,6 +1,7 @@
 package io.muenchendigital.digiwf.cockpit.security.camunda;
 
 
+import io.muenchendigital.digiwf.spring.security.JwtClaims;
 import io.muenchendigital.digiwf.spring.security.SecurityConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.identity.*;
@@ -14,12 +15,11 @@ import org.camunda.bpm.engine.impl.persistence.AbstractManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -43,65 +43,6 @@ public class OAuthIdentityServiceProvider extends AbstractManager implements Rea
   public UserQuery createUserQuery(CommandContext commandContext) {
     return new OAuthUserQueryImpl(this);
   }
-
-
-  private User single(OAuthUserQueryImpl oAuthUserQuery) {
-
-    DefaultOAuth2User user = getAuthorizedUser();
-    if (user != null) {
-      Map<String, Object> claims = user.getAttributes();
-      String userId = (String) claims.get("lhmObjectID");
-
-      return new OAuthUser(
-          userId,
-          (String) claims.getOrDefault("given_name", ""),
-          (String) claims.getOrDefault("family_name", userId),
-          (String) claims.getOrDefault("email", userId)
-      );
-    }
-    return null;
-  }
-
-  private Group single(OAuthGroupQueryImpl oAuthGroupQuery) {
-    return list(oAuthGroupQuery)
-        .stream()
-        .filter(group -> group.getId().equals(oAuthGroupQuery.getId()))
-        .findFirst().orElse(null);
-  }
-
-  private List<Group> list(OAuthGroupQueryImpl oAuthGroupQuery) {
-    DefaultOAuth2User user = getAuthorizedUser();
-    if (user != null) {
-      return user.getAuthorities().stream()
-          .map(GrantedAuthority::getAuthority)
-          .map(role -> StringUtils.removeStart(role, SecurityConfiguration.SPRING_ROLE_PREFIX)) // currently not used, roles are mapped directly?
-          .map(role -> new OAuthGroup(role, role, "oauth"))
-          .collect(toList());
-    }
-    return Collections.emptyList();
-  }
-
-  private List<User> list(OAuthUserQueryImpl oAuthUserQuery) {
-    return Collections.singletonList(single(oAuthUserQuery));
-  }
-
-  private long count(OAuthUserQueryImpl oAuthUserQuery) {
-    return list(oAuthUserQuery).size();
-  }
-
-  private long count(OAuthGroupQueryImpl oAuthGroupQuery) {
-    return list(oAuthGroupQuery).size();
-  }
-
-  private DefaultOAuth2User getAuthorizedUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication instanceof OAuth2AuthenticationToken && authentication.getPrincipal() instanceof DefaultOAuth2User) {
-      return ((DefaultOAuth2User) authentication.getPrincipal());
-    } else {
-      return null;
-    }
-  }
-
 
   @Override
   public NativeUserQuery createNativeUserQuery() {
@@ -143,6 +84,57 @@ public class OAuthIdentityServiceProvider extends AbstractManager implements Rea
     return new NoTenantQueryImpl();
   }
 
+
+  private User single(OAuthUserQueryImpl oAuthUserQuery) {
+    return getJwtAuthenticationToken().map(
+        token ->
+            (User) new OAuthUser(
+                (String) token.getTokenAttributes().get(JwtClaims.USER_ID),
+                (String) token.getTokenAttributes().getOrDefault(JwtClaims.GIVEN_NAME, ""),
+                (String) token.getTokenAttributes().getOrDefault(JwtClaims.FAMILY_NAME, token.getTokenAttributes().get(JwtClaims.USER_ID)),
+                (String) token.getTokenAttributes().getOrDefault(JwtClaims.EMAIL, token.getTokenAttributes().get(JwtClaims.USER_ID))
+            )
+    ).orElse(null);
+  }
+
+  private Group single(OAuthGroupQueryImpl oAuthGroupQuery) {
+    return list(oAuthGroupQuery)
+        .stream()
+        .filter(group -> group.getId().equals(oAuthGroupQuery.getId()))
+        .findFirst().orElse(null);
+  }
+
+  private List<Group> list(OAuthGroupQueryImpl oAuthGroupQuery) {
+    return getJwtAuthenticationToken()
+        .map(token -> token.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .map(role -> StringUtils.removeStart(role, SecurityConfiguration.SPRING_ROLE_PREFIX)) // currently not used, roles are mapped directly?
+            .map(role -> (Group) new OAuthGroup(role, role, "oauth"))
+            .collect(toList())
+        ).orElse(Collections.emptyList());
+  }
+
+  private List<User> list(OAuthUserQueryImpl oAuthUserQuery) {
+    return Collections.singletonList(single(oAuthUserQuery));
+  }
+
+  private long count(OAuthUserQueryImpl oAuthUserQuery) {
+    return list(oAuthUserQuery).size();
+  }
+
+  private long count(OAuthGroupQueryImpl oAuthGroupQuery) {
+    return list(oAuthGroupQuery).size();
+  }
+
+  private Optional<JwtAuthenticationToken> getJwtAuthenticationToken() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication instanceof JwtAuthenticationToken) {
+      return Optional.of(((JwtAuthenticationToken) authentication));
+    } else {
+      return Optional.empty();
+    }
+  }
 
   static class OAuthUserQueryImpl extends UserQueryImpl {
 

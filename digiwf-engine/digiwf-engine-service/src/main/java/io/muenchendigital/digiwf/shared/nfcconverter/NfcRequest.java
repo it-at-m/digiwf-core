@@ -36,15 +36,11 @@ class NfcRequest extends HttpServletRequestWrapper implements HttpServletRequest
 
     private Map<String, List<String>> headers;
 
-    @SuppressWarnings("unused")
-    private Set<String> contentTypes;
-
     public NfcRequest(final HttpServletRequest request, final Set<String> contentTypes) {
         super(request);
         this.params = null;
         this.cookies = null;
         this.headers = null;
-        this.contentTypes = contentTypes;
     }
     private void convert() {
         if (params != null) {
