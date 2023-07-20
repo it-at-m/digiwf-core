@@ -1,5 +1,6 @@
 package io.muenchendigital.digiwf.s3.integration.example.client.controller;
 
+import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -7,7 +8,6 @@ import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3Fil
 import io.muenchendigital.digiwf.s3.integration.example.client.controller.dto.FileActionDto;
 import io.muenchendigital.digiwf.s3.integration.example.client.controller.dto.PresignedUrlDto;
 import io.muenchendigital.digiwf.s3.integration.example.client.streaming.events.CreatePresignedUrlEvent;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.service.PayloadSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,50 +29,50 @@ import java.nio.file.Files;
 @RequestMapping("/presignedurl")
 public class PresignedUrlController {
 
-    private final PayloadSenderService genericPayloadSenderService;
-    private final S3FileTransferRepository s3FileTransferRepository;
+  private final MessageApi messageApi;
+  private final S3FileTransferRepository s3FileTransferRepository;
 
 
-    /**
-     * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
-     *
-     * @param presignedUrlDto
-     */
-    @PostMapping()
-    @ResponseStatus(HttpStatus.OK)
-    public void createPresignedUrl(@RequestBody final PresignedUrlDto presignedUrlDto) {
-        final CreatePresignedUrlEvent createPresignedUrlEvent = new CreatePresignedUrlEvent(presignedUrlDto.getAction(), presignedUrlDto.getPath());
-        this.genericPayloadSenderService.sendPayload(createPresignedUrlEvent, "createPresignedUrl");
+  /**
+   * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
+   *
+   * @param presignedUrlDto
+   */
+  @PostMapping()
+  @ResponseStatus(HttpStatus.OK)
+  public void createPresignedUrl(@RequestBody final PresignedUrlDto presignedUrlDto) {
+    final CreatePresignedUrlEvent createPresignedUrlEvent = new CreatePresignedUrlEvent(presignedUrlDto.getAction(), presignedUrlDto.getPath());
+    this.messageApi.sendMessage(createPresignedUrlEvent, "createPresignedUrl");
+  }
+
+  /**
+   * Use a valid presigned url to perform change, get or create the file
+   *
+   * @param fileActionDto
+   * @throws IOException
+   * @throws DocumentStorageException
+   * @throws DocumentStorageClientErrorException
+   * @throws DocumentStorageServerErrorException
+   */
+  @PostMapping("/use")
+  @ResponseStatus(HttpStatus.OK)
+  public void usePresignedUrls(@RequestBody final FileActionDto fileActionDto) throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+    if (fileActionDto.getAction().equalsIgnoreCase("DELETE")) {
+      this.s3FileTransferRepository.deleteFile(fileActionDto.getPresignedUrl());
+      return;
+    } else if (fileActionDto.getAction().equalsIgnoreCase("GET")) {
+      this.s3FileTransferRepository.getFile(fileActionDto.getPresignedUrl());
+      return;
     }
 
-    /**
-     * Use a valid presigned url to perform change, get or create the file
-     *
-     * @param fileActionDto
-     * @throws IOException
-     * @throws DocumentStorageException
-     * @throws DocumentStorageClientErrorException
-     * @throws DocumentStorageServerErrorException
-     */
-    @PostMapping("/use")
-    @ResponseStatus(HttpStatus.OK)
-    public void usePresignedUrls(@RequestBody final FileActionDto fileActionDto) throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        if (fileActionDto.getAction().equalsIgnoreCase("DELETE")) {
-            this.s3FileTransferRepository.deleteFile(fileActionDto.getPresignedUrl());
-            return;
-        } else if (fileActionDto.getAction().equalsIgnoreCase("GET")) {
-            this.s3FileTransferRepository.getFile(fileActionDto.getPresignedUrl());
-            return;
-        }
+    final File file = ResourceUtils.getFile("classpath:files/" + fileActionDto.getFile());
+    final byte[] binaryFile = Files.readAllBytes(file.toPath());
 
-        final File file = ResourceUtils.getFile("classpath:files/" + fileActionDto.getFile());
-        final byte[] binaryFile = Files.readAllBytes(file.toPath());
-
-        if (fileActionDto.getAction().equalsIgnoreCase("POST")) {
-            this.s3FileTransferRepository.saveFile(fileActionDto.getPresignedUrl(), binaryFile);
-        } else if (fileActionDto.getAction().equalsIgnoreCase("PUT")) {
-            this.s3FileTransferRepository.updateFile(fileActionDto.getPresignedUrl(), binaryFile);
-        }
+    if (fileActionDto.getAction().equalsIgnoreCase("POST")) {
+      this.s3FileTransferRepository.saveFile(fileActionDto.getPresignedUrl(), binaryFile);
+    } else if (fileActionDto.getAction().equalsIgnoreCase("PUT")) {
+      this.s3FileTransferRepository.updateFile(fileActionDto.getPresignedUrl(), binaryFile);
     }
+  }
 
 }

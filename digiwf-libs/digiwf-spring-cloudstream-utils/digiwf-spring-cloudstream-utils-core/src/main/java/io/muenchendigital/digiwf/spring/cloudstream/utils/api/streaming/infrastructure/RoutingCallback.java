@@ -10,6 +10,7 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.error.Error
 import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.error.ErrorMessageDefaultListener.MISSING_TYPE_HEADER_ERROR;
 
 @RequiredArgsConstructor
+@Deprecated
 public class RoutingCallback implements MessageRoutingCallback {
 
     private final Map<String, String> typeMappings;

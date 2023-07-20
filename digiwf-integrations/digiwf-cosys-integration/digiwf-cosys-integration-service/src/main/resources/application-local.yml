@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          consumerProperties:
+            auto.offset.reset: latest
+          configuration:
+            security:
+              #protocol: SSL

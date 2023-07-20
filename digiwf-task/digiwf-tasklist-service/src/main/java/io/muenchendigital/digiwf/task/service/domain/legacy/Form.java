@@ -5,6 +5,7 @@
 package io.muenchendigital.digiwf.task.service.domain.legacy;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

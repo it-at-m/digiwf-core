@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dv3obl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="StreamingTemplateV01" name="Dummy process simulating waiting Streaming V1" isExecutable="true">
+    <bpmn:startEvent id="start" name="Started" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1ib0fa6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="end" name="Ended">
+      <bpmn:incoming>Flow_1ib0fa6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ib0fa6" sourceRef="start" targetRef="end" />
+    <bpmn:textAnnotation id="TextAnnotation_1iixnxe">
+      <bpmn:text>async start to simulate waiting</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_135mser" sourceRef="start" targetRef="TextAnnotation_1iixnxe" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="StreamingTemplateV01">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start">
+        <dc:Bounds x="179" y="169" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="179" y="212" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1g0h907_di" bpmnElement="end">
+        <dc:Bounds x="272" y="169" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="274" y="212" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1iixnxe_di" bpmnElement="TextAnnotation_1iixnxe">
+        <dc:Bounds x="220" y="80" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ib0fa6_di" bpmnElement="Flow_1ib0fa6">
+        <di:waypoint x="215" y="187" />
+        <di:waypoint x="272" y="187" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_135mser_di" bpmnElement="Association_135mser">
+        <di:waypoint x="208" y="173" />
+        <di:waypoint x="249" y="121" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -22,7 +22,7 @@ import {
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
-import {HumanTask, HumanTaskDetails} from "./tasksModels";
+import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
 import {shouldUseTaskService} from "../../utils/featureToggles";
 import {
   mapTaskDetailsFromEngineService,
@@ -49,7 +49,7 @@ const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
 
-export const invalideUserTasks = () =>
+export const invalidUserTasks = () =>
   queryClient.invalidateQueries([userTasksQueryId]);
 const addUserToTask = (r: Task): Promise<HumanTask> => {
   return (
@@ -66,7 +66,9 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
     .then(tasks => Promise.resolve<Page<HumanTask>>({
         content: tasks,
         totalElements: response.totalElements,
-        totalPages: response.totalPages!,
+        totalPages: response.totalPages || 0,
+        size: response.size,
+        page: response.page,
       })
     );
 };
@@ -77,7 +79,7 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
  * @param page
  * @param size
  * @param query
- * @param followUp
+ * @param shouldIgnoreFollowUpTasks
  */
 const handleTaskLoadingFromTaskService = (
   page: Ref<number>,
@@ -316,7 +318,7 @@ export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
       isError: false
     });
 
-  }).catch((_: any) => {
+  }).catch(() => {
     return Promise.resolve<CancelTaskResult>({
       isError: true,
       errorMessage: "Die Aufgabe konnte nicht abgebrochen werden."
@@ -329,7 +331,7 @@ interface CompleteTaskResult {
   readonly isError: boolean;
 }
 
-export const completeTask = (taskId: string, variables: any): Promise<CompleteTaskResult> => {
+export const completeTask = (taskId: string, variables: TaskVariables): Promise<CompleteTaskResult> => {
   return (
     shouldUseTaskService()
       ? callCompleteTaskInTaskService(taskId, variables)
@@ -337,15 +339,15 @@ export const completeTask = (taskId: string, variables: any): Promise<CompleteTa
   )
     .then(() => {
       addFinishedTaskIds(taskId);
-      invalideUserTasks();
+      invalidUserTasks();
       return Promise.resolve<CompleteTaskResult>({
         isError: false,
         errorMessage: undefined,
       });
-    }).catch(_ => {
+    }).catch(error => {
       return Promise.resolve<CompleteTaskResult>({
         isError: true,
-        errorMessage: "Die Aufgabe konnte nicht abgeschlossen werden."
+        errorMessage: error.message
       });
     });
 };
@@ -362,7 +364,7 @@ export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUp
       : callSetFollowUpTaskInEngine(taskId, followUp)
   )
     .then(() => {
-      invalideUserTasks();
+      invalidUserTasks();
       router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
@@ -395,7 +397,7 @@ interface SaveTaskResult {
   readonly isError: boolean;
 }
 
-export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult> => {
+export const saveTask = (taskId: string, variables: TaskVariables): Promise<SaveTaskResult> => {
   return (
     shouldUseTaskService()
       ? callSaveTaskInTaskService(taskId, variables)
@@ -404,9 +406,9 @@ export const saveTask = (taskId: string, variables: any): Promise<SaveTaskResult
     isError: false,
     errorMessage: undefined
   }))
-    .catch(_ => Promise.resolve({
+    .catch(error => Promise.resolve({
       isError: true,
-      errorMessage: "Die Aufgabe konnte nicht gespeichert werden.",
+      errorMessage: error.message,
     }));
 };
 
@@ -422,7 +424,7 @@ export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
       : callPostAssignTaskInEngine(taskId)
   ).then(() => {
     router.push({path: "/task/" + taskId});
-    invalideUserTasks();
+    invalidUserTasks();
     queryClient.invalidateQueries([openGroupTasksQueryId]);
     queryClient.invalidateQueries([assignedGroupTasksQueryId]);
     return Promise.resolve({isError: false});

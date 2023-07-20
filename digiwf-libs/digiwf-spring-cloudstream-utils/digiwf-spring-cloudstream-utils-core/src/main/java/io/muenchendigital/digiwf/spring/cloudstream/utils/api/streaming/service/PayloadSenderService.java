@@ -15,6 +15,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated
 public class PayloadSenderService {
 
     private final Sinks.Many<Message<Object>> messageSink;
@@ -23,13 +24,18 @@ public class PayloadSenderService {
      * Sends a payload. Can be used if you don't want to set any other MessageHeaders than {@link StreamingHeaders}.TYPE.
      * @param payload Payload to send in the message.
      * @param type Type of the message, used to determine how the message gets handled on the receiving side.
+     *
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
+     * @deprecated This function is no longer supported and may be removed in a future release
+     *
      * @return true when message has been sent, false when not
      */
+    @Deprecated
     public boolean sendPayload(final Object payload, final String type) {
         final Map<String, Object> headers = new HashMap<>();
         headers.put(StreamingHeaders.TYPE, type);
         final MessageHeaders messageHeaders = new MessageHeaders(headers);
-        return sendPayload(payload, messageHeaders);
+        return this.sendPayload(payload, messageHeaders);
     }
 
     /**
@@ -38,6 +44,7 @@ public class PayloadSenderService {
      * @param messageHeaders Headers to use in the message.
      * @return true when message has been sent, false when not
      */
+    @Deprecated
     public boolean sendPayload(final Object payload, final MessageHeaders messageHeaders) {
         final Message<Object> message = MessageBuilder.createMessage(payload, messageHeaders);
         final Sinks.EmitResult emitResult = this.messageSink.tryEmitNext(message);
