@@ -15,6 +15,7 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.i
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class BpmnErrorService {
 
     private static final String MESSAGE_TYPE            = "bpmnerror";
@@ -28,7 +29,11 @@ public class BpmnErrorService {
      * @param messageHeaders incoming message headers
      * @param errorCode      the specific error code
      * @param errorMessage   the specific error message
+     *
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
+     * @deprecated This function is no longer supported and may be removed in a future release
      */
+    @Deprecated
     public boolean sendBpmnError(final MessageHeaders messageHeaders, final String errorCode, final String errorMessage) {
         final BpmnErrorEvent.BpmnErrorEventBuilder builder = BpmnErrorEvent.builder()
                 .processInstanceId((String) messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID))

@@ -9,7 +9,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="email-integration_start">
       <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:callActivity id="send-mail" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-simple-email" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="send-mail" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />

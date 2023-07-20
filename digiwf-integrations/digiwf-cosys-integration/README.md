@@ -1,53 +1,46 @@
 # Digiwf Cosys Integration
 
-Checkout the documentation at tbd.
+The following steps are needed to run the integration locally.
 
 ## Getting started
 
-```
-# build
-# execute in the root directory
-mvn clean install
-```
+1. Build it with `mvn clean install`
+2. Run Stack using `docker-compose`
+3. Open Minio (http://localhost:9000, user: `minio`, pass: `Test1234`) and create a Bucket.
+4. Store the values in `S3_BUCKETNAME`, `S3_ACCESSKEY` und `S3_SECRETKEY`of `stack/local-docker.env`
+5. Set the following security configurations
+   - spring.security.oauth2.client.registration.cosys.authorization-grant-type=client_credentials
+   - spring.security.oauth2.client.registration.cosys.client-id=xx
+   - spring.security.oauth2.client.registration.cosys.client-secret=xxx
+   - spring.security.oauth2.client.provider.cosys.token-uri=xxx
+6. Set the following cosys configuration
+    - io.muenchendigital.digiwf.cosys.url=xxx
 
-Execute the [Example](digiwf-cosys-integration-example) application and try the integrations features out.
+## Testing functionality
 
-To use the CoSys integration you have to set the following configurations.
+1. Start DigiwfCosysExampleApplication
+   - Activate Spring profile `local,streaming`
+   - Add Environment values from `stack/local-docker.env`
+     
+2. Execute the [Example](digiwf-cosys-integration-example) application and try the integrations features out.
 
-### security
-
-- spring.security.oauth2.client.registration.cosys.authorization-grant-type=client_credentials
-- spring.security.oauth2.client.registration.cosys.client-id=xx
-- spring.security.oauth2.client.registration.cosys.client-secret=xxx
-- spring.security.oauth2.client.provider.cosys.token-uri=xxx
--
-
-### cosys
-
-- io.muenchendigital.digiwf.cosys.url=xxx
-- io.muenchendigital.digiwf.cosys.merge.datafile=//multi
-- io.muenchendigital.digiwf.cosys.merge.inputLanguage=Deutsch
-- io.muenchendigital.digiwf.cosys.merge.outputLanguage=Deutsch
-- io.muenchendigital.digiwf.cosys.merge.keepFields=unresolved-ref
-
-## Local setup
-
-To have a full local setup of DigiWF to test the integration with BPMN processes you need to start the following services:
-* zookeeper/kafka
-* digiwf-engine-service
-* digiwf-gateway
-* digiwf-tasklist
-* digiwf-s3-integration-service
-* digiwf-camunda-connector-service
-
-and the digiwf-cosys-integration-service itself of course.
-
-And don't forget to activate the _streaming_ profile where possible.
 
 ## Testing with DigiWF
-
-To let you try out the integration artifact with the DigiWF Tasklist application we provided some test process resources. You'll find them in digiwf-cosys-integration-service/src/test/resources/process.
-
-Just deploy these into your engine together with the StreamingTemplateV02 from digiwf-connector-service.
-Boot your local environment and start the process "Cosys GenerateDocument Test (Streaming)".
+1. Start the applications in the following order:
+   1. EngineServiceApplication
+      - Activate Spring profile `local,no-ldap,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   2. DigiWFConnectorApplication
+      - Activate Spring profile `local,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   3. S3IntegrationApplication
+      - Activate Spring profile `local,no-security`
+      - Add Environment values from `stack/local-docker.env`
+   4. TaskListApplication
+      - Activate Spring profile `local,no-ldap,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   5. DigiwfCosysApplication
+      - Activate Spring profile `local,streaming`
+      - Add Environment values from `stack/local-docker.env`
+2. Test the functionality with process [Example Cosys GenerateDocument (Streaming)](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/cosys-integration)
 

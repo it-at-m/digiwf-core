@@ -40,8 +40,13 @@
 - engine
     - upgrade dms interface
     - added example-processes
-- digiwf-cosys-integration
+- digiwf-integrations
+  - digiwf-cosys-integration
     - error handling added
+  - created digiwf-example-integration to show how to implement a new integration
+- digiwf-libs
+  - created digiwf-message
+  - created digiwf-integration-lib
 
 ### Fixed
 

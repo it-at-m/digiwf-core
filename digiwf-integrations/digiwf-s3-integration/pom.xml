@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>digiwf-s3-integration</artifactId>
-    <version>0.17.17-SNAPSHOT</version>
+    <version>0.18.0-SNAPSHOT</version>
     <name>digiwf-s3-integration</name>
     <packaging>pom</packaging>
     <description>S3 integration used by DigiWF</description>
@@ -13,43 +13,16 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-integrations</artifactId>
-        <version>0.17.17-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <minio.version>8.5.2</minio.version>
-        <commons-collections4.version>4.4</commons-collections4.version>
-    </properties>
 
     <modules>
         <module>digiwf-s3-integration-core</module>
         <module>digiwf-s3-integration-starter</module>
         <module>digiwf-s3-integration-client</module>
         <module>digiwf-s3-integration-client-starter</module>
-        <module>digiwf-s3-integration-example</module>
         <module>digiwf-s3-integration-client-example</module>
         <module>digiwf-s3-integration-service</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>${minio.version}</version>
-        </dependency>
-
-        <!-- Spring Cloud Stream -->
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!--apache-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>${commons-collections4.version}</version>
-        </dependency>
-    </dependencies>
 </project>

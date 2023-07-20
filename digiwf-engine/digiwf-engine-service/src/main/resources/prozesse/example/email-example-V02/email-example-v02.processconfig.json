@@ -1,0 +1,34 @@
+{
+  "key": "email-example-V02_3fe75308-ab8c-410d-a09b-2b4b856c15fd",
+  "statusConfig": [
+    {
+      "key": "Offen",
+      "label": "Offen",
+      "position": 1
+    },
+    {
+      "key": "inBear",
+      "label": "In Bearbeitung",
+      "position": 2
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Abgeschlossen",
+      "position": 3
+    }
+  ],
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": "test"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "test"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "email-example-V02_sendMail"
+    }
+  ]
+}

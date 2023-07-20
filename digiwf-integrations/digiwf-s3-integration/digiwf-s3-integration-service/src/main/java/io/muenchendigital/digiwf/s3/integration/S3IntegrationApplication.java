@@ -18,10 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class S3IntegrationApplication {
 
-
-    public static void main(String[] args) {
-        SpringApplication.run(S3IntegrationApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(S3IntegrationApplication.class, args);
+  }
 
 }

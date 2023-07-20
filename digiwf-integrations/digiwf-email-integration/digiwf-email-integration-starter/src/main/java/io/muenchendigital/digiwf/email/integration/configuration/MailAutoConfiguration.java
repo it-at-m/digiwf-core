@@ -1,38 +1,40 @@
 package io.muenchendigital.digiwf.email.integration.configuration;
 
-import io.muenchendigital.digiwf.email.integration.domain.service.MailingService;
-import io.muenchendigital.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.muenchendigital.digiwf.email.integration.adapter.in.MessageProcessor;
+import io.muenchendigital.digiwf.email.integration.adapter.out.ProcessAdapter;
+import io.muenchendigital.digiwf.email.integration.adapter.out.S3Adapter;
+import io.muenchendigital.digiwf.email.integration.application.port.in.SendMail;
+import io.muenchendigital.digiwf.email.integration.application.port.out.CorrelateMessagePort;
+import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import io.muenchendigital.digiwf.email.integration.application.usecase.SendMailUseCase;
+import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
+import io.muenchendigital.digiwf.email.integration.model.Mail;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
+import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.function.context.MessageRoutingCallback;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.messaging.Message;
 
 import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
+import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
-@AutoConfigureAfter({S3IntegrationClientAutoConfiguration.class})
-@AutoConfigureBefore({StreamingConfiguration.class})
-@ComponentScan(basePackages = {"io.muenchendigital.digiwf.email.integration"})
-@EnableConfigurationProperties({MailProperties.class, CustomMailProperties.class})
+@EnableConfigurationProperties({MailProperties.class, CustomMailProperties.class, MetricsProperties.class})
 public class MailAutoConfiguration {
 
     private final MailProperties mailProperties;
     private final CustomMailProperties customMailProperties;
-    private final MailConfiguration mailConfiguration;
-    public static final String TYPE_HEADER_SEND_MAIL_FROM_EVENT_BUS = "sendMailFromEventBus";
+    private final MetricsProperties metricsProperties;
 
     /**
      * Configures the {@link JavaMailSender}
@@ -42,39 +44,57 @@ public class MailAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public JavaMailSender getJavaMailSender() throws MessagingException {
-        return mailConfiguration.getJavaMailSender(
-                this.mailProperties.getHost(),
-                this.mailProperties.getPort(),
-                this.mailProperties.getProtocol(),
-                this.mailProperties.getUsername(),
-                this.mailProperties.getPassword(),
-                this.mailProperties.getProperties()
-        );
+        final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(this.mailProperties.getHost());
+        mailSender.setPort(this.mailProperties.getPort());
+        mailSender.setProtocol(this.mailProperties.getProtocol());
+        mailSender.setUsername(this.mailProperties.getUsername());
+        mailSender.setPassword(this.mailProperties.getPassword());
+
+        final Properties props = mailSender.getJavaMailProperties();
+        props.putAll(this.mailProperties.getProperties());
+        mailSender.setJavaMailProperties(props);
+        mailSender.testConnection();
+        return mailSender;
     }
 
     /**
-     * Configures the {@link MailingService}
+     * Configures the {@link SendMail} use case.
      *
-     * @param javaMailSender                the configured JavaMailSender
-     * @param documentStorageFileRepository a documentStorageFileRepository from the S3 library
-     * @return configured MailingService
+     * @param javaMailSender       JavaMailSender
+     * @param loadAttachmentPort   LoadMailAttachmentPort
+     * @param correlateMessagePort CorrelateMessagePort
+     * @return configured SendMail use case
      */
     @Bean
     @ConditionalOnMissingBean
-    public MailingService getMailingService(final JavaMailSender javaMailSender, final DocumentStorageFileRepository documentStorageFileRepository) {
-        return new MailingService(javaMailSender, customMailProperties.getFromAddress());
+    public SendMail getSendMailUseCase(final JavaMailSender javaMailSender, final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort) {
+        return new SendMailUseCase(javaMailSender, loadAttachmentPort, correlateMessagePort, this.customMailProperties.getFromAddress());
     }
 
-    /**
-     * Override the custom router of the digiwf-spring-cloudstream-utils. We only have one type we need to map.
-     *
-     * @return the custom router
-     */
     @Bean
     @ConditionalOnMissingBean
-    public MessageRoutingCallback getEventBusRouter() {
-        final Map<String, String> typeMappings = new HashMap<>();
-        typeMappings.put(TYPE_HEADER_SEND_MAIL_FROM_EVENT_BUS, TYPE_HEADER_SEND_MAIL_FROM_EVENT_BUS);
-        return new RoutingCallback(typeMappings);
+    public MonitoringService getMonitoringService(final MeterRegistry meterRegistry) {
+        return new MonitoringService(meterRegistry, this.metricsProperties.getTotalMailCounterName(), this.metricsProperties.getFailureCounterName());
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CorrelateMessagePort getCorrelateMessagePort(final ProcessApi processApi) {
+        return new ProcessAdapter(processApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LoadMailAttachmentPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository) {
+        return new S3Adapter(s3FileTransferRepository);
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public Consumer<Message<Mail>> emailMessageProcessor(final ErrorApi errorApi, final SendMail mailUseCase, final MonitoringService monitoringService) {
+        final MessageProcessor messageProcessor = new MessageProcessor(errorApi, mailUseCase, monitoringService);
+        return messageProcessor.emailIntegration();
+    }
+
 }

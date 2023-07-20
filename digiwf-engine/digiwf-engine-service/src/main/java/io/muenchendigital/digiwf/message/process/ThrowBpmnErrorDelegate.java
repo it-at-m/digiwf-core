@@ -24,10 +24,15 @@ public class ThrowBpmnErrorDelegate implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution delegateExecution) throws Exception {
+        final String errorCode = ERROR_CODE.from(delegateExecution).getOrDefault(ERROR_CODE_UNKNOWN);
+        final String errorMsg = ERROR_MESSAGE.from(delegateExecution).getOrNull();
         log.info("Throwing bpmn error for instance {}: {} - {}",
                 delegateExecution.getProcessInstanceId(),
-                ERROR_CODE.from(delegateExecution).get(),
-                ERROR_MESSAGE.from(delegateExecution).get());
-        throw new BpmnError(ERROR_CODE.from(delegateExecution).getOrDefault(ERROR_CODE_UNKNOWN));
+                errorCode,
+                errorMsg);
+        if (errorMsg != null) {
+            throw new BpmnError(errorCode, errorMsg);
+        }
+        throw new BpmnError(errorCode);
     }
 }

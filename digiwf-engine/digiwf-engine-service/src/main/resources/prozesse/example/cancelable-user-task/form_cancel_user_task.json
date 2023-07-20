@@ -1,0 +1,42 @@
+{
+  "key": "FeatureCancelUserTask_Task",
+  "description": "Das ist meine Formularbeschreibung",
+  "authorizedGroups": null,
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": true,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Daten",
+      "schema": [
+        {
+          "key": "FormField_Eingabe",
+          "label": "Eingabe",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "defaultValueField": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "12",
+          "prependIcon": "",
+          "rows": "4",
+          "multiple": false,
+          "description": "",
+          "rules": [],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

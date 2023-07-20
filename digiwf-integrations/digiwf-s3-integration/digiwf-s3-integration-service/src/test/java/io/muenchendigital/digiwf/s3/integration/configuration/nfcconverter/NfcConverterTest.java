@@ -72,10 +72,7 @@ public class NfcConverterTest {
     @Mock
     private FilterChain chain;
 
-    @Mock
-    private FilterConfig config;
-
-    private NfcRequestFilter filter = new NfcRequestFilter();
+    private final NfcRequestFilter filter = new NfcRequestFilter();
 
     //
     // Test, das Request mit konfigriertem ContentType auf NFC normalisiert wird.
@@ -175,8 +172,7 @@ public class NfcConverterTest {
         Mockito.when(part.getInputStream()).thenReturn(new ByteArrayInputStream(VALUE_NFD.getBytes(UTF8)));
         List<Part> baseListParts = new ArrayList<>();
         baseListParts.add(part);
-        final UnmodifiableList<Part> parts = new UnmodifiableList(baseListParts);
-        return parts;
+        return new UnmodifiableList<>(baseListParts);
     }
 
 }

@@ -6,18 +6,17 @@
 
     <name>digiwf-email-integration</name>
     <artifactId>digiwf-email-integration</artifactId>
-    <version>0.17.17-SNAPSHOT</version>
+    <version>0.18.0-SNAPSHOT</version>
     <description>E-Mail integration used by DigiWF</description>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-integrations</artifactId>
-        <version>0.17.17-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <digiwf.spring.cloudstream.utils.version>0.10.0</digiwf.spring.cloudstream.utils.version>
         <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>

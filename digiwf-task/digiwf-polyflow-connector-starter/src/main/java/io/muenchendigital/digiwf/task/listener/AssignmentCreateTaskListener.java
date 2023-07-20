@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
-import static io.muenchendigital.digiwf.task.TaskVariables.*;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_GROUPS;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_USERS;
 
 /**
  * Task listener responsible for shadowing assignment information from task into process variables and deleting it from task attributes.

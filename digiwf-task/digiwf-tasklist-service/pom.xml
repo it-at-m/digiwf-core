@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>0.17.17-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -295,7 +295,8 @@
                             <inputSpec>${project.basedir}/src/main/api/openapi.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <removeOperationIdPrefix>true</removeOperationIdPrefix>
-                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore
+                            </ignoreFileOverride>
                             <library>spring-boot</library>
                             <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <modelNameSuffix>TO</modelNameSuffix>
