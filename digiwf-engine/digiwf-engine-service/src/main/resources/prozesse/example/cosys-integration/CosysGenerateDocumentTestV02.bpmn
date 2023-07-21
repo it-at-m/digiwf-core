@@ -7,9 +7,16 @@
     <bpmn:intermediateThrowEvent id="Event_0b9z9pp">
       <bpmn:incoming>Flow_0nfaoa0</bpmn:incoming>
     </bpmn:intermediateThrowEvent>
-    <bpmn:userTask id="Activity_1eghwfu" name="Input data" camunda:assignee="${starterOfInstance}">
+    <bpmn:userTask id="Activity_1eghwfu" name="Input data" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">e6124631-028d-45e4-b858-be6f41d3c732</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -42,9 +49,15 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
       <bpmn:outgoing>Flow_13giv8f</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_0nfaoa0" sourceRef="Activity_16d89ab" targetRef="Event_0b9z9pp" />
-    <bpmn:userTask id="Activity_16d89ab" name="Check cosys document" camunda:assignee="${starterOfInstance}">
+    <bpmn:userTask id="Activity_16d89ab" name="Check cosys document" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
           <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">421fc9f0-2d3f-4254-9aad-278164b639f0</camunda:inputParameter>
         </camunda:inputOutput>

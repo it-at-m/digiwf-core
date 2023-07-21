@@ -7,13 +7,12 @@
     <name>digiwf-camunda-connector-service</name>
 
     <properties>
-        <logstash.encoder>7.3</logstash.encoder>
     </properties>
 
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>0.17.11-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -56,7 +55,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash.encoder}</version>
         </dependency>
 
         <!-- database -->

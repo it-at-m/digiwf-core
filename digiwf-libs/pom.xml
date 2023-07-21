@@ -11,13 +11,15 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.17.11-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <modules>
         <module>digiwf-json-serialization</module>
         <module>digiwf-spring-cloudstream-utils</module>
         <module>digiwf-camunda-prometheus</module>
+        <module>digiwf-message</module>
+        <module>digiwf-spring-security</module>
     </modules>
 
 </project>

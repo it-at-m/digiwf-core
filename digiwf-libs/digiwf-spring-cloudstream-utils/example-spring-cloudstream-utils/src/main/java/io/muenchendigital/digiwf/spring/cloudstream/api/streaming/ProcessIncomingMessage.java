@@ -9,9 +9,11 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Component
+@Deprecated
 public class ProcessIncomingMessage {
 
     @Bean
+    @Deprecated
     public Consumer<Message<Object>> processMessage() {
         return message -> log.info(message.toString());
     }

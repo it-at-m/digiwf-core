@@ -14,6 +14,7 @@ import java.util.List;
 public interface ServiceDefinitionApiMapper {
 
     List<ServiceDefinitionTO> map2TO(List<ServiceDefinition> list);
+    ServiceDefinitionTO map2TO(ServiceDefinition definition);
 
     ServiceDefinitionDetailTO map2TO(ServiceDefinitionDetail obj);
 

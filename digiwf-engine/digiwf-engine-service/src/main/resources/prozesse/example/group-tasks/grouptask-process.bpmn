@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_1h30sgr">
+    <bpmn:participant id="Participant_0sc4hu1" name="Group task process" processRef="Grouptask-Example" />
+  </bpmn:collaboration>
   <bpmn:process id="Grouptask-Example" name="Example Grouptask" isExecutable="true">
-    <bpmn:startEvent id="Start" name="Start" camunda:formKey="start-form-grouptask">
-      <bpmn:outgoing>Flow_1fbmdks</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1fbmdks" sourceRef="Start" targetRef="Task_GroupUserTask" />
     <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:candidateGroups="${FORMFIELD_group}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -13,36 +12,78 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1fbmdks</bpmn:incoming>
       <bpmn:outgoing>Flow_1uh0l8y</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:loopCardinality>${FORMFIELD_NumberOfTasks}</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_17q2n00" name="End">
+    <bpmn:startEvent id="Start" name="Started" camunda:formKey="start-form-grouptask">
+      <bpmn:outgoing>Flow_1fbmdks</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="End_completed" name="Ended">
       <bpmn:incoming>Flow_1uh0l8y</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1uh0l8y" sourceRef="Task_GroupUserTask" targetRef="Event_17q2n00" />
+    <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
+      <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
+        <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1hzdam7">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1H</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:endEvent id="End_terminated" name="Terminated">
+        <bpmn:incoming>Flow_1tpc9wl</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1fbmdks" sourceRef="Start" targetRef="Task_GroupUserTask" />
+    <bpmn:sequenceFlow id="Flow_1uh0l8y" sourceRef="Task_GroupUserTask" targetRef="End_completed" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test-prozess">
-    <bpmndi:BPMNPlane id="BPMNPlane_test-prozess" bpmnElement="Grouptask-Example">
-      <bpmndi:BPMNShape id="Event_1acjyv3_di" bpmnElement="Start">
-        <dc:Bounds x="152" y="102" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="159" y="145" width="24" height="14" />
-        </bpmndi:BPMNLabel>
+    <bpmndi:BPMNPlane id="BPMNPlane_test-prozess" bpmnElement="Collaboration_1h30sgr">
+      <bpmndi:BPMNShape id="Participant_0sc4hu1_di" bpmnElement="Participant_0sc4hu1" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="458" height="290" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0rfuy9l_di" bpmnElement="Task_GroupUserTask">
         <dc:Bounds x="350" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="Event_17q2n00">
-        <dc:Bounds x="562" y="102" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_1acjyv3_di" bpmnElement="Start">
+        <dc:Bounds x="252" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="571" y="145" width="19" height="14" />
+          <dc:Bounds x="254" y="145" width="36" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="End_completed">
+        <dc:Bounds x="512" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="515" y="145" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
+        <dc:Bounds x="252" y="180" width="283" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dekx0j_di" bpmnElement="End_terminated">
+        <dc:Bounds x="452" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="443" y="255" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1v0winq_di" bpmnElement="Event_1v0winq">
+        <dc:Bounds x="312" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="296" y="255" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
+        <di:waypoint x="348" y="230" />
+        <di:waypoint x="452" y="230" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1fbmdks_di" bpmnElement="Flow_1fbmdks">
-        <di:waypoint x="188" y="120" />
+        <di:waypoint x="288" y="120" />
         <di:waypoint x="350" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1uh0l8y_di" bpmnElement="Flow_1uh0l8y">
         <di:waypoint x="450" y="120" />
-        <di:waypoint x="562" y="120" />
+        <di:waypoint x="512" y="120" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -44,7 +44,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn("flash.gordon");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn("flash.gordon");
         DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
         UserService userService = Mockito.mock(UserService.class);
         MailingService mailingService = Mockito.mock(MailingService.class);
@@ -67,7 +67,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(username);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
@@ -98,7 +98,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(username);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink = Mockito.mock(IdentityLink.class);
         when(identityLink.getUserId()).thenReturn(candidateName);
@@ -139,7 +139,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("false");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getUserId()).thenReturn(candidateName1);
@@ -205,7 +205,7 @@ public class UserTaskNotificationListenerV02Test {
         Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);
@@ -250,7 +250,7 @@ public class UserTaskNotificationListenerV02Test {
 //        Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("true");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("false");
 //        Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(userName1);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(userName1);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);
@@ -300,7 +300,7 @@ public class UserTaskNotificationListenerV02Test {
 //        Mockito.when(task.getVariable("app_notification_send_assignee")).thenReturn("false");
         Mockito.when(task.getVariable("app_notification_send_candidate_users")).thenReturn("true");
 //        Mockito.when(task.getVariable("app_notification_send_candidate_groups")).thenReturn("true");
-        when(task.getAssignee()).thenReturn(null);
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getGroupId()).thenReturn(groupName1);

@@ -1,26 +1,27 @@
 package io.muenchendigital.digiwf.s3.integration.configuration;
 
 import io.minio.MinioClient;
-import io.muenchendigital.digiwf.s3.integration.api.mapper.PresignedUrlMapper;
-import io.muenchendigital.digiwf.s3.integration.api.streaming.MessageProcessor;
-import io.muenchendigital.digiwf.s3.integration.api.streaming.events.CreatePresignedUrlEvent;
-import io.muenchendigital.digiwf.s3.integration.domain.service.FileHandlingService;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.exception.S3AccessException;
-import io.muenchendigital.digiwf.s3.integration.infrastructure.repository.S3Repository;
+import io.muenchendigital.digiwf.message.process.api.ErrorApi;
+import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import io.muenchendigital.digiwf.s3.integration.adapter.in.streaming.MessageProcessor;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.integration.IntegrationOutAdapter;
+import io.muenchendigital.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
+import io.muenchendigital.digiwf.s3.integration.application.CreatePresignedUrlsUseCase;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
+import io.muenchendigital.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import io.muenchendigital.digiwf.s3.integration.application.port.out.IntegrationOutPort;
+import io.muenchendigital.digiwf.s3.integration.application.FileOperationsUseCase;
+import io.muenchendigital.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import io.muenchendigital.digiwf.s3.integration.properties.S3IntegrationProperties;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.messaging.Message;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 
 @RequiredArgsConstructor
@@ -30,35 +31,46 @@ import java.util.function.Consumer;
 @EnableConfigurationProperties(S3IntegrationProperties.class)
 public class S3IntegrationAutoConfiguration {
 
-    public final S3IntegrationProperties s3IntegrationProperties;
+  public final S3IntegrationProperties s3IntegrationProperties;
 
-    @Bean
-    public S3Repository s3Repository() throws S3AccessException {
-        final MinioClient minioClient = MinioClient.builder()
-                .endpoint(this.s3IntegrationProperties.getUrl())
-                .credentials(this.s3IntegrationProperties.getAccessKey(), this.s3IntegrationProperties.getSecretKey())
-                .build();
-        return new S3Repository(
-                this.s3IntegrationProperties.getBucketName(),
-                this.s3IntegrationProperties.getUrl(),
-                minioClient,
-                BooleanUtils.isNotFalse(this.s3IntegrationProperties.getInitialConnectionTest()),
-                this.s3IntegrationProperties.getProxyEnabled() ? Optional.of(this.s3IntegrationProperties.getProxyUrl()) : Optional.empty()
-        );
-    }
+  @Bean
+  public S3Repository s3Repository() throws FileSystemAccessException {
+    final MinioClient minioClient = MinioClient.builder()
+        .endpoint(this.s3IntegrationProperties.getUrl())
+        .credentials(this.s3IntegrationProperties.getAccessKey(), this.s3IntegrationProperties.getSecretKey())
+        .build();
+    return new S3Repository(
+        this.s3IntegrationProperties.getBucketName(),
+        this.s3IntegrationProperties.getUrl(),
+        minioClient,
+        BooleanUtils.isNotFalse(this.s3IntegrationProperties.getInitialConnectionTest()),
+        this.s3IntegrationProperties.getProxyEnabled() ? Optional.of(this.s3IntegrationProperties.getProxyUrl()) : Optional.empty()
+    );
+  }
 
-    @Bean
-    public MessageProcessor presignedUrlEventListener(
-            final CorrelateMessageService correlateMessageService,
-            final FileHandlingService fileHandlingService,
-            final PresignedUrlMapper presignedUrlMapper
-    ) {
-        return new MessageProcessor(correlateMessageService, fileHandlingService, presignedUrlMapper, this.s3IntegrationProperties.getPresignedUrlExpiresInMinutes());
-    }
+  @Bean
+  public MessageProcessor presignedUrlEventListener(
+      CreatePresignedUrlsInPort createPresignedUrlsInPort,
+      IntegrationOutPort integrationOutPort,
+      PresignedUrlMapper presignedUrlsMapper
+  ) {
+    return new MessageProcessor(
+        createPresignedUrlsInPort,
+        integrationOutPort,
+        presignedUrlsMapper
+    );
+  }
 
-    @Bean
-    public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final MessageProcessor messageProcessor) {
-        return messageProcessor.createPresignedUrl();
-    }
+  @Bean
+  public CreatePresignedUrlsInPort createPresignedUrlsInPort(FileOperationsUseCase fileHandlingService) {
+    return new CreatePresignedUrlsUseCase(
+        fileHandlingService,
+        this.s3IntegrationProperties.getPresignedUrlExpiresInMinutes()
+    );
+  }
 
+  @Bean
+  public IntegrationOutPort integration(ProcessApi processApi, ErrorApi errorApi) {
+    return new IntegrationOutAdapter(processApi, errorApi);
+  }
 }

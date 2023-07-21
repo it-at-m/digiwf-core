@@ -1,0 +1,74 @@
+{
+  "name": "Example Integration",
+  "id": "de.muenchen.digitalwf.templates.example-integration",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "editable": false,
+      "value": "digiwf-example-integration-local-01",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "exampleIntegration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Some data",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "name": "someData",
+        "target": "someData"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ]
+}

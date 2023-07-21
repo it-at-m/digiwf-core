@@ -1,5 +1,7 @@
 package io.muenchendigital.digiwf.cosys.integration.domain.model;
 
+import io.muenchendigital.digiwf.cosys.integration.model.DocumentStorageUrl;
+import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

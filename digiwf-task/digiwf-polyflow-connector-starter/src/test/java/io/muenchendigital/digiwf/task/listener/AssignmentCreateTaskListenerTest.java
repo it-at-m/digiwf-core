@@ -2,13 +2,18 @@ package io.muenchendigital.digiwf.task.listener;
 
 import io.muenchendigital.digiwf.task.TaskManagementProperties;
 import org.assertj.core.util.Lists;
+import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
+import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.community.mockito.delegate.DelegateTaskFake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static io.muenchendigital.digiwf.task.TaskVariables.*;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_GROUPS;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_USERS;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class AssignmentCreateTaskListenerTest {
@@ -26,7 +31,6 @@ class AssignmentCreateTaskListenerTest {
     delegateTask.addCandidateUser("candidateUser1");
     delegateTask.addCandidateUser("candidateUser2");
   }
-
 
   @Test
   public void is_disabled_by_properties() {
@@ -85,6 +89,20 @@ class AssignmentCreateTaskListenerTest {
     assertThat(delegateTask.getAssignee()).isNull();
     assertThat(DelegateTaskFake.candidateUserIds(delegateTask)).isEmpty();
     assertThat(DelegateTaskFake.candidateGroupIds(delegateTask)).isEmpty();
+  }
+
+  @Test
+  public void sets_empty_assigne_to_null_with_empty_assignee() {
+    when(properties.isShadow()).thenReturn(true);
+    when(properties.isLocal()).thenReturn(true);
+    delegateTask.setAssignee("");
+
+    assignmentCreateTaskListener.taskCreated(delegateTask);
+
+    assertThat(delegateTask.getVariablesLocal()).containsEntry(TASK_ASSIGNEE.getName(), null);
+
+    assertThat(delegateTask.getAssignee()).isEqualTo("");
+
   }
 
 }
