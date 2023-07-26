@@ -4,6 +4,8 @@ import io.muenchendigital.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import io.muenchendigital.digiwf.s3.integration.client.exception.PropertyNotSetException;
+import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import io.muenchendigital.digiwf.s3.integration.example.client.controller.dto.FileActionDto;
 import io.muenchendigital.digiwf.s3.integration.example.client.controller.dto.PresignedUrlDto;
@@ -14,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.UUID;
 
 /**
  * Example controller to test the asyncapi endpoint that creates presigned urls
@@ -31,7 +33,7 @@ public class PresignedUrlController {
 
   private final MessageApi messageApi;
   private final S3FileTransferRepository s3FileTransferRepository;
-
+  private final PresignedUrlRepository presignedUrlRepository;
 
   /**
    * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
@@ -73,6 +75,30 @@ public class PresignedUrlController {
     } else if (fileActionDto.getAction().equalsIgnoreCase("PUT")) {
       this.s3FileTransferRepository.updateFile(fileActionDto.getPresignedUrl(), binaryFile);
     }
+  }
+
+  /**
+   * Example on how to use the sync api to upload a file
+   *
+   * @throws IOException
+   * @throws DocumentStorageException
+   * @throws PropertyNotSetException
+   * @throws DocumentStorageClientErrorException
+   * @throws DocumentStorageServerErrorException
+   */
+  @GetMapping("/sync")
+  @ResponseStatus(HttpStatus.OK)
+  public void uploadFileSync() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+    final String pathToFile = "s3-sync-test/" + UUID.randomUUID().toString() + "/cat.jpg";
+
+    final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
+    final InputStream inputStream = new FileInputStream(file);
+
+    final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null);
+    // Example on how to use a custom s3 integration
+    // final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, "http://your-s3-integration");
+    this.s3FileTransferRepository.saveFileInputStream(presignedUrl, inputStream);
+    log.info("File saved.");
   }
 
 }
