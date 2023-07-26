@@ -17,5 +17,4 @@ jobs:
         with:
           policy: GeekMasher/security-queries
           policy-path: policies/default.yml
-          branch: ${ GITHUB_HEAD_REF }
           argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
