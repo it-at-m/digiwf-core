@@ -200,17 +200,17 @@
 
         <!-- DigiWF task -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-polyflow-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-task-itest</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-tasklist-service</artifactId>
             <version>${project.version}</version>
         </dependency>
