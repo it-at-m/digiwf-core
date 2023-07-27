@@ -33,6 +33,9 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
             } else if (action == PresignedUrlAction.POST) {
                 actionString = "uploading";
                 return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, null, documentStorageUrl);
+            } else if (action == PresignedUrlAction.PUT) {
+                actionString = "updating";
+                return this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, null, documentStorageUrl);
             } else if (action == PresignedUrlAction.DELETE) {
                 actionString = "deleting";
                 return this.presignedUrlRepository.getPresignedUrlDeleteFile(pathToFile, expireInMinutes, documentStorageUrl);
@@ -42,9 +45,6 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
             }
         } catch (final Exception ex) {
             log.error("Getting presigned url for %s file {} failed: {}", actionString, pathToFile, ex);
-            if (ex.getMessage().contains("No handler specified for action")){
-                throw new RuntimeException(ex.getMessage());
-            }
             if (action == PresignedUrlAction.POST && ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {
                 throw new ConflictingResourceException(String.format("Getting presigned url for " + actionString + " file " + pathToFile + " failed"));
             }

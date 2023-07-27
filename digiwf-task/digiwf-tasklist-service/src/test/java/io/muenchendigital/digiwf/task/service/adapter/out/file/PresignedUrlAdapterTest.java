@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 import reactor.core.publisher.Mono;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -61,17 +62,13 @@ class PresignedUrlAdapterTest {
     }
 
     @Test
-    void getPresignedUrlWithPUT() {
+    void getPresignedUrlWithPUT() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+        when(presignedUrlRepository.getPresignedUrlUpdateFile(anyString(), anyInt(), any(), anyString())).thenReturn("Presigned URL for update");
+        String presignedUrl = presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.PUT);
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.PUT);
-        });
-
-        String expectedMessage = "No handler specified for action";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
+        assertEquals("Presigned URL for update", presignedUrl);
+        verify(presignedUrlRepository).getPresignedUrlUpdateFile("path", 1, null, "storageURL");
+        verifyNoMoreInteractions(presignedUrlRepository);
     }
 
     @Test

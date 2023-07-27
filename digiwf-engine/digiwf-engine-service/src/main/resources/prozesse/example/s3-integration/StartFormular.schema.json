@@ -59,6 +59,44 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "FormField_EmailTopic": {
+                "fieldType": "text",
+                "title": "Email Topic",
+                "type": "string",
+                "key": "FormField_EmailTopic",
+                "default": "dwf-email-local-01",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_CosysTopic": {
+                "fieldType": "text",
+                "title": "Cosys Topic",
+                "type": "string",
+                "key": "FormField_CosysTopic",
+                "default": "dwf-cosys-local-01",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
               }
             },
             "key": "f393458d-db10-41ec-96e6-40e6a905093f"
