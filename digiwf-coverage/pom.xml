@@ -48,7 +48,7 @@
 
         <!-- digiwf-engine -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-engine-service</artifactId>
             <version>${project.version}</version>
         </dependency>
