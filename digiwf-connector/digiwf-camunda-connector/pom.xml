@@ -45,10 +45,10 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-json-serialization-core</artifactId>
-            <version>${project.version}</version>
+            <version>0.17.18</version>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-connector-core</artifactId>
             <version>${project.version}</version>
         </dependency>
