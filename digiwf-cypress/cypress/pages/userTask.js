@@ -18,7 +18,7 @@ class UserTask extends Page{
         this.elements.abschliessenButton().should('be.visible');
         cy.intercept({
             method: 'GET',
-            url: '/api/digitalwf-tasklist-service/rest/tasks/user',
+            url: '/api/digitalwf-tasklist-service/rest/tasks/*',
         }).as('dataGetTasks')
         this.elements.abschliessenButton().click()
         cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)

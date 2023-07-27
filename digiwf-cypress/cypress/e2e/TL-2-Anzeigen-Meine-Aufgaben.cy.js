@@ -3,7 +3,7 @@ import meineAufgaben from "../pages/meineAufgaben"
 import exampleUserTask from "../pages/exampleUserTask"
 import userTask from "../pages/userTask"
 
-const numberOfTasks =21
+const numberOfTasks = 21
 
 before(() => {
     cy.login()
@@ -16,8 +16,8 @@ describe('Vorgaenge Anzeigen', () => {
 
         //Step 0
         cy.log('Step 0');
-        meineAufgaben.openVorgangStarten(0,20);
-        vorgangStarten.findProcess("Example Usertask",0,20);
+        meineAufgaben.openVorgangStarten();
+        vorgangStarten.findProcess("Example Usertask");
         vorgangStarten.clickListElement("Usertask-Example");
         exampleUserTask.setNumberOfTasks(numberOfTasks);
         exampleUserTask.setUserName(Cypress.env('fullUsername'));
@@ -25,7 +25,7 @@ describe('Vorgaenge Anzeigen', () => {
 
         //Step 1
         cy.log('Step 1');
-        vorgangStarten.openMeineAufgaben(0,pageSize);
+        vorgangStarten.openMeineAufgaben();
         reloadPageUntilTasksVisible();
         meineAufgaben.getFoundTasks().should('eq',numberOfTasks);
         meineAufgaben.getElement(1).should('contain.text', 'User Task');
@@ -70,7 +70,7 @@ describe('Vorgaenge Anzeigen', () => {
         }
         meineAufgaben.getFoundTasks().then(numTasks => {
             if (numTasks != numberOfTasks) {
-                cy.wait(1)
+                cy.wait(100)
                 cy.log('iteration')
                 meineAufgaben.clickAktualisieren();
                 reloadPageUntilTasksVisible(maxAttempts, attempts+1)

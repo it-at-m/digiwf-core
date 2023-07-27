@@ -33,10 +33,10 @@ class Page{
         this.navBarAktuelleVorgaenge().click()
     }
 
-    openVorgangStarten(page,pageSize){
+    openVorgangStarten(){
         cy.intercept({
             method: 'GET',
-            url: '/api/digitalwf-backend-service/rest/service/definition?page='+page+'&size='+pageSize,
+            url: '/api/digitalwf-backend-service/rest/service/*',
         }).as('dataGetDefinitions')
         this.navBarVorgangStarten().click()
         cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
