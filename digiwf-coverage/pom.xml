@@ -55,7 +55,7 @@
 
         <!-- digiwf-gateway -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-gateway</artifactId>
             <version>${project.version}</version>
         </dependency>
