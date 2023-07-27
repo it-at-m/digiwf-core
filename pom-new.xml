@@ -32,7 +32,7 @@
     </properties>
 
     <modules>
-
+        <module>digiwf-coverage</module>
     </modules>
 
     <dependencyManagement>
