@@ -57,6 +57,7 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         }
     }
 
+    @Override
     public String getPresignedUrl(final PresignedUrlAction action, final String taskId, final String filePath, final String fileName) {
 
         this.initializeFileConfig(taskId);

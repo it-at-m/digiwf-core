@@ -2,8 +2,6 @@ package io.muenchendigital.digiwf.task.listener;
 
 import io.muenchendigital.digiwf.task.TaskManagementProperties;
 import org.assertj.core.util.Lists;
-import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
-import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.community.mockito.delegate.DelegateTaskFake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_GROUPS;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_CANDIDATE_USERS;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class AssignmentCreateTaskListenerTest {

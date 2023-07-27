@@ -230,7 +230,7 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
         return Promise.resolve<LoadTaskResult>({
           data: {
             task: taskDetails,
-            hasDownloadButton: false,
+            hasDownloadButton: taskDetails.form?.buttons?.statusPdf!.showButton || false,
             model: taskDetails.variables, // FIXME: I guess that is wrong
             followUpDate: taskDetails.followUpDate!,
             cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",

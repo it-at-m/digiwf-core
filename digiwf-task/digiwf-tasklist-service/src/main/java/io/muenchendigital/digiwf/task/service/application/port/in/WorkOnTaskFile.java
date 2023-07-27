@@ -20,7 +20,7 @@ public interface WorkOnTaskFile {
 
     /**
      * Get a presigned url to load, upload or delete a file for a specific field key and file name
-     * @param action GET, PUT or DELETE
+     * @param action GET, POST, PUT or DELETE
      * @param taskId task id
      * @param filePath filepath
      * @param fileName filename

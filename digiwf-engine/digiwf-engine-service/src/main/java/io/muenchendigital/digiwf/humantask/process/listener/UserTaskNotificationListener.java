@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
+import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
 /**
  * Notifies the associated users during the creation of a user task.
@@ -95,12 +96,13 @@ public class UserTaskNotificationListener {
     }
 
     private void notifyAssignee(final DelegateTask delegateTask) throws Exception {
-        if (StringUtils.isBlank(delegateTask.getAssignee())) {
+        String assignedUserId = TASK_ASSIGNEE.from(delegateTask).getOptional().orElseGet(delegateTask::getAssignee);
+        if (StringUtils.isBlank(assignedUserId)) {
             return;
         }
         try {
             String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
-            val address = this.getMailAddress(delegateTask.getAssignee());
+            val address = this.getMailAddress(assignedUserId);
             String body = "Sie haben eine Aufgabe in DigiWF.";
             if (!processName.isBlank()){
                 body = "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
