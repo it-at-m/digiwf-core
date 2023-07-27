@@ -15,6 +15,6 @@ jobs:
       - name: Advance Security Policy as Code
         uses: advanced-security/policy-as-code@v2.4.0
         with:
-          policy: advanced-security/policy-as-code
+          policy: GeekMasher/security-queries
           policy-path: policies/default.yml
           argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
