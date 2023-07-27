@@ -1,7 +1,6 @@
 name: check license compliance
 
 on:
-  push:
   pull_request:
     branches:
       - dev
@@ -13,11 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       # Policy as Code
-      - name: Advance Security Compliance Action
-        # We run into problems with newer version of the action. Therefore, we downgraded it to version 1.7.0
-        uses: GeekMasher/advanced-security-compliance@v1.7.0
+      - name: Advance Security Policy as Code
+        uses: advanced-security/policy-as-code@v2.3
         with:
           policy: GeekMasher/security-queries
-          policy-path: policies/default.yml
-          token: ${{ secrets.ACCESS_TOKEN }}
-          argvs: "--disable-dependabot --disable-secret-scanning --disable-code-scanning"
+          policy-path: ./policies/default.yml
+          argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
