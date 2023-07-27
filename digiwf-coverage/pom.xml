@@ -19,33 +19,6 @@
     </properties>
 
     <dependencies>
-        <!-- digiwf-connector -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-camunda-connector</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-connector-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-connector-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-connector-starter-rest</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-camunda-connector-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- digiwf-engine -->
         <dependency>
             <groupId>${project.groupId}</groupId>
