@@ -28,7 +28,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -57,7 +57,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-connector</artifactId>
             <version>${project.version}</version>
         </dependency>
