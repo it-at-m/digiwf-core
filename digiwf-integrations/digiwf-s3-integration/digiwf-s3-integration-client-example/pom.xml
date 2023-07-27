@@ -35,7 +35,7 @@
         </dependency>
         <!-- Security -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -49,7 +49,7 @@
 
         <!-- Spring Cloud Stream -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
             <version>${project.version}</version>
         </dependency>

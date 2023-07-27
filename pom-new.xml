@@ -32,7 +32,7 @@
     </properties>
 
     <modules>
-
+        <module>digiwf-libs</module>
     </modules>
 
     <dependencyManagement>
