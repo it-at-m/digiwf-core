@@ -107,7 +107,7 @@ Den `digiwf-email-integration-starter` können Sie wie folgt in Ihr Projekt einb
 ```xml
 
 <dependency>
-    <groupId>io.muenchendigital.digiwf</groupId>
+    <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-email-integration-starter</artifactId>
     <version>${digiwf.version}</version>
 </dependency>
@@ -116,7 +116,7 @@ Den `digiwf-email-integration-starter` können Sie wie folgt in Ihr Projekt einb
 **Mit gradle**
 
 ```gradle
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
 ```
 
 Machen Sie sich mit
