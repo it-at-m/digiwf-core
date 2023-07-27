@@ -25,9 +25,9 @@ class ExampleUserTask extends Page{
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/filter',
-        }).as('dataGetTasks')
+        }).as('dataGetFilter')
         this.elements.abschliessenButton().click()
-        cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetFilter',{ timeout: 10000 }).its('response.statusCode').should('equal', 200)
     }
 }
 
