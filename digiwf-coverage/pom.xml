@@ -176,7 +176,7 @@
 
         <!-- Digiwf-process -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-process-api</artifactId>
             <version>${project.version}</version>
         </dependency>
