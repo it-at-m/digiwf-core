@@ -139,37 +139,37 @@
 
         <!-- digiwf-libs -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>example-json-serialization</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>example-spring-cloudstream-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-prometheus-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-prometheus-example</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-core</artifactId>
             <version>${project.version}</version>
         </dependency>
