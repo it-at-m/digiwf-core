@@ -32,7 +32,7 @@
     </properties>
 
     <modules>
-
+        <module>digiwf-engine</module>
     </modules>
 
     <dependencyManagement>
