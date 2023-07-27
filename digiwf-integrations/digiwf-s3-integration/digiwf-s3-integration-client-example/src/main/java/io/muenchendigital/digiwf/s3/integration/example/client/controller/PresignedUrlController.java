@@ -16,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.UUID;
 
@@ -98,7 +101,6 @@ public class PresignedUrlController {
     // Example on how to use a custom s3 integration
     // final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, "http://your-s3-integration");
     this.s3FileTransferRepository.saveFileInputStream(presignedUrl, inputStream);
-    log.info("File saved.");
   }
 
 }
