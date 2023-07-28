@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.camunda.connector.configuration.DigiWFCamundaConnectorAutoConfiguration
+de.muenchen.oss.digiwf.camunda.connector.configuration.DigiWFCamundaConnectorAutoConfiguration
