@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
-import static io.muenchendigital.digiwf.task.HttpHeaders.HEADER_AUTHORIZED_USERNAME;
+import static de.muenchen.oss.digiwf.task.HttpHeaders.HEADER_AUTHORIZED_USERNAME;
 
 /**
  * Camunda Security configuration.

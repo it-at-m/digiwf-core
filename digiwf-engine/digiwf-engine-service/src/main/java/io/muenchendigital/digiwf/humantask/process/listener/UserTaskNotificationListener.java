@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
-import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
 /**
  * Notifies the associated users during the creation of a user task.

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
 @Slf4j
 @Service
