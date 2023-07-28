@@ -5,8 +5,8 @@ import io.muenchendigital.digiwf.cosys.integration.application.port.out.Generate
 import io.muenchendigital.digiwf.cosys.integration.configuration.CosysConfiguration;
 import io.muenchendigital.digiwf.cosys.integration.gen.api.GenerationApi;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

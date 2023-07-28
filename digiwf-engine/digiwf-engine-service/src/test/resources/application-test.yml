@@ -15,7 +15,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
       hbm2ddl:
-        schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
+        schema_filter_provider: de.muenchen.oss.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
     properties:
       hibernate:
         show_sql: false

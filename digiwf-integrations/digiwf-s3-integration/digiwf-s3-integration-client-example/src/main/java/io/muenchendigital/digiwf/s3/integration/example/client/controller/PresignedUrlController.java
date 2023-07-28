@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.s3.integration.example.client.controller;
 
-import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;

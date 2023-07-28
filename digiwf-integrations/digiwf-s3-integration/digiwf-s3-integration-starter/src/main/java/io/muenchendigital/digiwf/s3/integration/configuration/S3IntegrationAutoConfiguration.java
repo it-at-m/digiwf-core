@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.s3.integration.configuration;
 
 import io.minio.MinioClient;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.s3.integration.adapter.in.streaming.MessageProcessor;
 import io.muenchendigital.digiwf.s3.integration.adapter.out.integration.IntegrationOutAdapter;
 import io.muenchendigital.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;

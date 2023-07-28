@@ -2,7 +2,7 @@ package io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrast
 
 import io.muenchendigital.digiwf.connector.api.bpmnerror.BpmnErrorEvent;
 import io.muenchendigital.digiwf.connector.api.message.CorrelateMessageEvent;
-import io.muenchendigital.digiwf.process.api.StartProcessEvent;
+import de.muenchen.oss.digiwf.process.api.StartProcessEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;

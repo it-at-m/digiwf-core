@@ -472,7 +472,7 @@
                                     <goal>create</goal>
                                 </goals>
                                 <configuration>
-                                    <dialect>io.muenchendigital.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect</dialect>
+                                    <dialect>de.muenchen.oss.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect</dialect>
                                     <physicalNamingStrategy>org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</physicalNamingStrategy>
                                     <execute>false</execute>
                                     <show>true</show>

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-// FIXME -> Hard copy of "io.muenchendigital.digiwf.engine.mapper.EngineDataMapper" from digiwf-engine-service
+// FIXME -> Hard copy of "de.muenchen.oss.digiwf.engine.mapper.EngineDataMapper" from digiwf-engine-service
 @Component
 @RequiredArgsConstructor
 public class EngineDataMapper {

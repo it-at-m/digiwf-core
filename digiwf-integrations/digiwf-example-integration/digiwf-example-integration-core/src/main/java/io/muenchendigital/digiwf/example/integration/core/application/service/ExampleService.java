@@ -2,7 +2,7 @@ package io.muenchendigital.digiwf.example.integration.core.application.service;
 
 import io.muenchendigital.digiwf.example.integration.core.application.in.ExampleUseCase;
 import io.muenchendigital.digiwf.example.integration.core.domain.ExampleModel;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

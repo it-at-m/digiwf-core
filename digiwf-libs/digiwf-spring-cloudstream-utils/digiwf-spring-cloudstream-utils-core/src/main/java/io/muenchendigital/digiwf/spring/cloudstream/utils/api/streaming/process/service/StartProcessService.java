@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.process.service;
 
-import io.muenchendigital.digiwf.process.api.StartProcessEvent;
+import de.muenchen.oss.digiwf.process.api.StartProcessEvent;
 import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.StreamingHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

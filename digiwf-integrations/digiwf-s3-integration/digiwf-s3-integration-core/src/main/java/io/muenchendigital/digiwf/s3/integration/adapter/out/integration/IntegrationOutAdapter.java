@@ -1,10 +1,10 @@
 package io.muenchendigital.digiwf.s3.integration.adapter.out.integration;
 
-import io.muenchendigital.digiwf.message.common.MessageConstants;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import io.muenchendigital.digiwf.s3.integration.application.port.out.IntegrationOutPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.map.HashedMap;

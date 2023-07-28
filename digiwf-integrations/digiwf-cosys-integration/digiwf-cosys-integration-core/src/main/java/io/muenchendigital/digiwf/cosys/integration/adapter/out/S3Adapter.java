@@ -3,7 +3,7 @@ package io.muenchendigital.digiwf.cosys.integration.adapter.out;
 import io.muenchendigital.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
 import io.muenchendigital.digiwf.cosys.integration.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
