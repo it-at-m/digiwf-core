@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(
-    prefix = "io.muenchendigital.digiwf.s3.cronjob.cleanup",
+    prefix = "de.muenchen.oss.digiwf.s3.cronjob.cleanup",
     name = {
         "expired-files",
         "unused-files"
