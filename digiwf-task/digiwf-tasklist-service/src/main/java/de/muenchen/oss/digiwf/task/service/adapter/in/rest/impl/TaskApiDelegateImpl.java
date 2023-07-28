@@ -4,7 +4,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnUserTask;
 import de.muenchen.oss.digiwf.task.service.application.port.in.rest.api.TaskApiDelegate;
 import de.muenchen.oss.digiwf.task.service.adapter.in.rest.mapper.TaskMapper;
 import de.muenchen.oss.digiwf.task.service.application.port.in.rest.model.*;
-import io.muenchendigital.digiwf.task.service.application.port.in.rest.model.*;
+import de.muenchen.oss.digiwf.task.service.application.port.in.rest.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

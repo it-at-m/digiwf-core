@@ -7,7 +7,7 @@ import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import de.muenchen.oss.digiwf.task.service.domain.PageOfTasksWithSchema;
 import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.task.service.application.port.in.rest.model.*;
+import de.muenchen.oss.digiwf.task.service.application.port.in.rest.model.*;
 import lombok.val;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

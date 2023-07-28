@@ -11,7 +11,6 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUser
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskNotFoundException;
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
-import io.muenchendigital.digiwf.task.service.application.port.out.schema.*;
 import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import de.muenchen.oss.digiwf.task.service.domain.JsonSchemaValidationException;
 import de.muenchen.oss.digiwf.task.service.domain.TaskWithSchema;
