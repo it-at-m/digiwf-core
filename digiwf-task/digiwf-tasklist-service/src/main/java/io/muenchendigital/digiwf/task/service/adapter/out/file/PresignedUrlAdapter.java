@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.file;
 
-import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.PresignedUrlPort;
 import io.muenchendigital.digiwf.task.service.domain.PresignedUrlAction;
 import lombok.RequiredArgsConstructor;

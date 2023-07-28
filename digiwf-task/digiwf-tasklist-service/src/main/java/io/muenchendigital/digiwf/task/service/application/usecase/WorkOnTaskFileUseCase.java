@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnTaskFile;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.file.PresignedUrlPort;
