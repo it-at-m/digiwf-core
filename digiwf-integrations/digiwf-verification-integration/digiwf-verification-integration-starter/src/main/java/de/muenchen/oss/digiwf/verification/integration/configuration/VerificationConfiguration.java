@@ -22,7 +22,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @AutoConfigureBefore({StreamingConfiguration.class})
-@ComponentScan(basePackages = {"io.muenchendigital.digiwf.verification.integration"})
+@ComponentScan(basePackages = {"de.muenchen.oss.digiwf.verification.integration"})
 @EnableConfigurationProperties({VerificationProperties.class})
 public class VerificationConfiguration {
 

@@ -27,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = "io.muenchendigital.digiwf.s3.integration")
 @EntityScan(basePackages = "io.muenchendigital.digiwf.s3.integration")
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.s3.integration")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.s3.integration")
 @EnableConfigurationProperties(S3IntegrationProperties.class)
 public class S3IntegrationAutoConfiguration {
 

@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan(basePackages = {"io.muenchendigital.digiwf.alw.integration"})
+@ComponentScan(basePackages = {"de.muenchen.oss.digiwf.alw.integration"})
 @EnableConfigurationProperties({AlwPersoneninfoProperties.class})
 public class AlwAutoConfiguration {
 
