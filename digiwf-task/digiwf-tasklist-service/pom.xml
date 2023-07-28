@@ -12,7 +12,7 @@
     <artifactId>digiwf-tasklist-service</artifactId>
     <packaging>jar</packaging>
     <properties>
-        <rest.base-package-name>io.muenchendigital.digiwf.task.service.application.port.in.rest</rest.base-package-name>
+        <rest.base-package-name>de.muenchen.oss.digiwf.task.service.application.port.in.rest</rest.base-package-name>
         <camunda-platform-7-rest-client.version>7.18.0</camunda-platform-7-rest-client.version>
         <spin.version>1.18.1</spin.version>
         <archunit.version>1.0.1</archunit.version>
