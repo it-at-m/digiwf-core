@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.email.integration.api.controller;
 
 import io.muenchendigital.digiwf.email.integration.model.Mail;
-import io.muenchendigital.digiwf.message.common.MessageConstants;
-import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

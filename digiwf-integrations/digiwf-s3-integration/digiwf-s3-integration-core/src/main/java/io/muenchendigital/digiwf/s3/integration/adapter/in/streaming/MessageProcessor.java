@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.s3.integration.adapter.in.streaming;
 
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import io.muenchendigital.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import io.muenchendigital.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
 import io.muenchendigital.digiwf.s3.integration.application.port.in.FileSystemAccessException;
@@ -10,7 +10,6 @@ import io.muenchendigital.digiwf.s3.integration.application.port.in.FileExistenc
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 
 import javax.validation.ConstraintViolationException;

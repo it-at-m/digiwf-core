@@ -2,10 +2,10 @@ package io.muenchendigital.digiwf.example.integration.core.adapter;
 
 import io.muenchendigital.digiwf.example.integration.core.application.in.ExampleUseCase;
 import io.muenchendigital.digiwf.example.integration.core.application.out.CorrelateMessagePort;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,8 @@ import org.springframework.messaging.Message;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Configuration
 @RequiredArgsConstructor

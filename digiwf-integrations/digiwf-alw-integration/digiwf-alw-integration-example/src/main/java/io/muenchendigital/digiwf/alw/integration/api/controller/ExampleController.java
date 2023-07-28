@@ -7,7 +7,7 @@ package io.muenchendigital.digiwf.alw.integration.api.controller;
 import io.muenchendigital.digiwf.alw.integration.domain.exception.AlwException;
 import io.muenchendigital.digiwf.alw.integration.domain.model.AlwPersoneninfoRequest;
 import io.muenchendigital.digiwf.alw.integration.domain.service.AlwPersoneninfoService;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.service.PayloadSenderService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.service.PayloadSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

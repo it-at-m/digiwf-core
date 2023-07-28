@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    io.muenchendigital.digiwf.json.serialization.configuration.JsonSerializationAutoConfiguration
+    de.muenchen.oss.digiwf.json.serialization.configuration.JsonSerializationAutoConfiguration

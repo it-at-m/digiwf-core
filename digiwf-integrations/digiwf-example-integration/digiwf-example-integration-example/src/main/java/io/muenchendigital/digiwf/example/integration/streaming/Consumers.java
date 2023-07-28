@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.example.integration.streaming;
 
-import io.muenchendigital.digiwf.message.process.impl.dto.BpmnErrorDto;
-import io.muenchendigital.digiwf.message.process.impl.dto.CorrelateMessageDto;
+import de.muenchen.oss.digiwf.message.process.impl.dto.BpmnErrorDto;
+import de.muenchen.oss.digiwf.message.process.impl.dto.CorrelateMessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;

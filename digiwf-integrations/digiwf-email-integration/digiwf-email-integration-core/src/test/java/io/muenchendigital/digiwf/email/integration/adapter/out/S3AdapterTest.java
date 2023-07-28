@@ -2,7 +2,7 @@ package io.muenchendigital.digiwf.email.integration.adapter.out;
 
 import io.muenchendigital.digiwf.email.integration.model.FileAttachment;
 import io.muenchendigital.digiwf.email.integration.model.PresignedUrl;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import io.muenchendigital.digiwf.s3.integration.client.exception.DocumentStorageException;
 import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +33,7 @@ class S3AdapterTest {
         final String url = "http://localhost:3000/some-file.txt";
         final String fileContent = "This is the content of the file.";
         final PresignedUrl presignedUrl = new PresignedUrl(url, "/path/to/some-file.txt", "GET");
-        
+
         final InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
         when(s3FileTransferRepository.getFileInputStream(url)).thenReturn(inputStream);
 

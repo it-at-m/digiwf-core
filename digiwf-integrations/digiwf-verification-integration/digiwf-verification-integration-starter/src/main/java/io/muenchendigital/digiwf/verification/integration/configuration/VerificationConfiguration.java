@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.verification.integration.configuration;
 
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
 import io.muenchendigital.digiwf.verification.integration.registration.domain.service.LinkService;
 import io.muenchendigital.digiwf.verification.integration.registration.domain.service.RegistrationService;
 import io.muenchendigital.digiwf.verification.integration.shared.repository.VerificationRepository;

@@ -6,9 +6,9 @@ import io.muenchendigital.digiwf.cosys.integration.application.port.out.Generate
 import io.muenchendigital.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
 import io.muenchendigital.digiwf.cosys.integration.model.DocumentStorageUrl;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
-import io.muenchendigital.digiwf.message.core.api.MessageApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.impl.ProcessApiImpl;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 

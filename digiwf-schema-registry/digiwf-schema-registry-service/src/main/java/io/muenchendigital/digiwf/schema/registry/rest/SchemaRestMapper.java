@@ -5,7 +5,7 @@
 package io.muenchendigital.digiwf.schema.registry.rest;
 
 import com.google.gson.Gson;
-import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
+import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import io.muenchendigital.digiwf.schema.registry.api.JsonSchema;
 import io.muenchendigital.digiwf.schema.registry.internal.impl.model.JsonSchemaImpl;
 import org.mapstruct.Mapper;
@@ -22,7 +22,7 @@ public interface SchemaRestMapper {
     default String map(final Map<String, Object> jsonObject) {
         return new Gson().toJson(jsonObject);
     }
-    
+
     default Map<String, Object> map(final String jsonString) {
         return JsonSchemaFactory.gson().fromJson(jsonString, JsonSchemaFactory.mapType());
     }

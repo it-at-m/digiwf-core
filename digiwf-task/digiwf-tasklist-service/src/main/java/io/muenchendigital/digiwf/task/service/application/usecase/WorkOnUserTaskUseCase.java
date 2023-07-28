@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.usecase;
 
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
+import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
 import io.muenchendigital.digiwf.task.service.application.port.in.WorkOnUserTask;
 import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
@@ -21,9 +21,7 @@ import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

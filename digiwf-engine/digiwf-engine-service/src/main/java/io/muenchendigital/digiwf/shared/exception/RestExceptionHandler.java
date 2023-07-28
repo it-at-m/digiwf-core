@@ -4,7 +4,7 @@
 
 package io.muenchendigital.digiwf.shared.exception;
 
-import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
+import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.s3.integration.application.port.out;
 
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.MessageHeaders;
 

@@ -10,8 +10,8 @@ import io.muenchendigital.digiwf.email.integration.application.port.out.LoadMail
 import io.muenchendigital.digiwf.email.integration.application.usecase.SendMailUseCase;
 import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
 import io.muenchendigital.digiwf.email.integration.model.Mail;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import io.muenchendigital.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

@@ -3,9 +3,9 @@ package io.muenchendigital.digiwf.cosys.integration.adapter.in;
 
 import io.muenchendigital.digiwf.cosys.integration.application.port.in.CreateDocument;
 import io.muenchendigital.digiwf.cosys.integration.model.GenerateDocument;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import javax.validation.ValidationException;
 import java.util.function.Consumer;
 
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Slf4j
 @Component

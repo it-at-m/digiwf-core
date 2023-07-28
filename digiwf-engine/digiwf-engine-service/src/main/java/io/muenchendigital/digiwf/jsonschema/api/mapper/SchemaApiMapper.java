@@ -7,7 +7,7 @@ package io.muenchendigital.digiwf.jsonschema.api.mapper;
 import com.google.gson.Gson;
 import io.muenchendigital.digiwf.jsonschema.api.transport.JsonSchemaTO;
 import io.muenchendigital.digiwf.jsonschema.domain.model.JsonSchema;
-import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
+import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import org.mapstruct.Mapper;
 
 import java.util.List;

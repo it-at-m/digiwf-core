@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.s3.integration;
 
 import io.muenchendigital.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
-import io.muenchendigital.digiwf.spring.security.authentication.UserAuthenticationProvider;
-import io.muenchendigital.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
+import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
+import de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

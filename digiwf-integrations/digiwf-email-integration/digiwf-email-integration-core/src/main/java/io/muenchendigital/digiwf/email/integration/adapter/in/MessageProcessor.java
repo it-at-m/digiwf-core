@@ -3,20 +3,19 @@ package io.muenchendigital.digiwf.email.integration.adapter.in;
 import io.muenchendigital.digiwf.email.integration.application.port.in.SendMail;
 import io.muenchendigital.digiwf.email.integration.infrastructure.MonitoringService;
 import io.muenchendigital.digiwf.email.integration.model.Mail;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import javax.validation.ValidationException;
 import java.util.function.Consumer;
 
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
-import static io.muenchendigital.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @RequiredArgsConstructor
 public class MessageProcessor {

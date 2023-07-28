@@ -1,6 +1,6 @@
 package io.muenchendigital.digiwf.verification.integration.verification.domain.service;
 
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import io.muenchendigital.digiwf.verification.integration.shared.StreamingConstants;
 import io.muenchendigital.digiwf.verification.integration.shared.domain.entity.VerificationEntity;
 import io.muenchendigital.digiwf.verification.integration.shared.repository.VerificationRepository;
