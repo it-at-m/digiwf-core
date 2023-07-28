@@ -9,6 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
  * Auto-configuration used to configure Spring security.
  */
 @EnableConfigurationProperties(SpringSecurityProperties.class)
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.spring.security")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.spring.security")
 public class SpringSecurityAutoConfiguration {
 }

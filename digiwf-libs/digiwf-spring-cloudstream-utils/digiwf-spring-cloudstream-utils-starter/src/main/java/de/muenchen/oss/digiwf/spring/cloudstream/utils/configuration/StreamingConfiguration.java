@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.spring.cloudstream.utils")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.spring.cloudstream.utils")
 @EnableConfigurationProperties(StreamingProperties.class)
 @Deprecated
 public class StreamingConfiguration {

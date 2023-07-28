@@ -21,7 +21,7 @@ import reactor.core.publisher.Sinks;
  * Autoconfiguration for the digiwf-message library.
  */
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.message.infra")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.message.infra")
 @EnableConfigurationProperties(value = DigiwfMessageProperties.class)
 public class DigiwfMessageAutoConfiguration {
 
