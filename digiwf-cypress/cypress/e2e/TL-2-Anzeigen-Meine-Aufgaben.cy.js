@@ -2,6 +2,8 @@ import vorgangStarten from "../pages/vorgangStarten"
 import meineAufgaben from "../pages/meineAufgaben"
 import exampleUserTask from "../pages/exampleUserTask"
 import userTask from "../pages/userTask"
+import * as dataElementKeys from "../constants/dataElementKeys"
+import * as environmentVariables from "../constants/environmentVariables"
 
 const numberOfTasks = 21
 
@@ -17,10 +19,10 @@ describe('Vorgaenge Anzeigen', () => {
         //Step 0
         cy.log('Step 0');
         meineAufgaben.openVorgangStarten();
-        vorgangStarten.findProcess("Example Usertask");
-        vorgangStarten.clickListElement("Usertask-Example");
+        vorgangStarten.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME);
+        vorgangStarten.clickListElement(dataElementKeys.EXAMPLE_USER_TASK_KEY);
         exampleUserTask.setNumberOfTasks(numberOfTasks);
-        exampleUserTask.setUserName(Cypress.env('fullUsername'));
+        exampleUserTask.setUserName(environmentVariables.FULL_USER_NAME);
         exampleUserTask.clickAbschliessen();
 
         //Step 1
@@ -64,7 +66,7 @@ describe('Vorgaenge Anzeigen', () => {
 
 
     //ensures all of the tasks are loaded
-    function reloadPageUntilTasksVisible(maxAttempts=10, attempts=0) {
+    function reloadPageUntilTasksVisible(maxAttempts=20, attempts=0) {
         if (attempts > maxAttempts) {
             throw new Error("Timed out waiting")
         }
