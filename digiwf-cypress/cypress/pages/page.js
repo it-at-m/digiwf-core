@@ -10,7 +10,7 @@ class Page{
     }
 
     navBarMeineAufgaben(){
-        return cy.get('a.v-list-item:nth-child(1) > div:nth-child(1)')
+        return cy.get('div.v-list:nth-child(1) > a:nth-child(1) > div:nth-child(1)')
     }
 
     navBarAktuelleVorgaenge(){
@@ -26,7 +26,7 @@ class Page{
     }
 
     openMeineAufgaben(){
-        this.navBarMeineAufgaben().click()
+        this.navBarMeineAufgaben().click({ multiple: true } )
     }
 
     openAktuelleVorgaenge(){
@@ -36,10 +36,10 @@ class Page{
     openVorgangStarten(){
         cy.intercept({
             method: 'GET',
-            url: '/api/digitalwf-backend-service/rest/service/definition',
-        }).as('dataGetAntraege')
+            url: '/api/digitalwf-backend-service/rest/service/*',
+        }).as('dataGetDefinitions')
         this.navBarVorgangStarten().click()
-        cy.wait('@dataGetAntraege').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
     }
 }
 
