@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>digiwf-camunda-prometheus-example</artifactId>
+
     <parent>
         <artifactId>digiwf-camunda-prometheus</artifactId>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <version>0.18.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>digiwf-camunda-prometheus-example</artifactId>
 
     <dependencies>
         <!-- Spring boot -->
@@ -23,7 +23,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-prometheus-starter</artifactId>
             <version>${project.version}</version>
         </dependency>

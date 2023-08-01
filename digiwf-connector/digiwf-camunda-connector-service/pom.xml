@@ -10,7 +10,7 @@
     </properties>
 
     <parent>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
         <version>0.18.0-SNAPSHOT</version>
     </parent>
@@ -40,12 +40,12 @@
 
         <!-- DigiWF -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-connector-starter-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
