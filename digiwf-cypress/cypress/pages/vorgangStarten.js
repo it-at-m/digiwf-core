@@ -4,7 +4,7 @@ class VorgangStarten extends Page{
     elements = {
         headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(1)'),
         searchBox: () => cy.get('#suchfeld'),
-        listElement: (elementNumber) => cy.get(`.v-data-iterator > div:nth-child(1) > div:nth-child(${elementNumber})`),
+        listElement: (elementNumber) => cy.get(`div.v-list:nth-child(3) > div:nth-child(${elementNumber}) > a:nth-child(1)`),
         pageNumber: () => cy.get(`.mr-4`),
         numberOfProcesses: () => cy.get(`span.mr-1:nth-child(5)`),
         rightArrow: () => cy.get(`.ml-1`),

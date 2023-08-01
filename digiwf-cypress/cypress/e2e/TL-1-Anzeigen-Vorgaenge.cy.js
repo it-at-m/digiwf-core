@@ -16,6 +16,7 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log("Step 1");
         meineAufgaben.openVorgangStarten();
         vorgangStarten.checkPageNumber(1);
+        vorgangStarten.changePageSize(10);
         //Anzahl der Listenelem pruefen
         for (let i = 1; i < 11; i++) {
             expect(vorgangStarten.getListElement(i)).to.exist
@@ -35,6 +36,7 @@ describe('Vorgaenge Anzeigen', () => {
         vorgangStarten.getListElement(1).invoke('text').then((elemOld) => {
             vorgangStarten.clickRightArrow();
             vorgangStarten.checkPageNumber(2);
+            vorgangStarten.clickRightArrow(); //ToDO: entfernen
             vorgangStarten.getListElement(1).invoke('text').then((elemNew) => {
                 expect(elemNew).not.eq(elemOld)
             })
