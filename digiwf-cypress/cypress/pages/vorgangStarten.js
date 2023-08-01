@@ -48,8 +48,10 @@ class VorgangStarten extends Page{
         this.elements.searchBox().type(text)
     }
 
-    clickListElement(elementNumber){
-        this.elements.listElement(elementNumber).click()
+    clickListElement(key){
+        //this.elements.listElement(elementNumber).click()
+        cy.get('[data-element-key="' + key + '"]')
+            .click()
     }
 
     clickRightArrow(){
