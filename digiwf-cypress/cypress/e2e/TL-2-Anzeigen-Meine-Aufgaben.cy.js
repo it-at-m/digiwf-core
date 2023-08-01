@@ -16,7 +16,7 @@ describe('Vorgaenge Anzeigen', () => {
     it('passes', () => {
         let pageSize = 20;
 
-        //Step 0
+        // Step 0: Create User processes
         cy.log('Step 0');
         meineAufgaben.openVorgangStarten();
         vorgangStarten.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME);
@@ -25,14 +25,14 @@ describe('Vorgaenge Anzeigen', () => {
         exampleUserTask.setUserName(environmentVariables.FULL_USER_NAME);
         exampleUserTask.clickAbschliessen();
 
-        //Step 1
+        //Step 1: Open Meine Aufgaben
         cy.log('Step 1');
         vorgangStarten.openMeineAufgaben();
         reloadPageUntilTasksVisible();
         meineAufgaben.getFoundTasks().should('eq',numberOfTasks);
         meineAufgaben.getElement(1).should('contain.text', 'User Task');
 
-        //Step 2-5
+        //Step 2-5: Test different page sizes
         cy.log('Step 2-5');
 
         pageSize = 5;
@@ -47,13 +47,14 @@ describe('Vorgaenge Anzeigen', () => {
         meineAufgaben.changePageSize(pageSize);
         meineAufgaben.checkPageSize(pageSize,numberOfTasks)
 
-        //Step 6-7
+        //Step 6-7: Check one list element
         cy.log('Step 6-7');
         meineAufgaben.clickElement(1);
         userTask.checkHeadline("User Task");
         userTask.clickAbschliessen();
     })
 
+    // Close tasks
     after(() => {
             for (let i=1; i< numberOfTasks; i++){
                 meineAufgaben.clickElement(1);
