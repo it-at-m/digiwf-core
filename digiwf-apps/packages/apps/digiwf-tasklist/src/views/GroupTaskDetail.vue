@@ -102,6 +102,7 @@ import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {ApiConfig} from "../api/ApiConfig";
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
+import { shouldUseTaskService } from "../utils/featureToggles";
 
 @Component({
   components: {BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
@@ -123,6 +124,12 @@ export default class GroupTaskDetail extends Vue {
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
+
+  @Provide('taskServiceApiEndpoint')
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+
+  @Provide('shouldUseTaskService')
+  shouldUseTaskService = shouldUseTaskService();
 
   created() {
     this.isLoading = true

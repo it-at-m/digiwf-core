@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muenchendigital.digiwf</groupId>
     <artifactId>digiwf-core</artifactId>
-    <version>0.17.9-SNAPSHOT</version>
+    <version>0.18.0-SNAPSHOT</version>
     <name>digiwf-core</name>
     <packaging>pom</packaging>
     <description>DigiWF Core Services</description>
@@ -28,6 +28,7 @@
         <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <tika.version>2.7.0</tika.version>
+        <logstash.encoder.version>7.3</logstash.encoder.version>
     </properties>
 
     <modules>
@@ -120,6 +121,12 @@
                 <version>${camunda.version.ce}</version>
             </dependency>
 
+            <!-- Logging -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.encoder.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -226,7 +233,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.2</version>
                     <configuration>
                         <argLine>@{argLine} -Xms256m -Xmx2048m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
                         <runOrder>random</runOrder>
@@ -275,7 +282,7 @@
                 <plugin>
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
-                    <version>6.5.0</version>
+                    <version>6.6.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -295,7 +302,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.3.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

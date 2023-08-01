@@ -21,6 +21,7 @@ import static io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.i
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class CorrelateMessageService {
 
     private static final String CORRELATEMESSAGEV_01 = "correlatemessagev01";
@@ -32,7 +33,12 @@ public class CorrelateMessageService {
      *
      * @param messageHeaders   The incoming messages' header.
      * @param payloadVariables Data to send back.
+     *
+     * This function is deprecated. Use digiwf-message instead {@link io.muenchendigital.digiwf:digiwf-message:0.18.0}.
+     * @deprecated This function is no longer supported and may be removed in a future release
+     *
      */
+    @Deprecated
     public boolean sendCorrelateMessage(final MessageHeaders messageHeaders, final Map<String, Object> payloadVariables) {
         final CorrelateMessageEvent.CorrelateMessageEventBuilder correlateMessageTOV01Builder = CorrelateMessageEvent.builder()
                 .messageName((String) messageHeaders.get(DIGIWF_MESSAGE_NAME))

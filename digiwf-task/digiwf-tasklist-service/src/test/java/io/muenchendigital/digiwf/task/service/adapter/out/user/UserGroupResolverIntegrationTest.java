@@ -35,7 +35,7 @@ public class UserGroupResolverIntegrationTest {
     @Test
     public void getUserReturnsOUTree() {
         final Set<String> groups = this.userGroupResolverPort.resolveGroups("123456789");
-        Assertions.assertEquals(Set.of("FOO", "BAR", "GROUP1"), groups);
+        Assertions.assertEquals(Set.of("foo", "bar", "group1"), groups);
     }
 
 }

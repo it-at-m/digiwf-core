@@ -3,7 +3,7 @@ info:
     name: ${spring.application.name}
 spring:
   application:
-    name: DigiWF ApiGateway
+    name: @project.artifactId@
   main:
     web-application-type: reactive
   jackson:

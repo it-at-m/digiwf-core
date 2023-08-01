@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 
 import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class VariableTaskCancellationFlagAdapterTest {
 

@@ -11,8 +11,9 @@ import java.util.Set;
  */
 public class MockUserGroupResolverAdapter implements UserGroupResolverPort {
 
-  public static final String PRIMARY_USERGROUP = "GROUP1";
-  private final Set<String> userGroups = Set.of("FOO", "BAR", PRIMARY_USERGROUP);
+  public static final String PRIMARY_USERGROUP = "group1";
+  // per convention lower case
+  private final Set<String> userGroups = Set.of("foo", "bar", PRIMARY_USERGROUP);
 
   @NonNull
   @Override

@@ -5,6 +5,7 @@ import io.muenchendigital.digiwf.task.service.application.port.out.auth.CurrentU
 import io.muenchendigital.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
+import io.muenchendigital.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasks;
 import io.muenchendigital.digiwf.task.service.domain.PageOfTasksWithSchema;
 import io.muenchendigital.digiwf.task.service.domain.PagingAndSorting;
@@ -22,6 +23,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final TaskQueryPort taskQueryPort;
   private final CurrentUserPort currentUserPort;
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort;
+  private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
   private final CancellationFlagOutPort cancellationFlagOutPort;
 
   @Override
@@ -50,7 +52,8 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
         result.getTasks().stream().map(task -> new TaskWithSchemaRef(
                 task,
                 taskSchemaRefResolverPort.apply(task),
-                cancellationFlagOutPort.apply(task)
+                cancellationFlagOutPort.apply(task),
+                taskSchemaTypeResolverPort.apply(task)
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

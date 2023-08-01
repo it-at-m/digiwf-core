@@ -7,45 +7,54 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
-
     <springProfile name="local,test">
 
         <!-- Log appender -->
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>
-                    %date{yyyy.MM.dd HH:mm:ss.SSS} | [${springAppName}, TraceId: %X{X-B3-TraceId:-}, SpanId: %X{X-B3-SpanId:-}, Span-Export: %X{X-Span-Export:-}] | %level | [%thread] | %logger{0} | [%file : %line]  -  %msg%n
+                    %date{yyyy.MM.dd HH:mm:ss.SSS} | %highlight(%level) | [%thread] | %cyan(%logger{0}) | [%file : %line] - %msg%n
                 </pattern>
             </encoder>
         </appender>
 
         <!-- Logger -->
-        <logger name="de.muenchen.digiwf"
+        <logger name="io.muenchendigital.digiwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="de.muenchen.allgemein"
-                level="debug"
+        <logger name="org.apache.kafka.clients.admin"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.producer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.consumer"
+                level="warn"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="org.springframework.cache"
-                level="trace"
+        <logger name="io.muenchendigital.allgemein"
+                level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
         <logger name="org.springframework.web"
-                level="debug"
+                level="info"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="de.muenchen.digiwf.configuration.nfcconverter"
-                level="warn"
+        <logger name="org.springframework.security"
+                level="info"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
@@ -60,7 +69,6 @@
 
     <springProfile name="dev,kon,prod">
 
-        <!-- Log appender -->
         <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
@@ -81,7 +89,8 @@
                                     "fileName" : "%file",
                                     "line" : "%line"
                                 },
-                                "message": "%message"
+                                "message": "%msg",
+                                "stacktrace": "%rEx"
                             }
                         </pattern>
                     </pattern>
@@ -90,20 +99,8 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="de.muenchen.digiwf"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="de.muenchen.allgemein"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.web"
-                level="info"
+        <logger name="org.apache.kafka"
+                level="warn"
                 additivity="false">
             <appender-ref ref="JSON_STDOUT" />
         </logger>

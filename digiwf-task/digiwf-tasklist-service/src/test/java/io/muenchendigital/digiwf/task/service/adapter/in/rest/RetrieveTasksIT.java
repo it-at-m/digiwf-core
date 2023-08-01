@@ -27,7 +27,9 @@ import java.util.Arrays;
 
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.BASE_PATH;
 import static io.muenchendigital.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
-import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.*;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.createEvent;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.deleteEvent;
+import static io.muenchendigital.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -96,79 +98,14 @@ public class RetrieveTasksIT {
   public void retrieve_tasks_assigned_to_user() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/user?sort=+taskId")
+            get(BASE_PATH + "/tasks/user?sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(2)))
-        .andExpect(jsonPath("$.totalPages", equalTo(1)))
-        .andExpect(jsonPath("$.totalElements", equalTo(2)))
-        .andExpect(jsonPath("$.numberOfElements", equalTo(2)))
-        .andExpect(jsonPath("$.last", equalTo(true)))
-        .andExpect(jsonPath("$.first", equalTo(true)))
-        .andExpect(jsonPath("$.empty", equalTo(false)))
-    ;
-  }
-
-  @Test
-  @WithKeycloakUser
-  public void retrieve_tasks_assigned_to_user_paged() throws Exception {
-    this.mockMvc
-        .perform(
-            get(BASE_PATH + "/tasks/user?page=0&size=1&sort=+taskId")
-                .servletPath(SERVLET_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-        //.andDo(print())
+        // .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(1)))
-        .andExpect(jsonPath("$.content[0].id", equalTo("task_0")))
-        .andExpect(jsonPath("$.totalPages", equalTo(2)))
-        .andExpect(jsonPath("$.totalElements", equalTo(2)))
-        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
-        .andExpect(jsonPath("$.last", equalTo(false)))
-        .andExpect(jsonPath("$.first", equalTo(true)))
-        .andExpect(jsonPath("$.empty", equalTo(false)))
-    ;
-    this.mockMvc
-        .perform(
-            get(BASE_PATH + "/tasks/user?page=1&size=1&sort=+taskId")
-                .servletPath(SERVLET_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-        //.andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(1)))
-        .andExpect(jsonPath("$.content[0].id", equalTo("task_2")))
-        .andExpect(jsonPath("$.totalPages", equalTo(2)))
-        .andExpect(jsonPath("$.totalElements", equalTo(2)))
-        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
-        .andExpect(jsonPath("$.last", equalTo(true)))
-        .andExpect(jsonPath("$.first", equalTo(false)))
-        .andExpect(jsonPath("$.empty", equalTo(false)))
-    ;
-
-  }
-
-  @Test
-  @WithKeycloakUser
-  public void retrieve_assigned_tasks_via_group() throws Exception {
-    this.mockMvc
-        .perform(
-            get(BASE_PATH + "/tasks/group/assigned?sort=+taskId")
-                .servletPath(SERVLET_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(1)))
-        .andExpect(jsonPath("$.content[0].id", equalTo("task_1")))
         .andExpect(jsonPath("$.totalPages", equalTo(1)))
         .andExpect(jsonPath("$.totalElements", equalTo(1)))
         .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
@@ -180,14 +117,78 @@ public class RetrieveTasksIT {
 
   @Test
   @WithKeycloakUser
-  public void retrieve_unassigned_tasks_via_group() throws Exception {
+  public void retrieve_tasks_assigned_to_user_paged() throws Exception {
     this.mockMvc
         .perform(
-            get(BASE_PATH + "/tasks/group/unassigned?sort=+taskId")
+            get(BASE_PATH + "/tasks/user?page=0&size=1&sort=+id")
                 .servletPath(SERVLET_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
         )
-        .andDo(print())
+        //.andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_0")))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(1)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(1)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+    this.mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/user?page=1&size=1&sort=+id")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        //.andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(0)))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(1)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(0)))
+        .andExpect(jsonPath("$.last", equalTo(false)))
+        .andExpect(jsonPath("$.first", equalTo(false)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+
+  }
+
+  @Test
+  @WithKeycloakUser
+  public void retrieve_assigned_tasks_via_group() throws Exception {
+    this.mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/group/assigned?sort=+id")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        // .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(2)))
+        .andExpect(jsonPath("$.content[0].id", equalTo("task_1")))
+        .andExpect(jsonPath("$.totalPages", equalTo(1)))
+        .andExpect(jsonPath("$.totalElements", equalTo(2)))
+        .andExpect(jsonPath("$.numberOfElements", equalTo(2)))
+        .andExpect(jsonPath("$.last", equalTo(true)))
+        .andExpect(jsonPath("$.first", equalTo(true)))
+        .andExpect(jsonPath("$.empty", equalTo(false)))
+    ;
+  }
+
+  @Test
+  @WithKeycloakUser
+  public void retrieve_unassigned_tasks_via_group() throws Exception {
+    this.mockMvc
+        .perform(
+            get(BASE_PATH + "/tasks/group/unassigned?sort=+id")
+                .servletPath(SERVLET_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        // .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(1)))

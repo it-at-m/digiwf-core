@@ -30,7 +30,7 @@ public class LdapUserGroupResolverAdapterTest {
         when(this.easyLdapClient.getOuTreeByUserId(any())).thenReturn(List.of("LHM", "RIT", "ITM"));
         final Set<String> groups = this.ldapUserGroupResolver.resolveGroups(userId);
 
-        assertEquals(Set.of("LHM", "RIT", "ITM"), groups);
+        assertEquals(Set.of("lhm", "rit", "itm"), groups);
         verify(this.easyLdapClient).getOuTreeByUserId(userId);
         verifyNoMoreInteractions(this.easyLdapClient);
     }

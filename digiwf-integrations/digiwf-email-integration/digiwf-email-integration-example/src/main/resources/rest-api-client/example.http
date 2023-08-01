@@ -1,5 +1,5 @@
-### testSendMail withoud attachements
-POST http://{{host}}/testSendMail
+### testEventBus withoud attachements
+POST http://localhost:10005/testEventBus
 Content-Type: application/json
 
 {
@@ -8,12 +8,9 @@ Content-Type: application/json
   "body": "This is a test email. You can delete it safely"
 }
 
-### testEventBus withoud attachements
-POST http://{{host}}/testEventBus
+### testEventBus should fail
+POST http://localhost:10005/testEventBus
 Content-Type: application/json
 
 {
-  "receivers": "itm.digiwf@muenchen.de",
-  "subject": "Testing Email Integration",
-  "body": "This is a test email. You can delete it safely"
 }

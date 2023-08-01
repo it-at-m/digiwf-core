@@ -23,8 +23,14 @@
 ## Email Integration
 
 <DownloadArtifact
-    artifact="sendSimpleMail.json"
+    artifact="sendMailV02.json"
+    type="element-template" />
+
+**Verwenden Streaming Template V01**
+
+<DownloadArtifact
+    artifact="sendSimpleMailV01.json"
     type="element-template" />
 <DownloadArtifact
-    artifact="sendMail.json"
+    artifact="sendMailV01.json"
     type="element-template" />

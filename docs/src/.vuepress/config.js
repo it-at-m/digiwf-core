@@ -114,8 +114,13 @@ module.exports = {
                                 'guides/topics',
                                 'guides/technical-setup/',
                                 'guides/taskservice-integration/',
-                                'guides/custom-integration-service/',
-
+                            ]
+                        },
+                        {
+                            title: 'Bibliotheken',
+                            collapsable: false,
+                            children: [
+                                'libs/digiwf-message/',
                             ]
                         },
                         {
@@ -207,6 +212,15 @@ module.exports = {
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
                             ]
+                        },
+                        {
+                            title: 'Templates und Beispiele',
+                            collapsable: true,
+                            children: [
+                                'templates/bpmn/',
+                                'templates/element-templates/',
+                                'templates/examples/'
+                            ]
                         }
                     ],
                     '/apis/': [
@@ -231,18 +245,27 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
-                                'digiwf-alw-integration/',
-                                'digiwf-cosys-integration/',
-                                'digiwf-mail-integration/',
-                                'digiwf-s3-integration/',
-                                'digiwf-verification-integration/',
+                                'digiwf-alw-integration',
+                                'digiwf-cosys-integration',
+                                'digiwf-mail-integration',
+                                'digiwf-s3-integration',
+                                'digiwf-verification-integration',
+                                'digiwf-formserver-integration'
                             ]
                         },
                         {
                             title: 'Konzept',
-                            collapsable: false,
+                            collapsable: true,
                             children: [
-                                'error-handling/'
+                                'concept/integration-service',
+                                'concept/error-handling',
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: true,
+                            children: [
+                                'guides/custom-integration-service',
                             ]
                         }
                     ],

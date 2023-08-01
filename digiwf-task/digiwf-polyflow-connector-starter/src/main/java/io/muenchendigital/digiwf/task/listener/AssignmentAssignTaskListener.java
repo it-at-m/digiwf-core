@@ -13,9 +13,15 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
+/**
+ * Task listener invoked on change of assignee, making sure that no assignment information is ever stored
+ * in the process engine.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -27,7 +33,7 @@ public class AssignmentAssignTaskListener {
     public AssignTaskCommand taskAssigned(final DelegateTask task) {
 
         if (properties.isShadow()) {
-            val assignee = task.getAssignee();
+            val assignee = Optional.ofNullable(task.getAssignee()).filter(s -> !s.isEmpty()).orElse(null);
             val writer = writer(task);
             if (properties.isLocal()) {
                 log.debug("Shadowing assignment information for task {} in local variable: {}", task.getId(), assignee);

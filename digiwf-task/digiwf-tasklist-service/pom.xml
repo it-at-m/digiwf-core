@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>0.17.9-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -17,6 +17,7 @@
         <spin.version>1.18.1</spin.version>
         <archunit.version>1.0.1</archunit.version>
         <wiremock.version>2.35.0</wiremock.version>
+        <camunda-platform-7-mockito.version>6.18.0</camunda-platform-7-mockito.version>
     </properties>
 
     <dependencies>
@@ -29,6 +30,12 @@
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.muenchendigital.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- Polyflow View -->
@@ -156,6 +163,12 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -235,6 +248,12 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.camunda.community.mockito</groupId>
+            <artifactId>camunda-platform-7-mockito</artifactId>
+            <version>${camunda-platform-7-mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -243,6 +262,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>banner.txt</include>
+                    <include>*.yml</include>
                 </includes>
                 <targetPath>${project.build.outputDirectory}</targetPath>
                 <filtering>true</filtering>
@@ -263,7 +283,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.2.1</version>
+                <version>6.6.0</version>
                 <executions>
                     <execution>
                         <id>generate-server-stubs</id>
@@ -275,7 +295,8 @@
                             <inputSpec>${project.basedir}/src/main/api/openapi.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <removeOperationIdPrefix>true</removeOperationIdPrefix>
-                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore
+                            </ignoreFileOverride>
                             <library>spring-boot</library>
                             <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <modelNameSuffix>TO</modelNameSuffix>

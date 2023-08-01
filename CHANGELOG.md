@@ -16,6 +16,7 @@
 
 - tasklist:
   - [#342](https://github.com/it-at-m/digiwf-core/issues/342) use EzLdap ou tree endpoint to retrieve user groups for current user
+  - [#398](https://github.com/it-at-m/digiwf-core/issues/398) support method put for file uploads using the tasklist rest api
 
 ### Fixed
 
@@ -40,8 +41,13 @@
 - engine
     - upgrade dms interface
     - added example-processes
-- digiwf-cosys-integration
+- digiwf-integrations
+  - digiwf-cosys-integration
     - error handling added
+  - created digiwf-example-integration to show how to implement a new integration
+- digiwf-libs
+  - created digiwf-message
+  - created digiwf-integration-lib
 
 ### Fixed
 

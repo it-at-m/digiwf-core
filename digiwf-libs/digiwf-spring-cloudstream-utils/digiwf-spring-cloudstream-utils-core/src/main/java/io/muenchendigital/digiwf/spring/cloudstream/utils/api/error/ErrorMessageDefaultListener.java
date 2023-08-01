@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Component
+@Deprecated
 public class ErrorMessageDefaultListener {
 
     public static final String FUNCTION_ROUTING_ERROR = "springCloudstreamUtilsFunctionRoutingError";

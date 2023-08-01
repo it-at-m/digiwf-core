@@ -5,7 +5,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>io.muenchendigital.digiwf</groupId>
-        <version>0.17.9-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,28 +17,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
-        </dependency>
-
         <!-- email -->
         <dependency>
             <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-email-integration-starter</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- Streaming -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
         </dependency>
     </dependencies>
 

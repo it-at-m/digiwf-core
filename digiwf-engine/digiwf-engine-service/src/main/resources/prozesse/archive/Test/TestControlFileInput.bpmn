@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ad4jn0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ad4jn0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0">
   <bpmn:process id="TestControlFileInput" name="TestControl FileInput" isExecutable="true">
     <bpmn:documentation>TestControlFileInput</bpmn:documentation>
     <bpmn:startEvent id="StartEvent_1" camunda:formKey="json_schema_fileinput1">
@@ -10,21 +10,23 @@
       <bpmn:incoming>Flow_15ipgpv</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1tco36t" sourceRef="Activity_09w0em7" targetRef="Activity_0rc8sk8" />
-    <bpmn:userTask id="Activity_09w0em7" name="Daten prüfen" camunda:formKey="" camunda:candidateGroups="ITM-KM8">
+    <bpmn:userTask id="Activity_09w0em7" name="Daten prüfen" camunda:formKey="" camunda:assignee="123456789">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_file_paths_readonly">Documents/test;Documents/test1;Documents/test2;Documents/test3;Documents/test4;Documents/test5;Documents/test6</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">json_schema_fileinput2</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">Documents/test;Documents/test1;Documents/test2;Documents/test3;Documents/test4;Documents/test5;Documents/test6</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0pcy36z</bpmn:incoming>
       <bpmn:outgoing>Flow_1tco36t</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_0rc8sk8" name="Daten prüfen" camunda:formKey="" camunda:candidateGroups="ITM-KM8">
+    <bpmn:userTask id="Activity_0rc8sk8" name="Daten prüfen" camunda:formKey="" camunda:assignee="123456789">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_file_paths_readonly">Documents/test;Documents/test1;Documents/test2;Documents/test3;Documents/test4;Documents/test5;Documents/test6</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">json_schema_fileinput2</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">Documents/test;Documents/test1;Documents/test2;Documents/test3;Documents/test4;Documents/test5;Documents/test6</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1tco36t</bpmn:incoming>
@@ -34,30 +36,30 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestControlFileInput">
-      <bpmndi:BPMNEdge id="Flow_1tco36t_di" bpmnElement="Flow_1tco36t">
-        <di:waypoint x="370" y="117" />
-        <di:waypoint x="450" y="117" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1y7g8l9_di" bpmnElement="Event_1y7g8l9">
+        <dc:Bounds x="642" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_061zrsm_di" bpmnElement="Activity_09w0em7">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rc8sk8_di" bpmnElement="Activity_0rc8sk8">
+        <dc:Bounds x="450" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0pcy36z_di" bpmnElement="Flow_0pcy36z">
         <di:waypoint x="215" y="117" />
         <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tco36t_di" bpmnElement="Flow_1tco36t">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="450" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_15ipgpv_di" bpmnElement="Flow_15ipgpv">
         <di:waypoint x="550" y="117" />
         <di:waypoint x="642" y="117" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="179" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_061zrsm_di" bpmnElement="Activity_09w0em7">
-        <dc:Bounds x="270" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1y7g8l9_di" bpmnElement="Event_1y7g8l9">
-        <dc:Bounds x="642" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rc8sk8_di" bpmnElement="Activity_0rc8sk8">
-        <dc:Bounds x="450" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

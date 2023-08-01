@@ -1,0 +1,37 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        logMessage-in-0:
+          group: "digiwf-message-scs-example"
+          destination: "dwf-message-example,dwf-message-example-bpmn-error,dwf-message-example-correlate-message,dwf-message-example-start-process,dwf-message-example-incident"
+        sendMessage-out-0:
+          destination: "dwf-message-example"
+      kafka:
+        binder:
+          brokers: "${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}"
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          configuration:
+            security:
+              protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
+    function:
+      definition: logMessage;sendMessage;
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"

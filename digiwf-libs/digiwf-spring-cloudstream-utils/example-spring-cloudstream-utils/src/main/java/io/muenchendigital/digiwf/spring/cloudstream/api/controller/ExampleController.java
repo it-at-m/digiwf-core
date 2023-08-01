@@ -11,11 +11,13 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 @RequiredArgsConstructor
+@Deprecated
 public class ExampleController {
 
     private final PayloadSenderService genericPayloadSenderService;
 
     @PostMapping(value = "/sendMessage")
+    @Deprecated
     public void sendMessage(@RequestBody @NotNull final String payload,
                             @RequestParam(defaultValue = "processMessage") final String type) {
         this.genericPayloadSenderService.sendPayload(payload, type);

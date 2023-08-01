@@ -24,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @Profile("!no-security")
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -61,7 +61,7 @@ public class SecurityConfiguration {
             .oauth2ResourceServer()
                 .jwt()
                     // This custom converter lazily fetches UserInfo Endpoint and reads the "authorities" configured in the
-                    // SSO. It COMPLETELY ignores the roles from "roles" claim of the token.
+                    // SSO. Also includes user_roles.
                     .jwtAuthenticationConverter(customCachingUserServiceConverter())
             .and();
         return http.build();

@@ -1,0 +1,70 @@
+{
+    "key": "example-integration-error",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "stepper",
+        "allOf": [
+            {
+                "title": "Fehler",
+                "description": "",
+                "type": "object",
+                "key": "cd83c654-01ca-40f4-818e-c71ca49d1947",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "bpm_error_code": {
+                                "fieldType": "text",
+                                "title": "Error Code",
+                                "type": "string",
+                                "key": "bpm_error_code",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "bpm_error_message": {
+                                "fieldType": "text",
+                                "title": "Error Message",
+                                "type": "string",
+                                "key": "bpm_error_message",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        },
+                        "key": "c43b41ef-a8a3-4f85-b9c7-c4ccdd161696"
+                    }
+                ]
+            }
+        ]
+    }
+}

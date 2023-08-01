@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.muenchendigital.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.17.9-SNAPSHOT</version>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -127,11 +127,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>digiwf-s3-integration-example</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>digiwf-verification-integration-core</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -172,6 +167,11 @@
             <artifactId>digiwf-camunda-prometheus-example</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-message-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Digiwf-process -->
         <dependency>
@@ -196,6 +196,24 @@
             <artifactId>digiwf-schema-registry-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- DigiWF task -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-task-itest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>digiwf-tasklist-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
     </dependencies>
 

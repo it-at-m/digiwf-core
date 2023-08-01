@@ -40,19 +40,17 @@
           </v-btn>
         </template>
         <v-list v-if="showUseBetaButton">
-          <v-list-item @click="switchBetaVersion">
+          <v-list-item>
             <v-list-item-title>
               <v-switch
-                :value="!isTaskserviceUsed"
-                @click="switchBetaVersion"
+                v-model="isDigiWFClassicUsed"
+                @click.stop.prevent="switchBetaVersion"
                 label="DigiWF-Classic nutzen"
               ></v-switch>
             </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
-
-
     </v-app-bar>
 
     <v-navigation-drawer
@@ -192,7 +190,12 @@ import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-in
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
-import {setShouldUseTaskService, shouldShowBetaButton, shouldUseTaskService} from "./utils/featureToggles";
+import {
+  setShouldUseTaskService,
+  shouldShowBetaButton,
+  shouldUseTaskService,
+  switchShouldUseTaskService
+} from "./utils/featureToggles";
 
 @Component({
   components: {AppMenuList}
@@ -206,19 +209,17 @@ export default class App extends Vue {
   loggedIn = true;
 
   showUseBetaButton = false;
-  isTaskserviceUsed = false;
+  isDigiWFClassicUsed = true;
 
   created(): void {
     this.loadData();
   }
 
   loadData(refresh = false): void {
-    this.$store.dispatch("processInstances/getProcessInstances", refresh);
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];
-
-    this.isTaskserviceUsed = shouldUseTaskService();
+    this.isDigiWFClassicUsed = !shouldUseTaskService();
     this.showUseBetaButton = shouldShowBetaButton();
   }
 
@@ -229,10 +230,8 @@ export default class App extends Vue {
   }
 
   switchBetaVersion(): void {
-    setShouldUseTaskService(!this.isTaskserviceUsed)
-    this.isTaskserviceUsed = !this.isTaskserviceUsed;
+    switchShouldUseTaskService();
   }
-
 
   @Watch("$store.state.menu.open")
   onMenuChanged(menuOpen: boolean): void {
@@ -243,7 +242,7 @@ export default class App extends Vue {
   setUserName(user: UserTO): void {
     this.username = user.forename + " " + user.surname;
     // if session is not valid, user is updated to an empty object in redux store
-    this.loggedIn = !!user.username
+    this.loggedIn = !!user.username;
   }
 
   @Watch("$store.state.processInstances.processInstances")

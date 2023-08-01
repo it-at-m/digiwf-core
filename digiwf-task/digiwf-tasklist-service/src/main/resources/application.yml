@@ -1,6 +1,7 @@
 server:
   port: ${TASKSERVICE_SERVER_PORT}
 spring:
+  application.name: @project.artifactId@
   profiles:
     active: no-ldap # this profile is activating mock group resolution and should be replaced by the LDAP-aware client on production
   datasource:
@@ -45,6 +46,8 @@ feign:
   client:
     config:
       jsonschema:
+        url: ${ENGINE_REST_ENDPOINT_URL}
+      legacy-task:
         url: ${ENGINE_REST_ENDPOINT_URL}
       default:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
@@ -92,6 +95,9 @@ polyflow:
   view:
     jpa:
       stored-items: TASK, DATA_ENTRY # currently only tasks and data entries, no process definition or process instances
+      payload-attribute-level-limit: 1
+      task-filters:
+        include: unknown
 
 springdoc:
   swagger-ui:
@@ -110,5 +116,17 @@ logging:
     org.apache.kafka.clients.consumer.ConsumerConfig: WARN
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
-    org.camunda.community.rest.client.api: DEBUG
-    org.springframework.security: DEBUG
+    org.camunda.community.rest.client.api: INFO
+    org.springframework.security: INFO
+
+digiwf:
+  s3service:
+    topic: 'dwf-s3-${DIGIWF_ENV}'
+    httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          documentStorageUrl: '${digiwf.s3service.httpAPI}'
