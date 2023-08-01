@@ -50,7 +50,7 @@
 
         <!-- DigiWF -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-core</artifactId>
             <version>${project.version}</version>
         </dependency>
