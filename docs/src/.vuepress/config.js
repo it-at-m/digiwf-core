@@ -250,6 +250,7 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-verification-integration',
+                                'digiwf-formserver-integration'
                             ]
                         },
                         {
