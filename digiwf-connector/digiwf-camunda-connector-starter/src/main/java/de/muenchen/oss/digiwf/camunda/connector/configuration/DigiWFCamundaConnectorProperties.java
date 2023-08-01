@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "io.muenchendigital.digiwf.camunda.connector")
+@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.camunda.connector")
 public class DigiWFCamundaConnectorProperties {
 
     private List<String> filterVariables;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.connectorrest")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.connectorrest")
 @EnableConfigurationProperties(DigiWFEngineRestProperties.class)
 public class DigiWFEngineRestAutoConfiguration {
 

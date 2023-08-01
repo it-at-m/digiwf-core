@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "io.muenchendigital.digiwf.camunda.connector")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.camunda.connector")
 @EnableConfigurationProperties(DigiWFCamundaConnectorProperties.class)
 public class DigiWFCamundaConnectorAutoConfiguration {
 
