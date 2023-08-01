@@ -33,11 +33,6 @@
 
     <modules>
         <module>digiwf-engine</module>
-<<<<<<< HEAD
-        <module>digiwf-connector</module>
-=======
-        <module>digiwf-schema-registry</module>
->>>>>>> dev
         <module>digiwf-task</module>
         <module>digiwf-libs</module>
         <module>digiwf-process</module>
