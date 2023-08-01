@@ -12,7 +12,6 @@
         <artifactId>digiwf-core</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <version>0.18.0-SNAPSHOT</version>
-        <relativePath>../pom-new.xml</relativePath>
     </parent>
 
     <modules>
