@@ -32,7 +32,10 @@
     </properties>
 
     <modules>
+        <module>digiwf-connector</module>
         <module>digiwf-gateway</module>
+        <module>digiwf-process</module>
+        <module>digiwf-schema-registry</module>
     </modules>
 
     <dependencyManagement>
