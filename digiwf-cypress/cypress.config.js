@@ -17,6 +17,7 @@ module.exports = defineConfig({
   },
   env: {
     username: "johndoe",
+    fullUsername: "John Doe",
     password: "test",
     home: "localhost:8082/"
   },
