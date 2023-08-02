@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
-//@Import({ProcessInstanceInfoRepository.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ProcessInstanceInfoRepositoryTest {
 
@@ -34,7 +33,6 @@ class ProcessInstanceInfoRepositoryTest {
 
     @Test
     void findAllUserId() {
-
         createAndSaveProcessInstance(1);
         createAndSaveProcessInstance(2);
         createAndSaveProcessInstance(3);
@@ -89,7 +87,6 @@ class ProcessInstanceInfoRepositoryTest {
 
         createAndSaveProcessAuthInstance(3, 3);
         createAndSaveProcessAuthInstance(4, 3);
-
 
         val searchResultOfServiceByInstanceIdPart = processInstanceInfoRepository.searchAllByUserId("ce-1", "user-1", PageRequest.of(0, 2));
         assertEquals(1, searchResultOfServiceByInstanceIdPart.getTotalElements());
