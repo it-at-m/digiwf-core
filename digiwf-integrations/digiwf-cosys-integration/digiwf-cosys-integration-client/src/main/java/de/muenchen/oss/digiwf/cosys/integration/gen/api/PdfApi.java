@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.cosys.integration.gen.model.ReadPdfFieldsOutput;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PdfApi {
@@ -47,7 +49,7 @@ public class PdfApi {
 
     /**
      * Concat multiple PDF files
-     *
+     * 
      * <p><b>200</b> - Joined PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -73,11 +75,11 @@ public class PdfApi {
         if (_file != null)
             formParams.addAll("file", _file.stream().map(FileSystemResource::new).collect(Collectors.toList()));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/pdf"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -90,7 +92,7 @@ public class PdfApi {
 
     /**
      * Concat multiple PDF files
-     *
+     * 
      * <p><b>200</b> - Joined PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -106,7 +108,7 @@ public class PdfApi {
 
     /**
      * Concat multiple PDF files
-     *
+     * 
      * <p><b>200</b> - Joined PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -122,7 +124,7 @@ public class PdfApi {
 
     /**
      * Concat multiple PDF files
-     *
+     * 
      * <p><b>200</b> - Joined PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -136,7 +138,7 @@ public class PdfApi {
     }
     /**
      * Convert a PDF to a PDF/A-3b
-     *
+     * 
      * <p><b>200</b> - PDF/A-3b file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -162,11 +164,11 @@ public class PdfApi {
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/pdf"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -179,7 +181,7 @@ public class PdfApi {
 
     /**
      * Convert a PDF to a PDF/A-3b
-     *
+     * 
      * <p><b>200</b> - PDF/A-3b file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -195,7 +197,7 @@ public class PdfApi {
 
     /**
      * Convert a PDF to a PDF/A-3b
-     *
+     * 
      * <p><b>200</b> - PDF/A-3b file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -211,7 +213,7 @@ public class PdfApi {
 
     /**
      * Convert a PDF to a PDF/A-3b
-     *
+     * 
      * <p><b>200</b> - PDF/A-3b file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -225,7 +227,7 @@ public class PdfApi {
     }
     /**
      * Convert a file to a PDF file
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -251,11 +253,11 @@ public class PdfApi {
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/pdf"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -268,7 +270,7 @@ public class PdfApi {
 
     /**
      * Convert a file to a PDF file
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -284,7 +286,7 @@ public class PdfApi {
 
     /**
      * Convert a file to a PDF file
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -300,7 +302,7 @@ public class PdfApi {
 
     /**
      * Convert a file to a PDF file
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -314,7 +316,7 @@ public class PdfApi {
     }
     /**
      * Encrypt a PDF file with a password
-     *
+     * 
      * <p><b>200</b> - Encrypted PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -347,11 +349,11 @@ public class PdfApi {
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/pdf"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -364,7 +366,7 @@ public class PdfApi {
 
     /**
      * Encrypt a PDF file with a password
-     *
+     * 
      * <p><b>200</b> - Encrypted PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -381,7 +383,7 @@ public class PdfApi {
 
     /**
      * Encrypt a PDF file with a password
-     *
+     * 
      * <p><b>200</b> - Encrypted PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -398,7 +400,7 @@ public class PdfApi {
 
     /**
      * Encrypt a PDF file with a password
-     *
+     * 
      * <p><b>200</b> - Encrypted PDF file
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -413,7 +415,7 @@ public class PdfApi {
     }
     /**
      * Fill values into the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - PDF with values in fields
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -446,11 +448,11 @@ public class PdfApi {
         if (data != null)
             formParams.add("data", new FileSystemResource(data));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/pdf"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -463,7 +465,7 @@ public class PdfApi {
 
     /**
      * Fill values into the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - PDF with values in fields
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -480,7 +482,7 @@ public class PdfApi {
 
     /**
      * Fill values into the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - PDF with values in fields
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -497,7 +499,7 @@ public class PdfApi {
 
     /**
      * Fill values into the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - PDF with values in fields
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -512,7 +514,7 @@ public class PdfApi {
     }
     /**
      * Read the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - field values in XML format
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -538,11 +540,11 @@ public class PdfApi {
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/xml"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -555,7 +557,7 @@ public class PdfApi {
 
     /**
      * Read the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - field values in XML format
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -571,7 +573,7 @@ public class PdfApi {
 
     /**
      * Read the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - field values in XML format
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached
@@ -587,7 +589,7 @@ public class PdfApi {
 
     /**
      * Read the fields of a PDF
-     *
+     * 
      * <p><b>200</b> - field values in XML format
      * <p><b>415</b> - Input not supported
      * <p><b>404</b> - coSys instance could not be reached

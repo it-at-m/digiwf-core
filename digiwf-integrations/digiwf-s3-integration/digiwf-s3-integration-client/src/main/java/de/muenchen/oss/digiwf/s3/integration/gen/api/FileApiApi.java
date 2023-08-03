@@ -8,7 +8,9 @@ import de.muenchen.oss.digiwf.s3.integration.gen.model.PresignedUrlDto;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -16,12 +18,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileApiApi {
@@ -45,7 +49,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -74,7 +78,7 @@ public class FileApiApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "*/*"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -88,7 +92,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -102,7 +106,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -116,7 +120,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -128,7 +132,7 @@ public class FileApiApi {
         return delete1RequestCreation(pathToFile, expiresInMinutes);
     }
     /**
-     *
+     * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -157,7 +161,7 @@ public class FileApiApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFile", pathToFile));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "expiresInMinutes", expiresInMinutes));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "*/*"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -171,7 +175,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -185,7 +189,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -199,7 +203,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to fetch the file specified in the parameter from the S3 storage
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -211,7 +215,7 @@ public class FileApiApi {
         return getRequestCreation(pathToFile, expiresInMinutes);
     }
     /**
-     *
+     * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -232,11 +236,11 @@ public class FileApiApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "*/*"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "application/json"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -248,7 +252,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -261,7 +265,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -274,7 +278,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to store the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -285,7 +289,7 @@ public class FileApiApi {
         return saveRequestCreation(fileDataDto);
     }
     /**
-     *
+     * 
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -306,11 +310,11 @@ public class FileApiApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "*/*"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "application/json"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -322,7 +326,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -335,7 +339,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -348,7 +352,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage
      * <p><b>200</b> - OK
      * @param fileDataDto The fileDataDto parameter
@@ -359,7 +363,7 @@ public class FileApiApi {
         return updateRequestCreation(fileDataDto);
     }
     /**
-     *
+     * 
      * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -399,7 +403,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -412,7 +416,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter
@@ -425,7 +429,7 @@ public class FileApiApi {
     }
 
     /**
-     *
+     * 
      * Updates the end of life attribute in the corresponding database entry for the file specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFile The pathToFile parameter

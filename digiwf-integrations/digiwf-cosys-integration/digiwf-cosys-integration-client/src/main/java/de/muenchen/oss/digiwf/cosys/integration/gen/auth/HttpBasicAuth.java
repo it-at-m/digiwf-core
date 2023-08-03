@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.cosys.integration.gen.auth;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 

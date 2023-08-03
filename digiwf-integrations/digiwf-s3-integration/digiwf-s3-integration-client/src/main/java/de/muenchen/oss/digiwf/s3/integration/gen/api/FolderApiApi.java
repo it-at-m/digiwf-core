@@ -6,7 +6,9 @@ import de.muenchen.oss.digiwf.s3.integration.gen.model.FilesInFolderDto;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -14,12 +16,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FolderApiApi {
@@ -43,7 +47,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Deletes the folder specified in the parameter together with the corresponding database entry
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -77,7 +81,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Deletes the folder specified in the parameter together with the corresponding database entry
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -89,7 +93,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Deletes the folder specified in the parameter together with the corresponding database entry
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -101,7 +105,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Deletes the folder specified in the parameter together with the corresponding database entry
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -112,7 +116,7 @@ public class FolderApiApi {
         return deleteRequestCreation(pathToFolder);
     }
     /**
-     *
+     * 
      * Returns all file paths for the folder specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -135,7 +139,7 @@ public class FolderApiApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "pathToFolder", pathToFolder));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "*/*"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -149,7 +153,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Returns all file paths for the folder specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -162,7 +166,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Returns all file paths for the folder specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter
@@ -175,7 +179,7 @@ public class FolderApiApi {
     }
 
     /**
-     *
+     * 
      * Returns all file paths for the folder specified in the parameter
      * <p><b>200</b> - OK
      * @param pathToFolder The pathToFolder parameter

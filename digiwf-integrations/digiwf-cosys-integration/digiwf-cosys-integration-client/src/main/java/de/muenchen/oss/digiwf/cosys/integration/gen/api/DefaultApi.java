@@ -7,7 +7,9 @@ import de.muenchen.oss.digiwf.cosys.integration.gen.model.SearchResult;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,6 +17,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -46,7 +49,7 @@ public class DefaultApi {
 
     /**
      * Analyzes a template for used fields and other information
-     *
+     * 
      * <p><b>200</b> - Used fields and other information of the template
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -95,7 +98,7 @@ public class DefaultApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "stateFilter", stateFilter));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "validity", validity));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/json;mode=DATA_SUPPLY", "application/json;mode=FIELD_DEFINITION", "application/json;mode=SYNTAX"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -110,7 +113,7 @@ public class DefaultApi {
 
     /**
      * Analyzes a template for used fields and other information
-     *
+     * 
      * <p><b>200</b> - Used fields and other information of the template
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -132,7 +135,7 @@ public class DefaultApi {
 
     /**
      * Analyzes a template for used fields and other information
-     *
+     * 
      * <p><b>200</b> - Used fields and other information of the template
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -154,7 +157,7 @@ public class DefaultApi {
 
     /**
      * Analyzes a template for used fields and other information
-     *
+     * 
      * <p><b>200</b> - Used fields and other information of the template
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -174,7 +177,7 @@ public class DefaultApi {
     }
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param body The body parameter
@@ -195,11 +198,11 @@ public class DefaultApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "text/plain"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "application/json"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -212,7 +215,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param body The body parameter
@@ -226,7 +229,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param body The body parameter
@@ -240,7 +243,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param body The body parameter
@@ -252,7 +255,7 @@ public class DefaultApi {
     }
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param guid The guid of the template.
@@ -303,7 +306,7 @@ public class DefaultApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "firstTabSelector", firstTabSelector));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "firstTab", firstTab));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "text/plain"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -318,7 +321,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param guid The guid of the template.
@@ -348,7 +351,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param guid The guid of the template.
@@ -378,7 +381,7 @@ public class DefaultApi {
 
     /**
      * Returns the cosys url.
-     *
+     * 
      * <p><b>200</b> - The cosys url.
      * <p><b>500</b> - An unexpected system error occured.
      * @param guid The guid of the template.
@@ -406,7 +409,7 @@ public class DefaultApi {
     }
     /**
      * Returns the GUID for the template identifier.
-     *
+     * 
      * <p><b>200</b> - The GUID for the template identifier.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -446,7 +449,7 @@ public class DefaultApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "templateId", templateId));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "templateType", templateType));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "text/plain"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -461,7 +464,7 @@ public class DefaultApi {
 
     /**
      * Returns the GUID for the template identifier.
-     *
+     * 
      * <p><b>200</b> - The GUID for the template identifier.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -481,7 +484,7 @@ public class DefaultApi {
 
     /**
      * Returns the GUID for the template identifier.
-     *
+     * 
      * <p><b>200</b> - The GUID for the template identifier.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -501,7 +504,7 @@ public class DefaultApi {
 
     /**
      * Returns the GUID for the template identifier.
-     *
+     * 
      * <p><b>200</b> - The GUID for the template identifier.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -519,7 +522,7 @@ public class DefaultApi {
     }
     /**
      * Returns a list of template information for the given search parameters.
-     *
+     * 
      * <p><b>200</b> - The list of template information.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -556,7 +559,7 @@ public class DefaultApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "templateId", templateId));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "templateType", templateType));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/json"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -571,7 +574,7 @@ public class DefaultApi {
 
     /**
      * Returns a list of template information for the given search parameters.
-     *
+     * 
      * <p><b>200</b> - The list of template information.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -591,7 +594,7 @@ public class DefaultApi {
 
     /**
      * Returns a list of template information for the given search parameters.
-     *
+     * 
      * <p><b>200</b> - The list of template information.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -611,7 +614,7 @@ public class DefaultApi {
 
     /**
      * Returns a list of template information for the given search parameters.
-     *
+     * 
      * <p><b>200</b> - The list of template information.
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized

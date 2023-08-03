@@ -6,7 +6,9 @@ import java.io.File;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DatapoolApi {
@@ -45,7 +48,7 @@ public class DatapoolApi {
 
     /**
      * Creates a new data pool and returns the id.
-     *
+     * 
      * <p><b>200</b> - ID of the created data pool or the cosys url if the guid is set. With this ID you can call coSys: https://cosys-dev.muenchen.de/webdesk?j_user_company&#x3D;0002&amp;j_role&#x3D;TESTER&amp;j_template_guid&#x3D;{GUID}&amp;j_datapoolid&#x3D;{ID}
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -90,11 +93,11 @@ public class DatapoolApi {
         if (parameter != null)
             formParams.add("parameter", new FileSystemResource(parameter));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/json"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -107,7 +110,7 @@ public class DatapoolApi {
 
     /**
      * Creates a new data pool and returns the id.
-     *
+     * 
      * <p><b>200</b> - ID of the created data pool or the cosys url if the guid is set. With this ID you can call coSys: https://cosys-dev.muenchen.de/webdesk?j_user_company&#x3D;0002&amp;j_role&#x3D;TESTER&amp;j_template_guid&#x3D;{GUID}&amp;j_datapoolid&#x3D;{ID}
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -128,7 +131,7 @@ public class DatapoolApi {
 
     /**
      * Creates a new data pool and returns the id.
-     *
+     * 
      * <p><b>200</b> - ID of the created data pool or the cosys url if the guid is set. With this ID you can call coSys: https://cosys-dev.muenchen.de/webdesk?j_user_company&#x3D;0002&amp;j_role&#x3D;TESTER&amp;j_template_guid&#x3D;{GUID}&amp;j_datapoolid&#x3D;{ID}
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -149,7 +152,7 @@ public class DatapoolApi {
 
     /**
      * Creates a new data pool and returns the id.
-     *
+     * 
      * <p><b>200</b> - ID of the created data pool or the cosys url if the guid is set. With this ID you can call coSys: https://cosys-dev.muenchen.de/webdesk?j_user_company&#x3D;0002&amp;j_role&#x3D;TESTER&amp;j_template_guid&#x3D;{GUID}&amp;j_datapoolid&#x3D;{ID}
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -168,7 +171,7 @@ public class DatapoolApi {
     }
     /**
      * Deletes the data pool.
-     *
+     * 
      * <p><b>200</b> - The data pool was deleted
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -219,7 +222,7 @@ public class DatapoolApi {
 
     /**
      * Deletes the data pool.
-     *
+     * 
      * <p><b>200</b> - The data pool was deleted
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -237,7 +240,7 @@ public class DatapoolApi {
 
     /**
      * Deletes the data pool.
-     *
+     * 
      * <p><b>200</b> - The data pool was deleted
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -255,7 +258,7 @@ public class DatapoolApi {
 
     /**
      * Deletes the data pool.
-     *
+     * 
      * <p><b>200</b> - The data pool was deleted
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized

@@ -6,6 +6,7 @@ import java.io.File;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class GenerationApi {
@@ -46,7 +48,7 @@ public class GenerationApi {
 
     /**
      * Creates a PDF document from a template
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -115,11 +117,11 @@ public class GenerationApi {
         if (format != null)
             formParams.add("format", new FileSystemResource(format));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/octet-stream"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -132,7 +134,7 @@ public class GenerationApi {
 
     /**
      * Creates a PDF document from a template
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -162,7 +164,7 @@ public class GenerationApi {
 
     /**
      * Creates a PDF document from a template
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -192,7 +194,7 @@ public class GenerationApi {
 
     /**
      * Creates a PDF document from a template
-     *
+     * 
      * <p><b>200</b> - Created PDF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -220,7 +222,7 @@ public class GenerationApi {
     }
     /**
      * Creates a RTF document from a template
-     *
+     * 
      * <p><b>200</b> - Created RTF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -284,11 +286,11 @@ public class GenerationApi {
         if (resource != null)
             formParams.addAll("resource", resource.stream().map(FileSystemResource::new).collect(Collectors.toList()));
 
-        final String[] localVarAccepts = {
+        final String[] localVarAccepts = { 
             "application/octet-stream"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {
+        final String[] localVarContentTypes = { 
             "multipart/form-data"
         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -301,7 +303,7 @@ public class GenerationApi {
 
     /**
      * Creates a RTF document from a template
-     *
+     * 
      * <p><b>200</b> - Created RTF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -329,7 +331,7 @@ public class GenerationApi {
 
     /**
      * Creates a RTF document from a template
-     *
+     * 
      * <p><b>200</b> - Created RTF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized
@@ -357,7 +359,7 @@ public class GenerationApi {
 
     /**
      * Creates a RTF document from a template
-     *
+     * 
      * <p><b>200</b> - Created RTF file
      * <p><b>403</b> - Client does not exist, Role TO is not allowed
      * <p><b>401</b> - Unauthorized

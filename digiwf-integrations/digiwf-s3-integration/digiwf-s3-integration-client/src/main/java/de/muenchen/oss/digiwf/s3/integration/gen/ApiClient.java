@@ -3,16 +3,23 @@ package de.muenchen.oss.digiwf.s3.integration.gen;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.muenchen.oss.digiwf.s3.integration.gen.auth.ApiKeyAuth;
-import de.muenchen.oss.digiwf.s3.integration.gen.auth.Authentication;
-import de.muenchen.oss.digiwf.s3.integration.gen.auth.HttpBasicAuth;
-import de.muenchen.oss.digiwf.s3.integration.gen.auth.HttpBearerAuth;
 import org.openapitools.jackson.nullable.JsonNullableModule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.RequestEntity.BodyBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.util.CollectionUtils;
@@ -24,19 +31,30 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
-
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import java.util.Optional;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -45,6 +63,11 @@ import java.util.TimeZone;
 import javax.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+
+import de.muenchen.oss.digiwf.s3.integration.gen.auth.Authentication;
+import de.muenchen.oss.digiwf.s3.integration.gen.auth.HttpBasicAuth;
+import de.muenchen.oss.digiwf.s3.integration.gen.auth.HttpBearerAuth;
+import de.muenchen.oss.digiwf.s3.integration.gen.auth.ApiKeyAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
