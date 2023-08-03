@@ -146,7 +146,7 @@ unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definiere
 
 Neben dem Versenden von Nachrichten über die Event Emitter, können auch Nachrichten über den Function Router empfangen werden.
 Hierfür stellen wir einen `RoutingCallback` bereit, der die eingehenden Nachrichten anhand des Headers `type` an die Consumer der Anwendung routed.
-Das Mapping zwischen dem Header `type`, der aus den eingehenden Nachrichten ausgelesen wird und den Consumer Funktionen wird in der `application.yml` über die Property `io.muenchendigital.digiwf.message.typeMappings` konfiguriert.
+Das Mapping zwischen dem Header `type`, der aus den eingehenden Nachrichten ausgelesen wird und den Consumer Funktionen wird in der `application.yml` über die Property `de.muenchen.oss.digiwf.message.typeMappings` konfiguriert.
 
 ## Konfiguration
 
@@ -180,11 +180,11 @@ io:
 
 |                                                               |                                                                                   |
 |---------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| io.muenchendigital.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
-| io.muenchendigital.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
-| io.muenchendigital.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
-| io.muenchendigital.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
-| io.muenchendigital.digiwf.message.typeMappings                | Mapping of message types to consumer function names                               |
+| de.muenchen.oss.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
+| de.muenchen.oss.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
+| de.muenchen.oss.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
+| de.muenchen.oss.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
+| de.muenchen.oss.digiwf.message.typeMappings                | Mapping of message types to consumer function names                               |
 
 ## Anpassbarkeit
 

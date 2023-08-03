@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.camunda.prometheus.CamundaPrometheusAutoConfiguration
+de.muenchen.oss.digiwf.camunda.prometheus.CamundaPrometheusAutoConfiguration
