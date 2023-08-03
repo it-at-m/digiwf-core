@@ -26,8 +26,6 @@ public interface ProcessInstanceInfoRepository extends JpaRepository<ServiceInst
 
     Optional<ServiceInstanceEntity> findByInstanceId(String processInstanceId);
 
-    List<ServiceInstanceEntity> findAllByInstanceIdIn(List<String> instanceIds);
-
     List<ServiceInstanceEntity> findByRemovalTimeBefore(Date referenceDate);
 
     /**
