@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.task.service.domain;
 
-import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
+import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

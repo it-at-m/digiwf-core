@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.task.service.adapter.out.file;
 
 import de.muenchen.oss.digiwf.task.service.application.port.out.file.PresignedUrlPort;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
-import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

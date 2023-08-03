@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.engine.LegacyPay
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.*;
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
+import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
 import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnUserTask;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;

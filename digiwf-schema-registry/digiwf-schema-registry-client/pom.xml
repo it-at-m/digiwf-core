@@ -113,9 +113,9 @@
                             <library>resttemplate</library>
                             <output>${project.basedir}</output>
 
-                            <apiPackage>io.muenchendigital.digiwf.schema.registry.gen.api</apiPackage>
-                            <modelPackage>io.muenchendigital.digiwf.schema.registry.gen.model</modelPackage>
-                            <invokerPackage>io.muenchendigital.digiwf.schema.registry.gen</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.schema.registry.gen.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.schema.registry.gen.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.schema.registry.gen</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

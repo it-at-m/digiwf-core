@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.alw.integration.configuration.AlwAutoConfiguration
+de.muenchen.oss.digiwf.alw.integration.configuration.AlwAutoConfiguration
