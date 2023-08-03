@@ -31,7 +31,7 @@ Dementsprechend muss zuerst die **digiwf-message** Bibliothek als Dependency in 
 
 ```xml
     <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-message-starter</artifactId>
         <version>${project.version}</version>
     </dependency>

@@ -8,7 +8,7 @@ spring:
     open-in-view: true
     hibernate:
       hbm2ddl:
-        schema_filter_provider: io.muenchendigital.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
+        schema_filter_provider: de.muenchen.oss.digiwf.shared.configuration.hibernateSchema.IgnoreTableDuplicatesFilterProvider
       ddl-auto: create-drop
     database:
       platform: org.hibernate.dialect.H2Dialect

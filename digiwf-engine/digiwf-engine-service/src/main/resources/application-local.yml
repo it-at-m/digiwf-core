@@ -19,9 +19,9 @@ spring:
 
 logging:
   level:
-    io.muenchendigital.digiwf.legacy.form.domain.service.FormService: WARN
+    de.muenchen.oss.digiwf.legacy.form.domain.service.FormService: WARN
     org.springframework.boot.web: DEBUG
-    io.muenchendigital.digiwf.shared.configuration: DEBUG
+    de.muenchen.oss.digiwf.shared.configuration: DEBUG
 camunda:
   bpm:
     admin-user:

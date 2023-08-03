@@ -32,7 +32,7 @@ Dazu muss die `digiwf-s3-integration-client-starter` Abhängigkeit hinzugefügt 
 Mit Maven:
 ```xml
 <dependency>
-     <groupId>io.muenchendigital.digiwf</groupId>
+     <groupId>de.muenchen.oss.digiwf</groupId>
      <artifactId>digiwf-s3-integration-client-starter</artifactId>
      <version>${digiwf.version}</version>
 </dependency>
@@ -40,7 +40,7 @@ Mit Maven:
 
 Mit Gradle:
 ```groovy
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-s3-integration-client-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-s3-integration-client-starter', version: '${digiwf.version}'
 ```
 
 Und der Wert der Eigenschaft `io.muenchendigital.digiwf.s3.client.document-storage-url` auf die Lokation des S3 Integration Dienstes zeigen.
@@ -116,7 +116,7 @@ Mit Maven:
 
 ```xml
 <dependency>
-     <groupId>io.muenchendigital.digiwf</groupId>
+     <groupId>de.muenchen.oss.digiwf</groupId>
      <artifactId>digiwf-s3-integration-starter</artifactId>
      <version>${digiwf.version}</version>
 </dependency>
@@ -125,7 +125,7 @@ Mit Maven:
 Mit Gradle:
 
 ```
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-s3-integration-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-s3-integration-starter', version: '${digiwf.version}'
 ```
 
 ### Konfiguration

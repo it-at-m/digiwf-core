@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-cosys-integration</artifactId>
         <version>0.18.0-SNAPSHOT</version>
     </parent>
@@ -109,9 +109,9 @@
                             <generatorName>java</generatorName>
                             <output>${project.basedir}</output>
 
-                            <apiPackage>io.muenchendigital.digiwf.cosys.integration.gen.api</apiPackage>
-                            <modelPackage>io.muenchendigital.digiwf.cosys.integration.gen.model</modelPackage>
-                            <invokerPackage>io.muenchendigital.digiwf.cosys.integration.gen</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.cosys.integration.gen.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.cosys.integration.gen.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.cosys.integration.gen</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

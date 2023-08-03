@@ -1,7 +1,7 @@
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/ApiClient.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/RFC3339DateFormat.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/api/JsonSchemaApi.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/auth/ApiKeyAuth.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/auth/Authentication.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/auth/HttpBasicAuth.java
-src/main/java/io/muenchendigital/digiwf/schema/registry/gen/model/JsonSchemaDto.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/ApiClient.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/RFC3339DateFormat.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/api/JsonSchemaApi.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/auth/ApiKeyAuth.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/auth/Authentication.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/auth/HttpBasicAuth.java
+src/main/java/de/muenchen/oss/digiwf/schema/registry/gen/model/JsonSchemaDto.java

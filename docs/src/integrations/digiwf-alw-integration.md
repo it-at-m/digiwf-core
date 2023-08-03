@@ -29,7 +29,7 @@ With Maven:
 
 ``` xml
    <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-alw-integration-starter</artifactId>
         <version>${digiwf.version}</version>
    </dependency>
@@ -38,7 +38,7 @@ With Maven:
 With Gradle:
 
 ``` groovy
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-alw-integration-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-alw-integration-starter', version: '${digiwf.version}'
 ```
 
 3. Add your preferred binder (see [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)). In this
