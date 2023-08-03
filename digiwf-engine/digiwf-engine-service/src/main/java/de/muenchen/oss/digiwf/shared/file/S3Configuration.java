@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * @author martin.dietrich
  */
 @Configuration
-@ComponentScan(basePackages = {"io.muenchendigital.digiwf.s3.integration.client"})
+@ComponentScan(basePackages = {"de.muenchen.oss.digiwf.s3.integration.client"})
 public class S3Configuration {
     /**
      * Provides the {@link RestTemplate} which is used in {@link ApiClient}.

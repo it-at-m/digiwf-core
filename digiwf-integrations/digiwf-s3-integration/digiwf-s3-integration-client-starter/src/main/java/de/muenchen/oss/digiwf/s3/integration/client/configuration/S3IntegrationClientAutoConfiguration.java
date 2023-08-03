@@ -19,8 +19,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @ComponentScan(
         basePackages = {
-                "io.muenchendigital.digiwf.s3.integration.gen",
-                "io.muenchendigital.digiwf.s3.integration.client"
+                "de.muenchen.oss.digiwf.s3.integration.gen",
+                "de.muenchen.oss.digiwf.s3.integration.client"
         },
         excludeFilters = {
                 @ComponentScan.Filter(
