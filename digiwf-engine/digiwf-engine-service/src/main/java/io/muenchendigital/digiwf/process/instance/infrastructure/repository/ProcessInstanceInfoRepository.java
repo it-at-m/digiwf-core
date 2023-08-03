@@ -30,7 +30,12 @@ public interface ProcessInstanceInfoRepository extends JpaRepository<ServiceInst
 
     List<ServiceInstanceEntity> findByRemovalTimeBefore(Date referenceDate);
 
-
+    /**
+     *
+     * @param userId id of the user
+     * @param pageable page request
+     * @return all process informations which th user with the given id is allowed to see
+     */
     @Query(
             value = "SELECT si FROM ServiceInstance si " +
                     "LEFT JOIN ProcessInstanceAuth sia ON sia.processInstanceId = si.instanceId " +
@@ -41,6 +46,20 @@ public interface ProcessInstanceInfoRepository extends JpaRepository<ServiceInst
     )
     Page<ServiceInstanceEntity> findAllByUserId(@Param("user") String userId, Pageable pageable);
 
+    /**
+     *
+     * @param lowerQuery search string in lower case
+     * @param userId id of the user
+     * @param pageable page request
+     * @return all process informations which th user with the given id is allowed to see and which contains the search query in the following columns
+     * - id
+     * - instanceId
+     * - definitionName
+     * - definitionKey
+     * - description
+     * - status
+     * - statusKey
+     */
     @Query(
             value = "SELECT si FROM ServiceInstance si " +
                     "LEFT JOIN ProcessInstanceAuth sia " +
