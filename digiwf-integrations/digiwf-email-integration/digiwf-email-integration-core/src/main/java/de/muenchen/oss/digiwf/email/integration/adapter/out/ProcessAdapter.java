@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;

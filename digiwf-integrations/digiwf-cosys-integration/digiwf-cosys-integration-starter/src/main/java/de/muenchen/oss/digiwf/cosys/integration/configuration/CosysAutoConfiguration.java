@@ -14,8 +14,8 @@ import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToS
 import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.cosys.integration.gen.ApiClient;
 import de.muenchen.oss.digiwf.cosys.integration.gen.api.GenerationApi;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.RequiredArgsConstructor;

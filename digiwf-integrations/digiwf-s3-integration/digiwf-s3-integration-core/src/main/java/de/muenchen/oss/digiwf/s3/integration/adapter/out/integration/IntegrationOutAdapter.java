@@ -1,11 +1,11 @@
 package de.muenchen.oss.digiwf.s3.integration.adapter.out.integration;
 
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
-import io.muenchendigital.digiwf.message.common.MessageConstants;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.lang.NonNull;

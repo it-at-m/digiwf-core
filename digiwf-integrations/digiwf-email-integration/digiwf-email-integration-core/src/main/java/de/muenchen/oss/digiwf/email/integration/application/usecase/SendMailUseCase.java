@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

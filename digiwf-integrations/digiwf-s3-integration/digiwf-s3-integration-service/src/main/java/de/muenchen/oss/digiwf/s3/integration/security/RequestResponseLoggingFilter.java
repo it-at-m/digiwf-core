@@ -4,7 +4,7 @@
  */
 package de.muenchen.oss.digiwf.s3.integration.security;
 
-import io.muenchendigital.digiwf.spring.security.authentication.UserAuthenticationProvider;
+import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

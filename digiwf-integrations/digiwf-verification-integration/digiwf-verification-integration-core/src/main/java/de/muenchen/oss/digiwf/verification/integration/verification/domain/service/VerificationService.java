@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.verification.integration.verification.domain.serv
 
 import de.muenchen.oss.digiwf.verification.integration.verification.domain.exception.VerificationExpiredException;
 import de.muenchen.oss.digiwf.verification.integration.verification.domain.exception.VerificationTokenNotFoundException;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import de.muenchen.oss.digiwf.verification.integration.shared.StreamingConstants;
 import de.muenchen.oss.digiwf.verification.integration.shared.domain.entity.VerificationEntity;
 import de.muenchen.oss.digiwf.verification.integration.shared.repository.VerificationRepository;

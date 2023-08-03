@@ -11,8 +11,8 @@ import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAcces
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.s3.integration.properties.S3IntegrationProperties;
 import io.minio.MinioClient;
-import io.muenchendigital.digiwf.message.process.api.ErrorApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

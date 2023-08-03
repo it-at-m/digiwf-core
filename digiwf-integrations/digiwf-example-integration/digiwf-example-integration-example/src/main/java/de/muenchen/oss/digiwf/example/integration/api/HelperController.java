@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.example.integration.api;
 
 import de.muenchen.oss.digiwf.example.integration.core.adapter.ExampleDto;
-import io.muenchendigital.digiwf.message.common.MessageConstants;
-import io.muenchendigital.digiwf.message.core.api.MessageApi;
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

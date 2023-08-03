@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.email.integration.adapter.out;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import de.muenchen.oss.digiwf.email.integration.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.RequiredArgsConstructor;

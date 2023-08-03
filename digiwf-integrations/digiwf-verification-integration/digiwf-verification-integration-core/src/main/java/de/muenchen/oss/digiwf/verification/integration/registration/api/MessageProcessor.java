@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.verification.integration.registration.api;
 
 import de.muenchen.oss.digiwf.verification.integration.registration.domain.service.RegistrationService;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.incident.service.IncidentService;
-import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.incident.service.IncidentService;
+import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import de.muenchen.oss.digiwf.verification.integration.registration.domain.model.Registration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

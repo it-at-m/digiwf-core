@@ -5,8 +5,8 @@ import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresigned
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
 
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

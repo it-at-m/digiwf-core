@@ -6,10 +6,10 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMe
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
-import io.muenchendigital.digiwf.message.core.api.MessageApi;
-import io.muenchendigital.digiwf.message.process.api.ProcessApi;
-import io.muenchendigital.digiwf.message.process.api.error.BpmnError;
-import io.muenchendigital.digiwf.message.process.impl.ProcessApiImpl;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.impl.ProcessApiImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
