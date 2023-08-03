@@ -34,7 +34,7 @@ public interface ProcessInstanceInfoRepository extends JpaRepository<ServiceInst
      *
      * @param userId id of the user
      * @param pageable page request
-     * @return all process informations which th user with the given id is allowed to see
+     * @return all process information which th user with the given id is allowed to see
      */
     @Query(
             value = "SELECT si FROM ServiceInstance si " +
@@ -51,7 +51,7 @@ public interface ProcessInstanceInfoRepository extends JpaRepository<ServiceInst
      * @param lowerQuery search string in lower case
      * @param userId id of the user
      * @param pageable page request
-     * @return all process informations which th user with the given id is allowed to see and which contains the search query in the following columns
+     * @return all process information which th user with the given id is allowed to see and which contains the search query in the following columns
      * - id
      * - instanceId
      * - definitionName
