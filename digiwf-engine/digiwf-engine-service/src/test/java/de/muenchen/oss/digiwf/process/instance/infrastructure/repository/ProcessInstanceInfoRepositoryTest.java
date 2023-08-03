@@ -1,7 +1,7 @@
-package io.muenchendigital.digiwf.process.instance.infrastructure.repository;
+package de.muenchen.oss.digiwf.process.instance.infrastructure.repository;
 
-import io.muenchendigital.digiwf.process.instance.infrastructure.entity.ServiceInstanceAuthorizationEntity;
-import io.muenchendigital.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
+import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInstanceAuthorizationEntity;
+import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

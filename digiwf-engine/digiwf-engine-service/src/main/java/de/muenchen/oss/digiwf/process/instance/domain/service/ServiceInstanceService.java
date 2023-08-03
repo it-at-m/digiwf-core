@@ -7,7 +7,6 @@ package de.muenchen.oss.digiwf.process.instance.domain.service;
 import de.muenchen.oss.digiwf.jsonschema.domain.model.JsonSchema;
 import de.muenchen.oss.digiwf.jsonschema.domain.service.JsonSchemaService;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
-import de.muenchen.oss.digiwf.process.instance.api.mapper.ProcessInstancePageMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.mapper.HistoryTaskMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.mapper.ServiceInstanceMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
