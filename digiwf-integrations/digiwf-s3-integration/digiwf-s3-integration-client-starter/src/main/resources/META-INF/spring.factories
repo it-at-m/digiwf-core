@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration
+de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration
