@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.message.api.streaming;
 
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import de.muenchen.oss.digiwf.message.domain.service.MessageService;
+import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

@@ -5,7 +5,7 @@
 package de.muenchen.oss.digiwf.process.instance.domain.service;
 
 import de.muenchen.oss.digiwf.engine.mapper.EngineDataMapper;
-import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
+import de.muenchen.oss.digiwf.json.serialization.JsonSerializationService;
 import de.muenchen.oss.digiwf.jsonschema.domain.model.JsonSchema;
 import de.muenchen.oss.digiwf.process.instance.process.ProcessConstants;
 import lombok.RequiredArgsConstructor;

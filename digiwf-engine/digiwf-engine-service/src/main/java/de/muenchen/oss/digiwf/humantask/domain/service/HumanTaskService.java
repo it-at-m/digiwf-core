@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static io.muenchendigital.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
 /**
  * Service to handle HumanTasks in DigiWF.

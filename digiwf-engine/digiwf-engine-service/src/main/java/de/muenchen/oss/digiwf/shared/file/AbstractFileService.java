@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.shared.file;
 
 import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapter;
 import lombok.extern.slf4j.Slf4j;

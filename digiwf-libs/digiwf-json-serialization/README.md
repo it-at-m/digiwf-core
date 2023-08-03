@@ -61,7 +61,7 @@ With Maven:
 
 ```
    <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-json-serialization-starter</artifactId>
         <version>${digiwf.version}</version>
    </dependency>
@@ -70,7 +70,7 @@ With Maven:
 With Gradle:
 
 ```
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-json-serialization-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-json-serialization-starter', version: '${digiwf.version}'
 ```
 
 3. Inject the `JsonSchemaSerializationService` in your application

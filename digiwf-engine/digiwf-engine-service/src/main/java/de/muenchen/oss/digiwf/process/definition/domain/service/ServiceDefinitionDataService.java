@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.process.definition.domain.service;
 
 import de.muenchen.oss.digiwf.engine.mapper.EngineDataMapper;
-import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
-import io.muenchendigital.digiwf.json.validation.JsonSchemaValidator;
+import de.muenchen.oss.digiwf.json.serialization.JsonSerializationService;
+import de.muenchen.oss.digiwf.json.validation.JsonSchemaValidator;
 import de.muenchen.oss.digiwf.legacy.form.domain.service.FormService;
 import de.muenchen.oss.digiwf.legacy.shared.data.DataService;
 import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;

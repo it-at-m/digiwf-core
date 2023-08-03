@@ -7,7 +7,7 @@ package de.muenchen.oss.digiwf.humantask.domain.service;
 import de.muenchen.oss.digiwf.humantask.process.ProcessTaskConstants;
 import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
 import de.muenchen.oss.digiwf.process.instance.process.ProcessConstants;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.shared.exception.IllegalResourceAccessException;
 import de.muenchen.oss.digiwf.shared.exception.NoFileContextException;
 import de.muenchen.oss.digiwf.shared.file.AbstractFileService;

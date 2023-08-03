@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.message.example.message.service;
 
-import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import de.muenchen.oss.digiwf.message.example.message.dto.Message;
 import de.muenchen.oss.digiwf.message.example.message.dto.MessageSuccess;
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

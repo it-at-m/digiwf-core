@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Implementation of {@link de.muenchen.oss.digiwf.message.core.api.MessageApi}
+ * Implementation of {@link MessageApi}
  */
 @RequiredArgsConstructor
 @Slf4j

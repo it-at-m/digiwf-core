@@ -8,7 +8,7 @@ import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.shared.exception.IllegalResourceAccessException;
 import de.muenchen.oss.digiwf.shared.file.AbstractFileService;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
