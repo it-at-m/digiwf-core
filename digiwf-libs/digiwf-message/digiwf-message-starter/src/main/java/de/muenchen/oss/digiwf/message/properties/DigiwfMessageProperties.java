@@ -11,10 +11,10 @@ import java.util.Map;
  * Configuration properties for the digiwf-message library.
  *
  * If you want to use the digiwf-message library, you need to add the following properties to your application.yml:
- * - io.muenchendigital.digiwf.message.incidentDestination: <your incident destination>
- * - io.muenchendigital.digiwf.message.technicalErrorDestination: <your technical error destination>
- * - io.muenchendigital.digiwf.message.correlateMessageDestination: <your correlate message destination>
- * - io.muenchendigital.digiwf.message.startProcessDestination: <your start process destination>
+ * - de.muenchen.oss.digiwf.message.incidentDestination: <your incident destination>
+ * - de.muenchen.oss.digiwf.message.technicalErrorDestination: <your technical error destination>
+ * - de.muenchen.oss.digiwf.message.correlateMessageDestination: <your correlate message destination>
+ * - de.muenchen.oss.digiwf.message.startProcessDestination: <your start process destination>
  */
 @Setter
 @Getter

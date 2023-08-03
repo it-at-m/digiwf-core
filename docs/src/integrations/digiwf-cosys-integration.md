@@ -79,7 +79,7 @@ Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einb
 
 ```xml
    <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-cosys-integration-starter</artifactId>
         <version>${digiwf.version}</version>
    </dependency>
@@ -88,7 +88,7 @@ Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einb
 **Mit Gradle**
 
 ```gradle
-implementation group: 'io.muenchendigital.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
 ```
 
 Machen Sie sich mit

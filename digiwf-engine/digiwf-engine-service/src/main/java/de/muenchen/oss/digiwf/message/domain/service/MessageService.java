@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.message.domain.service;
 
 
 import de.muenchen.oss.digiwf.message.domain.model.CorrelateMessage;
-import io.muenchendigital.digiwf.engine.mapper.EngineDataMapper;
+import de.muenchen.oss.digiwf.engine.mapper.EngineDataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
