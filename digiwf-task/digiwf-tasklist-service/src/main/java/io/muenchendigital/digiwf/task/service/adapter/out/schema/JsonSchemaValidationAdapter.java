@@ -1,9 +1,9 @@
 package io.muenchendigital.digiwf.task.service.adapter.out.schema;
 
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.json.serialization.JsonSerializationService;
-import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
-import io.muenchendigital.digiwf.json.validation.JsonSchemaValidator;
+import de.muenchen.oss.digiwf.json.serialization.JsonSerializationService;
+import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
+import de.muenchen.oss.digiwf.json.validation.JsonSchemaValidator;
 import io.muenchendigital.digiwf.task.service.application.port.out.schema.JsonSchemaValidationPort;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 import lombok.RequiredArgsConstructor;

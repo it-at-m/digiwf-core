@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.shared.file.presignedUrlAdapters;
 
 import io.muenchendigital.digiwf.process.instance.process.properties.S3Properties;
-import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

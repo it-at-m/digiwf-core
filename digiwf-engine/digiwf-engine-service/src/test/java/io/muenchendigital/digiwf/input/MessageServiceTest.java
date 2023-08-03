@@ -1,8 +1,8 @@
 package io.muenchendigital.digiwf.input;
 
 import io.muenchendigital.digiwf.engine.mapper.EngineDataMapperImpl;
-import io.muenchendigital.digiwf.message.domain.model.CorrelateMessage;
-import io.muenchendigital.digiwf.message.domain.service.MessageService;
+import de.muenchen.oss.digiwf.message.domain.model.CorrelateMessage;
+import de.muenchen.oss.digiwf.message.domain.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
