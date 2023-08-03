@@ -5,7 +5,7 @@
 package de.muenchen.oss.digiwf.schema.registry.rest;
 
 import com.google.gson.Gson;
-import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
+import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import de.muenchen.oss.digiwf.schema.registry.api.JsonSchema;
 import de.muenchen.oss.digiwf.schema.registry.internal.impl.model.JsonSchemaImpl;
 import org.mapstruct.Mapper;

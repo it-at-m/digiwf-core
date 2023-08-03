@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.email.integration.configuration.MailAutoConfiguration
+de.muenchen.oss.digiwf.email.integration.configuration.MailAutoConfiguration

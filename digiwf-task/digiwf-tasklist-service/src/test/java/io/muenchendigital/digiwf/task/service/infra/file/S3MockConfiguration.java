@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.infra.file;
 
-import io.muenchendigital.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import io.muenchendigital.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

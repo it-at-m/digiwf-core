@@ -1,7 +1,7 @@
 package io.muenchendigital.digiwf.task.service.application.port.out.schema;
 
 import io.holunda.polyflow.view.Task;
-import io.muenchendigital.digiwf.json.validation.DigiWFValidationException;
+import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
 import io.muenchendigital.digiwf.task.service.domain.JsonSchema;
 
 import java.util.Map;

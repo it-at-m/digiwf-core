@@ -5,7 +5,7 @@
 package de.muenchen.oss.digiwf.schema.registry.internal.impl.model;
 
 import de.muenchen.oss.digiwf.schema.registry.api.JsonSchema;
-import io.muenchendigital.digiwf.json.factory.JsonSchemaFactory;
+import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import lombok.*;
 
 import javax.persistence.*;
