@@ -23,6 +23,12 @@
             <artifactId>digiwf-email-integration-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
