@@ -190,12 +190,7 @@ import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-in
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
-import {
-  setShouldUseTaskService,
-  shouldShowBetaButton,
-  shouldUseTaskService,
-  switchShouldUseTaskService
-} from "./utils/featureToggles";
+import {shouldShowBetaButton, shouldUseTaskService, switchShouldUseTaskService} from "./utils/featureToggles";
 
 @Component({
   components: {AppMenuList}

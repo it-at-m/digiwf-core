@@ -2,6 +2,7 @@ import {useRouter} from "vue-router/composables";
 import {inject, ref, Ref} from "vue";
 import {usePageId} from "./pageId";
 import {DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
+import {usePageFilters} from "../store/modules/filters";
 
 interface PaginationData {
   readonly searchQuery: Ref<string | undefined>;
@@ -38,16 +39,15 @@ export const useGetPaginationData = (): PaginationData => {
   };
   const getSearchQueryOfUrl = (): string | undefined => {
     const queryFilterValue = router.currentRoute.query?.filter as string | null;
-    if (!!queryFilterValue) {
+    if (queryFilterValue) {
       return queryFilterValue;
     }
-    return !!paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
+    return paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
   };
 
   const searchQuery = ref<string | undefined>(getSearchQueryOfUrl());
   const page = ref<number>(getDefaultPage());
   const size = ref<number>(getDefaultSize());
-
   const setPage = (newPage: number) => {
     page.value = newPage;
     router.replace({

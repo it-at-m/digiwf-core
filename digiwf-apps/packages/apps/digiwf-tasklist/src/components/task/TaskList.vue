@@ -7,6 +7,7 @@
       <search-field
         :on-filter-change="(v) => $emit('changeFilter', v)"
       />
+      <sort-by-select />
       <div class="d-flex align-center">
         <v-btn
           aria-label="Aufgaben aktualisieren"
@@ -74,10 +75,6 @@
   font-size: 0.9rem;
   font-weight: bold;
 }
-
-.searchField {
-  margin: 1rem 0 1rem 0;
-}
 </style>
 
 <script lang="ts">
@@ -85,9 +82,10 @@ import AppToast from "@/components/UI/AppToast.vue";
 import SearchField from "../common/SearchField.vue";
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
+import SortBySelect from "../common/SortBySelect.vue";
 
 export default {
-  components: {SearchField, AppToast},
+  components: {SortBySelect, SearchField, AppToast},
   props: {
     filter: {
       type: String,

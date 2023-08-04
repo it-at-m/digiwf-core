@@ -42,37 +42,45 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, watch} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 import {useAssignTaskMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-
-    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery);
+    const sortDirectionFromStore = usePageFilters().current;
+    const sortDirection = ref<string>(sortDirectionFromStore.value.sortDirection);
+    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, sortDirection);
     const assignMutation = useAssignTaskMutation();
 
+
     const reloadTasks = (): void => {
-      refetch()
+      refetch();
     };
+
+    watch(sortDirectionFromStore, (v) => {
+      sortDirection.value = sortDirectionFromStore.value.sortDirection;
+      reloadTasks();
+    });
 
     watch(page, (newPage) => {
       setPage(newPage);
       reloadTasks();
-    })
+    });
     watch(size, (newSize) => {
-      setSize(newSize)
+      setSize(newSize);
       reloadTasks();
-    })
+    });
 
     const assignTask = async (id: string): Promise<void> => {
-      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
-    }
+      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}));
+    };
 
     return {
       assignTask,
@@ -92,8 +100,8 @@ export default defineComponent({
           if (page.value === 0) {
             return;
           }
-          setPage(page.value - 1)
-          refetch()
+          setPage(page.value - 1);
+          refetch();
         },
         nextPage: () => {
           const totalPages = data.value?.totalPages;
@@ -111,6 +119,14 @@ export default defineComponent({
         setSearchQuery(newFilter || "");
         reloadTasks();
       },
+    };
+  },
+  watch: {
+    "$store.state.filters": {
+      immediate: true,
+      handler() {
+        console.log("watcher of component is triggered");
+      }
     }
   }
 });

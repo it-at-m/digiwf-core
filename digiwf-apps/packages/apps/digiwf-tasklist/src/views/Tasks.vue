@@ -59,6 +59,7 @@ import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 import {useMyTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageId} from "../middleware/pageId";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   components: {AppPaginationFooter, TaskItem, TaskList, AppViewLayout},
@@ -67,10 +68,11 @@ export default defineComponent({
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
+    const pageFilters = usePageFilters();
 
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, shouldIgnoreFollowUpTasks);
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, shouldIgnoreFollowUpTasks, ref(pageFilters.value.current.sortDirection));
 
     watch(page, (newPage) => {
       setPage(newPage);

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import user, {UserState} from './modules/user';
 import menu, {MenuState} from "../store/modules/menu";
 import info, {InfoState} from "../store/modules/info";
+import {filters, FilterState} from "./modules/filters";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export interface RootState {
   userState: UserState;
   menuState: MenuState;
   infoState: InfoState;
+  filters: FilterState;
 }
 
 export const Vuexstore = new Vuex.Store<RootState>({
@@ -19,6 +21,7 @@ export const Vuexstore = new Vuex.Store<RootState>({
     user,
     menu,
     info,
+    filters
   },
   strict: debug
 });
