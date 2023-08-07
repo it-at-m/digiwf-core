@@ -19,10 +19,16 @@ spring:
             issuer-uri: ${SSO_ISSUER_URL}
             user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: user_name
+            user-name-attribute: lhmObjectID # or user_name?
         registration:
           keycloak:
             provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            client-id: ${DIGIWF_SECURITY_CLIENT-ID}
+            client-secret: ${DIGIWF_SECURITY_CLIENT-SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
+          keycloak-service-account:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${DIGIWF_SECURITY_CLIENT-ID}
+            client-secret: ${DIGIWF_SECURITY_CLIENT-SECRET}
+            scope: email, profile, openid  # needed for userInfo endpointfo endpoint

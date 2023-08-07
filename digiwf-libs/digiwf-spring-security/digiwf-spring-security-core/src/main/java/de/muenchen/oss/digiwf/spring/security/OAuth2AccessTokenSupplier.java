@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.task.service.infra.security;
+package de.muenchen.oss.digiwf.spring.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -102,27 +102,6 @@ spring:
             fallback: true
           starttls:
             enable: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${SSO_ISSUER_URL}
-
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${SSO_ISSUER_URL}
-            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
-            # jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: user_name # was lhmObjectID... FIXME: check
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
-            scope: email, profile, openid  # needed for userInfo endpoint
-
-
 
 springdoc:
   packagesToScan: de.muenchen.oss.digiwf
@@ -189,6 +168,9 @@ digiwf:
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+  security:
+    client-id: ${SSO_ENGINE_CLIENT_ID}
+    client-secret: ${SSO_ENGINE_CLIENT_SECRET}
 io:
   muenchendigital:
     digiwf:
