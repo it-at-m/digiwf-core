@@ -68,7 +68,7 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>g</artifactId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
