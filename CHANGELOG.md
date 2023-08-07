@@ -16,6 +16,7 @@
 
 - tasklist:
   - [#342](https://github.com/it-at-m/digiwf-core/issues/342) use EzLdap ou tree endpoint to retrieve user groups for current user
+  - [#398](https://github.com/it-at-m/digiwf-core/issues/398) support method put for file uploads using the tasklist rest api
 
 ### Fixed
 

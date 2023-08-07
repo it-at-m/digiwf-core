@@ -31,7 +31,7 @@ Dementsprechend muss zuerst die **digiwf-message** Bibliothek als Dependency in 
 
 ```xml
     <dependency>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-message-starter</artifactId>
         <version>${project.version}</version>
     </dependency>
@@ -100,6 +100,9 @@ public class MessageProcessor {
     }   
 }
 ```
+
+> Wichtig ist hierbei, dass die `processInstanceId` und `messageName` der eingehenden Message und des ausgehenden CorrelateMessage Events
+> identisch sind. Ansonsten kann die Message keinem Prozess zugeordnet werden.
 
 ## Fehlerbehandlung implementieren
 

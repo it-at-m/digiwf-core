@@ -213,7 +213,7 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
-      - run: npm install && lerna bootstrap --ci
+      - run: npm run init
       - run: npm run build
       - run: npm run test
       - run: lerna publish from-package --yes
@@ -360,7 +360,7 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
-      - run: npm install && lerna bootstrap --ci
+      - run: npm run init
       - name: Raise lerna version
         if: github.event.inputs.apps-new-version != ''
         run: lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes --yes

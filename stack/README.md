@@ -23,7 +23,7 @@ docker compose --profile tasklist-frontend up -d
 
 ## Running Process Engine Backend
 
-To start the backend (`digiwf-engine-service`), run `io.muenchendigital.digiwf.EngineServiceApplication` with the
+To start the backend (`digiwf-engine-service`), run `de.muenchen.oss.digiwf.EngineServiceApplication` with the
 profiles `local, streaming, no-ldap`. The application requires environment variables to be set. For this purpose,
 the `stack/local-docker.env` should be used. If you run IDEA IntelliJ,
 the [.EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) might be helpful to

@@ -6,10 +6,10 @@ spring:
           enabled: 'true'
       bindings:
         functionRouter-in-0:
-          group: "dwf-digiwf-example-integration-local-01"
+          group: "dwf-example-integration-local-01"
           destination: "digiwf-example-integration-local-01"
         sendMessage-out-0:
-          destination: "digiwf-example-integration-local-01"
+          destination: "dwf-connector-local-01"
       kafka:
         binder:
           brokers: "${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}"
@@ -44,6 +44,8 @@ io:
       message:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
-        correlateMessageDestination: "dwf-digiwf-engine-local-01"
+        correlateMessageDestination: "dwf-connector-local-01"
         typeMappings:
           exampleIntegration: "exampleIntegration"
+server:
+  port: 8088

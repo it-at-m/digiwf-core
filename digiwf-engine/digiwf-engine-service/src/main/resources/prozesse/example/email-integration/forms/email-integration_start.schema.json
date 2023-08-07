@@ -43,6 +43,25 @@
                                 },
                                 "x-rules": []
                             },
+                            "FormField_EmailTopic": {
+                                "fieldType": "text",
+                                "title": "Email Topic",
+                                "type": "string",
+                                "key": "FormField_EmailTopic",
+                                "default": "dwf-email-local-01",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
                             "FormField_Email": {
                                 "fieldType": "text",
                                 "title": "Email",

@@ -212,6 +212,15 @@ module.exports = {
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
                             ]
+                        },
+                        {
+                            title: 'Templates und Beispiele',
+                            collapsable: true,
+                            children: [
+                                'templates/bpmn/',
+                                'templates/element-templates/',
+                                'templates/examples/'
+                            ]
                         }
                     ],
                     '/apis/': [
@@ -241,6 +250,7 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-verification-integration',
+                                'digiwf-formserver-integration'
                             ]
                         },
                         {

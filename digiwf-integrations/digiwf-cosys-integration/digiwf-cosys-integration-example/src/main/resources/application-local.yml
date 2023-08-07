@@ -1,0 +1,18 @@
+logging:
+  level:
+    io.muenchendigital: info
+    org.simpleframework: info
+
+io:
+  muenchendigital:
+    digiwf:
+      cosys:
+        url:
+        messageTopic: "dwf-connector-${DIGIWF_ENV}"
+        incidentTopic: "dwf-connector-incident-${DIGIWF_ENV}"
+        merge:
+          datafile: //multi
+          inputLanguage: Deutsch
+          outputLanguage: Deutsch
+          keepFields: unresolved-ref
+

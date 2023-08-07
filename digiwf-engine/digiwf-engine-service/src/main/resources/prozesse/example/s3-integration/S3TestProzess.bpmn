@@ -23,10 +23,17 @@
     <bpmn:sequenceFlow id="Flow_1nf1mk3" sourceRef="Activity_145b1ua" targetRef="Activity_0xjgh5j" />
     <bpmn:sequenceFlow id="Flow_0qb6ikl" sourceRef="Activity_08lx3kt" targetRef="Activity_0g1nqtd" />
     <bpmn:sequenceFlow id="Flow_0815z5m" sourceRef="Activity_0g1nqtd" targetRef="Activity_05sxqq7" />
-    <bpmn:userTask id="user_task_test" name="Test&#10;task" camunda:assignee="112092000">
+    <bpmn:userTask id="user_task_test" name="Test&#10;task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>
@@ -65,7 +72,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
         <camunda:in sourceExpression="TESTER" target="role" />
         <camunda:in sourceExpression="519650b7-87c2-41a6-8527-7b095675b13f" target="guid" />
         <camunda:in sourceExpression="${cosysData}" target="variables" />
-        <camunda:in sourceExpression="dwf-cosys-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="${FormField_CosysTopic}" target="app_topic_name" />
         <camunda:in sourceExpression="${createPresignedUrls}" target="documentStorageUrls" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0815z5m</bpmn:incoming>
@@ -92,21 +99,11 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
-        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receiversCc" />
-        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receiversBcc" />
-        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="replyTo" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
-        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receivers" />
+        <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
         <camunda:in sourceExpression="S3 Test" target="subject" />
         <camunda:in sourceExpression="Test" target="body" />
-        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
-        <camunda:inputOutput>
-          <camunda:inputParameter name="subject">S3 Test</camunda:inputParameter>
-          <camunda:inputParameter name="body">test</camunda:inputParameter>
-          <camunda:inputParameter name="attachments">presignedUrls</camunda:inputParameter>
-          <camunda:inputParameter name="receivers">ext.dl.moesle@muenchen.de</camunda:inputParameter>
-          <camunda:inputParameter name="app_topic_name">dwf-email-local-01</camunda:inputParameter>
-        </camunda:inputOutput>
+        <camunda:in sourceExpression="${FormField_EmailTopic}" target="app_topic_name" />
         <camunda:in sourceExpression="${getPresignedUrls}" target="attachments" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1nf1mk3</bpmn:incoming>

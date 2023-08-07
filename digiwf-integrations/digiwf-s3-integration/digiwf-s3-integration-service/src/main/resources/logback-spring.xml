@@ -19,7 +19,7 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf"
+        <logger name="de.muenchen.oss.digiwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />

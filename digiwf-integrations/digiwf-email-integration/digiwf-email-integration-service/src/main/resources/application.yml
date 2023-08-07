@@ -5,7 +5,7 @@ spring:
     name: @project.artifactId@
   cloud:
     function:
-      definition: sendCorrelateMessage;functionRouter;
+      definition: functionRouter;sendMessage;
     stream:
       function:
         routing:
@@ -13,11 +13,9 @@ spring:
       bindings:
         functionRouter-in-0:
           group: "dwf-email-service"
-          destination: dwf-email-${DIGIWF_ENV}
-        sendCorrelateMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: "dwf-connector-${DIGIWF_ENV}"
       kafka:
         binder:
           configuration:
@@ -68,8 +66,22 @@ spring:
             fallback: true
           starttls:
             enable: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
 io:
   muenchendigital:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
+        metrics:
+          totalMailCounterName: "digiwf.email.integration.send_mail.total"
+          failureCounterName: "digiwf.email.integration.send_mail.failure"
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          sendMailFromEventBus: "emailMessageProcessor"

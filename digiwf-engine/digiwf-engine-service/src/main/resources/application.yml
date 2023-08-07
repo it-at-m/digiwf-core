@@ -104,7 +104,7 @@ spring:
             enable: true
 
 springdoc:
-  packagesToScan: io.muenchendigital.digiwf
+  packagesToScan: de.muenchen.oss.digiwf
   pathsToMatch: /**
   swagger-ui:
     oauth:
