@@ -5,7 +5,7 @@ info:
 camunda:
   bpm:
     authorization:
-      enabled: false
+      enabled: true
     job-executor-acquire-by-priority: true
     deployment-resource-pattern: "prozesse/**/*.bpmn, bausteine/**/*.bpmn, bausteine/**/*.dmn"
     generic-properties:

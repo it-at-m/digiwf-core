@@ -55,6 +55,7 @@ public class CamundaWebappsAutoConfiguration {
     filterRegistrationBean.addUrlPatterns("/camunda/app/*");
     filterRegistrationBean.addUrlPatterns("/camunda/lib/*");
     filterRegistrationBean.addUrlPatterns("/camunda/api/engine/*"); // api engine - yes, api admin - no, see below...
+    filterRegistrationBean.addUrlPatterns("/camunda/api/cockpit/plugin/*"); // api cockpit plugins - yes, api admin - no, see below...
     return filterRegistrationBean;
   }
 
