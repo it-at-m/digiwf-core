@@ -14,15 +14,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LdapUserGroupResolverAdapter implements UserGroupResolverPort {
 
-  private final EasyLdapClient easyLdapClient;
+    private final EasyLdapClient easyLdapClient;
 
-  @NonNull
-  @Override
-  public Set<String> resolveGroups(@NonNull final String userId) {
-    try {
-      return new HashSet<>(this.easyLdapClient.getOuTreeByUserId(userId).stream().map(String::toLowerCase).collect(Collectors.toList()));
-    } catch (final FeignException e) {
-      return Collections.emptySet();
+    @NonNull
+    @Override
+    public Set<String> resolveGroups(@NonNull final String userId) {
+        try {
+            return new HashSet<>(this.easyLdapClient.getOuTreeByUserId(userId)
+                    .stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toList()));
+        } catch (final FeignException e) {
+            return Collections.emptySet();
+        }
     }
-  }
 }

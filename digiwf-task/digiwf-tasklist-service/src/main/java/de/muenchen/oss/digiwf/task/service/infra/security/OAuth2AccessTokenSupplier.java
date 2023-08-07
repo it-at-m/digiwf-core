@@ -19,30 +19,30 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class OAuth2AccessTokenSupplier implements Supplier<OAuth2AccessToken> {
 
-  private final OAuth2AuthorizedClientManager authorizedClientManager;
-  private static final String clientRegistrationId = "keycloak-service-account"; // FIXME -> load from properties.
-  private static final String ACCESS_ROLE = "clientrole_taskuser"; // FIXME -> load from properties.
-  private AnonymousAuthenticationToken anonymousUserToken;
+    private static final String clientRegistrationId = "keycloak-service-account"; // FIXME -> load from properties.
+    private static final String ACCESS_ROLE = "clientrole_taskuser"; // FIXME -> load from properties.
+    private final OAuth2AuthorizedClientManager authorizedClientManager;
+    private AnonymousAuthenticationToken anonymousUserToken;
 
-  @PostConstruct
-  void init() {
-    anonymousUserToken = new AnonymousAuthenticationToken(
-        clientRegistrationId,
-        clientRegistrationId,
-        AuthorityUtils.createAuthorityList(GrantedAuthoritiesConverter.SPRING_ROLE_PREFIX + ACCESS_ROLE)
-    );
-  }
-
-  @Override
-  public OAuth2AccessToken get() {
-    final OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
-        .withClientRegistrationId(clientRegistrationId)
-        .principal(anonymousUserToken)
-        .build();
-    final OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
-    if (authorizedClient == null) {
-      throw new IllegalStateException("Client credentials authorization using client registration '" + clientRegistrationId + "' failed.");
+    @PostConstruct
+    void init() {
+        anonymousUserToken = new AnonymousAuthenticationToken(
+                clientRegistrationId,
+                clientRegistrationId,
+                AuthorityUtils.createAuthorityList("ROLE_" + ACCESS_ROLE)
+        );
     }
-    return authorizedClient.getAccessToken();
-  }
+
+    @Override
+    public OAuth2AccessToken get() {
+        final OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
+                .withClientRegistrationId(clientRegistrationId)
+                .principal(anonymousUserToken)
+                .build();
+        final OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
+        if (authorizedClient == null) {
+            throw new IllegalStateException("Client credentials authorization using client registration '" + clientRegistrationId + "' failed.");
+        }
+        return authorizedClient.getAccessToken();
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * Security provider for no-security environments.
  */
@@ -19,12 +21,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NoSecurityUserAuthenticationProvider implements UserAuthenticationProvider {
 
-  public final SpringSecurityProperties springSecurityProperties;
+    public final SpringSecurityProperties springSecurityProperties;
 
-  @Override
-  @NonNull
-  public String getLoggedInUser() {
-    return springSecurityProperties.getFallbackUsername();
-  }
+    @Override
+    @NonNull
+    public String getLoggedInUser() {
+        return springSecurityProperties.getFallbackUsername();
+    }
+
+    @Override
+    public Set<String> getLoggedInUserRoles() {
+        return null;
+    }
 
 }

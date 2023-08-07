@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.task.service.infra.security;
 
+import de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration;
@@ -25,42 +26,43 @@ import java.util.function.Supplier;
 @EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true)
 @EnableWebSecurity
 @EnableAutoConfiguration(exclude = {
-    OAuth2ResourceServerAutoConfiguration.class,
-    OAuth2ClientAutoConfiguration.class,
-    SecurityAutoConfiguration.class
+        OAuth2ResourceServerAutoConfiguration.class,
+        OAuth2ClientAutoConfiguration.class,
+        SecurityAutoConfiguration.class,
+        SpringSecurityAutoConfiguration.class
 })
 @Order(1)
 public class SecurityTestConfiguration {
 
-  static {
-    {
-      SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    static {
+        {
+            SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+        }
     }
-  }
 
-  @MockBean
-  private JwtDecoder jwtDecoder;
+    @MockBean
+    private JwtDecoder jwtDecoder;
+    @MockBean
+    private OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
 
-  @MockBean
-  private OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
+    @Bean
+    @Primary
+    public Supplier<OAuth2AccessToken> mockServiceAccessTokenSupplier() {
+        return new SingleTokenTestSupplier(
+                ControllerAuthorizationHelper.createServiceAccessToken()
+        );
+    }
 
-  @Bean
-  @Primary
-  public Supplier<OAuth2AccessToken> mockServiceAccessTokenSupplier() {
-    return new SingleTokenTestSupplier(
-        ControllerAuthorizationHelper.createServiceAccessToken()
-    );
-  }
-
-  /**
-   * Sets test security. 1:1 copy of {@link SecurityConfig}, but without OAuth configured.
-   * @param http http security fluent builder.
-   * @return filter chain
-   * @throws Exception on any error.
-   */
-  @Bean
-  public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-    // @formatter:off
+    /**
+     * Sets test security. 1:1 copy of {@link SecurityConfig}, but without OAuth configured.
+     *
+     * @param http http security fluent builder.
+     * @return filter chain
+     * @throws Exception on any error.
+     */
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        // @formatter:off
     return http
         .logout().disable()
         .formLogin().disable()
@@ -75,6 +77,6 @@ public class SecurityTestConfiguration {
         .build()
         ;
     // @formatter:on
-  }
+    }
 
 }

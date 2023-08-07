@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * User authentication provider.
@@ -28,32 +30,43 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class UserAuthenticationProviderImpl implements UserAuthenticationProvider {
 
-  private final SpringSecurityProperties springSecurityProperties;
-  private final ClientRegistrationRepository clientRegistrationRepository;
-  private String userNameAttribute;
-  public static final String NAME_UNAUTHENTICATED_USER = "unauthenticated";
+    public static final String NAME_UNAUTHENTICATED_USER = "unauthenticated";
+    public static final String SPRING_ROLE_PREFIX = "ROLE_";
+    private final SpringSecurityProperties springSecurityProperties;
+    private final ClientRegistrationRepository clientRegistrationRepository;
+    private String userNameAttribute;
 
-  @PostConstruct
-  public void getUsernameAttributeName() {
-    try {
-      userNameAttribute = clientRegistrationRepository.findByRegistrationId(springSecurityProperties.getClientRegistration())
-          .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-    } catch (Exception e) {
-      userNameAttribute = "user_name";
-      log.error("Error reading username attribute for configured client registration "
-          + springSecurityProperties.getClientRegistration() + ". Falling back to " + userNameAttribute, e);
+    @PostConstruct
+    public void getUsernameAttributeName() {
+        try {
+            userNameAttribute = clientRegistrationRepository.findByRegistrationId(springSecurityProperties.getClientRegistration())
+                    .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        } catch (Exception e) {
+            userNameAttribute = "user_name";
+            log.error("Error reading username attribute for configured client registration "
+                    + springSecurityProperties.getClientRegistration() + ". Falling back to " + userNameAttribute, e);
+        }
     }
-  }
 
-  @Override
-  @NonNull
-  public String getLoggedInUser() {
-    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication.getPrincipal() instanceof Jwt) {
-      final Jwt jwt = (Jwt) authentication.getPrincipal();
-      return (String) jwt.getClaims().get(userNameAttribute);
+    @Override
+    @NonNull
+    public String getLoggedInUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof Jwt) {
+            final Jwt jwt = (Jwt) authentication.getPrincipal();
+            return (String) jwt.getClaims().get(userNameAttribute);
+        }
+        return NAME_UNAUTHENTICATED_USER;
     }
-    return NAME_UNAUTHENTICATED_USER;
-  }
+
+    @Override
+    public Set<String> getLoggedInUserRoles() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities()
+                .stream()
+                .map(Object::toString)
+                .map(obj -> obj.replaceFirst(SPRING_ROLE_PREFIX, ""))
+                .collect(Collectors.toSet());
+    }
 
 }
