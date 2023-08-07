@@ -15,12 +15,15 @@ public class PrincipalUtil {
   @SuppressWarnings("unused")
   public static List<String> extractRoles(Principal principal) {
     if (principal instanceof Authentication) {
-      return ((Authentication) principal).getAuthorities().stream()
-          .map(GrantedAuthority::getAuthority)
-          .map(role -> StringUtils.removeStart(role, SPRING_ROLE_PREFIX))
-          .collect(toList());
+      return extractRoles((Authentication) principal);
     }
     return emptyList();
   }
 
+  public static List<String> extractRoles(Authentication authentication) {
+    return authentication.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .map(role -> StringUtils.removeStart(role, SPRING_ROLE_PREFIX))
+        .collect(toList());
+  }
 }

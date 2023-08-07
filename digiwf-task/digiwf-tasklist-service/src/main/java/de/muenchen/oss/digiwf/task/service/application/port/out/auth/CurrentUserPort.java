@@ -17,4 +17,10 @@ public interface CurrentUserPort {
      * @return username of the current user.
      */
     String getCurrentUserUsername();
+
+    /**
+     * Retrieves the user JWT.
+     * @return user's JWT.
+     */
+    String getCurrentUserToken();
 }

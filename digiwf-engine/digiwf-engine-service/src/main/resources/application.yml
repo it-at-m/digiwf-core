@@ -156,6 +156,9 @@ digiwf:
     overridereceivers: false
   parkausweis:
     url: "${PARKAUSWEIS_HOST}:${PARKAUSWEIS_PORT}/"
+  security:
+    client-id: ${SSO_ENGINE_CLIENT_ID}
+    client-secret: ${SSO_ENGINE_CLIENT_SECRET}
   streaming:
     engine:
       topics: 'dwf-digiwf-engine-${DIGIWF_ENV},dwf-cocreation-${DIGIWF_ENV}'

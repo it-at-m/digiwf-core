@@ -72,7 +72,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-engine-cockpit</artifactId>
             <version>${project.version}</version>
         </dependency>

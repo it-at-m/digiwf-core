@@ -11,6 +11,18 @@ public class SpringSecurityProperties {
    */
   private String clientRegistration = "keycloak";
 
+  private String clientRegistrationServiceAccount = "keycloak-service-account";
+
+  /**
+   * Client id to use.
+   */
+  private String clientId;
+
+  /**
+   * Client secret to use.
+   */
+  private String clientSecret;
+
   private String[] permittedUrls = {
       "/error", // allow the error page
       "/actuator/info", // allow access to /actuator/info
@@ -22,4 +34,9 @@ public class SpringSecurityProperties {
    * Username fallback to use in no-security mode.
    */
   private String fallbackUsername = "externer.john.doe";
+
+  /**
+   * Roles to fallback to use in no-security mode.
+   */
+  private String[] fallbackUserRoles = {"office", "administration"};
 }

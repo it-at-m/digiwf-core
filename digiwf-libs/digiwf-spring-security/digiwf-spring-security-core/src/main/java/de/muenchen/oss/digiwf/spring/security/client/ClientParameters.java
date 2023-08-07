@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class ClientParameters {
   private final String providerIssuerUrl;
   private final String providerUserInfoUri;
+  private final String userNameAttribute;
   private final String clientId;
   private final List<String> scopes;
 
@@ -22,6 +23,7 @@ public class ClientParameters {
   private static final String SCOPE_TMPL = "spring.security.oauth2.client.registration.%s.scope";
   private static final String PROVIDER_ISSUER_URL_TMPL = "spring.security.oauth2.client.provider.%s.issuer-uri";
   private static final String PROVIDER_USER_INFO_URL_TMPL = "spring.security.oauth2.client.provider.%s.user-info-uri";
+  private static final String USER_NAME_ATTRIBUTE_TMPL = "spring.security.oauth2.client.provider.%s.user-name-attribute";
 
   /**
    * Creates client parameters from configuration of the Spring environment.
@@ -33,9 +35,10 @@ public class ClientParameters {
   public static ClientParameters fromEnvironment(Environment environment, String registrationId) {
     final String providerIssuerUri = environment.getProperty(String.format(PROVIDER_ISSUER_URL_TMPL, registrationId));
     final String providerUserInfoUri = environment.getProperty(String.format(PROVIDER_USER_INFO_URL_TMPL, registrationId));
+    final String usernameAttribute = environment.getProperty(String.format(USER_NAME_ATTRIBUTE_TMPL, registrationId));
     final String clientId = environment.getProperty(String.format(CLIENT_ID_TMPL, registrationId));
     final String scopeString = environment.getProperty(String.format(SCOPE_TMPL, registrationId));
-    return new ClientParameters(providerIssuerUri, providerUserInfoUri, clientId, splitScopes(scopeString));
+    return new ClientParameters(providerIssuerUri, providerUserInfoUri, usernameAttribute, clientId, splitScopes(scopeString));
   }
 
   /**

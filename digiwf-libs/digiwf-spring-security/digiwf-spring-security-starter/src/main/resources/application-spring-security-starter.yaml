@@ -11,6 +11,8 @@ digiwf:
       - /swagger-ui*/** # allow access to swagger
       - /v3/api-docs/* # allow access to swagger
       - /v3/api-docs # allow access to swagger
+    service-account: true
+
 
 spring:
   security:
@@ -24,11 +26,17 @@ spring:
             issuer-uri: ${SSO_ISSUER_URL}
             user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: user_name
+            user-name-attribute: lhmObjectID
         registration:
           keycloak:
             provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            client-id: ${digiwf.security.client-id}
+            client-secret: ${digiwf.security.client-secret}
             scope: email, profile, openid  # needed for userInfo endpoint
-            redirect-uri: "{baseUrl}/camunda/app/{action}/oauth2/code/{registrationId}"
+          keycloak-service-account:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${digiwf.security.client-id}
+            client-secret: ${digiwf.security.client-secret}
+            scope: email, profile, openid  # needed for userInfo endpoint
+
