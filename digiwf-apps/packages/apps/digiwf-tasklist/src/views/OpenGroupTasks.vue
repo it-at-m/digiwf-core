@@ -42,7 +42,7 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 import {useAssignTaskMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
@@ -54,9 +54,8 @@ export default defineComponent({
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-    const sortDirectionFromStore = usePageFilters().current;
-    const sortDirection = ref<string>(sortDirectionFromStore.value.sortDirection);
-    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, sortDirection);
+    const {currentSortDirection} = usePageFilters();
+    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, currentSortDirection);
     const assignMutation = useAssignTaskMutation();
 
 
@@ -64,8 +63,7 @@ export default defineComponent({
       refetch();
     };
 
-    watch(sortDirectionFromStore, (v) => {
-      sortDirection.value = sortDirectionFromStore.value.sortDirection;
+    watch(currentSortDirection, () => {
       reloadTasks();
     });
 

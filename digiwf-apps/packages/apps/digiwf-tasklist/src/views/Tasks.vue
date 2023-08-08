@@ -68,11 +68,15 @@ export default defineComponent({
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-    const pageFilters = usePageFilters();
 
+    const {currentSortDirection} = usePageFilters();
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, shouldIgnoreFollowUpTasks, ref(pageFilters.value.current.sortDirection));
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery,shouldIgnoreFollowUpTasks, currentSortDirection);
+
+    watch(currentSortDirection, () => {
+      refetch();
+    });
 
     watch(page, (newPage) => {
       setPage(newPage);

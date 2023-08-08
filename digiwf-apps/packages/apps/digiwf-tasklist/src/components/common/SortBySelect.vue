@@ -4,27 +4,23 @@
     :items="items"
     class="sortBySelect"
     label="Sortierung"
-    :flat="true"
+    flat
     outlined
+    dense
+    hide-details
   />
 </template>
 <script lang="ts">
-import {defineComponent, ref, watch} from "vue";
-import {usePageFilters, useUpdatePageFilters} from "../../store/modules/filters";
+import {defineComponent} from "vue";
+import {usePageFilters} from "../../store/modules/filters";
 
 export default defineComponent({
   props: {},
   setup() {
-    const pageFilters = usePageFilters();
-    const setFiltersOfPage = useUpdatePageFilters();
-    const sortDirection = ref<string>(pageFilters.current.value.sortDirection);
-    watch(sortDirection, (value) => {
-      setFiltersOfPage({sortDirection: value});
-
-    });
+    const {currentSortDirection, sortDirections} = usePageFilters();
     return {
-      items: pageFilters.sortDirections,
-      value: sortDirection
+      items: sortDirections,
+      value: currentSortDirection
     };
   }
 });

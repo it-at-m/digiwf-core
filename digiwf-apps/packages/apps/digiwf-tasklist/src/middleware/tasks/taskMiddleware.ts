@@ -123,7 +123,6 @@ export const useOpenGroupTasksQuery = (
   query: Ref<string | undefined>,
   sort: Ref<string | undefined>
 ) => {
-  console.log("useOpenGroupTasksQuery");
   return useQuery({
     queryKey: [openGroupTasksQueryId, page.value, size.value, query.value, sort],
     queryFn: (): Promise<Page<HumanTask>> => {

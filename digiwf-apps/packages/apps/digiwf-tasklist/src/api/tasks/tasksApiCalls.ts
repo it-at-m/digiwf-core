@@ -148,7 +148,6 @@ export const callCompleteTaskInEngine = (taskId: string, variables: TaskVariable
 };
 
 export const callCompleteTaskInTaskService = (taskId: string, variables: TaskVariables): Promise<void> => {
-  console.log("callCompleteTaskInTaskService");
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
   return TaskApiFactory(cfg).completeTask(taskId, variables)
     .then(() => Promise.resolve())

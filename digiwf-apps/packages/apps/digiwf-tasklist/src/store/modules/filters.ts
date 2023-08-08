@@ -1,6 +1,6 @@
 import {usePageId} from "../../middleware/pageId";
 import {useStore} from "../../hooks/store";
-import {ref, Ref} from "vue";
+import {ref, Ref, watch} from "vue";
 
 export type FilterState = { general: PageFiltersState[] }
 
@@ -19,8 +19,10 @@ export const filters = {
   state: {general: []} as FilterState,
   getters: {
     getSortDirectionOfPage: (state: FilterState) => (pageId: string): string => {
-      const sortDirection = state.general.find(it => it.pageId === pageId)?.sortDirection || defaultPageFilterState.sortDirection;
-      return sortDirection;
+      return state.general
+          .find(it => it.pageId === pageId)?.sortDirection
+        || defaultPageFilterState.sortDirection;
+
     },
   },
   mutations: {
@@ -34,8 +36,7 @@ export const filters = {
           sortDirection
         });
       }
-      const newState = state.general.map((it) => it.pageId === pageId ? {...it, sortDirection} : it);
-      state.general = newState;
+      state.general = state.general.map((it) => it.pageId === pageId ? {...it, sortDirection} : it);
     }
   },
 };
@@ -57,40 +58,30 @@ const sortDirections: SortDirection[] = [
 ];
 
 export interface PageFilterData {
-  readonly current: Ref<PageFiltersState>;
-  readonly sortDirections: SortDirection[]
+  readonly currentSortDirection: Ref<string>;
+  readonly sortDirections: SortDirection[];
 }
 
 export const usePageFilters = (): PageFilterData => {
   const pageId = usePageId().id;
   const store = useStore();
-  const filters = ref<PageFiltersState>(store.getters["filters/getSortDirectionOfPage"](pageId));
+  const sortDirection = ref<string>(store.getters["filters/getSortDirectionOfPage"](pageId));
 
   store.watch((state) => state.filters.general.find(it => it.pageId === pageId),
     (newValue) => {
-    console.log("newValue:", newValue);
-      if(newValue !== undefined) {
-        filters.value = newValue;
+      if (newValue !== undefined) {
+        sortDirection.value = newValue.sortDirection;
       }
     }, {
       deep: true
     });
 
+  watch(sortDirection, (newValue) => {
+    store.commit("filters/setSortDirectionOfPage", {pageId, sortDirection: newValue});
+  });
+
   return {
-    current: filters,
+    currentSortDirection: sortDirection,
     sortDirections,
-  };
-};
-
-
-export type UseUpdatePageFilterMethod = (updatedValues: Partial<PageFiltersState>) => void;
-export const useUpdatePageFilters = (): UseUpdatePageFilterMethod => {
-  const pageId = usePageId().id;
-  const store = useStore();
-
-  return (updatedValues) => {
-    if (updatedValues.sortDirection) {
-      store.commit("filters/setSortDirectionOfPage", {pageId, sortDirection: updatedValues.sortDirection});
-    }
   };
 };
