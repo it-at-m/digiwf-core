@@ -58,7 +58,6 @@ export default defineComponent({
     const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, currentSortDirection);
     const assignMutation = useAssignTaskMutation();
 
-
     const reloadTasks = (): void => {
       refetch();
     };
@@ -119,13 +118,5 @@ export default defineComponent({
       },
     };
   },
-  watch: {
-    "$store.state.filters": {
-      immediate: true,
-      handler() {
-        console.log("watcher of component is triggered");
-      }
-    }
-  }
 });
 </script>

@@ -50,7 +50,6 @@ export const callGetOpenGroupTasksFromEngine = (page: number, size: number, quer
 };
 export const callGetOpenGroupTasksFromTaskService = (page: number, size: number, query?: string, sort?: string): Promise<PageOfTasks> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
-  console.log("callGetOpenGroupTasksFromTaskService.sort", sort);
   return TasksApiFactory(cfg).getUnassignedGroupTasks(page, size, query, sort)
     .then((res) => Promise.resolve(res.data))
     .catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
