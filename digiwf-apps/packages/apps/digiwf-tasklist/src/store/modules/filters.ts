@@ -2,25 +2,24 @@ import {usePageId} from "../../middleware/pageId";
 import {useStore} from "../../hooks/store";
 import {ref, Ref, watch} from "vue";
 
-export type FilterState = { general: PageFiltersState[] }
+export type FilterState = { general: {[key: string]:  PageFiltersState } }
 
 export interface PageFiltersState {
-  readonly pageId: string
+  // readonly pageId: string
   readonly sortDirection: string;
 }
 
 const defaultPageFilterState: PageFiltersState = {
-  pageId: "",
+  // pageId: "",
   sortDirection: "-createTime"
 };
 
 export const filters = {
   namespaced: true,
-  state: {general: []} as FilterState,
+  state: {general: {}} as FilterState,
   getters: {
     getSortDirectionOfPage: (state: FilterState) => (pageId: string): string => {
-      return state.general
-          .find(it => it.pageId === pageId)?.sortDirection
+      return state.general[pageId]?.sortDirection
         || defaultPageFilterState.sortDirection;
 
     },
@@ -30,13 +29,13 @@ export const filters = {
       pageId: string,
       sortDirection: string
     }) => {
-      if (!state.general.find(it => it.pageId === pageId)) {
-        state.general.push({
-          pageId,
-          sortDirection
-        });
-      }
-      state.general = state.general.map((it) => it.pageId === pageId ? {...it, sortDirection} : it);
+      // deep copy of object. otherwise store.watch does not work
+      const copy = JSON.parse(JSON.stringify(state.general));
+      copy[pageId] = {
+        ...copy[pageId],
+        sortDirection,
+      };
+      state.general = copy;
     }
   },
 };
@@ -67,13 +66,13 @@ export const usePageFilters = (): PageFilterData => {
   const store = useStore();
   const sortDirection = ref<string>(store.getters["filters/getSortDirectionOfPage"](pageId));
 
-  store.watch((state) => state.filters.general.find(it => it.pageId === pageId),
+  store.watch((state) => state.filters.general[pageId],
     (newValue) => {
       if (newValue !== undefined) {
         sortDirection.value = newValue.sortDirection;
       }
     }, {
-      deep: true
+      // deep: true
     });
 
   watch(sortDirection, (newValue) => {
