@@ -4,6 +4,7 @@
     :items="items"
     class="sortBySelect"
     label="Sortierung"
+    data-cy="sort-field"
     flat
     outlined
     dense

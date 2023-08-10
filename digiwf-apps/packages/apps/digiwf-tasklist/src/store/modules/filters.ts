@@ -5,12 +5,10 @@ import {ref, Ref, watch} from "vue";
 export type FilterState = { general: {[key: string]:  PageFiltersState } }
 
 export interface PageFiltersState {
-  // readonly pageId: string
   readonly sortDirection: string;
 }
 
 const defaultPageFilterState: PageFiltersState = {
-  // pageId: "",
   sortDirection: "-createTime"
 };
 
