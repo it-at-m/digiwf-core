@@ -9,6 +9,7 @@
     outlined
     dense
     hide-details
+    style="max-width: 250px"
   />
 </template>
 <script lang="ts">

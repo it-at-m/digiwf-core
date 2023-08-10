@@ -4,10 +4,12 @@
       <h1>{{ viewName }}</h1>
     </v-flex>
     <v-flex class="d-flex justify-space-between align-center searchField">
-      <search-field
-        :on-filter-change="(v) => $emit('changeFilter', v)"
-      />
-      <sort-by-select />
+      <v-flex class="d-flex left align-center">
+        <search-field
+          :on-filter-change="(v) => $emit('changeFilter', v)"
+        />
+        <sort-by-select/>
+      </v-flex>
       <div class="d-flex align-center">
         <v-btn
           aria-label="Aufgaben aktualisieren"
