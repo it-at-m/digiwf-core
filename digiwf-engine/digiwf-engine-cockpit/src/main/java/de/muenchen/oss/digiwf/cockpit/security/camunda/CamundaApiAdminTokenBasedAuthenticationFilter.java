@@ -17,6 +17,12 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * We set up {@link OAuthContainerBasedAuthenticationProvider} to extract the authenticated user from the request.
+ * If the user is authenticated, this filter will create authentication for the DEFAULT engine (in Spring Boot the only
+ * engine that exists).
+ * We use this filter on access to all resources which usually rely on session-based authentication of Camunda engine.
+ */
 @RequiredArgsConstructor
 public class CamundaApiAdminTokenBasedAuthenticationFilter extends ContainerBasedAuthenticationFilter {
 
