@@ -1,0 +1,26 @@
+id: janedoe
+author: Stephan Strehler
+realm: ${SSO_REALM}
+changes:
+  - addUser:
+      name: janedoe
+      lastName: Doe
+      firstName: Jane
+      enabled: true
+      emailVerified: true
+      email: jane.doe@example.com
+      groups:
+        - group1
+      attributes:
+        user_name:
+          - externer.jane.doe
+        lhmObjectID:
+          - 234567890
+      clientRoles:
+        - client: ${SSO_ENGINE_CLIENT_ID}
+          role: clientrole_deployer
+        - client: ${SSO_ENGINE_CLIENT_ID}
+          role: clientrole_task_importer
+  - updateUserPassword:
+      name: janedoe
+      password: "test"
