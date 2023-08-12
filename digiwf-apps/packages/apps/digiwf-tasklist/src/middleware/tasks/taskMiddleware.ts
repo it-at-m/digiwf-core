@@ -165,7 +165,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   };
 };
 
-export const useAssignTaskMutation = () => {
+export const useAssignTaskToCurrentUserMutation = () => {
   const queryClient = useQueryClient();
 
   const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
@@ -173,6 +173,23 @@ export const useAssignTaskMutation = () => {
     mutationFn: (taskId) => {
       return shouldUseTaskService()
         ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
+        : callPostAssignTaskInEngine(taskId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user-tasks"]);
+      queryClient.invalidateQueries(["assigned-group-tasks"]);
+      queryClient.invalidateQueries(["open-group-tasks"]);
+    },
+  });
+};
+
+export const useAssignTaskToUserMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, any, { taskId: string, userId: string }>({
+    mutationFn: ({taskId, userId}) => {
+      return shouldUseTaskService()
+        ? callPostAssignTaskInTaskService(taskId, userId)
         : callPostAssignTaskInEngine(taskId);
     },
     onSuccess: () => {

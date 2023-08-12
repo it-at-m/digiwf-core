@@ -44,7 +44,7 @@
 <script lang="ts">
 import {defineComponent, watch} from "vue";
 import {useRouter} from "vue-router/composables";
-import {useAssignTaskMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
+import {useAssignTaskToCurrentUserMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
 
@@ -55,24 +55,20 @@ export default defineComponent({
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
 
     const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery);
-    const assignMutation = useAssignTaskMutation();
-
-    const reloadTasks = (): void => {
-      refetch()
-    };
+    const assignMutation = useAssignTaskToCurrentUserMutation();
 
     watch(page, (newPage) => {
       setPage(newPage);
-      reloadTasks();
-    })
+      refetch();
+    });
     watch(size, (newSize) => {
-      setSize(newSize)
-      reloadTasks();
-    })
+      setSize(newSize);
+      refetch();
+    });
 
     const assignTask = async (id: string): Promise<void> => {
-      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
-    }
+      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}));
+    };
 
     return {
       assignTask,
@@ -81,7 +77,7 @@ export default defineComponent({
       errorMessage: error || assignMutation.error,
       data,
       filter: searchQuery,
-      reloadTasks,
+      reloadTasks: refetch,
       pagination: {
         page,
         size,
@@ -92,8 +88,8 @@ export default defineComponent({
           if (page.value === 0) {
             return;
           }
-          setPage(page.value - 1)
-          refetch()
+          setPage(page.value - 1);
+          refetch();
         },
         nextPage: () => {
           const totalPages = data.value?.totalPages;
@@ -109,9 +105,9 @@ export default defineComponent({
       },
       onFilterChange: (newFilter: string | undefined) => {
         setSearchQuery(newFilter || "");
-        reloadTasks();
+        refetch();
       },
-    }
+    };
   }
 });
 </script>

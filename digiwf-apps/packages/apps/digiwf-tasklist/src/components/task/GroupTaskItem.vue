@@ -86,17 +86,67 @@
             :aria-label="'Aufgabe '+task.name+ ' bearbeiten'"
             link
             @click="(event) => {
-              this.$emit('edit', task.id);
+              $emit('edit', task.id);
               event.preventDefault();
             }"
           >
             <v-list-item-title>Bearbeiten</v-list-item-title>
           </v-list-item>
+          <v-list-item
+            :aria-label="'Aufgabe '+task.name+ ' zuweisen'"
+            link
+            @click="() => dialogOpen = true"
+          >
+            <v-list-item-title>Zuweisen</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-flex>
+    <assign-task-dialog
+      v-if="dialogOpen"
+      :open="true"
+      :task-name="task.name"
+      :task-id="task.id"
+      @close="dialogOpen = false"
+    />
   </v-list-item>
 </template>
+
+<script lang="ts">
+import {HumanTask} from "../../middleware/tasks/tasksModels";
+import {PropType, ref} from "vue";
+import AssignTaskDialog from "./AssignTaskDialog.vue";
+
+export default {
+  components: {AssignTaskDialog},
+  props: {
+    task: {
+      type: Object as PropType<HumanTask>,
+      required: true
+    },
+    searchString: {
+      type: String,
+      default: ""
+    },
+    showAssignee: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: {
+    edit: {
+      type: Function as PropType<(id: string) => void>
+    },
+  },
+  setup: () => {
+    const dialogOpen = ref<boolean>(false);
+    return {
+      dialogOpen
+    };
+  }
+};
+
+</script>
 
 <style scoped>
 
@@ -122,31 +172,3 @@
 }
 
 </style>
-
-<script lang="ts">
-import {HumanTask} from "../../middleware/tasks/tasksModels";
-import {PropType} from "vue";
-
-export default {
-  props: {
-    task: {
-      type: Object as PropType<HumanTask>,
-      required: true
-    },
-    searchString: {
-      type: String,
-      default: ""
-    },
-    showAssignee: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: {
-    edit: {
-      type: Function as PropType<(id: string) => void>
-    }
-  }
-};
-
-</script>
