@@ -10,7 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "markdown-it-footnote": "^3.0.3",
-    "vuepress": "^1.9.9"
+    "vuepress": "^1.9.10"
   },
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.9.9",
