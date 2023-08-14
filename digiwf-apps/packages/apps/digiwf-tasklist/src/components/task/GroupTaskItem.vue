@@ -1,18 +1,26 @@
 <template>
   <v-list-item
-    :aria-label="'Gruppenaufgabe '+task.name+ ' öffnen'"
+    :aria-label="'Gruppenaufgabe '+ task.name+ ' öffnen'"
     class="d-flex align-center"
-    :to="'/opengrouptask/'+task.id"
+    :style="task.inAssignProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
+    :to="!task.inAssignProcess && '/opengrouptask/'+ task.id"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
       style="min-height: 5rem; max-height: 6.5rem; margin: 8px 0"
     >
-      <h2 class="taskTitel">
+      <h2 class="taskTitle">
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
       </h2>
+      <p
+        v-if="task.inAssignProcess"
+        class="grey--text"
+        style="font-size: 0.9rem"
+      >
+        <v-icon>mdi-progress-clock</v-icon> Task wird aktuell einer Person zugewiesen
+      </p>
       <p
         v-if="task.followUpDate"
         class="grey--text"
@@ -156,7 +164,7 @@ export default {
   overflow: hidden;
 }
 
-.taskTitel {
+.taskTitle {
   font-size: 1.2rem;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <v-list-item
-    :aria-label="task.inFinishProcess ? 'Aufgabe wird gerade abgeschlossen' :'Aufgabe '+task.name+ ' öffnen'"
+    :aria-label="task.inFinishProcess ? 'Aufgabe wird gerade abgeschlossen' :'Aufgabe '+ task.name+ ' öffnen'"
     class="d-flex align-center"
     :style="task.inFinishProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
     :to="!task.inFinishProcess && {path: '/task/'+task.id }"
@@ -9,7 +9,7 @@
       class="d-flex flex-column taskColumn"
       style="min-height: 4.5rem; max-height: 6.5rem; margin: 8px 0"
     >
-      <h2 class="taskTitel">
+      <h2 class="taskTitle">
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
@@ -94,7 +94,7 @@
   overflow: hidden;
 }
 
-.taskTitel {
+.taskTitle {
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -127,6 +127,6 @@ export default {
       default: ""
     }
   }
-}
+};
 
 </script>
