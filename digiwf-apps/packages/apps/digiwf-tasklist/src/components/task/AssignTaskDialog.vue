@@ -81,7 +81,12 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ["close"],
+  emits: [
+    // is triggered when dialog is should be closed
+    "close",
+    // is triggered when assign action was successfully
+    "success"
+  ],
   setup: (props, ctx) => {
 
     const dialog = ref<boolean>(props.open);
@@ -104,7 +109,10 @@ export default defineComponent({
           taskId: props.taskId,
           userId,
         })
-          .then(() => ctx.emit("close"))
+          .then(() => {
+            ctx.emit("success");
+            ctx.emit("close");
+          })
           .catch(() => errorMessage.value = "Aufgabe konnte nicht zugewiesen werden");
       }
     };
