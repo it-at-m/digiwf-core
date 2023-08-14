@@ -13,8 +13,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <!-- Use version 1.4.xx for compatibility reasons with our flyway scripts -->
-        <h2.version>1.4.200</h2.version>
         <ojdbc8.version>18.15.0.0</ojdbc8.version>
         <postgresql.version>42.5.1</postgresql.version>
     </properties>
@@ -42,7 +40,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
         <!-- Hibernate Model Gen for type safe criteria -->
         <dependency>
