@@ -24,6 +24,9 @@ describe('offene Gruppentasks anzeigen', () => {
         //Necessary to set the group value
         exampleGroupTask.clickNumberOfParallelTasks();
         exampleGroupTask.clickAbschliessen();
+
+        //Close Grouptasks
+        vorgangStarten.openGruppenAufgabenOffen();
     });
 
 })
