@@ -9,11 +9,17 @@ class ExampleGroupTask extends Page{
 
     setGroup(group){
         this.elements.groupForTask().type(group)
+        this.elements.groupForTask().type('{enter}')
     }
 
     setNumberOfTasks(number){
         this.elements.numberOfParallelTasks().clear()
         this.elements.numberOfParallelTasks().type(number)
+        this.elements.numberOfParallelTasks().type('{enter}')
+    }
+
+    clickNumberOfParallelTasks(){
+        this.elements.numberOfParallelTasks().click()
     }
 
     clickAbschliessen(){

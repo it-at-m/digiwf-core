@@ -19,11 +19,11 @@ describe('offene Gruppentasks anzeigen', () => {
         meineAufgaben.openVorgangStarten();
         vorgangStarten.findProcess(dataElementKeys.EXAMPLE_GROUP_TASK_NAME);
         vorgangStarten.clickListElement(dataElementKeys.EXAMPLE_GROUP_TASK_KEY);
-        exampleUserTask.setNumberOfTasks(numberOfTasks);
+        exampleGroupTask.setNumberOfTasks(numberOfTasks);
         exampleGroupTask.setGroup("group1");
-        cy.log("abschliessen")
+        //Necessary to set the group value
+        exampleGroupTask.clickNumberOfParallelTasks();
         exampleGroupTask.clickAbschliessen();
-        cy.log("after")
     });
 
 })

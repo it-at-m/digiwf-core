@@ -3,6 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   viewportHeight: 1200,
   viewportWidth: 2000,
+  //pageLoadTimeout: 300000,
   videosFolder: "output/videos",
   reporter: "cypress-multi-reporters",
   reporterOptions: {
