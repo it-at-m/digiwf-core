@@ -105,25 +105,6 @@ export interface ButtonsTO {
 /**
  * 
  * @export
- * @interface CompleteTO
- */
-export interface CompleteTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof CompleteTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof CompleteTO
-     */
-    'variables': { [key: string]: object; };
-}
-/**
- * 
- * @export
  * @interface ConfigEntryTO
  */
 export interface ConfigEntryTO {
@@ -220,25 +201,6 @@ export interface FilterTO {
      * @memberof FilterTO
      */
     'pageId'?: string;
-}
-/**
- * 
- * @export
- * @interface FollowUpTO
- */
-export interface FollowUpTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof FollowUpTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FollowUpTO
-     */
-    'followUpDate'?: string;
 }
 /**
  * 
@@ -483,146 +445,6 @@ export interface HistoryTask {
 /**
  * 
  * @export
- * @interface HumanTaskDetailTO
- */
-export interface HumanTaskDetailTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'processName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'processInstanceId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'assignee'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'assigneeFormatted'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'followUpDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'creationTime': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof HumanTaskDetailTO
-     */
-    'variables'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {FormTO}
-     * @memberof HumanTaskDetailTO
-     */
-    'form'?: FormTO;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof HumanTaskDetailTO
-     */
-    'jsonSchema'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {boolean}
-     * @memberof HumanTaskDetailTO
-     */
-    'statusDocument'?: boolean;
-}
-/**
- * 
- * @export
- * @interface HumanTaskTO
- */
-export interface HumanTaskTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'processName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'assignee'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'assigneeFormatted'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'followUpDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'creationTime'?: string;
-}
-/**
- * 
- * @export
  * @interface InfoTO
  */
 export interface InfoTO {
@@ -711,79 +533,6 @@ export interface MetadataTO {
 /**
  * 
  * @export
- * @interface PageHumanTaskTO
- */
-export interface PageHumanTaskTO {
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'totalElements'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'size'?: number;
-    /**
-     * 
-     * @type {Array<HumanTaskTO>}
-     * @memberof PageHumanTaskTO
-     */
-    'content'?: Array<HumanTaskTO>;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'number'?: number;
-    /**
-     * 
-     * @type {SortObject}
-     * @memberof PageHumanTaskTO
-     */
-    'sort'?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'last'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageHumanTaskTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'empty'?: boolean;
-}
-/**
- * 
- * @export
  * @interface PageServiceDefinitionTO
  */
 export interface PageServiceDefinitionTO {
@@ -792,13 +541,31 @@ export interface PageServiceDefinitionTO {
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
     'totalPages'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
-    'totalElements'?: number;
+    'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceDefinitionTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
+    'number'?: number;
     /**
      * 
      * @type {number}
@@ -813,12 +580,6 @@ export interface PageServiceDefinitionTO {
     'content'?: Array<ServiceDefinitionTO>;
     /**
      * 
-     * @type {number}
-     * @memberof PageServiceDefinitionTO
-     */
-    'number'?: number;
-    /**
-     * 
      * @type {SortObject}
      * @memberof PageServiceDefinitionTO
      */
@@ -835,18 +596,6 @@ export interface PageServiceDefinitionTO {
      * @memberof PageServiceDefinitionTO
      */
     'last'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceDefinitionTO
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceDefinitionTO
-     */
-    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -865,13 +614,31 @@ export interface PageServiceInstanceTO {
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
     'totalPages'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
-    'totalElements'?: number;
+    'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'number'?: number;
     /**
      * 
      * @type {number}
@@ -884,12 +651,6 @@ export interface PageServiceInstanceTO {
      * @memberof PageServiceInstanceTO
      */
     'content'?: Array<ServiceInstanceTO>;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceInstanceTO
-     */
-    'number'?: number;
     /**
      * 
      * @type {SortObject}
@@ -910,18 +671,6 @@ export interface PageServiceInstanceTO {
     'last'?: boolean;
     /**
      * 
-     * @type {number}
-     * @memberof PageServiceInstanceTO
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceInstanceTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
      * @type {boolean}
      * @memberof PageServiceInstanceTO
      */
@@ -938,25 +687,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'offset'?: number;
-    /**
-     * 
-     * @type {SortObject}
-     * @memberof PageableObject
-     */
-    'sort'?: SortObject;
+    'pageSize'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
     'pageNumber'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
-    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
@@ -969,6 +706,18 @@ export interface PageableObject {
      * @memberof PageableObject
      */
     'unpaged'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'offset'?: number;
+    /**
+     * 
+     * @type {SortObject}
+     * @memberof PageableObject
+     */
+    'sort'?: SortObject;
 }
 /**
  * 
@@ -1044,25 +793,6 @@ export interface SaveFilterTO {
      * @memberof SaveFilterTO
      */
     'pageId': string;
-}
-/**
- * 
- * @export
- * @interface SaveTO
- */
-export interface SaveTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof SaveTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof SaveTO
-     */
-    'variables'?: { [key: string]: object; };
 }
 /**
  * 
@@ -1284,12 +1014,6 @@ export interface SortObject {
      * @type {boolean}
      * @memberof SortObject
      */
-    'empty'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
     'sorted'?: boolean;
     /**
      * 
@@ -1297,6 +1021,12 @@ export interface SortObject {
      * @memberof SortObject
      */
     'unsorted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SortObject
+     */
+    'empty'?: boolean;
 }
 /**
  * 
@@ -2974,880 +2704,6 @@ export class HumanTaskFileRestControllerApi extends BaseAPI {
      */
     public getPresignedUrlForFileUpload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
         return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
- * HumanTaskRestControllerApi - axios parameter creator
- * @export
- */
-export const HumanTaskRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        assignTask: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('assignTask', 'id', id)
-            const localVarPath = `/rest/task/assign/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelTask: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cancelTask', 'id', id)
-            const localVarPath = `/rest/task/cancel/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        completeTask: async (completeTO: CompleteTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'completeTO' is not null or undefined
-            assertParamExists('completeTask', 'completeTO', completeTO)
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(completeTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followUpTask: async (followUpTO: FollowUpTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'followUpTO' is not null or undefined
-            assertParamExists('followUpTask', 'followUpTO', followUpTO)
-            const localVarPath = `/rest/task/followup`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(followUpTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAssignedGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task/group/assigned`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOpenGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task/group/open`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTaskDetail: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getTaskDetail', 'id', id)
-            const localVarPath = `/rest/task/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTasks: async (page?: number, size?: number, query?: string, followUp?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-            if (followUp !== undefined) {
-                localVarQueryParameter['followUp'] = followUp;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        saveTask: async (saveTO: SaveTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'saveTO' is not null or undefined
-            assertParamExists('saveTask', 'saveTO', saveTO)
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(saveTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HumanTaskRestControllerApi - functional programming interface
- * @export
- */
-export const HumanTaskRestControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HumanTaskRestControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async assignTask(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.assignTask(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cancelTask(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelTask(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async completeTask(completeTO: CompleteTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.completeTask(completeTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async followUpTask(followUpTO: FollowUpTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followUpTask(followUpTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(page, size, query, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getOpenGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOpenGroupTasks(page, size, query, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTaskDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HumanTaskDetailTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaskDetail(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(page, size, query, followUp, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async saveTask(saveTO: SaveTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.saveTask(saveTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * HumanTaskRestControllerApi - factory interface
- * @export
- */
-export const HumanTaskRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HumanTaskRestControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        assignTask(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.assignTask(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelTask(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.cancelTask(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        completeTask(completeTO: CompleteTO, options?: any): AxiosPromise<void> {
-            return localVarFp.completeTask(completeTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followUpTask(followUpTO: FollowUpTO, options?: any): AxiosPromise<void> {
-            return localVarFp.followUpTask(followUpTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getAssignedGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOpenGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getOpenGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTaskDetail(id: string, options?: any): AxiosPromise<HumanTaskDetailTO> {
-            return localVarFp.getTaskDetail(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getTasks(page, size, query, followUp, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        saveTask(saveTO: SaveTO, options?: any): AxiosPromise<void> {
-            return localVarFp.saveTask(saveTO, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for assignTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiAssignTaskRequest
- */
-export interface HumanTaskRestControllerApiAssignTaskRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiAssignTask
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for cancelTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiCancelTaskRequest
- */
-export interface HumanTaskRestControllerApiCancelTaskRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiCancelTask
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for completeTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiCompleteTaskRequest
- */
-export interface HumanTaskRestControllerApiCompleteTaskRequest {
-    /**
-     * 
-     * @type {CompleteTO}
-     * @memberof HumanTaskRestControllerApiCompleteTask
-     */
-    readonly completeTO: CompleteTO
-}
-
-/**
- * Request parameters for followUpTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiFollowUpTaskRequest
- */
-export interface HumanTaskRestControllerApiFollowUpTaskRequest {
-    /**
-     * 
-     * @type {FollowUpTO}
-     * @memberof HumanTaskRestControllerApiFollowUpTask
-     */
-    readonly followUpTO: FollowUpTO
-}
-
-/**
- * Request parameters for getAssignedGroupTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest
- */
-export interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly query?: string
-}
-
-/**
- * Request parameters for getOpenGroupTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetOpenGroupTasksRequest
- */
-export interface HumanTaskRestControllerApiGetOpenGroupTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly query?: string
-}
-
-/**
- * Request parameters for getTaskDetail operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetTaskDetailRequest
- */
-export interface HumanTaskRestControllerApiGetTaskDetailRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetTaskDetail
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetTasksRequest
- */
-export interface HumanTaskRestControllerApiGetTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly query?: string
-
-    /**
-     * 
-     * @type {boolean}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly followUp?: boolean
-}
-
-/**
- * Request parameters for saveTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiSaveTaskRequest
- */
-export interface HumanTaskRestControllerApiSaveTaskRequest {
-    /**
-     * 
-     * @type {SaveTO}
-     * @memberof HumanTaskRestControllerApiSaveTask
-     */
-    readonly saveTO: SaveTO
-}
-
-/**
- * HumanTaskRestControllerApi - object-oriented interface
- * @export
- * @class HumanTaskRestControllerApi
- * @extends {BaseAPI}
- */
-export class HumanTaskRestControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiAssignTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public assignTask(requestParameters: HumanTaskRestControllerApiAssignTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).assignTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiCancelTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public cancelTask(requestParameters: HumanTaskRestControllerApiCancelTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).cancelTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiCompleteTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public completeTask(requestParameters: HumanTaskRestControllerApiCompleteTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).completeTask(requestParameters.completeTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiFollowUpTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public followUpTask(requestParameters: HumanTaskRestControllerApiFollowUpTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).followUpTask(requestParameters.followUpTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetAssignedGroupTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getAssignedGroupTasks(requestParameters: HumanTaskRestControllerApiGetAssignedGroupTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetOpenGroupTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getOpenGroupTasks(requestParameters: HumanTaskRestControllerApiGetOpenGroupTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetTaskDetailRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getTaskDetail(requestParameters: HumanTaskRestControllerApiGetTaskDetailRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTaskDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getTasks(requestParameters: HumanTaskRestControllerApiGetTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.followUp, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiSaveTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public saveTask(requestParameters: HumanTaskRestControllerApiSaveTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).saveTask(requestParameters.saveTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
