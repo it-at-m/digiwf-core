@@ -169,7 +169,6 @@ import {
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
 import router from "../router";
-import { shouldUseTaskService } from "../utils/featureToggles";
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -218,7 +217,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   taskServiceApiEndpoint = ApiConfig.tasklistBase;
 
   @Provide('shouldUseTaskService')
-  shouldUseTaskService = shouldUseTaskService();
+  shouldUseTaskService = true // FIXME: improve
 
   created() {
     loadTask(this.id).then(({data, error}) => {
