@@ -3,9 +3,10 @@ import meineAufgaben from "../pages/meineAufgaben"
 import * as dataElementKeys from "../constants/dataElementKeys"
 import * as environmentVariables from "../constants/environmentVariables"
 import exampleGroupTask from "../pages/exampleGroupTask";
-import exampleUserTask from "../pages/exampleUserTask";
+import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
+import groupUserTasks from "../pages/groupUserTask"
 
-const numberOfTasks = 2
+const numberOfTasks = 21
 
 before(() => {
     cy.login()
@@ -26,7 +27,15 @@ describe('offene Gruppentasks anzeigen', () => {
         exampleGroupTask.clickAbschliessen();
 
         //Close Grouptasks
-        vorgangStarten.openGruppenAufgabenOffen();
+        for (let i=1; i<= numberOfTasks; i++) {
+            vorgangStarten.openGruppenAufgabenOffen();
+            offeneGruppenAufgaben.checkHeadline();
+            offeneGruppenAufgaben.clickElement(1);
+            groupUserTasks.checkHeadline();
+            groupUserTasks.clickBearbeiten();
+            groupUserTasks.tickCheckbox();
+            groupUserTasks.clickAbschliessen();
+        }
     });
 
 })

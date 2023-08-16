@@ -49,10 +49,10 @@ class Page{
     openGruppenAufgabenOffen(){
         cy.intercept({
             method: 'GET',
-            url: '/api/digitalwf-backend-service/rest/service/*',
-        }).as('dataGetDefinitions')
+            url: '/api/digitalwf-backend-service/rest/filter',
+        }).as('dataGetFilter')
         this.navbarGruppenAufgabenOffen().click()
-        cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200)
     }
 }
 
