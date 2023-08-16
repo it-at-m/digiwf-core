@@ -55,7 +55,7 @@ export default defineComponent({
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery);
+    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, currentSortDirection);
     const assignMutation = useAssignTaskToCurrentUserMutation();
     watch(currentSortDirection, () => {
       refetch();

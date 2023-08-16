@@ -55,8 +55,9 @@ export default defineComponent({
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery);
-    {currentSortDirection} = usePageFilters();
+    const {currentSortDirection} = usePageFilters();
+    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, currentSortDirection);
+
     const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
       assignToCurrentUserMutation.mutateAsync(id)
