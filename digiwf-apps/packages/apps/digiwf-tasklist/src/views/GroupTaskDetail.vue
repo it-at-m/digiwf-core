@@ -148,8 +148,6 @@ export default class GroupTaskDetail extends Vue {
   @Provide('taskServiceApiEndpoint')
   taskServiceApiEndpoint = ApiConfig.tasklistBase;
 
-  @Provide('shouldUseTaskService')
-  shouldUseTaskService = true // FIXME: remove
   created() {
     this.isLoading = true;
     loadTask(this.id)

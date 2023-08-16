@@ -216,9 +216,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Provide('taskServiceApiEndpoint')
   taskServiceApiEndpoint = ApiConfig.tasklistBase;
 
-  @Provide('shouldUseTaskService')
-  shouldUseTaskService = true // FIXME: improve
-
   created() {
     loadTask(this.id).then(({data, error}) => {
       if (!!data) {
