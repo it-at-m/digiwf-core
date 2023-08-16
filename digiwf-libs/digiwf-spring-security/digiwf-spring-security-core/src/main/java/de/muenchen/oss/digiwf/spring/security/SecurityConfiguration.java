@@ -35,15 +35,10 @@ import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECUR
  */
 @Configuration
 @Profile(SECURITY)
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-
-  @Bean
-  public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.debug(true);
-  }
 
   /**
    * Activates security.
