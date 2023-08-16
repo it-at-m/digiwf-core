@@ -24,9 +24,6 @@
     "name" : "FormRestController",
     "description" : "API to handle forms"
   }, {
-    "name" : "HumanTaskFileRestController",
-    "description" : "API to perform actions on human task files"
-  }, {
     "name" : "InfoRestController",
     "description" : "API to handle app infos"
   }, {
@@ -205,88 +202,10 @@
         }
       }
     },
-    "/rest/task/file/{taskId}/{filename}" : {
-      "post" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filename",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filename",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/rest/service/start/file/{definitionKey}/{filename}" : {
       "post" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload_1",
+        "operationId" : "getPresignedUrlForFileUpload",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -324,7 +243,7 @@
       },
       "delete" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion_1",
+        "operationId" : "getPresignedUrlForFileDeletion",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -364,7 +283,7 @@
     "/rest/service/instance/file/{instanceId}/{filename}" : {
       "post" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload_2",
+        "operationId" : "getPresignedUrlForFileUpload_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -402,7 +321,7 @@
       },
       "delete" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion_2",
+        "operationId" : "getPresignedUrlForFileDeletion_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -787,86 +706,10 @@
         }
       }
     },
-    "/rest/task/file/{taskId}" : {
-      "get" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getFileNames",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/file/{taskId}/{fileName}" : {
-      "get" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "fileName",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/rest/service/start/file/{definitionKey}" : {
       "get" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getFileNames_1",
+        "operationId" : "getFileNames",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -902,7 +745,7 @@
     "/rest/service/start/file/{definitionKey}/{fileName}" : {
       "get" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload_1",
+        "operationId" : "getPresignedUrlForFileDownload",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -1015,7 +858,7 @@
     "/rest/service/instance/file/{instanceId}" : {
       "get" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getFileNames_2",
+        "operationId" : "getFileNames_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -1051,7 +894,7 @@
     "/rest/service/instance/file/{instanceId}/{fileName}" : {
       "get" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload_2",
+        "operationId" : "getPresignedUrlForFileDownload_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -1641,17 +1484,6 @@
             "type" : "integer",
             "format" : "int32"
           },
-          "numberOfElements" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
           "size" : {
             "type" : "integer",
             "format" : "int32"
@@ -1662,6 +1494,10 @@
               "$ref" : "#/components/schemas/ServiceInstanceTO"
             }
           },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
           "sort" : {
             "$ref" : "#/components/schemas/SortObject"
           },
@@ -1671,6 +1507,13 @@
           "last" : {
             "type" : "boolean"
           },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
           "empty" : {
             "type" : "boolean"
           }
@@ -1679,11 +1522,18 @@
       "PageableObject" : {
         "type" : "object",
         "properties" : {
-          "pageSize" : {
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/SortObject"
+          },
+          "pageNumber" : {
             "type" : "integer",
             "format" : "int32"
           },
-          "pageNumber" : {
+          "pageSize" : {
             "type" : "integer",
             "format" : "int32"
           },
@@ -1692,13 +1542,6 @@
           },
           "unpaged" : {
             "type" : "boolean"
-          },
-          "offset" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "sort" : {
-            "$ref" : "#/components/schemas/SortObject"
           }
         }
       },
@@ -1730,13 +1573,13 @@
       "SortObject" : {
         "type" : "object",
         "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
           "sorted" : {
             "type" : "boolean"
           },
           "unsorted" : {
-            "type" : "boolean"
-          },
-          "empty" : {
             "type" : "boolean"
           }
         }
@@ -1816,17 +1659,6 @@
             "type" : "integer",
             "format" : "int32"
           },
-          "numberOfElements" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
           "size" : {
             "type" : "integer",
             "format" : "int32"
@@ -1837,6 +1669,10 @@
               "$ref" : "#/components/schemas/ServiceDefinitionTO"
             }
           },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
           "sort" : {
             "$ref" : "#/components/schemas/SortObject"
           },
@@ -1845,6 +1681,13 @@
           },
           "last" : {
             "type" : "boolean"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
           },
           "empty" : {
             "type" : "boolean"

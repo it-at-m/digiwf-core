@@ -5,7 +5,6 @@ import {formatIsoDate, formatIsoDateTime, getDateFromIsoDateTime} from "../../ut
 import {User} from "../user/userModels";
 
 export const mapTaskFromTaskService = (response: Task, inFinishProcess: boolean, inAssignProcess: boolean, user?: User): HumanTask => {
-  console.log("mapTaskFromTaskService", {response, inFinishProcess, inAssignProcess});
   return {
     createTime: response.createTime ? formatIsoDateTime(response.createTime) : "-",
     followUpDate: response.followUpDate ? getDateFromIsoDateTime(response.followUpDate) : undefined,

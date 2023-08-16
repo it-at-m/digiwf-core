@@ -43,38 +43,4 @@ public class HumanTaskService {
         }
         return task;
     }
-
-    /**
-     * Check if a user has access to a task
-     *
-     * @param taskId Id of the task whose access is to be checked
-     * @param userId Id of the user
-     * @param groups Groups of the user
-     * @return has access
-     */
-    public boolean hasAccess(final String taskId, final String userId, final List<String> groups) {
-        final Task task = this.getTask(taskId);
-        return this.hasAccess(task, userId, groups);
-    }
-
-    /**
-     * Check if a user has access to a task
-     *
-     * @param task   Task whose access is to be checked
-     * @param userId Id of the user
-     * @param groups Groups of the user
-     * @return has access
-     */
-    private boolean hasAccess(final Task task, final String userId, final List<String> groups) {
-        if (userId.equals(task.getAssignee())) {
-            return true;
-        }
-
-        val identityLinks = this.taskService.getIdentityLinksForTask(task.getId());
-        return identityLinks.stream()
-                .filter(link -> IdentityLinkType.CANDIDATE.equals(link.getType()))
-                .anyMatch(link -> groups.stream().anyMatch(group ->
-                        StringUtils.isNoneBlank(link.getGroupId()) && group.equalsIgnoreCase(link.getGroupId()))
-                        || userId.equals(link.getUserId()));
-    }
 }

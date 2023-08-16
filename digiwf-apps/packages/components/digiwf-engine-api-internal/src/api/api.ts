@@ -553,24 +553,6 @@ export interface PageServiceDefinitionTO {
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceDefinitionTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceDefinitionTO
-     */
-    'number'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceDefinitionTO
-     */
     'size'?: number;
     /**
      * 
@@ -578,6 +560,12 @@ export interface PageServiceDefinitionTO {
      * @memberof PageServiceDefinitionTO
      */
     'content'?: Array<ServiceDefinitionTO>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
+    'number'?: number;
     /**
      * 
      * @type {SortObject}
@@ -596,6 +584,18 @@ export interface PageServiceDefinitionTO {
      * @memberof PageServiceDefinitionTO
      */
     'last'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
+    'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceDefinitionTO
+     */
+    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -626,24 +626,6 @@ export interface PageServiceInstanceTO {
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceInstanceTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceInstanceTO
-     */
-    'number'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageServiceInstanceTO
-     */
     'size'?: number;
     /**
      * 
@@ -651,6 +633,12 @@ export interface PageServiceInstanceTO {
      * @memberof PageServiceInstanceTO
      */
     'content'?: Array<ServiceInstanceTO>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'number'?: number;
     /**
      * 
      * @type {SortObject}
@@ -671,6 +659,18 @@ export interface PageServiceInstanceTO {
     'last'?: boolean;
     /**
      * 
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
      * @type {boolean}
      * @memberof PageServiceInstanceTO
      */
@@ -687,13 +687,25 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'offset'?: number;
+    /**
+     * 
+     * @type {SortObject}
+     * @memberof PageableObject
+     */
+    'sort'?: SortObject;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
     'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
@@ -706,18 +718,6 @@ export interface PageableObject {
      * @memberof PageableObject
      */
     'unpaged'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
-    'offset'?: number;
-    /**
-     * 
-     * @type {SortObject}
-     * @memberof PageableObject
-     */
-    'sort'?: SortObject;
 }
 /**
  * 
@@ -1014,6 +1014,12 @@ export interface SortObject {
      * @type {boolean}
      * @memberof SortObject
      */
+    'empty'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SortObject
+     */
     'sorted'?: boolean;
     /**
      * 
@@ -1021,12 +1027,6 @@ export interface SortObject {
      * @memberof SortObject
      */
     'unsorted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    'empty'?: boolean;
 }
 /**
  * 
@@ -2244,471 +2244,6 @@ export class FormRestControllerApi extends BaseAPI {
 
 
 /**
- * HumanTaskFileRestControllerApi - axios parameter creator
- * @export
- */
-export const HumanTaskFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getFileNames: async (taskId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getFileNames', 'taskId', taskId)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDeletion: async (taskId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'taskId', taskId)
-            // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'filename', filename)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{filename}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDownload: async (taskId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'taskId', taskId)
-            // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'fileName', fileName)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{fileName}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileUpload: async (taskId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'taskId', taskId)
-            // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'filename', filename)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{filename}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HumanTaskFileRestControllerApi - functional programming interface
- * @export
- */
-export const HumanTaskFileRestControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HumanTaskFileRestControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getFileNames(taskId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames(taskId, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileDeletion(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion(taskId, filename, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileDownload(taskId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload(taskId, fileName, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileUpload(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload(taskId, filename, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * HumanTaskFileRestControllerApi - factory interface
- * @export
- */
-export const HumanTaskFileRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HumanTaskFileRestControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getFileNames(taskId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames(taskId, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDeletion(taskId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion(taskId, filename, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDownload(taskId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload(taskId, fileName, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileUpload(taskId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload(taskId, filename, filePath, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for getFileNames operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetFileNamesRequest
- */
-export interface HumanTaskFileRestControllerApiGetFileNamesRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetFileNames
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetFileNames
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileDeletion operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly filename: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileDownload operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly fileName: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileUpload operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly filename: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly filePath: string
-}
-
-/**
- * HumanTaskFileRestControllerApi - object-oriented interface
- * @export
- * @class HumanTaskFileRestControllerApi
- * @extends {BaseAPI}
- */
-export class HumanTaskFileRestControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getFileNames(requestParameters: HumanTaskFileRestControllerApiGetFileNamesRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getFileNames(requestParameters.taskId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileDeletion(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileDownload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(requestParameters.taskId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileUpload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
  * InfoRestControllerApi - axios parameter creator
  * @export
  */
@@ -3764,11 +3299,11 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames2: async (instanceId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getFileNames1: async (instanceId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getFileNames2', 'instanceId', instanceId)
+            assertParamExists('getFileNames1', 'instanceId', instanceId)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames2', 'filePath', filePath)
+            assertParamExists('getFileNames1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3809,13 +3344,13 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion2: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDeletion1: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'instanceId', instanceId)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{filename}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -3857,13 +3392,13 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload2: async (instanceId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDownload1: async (instanceId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileDownload1', 'instanceId', instanceId)
             // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'fileName', fileName)
+            assertParamExists('getPresignedUrlForFileDownload1', 'fileName', fileName)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDownload1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{fileName}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
@@ -3905,13 +3440,13 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload2: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileUpload1: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileUpload1', 'instanceId', instanceId)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileUpload1', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileUpload1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{filename}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -3962,8 +3497,8 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileNames2(instanceId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames2(instanceId, filePath, options);
+        async getFileNames1(instanceId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames1(instanceId, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3974,8 +3509,8 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDeletion2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion2(instanceId, filename, filePath, options);
+        async getPresignedUrlForFileDeletion1(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion1(instanceId, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3986,8 +3521,8 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDownload2(instanceId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload2(instanceId, fileName, filePath, options);
+        async getPresignedUrlForFileDownload1(instanceId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload1(instanceId, fileName, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3998,8 +3533,8 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileUpload2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload2(instanceId, filename, filePath, options);
+        async getPresignedUrlForFileUpload1(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload1(instanceId, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -4019,8 +3554,8 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames2(instanceId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames2(instanceId, filePath, options).then((request) => request(axios, basePath));
+        getFileNames1(instanceId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getFileNames1(instanceId, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4030,8 +3565,8 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion2(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion2(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDeletion1(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDeletion1(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4041,8 +3576,8 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload2(instanceId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload2(instanceId, fileName, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDownload1(instanceId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDownload1(instanceId, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4052,113 +3587,113 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload2(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload2(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileUpload1(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileUpload1(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for getFileNames2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getFileNames1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetFileNames2Request
+ * @interface ServiceInstanceFileRestControllerApiGetFileNames1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetFileNames2Request {
+export interface ServiceInstanceFileRestControllerApiGetFileNames1Request {
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
     readonly instanceId: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDeletion2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDeletion1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly instanceId: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly filename: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDownload2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDownload1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request {
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly instanceId: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly fileName: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileUpload2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileUpload1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request {
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly instanceId: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly filename: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly filePath: string
 }
@@ -4172,46 +3707,46 @@ export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUploa
 export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {ServiceInstanceFileRestControllerApiGetFileNames2Request} requestParameters Request parameters.
+     * @param {ServiceInstanceFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getFileNames2(requestParameters: ServiceInstanceFileRestControllerApiGetFileNames2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames2(requestParameters.instanceId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames1(requestParameters: ServiceInstanceFileRestControllerApiGetFileNames1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames1(requestParameters.instanceId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request} requestParameters Request parameters.
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request} requestParameters Request parameters.
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload2(requestParameters.instanceId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(requestParameters.instanceId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request} requestParameters Request parameters.
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4229,11 +3764,11 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames1: async (definitionKey: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getFileNames: async (definitionKey: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getFileNames1', 'definitionKey', definitionKey)
+            assertParamExists('getFileNames', 'definitionKey', definitionKey)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames1', 'filePath', filePath)
+            assertParamExists('getFileNames', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4274,13 +3809,13 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion1: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDeletion: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileDeletion', 'definitionKey', definitionKey)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileDeletion', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDeletion', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{filename}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -4322,13 +3857,13 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload1: async (definitionKey: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDownload: async (definitionKey: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileDownload', 'definitionKey', definitionKey)
             // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'fileName', fileName)
+            assertParamExists('getPresignedUrlForFileDownload', 'fileName', fileName)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDownload', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{fileName}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
@@ -4370,13 +3905,13 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload1: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileUpload: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileUpload', 'definitionKey', definitionKey)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileUpload', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileUpload', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{filename}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -4427,8 +3962,8 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileNames1(definitionKey: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames1(definitionKey, filePath, options);
+        async getFileNames(definitionKey: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames(definitionKey, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4439,8 +3974,8 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDeletion1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion1(definitionKey, filename, filePath, options);
+        async getPresignedUrlForFileDeletion(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion(definitionKey, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4451,8 +3986,8 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDownload1(definitionKey: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload1(definitionKey, fileName, filePath, options);
+        async getPresignedUrlForFileDownload(definitionKey: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload(definitionKey, fileName, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4463,8 +3998,8 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileUpload1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload1(definitionKey, filename, filePath, options);
+        async getPresignedUrlForFileUpload(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload(definitionKey, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -4484,8 +4019,8 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames1(definitionKey: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames1(definitionKey, filePath, options).then((request) => request(axios, basePath));
+        getFileNames(definitionKey: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getFileNames(definitionKey, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4495,8 +4030,8 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion1(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion1(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDeletion(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDeletion(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4506,8 +4041,8 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload1(definitionKey: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload1(definitionKey, fileName, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDownload(definitionKey: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDownload(definitionKey, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4517,113 +4052,113 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload1(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload1(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileUpload(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileUpload(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for getFileNames1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getFileNames operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetFileNames1Request
+ * @interface ServiceStartFileRestControllerApiGetFileNamesRequest
  */
-export interface ServiceStartFileRestControllerApiGetFileNames1Request {
+export interface ServiceStartFileRestControllerApiGetFileNamesRequest {
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
     readonly definitionKey: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDeletion1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDeletion operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly definitionKey: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly filename: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDownload1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDownload operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly definitionKey: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly fileName: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileUpload1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileUpload operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest {
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly definitionKey: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly filename: string
 
     /**
      * 
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly filePath: string
 }
@@ -4637,46 +4172,46 @@ export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1R
 export class ServiceStartFileRestControllerApi extends BaseAPI {
     /**
      * 
-     * @param {ServiceStartFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
+     * @param {ServiceStartFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getFileNames1(requestParameters: ServiceStartFileRestControllerApiGetFileNames1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames1(requestParameters.definitionKey, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames(requestParameters: ServiceStartFileRestControllerApiGetFileNamesRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames(requestParameters.definitionKey, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(requestParameters.definitionKey, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(requestParameters.definitionKey, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
