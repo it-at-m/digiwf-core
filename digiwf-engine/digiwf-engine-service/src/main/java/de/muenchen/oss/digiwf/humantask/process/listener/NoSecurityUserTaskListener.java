@@ -4,7 +4,7 @@
 
 package de.muenchen.oss.digiwf.humantask.process.listener;
 
-import de.muenchen.oss.digiwf.shared.security.UserAuthenticationProvider;
+import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateTask;

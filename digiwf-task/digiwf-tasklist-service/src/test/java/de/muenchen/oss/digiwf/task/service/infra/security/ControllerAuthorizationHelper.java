@@ -15,9 +15,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static de.muenchen.oss.digiwf.task.service.adapter.out.auth.CurrentUserSpringSecurityAdapter.USERNAME_CLAIM;
-import static de.muenchen.oss.digiwf.task.service.adapter.out.auth.CurrentUserSpringSecurityAdapter.USER_ID_CLAIM;
-
 public class ControllerAuthorizationHelper {
 
   public static SecurityContext mockUser(TestUser user, String... roleNames) {
@@ -30,8 +27,8 @@ public class ControllerAuthorizationHelper {
     claims.put("given_name", user.getFirstName());
     claims.put("family_name", user.getLastName());
     claims.put("email", user.getEmail());
-    claims.put(USER_ID_CLAIM, user.getUserId());
-    claims.put(USERNAME_CLAIM, user.getUserName());
+    claims.put("lhmObjectID", user.getUserId());
+    claims.put("user_name", user.getUserName());
     // user id
     claims.put(JwtClaimNames.SUB, user.getUserId());
 
@@ -58,15 +55,13 @@ public class ControllerAuthorizationHelper {
     final Map<String, Object> headers = new HashMap<>();
     headers.put("alg", "RS256");
     headers.put("typ", "JWT");
-
-    val token = new Jwt(
+    return new Jwt(
         "test-" + UUID.randomUUID(),
         Instant.now(),
         Instant.now().plus(60, ChronoUnit.MINUTES),
         headers,
         claims
     );
-    return token;
   }
 
 }

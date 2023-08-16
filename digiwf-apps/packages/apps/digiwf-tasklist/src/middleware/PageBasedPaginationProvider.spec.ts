@@ -11,7 +11,7 @@ describe("PageBasedPaginationProvider", () => {
     provider.setSearchQuery("tasks", "search-query");
     const result = provider.getPaginationDataInSession("tasks");
     expect(result?.page).toBe(DEFAULT_PAGE);
-    expect(result?.size).toBe(DEFAULT_SIZE)
+    expect(result?.size).toBe(DEFAULT_SIZE);
     expect(result?.searchQuery).toBe("search-query");
   });
 
@@ -21,5 +21,5 @@ describe("PageBasedPaginationProvider", () => {
     provider.setSearchQuery("unknown", "other-search-query");
     expect(provider.getPaginationDataInSession("tasks")?.searchQuery).toBe("search-query");
     expect(provider.getPaginationDataInSession("unknown")?.searchQuery).toBe("other-search-query");
-  })
+  });
 });

@@ -20,7 +20,7 @@ public class LdapUserGroupResolverAdapter implements UserGroupResolverPort {
   @Override
   public Set<String> resolveGroups(@NonNull final String userId) {
     try {
-      return new HashSet<>(this.easyLdapClient.getOuTreeByUserId(userId).stream().map(String::toLowerCase).collect(Collectors.toList()));
+      return this.easyLdapClient.getOuTreeByUserId(userId).stream().map(String::toLowerCase).collect(Collectors.toSet());
     } catch (final FeignException e) {
       return Collections.emptySet();
     }

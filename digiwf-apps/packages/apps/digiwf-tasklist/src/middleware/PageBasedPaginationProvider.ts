@@ -8,7 +8,7 @@ export class PageBasedPaginationProvider {
   private pageKeyToPaginationData: Map<PageId, PaginationDataInSession> = new Map();
 
   public getPaginationDataInSession(pageId: PageId): PaginationDataInSession | undefined {
-    return this.pageKeyToPaginationData.get(pageId)
+    return this.pageKeyToPaginationData.get(pageId);
   }
 
   public setPageOfPageId(pageId: PageId, page: number) {
@@ -29,7 +29,7 @@ export class PageBasedPaginationProvider {
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
       searchQuery
-    })
+    });
   }
 
   private getPaginationDataInSessionOrDefault(pageId: PageId): PaginationDataInSession {

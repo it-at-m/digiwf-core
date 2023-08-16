@@ -48,9 +48,9 @@ export const callGetOpenGroupTasksFromEngine = (page: number, size: number, quer
     return Promise.resolve(res.data);
   }).catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
-export const callGetOpenGroupTasksFromTaskService = (page: number, size: number, query?: string): Promise<PageOfTasks> => {
+export const callGetOpenGroupTasksFromTaskService = (page: number, size: number, query?: string, sort?: string): Promise<PageOfTasks> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
-  return TasksApiFactory(cfg).getUnassignedGroupTasks(page, size, query)
+  return TasksApiFactory(cfg).getUnassignedGroupTasks(page, size, query, sort)
     .then((res) => Promise.resolve(res.data))
     .catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
@@ -68,9 +68,9 @@ export const callGetAssignedGroupTasksFromEngine = (page: number, size: number, 
     return Promise.resolve(res.data);
   }).catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
-export const callGetAssignedGroupTasksFromTaskService = (page: number, size: number, query?: string): Promise<PageOfTasks> => {
+export const callGetAssignedGroupTasksFromTaskService = (page: number, size: number, query?: string, sort?: string): Promise<PageOfTasks> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
-  return TasksApiFactory(cfg).getAssignedGroupTasks(page, size, query).then((res) => {
+  return TasksApiFactory(cfg).getAssignedGroupTasks(page, size, query, sort).then((res) => {
     return Promise.resolve(res.data);
   }).catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
@@ -147,7 +147,6 @@ export const callCompleteTaskInEngine = (taskId: string, variables: TaskVariable
 };
 
 export const callCompleteTaskInTaskService = (taskId: string, variables: TaskVariables): Promise<void> => {
-  console.log("callCompleteTaskInTaskService");
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
   return TaskApiFactory(cfg).completeTask(taskId, variables)
     .then(() => Promise.resolve())

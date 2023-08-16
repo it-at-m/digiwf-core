@@ -4,6 +4,7 @@
  */
 package de.muenchen.oss.digiwf.shared.nfcconverter;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class NfcRequestFilter extends OncePerRequestFilter {
      */
     public static final String CONTENTTYPES_PROPERTY = "contentTypes";
 
-    private Set<String> contentTypes = new HashSet<>();
+    private final Set<String> contentTypes = new HashSet<>();
 
     /**
      * @return Das Property <em>contentTypes</em>
@@ -66,21 +67,19 @@ public class NfcRequestFilter extends OncePerRequestFilter {
     @Autowired(required = false)
     public void setContentTypes(final String contentTypes) {
         this.contentTypes.clear();
-        if (StringUtils.isEmpty(contentTypes)) {
+        if (StringUtils.hasLength(contentTypes)) {
             LOG.info("Disabling context-type filter.");
 
         } else {
-            final Set<String> newContentTypes = Arrays.asList(contentTypes.split(";"))
-                    .stream().map(String::trim)
+            final Set<String> newContentTypes = Arrays.stream(contentTypes.split(";")).map(String::trim)
                     .collect(Collectors.toSet());
             this.contentTypes.addAll(newContentTypes);
             LOG.info("Enabled content-type filtering to NFC for: {}", getContentTypes());
-
         }
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
 
         LOG.debug("Request-Type={}", request.getClass().getName());
@@ -88,7 +87,7 @@ public class NfcRequestFilter extends OncePerRequestFilter {
 
         final String contentType = request.getContentType();
         LOG.debug("ContentType for request with URI: \"{}\"", contentType);
-        if ((contentTypes != null) && (contentTypes.contains(contentType))) {
+        if (contentTypes.contains(contentType)) {
             LOG.debug("Processing request {}.", request.getRequestURI());
             filterChain.doFilter(new NfcRequest(request, contentTypes), response);
         } else {

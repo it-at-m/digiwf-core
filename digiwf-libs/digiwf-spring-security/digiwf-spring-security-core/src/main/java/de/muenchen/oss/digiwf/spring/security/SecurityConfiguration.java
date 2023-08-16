@@ -4,21 +4,29 @@
  */
 package de.muenchen.oss.digiwf.spring.security;
 
+import de.muenchen.oss.digiwf.spring.security.userinfo.UserInfoAuthoritiesConverter;
+import io.muenchendigital.digiwf.spring.security.client.ClientParameters;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.annotation.PostConstruct;
+import java.util.Collection;
 
 import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
 
@@ -27,38 +35,58 @@ import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECUR
  */
 @Configuration
 @Profile(SECURITY)
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.debug(true);
+  }
+
   /**
    * Activates security.
    */
   public static final String SECURITY = "!no-security";
-
+  public static final int DEFAULT_SECURITY_ORDER = 77;
+  public static final String SPRING_ROLE_PREFIX = "ROLE_";
 
   private final RestTemplateBuilder restTemplateBuilder;
   private final SpringSecurityProperties springSecurityProperties;
-  private final ClientRegistrationRepository clientRegistrationRepository;
+  private final Environment environment;
+  private ClientParameters clientParameters;
+
+  @PostConstruct
+  void setupClientRegistration() {
+    this.clientParameters = ClientParameters.fromEnvironment(environment, springSecurityProperties.getClientRegistration());
+  }
+
 
   @Bean
-  public SecurityFilterChain configure(final HttpSecurity http, Converter<Jwt, AbstractAuthenticationToken> converter) throws Exception {
+  @Order(DEFAULT_SECURITY_ORDER)
+  public SecurityFilterChain mainSecurityFilterChain(
+      final HttpSecurity http,
+      final JwtAuthenticationConverter jwtAuthenticationConverter
+  ) throws Exception {
     // @formatter:off
     http
-        .csrf()
-        .ignoringAntMatchers(springSecurityProperties.getPermittedUrls())
-        .disable()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.OPTIONS).permitAll()
-        .antMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .oauth2ResourceServer()
-        .jwt()
-        .jwtAuthenticationConverter(converter)
-        .and();
-    return http.build();
+        .csrf( csrf -> csrf
+            .ignoringAntMatchers(springSecurityProperties.getPermittedUrls())
+            .disable()
+        )
+        .authorizeRequests( requests -> requests
+            .antMatchers(HttpMethod.OPTIONS).permitAll()
+            .antMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
+            .anyRequest().authenticated()
+        )
+        .oauth2ResourceServer( server -> server
+            .jwt()
+            .jwtAuthenticationConverter(jwtAuthenticationConverter)
+        )
+        ;
     // @formatter:on
+    return http.build();
   }
 
   /**
@@ -87,14 +115,15 @@ public class SecurityConfiguration {
    * - provide extension of the DEFAULT OAUth2 User Service see https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html#oauth2login-advanced-oauth2-user-service
    */
   @Bean
-  public Converter<Jwt, AbstractAuthenticationToken> customCachingUserServiceConverter(final UserInfoAuthoritiesService userInfoAuthoritiesService) {
-    return new JwtUserInfoAuthenticationConverter(userInfoAuthoritiesService);
+  public JwtAuthenticationConverter customCachingUserServiceConverter(final Converter<Jwt, Collection<GrantedAuthority>> userInfoAuthoritiesConverter) {
+    val converter = new JwtAuthenticationConverter();
+    converter.setJwtGrantedAuthoritiesConverter(userInfoAuthoritiesConverter);
+    return converter;
   }
 
   @Bean
-  public UserInfoAuthoritiesService userInfoAuthoritiesService() {
-    val userInfoUri = clientRegistrationRepository.findByRegistrationId(this.springSecurityProperties.getClientRegistration()).getProviderDetails().getUserInfoEndpoint().getUri();
-    return new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder);
+  public Converter<Jwt, Collection<GrantedAuthority>> userInfoAuthoritiesConverter() {
+    return new UserInfoAuthoritiesConverter(clientParameters.getProviderUserInfoUri(), restTemplateBuilder);
   }
 
 }

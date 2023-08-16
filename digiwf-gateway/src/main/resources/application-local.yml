@@ -11,6 +11,7 @@ spring:
             - Path=/api/sso/userinfo
           filters:
             - RewritePath=/api/sso/userinfo, /realms/${SSO_REALM}/protocol/openid-connect/userinfo
+
         - id: backend
           uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
           predicates:
@@ -18,6 +19,12 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
+        - id: backend-cockpit
+          uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}
+          predicates:
+            - Path=/camunda/**
+
         - id: tasklist
           uri: http://${TASKSERVICE_SERVER_HOST:localhost}:${TASKSERVICE_SERVER_PORT}/
           predicates:
@@ -25,15 +32,16 @@ spring:
           filters:
             - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend
           uri: http://localhost:8081/
           predicates:
-            - Path=/**
+            - Path=/app/**
 
       default-filters:
         - RemoveResponseHeader=Expires
-        - RemoveRequestHeader=cookie
-        - RemoveRequestHeader=x-xsrf-token
+#        - RemoveRequestHeader=cookie
+#        - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
         - AddResponseHeader=set-cookie, FEATURE_USE_TASK_SERVICE=${FEATURETOGGLES_FRONTEND_USETASKSERVICE}
         - AddResponseHeader=set-cookie, FEATURE_SHOW_BETA_BUTTON=${FEATURETOGGLES_FRONTEND_SHOWBETABUTTON}

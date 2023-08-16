@@ -5,7 +5,7 @@ info:
 camunda:
   bpm:
     authorization:
-      enabled: false
+      enabled: true
     job-executor-acquire-by-priority: true
     deployment-resource-pattern: "prozesse/**/*.bpmn, bausteine/**/*.bpmn, bausteine/**/*.dmn"
     generic-properties:
@@ -102,27 +102,6 @@ spring:
             fallback: true
           starttls:
             enable: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${SSO_ISSUER_URL}
-
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${SSO_ISSUER_URL}
-            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
-            # jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: user_name # was lhmObjectID... FIXME: check
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
-            scope: email, profile, openid  # needed for userInfo endpoint
-
-
 
 springdoc:
   packagesToScan: de.muenchen.oss.digiwf
@@ -177,6 +156,9 @@ digiwf:
     overridereceivers: false
   parkausweis:
     url: "${PARKAUSWEIS_HOST}:${PARKAUSWEIS_PORT}/"
+  security:
+    client-id: ${SSO_ENGINE_CLIENT_ID}
+    client-secret: ${SSO_ENGINE_CLIENT_SECRET}
   streaming:
     engine:
       topics: 'dwf-digiwf-engine-${DIGIWF_ENV},dwf-cocreation-${DIGIWF_ENV}'

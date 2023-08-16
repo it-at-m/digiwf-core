@@ -20,16 +20,8 @@ spring:
 logging:
   level:
     de.muenchen.oss.digiwf.legacy.form.domain.service.FormService: WARN
-    org.springframework.boot.web: DEBUG
     de.muenchen.oss.digiwf.shared.configuration: DEBUG
-camunda:
-  bpm:
-    admin-user:
-      id: admin
-      first-name: Admin
-      last-name: Administratus
-      email: ex.admin@munchen.de
-      password: admin
-    login:
-      enabled: true
-      user-id: admin
+    org.springframework.boot.web: TRACE
+    org.springframework.security: TRACE
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+

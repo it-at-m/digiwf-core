@@ -27,13 +27,13 @@ public class NoSecurityConfiguration {
     // @formatter:off
     http
         .headers()
-        .frameOptions().disable()
-        .and()
+          .frameOptions().disable()
+          .and()
         .authorizeRequests()
-        .anyRequest().permitAll()
-        .and()
+          .anyRequest().permitAll()
+          .and()
         .csrf()
-        .disable();
+          .disable();
     // @formatter:on
     return http.build();
   }

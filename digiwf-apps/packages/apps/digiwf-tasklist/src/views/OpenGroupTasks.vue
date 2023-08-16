@@ -47,16 +47,19 @@ import {useRouter} from "vue-router/composables";
 import {useAssignTaskToCurrentUserMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-
+    const {currentSortDirection} = usePageFilters();
     const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery);
     const assignMutation = useAssignTaskToCurrentUserMutation();
-
+    watch(currentSortDirection, () => {
+      refetch();
+    });
     watch(page, (newPage) => {
       setPage(newPage);
       refetch();
