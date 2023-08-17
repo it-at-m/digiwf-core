@@ -6,6 +6,7 @@ import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
 
+
 const numberOfTasks = 2
 
 before(() => {
@@ -26,6 +27,16 @@ describe('offene Gruppentasks anzeigen', () => {
         exampleGroupTask.clickNumberOfParallelTasks();
         exampleGroupTask.clickAbschliessen();
 
+        //Step 1: Open offene Gruppenaufgaben
+        cy.log('Step 1');
+        vorgangStarten.openGruppenAufgabenOffen();
+        offeneGruppenAufgaben.checkHeadline();
+        offeneGruppenAufgaben.clickAktualisieren();
+        reloadPageUntilTasksVisible();
+
+    });
+
+    after(() => {
         //Close Grouptasks
         for (let i=1; i<= numberOfTasks; i++) {
             vorgangStarten.openGruppenAufgabenOffen();
@@ -38,6 +49,21 @@ describe('offene Gruppentasks anzeigen', () => {
             groupUserTasks.clickAbschliessen();
             meineAufgaben.clickAktualisieren();
         }
-    });
+    })
+
+    //ensures all the tasks are loaded
+    function reloadPageUntilTasksVisible(maxAttempts=20, attempts=0) {
+        if (attempts > maxAttempts) {
+            throw new Error("Timed out waiting")
+        }
+        offeneGruppenAufgaben.getFoundTasks().then(numTasks => {
+            if (numTasks != numberOfTasks) {
+                cy.wait(100)
+                cy.log('iteration')
+                offeneGruppenAufgaben.clickAktualisieren();
+                reloadPageUntilTasksVisible(maxAttempts, attempts+1)
+            }
+        })
+    }
 
 })
