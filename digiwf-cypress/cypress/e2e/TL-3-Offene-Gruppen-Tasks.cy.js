@@ -15,6 +15,7 @@ before(() => {
 
 describe('offene Gruppentasks anzeigen', () => {
     it('Gruppen Task Ansicht testen', () => {
+        let pageSize = 20;
 
         // Step 0: Create group tasks
         cy.log('Step 0');
@@ -33,6 +34,21 @@ describe('offene Gruppentasks anzeigen', () => {
         offeneGruppenAufgaben.checkHeadline();
         offeneGruppenAufgaben.clickAktualisieren();
         reloadPageUntilTasksVisible();
+
+        //Step 2-5: Test different page sizes
+        cy.log('Step 2-5');
+
+        pageSize = 5;
+        offeneGruppenAufgaben.changePageSize(pageSize);
+        offeneGruppenAufgaben.checkPageSize(pageSize,numberOfTasks)
+
+        pageSize = 10;
+        offeneGruppenAufgaben.changePageSize(pageSize);
+        offeneGruppenAufgaben.checkPageSize(pageSize,numberOfTasks)
+
+        pageSize = 20;
+        offeneGruppenAufgaben.changePageSize(pageSize);
+        offeneGruppenAufgaben.checkPageSize(pageSize,numberOfTasks)
 
     });
 
