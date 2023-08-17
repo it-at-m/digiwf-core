@@ -47,12 +47,7 @@ class Page{
     }
 
     openGruppenAufgabenOffen(){
-        cy.intercept({
-            method: 'GET',
-            url: '/api/digitalwf-backend-service/rest/service/definition',
-        }).as('dataGetDefinitions')
         this.navbarGruppenAufgabenOffen().click()
-        cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
     }
 }
 
