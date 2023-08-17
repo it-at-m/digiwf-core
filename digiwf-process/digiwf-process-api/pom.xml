@@ -8,7 +8,7 @@
     <parent>
         <artifactId>digiwf-process</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>0.18.2-SNAPSHOT</version>
+        <version>0.18.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
