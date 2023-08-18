@@ -27,7 +27,7 @@
         <camunda.version.ee>7.18.0-ee</camunda.version.ee>
         <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <tika.version>2.7.0</tika.version>
+        <tika.version>2.8.0</tika.version>
         <logstash.encoder.version>7.3</logstash.encoder.version>
     </properties>
 

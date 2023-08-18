@@ -2,8 +2,8 @@
   <v-list-item
     :aria-label="'Gruppenaufgabe '+ task.name+ ' öffnen'"
     class="d-flex align-center"
-    :style="task.inAssignProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
-    :to="!task.inAssignProcess && '/opengrouptask/'+ task.id"
+    :style="(task.inAssignProcess && !showAssignee) && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
+    :to="(!task.inAssignProcess ||showAssignee) && '/opengrouptask/'+ task.id"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
@@ -15,7 +15,7 @@
         </text-highlight>
       </h2>
       <p
-        v-if="task.inAssignProcess"
+        v-if="task.inAssignProcess && !showAssignee"
         class="grey--text"
         style="font-size: 0.9rem"
       >

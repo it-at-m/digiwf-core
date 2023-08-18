@@ -131,5 +131,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.searchField {
+  margin: 1rem 0 1rem 0;
+}
 </style>

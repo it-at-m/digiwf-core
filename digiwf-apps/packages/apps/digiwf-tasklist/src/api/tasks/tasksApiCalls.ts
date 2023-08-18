@@ -12,16 +12,16 @@ export const callGetTasksFromTaskService = (page: number, size: number, query?: 
     .catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
 
-export const callGetOpenGroupTasksFromTaskService = (page: number, size: number, query?: string): Promise<PageOfTasks> => {
+export const callGetOpenGroupTasksFromTaskService = (page: number, size: number, sort?: string, query?: string): Promise<PageOfTasks> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
-  return TasksApiFactory(cfg).getUnassignedGroupTasks(page, size, query)
+  return TasksApiFactory(cfg).getUnassignedGroupTasks(page, size, query, sort)
     .then((res) => Promise.resolve(res.data))
     .catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };
 
-export const callGetAssignedGroupTasksFromTaskService = (page: number, size: number, query?: string): Promise<PageOfTasks> => {
+export const callGetAssignedGroupTasksFromTaskService = (page: number, size: number, sort?: string, query?: string): Promise<PageOfTasks> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
-  return TasksApiFactory(cfg).getAssignedGroupTasks(page, size, query).then((res) => {
+  return TasksApiFactory(cfg).getAssignedGroupTasks(page, size, query, sort).then((res) => {
     return Promise.resolve(res.data);
   }).catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgaben konnten nicht geladen werden. Bitte versuchen Sie es erneut.")));
 };

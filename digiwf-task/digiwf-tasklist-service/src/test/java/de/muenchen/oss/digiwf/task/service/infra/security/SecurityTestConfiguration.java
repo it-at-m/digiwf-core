@@ -38,22 +38,16 @@ public class SecurityTestConfiguration {
     }
   }
 
+  // needed because the auto config is excluded
   @MockBean
   private JwtDecoder jwtDecoder;
 
+  // needed because the auto config is excluded
   @MockBean
   private OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
 
-  @Bean
-  @Primary
-  public Supplier<OAuth2AccessToken> mockServiceAccessTokenSupplier() {
-    return new SingleTokenTestSupplier(
-        ControllerAuthorizationHelper.createServiceAccessToken()
-    );
-  }
-
   /**
-   * Sets test security. 1:1 copy of {@link SecurityConfig}, but without OAuth configured.
+   * Sets test security. 1:1 copy of {@link TaskServiceSecurityConfiguration}, but without OAuth configured.
    * @param http http security fluent builder.
    * @return filter chain
    * @throws Exception on any error.

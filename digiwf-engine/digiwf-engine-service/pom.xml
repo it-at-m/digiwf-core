@@ -66,6 +66,16 @@
             <artifactId>digiwf-polyflow-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-engine-cockpit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <!-- Streaming -->
@@ -412,29 +422,29 @@
     <profiles>
         <profile>
             <id>camunda-ce</id>
+            <activation>
+                <property>
+                    <name>!camunda-ee</name>
+                </property>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>
                     <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
                 </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.1</version>
-                </dependency>
             </dependencies>
         </profile>
         <profile>
             <id>camunda-ee</id>
+            <activation>
+                <property>
+                    <name>camunda-ee</name>
+                </property>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>
                     <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.1</version>
                 </dependency>
             </dependencies>
         </profile>
