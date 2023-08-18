@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+import java.util.stream.Stream;
+
 import static de.muenchen.oss.digiwf.cockpit.security.authorization.AuthorizationHelper.*;
 
 /**
@@ -25,26 +27,27 @@ import static de.muenchen.oss.digiwf.cockpit.security.authorization.Authorizatio
 @Profile("local")
 public class LocalAuthorizationInitializer {
 
-  private final AuthorizationService authorizationService;
+    private final AuthorizationService authorizationService;
 
-  @PostConstruct
-  public void init() {
-    // let local test user see everything
-    val johnDoe = "123456789";
-
-    setupUserProcessDefinitionPermissions(authorizationService, johnDoe);
-    setupUserProcessInstancePermissions(authorizationService, johnDoe);
-    setupUserTaskPermissions(authorizationService, johnDoe);
-    setupUserBatchPermissions(authorizationService, johnDoe);
-    setupUserHistoricTaskPermissions(authorizationService, johnDoe);
-    setupUserHistoricProcessInstancePermissions(authorizationService, johnDoe);
-    setupUserDashboardPermissions(authorizationService, johnDoe);
-    setupUserReportPermissions(authorizationService, johnDoe);
-    setupUserOpLogPermissions(authorizationService, johnDoe);
-    setupUserDeploymentPermissions(authorizationService, johnDoe);
-    setupUserDecisionRequirementPermissions(authorizationService, johnDoe);
-    setupUserSystemPermissions(authorizationService, johnDoe);
-
-  }
+    @PostConstruct
+    public void init() {
+        // let local test users see everything
+        val johnDoe = "123456789";
+        val janeDoe = "234567890";
+        Stream.of(johnDoe, janeDoe).forEach(user -> {
+            setupUserProcessDefinitionPermissions(authorizationService, user);
+            setupUserProcessInstancePermissions(authorizationService, user);
+            setupUserTaskPermissions(authorizationService, user);
+            setupUserBatchPermissions(authorizationService, user);
+            setupUserHistoricTaskPermissions(authorizationService, user);
+            setupUserHistoricProcessInstancePermissions(authorizationService, user);
+            setupUserDashboardPermissions(authorizationService, user);
+            setupUserReportPermissions(authorizationService, user);
+            setupUserOpLogPermissions(authorizationService, user);
+            setupUserDeploymentPermissions(authorizationService, user);
+            setupUserDecisionRequirementPermissions(authorizationService, user);
+            setupUserSystemPermissions(authorizationService, user);
+        });
+    }
 
 }
