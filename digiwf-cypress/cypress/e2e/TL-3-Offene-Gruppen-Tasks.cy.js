@@ -1,7 +1,8 @@
-import vorgangStarten from "../pages/vorgangStarten"
-import meineAufgaben from "../pages/meineAufgaben"
-import * as dataElementKeys from "../constants/dataElementKeys"
-import * as environmentVariables from "../constants/environmentVariables"
+import vorgangStarten from "../pages/vorgangStarten";
+import meineAufgaben from "../pages/meineAufgaben";
+import {EXAMPLE_GROUP_TASK_NAME} from "../constants/dataElementKeys";
+import {EXAMPLE_GROUP_TASK_KEY} from "../constants/dataElementKeys";
+import {GROUP_NAME_1} from "../constants/environmentVariables";
 import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
@@ -20,10 +21,11 @@ describe('offene Gruppentasks anzeigen', () => {
         // Step 0: Create group tasks
         cy.log('Step 0');
         meineAufgaben.openVorgangStarten();
-        vorgangStarten.findProcess(dataElementKeys.EXAMPLE_GROUP_TASK_NAME);
-        vorgangStarten.clickListElement(dataElementKeys.EXAMPLE_GROUP_TASK_KEY);
+        vorgangStarten.findProcess(EXAMPLE_GROUP_TASK_NAME);
+        vorgangStarten.clickListElement(EXAMPLE_GROUP_TASK_KEY);
         exampleGroupTask.setNumberOfTasks(numberOfTasks);
-        exampleGroupTask.setGroup("group1");
+        exampleGroupTask.setGroup(GROUP_NAME_1);
+
         //Necessary to set the group value
         exampleGroupTask.clickNumberOfParallelTasks();
         exampleGroupTask.clickAbschliessen();
