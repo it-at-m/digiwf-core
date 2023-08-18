@@ -6,6 +6,7 @@ import {GROUP_NAME_1} from "../constants/environmentVariables";
 import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
+import userTask from "../pages/userTask";
 
 
 const numberOfTasks = 21
@@ -56,16 +57,12 @@ describe('offene Gruppentasks anzeigen', () => {
 
     after(() => {
         //Close Grouptasks
-        for (let i=1; i<= numberOfTasks; i++) {
-            cy.log('Num1');
+        for (let i=1; i< numberOfTasks; i++) {
             cy.wait(2000);
             vorgangStarten.openGruppenAufgabenOffen();
-            cy.log('Num2');
             offeneGruppenAufgaben.checkHeadline();
-            cy.log('Num3');
             cy.wait(2000);
             offeneGruppenAufgaben.clickAktualisieren();
-            cy.log('Num4');
             offeneGruppenAufgaben.clickElement(1);
             groupUserTasks.checkHeadline();
             groupUserTasks.clickBearbeiten();
