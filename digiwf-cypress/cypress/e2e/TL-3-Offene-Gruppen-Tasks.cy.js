@@ -56,8 +56,8 @@ describe('offene Gruppentasks anzeigen', () => {
     });
 
     after(() => {
-        //Close Grouptasks
-        for (let i=1; i< numberOfTasks; i++) {
+        //Close group tasks and check necessary group task function
+        for (let i=1; i<= numberOfTasks; i++) {
             cy.wait(2000);
             vorgangStarten.openGruppenAufgabenOffen();
             offeneGruppenAufgaben.checkHeadline();
