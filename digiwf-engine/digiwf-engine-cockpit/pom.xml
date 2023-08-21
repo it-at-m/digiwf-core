@@ -120,7 +120,6 @@
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>
                     <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -130,7 +129,6 @@
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>
                     <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>
