@@ -47,7 +47,12 @@ class Page{
     }
 
     openGruppenAufgabenOffen(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api/digitalwf-tasklist-service/rest/tasks/group/*',
+        }).as('filter')
         this.navbarGruppenAufgabenOffen().click()
+        cy.wait('@filter').its('response.statusCode').should('equal', 200)
     }
 }
 

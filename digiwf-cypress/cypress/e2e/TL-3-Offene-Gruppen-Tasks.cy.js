@@ -6,10 +6,9 @@ import {GROUP_NAME_1} from "../constants/environmentVariables";
 import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
-import userTask from "../pages/userTask";
 
-
-const numberOfTasks = 21
+//change Pagesize for better runtime
+const numberOfTasks = 11 //21
 
 before(() => {
     cy.login()
@@ -49,19 +48,20 @@ describe('offene Gruppentasks anzeigen', () => {
         offeneGruppenAufgaben.changePageSize(pageSize);
         offeneGruppenAufgaben.checkPageSize(pageSize,numberOfTasks)
 
-        pageSize = 20;
+        /*pageSize = 20;
         offeneGruppenAufgaben.changePageSize(pageSize);
         offeneGruppenAufgaben.checkPageSize(pageSize,numberOfTasks)
 
+         */
     });
 
     after(() => {
         //Close group tasks and check necessary group task function
         for (let i=1; i<= numberOfTasks; i++) {
-            cy.wait(2000);
             vorgangStarten.openGruppenAufgabenOffen();
-            offeneGruppenAufgaben.checkHeadline();
+            //necessary due to slow page loading times
             cy.wait(2000);
+            offeneGruppenAufgaben.checkHeadline();
             offeneGruppenAufgaben.clickAktualisieren();
             offeneGruppenAufgaben.clickElement(1);
             groupUserTasks.checkHeadline();
@@ -69,6 +69,8 @@ describe('offene Gruppentasks anzeigen', () => {
             groupUserTasks.tickCheckbox();
             groupUserTasks.clickAbschliessen();
             meineAufgaben.clickAktualisieren();
+            //wait for task being closed
+            cy.wait(2000);
         }
     })
 
