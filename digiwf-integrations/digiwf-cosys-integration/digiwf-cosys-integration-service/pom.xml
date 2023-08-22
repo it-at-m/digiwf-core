@@ -8,7 +8,7 @@
     <parent>
         <artifactId>digiwf-cosys-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>0.18.4-SNAPSHOT</version>
+        <version>0.18.5-SNAPSHOT</version>
     </parent>
 
     <dependencies>
