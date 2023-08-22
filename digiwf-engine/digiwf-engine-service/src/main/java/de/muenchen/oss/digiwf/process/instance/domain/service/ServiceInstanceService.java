@@ -23,10 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service to interact with process instances.
@@ -66,7 +64,10 @@ public class ServiceInstanceService {
             final String query
             ) {
         final List<String> processAuthIds = this.serviceInstanceAuthService.getAllServiceInstanceIdsByUser(userId);
-        val instances =  this.serviceInstanceMapper.map2Model(this.processInstanceInfoRepository.findAllByInstanceIdIn(processAuthIds));
+        val instances =  this.serviceInstanceMapper.map2Model(this.processInstanceInfoRepository.findAllByInstanceIdIn(processAuthIds))
+                .stream()
+                .sorted(Comparator.comparing(ServiceInstance::getStartTime).reversed())
+                .collect(Collectors.toList());
         return processInstancePageMapper.toPage(instances, page, size, query);
     }
 
