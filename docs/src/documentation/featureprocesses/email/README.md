@@ -18,5 +18,4 @@ Sollte das Versenden der Email fehlschlagen (z.B. weil keine gültige Email Addr
 Wird im Startformular der Haken für das Versenden einer Email mit Dateianhängen gesetzt, kann mit diesem Prozess auch gleichzeitig das S3-Feature
 verifiziert werden.
 
-![Prüfformular](Startformular.png)
-
+![Prüfformular](~@source/documentation/featureprocesses/email/fehlermeldung-pruefen.png)
