@@ -5,13 +5,23 @@
   "module": "dist/digiwf-date-input.mjs",
   "scripts": {
     "build": "vite build",
-    "watch": "vite build --watch"
+    "watch": "vite build --watch",
+    "test": "jest src"
   },
   "peerDependencies": {
     "vue": "^2.7.0",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "luxon": "^1.25.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.2",
+    "@types/luxon": "^1.25.0",
+    "@types/node": "^16.9.1",
+    "@vue/test-utils": "1.1.3",
+    "@vue/vue2-jest": "^28.1.0",
+    "jest": "^28.1.3",
+    "jest-environment-jsdom": "^29.5.0",
+    "ts-jest": "^28.0.8",
     "uuid": "latest"
   },
   "files": [

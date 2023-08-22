@@ -6,7 +6,7 @@
     :dense="dense"
     :outlined="outlined"
     :disabled="readOnly"
-    :rules="rules"
+    :rules="[validationResult, ...rules]"
     @change="onChange"
     >
     <template #append-outer>
@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import {defineComponent, ref} from "vue";
+import {validateDate} from "@/validation/dateValidation";
 
 export default defineComponent ({
   props: [
@@ -41,11 +42,15 @@ export default defineComponent ({
     }
 
     const dateValue = ref(value);
+    const validationResult = ref<string | boolean>(true);
 
     const onChange = () => {
+
       if(!!on?.input) {
         on.input(dateValue.value);
       }
+
+      validationResult.value = validateDate(dateValue.value);
     }
 
     return {
@@ -55,6 +60,7 @@ export default defineComponent ({
       outlined,
       readOnly,
       dateValue,
+      validationResult,
       rules,
       onChange
     }
