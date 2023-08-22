@@ -179,7 +179,7 @@ export const useAssignTaskToUserMutation = () => {
   });
 };
 
-export interface LoadTaskFromEngineResultData {
+export interface LoadTaskResultData {
   readonly task: HumanTaskDetails;
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly model?: { [key: string]: object; }
@@ -204,7 +204,7 @@ export interface LoadTaskFromEngineResultData {
 }
 
 export interface LoadTaskResult {
-  readonly data?: LoadTaskFromEngineResultData;
+  readonly data?: LoadTaskResultData;
   readonly error?: string
 }
 
