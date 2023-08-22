@@ -4,7 +4,7 @@ class VorgangStarten extends Page{
     elements = {
         headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(1)'),
         searchBox: () => cy.get('#suchfeld'),
-        listElement: (elementNumber) => cy.get(`.v-data-iterator > div:nth-child(1) > div:nth-child(${elementNumber})`),
+        listElement: (elementNumber) => cy.get(`a.d-flex:nth-child(${elementNumber})`),
         pageNumber: () => cy.get(`.mr-4`),
         numberOfProcesses: () => cy.get(`span.mr-1:nth-child(5)`),
         rightArrow: () => cy.get(`.ml-1`),
@@ -12,6 +12,13 @@ class VorgangStarten extends Page{
         pageSize5: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(1)`),
         pageSize10: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(2)`),
         pageSize20: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(3)`),
+        list: () => cy.get(`div.v-list:nth-child(3)`),
+        dataElement: (key) => cy.get(`[data-element-key=${key}]`)
+    }
+
+    checkPageSize(pageSize){
+        //separator line is an Element, too
+        this.elements.list().children().its('length').should('eq', pageSize)
 
     }
 
@@ -40,7 +47,7 @@ class VorgangStarten extends Page{
         })
     }
 
-    getListElement(num){
+    getListElementByNumber(num){
         return this.elements.listElement(num)
     }
 
@@ -49,9 +56,11 @@ class VorgangStarten extends Page{
     }
 
     clickListElement(key){
-        //this.elements.listElement(elementNumber).click()
-        cy.get('[data-element-key="' + key + '"]')
-            .click()
+        this.elements.dataElement(key).click()
+    }
+
+    getListElement(key){
+        return this.elements.dataElement(key)
     }
 
     clickRightArrow(){

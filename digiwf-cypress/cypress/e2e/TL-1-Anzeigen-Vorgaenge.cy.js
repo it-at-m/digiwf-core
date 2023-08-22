@@ -1,6 +1,8 @@
 import vorgangStarten from "../pages/vorgangStarten"
 import meineAufgaben from "../pages/meineAufgaben"
 import startDigiWFErleben from "../pages/startDigiWFErleben"
+import {EXAMPLE_USER_TASK_NAME} from "../constants/dataElementKeys";
+import {EXAMPLE_USER_TASK_KEY} from "../constants/dataElementKeys";
 
 beforeEach(() => {
     cy.loginUser();
@@ -17,12 +19,12 @@ describe('Vorgaenge Anzeigen', () => {
         //Step 1
         cy.log("Step 1");
         meineAufgaben.openVorgangStarten();
+        vorgangStarten.changePageSize(10);
         vorgangStarten.checkPageNumber(1);
+
         //Anzahl der Listenelem pruefen
-        for (let i = 1; i < 11; i++) {
-            expect(vorgangStarten.getListElement(i)).to.exist
-        }
-        vorgangStarten.getListElement(11).should('not.exist');
+        vorgangStarten.checkPageSize(10)
+
         //Plausibilitaetscheck Zahlen
         vorgangStarten.getFoundProcesses().then((numProcesses) => {
             vorgangStarten.getLastPageNumber().then((numPages) => {
@@ -34,22 +36,21 @@ describe('Vorgaenge Anzeigen', () => {
 
         //Step2
         cy.log("Step 2");
-        vorgangStarten.getListElement(1).invoke('text').then((elemOld) => {
+        vorgangStarten.getListElementByNumber(1).invoke('text').then((elemOld) => {
             vorgangStarten.clickRightArrow();
+            cy.wait(3000)
             vorgangStarten.checkPageNumber(2);
-            vorgangStarten.getListElement(1).invoke('text').then((elemNew) => {
+            vorgangStarten.getListElementByNumber(1).invoke('text').then((elemNew) => {
                 expect(elemNew).not.eq(elemOld)
             })
         })
 
         //Step3
         cy.log("Step 3");
-        expect(vorgangStarten.getListElement(10)).to.exist;
-        vorgangStarten.getListElement(11).should('not.exist');
+        vorgangStarten.checkPageSize(10)
         vorgangStarten.changePageSize(20);
         //andere Anzahl an Vorgaengen pruefen
-        expect(vorgangStarten.getListElement(20)).to.exist;
-        vorgangStarten.getListElement(21).should('not.exist');
+        vorgangStarten.checkPageSize(20)
 
         //Step4
         cy.log("Step 4");
@@ -63,28 +64,29 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log("Step 5");
         vorgangStarten.getLastPageNumber().then((lastNumber)=>{
             vorgangStarten.changePageSize(20);
+            //cy.wait(3000)
+            //ToDO: Wait till page SIze changes
             vorgangStarten.getLastPageNumber().should('be.closeTo', lastNumber/2, 1);
         });
 
 
         //Step6
         cy.log("Step 6");
-        let search_request = 'DigiWF er'
         vorgangStarten.getFoundProcesses().then((numProcessesOld) => {
-            vorgangStarten.findProcess(search_request)
+            vorgangStarten.findProcess(EXAMPLE_USER_TASK_NAME)
                 vorgangStarten.getFoundProcesses().then((numProcesses) => {
                     expect(numProcesses).lt(numProcessesOld);
                 })
-                vorgangStarten.getListElement(1).invoke('text').then((txt) => {
-                    expect(txt).to.contain(search_request)
+                vorgangStarten.getListElement(EXAMPLE_USER_TASK_KEY).invoke('text').then((txt) => {
+                    expect(txt).to.contain(EXAMPLE_USER_TASK_NAME)
                 })
         })
 
 
         //Step7
         cy.log("Step 7");
-        vorgangStarten.clickListElement(1);
-        startDigiWFErleben.checkHeadline(search_request)
+        vorgangStarten.clickListElement(EXAMPLE_USER_TASK_KEY);
+        startDigiWFErleben.checkHeadline(EXAMPLE_USER_TASK_NAME)
 
     })
 })
