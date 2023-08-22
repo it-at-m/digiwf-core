@@ -14,6 +14,10 @@ module.exports = {
      * Output directory
      */
     dest: "dist",
+    /**
+     * port to run dev server
+     */
+    port: 8099,
 
     /**
      * Extra tags to be injected to the page HTML `<head>`
