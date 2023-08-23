@@ -1,9 +1,9 @@
-name: Default Policy
+name: it@M Default Policy
 
 codescanning:
   level: error
 
-# Dependency Security Alters
+# Dependency Security Alerts
 dependabot:
   level: high
 
@@ -20,13 +20,21 @@ licensing:
     ids:
       - Other
       - NA
-
-# General Dependency Alerts
-# dependencies:
-  # warnings:
-  #   ids:
-  #     - Maintenance
-  #     - Organization
+  ignores:
+    names:
+      # false positive: reported als "GPL-3.0 AND MIT", ist aber MIT
+      - escape-string-regexp
+      # false positive: reported als "GPL-3.0 AND MIT", ist aber MIT
+      - path-exists
+      # false positive: reported als "GPL-3.0 AND MIT", ist aber MIT
+      - slash
+      # false positive: reported als "GPL-3.0 AND MIT", ist aber MIT
+      - yocto-queue
+      # false positive: reported als "GPL-2.0-or-later", ist aber MIT
+      - load-script
+      # runs under BSD License or GNU General Public License (GPL) Version 2
+      # it@m is using BSD License (see also https://github.com/digitalbazaar/forge/blob/main/LICENSE)
+      - node-forge
 
 secretscanning:
   level: all
