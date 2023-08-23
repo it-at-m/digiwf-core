@@ -34,3 +34,9 @@
 <DownloadArtifact
     artifact="sendMailV01.json"
     type="element-template" />
+
+## OK.EWO Integration
+
+<DownloadArtifact
+artifact="okEwoIntegration.json"
+type="element-template" />
