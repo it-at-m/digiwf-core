@@ -50,7 +50,6 @@ spring:
             trusted:
               packages: '*'
     ssl:
-      key-password: ''
       key-store-location: ''
       key-store-password: ''
       trust-store-location: ''
