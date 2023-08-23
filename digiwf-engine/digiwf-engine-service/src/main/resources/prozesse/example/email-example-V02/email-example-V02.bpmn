@@ -97,7 +97,10 @@
     <bpmn:userTask id="Activity_1ms3fsh" name="Anhänge hochladen" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_schema_key">email-example-V02_sendMail</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">email-example-V02_attachments</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_context">test</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1vgikue</bpmn:incoming>
