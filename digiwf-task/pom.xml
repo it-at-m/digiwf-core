@@ -19,7 +19,7 @@
         <polyflow.version>3.14.0</polyflow.version>
         <axon-framework.version>4.6.8</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <kotlin.version>1.8.22</kotlin.version>
+        <kotlin.version>1.9.10</kotlin.version>
     </properties>
 
     <dependencyManagement>
