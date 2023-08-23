@@ -11,10 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      # Policy as Code
+      # Compliance
       - name: Advance Security Policy as Code
-        uses: advanced-security/policy-as-code@v2.3
+        uses: advanced-security/policy-as-code@v2.4.1
         with:
-          policy: GeekMasher/security-queries
+          policy: it-at-m/policy-as-code
           policy-path: policies/default.yml
-          argvs: '--disable-dependabot --disable-secret-scanning --disable-code-scanning'
