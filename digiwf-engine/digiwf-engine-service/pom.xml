@@ -172,8 +172,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <!-- Use version 1.4.xx for compatibility reasons with our flyway scripts -->
-            <version>1.4.200</version>
         </dependency>
         <!-- Hibernate Model Gen for type safe criteria -->
         <dependency>
