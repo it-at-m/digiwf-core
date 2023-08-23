@@ -16,4 +16,4 @@ jobs:
         uses: advanced-security/policy-as-code@v2.4.1
         with:
           policy: it-at-m/policy-as-code
-          policy-path: default.yml
+          policy-path: main/default.yaml
