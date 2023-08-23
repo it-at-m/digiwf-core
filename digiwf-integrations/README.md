@@ -41,3 +41,7 @@ The goal of this library is to enable async communication with the ALW System di
 ## digiwf-verification-integration
 
 The goal of this library is to provide a service able to get a verification registered and return a verification link which later can be used to verify any data by confirmation.
+
+## digiwf-ok.ewo-integration
+
+The goal of this library is to provide a service through which it is possible to request OK.EWO data. 

@@ -88,7 +88,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
+                <version>${maven.surefire.plugin.version}</version>
             </plugin>
             <!--
             <plugin>
@@ -108,9 +108,9 @@
                             <output>${project.basedir}</output>
 
 
-                            <apiPackage>io.muenchendigital.digiwf.okewo.integration.gen.api</apiPackage>
-                            <modelPackage>io.muenchendigital.digiwf.okewo.integration.gen.model</modelPackage>
-                            <invokerPackage>io.muenchendigital.digiwf.okewo.integration.gen</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.okewo.integration.gen.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.okewo.integration.gen.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.okewo.integration.gen</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
