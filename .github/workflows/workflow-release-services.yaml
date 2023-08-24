@@ -39,10 +39,6 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode install -DskipTests
 
-      - name: Release Maven package
-        if: inputs.maven-release == true
-        run: echo "maven release"
-
 #      - name: Release Maven package
 #        if: inputs.maven-release == true
 #        uses: samuelmeuli/action-maven-publish@v1
@@ -125,8 +121,6 @@ jobs:
 #          push: true
 #          tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
 
-      - run: echo "RELEASE_VERSION=${{ inputs.release-version }}"
-
   release-services-camunda-ee:
     runs-on: ubuntu-latest
     steps:
@@ -169,5 +163,3 @@ jobs:
 #          context: ./digiwf-engine/digiwf-engine-service
 #          push: true
 #          tags: itatm/digiwf-engine-service:${{ inputs.release-version }},itatm/digiwf-engine-service:dev
-
-      - run: echo "RELEASE_VERSION=${{ inputs.release-version }}"
