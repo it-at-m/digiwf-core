@@ -96,12 +96,7 @@ jobs:
         run: |
           npm run init
           lerna version patch --ignore-changes --no-push --yes
-      - name: Git commit
-        if: inputs.bump-apps-version == true
-        working-directory: ./digiwf-apps
-        run: |
-          git add .
-          git commit -m "chore: lerna auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        # lerna auto commits
 
       # git push
 #      - name: Git push
