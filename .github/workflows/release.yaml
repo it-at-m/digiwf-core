@@ -67,6 +67,7 @@ jobs:
 
   release-apps:
     if: github.event.inputs.apps == 'true'
+    needs: release-version
     uses: ./.github/workflows/workflow-release-apps.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
@@ -75,6 +76,7 @@ jobs:
 
   release-services:
     if: github.event.inputs.services == 'true'
+    needs: release-version
     uses: ./.github/workflows/workflow-release-services.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
@@ -83,11 +85,13 @@ jobs:
 
   release-docs:
     if: github.event.inputs.docs == 'true'
+    needs: release-version
     uses: ./.github/workflows/workflow-release-docs.yaml
     secrets: inherit
 
   github-release:
     if: github.event.inputs.snapshot-build == 'false'
+    needs: [release-apps, release-services, release-docs]
     uses: ./.github/workflows/workflow-github-release.yaml
     with:
       release-tag: ${{ github.event.inputs.release-tag }}
@@ -95,6 +99,7 @@ jobs:
 
   bump-versions:
     if: github.event.inputs.snapshot-build == 'false'
+    needs: github-release
     uses: ./.github/workflows/workflow-bump-versions.yaml
     with:
       apps-new-version: ${{ github.event.inputs.apps-new-version }}
