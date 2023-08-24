@@ -20,7 +20,14 @@ jobs:
       run:
         working-directory: ./digiwf-apps
     steps:
-      - uses: ./github/workflows/workflow-build-apps.yaml
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - run: npm run init
+      - run: npm run build
 
 #      - run: lerna publish from-package --yes
 #        if: github.event.inputs.snapshot-release == 'true'
