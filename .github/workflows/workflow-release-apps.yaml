@@ -31,7 +31,7 @@ jobs:
 
       - name: test
         run: echo "test"
-        if: github.event.inputs.snapshot-release == 'true'
+        if: github.event.inputs.snapshot-build == 'true'
 
 #      - run: lerna publish from-package --yes
 #        if: github.event.inputs.snapshot-release == 'true'
