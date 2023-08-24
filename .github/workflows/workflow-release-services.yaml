@@ -11,7 +11,7 @@ on:
       maven-release:
         description: 'Maven release?'
         type: boolean
-        required: false
+        required: true
         default: true
       release-version:
         description: 'Services release version'
@@ -32,7 +32,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-release == 'false'
+        if: inputs.snapshot-release == 'false'
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -40,8 +40,11 @@ jobs:
         run: mvn --batch-mode install -DskipTests
 
       - name: Release Maven package
-        if: github.event.inputs.maven-release == 'true'
+        if: inputs.maven-release == 'true'
         run: echo "maven release"
+
+#      - name: Release Maven package
+#        if: inputs.maven-release == 'true'
 #        uses: samuelmeuli/action-maven-publish@v1
 #        with:
 #          gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -64,65 +67,65 @@ jobs:
 #        with:
 #          context: ./digiwf-connector/digiwf-camunda-connector-service
 #          push: true
-#          tags: itatm/digiwf-camunda-connector-service:${{ github.event.inputs.release-version }},itatm/digiwf-camunda-connector-service:dev
+#          tags: itatm/digiwf-camunda-connector-service:${{ inputs.release-version }},itatm/digiwf-camunda-connector-service:dev
 #
 #      - name: Build and push gateway
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-gateway
 #          push: true
-#          tags: itatm/digiwf-gateway:${{ github.event.inputs.release-version }},itatm/digiwf-gateway:dev
+#          tags: itatm/digiwf-gateway:${{ inputs.release-version }},itatm/digiwf-gateway:dev
 #
 #      - name: Build and push cosys
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
 #          push: true
-#          tags: itatm/digiwf-cosys-integration-service:${{ github.event.inputs.release-version }},itatm/digiwf-cosys-integration-service:dev
+#          tags: itatm/digiwf-cosys-integration-service:${{ inputs.release-version }},itatm/digiwf-cosys-integration-service:dev
 #
 #      - name: Build and push email integration
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
 #          push: true
-#          tags: itatm/digiwf-email-integration-service:${{ github.event.inputs.release-version }},itatm/digiwf-email-integration-service:dev
+#          tags: itatm/digiwf-email-integration-service:${{ inputs.release-version }},itatm/digiwf-email-integration-service:dev
 #
 #      - name: Build and push alw-integration
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
 #          push: true
-#          tags: itatm/digiwf-alw-integration-service:${{ github.event.inputs.release-version }},itatm/digiwf-alw-integration-service:dev
+#          tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-integration-service:dev
 #
 #      - name: Build and push verification-integration
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
 #          push: true
-#          tags: itatm/digiwf-verification-integration-service:${{ github.event.inputs.release-version }},itatm/digiwf-verification-integration-service:dev
+#          tags: itatm/digiwf-verification-integration-service:${{ inputs.release-version }},itatm/digiwf-verification-integration-service:dev
 #
 #      - name: Build and push s3-integration
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
 #          push: true
-#          tags: itatm/digiwf-s3-integration-service:${{ github.event.inputs.release-version }},itatm/digiwf-s3-integration-service:dev
+#          tags: itatm/digiwf-s3-integration-service:${{ inputs.release-version }},itatm/digiwf-s3-integration-service:dev
 #
 #      - name: Build and push oss engine
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-engine/digiwf-engine-service
 #          push: true
-#          tags: itatm/digiwf-engine-service-community:${{ github.event.inputs.release-version }},itatm/digiwf-engine-service-community:dev
+#          tags: itatm/digiwf-engine-service-community:${{ inputs.release-version }},itatm/digiwf-engine-service-community:dev
 #
 #      - name: Build and push tasklist backend
 #        uses: docker/build-push-action@v4
 #        with:
 #          context: ./digiwf-task/digiwf-tasklist-service
 #          push: true
-#          tags: itatm/digiwf-tasklist-backend-service:${{ github.event.inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
+#          tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
 
-      - run: echo "RELEASE_VERSION=${{ github.event.inputs.release-version }}"
+      - run: echo "RELEASE_VERSION=${{ inputs.release-version }}"
 
   release-services-camunda-ee:
     runs-on: ubuntu-latest
@@ -140,7 +143,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: github.event.inputs.snapshot-build == 'false'
+        if: inputs.snapshot-build == 'false'
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -165,6 +168,6 @@ jobs:
 #        with:
 #          context: ./digiwf-engine/digiwf-engine-service
 #          push: true
-#          tags: itatm/digiwf-engine-service:${{ github.event.inputs.release-version }},itatm/digiwf-engine-service:dev
+#          tags: itatm/digiwf-engine-service:${{ inputs.release-version }},itatm/digiwf-engine-service:dev
 
-      - run: echo "RELEASE_VERSION=${{ github.event.inputs.release-version }}"
+      - run: echo "RELEASE_VERSION=${{ inputs.release-version }}"

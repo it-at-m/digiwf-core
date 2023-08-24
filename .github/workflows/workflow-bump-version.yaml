@@ -25,6 +25,7 @@ on:
     inputs:
       bump-services-version:
         description: 'Bump services version'
+        required: false
         type: boolean
         default: true
       services-new-version:
@@ -32,6 +33,7 @@ on:
         required: false
       bump-apps-version:
         description: 'Bump apps version'
+        required: false
         type: boolean
         default: true
       apps-new-version:
@@ -51,17 +53,17 @@ jobs:
           git config --global user.name "DigiWF Github Bot"
       # bump mvn version
       - name: Install Java and Maven
-        if: github.event.inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version == 'true'
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
 
       - name: Raise mvn version
-        if: github.event.inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version == 'true'
         run: |
-          $(if github.event.inputs.services-new-version != ''; \
-            then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ github.event.inputs.services-new-version }}-SNAPSHOT; \
+          $(if inputs.services-new-version != ''; \
+            then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT; \
             else mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT; \
           fi)
           mvn versions:commit
@@ -70,7 +72,7 @@ jobs:
 
       # bump apps version
       - name: Setup node
-        if: github.event.inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -78,12 +80,12 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - name: Raise apps version
-        if: github.event.inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version == 'true'
         working-directory: ./digiwf-apps
         run: |
           npm run init
-          $(if github.event.inputs.apps-new-version != ''; \
-            then lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes --no-push --yes; \
+          $(if inputs.apps-new-version != ''; \
+            then lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes; \
             else lerna version patch --ignore-changes --no-push --yes; \
           fi)
           git add .
@@ -92,5 +94,5 @@ jobs:
       # git push
 #      - name: Git push
 #        run: |
-#          git push origin HEAD:${{ github.event.inputs.branch }}
-#          git push origin HEAD:${{ github.event.inputs.branch }} --tags
+#          git push origin HEAD:${{ inputs.branch }}
+#          git push origin HEAD:${{ inputs.branch }} --tags

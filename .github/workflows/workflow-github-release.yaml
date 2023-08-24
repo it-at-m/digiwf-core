@@ -16,8 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - run: echo "RELEASE_TAG=${{ github.event.inputs.release-tag }}"
-
 #      - name: Create tag
 #        uses: actions/github-script@v6
 #        with:
@@ -25,7 +23,7 @@ jobs:
 #            github.rest.git.createRef({
 #              owner: context.repo.owner,
 #              repo: context.repo.repo,
-#              ref: 'refs/tags/${{ github.event.inputs.release-tag }}',
+#              ref: 'refs/tags/${{ inputs.release-tag }}',
 #              sha: context.sha
 #            })
 #
@@ -35,7 +33,9 @@ jobs:
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        with:
-#          tag_name: ${{ github.event.inputs.release-tag }}
-#          release_name: Release ${{ github.event.inputs.release-tag }}
+#          tag_name: ${{ inputs.release-tag }}
+#          release_name: Release ${{ inputs.release-tag }}
 #          draft: false
 #          prerelease: false
+
+      - run: echo "RELEASE_TAG=${{ inputs.release-tag }}"
