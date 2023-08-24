@@ -68,12 +68,6 @@ jobs:
       apps-release-version: ${{ env.APPS_RELEASE_VERSION }}
       services-release-version: ${{ env.SERVICES_RELEASE_VERSION }}
 
-  test:
-    needs: release-version
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "APPS_RELEASE_VERSION=${{ needs.release-version.outputs.apps-release-version }}"
-
   release-apps:
     if: github.event.inputs.apps == 'true'
     needs: release-version
