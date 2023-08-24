@@ -99,7 +99,7 @@ jobs:
         # lerna auto commits
 
       # git push
-#      - name: Git push
-#        run: |
-#          git push origin HEAD:${{ inputs.branch }}
-#          git push origin HEAD:${{ inputs.branch }} --tags
+      - name: Git push
+        run: |
+          git push origin HEAD:${{ inputs.branch }}
+          git push origin HEAD:${{ inputs.branch }} --tags
