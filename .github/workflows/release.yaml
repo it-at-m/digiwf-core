@@ -71,7 +71,7 @@ jobs:
     uses: ./.github/workflows/workflow-release-apps.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ env.APPS_RELEASE_VERSION }}
+      release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
 
   release-services:
@@ -80,7 +80,8 @@ jobs:
     uses: ./.github/workflows/workflow-release-services.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ env.SERVICES_RELEASE_VERSION }}
+      release-version: ${{ needs.release-version.outputs.services-release-version }}
+      maven-release: ${{ github.event.inputs.maven == 'true' }}
     secrets: inherit
 
   release-docs:

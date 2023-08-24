@@ -2,39 +2,43 @@ name: Bump version
 
 on:
   workflow_call:
-    bump-services-version:
-      description: 'Bump services version'
-      type: boolean
-      required: false
-      default: true
-    services-new-version:
-      description: 'New services version'
-      required: false
-    bump-apps-version:
-      description: 'Bump apps version'
-      type: boolean
-      required: false
-      default: true
-    apps-new-version:
-      description: 'New apps version'
-      required: false
+    inputs:
+      bump-services-version:
+        description: 'Bump services version'
+        type: boolean
+        required: false
+        default: true
+      services-new-version:
+        description: 'New services version'
+        type: string
+        required: false
+      bump-apps-version:
+        description: 'Bump apps version'
+        type: boolean
+        required: false
+        default: true
+      apps-new-version:
+        description: 'New apps version'
+        type: string
+        required: false
   workflow_dispatch:
-    bump-services-version:
-      description: 'Bump services version'
-      required: false
-      type: boolean
-      default: true
-    services-new-version:
-      description: 'New services version (only if services) - SNAPSHOT will be added to the version'
-      required: false
-    bump-apps-version:
-      description: 'Bump apps version'
-      required: false
-      type: boolean
-      default: true
-    apps-new-version:
-      description: 'New apps version (only if apps)'
-      required: false
+    inputs:
+      bump-services-version:
+        description: 'Bump services version'
+        required: false
+        type: boolean
+        default: true
+      services-new-version:
+        description: 'New services version (only if services) - SNAPSHOT will be added to the version'
+        required: false
+      bump-apps-version:
+        description: 'Bump apps version'
+        required: false
+        type: boolean
+        default: true
+      apps-new-version:
+        description: 'New apps version (only if apps)'
+        required: false
 
 jobs:
   bump-versions:
