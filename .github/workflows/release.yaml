@@ -87,6 +87,7 @@ jobs:
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
       release-version: ${{ needs.release-version.outputs.services-release-version }}
+      maven-release: ${{ github.event.inputs.maven == 'true' }}
     secrets: inherit
 
   release-docs:

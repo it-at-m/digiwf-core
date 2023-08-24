@@ -11,7 +11,7 @@ on:
       maven-release:
         description: 'Maven release?'
         type: boolean
-        required: true
+        required: false
         default: true
       release-version:
         description: 'Services release version'
