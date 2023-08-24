@@ -397,6 +397,3 @@ gradle-app.setting
 /docs/node/
 
 digiwf-schema-registry/digiwf-schema-registry-client/.openapi-generator-ignore
-
-# Allow build folder for github actions
-!.github/workflows/build
