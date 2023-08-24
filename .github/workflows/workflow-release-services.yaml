@@ -5,12 +5,12 @@ on:
     inputs:
       snapshot-release:
         description: 'Snapshot release?'
-        type: string
+        type: boolean
         required: true
         default: false
       maven-release:
         description: 'Maven release?'
-        type: string
+        type: boolean
         required: false
         default: true
       release-version:

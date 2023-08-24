@@ -77,6 +77,15 @@ jobs:
       release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
 
+  release-apps1:
+    if: github.event.inputs.apps == 'true'
+    needs: release-version
+    uses: ./.github/workflows/workflow-release-apps.yaml
+    with:
+      snapshot-release: true
+      release-version: "test1234"
+    secrets: inherit
+
   release-services:
     if: github.event.inputs.services == 'true'
     needs: release-version
