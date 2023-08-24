@@ -29,16 +29,8 @@ jobs:
 #      - run: npm run init
 #      - run: npm run build
 
-      - name: test
-        run: echo "test"
-        if: inputs.snapshot-build == 'true'
-
-      - name: test1
-        run: echo "test1"
-        if: inputs.snapshot-build == true
-
 #      - run: lerna publish from-package --yes
-#        if: inputs.snapshot-release == 'true'
+#        if: inputs.snapshot-release == true
 #        env:
 #          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 #
@@ -61,5 +53,5 @@ jobs:
 #          push: true
 #          tags: itatm/digiwf-tasklist:${{ inputs.release-version }},itatm/digiwf-tasklist:dev
 #
-#      - run: echo "APPS_RELEASE_VERSION=${{ inputs.release-version }}"${{ github.event.inputs.release-version }}
-#      - run: echo "SNAPSHOT-Release=${{ inputs.snapshot-release }}"
+      - run: echo "APPS_RELEASE_VERSION=${{ inputs.release-version }}"
+      - run: echo "SNAPSHOT-Release=${{ inputs.snapshot-release }}"

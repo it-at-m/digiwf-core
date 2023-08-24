@@ -53,14 +53,14 @@ jobs:
           git config --global user.name "DigiWF Github Bot"
       # bump mvn version
       - name: Install Java and Maven
-        if: inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version== true
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
 
       - name: Raise mvn version
-        if: inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version== true
         run: |
           $(if inputs.services-new-version != ''; \
             then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT; \
@@ -72,7 +72,7 @@ jobs:
 
       # bump apps version
       - name: Setup node
-        if: inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version== true
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -80,7 +80,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - name: Raise apps version
-        if: inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version== true
         working-directory: ./digiwf-apps
         run: |
           npm run init
