@@ -13,4 +13,3 @@ features:
 - title: Systemintegration
   details: mit Spring Cloud Stream & Kafka
 ---
-asdf
