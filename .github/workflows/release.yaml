@@ -102,7 +102,7 @@ jobs:
     secrets: inherit
 
   bump-versions:
-    if: github.event.inputs.snapshot-build == 'false'
+    if: github.event.inputs.snapshot-build == 'false' && always() && !contains(needs.*.result, 'failure')
     needs: github-release
     uses: ./.github/workflows/workflow-bump-version.yaml
     with:
