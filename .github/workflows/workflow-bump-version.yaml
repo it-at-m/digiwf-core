@@ -62,7 +62,7 @@ jobs:
       - name: Raise mvn version
         if: inputs.bump-services-version == true
         run: |
-          $(if inputs.services-new-version != ''; then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT; else mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT; fi)
+          $(if ${{ inputs.services-new-version != '' }}; then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT; else mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT; fi)
           mvn versions:commit
           git add .
           git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
@@ -81,7 +81,7 @@ jobs:
         working-directory: ./digiwf-apps
         run: |
           npm run init
-          $(if inputs.apps-new-version != ''; then lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes; else lerna version patch --ignore-changes --no-push --yes; fi)
+          $(if ${{ inputs.apps-new-version != '' }}; then lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes; else lerna version patch --ignore-changes --no-push --yes; fi)
           git add .
           git commit -m "chore: lerna auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
