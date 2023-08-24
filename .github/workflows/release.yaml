@@ -100,7 +100,7 @@ jobs:
   bump-versions:
     if: github.event.inputs.snapshot-build == 'false'
     needs: github-release
-    uses: ./.github/workflows/workflow-bump-versions.yaml
+    uses: ./.github/workflows/workflow-bump-version.yaml
     with:
       apps-new-version: ${{ github.event.inputs.apps-new-version }}
       services-new-version: ${{ github.event.inputs.services-new-version }}
