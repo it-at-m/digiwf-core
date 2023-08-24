@@ -73,8 +73,8 @@ jobs:
     needs: release-version
     uses: ./.github/workflows/workflow-release-apps.yaml
     with:
-      snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ needs.release-version.outputs.apps-release-version }}
+      snapshot-release: "${{ github.event.inputs.snapshot-build }}"
+      release-version: "${{ needs.release-version.outputs.apps-release-version }}"
     secrets: inherit
 
   release-services:
@@ -82,8 +82,8 @@ jobs:
     needs: release-version
     uses: ./.github/workflows/workflow-release-services.yaml
     with:
-      snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ needs.release-version.outputs.services-release-version }}
+      snapshot-release: ${{ github.event.inputs.snapshot-build == 'true' }}
+      release-version: "${{ needs.release-version.outputs.services-release-version }}"
       maven-release: ${{ github.event.inputs.maven == 'true' }}
     secrets: inherit
 
@@ -98,7 +98,7 @@ jobs:
     needs: [release-apps, release-services, release-docs]
     uses: ./.github/workflows/workflow-github-release.yaml
     with:
-      release-tag: ${{ github.event.inputs.release-tag }}
+      release-tag: "${{ github.event.inputs.release-tag }}"
     secrets: inherit
 
   bump-versions:
@@ -106,8 +106,8 @@ jobs:
     needs: github-release
     uses: ./.github/workflows/workflow-bump-version.yaml
     with:
-      apps-new-version: ${{ github.event.inputs.apps-new-version }}
-      services-new-version: ${{ github.event.inputs.services-new-version }}
+      apps-new-version: "${{ github.event.inputs.apps-new-version }}"
+      services-new-version: "${{ github.event.inputs.services-new-version }}"
       bump-services-version: ${{ github.event.inputs.services == 'true' }}
       bump-apps-version: ${{ github.event.inputs.apps == 'true' }}
     secrets: inherit
