@@ -29,6 +29,10 @@ jobs:
       - run: npm run init
       - run: npm run build
 
+      - name: test
+        run: echo "test"
+        if: github.event.inputs.snapshot-release == true
+
 #      - run: lerna publish from-package --yes
 #        if: github.event.inputs.snapshot-release == 'true'
 #        env:
