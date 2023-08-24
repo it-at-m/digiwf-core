@@ -53,6 +53,5 @@ jobs:
 #          push: true
 #          tags: itatm/digiwf-tasklist:${{ github.event.inputs.release-version }},itatm/digiwf-tasklist:dev
 
-      - run: echo "APPS_RELEASE_VERSION=${{ github.event.inputs.release-version }}"
-        name: ${{ github.event.inputs.release-version }}
+      - run: echo "APPS_RELEASE_VERSION=${{ github.event.inputs.release-version }}"${{ github.event.inputs.release-version }}
       - run: echo "SNAPSHOT-Release=${{ github.event.inputs.snapshot-release }}"
