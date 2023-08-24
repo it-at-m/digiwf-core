@@ -67,6 +67,9 @@ jobs:
 
       - run: echo "APPS_RELEASE_VERSION=${{ env.APPS_RELEASE_VERSION }}"
       - run: echo "SERVICES_RELEASE_VERSION=${{ env.SERVICES_RELEASE_VERSION }}"
+    outputs:
+      apps-release-version: ${{ env.APPS_RELEASE_VERSION }}
+      services-release-version: ${{ env.SERVICES_RELEASE_VERSION }}
 
   release-apps:
     if: github.event.inputs.apps == 'true'
@@ -74,7 +77,7 @@ jobs:
     uses: ./.github/workflows/workflow-release-apps.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ env.APPS_RELEASE_VERSION }}
+      release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
 
   release-services:
@@ -83,7 +86,7 @@ jobs:
     uses: ./.github/workflows/workflow-release-services.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build }}
-      release-version: ${{ env.SERVICES_RELEASE_VERSION }}
+      release-version: ${{ needs.release-version.outputs.services-release-version }}
     secrets: inherit
 
   release-docs:
