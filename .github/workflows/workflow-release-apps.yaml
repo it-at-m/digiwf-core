@@ -5,7 +5,7 @@ on:
     inputs:
       snapshot-release:
         description: 'Snapshot release?'
-        type: boolean
+        type: string
         required: true
         default: false
       release-version:
