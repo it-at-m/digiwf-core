@@ -1,0 +1,39 @@
+name: Release Docs
+
+on:
+  workflow_call:
+    inputs:
+      release-tag:
+        description: 'Release tag'
+        type: string
+        required: true
+
+jobs:
+  github-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ github.event.inputs.release-tag }}',
+              sha: context.sha
+            })
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.release-tag }}
+          release_name: Release ${{ github.event.inputs.release-tag }}
+          draft: false
+          prerelease: false

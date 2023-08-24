@@ -1,0 +1,94 @@
+name: Bump version
+
+on:
+  workflow_call:
+    bump-services-version:
+      description: 'Bump services version'
+      type: boolean
+      required: false
+      default: true
+    services-new-version:
+      description: 'New services version'
+      required: false
+    bump-apps-version:
+      description: 'Bump apps version'
+      type: boolean
+      required: false
+      default: true
+    apps-new-version:
+      description: 'New apps version'
+      required: false
+  workflow_dispatch:
+    bump-services-version:
+      description: 'Bump services version'
+      required: false
+      type: boolean
+      default: true
+    services-new-version:
+      description: 'New services version (only if services) - SNAPSHOT will be added to the version'
+      required: false
+    bump-apps-version:
+      description: 'Bump apps version'
+      required: false
+      type: boolean
+      default: true
+    apps-new-version:
+      description: 'New apps version (only if apps)'
+      required: false
+
+jobs:
+  bump-versions:
+    name: Bumps versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup git
+        run: |
+          git config --global user.email "digiwf@muenchen.de"
+          git config --global user.name "DigiWF Github Bot"
+      # bump mvn version
+      - name: Install Java and Maven
+        if: github.event.inputs.bump-services-version == 'true'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Raise mvn version
+        if: github.event.inputs.bump-services-version == 'true'
+        run: |
+          $(if github.event.inputs.services-new-version != ''; \
+            then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ github.event.inputs.services-new-version }}-SNAPSHOT; \
+            else mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT; \
+          fi)
+          mvn versions:commit
+          git add .
+          git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+
+      # bump apps version
+      - name: Setup node
+        if: github.event.inputs.bump-apps-version == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - name: Raise apps version
+        if: github.event.inputs.bump-apps-version == 'true'
+        working-directory: ./digiwf-apps
+        run: |
+          npm run init
+          $(if github.event.inputs.apps-new-version != ''; \
+            then lerna version ${{ github.event.inputs.apps-new-version }} --ignore-changes --no-push --yes; \
+            else lerna version patch --ignore-changes --no-push --yes; \
+          fi)
+          git add .
+          git commit -m "chore: lerna auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+
+      # git push
+      - name: Git push
+        run: |
+          git push origin HEAD:${{ github.event.inputs.branch }}
+          git push origin HEAD:${{ github.event.inputs.branch }} --tags
