@@ -5,7 +5,7 @@ on:
     inputs:
       snapshot-release:
         description: 'Snapshot release?'
-        type: string
+        type: boolean
         required: true
         default: false
       release-version:
@@ -30,7 +30,7 @@ jobs:
       - run: npm run build
 
       - run: lerna publish from-package --yes
-        if: github.event.inputs.snapshot-release == 'true'
+        if: inputs.snapshot-release == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -51,4 +51,4 @@ jobs:
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
-          tags: itatm/digiwf-tasklist:${{ github.event.inputs.release-version }},itatm/digiwf-tasklist:dev
+          tags: itatm/digiwf-tasklist:${{ inputs.release-version }},itatm/digiwf-tasklist:dev
