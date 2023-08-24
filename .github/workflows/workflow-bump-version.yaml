@@ -21,7 +21,8 @@ on:
         description: 'New apps version'
         type: string
         required: false
-    workflow_dispatch:
+  workflow_dispatch:
+    inputs:
       bump-services-version:
         description: 'Bump services version'
         required: false
