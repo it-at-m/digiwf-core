@@ -2,13 +2,6 @@ name: build apps workflow
 
 on:
   workflow_call:
-  push:
-    branches:
-      - '**'
-    paths:
-      - 'digiwf-apps/**'
-  pull_request:
-    types: [ opened, reopened ]
 
 jobs:
   build:
