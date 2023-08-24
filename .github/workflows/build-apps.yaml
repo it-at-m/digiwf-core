@@ -1,0 +1,15 @@
+name: build apps
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'digiwf-apps/**'
+  pull_request:
+    types: [ opened, reopened ]
+
+jobs:
+  build:
+    uses: ./.github/workflows/workflow-build-apps
+    secrets: inherit
