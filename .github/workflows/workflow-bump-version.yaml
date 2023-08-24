@@ -53,26 +53,31 @@ jobs:
           git config --global user.name "DigiWF Github Bot"
       # bump mvn version
       - name: Install Java and Maven
-        if: inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version== true
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
 
       - name: Raise mvn version
-        if: inputs.bump-services-version == 'true'
+        if: inputs.bump-services-version == true && inputs.services-new-version != ''
         run: |
-          $(if inputs.services-new-version != ''; \
-            then mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT; \
-            else mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT; \
-          fi)
+          mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT
           mvn versions:commit
+      - name: Raise mvn version
+        if: inputs.bump-services-version == true && inputs.services-new-version == ''
+        run: |
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
+          mvn versions:commit
+      - name: Git commit
+        if: inputs.bump-services-version == true
+        run: |
           git add .
           git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
       # bump apps version
       - name: Setup node
-        if: inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version == true
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -80,16 +85,18 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - name: Raise apps version
-        if: inputs.bump-apps-version == 'true'
+        if: inputs.bump-apps-version == true && inputs.apps-new-version != ''
         working-directory: ./digiwf-apps
         run: |
           npm run init
-          $(if inputs.apps-new-version != ''; \
-            then lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes; \
-            else lerna version patch --ignore-changes --no-push --yes; \
-          fi)
-          git add .
-          git commit -m "chore: lerna auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes
+      - name: Raise apps version
+        if: inputs.bump-apps-version == true && inputs.apps-new-version == ''
+        working-directory: ./digiwf-apps
+        run: |
+          npm run init
+          lerna version patch --ignore-changes --no-push --yes
+        # lerna auto commits
 
       # git push
       - name: Git push

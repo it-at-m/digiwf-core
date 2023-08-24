@@ -32,7 +32,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Remove SNAPSHOT
-        if: inputs.snapshot-release == 'false'
+        if: inputs.snapshot-release== false
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -40,7 +40,7 @@ jobs:
         run: mvn --batch-mode install -DskipTests
 
       - name: Release Maven package
-        if: inputs.maven-release == 'true'
+        if: inputs.maven-release == true
         uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -137,7 +137,7 @@ jobs:
           server-password: CAMUNDA_TOKEN_REF
 
       - name: Remove SNAPSHOT
-        if: inputs.snapshot-build == 'false'
+        if: inputs.snapshot-build== false
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
