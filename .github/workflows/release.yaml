@@ -64,9 +64,6 @@ jobs:
         run: mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
       - name: Set services release version env variable
         run: echo "SERVICES_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - run: echo "APPS_RELEASE_VERSION=${{ env.APPS_RELEASE_VERSION }}"
-      - run: echo "SERVICES_RELEASE_VERSION=${{ env.SERVICES_RELEASE_VERSION }}"
     outputs:
       apps-release-version: ${{ env.APPS_RELEASE_VERSION }}
       services-release-version: ${{ env.SERVICES_RELEASE_VERSION }}

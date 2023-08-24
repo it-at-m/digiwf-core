@@ -20,7 +20,7 @@ jobs:
       run:
         working-directory: ./digiwf-apps
     steps:
-      - uses: ./github/workflows/workflow-build-apps
+      - uses: ./github/workflows/workflow-build-apps.yaml
 
 #      - run: lerna publish from-package --yes
 #        if: github.event.inputs.snapshot-release == 'true'
