@@ -30,7 +30,7 @@ jobs:
       - run: npm run build
 
       - run: lerna publish from-package --yes
-        if: inputs.snapshot-release == 'true'
+        if: inputs.snapshot-release == true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -52,3 +52,4 @@ jobs:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
           tags: itatm/digiwf-tasklist:${{ inputs.release-version }},itatm/digiwf-tasklist:dev
+#

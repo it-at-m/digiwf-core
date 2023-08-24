@@ -64,13 +64,16 @@ jobs:
         run: mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
       - name: Set services release version env variable
         run: echo "SERVICES_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+    outputs:
+      apps-release-version: ${{ env.APPS_RELEASE_VERSION }}
+      services-release-version: ${{ env.SERVICES_RELEASE_VERSION }}
 
   release-apps:
     if: github.event.inputs.apps == 'true'
     needs: release-version
     uses: ./.github/workflows/workflow-release-apps.yaml
     with:
-      snapshot-release: ${{ github.event.inputs.snapshot-build }}
+      snapshot-release: ${{ github.event.inputs.snapshot-build == 'true' }}
       release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
 
@@ -79,7 +82,7 @@ jobs:
     needs: release-version
     uses: ./.github/workflows/workflow-release-services.yaml
     with:
-      snapshot-release: ${{ github.event.inputs.snapshot-build }}
+      snapshot-release: ${{ github.event.inputs.snapshot-build == 'true' }}
       release-version: ${{ needs.release-version.outputs.services-release-version }}
       maven-release: ${{ github.event.inputs.maven == 'true' }}
     secrets: inherit
