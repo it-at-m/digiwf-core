@@ -1,0 +1,15 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  services:
+    uses: ./.github/workflows/build/build-services.yaml
+    secrets: inherit
+
+  apps:
+    uses: ./.github/workflows/build/build-apps.yaml
+    secrets: inherit

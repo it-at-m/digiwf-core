@@ -1,6 +1,7 @@
 name: build apps
 
 on:
+  workflow_call:
   push:
     branches:
       - '**'
