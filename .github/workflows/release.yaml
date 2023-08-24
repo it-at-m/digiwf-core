@@ -65,6 +65,12 @@ jobs:
       - name: Set services release version env variable
         run: echo "SERVICES_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "APPS_RELEASE_VERSION=${{ env.APPS_RELEASE_VERSION }}"
+      - run: echo "SERVICES_RELEASE_VERSION=${{ env.SERVICES_RELEASE_VERSION }}"
+
   release-apps:
     if: github.event.inputs.apps == 'true'
     needs: release-version

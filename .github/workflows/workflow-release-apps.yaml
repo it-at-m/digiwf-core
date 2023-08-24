@@ -21,10 +21,11 @@ jobs:
         working-directory: ./digiwf-apps
     steps:
       - uses: ./github/workflows/workflow-build-apps
-      - run: lerna publish from-package --yes
-        if: github.event.inputs.snapshot-release == 'true'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+#      - run: lerna publish from-package --yes
+#        if: github.event.inputs.snapshot-release == 'true'
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -38,9 +39,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_KEY }}
 
-      - name: Build and push tasklist
-        uses: docker/build-push-action@v4
-        with:
-          context: ./digiwf-apps/packages/apps/digiwf-tasklist
-          push: true
-          tags: itatm/digiwf-tasklist:${{ github.event.inputs.release-version }},itatm/digiwf-tasklist:dev
+#      - name: Build and push tasklist
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./digiwf-apps/packages/apps/digiwf-tasklist
+#          push: true
+#          tags: itatm/digiwf-tasklist:${{ github.event.inputs.release-version }},itatm/digiwf-tasklist:dev
+
+      - run: echo "APPS_RELEASE_VERSION=${{ github.event.inputs.release-version }}"
+      - run: echo "SNAPSHOT-Release=${{ github.event.inputs.snapshot-release }}"
