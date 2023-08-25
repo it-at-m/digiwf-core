@@ -16,24 +16,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create tag
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ inputs.release-tag }}',
-              sha: context.sha
-            })
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ inputs.release-tag }}
-          release_name: Release ${{ inputs.release-tag }}
-          draft: false
-          prerelease: false
+#      - name: Create tag
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            github.rest.git.createRef({
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              ref: 'refs/tags/${{ inputs.release-tag }}',
+#              sha: context.sha
+#            })
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ inputs.release-tag }}
+#          release_name: Release ${{ inputs.release-tag }}
+#          draft: false
+#          prerelease: false
