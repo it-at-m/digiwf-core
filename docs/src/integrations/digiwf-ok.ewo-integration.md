@@ -7,11 +7,6 @@ This is on the one hand the Spring-Boot-Starter `digiwf-okewo-integration-starte
 and on the other hand the service `digiwf-okewo-integration-service` which is provided as an
 [Image](https://hub.docker.com/repository/docker/itatm/digiwf-okewo-integration-service).
 
-### Spring-Boot-Starter
-
-The usage of the starter is documented
-in [quickstart.md](https://github.com/it-at-m/digiwf-ok.ewo-integration#getting-started).
-
 #### Error handling
 
 The errors occurring during the rest request are divided into three error categories.
