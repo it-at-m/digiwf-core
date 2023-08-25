@@ -81,7 +81,6 @@ export default defineComponent({
 
     const apiEndpoint = inject<string>('apiEndpoint');
     const taskServiceApiEndpoint = inject<string>('taskServiceApiEndpoint');
-    const shouldUseTaskService = inject<boolean>('shouldUseTaskService');
     const formContext = inject<FormContext>('formContext');
 
     const input = (value: any): any => {
@@ -131,7 +130,6 @@ export default defineComponent({
           filePath,
           apiEndpoint: apiEndpoint || "",
           formContext,
-          shouldUseTaskService: shouldUseTaskService || false,
           taskServiceApiEndpoint: taskServiceApiEndpoint || ""
         });
         for (const filename of filenames) {
@@ -156,7 +154,6 @@ export default defineComponent({
         filePath,
         apiEndpoint: apiEndpoint || "",
         formContext,
-        shouldUseTaskService: shouldUseTaskService || false,
         taskServiceApiEndpoint: taskServiceApiEndpoint || ""
       });
 
@@ -201,7 +198,6 @@ export default defineComponent({
           filePath,
           apiEndpoint: apiEndpoint || "",
           formContext,
-          shouldUseTaskService: shouldUseTaskService || false,
           taskServiceApiEndpoint: taskServiceApiEndpoint || ""
         });
 
@@ -293,7 +289,6 @@ export default defineComponent({
                 filePath,
                 apiEndpoint: apiEndpoint || "",
                 formContext,
-                shouldUseTaskService: shouldUseTaskService || false,
                 taskServiceApiEndpoint: taskServiceApiEndpoint || ""
               }
             );

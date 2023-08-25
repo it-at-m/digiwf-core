@@ -1,0 +1,3 @@
+digiwf:
+  camunda-webapps:
+    web-app-role: digiwf-webapp-user

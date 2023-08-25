@@ -1,0 +1,3 @@
+
+create index IDX_dwf_process_instance_info_pii on dwf_process_instance_info (processinstanceid_);
+create index IDX_dwf_process_instance_auth_pii on dwf_process_instance_auth (processinstanceid_);

@@ -12,8 +12,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Fake implementation of the UserService to enable local development without a LDAP connection.
@@ -27,7 +30,7 @@ import java.util.Set;
 public class MockUserServiceImpl implements UserService {
 
     private final List<String> groups = List.of("group1");
-    private final User user = new User(
+    private final User john = new User(
             "externer.john.doe",
             "123456789",
             "John",
@@ -49,6 +52,34 @@ public class MockUserServiceImpl implements UserService {
             "",
             "group1"
     );
+    private final User jane = new User(
+            "externer.jane.doe",
+            "234567890",
+            "Jane",
+            "Doe",
+            "jane.doe@example.com",
+            "cn",
+            "86153",
+            "Boeheimstrasse 8",
+            "group1", // org
+            "Anon",
+            "group1",
+            "86153",
+            "1",
+            "Boeheimstrasse 8",
+            "0000-0000000",
+            "0000-0000000",
+            true,
+            Set.of("group1"),
+            "",
+            "group1"
+    );
+
+    private final Map<String, User> users = Map.of(
+            john.getLhmObjectId(), john,
+            jane.getLhmObjectId(), jane
+
+    );
 
     @Override
     public List<String> getGroups(final String userId) {
@@ -57,7 +88,12 @@ public class MockUserServiceImpl implements UserService {
 
     @Override
     public List<User> searchUser(final String searchString, final String ous) {
-        return List.of(this.user);
+        return Stream.of(this.john, this.jane).filter(it -> it.getForename().contains(searchString)
+                || it.getSurname().contains(searchString)
+                || it.getLhmObjectId().contains(searchString)
+                || it.getUsername().contains(searchString)
+                || it.getEmail().contains(searchString))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -65,31 +101,33 @@ public class MockUserServiceImpl implements UserService {
         if (StringUtils.isBlank(userId)) {
             return null;
         }
-        return this.user.getForename() +
-                " " +
-                this.user.getSurname() +
-                " (" +
-                this.user.getOu() +
-                ")";
+        return getUserOrNull(userId).map(it -> {
+            return it.getForename() +
+                    " " +
+                    it.getSurname() +
+                    " (" +
+                    it.getOu() +
+                    ")";
+        }).orElse(null);
     }
 
     @Override
-    public User getUser(final String userId) {
-        return this.user;
+    public User getUser(String userId) {
+        return getUserOrNull(userId).orElse(null);
     }
 
     @Override
     public Optional<User> getUserOrNull(final String userId) {
-        return Optional.of(this.user);
+        return Optional.ofNullable(this.users.getOrDefault(userId, null));
     }
 
     @Override
     public Optional<User> getUserByUserName(final String username) {
-        return Optional.of(this.user);
+        return this.users.values().stream().filter(it -> it.getUsername().equals(username)).findFirst();
     }
 
     @Override
     public Optional<User> getOuByShortName(final String shortname) {
-        return Optional.of(this.user);
+        return Optional.of(this.john);
     }
 }

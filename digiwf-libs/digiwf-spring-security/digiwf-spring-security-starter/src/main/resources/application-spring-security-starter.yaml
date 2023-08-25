@@ -6,6 +6,13 @@ digiwf:
       - /actuator/info # allow access to /actuator/info
       - /actuator/health #  allow access to /actuator/health for OpenShift Health Check
       - /actuator/metrics # allow access to /actuator/metrics for Prometheus monitoring in OpenShift
+      - /swagger-ui/index.html # allow access to swagger
+      - /swagger-ui*/*swagger-initializer.js # allow access to swagger
+      - /swagger-ui*/** # allow access to swagger
+      - /v3/api-docs/* # allow access to swagger
+      - /v3/api-docs # allow access to swagger
+    service-account: true
+
 
 spring:
   security:
@@ -19,10 +26,17 @@ spring:
             issuer-uri: ${SSO_ISSUER_URL}
             user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: user_name
+            user-name-attribute: lhmObjectID
         registration:
           keycloak:
             provider: keycloak
-            client-id: ${SSO_ENGINE_CLIENT_ID}
-            client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+            client-id: ${digiwf.security.client-id}
+            client-secret: ${digiwf.security.client-secret}
             scope: email, profile, openid  # needed for userInfo endpoint
+          keycloak-service-account:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${digiwf.security.client-id}
+            client-secret: ${digiwf.security.client-secret}
+            scope: email, profile, openid  # needed for userInfo endpoint
+

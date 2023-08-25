@@ -6,16 +6,26 @@ package de.muenchen.oss.digiwf.spring.security.authentication;
 
 import org.springframework.lang.NonNull;
 
+import java.util.Set;
+
 /**
  * Provides the username for the currently logged-in user.
  */
 public interface UserAuthenticationProvider {
 
   /**
-   * Get the username of the logged-in user.
+   * Get the user id of the logged-in user.
    *
-   * @return username
+   * @return user id.
    */
   @NonNull
   String getLoggedInUser();
+
+  /**
+   * Retrieves user roles of logged-in user.
+   *
+   * @return set of users.
+   */
+  @NonNull
+  Set<String> getLoggedInUserRoles();
 }

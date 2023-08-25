@@ -21,6 +21,10 @@ class Page{
         return cy.get('a.v-list-item:nth-child(5) > div:nth-child(1)')
     }
 
+    navbarGruppenAufgabenOffen(){
+        return cy.get('a.v-list-item:nth-child(8)')
+    }
+
     clickNavbar(){
         this.navBar().click()
     }
@@ -40,6 +44,15 @@ class Page{
         }).as('dataGetDefinitions')
         this.navBarVorgangStarten().click()
         cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
+    }
+
+    openGruppenAufgabenOffen(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api/digitalwf-tasklist-service/rest/tasks/group/*',
+        }).as('filter')
+        this.navbarGruppenAufgabenOffen().click()
+        cy.wait('@filter').its('response.statusCode').should('equal', 200)
     }
 }
 
