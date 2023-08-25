@@ -1,0 +1,3434 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The sysHUB REST API / SDK v3 is a RESTful API that provides third party teams access to sysHUB features through a standard way. This page documents all operations intended for third-party integration.",
+    "version": "v3",
+    "title": "sysHUB REST-API"
+  },
+  "host": "",
+  "tags": [
+    {
+      "name": "Backup/Restore operations",
+      "description": "Perform Backup and Restore operations"
+    },
+    {
+      "name": "Console operations",
+      "description": "Execute console commands"
+    },
+    {
+      "name": "File status operations",
+      "description": "Manage file status resources"
+    },
+    {
+      "name": "Job attribute operations",
+      "description": "Manage job attributes"
+    },
+    {
+      "name": "Job log  operations",
+      "description": "Manage job logs"
+    },
+    {
+      "name": "Job operations",
+      "description": "Submit and manage jobs"
+    },
+    {
+      "name": "Package operations",
+      "description": "Upload and import packages"
+    },
+    {
+      "name": "System log operations",
+      "description": "Manage system logs"
+    },
+    {
+      "name": "User log operations",
+      "description": "Userlog Collection Controller"
+    },
+    {
+      "name": "User operations",
+      "description": "Read user-related information"
+    },
+    {
+      "name": "Workflow operations",
+      "description": "Execute workflows"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/webapi/v3/backuprestore/metadata": {
+      "get": {
+        "tags": [
+          "Backup/Restore operations"
+        ],
+        "summary": "Gets the Backup properties",
+        "description": "Gets the Backup properties and all backup types of a given folder. Requires permissions 'PERM_IEPOSSERVER_RESTOREDATABASE', 'PERM_IEPOSSERVER_EXISTSSERVERFILE'.",
+        "operationId": "getBackupMetadataUsingGET",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "folder",
+            "in": "query",
+            "description": "The folder to the backup files, file-separator = '/'",
+            "required": true,
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 0,
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/backuprestore/{command}": {
+      "post": {
+        "tags": [
+          "Backup/Restore operations"
+        ],
+        "summary": "Executes a Backup or Restore",
+        "description": "Executes a Backup or Restore. Requires permissions 'PERM_IEPOSSERVER_SAVEDATABASE', 'PERM_IEPOSSERVER_RESTOREDATABASE'.",
+        "operationId": "doBackupRestoreUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "path",
+            "description": "backup or restore",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "folder",
+            "in": "query",
+            "description": "The folder for the operation",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "in": "body",
+            "name": "properties",
+            "description": "Representation of the backup properties and which backuptypes should be created/restored",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BackupRestoreDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          },
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SimpleResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/consolecommands/execute/{consoleCommandName}": {
+      "post": {
+        "tags": [
+          "Console operations"
+        ],
+        "summary": "Execute one given COSMOS console command",
+        "description": "Execute the specified console command with optional parameter(s). The command standard output is returned in the response body as an array of strings. \"SHUT\", \"EXIT\" and \"RESTART\" commands are forbidden. Requires COSMOS permission 'PERM_IEPOSSERVER_RUNCONSOLECOMMAND'.",
+        "operationId": "postUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "command parameter(s)",
+            "description": "command parameters [\"HotFolder\",\"Q1\"], as an ordered array of strings",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "consoleCommandName",
+            "in": "path",
+            "description": "COSMOS command name (case insensitive)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The command has been executed. The command output is returned in the response body as a string array.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "404": {
+            "description": "Specified command does not exist or is not permitted."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/currentUser": {
+      "get": {
+        "tags": [
+          "User operations"
+        ],
+        "summary": "Retrieve the current user",
+        "description": "Get the current user representation out of the bearer token. Requires permissions 'PERM_IADMINSERVICE_GETUSERDATABYNAME'.",
+        "operationId": "getUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The current user has been fetched and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/filestatus/{id}": {
+      "get": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Retrieve one given file status",
+        "description": "Receive the data of the requested file status in the response body. Requires permission 'PERM_IADMINSERVICE_GETOBJECT'.",
+        "operationId": "getUsingGET_2",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the file status to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file status resource has been retrieved successfully and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Replace one given file status",
+        "description": "Replaces the whole file status identified by the given file status id with the representation provided in the request body. Any unspecified attribute will bet set to its default value.  Requires COSMOS permission 'PERM_IADMINSERVICE_UPDATEOBJECT'.",
+        "operationId": "putUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "file status",
+            "description": "Partial or complete file status representation. Unspecified fields will be set to null or server-managed value.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filestatus ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file status has been successfully replaced. The updated resource has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Delete one given file status",
+        "description": "Deletes the file status identified by file status id. Requires COSMOS permission 'PERM_IADMINSERVICE_DELETEOBJECT'.",
+        "operationId": "deleteUsingDELETE_1",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the file status to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The file status has been successfully deleted."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Patch one given file status",
+        "description": "Partially update a single file status fields with data specified in the request body. Unspecified fields are left unaltered. Requires COSMOS permission 'PERM_IADMINSERVICE_UPDATEOBJECT'.",
+        "operationId": "patchUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "file status",
+            "description": "Partial or complete file status representation. Only specified fields will be updated",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the file status to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file status has been successfully patched. The updated resource has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs": {
+      "get": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Query jobs",
+        "description": "Get list of jobs featuring filtering (using RSQL), ordering and paging. Requires COSMOS permission 'PERM_IJOBSERVICE_GETJOBS'.",
+        "operationId": "getUsingGET_7",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]].",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested jobs have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Jobs"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Create one job",
+        "description": "Creates a new job and receive the new jobs data in the response body. Requires COSMOS permission 'PERM_IJOBSERVICE_ADDJOB'.",
+        "operationId": "postUsingPOST_5",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "job",
+            "description": "Representation of the job to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A new job has been created with values from the request body. The created job has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/submit": {
+      "post": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Submit one job along with its source and/or ticket file",
+        "description": "Create a job out of a job definition, a source file and/or a ticket file. The default job status is \"received\". This operation requires the following permissions: PERM_IJOBSERVICE_ADDJOB, PERM_IJOBSERVICE_UPDATEJOB",
+        "operationId": "postUsingPOST_3",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "job",
+            "description": "An optional job representation of the created job. The job representation MUST be formatted as json in a multipart/form-data part of name \"job\". If not set, all job parameters will be set to their default values.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          },
+          {
+            "name": "sourceFile",
+            "in": "formData",
+            "description": "An optional source/data file to upload to the server and link with the created job. The source file MUST be included as an octet-stream in a multipart/form-data part of name \"sourceFile\" with the required filename parameter.",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "ticketFile",
+            "in": "formData",
+            "description": "An optional ticket file to upload to the server and link with the created job. The ticket file MUST be included as octet-stream in a multipart/form-data part of name \"ticketFile\" with the required filename parameter.",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A job has been created out of the input definition, source file and/or ticket file.",
+            "headers": {
+              "location": {
+                "type": "string",
+                "description": "URI to the created job (e.g. /v3/jobs/42)"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}": {
+      "get": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Retrieve one given job",
+        "description": "Receive the data of the requested job in the response body. Requires COSMOS permission 'PERM_IJOBSERVICE_GETJOB'.",
+        "operationId": "getUsingGET_8",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested job has been fetched and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Replace one given job",
+        "description": "Replaces the job identified by job id with data specified in the request body. Requires COSMOS permission 'PERM_IJOBSERVICE_UPDATEJOB'.",
+        "operationId": "putUsingPUT_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "job",
+            "description": "Partial or complete representation of the job to update. Any unspecified attribute will bet set to its default value. The job id must not be included.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The job has been successfully replaced. The updated resource has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Delete one given job",
+        "description": "Deletes the job identified by the job id. Requires COSMOS permission 'PERM_IJOBSERVICE_DELETEJOBENTRY'.",
+        "operationId": "deleteUsingDELETE_4",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The job has been successfully deleted."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Patch one given job",
+        "description": "Patches or replaces single job fields with data specified in the request body. Requires COSMOS permission 'PERM_IJOBSERVICE_UPDATEJOB'.",
+        "operationId": "patchUsingPATCH_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "job",
+            "description": "Partial or complete representation of the job to update. Any unspecified attribute will not be altered. The job id must not be included.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The job has been successfully patched. The updated resource has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/attributes": {
+      "get": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Retrieve all job attributes of one given job",
+        "description": "Returns job attributes identified by job id. Returns an empty list if no job with matching id is found. Requires COSMOS permission 'PERM_IJOBSERVICE_GETJOB'.",
+        "operationId": "getUsingGET_4",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attributes to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified job attribute collection has been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JobAttribute"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Replace all job attributes of one given job",
+        "description": "Replace all job attributes for the specified job. Requires COSMOS permission 'PERM_IJOBSERVICE_UPDATEJOB'.",
+        "operationId": "putUsingPUT_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attributes to replace",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "job attributes",
+            "description": "array of job attribute representations that will replace the given job attributes collection",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JobAttribute"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The specified job attributes collection has been replaced with input data."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Delete all job attributes of one given job",
+        "description": "Delete job attributes identified by job id. Requires COSMOS permission 'PERM_IADMINSERVICE_DELETEOBJECT'.",
+        "operationId": "deleteUsingDELETE_3",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attributes to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified job attributes collection has been cleared."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/attributes/{attributeName}": {
+      "get": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Retrieve one given job attribute",
+        "description": "Returns specified job attribute identified by job id and attribute name. Requires COSMOS permission 'PERM_IJOBSERVICE_GETJOB'.",
+        "operationId": "getUsingGET_3",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "attributeName",
+            "in": "path",
+            "description": "name of the job attribute to retrieve",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attribute to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified job attribute has been fetched and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/JobAttribute"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Create or replace one job attribute",
+        "description": "Creates or replaces specified job attribute identified by job id and attribute name. Requires COSMOS permission 'PERM_IJOBSERVICE_UPDATEJOB'.",
+        "operationId": "putUsingPUT_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "attributeName",
+            "in": "path",
+            "description": "name of the attribute to create or update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attribute to create or update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "job attribute",
+            "description": "job attribute representation as it will be created or updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JobAttribute"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The specified job attribute has been created"
+          },
+          "204": {
+            "description": "The specified job attribute has been updated"
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Delete one given job attribute",
+        "description": "Delete specified job attribute identified by job id and attribute name. Requires COSMOS permission 'PERM_IADMINSERVICE_DELETEOBJECT'.",
+        "operationId": "deleteUsingDELETE_2",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "attributeName",
+            "in": "path",
+            "description": "name of the job attribute to delete",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the attribute to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified job attribute has been deleted."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/filestatus": {
+      "get": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Query multiple file status of one given job",
+        "description": "Get list of a file status for given job supporting filtering (using RSQL), ordering and paging. Requires COSMOS permission 'PERM_IADMINSERVICE_GETLIST'.",
+        "operationId": "getUsingGET_1",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Job id for which file status will be retrieved",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]].",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested file status have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Filestatus"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Create one file status for one given job",
+        "description": "Creates a new file status and receive the new file status data in the response body. Requires COSMOS permission 'PERM_IADMINSERVICE_ADDOBJECTID'.",
+        "operationId": "postUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "file status",
+            "description": "New file status representation.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to which the created file status will be added",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A new file status has been created with values from request body.",
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Delete all file status of one given job",
+        "description": "Delete all file status of a given job. Requires COSMOS permission 'PERM_IADMINSERVICE_DELETEOBJECT'.",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Job id of which file status will be deleted",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All file status entries for specified job have been successfully deleted."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/filestatus/submit": {
+      "post": {
+        "tags": [
+          "File status operations"
+        ],
+        "summary": "Create one file status for one given job and upload attached file",
+        "description": "Create a file status out of a file status definition and a file. Requires permission PERM_IADMINSERVICE_ADDOBJECTID",
+        "operationId": "postUsingPOST_2",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "An optional file to upload to the server and link with the created file status. The file MUST be included as an octet-stream in a multipart/form-data part of name \"file\" with the required filename parameter.",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "in": "formData",
+            "name": "fileStatus",
+            "description": "An optional representation of the created file status. The representation MUST be formatted as json in a multipart/form-data part of name \"fileStatus\". If not set, all file status parameters will be set to their default values.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Filestatus"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job to which the created file status will be added",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A file status has been created out of the optional representation and optional file.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "URI to the created file status (e.g. /v3/filestatus/42)"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/jobAttributes": {
+      "get": {
+        "tags": [
+          "Job attribute operations"
+        ],
+        "summary": "Query multiple file status of one given job",
+        "description": "Get list of a job attributes for given job supporting filtering (using RSQL), ordering and paging. Requires COSMOS permission 'PERM_IADMINSERVICE_GETLIST'.",
+        "operationId": "getUsingGET_5",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Job id for which job attributes will be retrieved",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]].",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested job attributes have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JobAttribute"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/joblog": {
+      "get": {
+        "tags": [
+          "Job log  operations"
+        ],
+        "summary": "Query job logs of one given job.",
+        "description": "Get list of job logs featuring filtering (using RSQL), ordering and paging. Requires COSMOS permission 'PERM_IADMINSERVICE_GETLIST'.",
+        "operationId": "getUsingGET_6",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning retrieved job log entries",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]].",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested job log entries have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JobLog"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Job log  operations"
+        ],
+        "summary": "Create one job log for one given job.",
+        "description": "Creates a new job log and receive the new job log data in the response body. Requires COSMOS permission 'PERM_IADMINSERVICE_ADDOBJECTID'.",
+        "operationId": "postUsingPOST_4",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the job log to create",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "job log",
+            "description": "representation of the job log to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JobLog"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A new job log has been created out of the request body. The created job log entry has been sent in the response body.",
+            "schema": {
+              "$ref": "#/definitions/JobLog"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/joblog/children": {
+      "get": {
+        "tags": [
+          "Job log  operations"
+        ],
+        "summary": "Gets joblog children by given jobid and optional parentId for displaying joblog tree.",
+        "description": "Gets joblog children by given jobid and optinal parentId for displaying joblog tree.",
+        "operationId": "getChildrenUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "parentId",
+            "in": "path",
+            "description": "parentId of joblog",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/joblog/children/{parentId}": {
+      "get": {
+        "tags": [
+          "Job log  operations"
+        ],
+        "summary": "Gets joblog children by given jobid and optional parentId for displaying joblog tree.",
+        "description": "Gets joblog children by given jobid and optinal parentId for displaying joblog tree.",
+        "operationId": "getChildrenUsingGET_1",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "parentId",
+            "in": "path",
+            "description": "parentId of joblog",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/uploadSourceFile": {
+      "post": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Upload the source file of one given job.",
+        "description": "Upload the source file for a given job and update corresponding job field. Requires COSMOS permission 'PERM_IJOBSERVICE_UPDATEJOB'.",
+        "operationId": "uploadSourceFileUsingPOST_15",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the file",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "sourceFile",
+            "description": "The source file to upload to the server and link with the given job. The source file MUST be included as octet-stream in a multipart/form-data part of name \"sourceFile\" with the required filename parameter.",
+            "required": true,
+            "schema": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The source file has been uploaded successfully and the related job was updated accordingly."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/jobs/{id}/uploadTicketFile": {
+      "post": {
+        "tags": [
+          "Job operations"
+        ],
+        "summary": "Upload the ticket file of one given job.",
+        "description": "Upload the ticket file for a given job and update corresponding job field.",
+        "operationId": "uploadTicketFileUsingPOST_15",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the job owning the file",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "ticketFile",
+            "description": "The ticket file to upload to the server and link with the given job. The ticket file MUST be included as octet-stream in a multipart/form-data part of name \"ticketFile\" with the required filename parameter.",
+            "required": true,
+            "schema": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The ticket file has been uploaded successfully and the related job was updated accordingly."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/packages/files": {
+      "get": {
+        "tags": [
+          "Package operations"
+        ],
+        "summary": "Retrieve representations of all package files ready for import",
+        "description": "Returns the list of package files (*.cel and *.ppk) ready for import on the sysHUB filesystem in the folder 'impexp'. Requires permission 'PERM_IADMINSERVICE_ADDOBJECTID'.",
+        "operationId": "getUsingGET_9",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of packages ready for import has been returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PackageImportFile"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Package operations"
+        ],
+        "summary": "Upload one package file to make it ready for import",
+        "description": "Upload a package file (*.ppk or *.cel) with a multipart/form-data request to the sysHUB filesystem to make it available for import. Any existing package file of the same name present on sysHUB server impexp folder will be overwritten. Requires permission 'PERM_IADMINSERVICE_ADDOBJECTID'.",
+        "operationId": "postUsingPOST_6",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "packageFile",
+            "in": "formData",
+            "description": "The .ppk or .cel package file to upload to the server for import purposes. The package file MUST be included as octet-stream in a multipart/form-data part of name \"packageFile\" with the required filename parameter.",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The package has been uploaded successfully. The result of the operation has been sent in the response body as a package import file representation.",
+            "schema": {
+              "$ref": "#/definitions/PackageImportFile"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/syslogs": {
+      "get": {
+        "tags": [
+          "System log operations"
+        ],
+        "summary": "Query system logs",
+        "description": "Returns all system log resources. Filtering, sorting and paging supported. Requires permission 'PERM_IADMINSERVICE_GETLIST, PERM_PLUGIN_SYSLOG'.",
+        "operationId": "getUsingGET_10",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]]. Attribute message is not supported for databases HSQL and Oracle.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All system log resources have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Syslog"
+              }
+            }
+          },
+          "400": {
+            "description": "Orderby for attribute message is not supported for databases HSQL and Oracle.",
+            "schema": {
+              "$ref": "#/definitions/WebException"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "System log operations"
+        ],
+        "summary": "Create one system log",
+        "description": "Create a new system log resource. Requires permission 'PERM_IADMINSERVICE_ADDOBJECTID, PERM_PLUGIN_SYSLOG'.",
+        "operationId": "postUsingPOST_7",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "system log",
+            "description": "the representation of the system log entry to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Syslog"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A new system log resource has been created.",
+            "schema": {
+              "$ref": "#/definitions/Syslog"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/syslogs/hostNames": {
+      "get": {
+        "tags": [
+          "System log operations"
+        ],
+        "summary": "Get used hostnames of system log",
+        "description": "Returns all the hostnames of the system log. Requires permission 'PERM_IADMINSERVICE_GETLIST, PERM_PLUGIN_SYSLOG'.",
+        "operationId": "getHostNamesUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/syslogs/{id}": {
+      "get": {
+        "tags": [
+          "System log operations"
+        ],
+        "summary": "Retrieve one given system log",
+        "description": "Returns the system log resource matching provided id. Requires permission 'PERM_IADMINSERVICE_GETOBJECT, PERM_PLUGIN_SYSLOG'.",
+        "operationId": "getUsingGET_11",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the system log resource to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested system log resource has been found and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Syslog"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/userlogs": {
+      "get": {
+        "tags": [
+          "User log operations"
+        ],
+        "summary": "Query User logs",
+        "description": "Returns all user log resources. Filtering, sorting and paging supported. Requires permission 'PERM_IADMINSERVICE_GETLIST, PERM_PLUGIN_USERLOG'.",
+        "operationId": "getUsingGET_12",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Count of elements to retrieve from the given offset. MUST be used in conjunction with offset.",
+            "required": false,
+            "type": "integer",
+            "minimum": 1.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first element to retrieve. MUST be used in conjunction with limit.",
+            "required": false,
+            "type": "integer",
+            "minimum": 0.0,
+            "exclusiveMinimum": false,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Sorting order of the queried result set having the following SQL-like syntax : attribute1[.asc|.desc][;attributeN[.asc|.desc]]. Attribute message is not supported for databases HSQL and Oracle.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "RSQL filtering search criteria.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All user log resources have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Userlog"
+              }
+            }
+          },
+          "400": {
+            "description": "Orderby for attribute message is not supported for databases HSQL and Oracle.",
+            "schema": {
+              "$ref": "#/definitions/WebException"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "User log operations"
+        ],
+        "summary": "Create one user log",
+        "description": "Create a new user log resource. Requires COSMOS permission 'PERM_IADMINSERVICE_ADDOBJECTID, PERM_PLUGIN_USERLOG'.",
+        "operationId": "postUsingPOST_8",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user log",
+            "description": "the representation of the user log entry to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Userlog"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A new user log resource has been created.",
+            "schema": {
+              "$ref": "#/definitions/Userlog"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/userlogs/{id}": {
+      "get": {
+        "tags": [
+          "User log operations"
+        ],
+        "summary": "Retrieve one given user log",
+        "description": "Returns the user log resource matching provided id. Requires permission 'PERM_IADMINSERVICE_GETOBJECT, PERM_PLUGIN_USERLOG'.",
+        "operationId": "getUsingGET_13",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the user log resource to retrieve",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested user log resource has been found and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/Userlog"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/workflows/execute": {
+      "get": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Retrieve all workflow executions",
+        "description": "Get all workflow execution resources for execution monitoring and result retrieval. Use dictionaryKeys and nestingLimit query parameters to add output dictionary content to the response. Requires COSMOS permission 'PERM_IADMINSERVICE_GETLIST'.",
+        "operationId": "getUsingGET_14",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dictionaryKeys",
+            "in": "query",
+            "description": "Semicolon separated enumerations of keys to output in the workflow execution resources dictionary. SQL like statement wildcards supported.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "nestingLimit",
+            "in": "query",
+            "description": "Nesting limit for output workflow execution resource dictionary",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All workflow execution resources have been fetched and returned in the response body.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WorkflowExecution"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Create and run one given workflow execution",
+        "description": "Executes specified workflow and creates a workflow execution resource keeping track of the execution. Requires a workflow execution representation in the request body specifying at least a valid workflowUUID. Refer to WorflowExecution model documentation for other available input parameters. Requires COSMOS permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'.",
+        "operationId": "postUsingPOST_9",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "workflow execution",
+            "description": "Execution options and parameters wrapped in a workflow execution object representation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkflowExecution"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The specified workflow has been executed successfully. Ad-hoc workflow execution resource has been created and stored.",
+            "headers": {
+              "location": {
+                "type": "string",
+                "description": "URI to the the created execution resource (e.g. /v3/workflows/execute/12345)"
+              }
+            }
+          },
+          "202": {
+            "description": "The specified workflow execution request has been accepted and will be processed. Ad-hoc workflow execution resource has been created and stored.",
+            "headers": {
+              "location": {
+                "type": "string",
+                "description": "URI to the created execution resource (e.g. /v3/workflows/execute/12345)"
+              }
+            }
+          },
+          "503": {
+            "description": "The workflow execution request has been rejected because the WorkflowExecutor is overloaded. The request can be resubmitted later. WorkflowExecutor thread count and queue size can also be increased in order to minimize this issue."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/workflows/execute/alias/{workflowAlias}": {
+      "get": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Run a workflow by its alias or uuid. Note: see documentation, how to use it!",
+        "description": "Run a workflow by its alias or uuid with prefix UUID. Requires sysHUB permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'",
+        "operationId": "postByAliasUsingGET",
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "workflowAlias",
+            "in": "path",
+            "description": "Alias name of the workflow to be called or UUID as prefix calls wf with uuid.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workflow has been executed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StreamingResponseBody"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Run a workflow by its alias or uuid. Note: see documentation, how to use it!",
+        "description": "Run a workflow by its alias or uuid with prefix UUID. Requires sysHUB permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'",
+        "operationId": "postByAliasUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "workflowAlias",
+            "in": "path",
+            "description": "Alias name of the workflow to be called or UUID as prefix calls wf with uuid.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workflow has been executed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StreamingResponseBody"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Run a workflow by its alias or uuid. Note: see documentation, how to use it!",
+        "description": "Run a workflow by its alias or uuid with prefix UUID. Requires sysHUB permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'",
+        "operationId": "postByAliasUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "workflowAlias",
+            "in": "path",
+            "description": "Alias name of the workflow to be called or UUID as prefix calls wf with uuid.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workflow has been executed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StreamingResponseBody"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Run a workflow by its alias or uuid. Note: see documentation, how to use it!",
+        "description": "Run a workflow by its alias or uuid with prefix UUID. Requires sysHUB permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'",
+        "operationId": "postByAliasUsingDELETE",
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "workflowAlias",
+            "in": "path",
+            "description": "Alias name of the workflow to be called or UUID as prefix calls wf with uuid.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workflow has been executed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StreamingResponseBody"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/workflows/execute/wfuuid/{workflowUUID}": {
+      "post": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Run a workflow by its wfuuid. Use 'currentJobId' in the body to push it to currentJob",
+        "description": "Run a workflow by its wfuuid Requires sysHUB permission 'PERM_IADMINSERVICE_GETWORKFLOWITEM'",
+        "operationId": "postByWFUUIDUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Simple json object to push it to the dictionary",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "name": "jmsUiQueue",
+            "in": "query",
+            "description": "The jmsUIQueue to send back results",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "jobId",
+            "in": "query",
+            "description": "The jobids (comma seperated) to push it to the loopobject",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "workflowUUID",
+            "in": "path",
+            "description": "wfuuid of the workflow to run.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workflow has been executed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StreamingResponseBody"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    },
+    "/webapi/v3/workflows/execute/{uuid}": {
+      "get": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Get one given workflow execution",
+        "description": "Get one workflow execution resource identified by its UUID for execution monitoring and result retrieval. Use dictionaryKeys and nestingLimit query parameters to add output dictionary content to the response. Requires COSMOS permission 'PERM_IADMINSERVICE_GETOBJECT'.",
+        "operationId": "getUsingGET_15",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dictionaryKeys",
+            "in": "query",
+            "description": "Semicolon separated enumerations of keys to output in the workflow execution resource dictionary. SQL like statement wildcards supported.",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "nestingLimit",
+            "in": "query",
+            "description": "Nesting limit for output workflow execution resource dictionary",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "uuid",
+            "in": "path",
+            "description": "uuid of the workflow execution object to retrieve",
+            "required": true,
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified workflow execution resource has been fetched and returned in the response body.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowExecution"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Workflow operations"
+        ],
+        "summary": "Delete one given workflow execution",
+        "description": "Deletes specified workflow execution resource identified by its UUID. Pending and running workflow executions wont't be deleted nor cancelled. Requires COSMOS permission 'PERM_IADMINSERVICE_DELETEOBJECT'.",
+        "operationId": "deleteUsingDELETE_5",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "description": "uuid of the workflow execution object to delete",
+            "required": true,
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified workflow execution has been deleted."
+          },
+          "409": {
+            "description": "The specified workflow execution could not be deleted because it is pending or running. This request should succeed when the workflow execution has been processed."
+          }
+        },
+        "security": [
+          {
+            "oauth2schema": [
+              "public",
+              "private"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2schema": {
+      "type": "oauth2",
+      "tokenUrl": "",
+      "flow": "password",
+      "scopes": {
+        "public": "public access",
+        "private": "private access only for internal use"
+      }
+    }
+  },
+  "definitions": {
+    "BackupRestoreDTO": {
+      "type": "object",
+      "required": [
+        "BACKUPTYPES"
+      ],
+      "properties": {
+        "BACKUPDESCRIPTION": {
+          "type": "string",
+          "example": "Initial Backup for COSMOS 2021",
+          "description": "The description of the backup (command = backup)"
+        },
+        "BACKUPNAME": {
+          "type": "string",
+          "example": "Initial Backup",
+          "description": "The name of the backup (command = backup)"
+        },
+        "BACKUPTYPES": {
+          "type": "array",
+          "example": "{[\"USER\", \"CONFIG\"]}",
+          "description": "List with backuptypes to restore or which are in a backup folder",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONFIG",
+              "CONFIGNOPACKAGE",
+              "CONFIGRAW",
+              "JOB",
+              "JOBLOG",
+              "JOBSELECTION",
+              "MISC",
+              "SYSLOG",
+              "USER",
+              "USERLOG",
+              "USERTRANSPORT"
+            ]
+          }
+        }
+      },
+      "title": "BackupRestoreDTO",
+      "description": "The model for backup and restore information"
+    },
+    "Filestatus": {
+      "type": "object",
+      "required": [
+        "jobId"
+      ],
+      "properties": {
+        "application": {
+          "type": "string",
+          "example": "OCECosmos",
+          "description": "Name of the application for that the file is tracked"
+        },
+        "customField": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "customField1": {
+          "type": "string",
+          "example": "custom1",
+          "description": "Any custom field"
+        },
+        "customField2": {
+          "type": "string",
+          "example": "custom2",
+          "description": "Any custom field"
+        },
+        "customField3": {
+          "type": "string",
+          "example": "custom3",
+          "description": "Any custom field"
+        },
+        "customField4": {
+          "type": "string",
+          "example": "custom4",
+          "description": "Any custom field"
+        },
+        "dataType": {
+          "type": "string",
+          "example": "TXT",
+          "description": "Data type of the file, e.g. PDF AFPDS, ..."
+        },
+        "documents": {
+          "type": "integer",
+          "format": "int32",
+          "example": 2,
+          "description": "Number of documents in the file"
+        },
+        "fileName": {
+          "type": "string",
+          "example": "PDFprint.dat",
+          "description": "The name of the file to be tracked"
+        },
+        "fileType": {
+          "type": "string",
+          "example": "PRINT",
+          "description": "File type of the tracked file, e.g PRINT, LOG, ..."
+        },
+        "host": {
+          "type": "string",
+          "example": "enCOSMOS",
+          "description": "Name of the remote server where the file is used"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1123,
+          "description": "The unique ID of a file status object",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 124,
+          "description": "The unique ID of the job to which this file status object is assigned"
+        },
+        "jobid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifiedBy": {
+          "type": "string",
+          "example": "admin",
+          "description": "Modified By"
+        },
+        "modifiedTime": {
+          "type": "string",
+          "example": "2020-09-22'T'12:00:00.000",
+          "description": "Modified Time"
+        },
+        "packageId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 34,
+          "description": "ID, for grouping several file entries"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "example": 125,
+          "description": "Number of pages in the file"
+        },
+        "prPages": {
+          "type": "integer",
+          "format": "int32",
+          "example": 12,
+          "description": "Number of processed pages of the file"
+        },
+        "sourceJobId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1122,
+          "description": "The ID of the original job from which the file was copied"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "Status of the file. One of WAIT(='0'), PROCESSING(='1'), FINISHED(='2'), INTERRUPTED (='3'), CANCELED(='4') or ERROR(='5')"
+        },
+        "textStatus": {
+          "type": "string",
+          "example": "created",
+          "description": "Any description of the text status"
+        },
+        "xid": {
+          "type": "string",
+          "example": "655-23",
+          "description": "External ID of the file"
+        }
+      },
+      "title": "Filestatus",
+      "description": "Data object wrapping a COSMOS file status."
+    },
+    "JobAttribute": {
+      "type": "object",
+      "required": [
+        "attributeName",
+        "attributeValue",
+        "jobId"
+      ],
+      "properties": {
+        "attributeName": {
+          "type": "string",
+          "example": "QUEUE",
+          "description": "identifying name",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "attributeValue": {
+          "type": "string",
+          "example": "HOT FOLDER 1",
+          "description": "value",
+          "minLength": 0,
+          "maxLength": 2048
+        },
+        "jobId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "parent job id",
+          "minimum": 1,
+          "exclusiveMinimum": false
+        }
+      },
+      "title": "JobAttribute",
+      "description": "A COSMOS job attribute"
+    },
+    "JobLog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 23,
+          "description": "The unique ID of a JobLog object"
+        },
+        "jobId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 124,
+          "description": "The unique ID of the job to which this JobLog object is assigned"
+        },
+        "logLevel": {
+          "type": "integer",
+          "format": "int64",
+          "example": 10,
+          "description": "The log level of this JobLog entry"
+        },
+        "message": {
+          "type": "string",
+          "example": "Successfully processed!",
+          "description": "The message text"
+        },
+        "modifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2018-07-13T16:20:38.707",
+          "description": "Date/time that the job is to be deleted"
+        },
+        "parentId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 22,
+          "description": "The ID of the parent JobLog entry"
+        }
+      },
+      "title": "JobLog",
+      "description": "Data object wrapping a COSMOS JobLog."
+    },
+    "Jobs": {
+      "type": "object",
+      "properties": {
+        "categoryName": {
+          "type": "string",
+          "example": "CUSTOM_CAT",
+          "description": "The name of the category, usually determined by classification"
+        },
+        "client": {
+          "type": "string",
+          "description": "Client name used for tracking"
+        },
+        "customField": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "customField1": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "customField2": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "customField3": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "customField4": {
+          "type": "string",
+          "example": "custom",
+          "description": "Any custom field"
+        },
+        "dataType": {
+          "type": "string",
+          "description": "Optional string intended to specify the data file type"
+        },
+        "del": {
+          "type": "integer",
+          "format": "int32",
+          "description": "not supported"
+        },
+        "delDate": {
+          "type": "string",
+          "example": "2018-07-13T16:20:38.707",
+          "description": "Date/time that the job is to be deleted"
+        },
+        "delDays": {
+          "type": "integer",
+          "format": "int32",
+          "example": 2,
+          "description": "Number of days that this job is to be stored after processing"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "The unique job ID; is generated by COSMOS automatically",
+          "readOnly": true
+        },
+        "inputChannel": {
+          "type": "string",
+          "example": "LPD",
+          "description": "The name of the input channel through which the job was received"
+        },
+        "jobTypeName": {
+          "type": "string",
+          "example": "SAPInput",
+          "description": "Name of the job type allocated to the job"
+        },
+        "jobTypeUuid": {
+          "type": "string",
+          "description": "Foreign key relation to the job type"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "description": "A process can enter the number of pages in a print file here"
+        },
+        "parentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID for creation of nested jobs"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "example": 50,
+          "description": "Priority of the job according to the job type"
+        },
+        "procCount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "Number of times that this job was executed"
+        },
+        "processingHost": {
+          "type": "string",
+          "example": "COSMOS_2331",
+          "description": "Host that processed the job. Might be of interest if a COSMOS is setup up as cluster"
+        },
+        "senderHost": {
+          "type": "string",
+          "example": "COSMOS_Server1",
+          "description": "Host that sent the job; is generated by COSMOS automatically",
+          "readOnly": true
+        },
+        "sourceFile": {
+          "type": "string",
+          "example": "input.xml",
+          "description": "Name of the source file belonging to this job"
+        },
+        "startDate": {
+          "type": "string",
+          "example": "2018-07-13T16:20:38.707",
+          "description": "not supported"
+        },
+        "startPoint": {
+          "type": "string",
+          "example": "Start",
+          "description": "Start point of the workflow at which processing is to continue in a restart"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5,
+          "description": "Status of job"
+        },
+        "submission": {
+          "type": "string",
+          "example": "2018-07-13T16:20:38.707",
+          "description": "Date/time that this job was received"
+        },
+        "textStatus": {
+          "type": "string",
+          "example": "processing",
+          "description": "Freely changeable status of the job"
+        },
+        "ticketFile": {
+          "type": "string",
+          "example": "ticket.xml",
+          "description": "Name of the ticket file belonging to this job"
+        },
+        "title": {
+          "type": "string",
+          "example": "invoive job",
+          "description": "Title of the job"
+        },
+        "userName": {
+          "type": "string",
+          "example": "ADMIN",
+          "description": "User that sent the job; is generated by COSMOS automatically",
+          "readOnly": true
+        },
+        "xid": {
+          "type": "string",
+          "example": "655-23",
+          "description": "ID of the sending system for this job"
+        }
+      },
+      "title": "Jobs",
+      "description": "Data object wrapping a COSMOS job."
+    },
+    "PackageImportFile": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "example": 10221,
+          "description": "Size of available package file in bytes",
+          "readOnly": true
+        },
+        "uri": {
+          "type": "string",
+          "example": "file:///myPackage.ppk",
+          "description": "Available package file URI",
+          "readOnly": true
+        }
+      },
+      "title": "PackageImportFile",
+      "description": "Data object holding information about a package file available on the COSMOS filesystem."
+    },
+    "SimpleResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "id",
+          "description": "The name of the response object"
+        },
+        "type": {
+          "type": "string",
+          "example": "result",
+          "description": "The type of the value as an enumeration value",
+          "enum": [
+            "message",
+            "result"
+          ]
+        },
+        "value": {
+          "type": "object",
+          "example": 12,
+          "description": "The value describes the key properties value"
+        }
+      },
+      "title": "SimpleResponse",
+      "xml": {
+        "name": "simpleResponse",
+        "attribute": false,
+        "wrapped": false
+      },
+      "description": "The SimpleResponse object contains only a name and a value and the content is depend to the request"
+    },
+    "StackTraceElement": {
+      "type": "object",
+      "properties": {
+        "classLoaderName": {
+          "type": "string"
+        },
+        "className": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "lineNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "methodName": {
+          "type": "string"
+        },
+        "moduleName": {
+          "type": "string"
+        },
+        "moduleVersion": {
+          "type": "string"
+        },
+        "nativeMethod": {
+          "type": "boolean"
+        }
+      },
+      "title": "StackTraceElement"
+    },
+    "StreamingResponseBody": {
+      "type": "object",
+      "title": "StreamingResponseBody"
+    },
+    "Syslog": {
+      "type": "object",
+      "required": [
+        "hostName",
+        "logLevel",
+        "message"
+      ],
+      "properties": {
+        "dateTime": {
+          "type": "string",
+          "example": "2018-07-13T16:20:38.707",
+          "description": "Time of the system log entry formatted as yyyy-MM-dd'T'HH:mm:ss.SSS - set to system log creation time if not specified"
+        },
+        "hostName": {
+          "type": "string",
+          "example": "HOSTNAME",
+          "description": "System log entry owning host",
+          "minLength": 0,
+          "maxLength": 256
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "System log entry id",
+          "readOnly": true
+        },
+        "logLevel": {
+          "type": "string",
+          "example": "INFO",
+          "description": "System log level",
+          "minLength": 0,
+          "maxLength": 8
+        },
+        "message": {
+          "type": "string",
+          "example": "COSMOS Server startup...",
+          "description": "System log message"
+        }
+      },
+      "title": "Syslog",
+      "description": "A COSMOS syslog entry holding system logging information"
+    },
+    "Throwable": {
+      "type": "object",
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      },
+      "title": "Throwable"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "johndoe@company.com",
+          "description": "e-mail"
+        },
+        "enabled": {
+          "type": "boolean",
+          "example": true,
+          "description": "user account enabled"
+        },
+        "forcechange": {
+          "type": "boolean",
+          "example": false,
+          "description": "force changing password on next logon"
+        },
+        "lastlogintime": {
+          "type": "string",
+          "example": "2020-07-03T09:10:38.707",
+          "description": "last login time"
+        },
+        "modifiedby": {
+          "type": "string",
+          "example": "Cosmos",
+          "description": "User who has been modified the User"
+        },
+        "modifiedtime": {
+          "type": "string",
+          "example": "2020-07-03T09:10:38.707",
+          "description": "Date/time that the User has been modified"
+        },
+        "name": {
+          "type": "string",
+          "example": "johndoe",
+          "description": "username"
+        },
+        "password": {
+          "type": "string",
+          "description": "password. For security reasons, the password value is returned as null as a result of user read operations."
+        },
+        "roles": {
+          "type": "array",
+          "description": "list of assigned Roles UUIDs",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "example": "INTERNAL",
+          "description": "type of cosmos user",
+          "enum": [
+            "INTERNAL",
+            "LDAP",
+            "WINDOWS"
+          ]
+        },
+        "uuid": {
+          "type": "string",
+          "example": "4028329c28e00dbf0128e00e08220004",
+          "description": "user id"
+        }
+      },
+      "title": "User",
+      "description": "Data object wrapping a COSMOS User."
+    },
+    "Userlog": {
+      "type": "object",
+      "required": [
+        "logCategory",
+        "logLevel",
+        "message",
+        "modifiedBy",
+        "objectFunction",
+        "objectName",
+        "objectType",
+        "objectUuid"
+      ],
+      "properties": {
+        "dateTime": {
+          "type": "string",
+          "example": "2018-07-14T16:20:38.707",
+          "description": "User of the system log entry formatted as yyyy-MM-dd'T'HH:mm:ss.SSS - set to system log creation time if not specified"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "User log entry id",
+          "readOnly": true
+        },
+        "logCategory": {
+          "type": "integer",
+          "format": "int32",
+          "example": 3,
+          "description": "User log entry category with one of the values '0=GENERAL','1=JOBS','2=WORKFLOW','3=CONFIG','4=ADMIN','5=USER','6=CONSOLE','7=LOG'."
+        },
+        "logLevel": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "User log level with one of the values '0=INFO','1=ERROR'."
+        },
+        "message": {
+          "type": "string",
+          "example": "Login",
+          "description": "User log message"
+        },
+        "modifiedBy": {
+          "type": "string",
+          "example": "USER",
+          "description": "User log entry modifiedby",
+          "minLength": 0,
+          "maxLength": 256
+        },
+        "objectFunction": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "User log entry objectfunction with one of the values '0=GENERAL','1=ADD','2=CHANGE','3=DELETE','4=UPDATE'."
+        },
+        "objectName": {
+          "type": "string",
+          "example": "NAME",
+          "description": "System log entry name",
+          "minLength": 0,
+          "maxLength": 256
+        },
+        "objectType": {
+          "type": "string",
+          "example": "TYPE",
+          "description": "User log entry type",
+          "minLength": 0,
+          "maxLength": 256
+        },
+        "objectUuid": {
+          "type": "string",
+          "example": "UUID",
+          "description": "User log entry uuid",
+          "minLength": 0,
+          "maxLength": 256
+        }
+      },
+      "title": "Userlog",
+      "description": "A sysHUB userlog entry holding user related information."
+    },
+    "WebException": {
+      "type": "object",
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ACCEPTED",
+            "ALREADY_REPORTED",
+            "BAD_GATEWAY",
+            "BAD_REQUEST",
+            "BANDWIDTH_LIMIT_EXCEEDED",
+            "CHECKPOINT",
+            "CONFLICT",
+            "CONTINUE",
+            "CREATED",
+            "DESTINATION_LOCKED",
+            "EXPECTATION_FAILED",
+            "FAILED_DEPENDENCY",
+            "FORBIDDEN",
+            "FOUND",
+            "GATEWAY_TIMEOUT",
+            "GONE",
+            "HTTP_VERSION_NOT_SUPPORTED",
+            "IM_USED",
+            "INSUFFICIENT_SPACE_ON_RESOURCE",
+            "INSUFFICIENT_STORAGE",
+            "INTERNAL_SERVER_ERROR",
+            "I_AM_A_TEAPOT",
+            "LENGTH_REQUIRED",
+            "LOCKED",
+            "LOOP_DETECTED",
+            "METHOD_FAILURE",
+            "METHOD_NOT_ALLOWED",
+            "MOVED_PERMANENTLY",
+            "MOVED_TEMPORARILY",
+            "MULTIPLE_CHOICES",
+            "MULTI_STATUS",
+            "NETWORK_AUTHENTICATION_REQUIRED",
+            "NON_AUTHORITATIVE_INFORMATION",
+            "NOT_ACCEPTABLE",
+            "NOT_EXTENDED",
+            "NOT_FOUND",
+            "NOT_IMPLEMENTED",
+            "NOT_MODIFIED",
+            "NO_CONTENT",
+            "OK",
+            "PARTIAL_CONTENT",
+            "PAYLOAD_TOO_LARGE",
+            "PAYMENT_REQUIRED",
+            "PERMANENT_REDIRECT",
+            "PRECONDITION_FAILED",
+            "PRECONDITION_REQUIRED",
+            "PROCESSING",
+            "PROXY_AUTHENTICATION_REQUIRED",
+            "REQUESTED_RANGE_NOT_SATISFIABLE",
+            "REQUEST_ENTITY_TOO_LARGE",
+            "REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "REQUEST_TIMEOUT",
+            "REQUEST_URI_TOO_LONG",
+            "RESET_CONTENT",
+            "SEE_OTHER",
+            "SERVICE_UNAVAILABLE",
+            "SWITCHING_PROTOCOLS",
+            "TEMPORARY_REDIRECT",
+            "TOO_EARLY",
+            "TOO_MANY_REQUESTS",
+            "UNAUTHORIZED",
+            "UNAVAILABLE_FOR_LEGAL_REASONS",
+            "UNPROCESSABLE_ENTITY",
+            "UNSUPPORTED_MEDIA_TYPE",
+            "UPGRADE_REQUIRED",
+            "URI_TOO_LONG",
+            "USE_PROXY",
+            "VARIANT_ALSO_NEGOTIATES"
+          ]
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "WebException",
+      "xml": {
+        "attribute": false,
+        "wrapped": false
+      }
+    },
+    "WorkflowExecution": {
+      "type": "object",
+      "required": [
+        "workflowUuid"
+      ],
+      "properties": {
+        "async": {
+          "type": "boolean",
+          "example": true,
+          "description": "Workflow asynchronous execution mode. Default: true"
+        },
+        "dictionary": {
+          "type": "object",
+          "example": {
+            "key1": "value1",
+            "key2": "value2"
+          },
+          "description": "Dictionary map for input parameters and execution results retrieval"
+        },
+        "endTime": {
+          "type": "string",
+          "example": "13-07-2018T16:20:38.707",
+          "description": "Time at which the workflow execution has ended formatted as dd-MM-yyyyTHH:mm:ss.SSS",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "An optional id of the job to reference during workflow execution",
+          "minimum": 1,
+          "exclusiveMinimum": false
+        },
+        "jobLogId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "Parent job log Id - All log entries will be appended under the specified job log entry. If the job log Id is not specified, all log entries will be written to job root level or syslog if no job Id is specified either.",
+          "minimum": 1,
+          "exclusiveMinimum": false
+        },
+        "startTime": {
+          "type": "string",
+          "example": "13-07-2018T16:20:38.707",
+          "description": "Time at which the workflow execution has been started formatted as dd-MM-yyyyTHH:mm:ss.SSS",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "example": "success",
+          "description": "Workflow execution status",
+          "readOnly": true,
+          "enum": [
+            "COMPLETED",
+            "EXCEPTION",
+            "PENDING",
+            "RUNNING"
+          ]
+        },
+        "submissionTime": {
+          "type": "string",
+          "example": "13-07-2018T16:20:38.707",
+          "description": "Time at which the workflow execution has been submitted formatted as dd-MM-yyyyTHH:mm:ss.SSS",
+          "readOnly": true
+        },
+        "uuid": {
+          "type": "string",
+          "example": "0a1da610646a1cdb81646accdb9d0000",
+          "description": "Workflow execution object unique id allowing to retrieve workflow execution feedback",
+          "readOnly": true,
+          "minLength": 32,
+          "maxLength": 32
+        },
+        "workflowUuid": {
+          "type": "string",
+          "example": "0a1da610646a1cdb81646accdb9d0000",
+          "description": "Executed workflow unique id",
+          "minLength": 32,
+          "maxLength": 32
+        }
+      },
+      "title": "WorkflowExecution",
+      "description": "A COSMOS workflow execution object holding workflow execution parameters and feedback"
+    }
+  }
+}

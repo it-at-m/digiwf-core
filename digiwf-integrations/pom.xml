@@ -21,6 +21,7 @@
         <module>digiwf-alw-integration</module>
         <module>digiwf-verification-integration</module>
         <module>digiwf-example-integration</module>
+        <module>digiwf-oce-cosmos-integration</module>
     </modules>
 
 </project>

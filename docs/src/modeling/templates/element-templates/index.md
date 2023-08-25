@@ -34,3 +34,12 @@
 <DownloadArtifact
     artifact="sendMailV01.json"
     type="element-template" />
+
+# Oce-Cosmos Integration
+
+<DownloadArtifact
+artifact="element-template-s3-print.json"
+type="element-template" />
+<DownloadArtifact
+artifact="element-template-templatet-print.json"
+type="element-template" />

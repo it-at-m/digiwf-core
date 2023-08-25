@@ -1,0 +1,136 @@
+{
+  "name": "Dokument über Druckstraße erzeugen und versenden (Datenübergabe)",
+  "id": "de.muenchen.digiwf.druckstrasse.integration.DokumentErzeugenVersendenDatenuebergabe",
+  "version": 1,
+  "description": "Template um ein Dokument mittels der Druckstrasse zu erzeugen und zu versenden. Die Übergabe der für die Erzeugung des Dokuments benötigten Inhaltsdaten erfolgt im JSON Format.",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "requestPrint",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Name des Templates",
+	  "description": "Eindeutiger Name für eine Druckvorlage, z.B. Bewohnerparkausweis 'K33'.",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "templateName"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+	  "label": "Versandart",
+	  "description": "Versandart des Dokuments (POSTVERSAND, DIENSTVERSAND) eingeben.",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "deliveryType"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+	{
+      "label": "Abholort",
+	  "description": "Abholort des Druckdokuments nur bei Versandart DIENSTVERSAND eingeben.",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "pickupLocation"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Dateiname",
+	  "description": "Name des Druckfiles.",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fileName"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+	
+    {
+      "label": "Daten für den Dokumentinhalt",
+	  "description": "",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "file"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

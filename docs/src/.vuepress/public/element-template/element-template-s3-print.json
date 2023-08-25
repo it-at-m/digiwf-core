@@ -1,0 +1,125 @@
+{
+  "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+  "name": "Vorhandenes Dokument per Post versenden",
+  "id": "de.muenchen.digiwf.druckstrasse.integration.DokumentVersenden",
+  "version": 1,
+  "description": "Template um ein bereits in der S3-Ablage vorhandenes Dokument mittels Post zu versenden.",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "groups": [
+    {
+      "id": "eventstreamconfig",
+      "label": "Event Streaming Konfiguration"
+    },
+    {
+      "id": "postversand",
+      "label": "Daten zum Postversand"
+    }
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+	  "group": "eventstreamconfig",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+	  "group": "eventstreamconfig",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+	  "group": "eventstreamconfig",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+	  "group": "eventstreamconfig",
+      "editable": false,
+      "value": "requestPDFPrint",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+	  "label": "Versandart",
+	  "description": "Versandart des Dokuments (POSTVERSAND, DIENSTVERSAND) eingeben.",
+      "type": "String",
+	  "group": "postversand",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "deliveryType"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+	{
+      "label": "Abholort",
+	  "description": "Abholort des Druckdokuments nur bei Versandart DIENSTVERSAND eingeben.",
+      "type": "String",
+	  "group": "postversand",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "pickupLocation"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Zu versendende Dokumente (PreSigned-Urls)",
+	  "description": "Die Dokumente, die per Post versendet werden sollen, in Form von PreSigned-Urls.",
+      "type": "String",
+	  "group": "postversand",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "s3Files"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

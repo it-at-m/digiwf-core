@@ -1,0 +1,65 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: 8080
+  shutdown: graceful
+spring:
+  application:
+    name: DigiWF Oce Cosmos Integration
+  banner:
+    location: banner.txt
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;sendCorrelateMessage;
+    stream:
+      function:
+        routing:
+          enabled: true
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: SSL
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          producerProperties:
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
