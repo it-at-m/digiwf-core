@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.muenchendigital.digiwf.okverkehr.integration.configuration.OkVerkehrIntegrationAutoConfiguration
+configuration.de.muenchen.oss.digiwf.okverkehr.integration.OkVerkehrIntegrationAutoConfiguration

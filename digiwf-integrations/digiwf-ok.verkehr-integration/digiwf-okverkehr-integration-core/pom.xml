@@ -8,9 +8,9 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>io.muenchendigital.digiwf</groupId>
-        <artifactId>digiwf-okverkehr-integration-parent</artifactId>
-        <version>0.0.1</version>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <artifactId>digiwf-okverkehr-integration</artifactId>
+        <version>0.18.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -88,7 +88,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
+                <version>${maven.surefire.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>io.swagger.codegen.v3</groupId>
@@ -107,9 +107,9 @@
                             <output>${project.basedir}</output>
 
 
-                            <apiPackage>io.muenchendigital.digiwf.okverkehr.integration.gen.api</apiPackage>
-                            <modelPackage>io.muenchendigital.digiwf.okverkehr.integration.gen.model</modelPackage>
-                            <invokerPackage>io.muenchendigital.digiwf.okverkehr.integration.gen</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.okverkehr.integration.gen.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.okverkehr.integration.gen.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.okverkehr.integration.gen</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
