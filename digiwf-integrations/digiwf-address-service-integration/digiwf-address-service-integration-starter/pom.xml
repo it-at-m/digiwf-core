@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-address-service-integration</artifactId>
+            <artifactId>digiwf-address-service-integration-client</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -1,9 +1,10 @@
-io:
-  muenchendigital:
-    digiwf:
-      address:
-        service:
-          url: ''
+de:
+  muenchen:
+    oss:
+      digiwf:
+        address:
+          service:
+            url: ''
 
 spring:
   cloud:

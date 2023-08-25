@@ -30,7 +30,7 @@ import de.muenchen.oss.digiwf.address.service.integration.model.response.Address
 import de.muenchen.oss.digiwf.address.service.integration.service.AdressenBundesweitService;
 import de.muenchen.oss.digiwf.address.service.integration.service.AdressenMuenchenService;
 import de.muenchen.oss.digiwf.address.service.integration.service.StrassenMuenchenService;
-import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.service.CorrelateMessageService;
+import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
