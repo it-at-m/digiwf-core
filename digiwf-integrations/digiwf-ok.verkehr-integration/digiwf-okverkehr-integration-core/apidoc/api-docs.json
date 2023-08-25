@@ -1,0 +1,834 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "Schema 1.0.11-SNAPSHOT Service 1.0.11-SNAPSHOT",
+    "title": "Camel REST API"
+  },
+  "host": "localhost:8080",
+  "basePath": "/kfzhalterpersonenineai/api",
+  "tags": [
+    {
+      "name": "businessActions/kfzhalterpersonen",
+      "description": "Zugriff auf Verkehrswesen"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/businessActions/kfzhalterpersonen": {
+      "post": {
+        "tags": [
+          "businessActions/kfzhalterpersonen"
+        ],
+        "operationId": "route1",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HalterPersonAnfrage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Output type",
+            "schema": {
+              "$ref": "#/definitions/HalterPersonAntwort"
+            }
+          },
+          "404": {
+            "description": "Keine Halter-/Fahrzeugdaten gefunden",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          },
+          "401": {
+            "description": "Es liegt keine Authentifizierung vor",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          },
+          "403": {
+            "description": "Die notwendigen Rechte fehlen",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          },
+          "500": {
+            "description": "Interner Verarbeitungsfehler",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          },
+          "502": {
+            "description": "Fehlerhafte Antwort vom Fachverfahren",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          },
+          "504": {
+            "description": "Timeout bei Bearbeitung durch Fachverfahren oder keine Verbindung",
+            "schema": {
+              "$ref": "#/definitions/DefaultErrorProjection"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "HalterPersonAnfrage": {
+      "type": "object",
+      "required": [
+        "anfrageid",
+        "benutzer",
+        "kennzeichen",
+        "suchzeitpunkt",
+        "verfahren"
+      ],
+      "properties": {
+        "kennzeichen": {
+          "type": "string",
+          "description": "Kennzeichen im Format M  NT1234"
+        },
+        "suchzeitpunkt": {
+          "type": "string",
+          "format": "date",
+          "description": "Zeitpunkt"
+        },
+        "benutzer": {
+          "type": "string",
+          "description": "Benutzer"
+        },
+        "verfahren": {
+          "type": "string",
+          "description": "Verfahren"
+        },
+        "anfrageid": {
+          "type": "string",
+          "description": "Eindeutige Anfrage-ID"
+        }
+      },
+      "xml": {
+        "name": "Anfrage Halterdaten"
+      }
+    },
+    "HalterPersonAntwortPerson": {
+      "type": "object",
+      "required": [
+        "adressierungszusaetze",
+        "ags",
+        "berufschluessel",
+        "doktorgrad",
+        "geburtsdatum",
+        "geburtsname",
+        "geburtsnamensbestandteil",
+        "geburtsort",
+        "geschlechtSchluessel",
+        "hausnummer",
+        "kuenstlername",
+        "nachname",
+        "nachnameNormiert",
+        "nameJuristischePerson",
+        "nameJuristischePersonNormiert",
+        "nameVereinigung",
+        "nameVereinigungNormiert",
+        "namensbestandteil",
+        "ordensname",
+        "personenTypSchluessel",
+        "postleitzahl",
+        "staatSchluessel",
+        "strasse",
+        "strassenschluessel",
+        "vorname",
+        "vornameNormiert",
+        "wohnort",
+        "wohnungsgeber"
+      ],
+      "properties": {
+        "personenTypSchluessel": {
+          "type": "string",
+          "description": "Personen Typ Schluessel"
+        },
+        "nameVereinigung": {
+          "type": "string",
+          "description": "Name Vereinigung"
+        },
+        "nameJuristischePerson": {
+          "type": "string",
+          "description": "Name juristische Person"
+        },
+        "geschlechtSchluessel": {
+          "type": "string",
+          "description": "GeschlechtSchluessel"
+        },
+        "nachname": {
+          "type": "string",
+          "description": "Nachname"
+        },
+        "namensbestandteil": {
+          "type": "string",
+          "description": "Namensbestandteil"
+        },
+        "vorname": {
+          "type": "string",
+          "description": "Vorname"
+        },
+        "geburtsdatum": {
+          "type": "string",
+          "description": "Geburtsdatum"
+        },
+        "geburtsname": {
+          "type": "string",
+          "description": "Geburtsname"
+        },
+        "geburtsnamensbestandteil": {
+          "type": "string",
+          "description": "Geburtsnamensbestandteil"
+        },
+        "geburtsort": {
+          "type": "string",
+          "description": "Geburtsort"
+        },
+        "doktorgrad": {
+          "type": "string",
+          "description": "Doktorgrad"
+        },
+        "ordensname": {
+          "type": "string",
+          "description": "Ordensname"
+        },
+        "kuenstlername": {
+          "type": "string",
+          "description": "Kuenstlername"
+        },
+        "nameVereinigungNormiert": {
+          "type": "string",
+          "description": "Name Vereinigung normiert"
+        },
+        "nameJuristischePersonNormiert": {
+          "type": "string",
+          "description": "Name Juristische Person normiert"
+        },
+        "nachnameNormiert": {
+          "type": "string",
+          "description": "Nachname normiert"
+        },
+        "vornameNormiert": {
+          "type": "string",
+          "description": "Vorname normiert"
+        },
+        "postleitzahl": {
+          "type": "string",
+          "description": "Postleitzahl"
+        },
+        "staatSchluessel": {
+          "type": "string",
+          "description": "StaatSchluessel"
+        },
+        "wohnort": {
+          "type": "string",
+          "description": "Wohnort"
+        },
+        "strasse": {
+          "type": "string",
+          "description": "Strasse"
+        },
+        "hausnummer": {
+          "type": "string",
+          "description": "Hausnummer"
+        },
+        "adressierungszusaetze": {
+          "type": "string",
+          "description": "Adressierungszusaetze"
+        },
+        "wohnungsgeber": {
+          "type": "string",
+          "description": "Wohnungsgeber"
+        },
+        "ags": {
+          "type": "string",
+          "description": "ags"
+        },
+        "strassenschluessel": {
+          "type": "string",
+          "description": "Strassenschluessel"
+        },
+        "berufschluessel": {
+          "type": "string",
+          "description": "Berufschluessel"
+        }
+      },
+      "xml": {
+        "name": "Personendaten"
+      }
+    },
+    "HalterPersonAntwortMeldung": {
+      "type": "object",
+      "required": [
+        "text",
+        "typ"
+      ],
+      "properties": {
+        "typ": {
+          "type": "string",
+          "description": "typ"
+        },
+        "text": {
+          "type": "string",
+          "description": "text"
+        }
+      },
+      "xml": {
+        "name": "Ergebnis (Typ und Text) der Anfrage"
+      }
+    },
+    "HalterPersonAntwort": {
+      "type": "object",
+      "required": [
+        "geaenderterHalter",
+        "halter",
+        "meldung",
+        "standort",
+        "technik",
+        "vertreter",
+        "vorlaeufigerHalter",
+        "zulassung"
+      ],
+      "properties": {
+        "meldung": {
+          "description": "Ergebnis der Anfrage",
+          "$ref": "#/definitions/HalterPersonAntwortMeldung"
+        },
+        "zulassung": {
+          "description": "Informationen über Zulassung",
+          "$ref": "#/definitions/HalterPersonAntwortZulassung"
+        },
+        "technik": {
+          "description": "Technische Daten",
+          "$ref": "#/definitions/HalterPersonAntwortTechnik"
+        },
+        "halter": {
+          "description": "Daten über den Halter",
+          "$ref": "#/definitions/HalterPersonAntwortPerson"
+        },
+        "standort": {
+          "description": "Daten über den Standort",
+          "$ref": "#/definitions/HalterPersonAntwortPerson"
+        },
+        "vertreter": {
+          "description": "Daten über gesetzlichen Vertreter",
+          "$ref": "#/definitions/HalterPersonAntwortPerson"
+        },
+        "geaenderterHalter": {
+          "description": "Daten über geänderten Halter",
+          "$ref": "#/definitions/HalterPersonAntwortPerson"
+        },
+        "vorlaeufigerHalter": {
+          "description": "Daten über vorläufigen Halter",
+          "$ref": "#/definitions/HalterPersonAntwortPerson"
+        }
+      },
+      "xml": {
+        "name": "Antwort Halterdaten"
+      }
+    },
+    "HalterPersonAntwortZulassung": {
+      "type": "object",
+      "required": [
+        "aenderungZeitpunkt",
+        "auskunftsperreMerkmal",
+        "ausserbetriebsetzungDatum",
+        "entstempelungDatum",
+        "erstzulassungDatum",
+        "fahrzeugDiebstahlMerkmal",
+        "fahrzeugKennzeichenStatus",
+        "kennzeichen",
+        "kennzeichenDiebstahlMerkmal",
+        "naechsteHU",
+        "naechsteSP",
+        "tarnkennzeichenMerkmal",
+        "verkaufDatum",
+        "verkaufsanzeigeMerkmal",
+        "verwendungSchluessel",
+        "verwendungText",
+        "zb2Nummer",
+        "zulassungAufHalterDatum"
+      ],
+      "properties": {
+        "kennzeichen": {
+          "type": "string",
+          "description": "Kennzeichen"
+        },
+        "erstzulassungDatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Erstzulassungdatum"
+        },
+        "naechsteHU": {
+          "type": "string",
+          "description": "naechste HU"
+        },
+        "naechsteSP": {
+          "type": "string",
+          "description": "naechste SP"
+        },
+        "zb2Nummer": {
+          "type": "string",
+          "description": "ZB2-Nummer"
+        },
+        "ausserbetriebsetzungDatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Ausserbetriebsetzungsdatum"
+        },
+        "entstempelungDatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Entstempelungsdatum"
+        },
+        "aenderungZeitpunkt": {
+          "type": "string",
+          "format": "date",
+          "description": "Änderungszeitpunkt"
+        },
+        "verkaufsanzeigeMerkmal": {
+          "type": "boolean",
+          "description": "Verkaufsanzeige Merkmal"
+        },
+        "verkaufDatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Verkaufdatum"
+        },
+        "auskunftsperreMerkmal": {
+          "type": "boolean",
+          "description": "Auskunftsperre Merkmal"
+        },
+        "tarnkennzeichenMerkmal": {
+          "type": "boolean",
+          "description": "Tarnkennzeichen Merkmal"
+        },
+        "kennzeichenDiebstahlMerkmal": {
+          "type": "boolean",
+          "description": "Kennzeichen Diebstahl Merkmal"
+        },
+        "fahrzeugDiebstahlMerkmal": {
+          "type": "boolean",
+          "description": "Fahrzeug Diebstahl Merkmal"
+        },
+        "fahrzeugKennzeichenStatus": {
+          "type": "string",
+          "description": "Fahrzeug Kennzeichen Status"
+        },
+        "verwendungSchluessel": {
+          "type": "string",
+          "description": "Verwendungsschluessel"
+        },
+        "verwendungText": {
+          "type": "string",
+          "description": "Verwendungstext"
+        },
+        "zulassungAufHalterDatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Datum Zulassung auf Halter"
+        }
+      },
+      "xml": {
+        "name": "Zulassungsdaten"
+      }
+    },
+    "HalterPersonAntwortTechnik": {
+      "type": "object",
+      "required": [
+        "abeMerkmalSchluessel",
+        "abgasText",
+        "achslast1",
+        "achslast2",
+        "achslast3",
+        "anhlastgebremst",
+        "anhlastungebremst",
+        "antriebsachsen",
+        "anzahlachsen",
+        "aufbauSchluessel",
+        "aufbauText",
+        "beiblatt",
+        "bemerkungen",
+        "bereifachse1",
+        "bereifachse2",
+        "bereifachse3",
+        "breitemax",
+        "breitemin",
+        "co2Kombi",
+        "drehzleistung",
+        "drehzstandgeraeusch",
+        "emiklasseSchluessel",
+        "emiklasseText",
+        "fahrgeraeusch",
+        "fahrzeugklasseSchluessel",
+        "fahrzeugklasseText",
+        "fin",
+        "genehmigungsdatum",
+        "genehmigungsnr",
+        "handelsname",
+        "hauptfarbeSchluessel",
+        "herstellerSchluessel",
+        "herstellerText",
+        "hoechstgeschwindigkeit",
+        "hoehemax",
+        "hoehemin",
+        "hubraum",
+        "kraftstoffSchluessel",
+        "kraftstoffText",
+        "laengemax",
+        "laengemin",
+        "leistungsgewicht",
+        "markeText",
+        "massemax",
+        "massemin",
+        "nebenfarbeSchluessel",
+        "nennleistung",
+        "pzfin",
+        "pzhertypvvs",
+        "rauminhalt",
+        "sitzplaetze",
+        "standgeraeusch",
+        "stehplaetze",
+        "stuetzlast",
+        "techachslast1",
+        "techachslast2",
+        "techachslast3",
+        "techzulgesamtmasse",
+        "typSchluessel",
+        "typText",
+        "varianteText",
+        "versionText",
+        "vvsSchluessel",
+        "zulgesamtmasse"
+      ],
+      "properties": {
+        "abeMerkmalSchluessel": {
+          "type": "string",
+          "description": "ABE Merkmalschluessel"
+        },
+        "fin": {
+          "type": "string",
+          "description": "FIN"
+        },
+        "pzfin": {
+          "type": "string",
+          "description": "Prüfziffer FIN"
+        },
+        "hauptfarbeSchluessel": {
+          "type": "string",
+          "description": "Hauptfarbeschluessel"
+        },
+        "nebenfarbeSchluessel": {
+          "type": "string",
+          "description": "NebenfarbeSchluessel"
+        },
+        "herstellerSchluessel": {
+          "type": "string",
+          "description": "Herstellerschluessel"
+        },
+        "typSchluessel": {
+          "type": "string",
+          "description": "Typschluessel"
+        },
+        "vvsSchluessel": {
+          "type": "string",
+          "description": "VVS Schluessel"
+        },
+        "pzhertypvvs": {
+          "type": "string",
+          "description": "Prüfziffer hertypvvs"
+        },
+        "fahrzeugklasseSchluessel": {
+          "type": "string",
+          "description": "Fahrzeugklasse Schluessel"
+        },
+        "aufbauSchluessel": {
+          "type": "string",
+          "description": "Aufbauschluessel"
+        },
+        "markeText": {
+          "type": "string",
+          "description": "Marke Text"
+        },
+        "typText": {
+          "type": "string",
+          "description": "Typ Text"
+        },
+        "varianteText": {
+          "type": "string",
+          "description": "Variante Text"
+        },
+        "versionText": {
+          "type": "string",
+          "description": "Version Text"
+        },
+        "handelsname": {
+          "type": "string",
+          "description": "Handelsname"
+        },
+        "herstellerText": {
+          "type": "string",
+          "description": "Herstellertext"
+        },
+        "fahrzeugklasseText": {
+          "type": "string",
+          "description": "Fahrzeugklasse Text"
+        },
+        "aufbauText": {
+          "type": "string",
+          "description": "Aufbautext"
+        },
+        "abgasText": {
+          "type": "string",
+          "description": "Abgastext"
+        },
+        "emiklasseText": {
+          "type": "string",
+          "description": "Emiklasse Text"
+        },
+        "kraftstoffText": {
+          "type": "string",
+          "description": "Kraftstoff Text"
+        },
+        "kraftstoffSchluessel": {
+          "type": "string",
+          "description": "Kraftstoffschluessel"
+        },
+        "emiklasseSchluessel": {
+          "type": "string",
+          "description": "Emiklasse Schluessel"
+        },
+        "hubraum": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Hubraum"
+        },
+        "anzahlachsen": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Anzahl Achsen"
+        },
+        "antriebsachsen": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Antriebsachsen"
+        },
+        "nennleistung": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Nennleistung"
+        },
+        "drehzleistung": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Drehzleistung"
+        },
+        "hoechstgeschwindigkeit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Hoechstgeschwindigkeit"
+        },
+        "rauminhalt": {
+          "type": "number",
+          "description": "Rauminhalt"
+        },
+        "sitzplaetze": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Sitzplaetze"
+        },
+        "stehplaetze": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Stehplaetze"
+        },
+        "massemin": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Masse min"
+        },
+        "massemax": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Masse max"
+        },
+        "techzulgesamtmasse": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Technische zul. Gesamtmasse"
+        },
+        "zulgesamtmasse": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Zullässige Gesamtmasse"
+        },
+        "techachslast1": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Tech. Achslast 1"
+        },
+        "techachslast2": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Tech. Achslast 2"
+        },
+        "techachslast3": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Tech. Achslast 3"
+        },
+        "stuetzlast": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Stuetzlast"
+        },
+        "achslast1": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Achslast 1"
+        },
+        "achslast2": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Achslast 2"
+        },
+        "achslast3": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Achslast 3"
+        },
+        "co2Kombi": {
+          "type": "integer",
+          "format": "int64",
+          "description": "CO2 Kombi"
+        },
+        "standgeraeusch": {
+          "type": "string",
+          "description": "Standgeraeusch"
+        },
+        "drehzstandgeraeusch": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Drehz. Standgeraeusch"
+        },
+        "fahrgeraeusch": {
+          "type": "string",
+          "description": "Fahrgeraeusch"
+        },
+        "anhlastgebremst": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Anh. Last gebremst"
+        },
+        "anhlastungebremst": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Anh. Last ungebremst"
+        },
+        "leistungsgewicht": {
+          "type": "number",
+          "description": "Leistungsgewicht"
+        },
+        "bereifachse1": {
+          "type": "string",
+          "description": "Bereif. Achse 1"
+        },
+        "bereifachse2": {
+          "type": "string",
+          "description": "Bereif. Achse 2"
+        },
+        "bereifachse3": {
+          "type": "string",
+          "description": "Bereif. Achse 3"
+        },
+        "genehmigungsnr": {
+          "type": "string",
+          "description": "Genehmigungsnummer"
+        },
+        "genehmigungsdatum": {
+          "type": "string",
+          "format": "date",
+          "description": "Genehmigungsdatum"
+        },
+        "laengemin": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Laenge min"
+        },
+        "laengemax": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Laenge max"
+        },
+        "breitemin": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Breite min"
+        },
+        "breitemax": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Breite max"
+        },
+        "hoehemin": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Hoehe min"
+        },
+        "hoehemax": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Hoehe max"
+        },
+        "bemerkungen": {
+          "type": "string",
+          "description": "Bemerkungen"
+        },
+        "beiblatt": {
+          "type": "string",
+          "description": "Beiblatt"
+        }
+      },
+      "xml": {
+        "name": "Technikdaten"
+      }
+    },
+    "DefaultErrorProjection": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "error": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

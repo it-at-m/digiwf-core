@@ -1,0 +1,56 @@
+io:
+  muenchendigital:
+    digiwf:
+      okverkehr:
+        username: 'testuser'
+        password: 'testpw'
+        url: 'http://kfzhalterpersonenineai-k2-kfzhalterpersonenineai.apps.capk.muenchen.de/kfzhalterpersonenineai/api/'
+
+spring:
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;sendCorrelateMessage;
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: dwf-parkausweis-local-04
+          group: dwf-group-id-04
+        sendCorrelateMessage-out-0:
+          destination: dwf-parkausweis-local-05
+        sendMessage-out-0:
+          destination: dwf-parkausweis-local-05
+      function:
+        routing:
+          enabled: true
+      kafka:
+        binder:
+          brokers: dwf-cluster-kafka-tls-bootstrap-lhmeventbus.apps.capk.muenchen.de:443
+          configuration:
+            security:
+              protocol: SSL
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          producerProperties:
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+    ssl:
+      key-store-location: file://C:\\Users\\alexander.will\\work\\projects\\parkausweis-management\\kafka-auth-keystore.jks
+      trust-store-location: file://C:\\Users\\alexander.will\\work\\projects\\parkausweis-management\\truststore.jks
+      key-store-password: password
+      trust-store-password: password
+      key-password: password
