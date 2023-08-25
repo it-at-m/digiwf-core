@@ -1,0 +1,121 @@
+{
+  "name": "DigiWF Address Service Integration",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericAddressServiceEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "",
+      "choices": [
+        {
+          "name": "Searches for addresses Bundesweit",
+          "value": "searchAdressenBundesweit"
+        },
+        {
+          "name": "Checks for addresses in Munich",
+          "value": "checkAdresseMuenchen"
+        },
+        {
+          "name": "Lists addresses in Munich",
+          "value": "listAdressenMuenchen"
+        },
+        {
+          "name": "Lists addresses changes in Munich",
+          "value": "listAenderungenMuenchen"
+        },
+        {
+          "name": "Search for addresses in Munich",
+          "value": "searchAdressenMuenchen"
+        },
+        {
+          "name": "Search for addresses with geo information in Munich",
+          "value": "searchAdressenGeoMuenchen"
+        },
+        {
+          "name": "Finds streets by ID in Munich",
+          "value": "findStrasseByIdMuenchen"
+        },
+        {
+          "name": "Lists streets in Munich",
+          "value": "listStrassenMuenchen"
+        }
+      ],
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Address service request as JSON object",
+      "type": "String",
+      "value": "${request}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "request"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}
