@@ -10,7 +10,7 @@ and on the other hand the service `digiwf-oce-cosmos-integration-service` which 
 ### Spring-Boot-Starter
 
 The usage of the starter is documented
-in [quickstart.md](https://github.com/it-at-m/digiwf-oce-cosmos-integration#getting-started).
+in [README.md](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-oce-cosmos-integration).
 
 #### Error handling
 
@@ -25,7 +25,7 @@ tbd
 The service is provided via Dockerhub as
 an [Image](https://hub.docker.com/repository/docker/itatm/digiwf-oce-cosmos-integration-service).
 The source code for the service can be found in
-submodule [digiwf-oce-cosmos-integration-service](https://github.com/it-at-m/digiwf-oce-cosmos-integration/tree/dev/digiwf-oce-cosmos-integration-service)
+submodule [digiwf-oce-cosmos-integration-service](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-oce-cosmos-integration/digiwf-oce-cosmos-integration-service)
 .
 
 The requests to the oce cosmos are expected by the service over kafka event bus messages.
