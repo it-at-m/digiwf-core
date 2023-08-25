@@ -34,3 +34,9 @@
 <DownloadArtifact
     artifact="sendMailV01.json"
     type="element-template" />
+
+## Address-Service Integration
+
+<DownloadArtifact
+    artifact="addressServiceIntegration.json"
+    type="element-template" />
