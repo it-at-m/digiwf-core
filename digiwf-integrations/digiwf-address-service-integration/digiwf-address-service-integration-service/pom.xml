@@ -36,7 +36,7 @@
 
         <!-- Cloud Stream -->
         <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
+            <groupId>io.muenchendigital.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
             <version>${digiwf.spring.cloudstream.utils.version}</version>
         </dependency>

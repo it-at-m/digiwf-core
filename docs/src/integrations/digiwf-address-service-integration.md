@@ -10,7 +10,7 @@ and on the other hand the service `digiwf-address-service-integration-service` w
 ### Spring-Boot-Starter
 
 The usage of the starter is documented
-in [quickstart.md](https://github.com/it-at-m/digiwf-address-service-integration#getting-started).
+in [README.md](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-service-integration).
 
 #### Error handling
 
@@ -25,7 +25,7 @@ called.
 The service is provided via Dockerhub as
 an [Image](https://hub.docker.com/repository/docker/itatm/digiwf-address-service-integration-service).
 The source code for the service can be found in
-submodule [digiwf-okewo-integration-service](https://github.com/it-at-m/digiwf-ok.ewo-integration/tree/dev/digiwf-address-service-integration-service)
+submodule [digiwf-address-service-integration-service](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-service-integration/digiwf-address-service-integration-service)
 .
 
 The requests to the address service are expected by the service over kafka event bus messages.

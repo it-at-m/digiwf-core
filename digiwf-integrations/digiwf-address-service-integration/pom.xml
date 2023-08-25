@@ -29,7 +29,7 @@
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
         <maven.surfire.plugin.version>2.22.2</maven.surfire.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <digiwf.spring.cloudstream.utils.version>0.18.3</digiwf.spring.cloudstream.utils.version>
+        <digiwf.spring.cloudstream.utils.version>0.18.0</digiwf.spring.cloudstream.utils.version>
         <httpclient.version>4.5.13</httpclient.version>
     </properties>
 

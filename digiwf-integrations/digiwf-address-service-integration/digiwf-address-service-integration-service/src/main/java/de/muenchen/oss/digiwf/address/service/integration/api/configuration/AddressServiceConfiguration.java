@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.address.service.integration.api.configuration;
 
 import de.muenchen.oss.digiwf.address.service.integration.api.streaming.AddressServiceStreamingEventListener;
-import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
-import de.muenchen.oss.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
+import io.muenchendigital.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
+import io.muenchendigital.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.function.context.MessageRoutingCallback;
