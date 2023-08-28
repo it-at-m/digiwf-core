@@ -13,7 +13,7 @@ spring:
           group: "dwf-email-service"
           destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: "dwf-connector-${DIGIWF_ENV}"
+          destination: "dwf-email-${DIGIWF_ENV}"
       kafka:
         binder:
           configuration:
