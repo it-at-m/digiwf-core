@@ -7,6 +7,7 @@ import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
 import inBearbeitung from "../pages/inBearbeitung"
+import userTask from "../pages/userTask";
 
 //change Pagesize for better runtime
 const numberOfTasks = 11 //21
@@ -76,21 +77,17 @@ describe('zugewiesene Gruppentasks anzeigen', () => {
     });
 
     after(() => {
+        vorgangStarten.openMeineAufgaben();
+        cy.wait(2000);
         //Close group tasks and check necessary group task function
         for (let i=1; i<= numberOfTasks; i++) {
-            vorgangStarten.openInBearbeitung();
-            //necessary due to slow page loading times
-            cy.wait(2000);
-            inBearbeitung.checkHeadline();
-            inBearbeitung.clickAktualisieren();
-            inBearbeitung.clickElement(1);
+            meineAufgaben.clickElement(1);
             groupUserTasks.checkHeadline();
-            groupUserTasks.clickBearbeiten();
             groupUserTasks.tickCheckbox();
             groupUserTasks.clickAbschliessen();
+            //necessary to wait for the task to be deleted
+            cy.wait(3000);
             meineAufgaben.clickAktualisieren();
-            //wait for task being closed
-            cy.wait(2000);
         }
     })
 
