@@ -13,13 +13,21 @@
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
+        <v-chip
+          v-if="task.tag"
+          small
+          @click.prevent="onTagClick"
+        >
+          {{ task.tag }}
+        </v-chip>
       </h2>
       <p
         v-if="task.inAssignProcess && !showAssignee"
         class="grey--text"
         style="font-size: 0.9rem"
       >
-        <v-icon>mdi-progress-clock</v-icon> Task wird aktuell einer Person zugewiesen
+        <v-icon>mdi-progress-clock</v-icon>
+        Task wird aktuell einer Person zugewiesen
       </p>
       <p
         v-if="task.followUpDate"
@@ -124,6 +132,7 @@
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType, ref} from "vue";
 import AssignTaskDialog from "./AssignTaskDialog.vue";
+import {useGetPaginationData} from "../../middleware/paginationData";
 
 export default {
   components: {AssignTaskDialog},
@@ -146,10 +155,16 @@ export default {
       type: Function as PropType<(id: string) => void>
     },
   },
-  setup: () => {
+  setup: (props: any) => {
+    console.log("props.tag", props);
     const dialogOpen = ref<boolean>(false);
+    const {setTag} = useGetPaginationData();
+    const onTagClick = () => {
+setTag(props.task.tag);
+    };
     return {
-      dialogOpen
+      dialogOpen,
+      onTagClick
     };
   }
 };

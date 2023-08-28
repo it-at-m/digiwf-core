@@ -13,13 +13,21 @@
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
+        <v-chip
+          v-if="task.tag"
+          small
+          @click.prevent="onTagClick"
+        >
+          {{ task.tag }}
+        </v-chip>
       </h2>
       <p
         v-if="task.inFinishProcess"
         class="grey--text"
         style="font-size: 0.9rem"
       >
-        <v-icon>mdi-progress-clock</v-icon> Task wird aktuell abgeschlossen
+        <v-icon>mdi-progress-clock</v-icon>
+        Task wird aktuell abgeschlossen
       </p>
       <p
         v-if="task.followUpDateFormatted"
@@ -115,6 +123,7 @@
 <script lang="ts">
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
+import {useGetPaginationData} from "../../middleware/paginationData";
 
 export default {
   props: {
@@ -126,6 +135,12 @@ export default {
       type: String,
       default: ""
     }
+  },
+  setup: (props: any) => {
+    const {setTag} = useGetPaginationData();
+    return {
+      onTagClick: () => setTag(props.task.tag)
+    };
   }
 };
 

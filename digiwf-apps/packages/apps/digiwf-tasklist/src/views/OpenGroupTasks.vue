@@ -7,9 +7,10 @@
       :is-loading="isLoading"
       :errorMessage="errorMessage"
       :filter="filter"
+      :tag="tag"
       @loadTasks="reloadTasks"
       @changeFilter="onFilterChange"
-
+      @changeTag="onTagChange"
     >
       <template #default="props">
         <group-task-item
@@ -53,9 +54,9 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, currentSortDirection);
+    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
     const assignMutation = useAssignTaskToCurrentUserMutation();
     watch(currentSortDirection, () => {
       refetch();
@@ -80,6 +81,7 @@ export default defineComponent({
       errorMessage: error || assignMutation.error,
       data,
       filter: searchQuery,
+      tag,
       reloadTasks: refetch,
       pagination: {
         page,
@@ -106,8 +108,12 @@ export default defineComponent({
         isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
         updateItemsPerPage: setSize
       },
-      onFilterChange: (newFilter: string | undefined) => {
+      onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
+        refetch();
+      },
+      onTagChange: (newTag?: string) => {
+        setTag(newTag || "");
         refetch();
       },
     };

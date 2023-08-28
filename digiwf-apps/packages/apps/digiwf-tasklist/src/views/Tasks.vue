@@ -6,8 +6,10 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter="filter"
+      :tag="tag"
       @changeFilter="onFilterChange"
       @loadTasks="reloadTasks"
+      @changeTag="onTagChange"
     >
       <template #default="props">
         <task-item
@@ -67,12 +69,12 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
 
     const {currentSortDirection} = usePageFilters();
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery,shouldIgnoreFollowUpTasks, currentSortDirection);
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, tag,shouldIgnoreFollowUpTasks, currentSortDirection);
 
     watch(currentSortDirection, () => {
       refetch();
@@ -104,6 +106,7 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
+      tag,
       reloadTasks: refetch,
       pagination: {
         page,
@@ -132,6 +135,10 @@ export default defineComponent({
       },
       onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
+        refetch();
+      },
+      onTagChange: (newTag?: string) => {
+        setTag(newTag || "");
         refetch();
       },
     };

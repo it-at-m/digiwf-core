@@ -8,6 +8,18 @@
         <search-field
           :on-filter-change="(v) => $emit('changeFilter', v)"
         />
+        <v-text-field
+          label="Tag"
+          outlined
+          flat
+          dense
+          hide-details
+          clearable
+          :value="tag"
+          @change="(v) => $emit('changeTag', v)"
+          @input.native="(e) => $emit('changeTag', e.target.value)"
+
+        ></v-text-field>
         <sort-by-select/>
       </v-flex>
       <div class="d-flex align-center">
@@ -93,6 +105,9 @@ export default {
       type: String,
       default: "",
     },
+    tag: {
+      type: String
+    },
     errorMessage: {
       type: String,
       default: undefined,
@@ -122,6 +137,9 @@ export default {
       type: Function as PropType<() => boolean>,
     },
     changeFilter: {
+      type: Function as PropType<(newValue: string) => void>,
+    },
+    changeTag: {
       type: Function as PropType<(newValue: string) => void>,
     },
   },
