@@ -49,6 +49,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         val cancelable = cancellationFlagOutPort.apply(task);
         val schemaRef = taskSchemaRefResolverPort.apply(task);
         val type = taskSchemaTypeResolverPort.apply(task);
+        String tag = "dummy-tag"; //FIXME add logic
 
         switch (type) {
             case VUETIFY_FORM_BASE:
@@ -62,7 +63,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
                 break;
         }
 
-        return new TaskWithSchemaRef(task, schemaRef, cancelable, type);
+        return new TaskWithSchemaRef(task, schemaRef, cancelable, type, tag);
     }
 
     @Override

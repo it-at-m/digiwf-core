@@ -22,6 +22,7 @@ public class ProcessTaskConstants {
     public static final String TASK_DESCRIPTION = "app_task_description";
 
     public static final String TASK_SCHEMA_KEY = "app_task_schema_key";
+    public static final String TASK_TAG_KEY = "app_task_tag";
 
     public static final String TASK_STATUS_DOKUMENT = "app_task_status_dokument_enabled";
 
@@ -30,6 +31,7 @@ public class ProcessTaskConstants {
     public static final String FILE_PATHS_READONLY = "app_file_paths_readonly";
 
     public static final VariableFactory<String> TASK_DESCRIPTION_VARIABLE = stringVariable(TASK_DESCRIPTION);
+    public static final VariableFactory<String> TASK_TAG_VARIABLE = stringVariable(TASK_TAG_KEY);
 
     public static final VariableFactory<String> TASK_DESCRIPTION_DIGITALWF_VARIABLE = stringVariable(TASK_DESCRIPTION_DIGITALWF);
 

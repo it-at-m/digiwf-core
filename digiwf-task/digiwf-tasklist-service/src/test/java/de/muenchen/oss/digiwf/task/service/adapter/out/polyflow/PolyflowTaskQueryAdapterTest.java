@@ -41,6 +41,7 @@ public class PolyflowTaskQueryAdapterTest {
         user,
         query,
         null,
+        null,
         new PagingAndSorting(
             0,
             100,
@@ -70,6 +71,7 @@ public class PolyflowTaskQueryAdapterTest {
     val result = port.getTasksForCurrentUserGroup(
         user,
         query,
+            null,
         true,
         new PagingAndSorting(
             0,

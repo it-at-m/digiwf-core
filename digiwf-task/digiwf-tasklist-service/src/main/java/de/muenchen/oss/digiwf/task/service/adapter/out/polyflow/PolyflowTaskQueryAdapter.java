@@ -28,7 +28,8 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
     private final TaskQueryClient taskQueryClient;
 
     @Override
-    public PageOfTasks getTasksForCurrentUser(User currentUser, String query, LocalDate followUp, PagingAndSorting pagingAndSorting) {
+    public PageOfTasks getTasksForCurrentUser(User currentUser, String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting) {
+        // FIXME: add tag i search
         var filters = buildFilters(query, followUp);
         var result = taskQueryClient.query(new TasksForUserQuery(
                 new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
@@ -46,7 +47,8 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
     }
 
     @Override
-    public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
+    public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, String tag, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
+        // FIXME: add tag in search
         var filters = buildFilters(query, null);
         var result = taskQueryClient.query(new TasksForCandidateUserAndGroupQuery(
                 currentUser,

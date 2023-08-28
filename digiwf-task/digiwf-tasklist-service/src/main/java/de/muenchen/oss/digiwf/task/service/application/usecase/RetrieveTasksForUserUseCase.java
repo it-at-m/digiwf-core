@@ -27,23 +27,23 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final CancellationFlagOutPort cancellationFlagOutPort;
 
   @Override
-  public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, false, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, false, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
   @Override
-  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, true, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag,true, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
   @Override
-  public PageOfTasksWithSchema getTasksForCurrentUser(String query, LocalDate followUp, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getTasksForCurrentUser(String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUser(currentUser, query, followUp, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUser(currentUser, query, tag, followUp, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
@@ -53,7 +53,8 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
                 task,
                 taskSchemaRefResolverPort.apply(task),
                 cancellationFlagOutPort.apply(task),
-                taskSchemaTypeResolverPort.apply(task)
+                taskSchemaTypeResolverPort.apply(task),
+                "dummy-tag" // FIXME: add logic
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

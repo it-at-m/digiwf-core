@@ -60,11 +60,11 @@ class RetrieveTasksForUserUseCaseTest {
 
     val pageOfTasks = new PageOfTasks(content, 17, pagingAndSorting);
 
-    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), anyBoolean(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null,pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, false, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 
@@ -78,11 +78,11 @@ class RetrieveTasksForUserUseCaseTest {
         pagingAndSorting
     );
 
-    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), anyBoolean(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(),any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null,pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, false, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 
@@ -95,11 +95,11 @@ class RetrieveTasksForUserUseCaseTest {
         pagingAndSorting
     );
 
-    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), anyBoolean(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null,  pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, true, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, true, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 
@@ -112,11 +112,11 @@ class RetrieveTasksForUserUseCaseTest {
         pagingAndSorting
     );
 
-    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any(), any(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getTasksForCurrentUser(query, null, pagingAndSorting);
+    val tasks = useCase.getTasksForCurrentUser(query, null, null, pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, null, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 
@@ -137,11 +137,11 @@ class RetrieveTasksForUserUseCaseTest {
         pagingAndSorting
     );
 
-    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(), any(), any())).thenReturn(pageOfTasks);
+    when(taskQueryPort.getTasksForCurrentUser(any(), anyString(),any(), any(), any())).thenReturn(pageOfTasks);
 
-    val tasks = useCase.getTasksForCurrentUser(query, null, pagingAndSorting);
+    val tasks = useCase.getTasksForCurrentUser(query, null, null, pagingAndSorting);
     assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, pagingAndSorting);
+    verify(taskQueryPort).getTasksForCurrentUser(user, query, null, null, pagingAndSorting);
     verifyNoMoreInteractions(taskQueryPort);
   }
 
