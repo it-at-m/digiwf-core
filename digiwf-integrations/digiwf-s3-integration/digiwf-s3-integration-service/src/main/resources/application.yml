@@ -49,7 +49,7 @@ spring:
           group: "dwf-s3-service"
           destination: dwf-s3-${DIGIWF_ENV}
         sendMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: dwf-connector-${DIGIWF_ENV}
       default:
         consumer:
           maxAttempts: '1'
@@ -70,6 +70,12 @@ spring:
 io:
   muenchendigital:
     digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          createPresignedUrl: "createPresignedUrl"
       s3:
         bucketname: ${S3_BUCKETNAME}
         accesskey: ${S3_ACCESSKEY}

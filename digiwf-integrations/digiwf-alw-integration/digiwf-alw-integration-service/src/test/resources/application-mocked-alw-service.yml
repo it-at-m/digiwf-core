@@ -1,0 +1,17 @@
+# DigiWF config
+io:
+  muenchendigital:
+    digiwf:
+      alw.personeninfo:
+        base-url: http://localhost:60001
+        rest-endpoint: /alw-personen-info/
+        timeout: 1500
+        username: user
+        password: password
+        sachbearbeitung-mapping-config-url: classpath:/config/alw-sachbearbeitung.properties
+        functional-ping:
+          enabled: false
+      message:
+        incidentDestination: "dwf-connector-incident-itest-01"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-itest-01"
+        correlateMessageDestination: "dwf-connector-itest-01"
