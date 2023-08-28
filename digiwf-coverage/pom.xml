@@ -67,11 +67,6 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-alw-integration-example</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-alw-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
