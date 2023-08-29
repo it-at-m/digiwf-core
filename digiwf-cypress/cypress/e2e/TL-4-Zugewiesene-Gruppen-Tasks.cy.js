@@ -7,7 +7,6 @@ import exampleGroupTask from "../pages/exampleGroupTask";
 import offeneGruppenAufgaben from "../pages/offeneGruppenAufgaben";
 import groupUserTasks from "../pages/groupUserTask"
 import inBearbeitung from "../pages/inBearbeitung"
-import userTask from "../pages/userTask";
 
 //change Pagesize for better runtime
 const numberOfTasks = 11 //21
