@@ -9,6 +9,7 @@ import de.muenchen.oss.digiwf.legacy.mailing.domain.service.MailingService;
 import de.muenchen.oss.digiwf.legacy.user.domain.model.User;
 import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
 import de.muenchen.oss.digiwf.shared.properties.DigitalWFProperties;
+import de.muenchen.oss.digiwf.task.TaskVariables;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import de.muenchen.oss.digiwf.humantask.process.ProcessTaskConstants;
 import lombok.RequiredArgsConstructor;
@@ -96,24 +97,25 @@ public class UserTaskNotificationListener {
     }
 
     private void notifyAssignee(final DelegateTask delegateTask) throws Exception {
-        String assignedUserId = TASK_ASSIGNEE.from(delegateTask).getOptional().orElseGet(delegateTask::getAssignee);
+        final String assignedUserId = TASK_ASSIGNEE.from(delegateTask).getOptional().orElseGet(delegateTask::getAssignee);
         if (StringUtils.isBlank(assignedUserId)) {
             return;
         }
         try {
             String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
             val address = this.getMailAddress(assignedUserId);
-            String body = "Sie haben eine Aufgabe in DigiWF.";
-            if (!processName.isBlank()){
-                body = "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
-            }
+
+            final String subject = TaskVariables.MAIL_SUBJECT.from(delegateTask).getOrDefault("Es liegt eine neue Aufgabe für Sie bereit");
+            final String body = TaskVariables.MAIL_BODY.from(delegateTask).getOrDefault(this.getBodyAssignee(processName));
+            final String bottomText = TaskVariables.MAIL_BOTTOM_TEXT.from(delegateTask).getOrDefault("");
 
             final MailTemplate mail = MailTemplate.builder()
                     .receivers(address)
                     .body(body)
                     .buttonText("Aufgabe öffnen")
                     .link(this.properties.getFrontendUrl() + "/#/task/" + delegateTask.getId())
-                    .subject("Es liegt eine neue Aufgabe für Sie bereit")
+                    .subject(subject)
+                    .bottomText(bottomText)
                     .build();
 
             log.debug("Sending notification to {}", address);
@@ -145,7 +147,7 @@ public class UserTaskNotificationListener {
             }
         }
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
+            this.sendGroupMail(addresses, delegateTask);
         }
     }
 
@@ -180,7 +182,7 @@ public class UserTaskNotificationListener {
         }
 
         if (!addresses.isEmpty()) {
-            this.sendGroupMail(addresses, delegateTask.getId(), delegateTask.getProcessDefinitionId());
+            this.sendGroupMail(addresses, delegateTask);
         }
     }
 
@@ -192,22 +194,23 @@ public class UserTaskNotificationListener {
         throw new RuntimeException("lhmObject {} has no mail address" + receiver);
     }
 
-    private void sendGroupMail(final List<String> addresses, final String taskId, final String processDefinitionId) {
+    private void sendGroupMail(final List<String> addresses, final DelegateTask delegateTask) {
         try {
 
-            String processName = this.getProcessName(processDefinitionId);
+            String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
 
-            String body = "Sie haben eine Gruppenaufgabe in DigiWF.";
-            if (!processName.isBlank()){
-                body = "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
-            }
+            final String subject = TaskVariables.MAIL_SUBJECT.from(delegateTask).getOrDefault("Es liegt eine neue Gruppenaufgabe für Sie bereit");
+            final String body = TaskVariables.MAIL_BODY.from(delegateTask).getOrDefault(this.getBodyGroupMail(processName));
+            final String bottomText = TaskVariables.MAIL_BOTTOM_TEXT.from(delegateTask).getOrDefault("");
+
             final String addresslist = String.join(",", addresses);
             final MailTemplate mail = MailTemplate.builder()
                     .receivers(addresslist)
                     .body(body)
                     .buttonText("Gruppenaufgabe öffnen")
-                    .link(this.properties.getFrontendUrl() + "/#/opengrouptask/" + taskId)
-                    .subject("Es liegt eine neue Gruppenaufgabe für Sie bereit")
+                    .link(this.properties.getFrontendUrl() + "/#/opengrouptask/" + delegateTask.getId())
+                    .subject(subject)
+                    .bottomText(bottomText)
                     .build();
 
             log.debug("Sending notification to {}", addresslist);
@@ -235,6 +238,20 @@ public class UserTaskNotificationListener {
             log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
+    }
+
+    private String getBodyAssignee(String processName) {
+        if (!processName.isBlank()){
+            return "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
+        }
+        return "Sie haben eine Aufgabe in DigiWF.";
+    }
+
+    private String getBodyGroupMail(String processName) {
+        if (!processName.isBlank()){
+            return "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
+        }
+        return "Sie haben eine Gruppenaufgabe in DigiWF.";
     }
 
 }
