@@ -8,6 +8,7 @@
     :disabled="readOnly"
     :rules="[validationResult, ...rules]"
     @change="onChange"
+    @input="onInput"
     >
     <template #append-outer>
       <v-tooltip v-if="description" left :open-on-hover="false">
@@ -45,11 +46,13 @@ export default defineComponent ({
     const validationResult = ref<string | boolean>(true);
 
     const onChange = () => {
-
       if(!!on?.input) {
         on.input(dateValue.value);
       }
+      validationResult.value = validateDate(dateValue.value);
+    }
 
+    const onInput = () => {
       validationResult.value = validateDate(dateValue.value);
     }
 
@@ -62,7 +65,8 @@ export default defineComponent ({
       dateValue,
       validationResult,
       rules,
-      onChange
+      onChange,
+      onInput
     }
   }
 })
