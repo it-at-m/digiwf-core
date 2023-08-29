@@ -1,6 +1,6 @@
 import Page from './page'
 
-class inBearbeitung extends Page{
+class InBearbeitung extends Page{
     headline = "Gruppenaufgaben in Bearbeitung"
 
     elements = {
@@ -75,4 +75,4 @@ class inBearbeitung extends Page{
 
 }
 
-module.exports = new inBearbeitung;
+module.exports = new InBearbeitung();
