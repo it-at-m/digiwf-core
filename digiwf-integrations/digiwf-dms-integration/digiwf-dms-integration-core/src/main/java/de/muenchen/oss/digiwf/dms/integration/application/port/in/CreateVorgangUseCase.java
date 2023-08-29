@@ -1,7 +1,9 @@
 package de.muenchen.oss.digiwf.dms.integration.application.port.in;
 
-public interface CreateVorgang {
+import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 
-    void createVorgang(final String titel, final String sachakteCOO, final String user);
+public interface CreateVorgangUseCase {
+
+    Vorgang createVorgang(final String titel, final String sachakteCOO, final String user);
 
 }

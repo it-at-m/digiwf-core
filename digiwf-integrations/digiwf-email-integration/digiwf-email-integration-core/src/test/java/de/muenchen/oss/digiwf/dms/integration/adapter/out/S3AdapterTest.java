@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.dms.integration.model.FileAttachment;
-import de.muenchen.oss.digiwf.dms.integration.model.PresignedUrl;
+import de.muenchen.oss.digiwf.dms.integration.domain.FileAttachment;
+import de.muenchen.oss.digiwf.dms.integration.domain.PresignedUrl;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;

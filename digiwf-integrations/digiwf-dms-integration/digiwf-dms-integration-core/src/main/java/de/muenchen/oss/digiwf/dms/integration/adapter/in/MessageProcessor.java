@@ -1,16 +1,16 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgang;
-import de.muenchen.oss.digiwf.dms.integration.infrastructure.MonitoringService;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
+import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 
-import javax.validation.ValidationException;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
@@ -19,31 +19,31 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROC
 @RequiredArgsConstructor
 public class MessageProcessor {
 
+    private final ProcessApi processApi;
     private final ErrorApi errorApi;
-    private final CreateVorgang createVorgang;
-    private final MonitoringService monitoringService;
+    private final CreateVorgangUseCase createVorgangUseCase;
 
-    @ConditionalOnMissingBean
     @Bean
-    public Consumer<Message<Mail>> emailIntegration() {
+    public Consumer<Message<CreateVorgangDto>> exampleIntegration() {
         return message -> {
             try {
-                this.createVorgang.createVorgang(
-                        message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
-                        message.getHeaders().get(DIGIWF_MESSAGE_NAME, String.class),
-                        message.getPayload());
-                this.monitoringService.sendMailSucceeded();
+                final CreateVorgangDto createVorgangDto = message.getPayload();
+                final Vorgang vorgang = this.createVorgangUseCase.createVorgang(
+                        createVorgangDto.getTitle(),
+                        createVorgangDto.getSachakteCoo(),
+                        createVorgangDto.getUser());
+
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("vorgangCoo", vorgang.getCoo()));
             } catch (final BpmnError bpmnError) {
-                this.monitoringService.sendMailFailed();
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final ValidationException validationException) {
-                this.monitoringService.sendMailFailed();
-                this.errorApi.handleBpmnError(message.getHeaders(), new BpmnError("VALIDATION_ERROR", validationException.getMessage()));
             } catch (final IncidentError incidentError) {
-                this.monitoringService.sendMailFailed();
                 this.errorApi.handleIncident(message.getHeaders(), incidentError);
             }
         };
     }
 
+    public void correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> message) {
+        this.processApi.correlateMessage(processInstanceId, messageName, message);
+    }
 }
