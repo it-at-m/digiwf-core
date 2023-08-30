@@ -13,4 +13,7 @@ describe("validateDate", () => {
   it("should return message if year has more than 4 digits", () => {
     expect(validateDate("12023-02-13")).toBe( "Datum darf nicht mehr als 4 Jahreszahlen enthalten")
   });
+  it("should return true if date is empty", () => {
+    expect(validateDate("")).toBe( true)
+  });
 });
