@@ -8,7 +8,6 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSD;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.soap.SOAPBinding;
@@ -18,7 +17,6 @@ import javax.xml.ws.soap.SOAPBinding;
  *
  * @author externer.dl.horn
  */
-@Configuration
 @RequiredArgsConstructor
 public class FabasoftClientConfiguration {
 

@@ -20,7 +20,7 @@
         <!-- email -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-email-integration-starter</artifactId>
+            <artifactId>digiwf-dms-integration-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -27,7 +27,7 @@ public class MessageProcessor {
     private final CreateVorgangUseCase createVorgangUseCase;
 
     @Bean
-    public Consumer<Message<CreateVorgangDto>> exampleIntegration() {
+    public Consumer<Message<CreateVorgangDto>> createVorgang() {
         return message -> {
             try {
                 final CreateVorgangDto createVorgangDto = message.getPayload();

@@ -6,16 +6,14 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-@Component
 @Validated
-@ConfigurationProperties(prefix = "digiwf.dms")
+@ConfigurationProperties(prefix = "digiwf.integration.dms")
 public class DmsProperties {
 
     @NotBlank
@@ -24,12 +22,7 @@ public class DmsProperties {
     @NotBlank
     private String username;
 
-    @NotBlank
-    private String uiurl;
-
     private String password;
-
-    private String defaultUser;
 
     private String businessapp;
 

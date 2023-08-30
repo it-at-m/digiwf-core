@@ -5,9 +5,7 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangReposi
 import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
 public class CreateVorgangService implements CreateVorgangUseCase {
 

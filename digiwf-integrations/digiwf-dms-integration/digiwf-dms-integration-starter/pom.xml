@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-email-integration-core</artifactId>
+            <artifactId>digiwf-dms-integration-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -8,9 +8,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
 @RequiredArgsConstructor
 public class FabasoftAdapter implements VorgangRepository {
@@ -20,13 +18,7 @@ public class FabasoftAdapter implements VorgangRepository {
 
     @Override
     public Vorgang createVorgang(Vorgang vorgang, String user) {
-        log.info("calling CreateProcedureGI"
-                + " Userlogin: " + user
-                + " Referrednumber: " + vorgang.getSachakteCoo()
-                + " Shortname: " + vorgang.getTitle()
-                + " Filesubj: " + vorgang.getTitle()
-                + " Filetype: " + vorgang.getArt().toString()
-        );
+        log.info("calling CreateProcedureGI: " + vorgang.toString());
 
         final CreateProcedureGI request = new CreateProcedureGI();
         request.setUserlogin(user);
