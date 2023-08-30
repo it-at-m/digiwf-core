@@ -18,4 +18,6 @@ public class CreateVorgangDto {
 
     private String user;
 
+    private String art;
+
 }

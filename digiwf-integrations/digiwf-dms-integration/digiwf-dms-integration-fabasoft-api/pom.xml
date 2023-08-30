@@ -56,7 +56,7 @@
                                     <extraargs>
                                         <extraarg>-quiet</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:fabasoft.wsdl</wsdlLocation>
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/binding.xml</bindingFile>
                                     </bindingFiles>

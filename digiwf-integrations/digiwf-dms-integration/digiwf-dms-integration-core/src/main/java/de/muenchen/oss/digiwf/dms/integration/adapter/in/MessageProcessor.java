@@ -2,12 +2,14 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
+import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.function.Consumer;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
+@Configuration
 @RequiredArgsConstructor
 public class MessageProcessor {
 
@@ -31,7 +34,9 @@ public class MessageProcessor {
                 final Vorgang vorgang = this.createVorgangUseCase.createVorgang(
                         createVorgangDto.getTitle(),
                         createVorgangDto.getSachakteCoo(),
-                        createVorgangDto.getUser());
+                        VorgangArt.valueOf(createVorgangDto.getArt()),
+                        createVorgangDto.getUser()
+                );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("vorgangCoo", vorgang.getCoo()));
