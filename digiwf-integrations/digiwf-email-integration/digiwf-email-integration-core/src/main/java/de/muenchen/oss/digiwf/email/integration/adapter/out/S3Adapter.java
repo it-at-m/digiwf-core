@@ -4,7 +4,9 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAtt
 import de.muenchen.oss.digiwf.email.integration.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
 
 import javax.mail.util.ByteArrayDataSource;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,15 +28,16 @@ public class S3Adapter implements LoadMailAttachmentPort {
             // Note: Tika throws an IOException that is immediately caught and logged. It may be confusing but the
             // IOException that is logged can be ignored. See https://stackoverflow.com/q/66592801
             final Tika tika = new Tika();
-            final InputStream inputStream = this.s3FileTransferRepository.getFileInputStream(attachment.getUrl());
-            final ByteArrayDataSource file = new ByteArrayDataSource(inputStream, tika.detect(inputStream));
+            final byte[] bytes = this.s3FileTransferRepository.getFile(attachment.getUrl());
+            final String type = tika.detect(bytes);
+            // Note: Create the ByteArrayDataSource with the bytes and the type to avoid auto type detection by ByteArrayDataSource
+            // https://github.com/it-at-m/digiwf-core/issues/616
+            final ByteArrayDataSource file = new ByteArrayDataSource(bytes, type);
+            file.setName(fileName);
             return new FileAttachment(fileName, file);
-        } catch (final DocumentStorageException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
             log.error("An attachment could not be loaded from presigned url: {}", attachment);
             throw new BpmnError("LOAD_FILE_FAILED", "An attachment could not be loaded from presigned url: " + attachment);
-        } catch (final IOException e) {
-            log.error("File type not supported of the attachment: {}", attachment);
-            throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "File type not supported of the attachment: " + attachment);
         }
     }
 }
