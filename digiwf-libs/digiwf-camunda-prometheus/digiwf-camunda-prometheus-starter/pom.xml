@@ -8,7 +8,7 @@
     <parent>
         <artifactId>digiwf-camunda-prometheus</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>0.18.5-SNAPSHOT</version>
+        <version>0.18.6-SNAPSHOT</version>
     </parent>
 
     <dependencies>
