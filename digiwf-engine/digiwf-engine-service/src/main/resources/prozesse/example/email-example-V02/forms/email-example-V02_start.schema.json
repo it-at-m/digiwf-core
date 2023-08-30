@@ -42,12 +42,23 @@
                                     "dense": true
                                 },
                                 "x-rules": []
-                            },
-                            "DWF_EMAIL_TOPIC": {
+                            }
+                        },
+                        "key": "2c4a0df8-83c1-443c-b7c1-59aa68b8ef15"
+                    },
+                    {
+                        "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "FORMFIELD_EMAIL_TOPIC": {
                                 "fieldType": "text",
-                                "title": "Email Integration Topic",
+                                "title": "Email Topic",
                                 "type": "string",
-                                "key": "DWF_EMAIL_TOPIC",
+                                "key": "FORMFIELD_EMAIL_TOPIC",
                                 "default": "dwf-email-local-01",
                                 "x-options": {
                                     "fieldColProps": {
@@ -63,7 +74,7 @@
                                 "x-rules": []
                             }
                         },
-                        "key": "2c4a0df8-83c1-443c-b7c1-59aa68b8ef15"
+                        "key": "83da6f62-99d1-43a8-8139-93082db58310"
                     },
                     {
                         "containerType": "group",
@@ -150,6 +161,35 @@
                                 "type": "boolean",
                                 "key": "FORMFIELD_Anhang",
                                 "filePath": "test",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "f40a1874-7630-4155-ad20-c6753c04041b": {
+                                "fieldType": "file",
+                                "title": "Anhänge",
+                                "x-display": "custom-multi-file-input",
+                                "type": "object",
+                                "properties": {
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "key": "f40a1874-7630-4155-ad20-c6753c04041b",
+                                "filePath": "test",
+                                "uuidEnabled": false,
                                 "x-options": {
                                     "fieldColProps": {
                                         "cols": 12,
