@@ -3,17 +3,11 @@ server:
 spring:
   cloud:
     function:
-      definition: functionRouter;sendMessage;
+      definition: sendMessage;
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
-        functionRouter-in-0:
-          group: "dwf-email-service"
-          destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: "dwf-connector-${DIGIWF_ENV}"
+          destination: "dwf-email-${DIGIWF_ENV}"
       kafka:
         binder:
           configuration:
