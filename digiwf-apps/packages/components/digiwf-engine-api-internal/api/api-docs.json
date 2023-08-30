@@ -24,12 +24,6 @@
     "name" : "FormRestController",
     "description" : "API to handle forms"
   }, {
-    "name" : "HumanTaskRestController",
-    "description" : "API to load human tasks and perform actions on them"
-  }, {
-    "name" : "HumanTaskFileRestController",
-    "description" : "API to perform actions on human task files"
-  }, {
     "name" : "InfoRestController",
     "description" : "API to handle app infos"
   }, {
@@ -70,99 +64,6 @@
     "description" : "API to interact with service definitions"
   } ],
   "paths" : {
-    "/rest/task" : {
-      "get" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "getTasks",
-        "parameters" : [ {
-          "name" : "page",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 0
-          }
-        }, {
-          "name" : "size",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "maximum" : 50,
-            "minimum" : 1,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 50
-          }
-        }, {
-          "name" : "query",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "followUp",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "boolean",
-            "default" : false
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PageHumanTaskTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "saveTask",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SaveTO"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "completeTask",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/CompleteTO"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
     "/rest/form/{key}" : {
       "get" : {
         "tags" : [ "FormRestController" ],
@@ -301,147 +202,10 @@
         }
       }
     },
-    "/rest/task/followup" : {
-      "post" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "followUpTask",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/FollowUpTO"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
-    "/rest/task/file/{taskId}/{filename}" : {
-      "post" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filename",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filename",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/cancel/{id}" : {
-      "post" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "cancelTask",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
-    "/rest/task/assign/{id}" : {
-      "post" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "assignTask",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
     "/rest/service/start/file/{definitionKey}/{filename}" : {
       "post" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload_1",
+        "operationId" : "getPresignedUrlForFileUpload",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -479,7 +243,7 @@
       },
       "delete" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion_1",
+        "operationId" : "getPresignedUrlForFileDeletion",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -519,7 +283,7 @@
     "/rest/service/instance/file/{instanceId}/{filename}" : {
       "post" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileUpload_2",
+        "operationId" : "getPresignedUrlForFileUpload_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -557,7 +321,7 @@
       },
       "delete" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDeletion_2",
+        "operationId" : "getPresignedUrlForFileDeletion_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -942,206 +706,10 @@
         }
       }
     },
-    "/rest/task/{id}" : {
-      "get" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "getTaskDetail",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HumanTaskDetailTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/group/open" : {
-      "get" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "getOpenGroupTasks",
-        "parameters" : [ {
-          "name" : "page",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 0
-          }
-        }, {
-          "name" : "size",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "maximum" : 50,
-            "minimum" : 1,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 50
-          }
-        }, {
-          "name" : "query",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PageHumanTaskTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/group/assigned" : {
-      "get" : {
-        "tags" : [ "HumanTaskRestController" ],
-        "operationId" : "getAssignedGroupTasks",
-        "parameters" : [ {
-          "name" : "page",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 0
-          }
-        }, {
-          "name" : "size",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "maximum" : 50,
-            "minimum" : 1,
-            "type" : "integer",
-            "format" : "int32",
-            "default" : 50
-          }
-        }, {
-          "name" : "query",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PageHumanTaskTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/file/{taskId}" : {
-      "get" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getFileNames",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rest/task/file/{taskId}/{fileName}" : {
-      "get" : {
-        "tags" : [ "HumanTaskFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload",
-        "parameters" : [ {
-          "name" : "taskId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "fileName",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filePath",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/rest/service/start/file/{definitionKey}" : {
       "get" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getFileNames_1",
+        "operationId" : "getFileNames",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -1177,7 +745,7 @@
     "/rest/service/start/file/{definitionKey}/{fileName}" : {
       "get" : {
         "tags" : [ "ServiceStartFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload_1",
+        "operationId" : "getPresignedUrlForFileDownload",
         "parameters" : [ {
           "name" : "definitionKey",
           "in" : "path",
@@ -1290,7 +858,7 @@
     "/rest/service/instance/file/{instanceId}" : {
       "get" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getFileNames_2",
+        "operationId" : "getFileNames_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -1326,7 +894,7 @@
     "/rest/service/instance/file/{instanceId}/{fileName}" : {
       "get" : {
         "tags" : [ "ServiceInstanceFileRestController" ],
-        "operationId" : "getPresignedUrlForFileDownload_2",
+        "operationId" : "getPresignedUrlForFileDownload_1",
         "parameters" : [ {
           "name" : "instanceId",
           "in" : "path",
@@ -1509,21 +1077,6 @@
   },
   "components" : {
     "schemas" : {
-      "SaveTO" : {
-        "required" : [ "taskId" ],
-        "type" : "object",
-        "properties" : {
-          "taskId" : {
-            "type" : "string"
-          },
-          "variables" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          }
-        }
-      },
       "ButtonTO" : {
         "type" : "object",
         "properties" : {
@@ -1754,33 +1307,6 @@
           }
         }
       },
-      "CompleteTO" : {
-        "required" : [ "taskId", "variables" ],
-        "type" : "object",
-        "properties" : {
-          "taskId" : {
-            "type" : "string"
-          },
-          "variables" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          }
-        }
-      },
-      "FollowUpTO" : {
-        "required" : [ "taskId" ],
-        "type" : "object",
-        "properties" : {
-          "taskId" : {
-            "type" : "string"
-          },
-          "followUpDate" : {
-            "type" : "string"
-          }
-        }
-      },
       "StartInstanceTO" : {
         "type" : "object",
         "properties" : {
@@ -1947,46 +1473,16 @@
           }
         }
       },
-      "HumanTaskTO" : {
+      "PageServiceInstanceTO" : {
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
-          },
-          "processName" : {
-            "type" : "string"
-          },
-          "assignee" : {
-            "type" : "string"
-          },
-          "assigneeFormatted" : {
-            "type" : "string"
-          },
-          "followUpDate" : {
-            "type" : "string"
-          },
-          "creationTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "PageHumanTaskTO" : {
-        "type" : "object",
-        "properties" : {
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
           "totalElements" : {
             "type" : "integer",
             "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
           },
           "size" : {
             "type" : "integer",
@@ -1995,7 +1491,7 @@
           "content" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/HumanTaskTO"
+              "$ref" : "#/components/schemas/ServiceInstanceTO"
             }
           },
           "number" : {
@@ -2049,118 +1545,6 @@
           }
         }
       },
-      "SortObject" : {
-        "type" : "object",
-        "properties" : {
-          "empty" : {
-            "type" : "boolean"
-          },
-          "sorted" : {
-            "type" : "boolean"
-          },
-          "unsorted" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "HumanTaskDetailTO" : {
-        "required" : [ "creationTime", "id", "name", "processInstanceId", "processName" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
-          },
-          "processName" : {
-            "type" : "string"
-          },
-          "processInstanceId" : {
-            "type" : "string"
-          },
-          "assignee" : {
-            "type" : "string"
-          },
-          "assigneeFormatted" : {
-            "type" : "string"
-          },
-          "followUpDate" : {
-            "type" : "string"
-          },
-          "creationTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "variables" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          },
-          "form" : {
-            "$ref" : "#/components/schemas/FormTO"
-          },
-          "jsonSchema" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object"
-            }
-          },
-          "statusDocument" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "PageServiceInstanceTO" : {
-        "type" : "object",
-        "properties" : {
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "size" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "content" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ServiceInstanceTO"
-            }
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "sort" : {
-            "$ref" : "#/components/schemas/SortObject"
-          },
-          "first" : {
-            "type" : "boolean"
-          },
-          "last" : {
-            "type" : "boolean"
-          },
-          "numberOfElements" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
-          },
-          "empty" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "ServiceInstanceTO" : {
         "type" : "object",
         "properties" : {
@@ -2183,6 +1567,20 @@
           },
           "description" : {
             "type" : "string"
+          }
+        }
+      },
+      "SortObject" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "sorted" : {
+            "type" : "boolean"
+          },
+          "unsorted" : {
+            "type" : "boolean"
           }
         }
       },
@@ -2253,13 +1651,13 @@
       "PageServiceDefinitionTO" : {
         "type" : "object",
         "properties" : {
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
           "totalElements" : {
             "type" : "integer",
             "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
           },
           "size" : {
             "type" : "integer",

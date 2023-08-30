@@ -1,7 +1,11 @@
-# Migration der Taskverwaltung in den Task Service
+# Nutzung Feature Toggles für Migrationen
 
-Aktuell findet die Ablösung der Taskverwaltung aus dem Engine Service in den Taskservice. 
-Dafür ist ein Parallelbetrieb im Frontend notwendig
+Für die Ablösung der Taskverwaltung aus der Engine in einen eigenständigen Service war die Nutzung von Feature Toggles notwendig.
+
+Links zu Tasks: 
+
+* [Einführung des Feature Toggles](feature-toggle-taskservice-integration)
+* [Ausbau des Feature Toggles](feature-toggle-taskservice-integration)
 
 ## Grundsätzlicher Aufbau
 

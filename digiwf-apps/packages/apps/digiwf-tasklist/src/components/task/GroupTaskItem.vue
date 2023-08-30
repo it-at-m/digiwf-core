@@ -3,7 +3,7 @@
     :aria-label="'Gruppenaufgabe '+ task.name+ ' öffnen'"
     class="d-flex align-center"
     :style="(task.inAssignProcess && !showAssignee) && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
-    :to="(!task.inAssignProcess ||showAssignee) && '/opengrouptask/'+ task.id"
+    :to="(!task.inAssignProcess ||showAssignee) ? '/opengrouptask/'+ task.id : ''"
   >
     <v-flex
       class="d-flex flex-column taskColumn"

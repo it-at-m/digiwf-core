@@ -1,38 +1,25 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {
-  callCancelTaskInEngine,
   callCancelTaskInTaskService,
-  callCompleteTaskInEngine,
   callCompleteTaskInTaskService,
   callDeferTask,
   callDownloadPdfFromEngine,
-  callGetAssignedGroupTasksFromEngine,
   callGetAssignedGroupTasksFromTaskService,
-  callGetOpenGroupTasksFromEngine,
   callGetOpenGroupTasksFromTaskService,
-  callGetTaskDetailsFromEngine,
   callGetTaskDetailsFromTaskService,
-  callGetTasksFromEngine,
   callGetTasksFromTaskService,
-  callPostAssignTaskInEngine,
   callPostAssignTaskInTaskService,
-  callSaveTaskInEngine,
   callSaveTaskInTaskService,
-  callSetFollowUpTaskInEngine
 } from "../../api/tasks/tasksApiCalls";
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
 import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
-import {shouldUseTaskService} from "../../utils/featureToggles";
 import {
-  mapTaskDetailsFromEngineService,
   mapTaskDetailsFromTaskService,
   mapTaskFromTaskService,
-  mapTaskPageFromEngineService
 } from "./taskMapper";
 import {useStore} from "../../hooks/store";
 import axios, {AxiosError} from "axios";
-import {HumanTaskDetailTO} from "@muenchen/digiwf-engine-api-internal";
 import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import router from "../../router";
 import {queryClient} from "../queryClient";
@@ -45,11 +32,6 @@ import {
   isInAssignedProcesses,
   isInFinishedProcesses
 } from "./mutatedTaskFilter";
-import tasks from "../../views/Tasks.vue";
-
-if (shouldUseTaskService()) {
-  console.log("feature toggle enabled. New tasklist service is used for network requests.");
-}
 
 const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
@@ -116,10 +98,7 @@ export const useMyTasksQuery = (
   queryKey: [userTasksQueryId, page.value, size.value, query.value, !shouldIgnoreFollowUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService()
-      ? handleTaskLoadingFromTaskService(page, size, query, sort, shouldIgnoreFollowUp)
-      : callGetTasksFromEngine(page.value, size.value, query.value, !shouldIgnoreFollowUp.value)
-        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
+    return handleTaskLoadingFromTaskService(page, size, query, sort, shouldIgnoreFollowUp);
   },
 });
 
@@ -128,18 +107,13 @@ export const useOpenGroupTasksQuery = (
   size: Ref<number>,
   query: Ref<string | undefined>,
   sort: Ref<string | undefined>
-) => {
-  return useQuery({
-    queryKey: [openGroupTasksQueryId, page.value, size.value, query.value, sort],
-    queryFn: (): Promise<Page<HumanTask>> => {
-      return shouldUseTaskService()
-        ? callGetOpenGroupTasksFromTaskService(page.value, size.value, query.value, sort.value)
-          .then(handlePageOfTaskResponse)
-        : callGetOpenGroupTasksFromEngine(page.value, size.value, query.value)
-          .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
-    },
-  });
-};
+) => useQuery({
+  queryKey: [openGroupTasksQueryId, page.value, size.value, sort.value, query.value],
+  queryFn: (): Promise<Page<HumanTask>> => {
+    return callGetOpenGroupTasksFromTaskService(page.value, size.value, sort.value, query.value)
+      .then(handlePageOfTaskResponse);
+  },
+});
 
 export const useAssignedGroupTasksQuery = (
   page: Ref<number>,
@@ -147,13 +121,10 @@ export const useAssignedGroupTasksQuery = (
   query: Ref<string | undefined>,
   sort: Ref<string | undefined>
 ) => useQuery({
-  queryKey: [assignedGroupTasksQueryId, page.value, size.value, query.value],
+  queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return shouldUseTaskService()
-      ? callGetAssignedGroupTasksFromTaskService(page.value, size.value, query.value, sort.value)
-        .then(handlePageOfTaskResponse)
-      : callGetAssignedGroupTasksFromEngine(page.value, size.value, query.value)
-        .then((r) => Promise.resolve(mapTaskPageFromEngineService(r)));
+    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, query.value)
+      .then(handlePageOfTaskResponse);
   },
 });
 
@@ -183,11 +154,7 @@ export const useAssignTaskToCurrentUserMutation = () => {
 
   const lhmObjectId = (useStore().state as any).user?.info?.lhmObjectId;
   return useMutation<void, any, string>({
-    mutationFn: (taskId) => {
-      return shouldUseTaskService()
-        ? callPostAssignTaskInTaskService(taskId, lhmObjectId)
-        : callPostAssignTaskInEngine(taskId);
-    },
+    mutationFn: (taskId) => callPostAssignTaskInTaskService(taskId, lhmObjectId),
     onSuccess: (_, taskId) => {
       addAssignedTaskIds(taskId);
       queryClient.invalidateQueries(["user-tasks"]);
@@ -201,11 +168,7 @@ export const useAssignTaskToUserMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, any, { taskId: string, userId: string }>({
-    mutationFn: ({taskId, userId}) => {
-      return shouldUseTaskService()
-        ? callPostAssignTaskInTaskService(taskId, userId)
-        : callPostAssignTaskInEngine(taskId);
-    },
+    mutationFn: ({taskId, userId}) => callPostAssignTaskInTaskService(taskId, userId),
     onSuccess: (_, variables) => {
       addAssignedTaskIds(variables.taskId);
       queryClient.invalidateQueries(["user-tasks"]);
@@ -216,7 +179,7 @@ export const useAssignTaskToUserMutation = () => {
   });
 };
 
-export interface LoadTaskFromEngineResultData {
+export interface LoadTaskResultData {
   readonly task: HumanTaskDetails;
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly model?: { [key: string]: object; }
@@ -241,16 +204,12 @@ export interface LoadTaskFromEngineResultData {
 }
 
 export interface LoadTaskResult {
-  readonly data?: LoadTaskFromEngineResultData;
+  readonly data?: LoadTaskResultData;
   readonly error?: string
 }
 
 
-export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
-  return shouldUseTaskService()
-    ? loadTaskFromTaskService(taskId)
-    : loadTasksFromEngine(taskId);
-};
+export const loadTask = (taskId: string): Promise<LoadTaskResult> => loadTaskFromTaskService(taskId);
 
 const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
   return callGetTaskDetailsFromTaskService(taskId)
@@ -289,46 +248,6 @@ const loadTaskFromTaskService = (taskId: string): Promise<LoadTaskResult> => {
  * requests for TaskDetailsView
  */
 
-/**
- * @deprecated
- * @param id
- */
-const loadTasksFromEngine = (id: string): Promise<LoadTaskResult> => {
-  const hasDownloadButton = (task: HumanTaskDetailTO): boolean => {
-    if (task.form && task.form.buttons) {
-      return task.form.buttons.statusPdf!.showButton || false;
-    } else if (task.statusDocument) {
-      return true;
-    }
-    return false; // I guess that is the default value, before it could be nullable
-  };
-
-  return callGetTaskDetailsFromEngine(id).then(taskDetails => {
-    return Promise.resolve<LoadTaskResult>({
-      data: {
-        task: mapTaskDetailsFromEngineService(taskDetails),
-        model: taskDetails.variables,
-        followUpDate: taskDetails.followUpDate!,
-        cancelText: taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
-        hasDownloadButton: hasDownloadButton(taskDetails),
-        downloadButtonText: taskDetails.form?.buttons?.statusPdf!.buttonText || ""
-      },
-      error: undefined,
-    });
-  })
-    .catch((error: Error | AxiosError) => {
-      if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
-        return Promise.resolve({
-          error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
-        });
-      } else {
-        return Promise.resolve({
-          error: "Die Aufgabe konnte nicht geladen werden."
-        });
-      }
-    });
-};
-
 export interface CancelTaskResult {
   readonly isError: boolean;
   readonly errorMessage?: string;
@@ -339,11 +258,7 @@ export interface CancelTaskResult {
  * @param taskId
  */
 export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
-  return (
-    shouldUseTaskService()
-      ? callCancelTaskInTaskService(taskId)
-      : callCancelTaskInEngine(taskId)
-  ).then(() => {
+  return callCancelTaskInTaskService(taskId).then(() => {
     queryClient.invalidateQueries([userTasksQueryId]);
     router.push({path: "/task"});
 
@@ -365,11 +280,7 @@ interface CompleteTaskResult {
 }
 
 export const completeTask = (taskId: string, variables: TaskVariables): Promise<CompleteTaskResult> => {
-  return (
-    shouldUseTaskService()
-      ? callCompleteTaskInTaskService(taskId, variables)
-      : callCompleteTaskInEngine(taskId, variables)
-  )
+  return callCompleteTaskInTaskService(taskId, variables)
     .then(() => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
@@ -391,11 +302,7 @@ interface SetFollowUpResult {
 }
 
 export const deferTask = (taskId: string, followUp: string): Promise<SetFollowUpResult> => {
-  return (
-    shouldUseTaskService()
-      ? handleDeferTaskInTaskService(taskId, followUp)
-      : callSetFollowUpTaskInEngine(taskId, followUp)
-  )
+  return handleDeferTaskInTaskService(taskId, followUp)
     .then(() => {
       invalidUserTasks();
       router.push({path: "/task"});
@@ -431,14 +338,11 @@ interface SaveTaskResult {
 }
 
 export const saveTask = (taskId: string, variables: TaskVariables): Promise<SaveTaskResult> => {
-  return (
-    shouldUseTaskService()
-      ? callSaveTaskInTaskService(taskId, variables)
-      : callSaveTaskInEngine(taskId, variables)
-  ).then(() => Promise.resolve({ // FIXME: invalide task list?
-    isError: false,
-    errorMessage: undefined
-  }))
+  return callSaveTaskInTaskService(taskId, variables)
+    .then(() => Promise.resolve({ // FIXME: invalide task list?
+      isError: false,
+      errorMessage: undefined
+    }))
     .catch(error => Promise.resolve({
       isError: true,
       errorMessage: error.message,
@@ -451,17 +355,14 @@ interface AssignTaskResult {
 
 export const assignTask = (taskId: string,): Promise<AssignTaskResult> => {
   const userId = store.getters["user/info"].lhmObjectId;
-  return (
-    shouldUseTaskService()
-      ? callPostAssignTaskInTaskService(taskId, userId)
-      : callPostAssignTaskInEngine(taskId)
-  ).then(() => {
-    router.push({path: "/task/" + taskId});
-    invalidUserTasks();
-    queryClient.invalidateQueries([openGroupTasksQueryId]);
-    queryClient.invalidateQueries([assignedGroupTasksQueryId]);
-    return Promise.resolve({isError: false});
-  }).catch(() => Promise.resolve({isError: true}));
+  return callPostAssignTaskInTaskService(taskId, userId)
+    .then(() => {
+      router.push({path: "/task/" + taskId});
+      invalidUserTasks();
+      queryClient.invalidateQueries([openGroupTasksQueryId]);
+      queryClient.invalidateQueries([assignedGroupTasksQueryId]);
+      return Promise.resolve({isError: false});
+    }).catch(() => Promise.resolve({isError: true}));
 };
 
 interface DownloadPdfResult {
