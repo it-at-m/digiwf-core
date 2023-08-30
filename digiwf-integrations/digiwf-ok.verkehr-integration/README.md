@@ -1,114 +1,42 @@
 
-# OK.VERKEHR digiwf integration
-
-OK.VERKEHR digiwf integration is alibrary is to enable OK.VERKEHR requests within [digiwf](https://digiwf.oss.muenchen.de).
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#roadmap">Roadmap</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-    </li>
-    <li>
-      <a href="#Documentation">Documentation</a>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
-
-
-
-### Built With
-
-This project is built with:
-
-* [Spring Boot](https://spring.io/projects/spring-boot)
-* [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)
-* [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils)
-
-
-
-
-
-## Roadmap
-
-See the [open issues](#) for a full list of proposed features (and known issues).
-
-
-
-<!-- GETTING STARTED -->
+# DigiWF OK.Verkehr Integration
 
 ## Getting started
 
-For an explanation on how to get started, please refer to
-the [quickstart doc](https://github.com/it-at-m/digiwf-ok.verkehr-integration/blob/dev/docs/quickstart.md).
+Below is an example of how you can install and set up your service.
 
+1. Use the spring initializer and create a Spring Boot application with `Spring Web`
+   dependencies [https://start.spring.io](https://start.spring.io)
+2. Add the `digiwf-okverkehr-integration-starter` dependency.
 
+With Maven:
 
-## Documentation
+```
+   <dependency>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <artifactId>digiwf-okverkehr-integration-starter</artifactId>
+        <version>${version}</version>
+   </dependency>
+```
 
-For all further documentation, please refer to
-the [documentations doc](https://github.com/it-at-m/digiwf-ok.verkehr-integration/blob/dev/docs/documentation.md).
+With Gradle:
 
+```
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-okverkehr-integration-starter', version: '${version}'
+```
 
+4. Configure your application
 
-## Architecture
+```yaml
+de.muenchen.oss.digiwf.okverkehr:
+  url: <URL>
+  username: <USERNAME>
+  password: <PASSWORD>
+```
 
-For a small impression of the architecture, please refer to
-the [architecture doc](https://github.com/it-at-m/digiwf-ok.verkehr-integration/blob/dev/docs/architecture.md).
+5. Use the repository and/or service beans
 
+To request the OK.VERKEHR rest api, the methods of the following listed spring beans can be used.
 
-
-
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any
-contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please open an issue with the tag "enhancement", fork the repo and
-create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a
-star! Thanks again!
-
-1. Open an issue with the tag "enhancement"
-2. Fork the Project
-3. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the Branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
-
-More about this in the [CODE_OF_CONDUCT](/CODE_OF_CONDUCT.md) file.
-
-
-
-
-
-
-## License
-
-Distributed under the MIT License. See [LICENSE](LICENSE) file for more information.
-
-
-
-
-
-
-## Contact
-
-it@M - opensource@muenchen.de
-
-
-
-
+* `OkVerkehrHalterRepository`
+* `OkVerkehrHalterService`

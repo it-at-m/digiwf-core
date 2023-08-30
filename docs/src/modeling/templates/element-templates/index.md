@@ -34,3 +34,9 @@
 <DownloadArtifact
     artifact="sendMailV01.json"
     type="element-template" />
+
+## OK.Verkehr Integration
+
+<DownloadArtifact
+artifact="okVerkehrIntegration.json"
+type="element-template" />
