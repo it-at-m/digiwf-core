@@ -445,9 +445,9 @@ public class UserTaskNotificationListenerTest {
         Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("false");
         Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("false");
         Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
-        Mockito.when(task.getVariable("MAIL_SUBJECT")).thenReturn("Neue Testaufgabe");
-        Mockito.when(task.getVariable("MAIL_BODY")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
-        Mockito.when(task.getVariable("MAIL_BOTTOM_TEXT")).thenReturn("Viele Grüße");
+        Mockito.when(task.getVariable("mail_subject")).thenReturn("Neue Testaufgabe");
+        Mockito.when(task.getVariable("mail_body")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
+        Mockito.when(task.getVariable("mail_bottom_text")).thenReturn("Viele Grüße");
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
@@ -531,9 +531,9 @@ public class UserTaskNotificationListenerTest {
         Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("true");
         Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("true");
         Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
-        Mockito.when(task.getVariable("MAIL_SUBJECT")).thenReturn("Neue Testaufgabe");
-        Mockito.when(task.getVariable("MAIL_BODY")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
-        Mockito.when(task.getVariable("MAIL_BOTTOM_TEXT")).thenReturn("Viele Grüße");
+        Mockito.when(task.getVariable("mail_subject")).thenReturn("Neue Testaufgabe");
+        Mockito.when(task.getVariable("mail_body")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
+        Mockito.when(task.getVariable("mail_bottom_text")).thenReturn("Viele Grüße");
         HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
         IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
         when(identityLink1.getUserId()).thenReturn(candidateName);
