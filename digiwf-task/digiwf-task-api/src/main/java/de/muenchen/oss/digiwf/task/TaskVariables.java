@@ -76,16 +76,16 @@ public class TaskVariables {
   /**
    * Task variable containing the customized mail subject of the task.
    */
-  public static final VariableFactory<String> MAIL_SUBJECT = stringVariable("MAIL_SUBJECT");
+  public static final VariableFactory<String> MAIL_SUBJECT = stringVariable("mail_subject");
 
   /**
    * Task variable containing the customized mail body of the task.
    */
-  public static final VariableFactory<String> MAIL_BODY = stringVariable("MAIL_BODY");
+  public static final VariableFactory<String> MAIL_BODY = stringVariable("mail_body");
 
   /**
    * Task variable containing the customized mail bottom text of the task.
    */
-  public static final VariableFactory<String> MAIL_BOTTOM_TEXT  = stringVariable("MAIL_BOTTOM_TEXT");
+  public static final VariableFactory<String> MAIL_BOTTOM_TEXT  = stringVariable("mail_bottom_text");
 
 }

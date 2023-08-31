@@ -9,9 +9,9 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_schema_key">custom-mail-notification-user-task</camunda:inputParameter>
-          <camunda:inputParameter name="MAIL_SUBJECT">Individueller Betreff</camunda:inputParameter>
-          <camunda:inputParameter name="MAIL_BODY">Individueller Text</camunda:inputParameter>
-          <camunda:inputParameter name="MAIL_BOTTOM_TEXT">Individueller Gruß</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject">Individueller Betreff</camunda:inputParameter>
+          <camunda:inputParameter name="mail_body">Individueller Text</camunda:inputParameter>
+          <camunda:inputParameter name="mail_bottom_text">Individueller Gruß</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1fbmdks</bpmn:incoming>
