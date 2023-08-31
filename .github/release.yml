@@ -6,6 +6,9 @@ changelog:
     - title: 🐞 Bug Fixes
       labels:
         - bug
+    - title: 🔨 Refactoring
+      labels:
+        - refactoring
     - title: 📔 Documentation
       labels:
         - docs
