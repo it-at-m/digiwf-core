@@ -30,9 +30,16 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
+          cache: "maven"
+          server-id: "ossrh"
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.gpg_private_key }}
+          gpg-passphrase: SIGN_KEY_PASS
+
 
       - name: Remove SNAPSHOT
-        if: inputs.snapshot-release== false
+        if: inputs.snapshot-release == false
         run: |
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
@@ -41,12 +48,32 @@ jobs:
 
       - name: Release Maven package
         if: inputs.maven-release == true
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
+        run: mvn clean deploy --batch-mode deploy -DskipTests --activate-profiles deploy
+        env:
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          OSSRH_USERNAME: ${{ secrets.nexus_username }}
+          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
+
+      - name: Perform maven snapshot release
+        if: inputs.snapshot-release == true
+        run: >
+          mvn -B -ntp deploy
+          --activate-profile release
+          -Darguments="-DskipTests"
+        env:
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          OSSRH_USERNAME: ${{ secrets.nexus_username }}
+          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
+
+      - name: Perform maven release
+        if: inputs.snapshot-release== false
+        run: >
+          mvn -B -ntp release:prepare release:perform
+          -Darguments="-DskipTests"
+        env:
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          OSSRH_USERNAME: ${{ secrets.nexus_username }}
+          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
