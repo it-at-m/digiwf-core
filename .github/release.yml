@@ -1,0 +1,14 @@
+changelog:
+  categories:
+    - title: 🎉 New Features
+      labels:
+        - feature
+    - title: 🐞 Bug Fixes
+      labels:
+        - bug
+    - title: 📔 Documentation
+      labels:
+        - docs
+    - title: 🔨 Dependency Upgrades
+      labels:
+        - Technical Dept
