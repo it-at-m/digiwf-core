@@ -46,8 +46,8 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode install -DskipTests
 
-      - name: Release Maven package
-        if: inputs.snapshot-release == true && inputs.maven-release == true
+      - name: Perform maven release
+        if: inputs.snapshot-release == false && inputs.maven-release == true
         run: mvn clean deploy --batch-mode deploy -DskipTests --activate-profiles deploy
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
@@ -55,20 +55,10 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.nexus_password }}
 
       - name: Perform maven snapshot release
-        if: inputs.snapshot-release == false && inputs.maven-release == true
+        if: inputs.snapshot-release == true && inputs.maven-release == true
         run: >
           mvn -B -ntp deploy
           --activate-profile release
-          -Darguments="-DskipTests"
-        env:
-          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
-          OSSRH_USERNAME: ${{ secrets.nexus_username }}
-          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
-
-      - name: Perform maven release
-        if: inputs.snapshot-release== false
-        run: >
-          mvn -B -ntp release:prepare release:perform
           -Darguments="-DskipTests"
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}

@@ -30,7 +30,7 @@ jobs:
       - run: npm run build
 
       - run: lerna publish from-package --yes
-        if: inputs.snapshot-release == true
+        if: inputs.snapshot-release == false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
