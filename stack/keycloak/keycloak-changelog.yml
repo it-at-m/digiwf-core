@@ -11,3 +11,4 @@ includes:
   - path: 08_s3.yml
   - path: 10_johndoe.yml
   - path: 11_johndoe_webapp.yml
+  - path: 12_janedoe.yml

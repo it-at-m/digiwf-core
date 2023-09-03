@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "jest src"
+    "test": "jest src --coverage"
   },
   "dependencies": {
     "@muenchen/digiwf-date-input": "^0.21.11",

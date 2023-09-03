@@ -43,9 +43,9 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, watch} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
-import {useAssignedGroupTasksQuery, useAssignTaskMutation} from "../middleware/tasks/taskMiddleware";
+import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageFilters} from "../store/modules/filters";
@@ -57,26 +57,23 @@ export default defineComponent({
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
     const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, currentSortDirection);
-    const assignMutation = useAssignTaskMutation();
 
+    const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
-      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}));
-    };
-
-    const reloadTasks = (): void => {
-      refetch();
+      assignToCurrentUserMutation.mutateAsync(id)
+        .then(() => router.push({path: '/task/' + id}));
     };
     watch(currentSortDirection, () => {
-      reloadTasks();
+      refetch();
     });
 
     watch(page, (newPage) => {
       setPage(newPage);
-      reloadTasks();
+      refetch();
     });
     watch(size, (newSize) => {
       setSize(newSize);
-      reloadTasks();
+      refetch();
     });
 
     return {
@@ -86,7 +83,7 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
-      reloadTasks,
+      reloadTasks: refetch,
       pagination: {
         page,
         size,
@@ -114,7 +111,7 @@ export default defineComponent({
       },
       onFilterChange: (newFilter: string | undefined) => {
         setSearchQuery(newFilter || "");
-        reloadTasks();
+        refetch();
       },
     };
   }

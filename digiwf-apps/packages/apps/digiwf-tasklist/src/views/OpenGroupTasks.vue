@@ -44,7 +44,7 @@
 <script lang="ts">
 import {defineComponent, watch} from "vue";
 import {useRouter} from "vue-router/composables";
-import {useAssignTaskMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
+import {useAssignTaskToCurrentUserMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageFilters} from "../store/modules/filters";
@@ -56,23 +56,17 @@ export default defineComponent({
     const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
     const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, currentSortDirection);
-    const assignMutation = useAssignTaskMutation();
-
-    const reloadTasks = (): void => {
-      refetch();
-    };
-
+    const assignMutation = useAssignTaskToCurrentUserMutation();
     watch(currentSortDirection, () => {
-      reloadTasks();
+      refetch();
     });
-
     watch(page, (newPage) => {
       setPage(newPage);
-      reloadTasks();
+      refetch();
     });
     watch(size, (newSize) => {
       setSize(newSize);
-      reloadTasks();
+      refetch();
     });
 
     const assignTask = async (id: string): Promise<void> => {
@@ -86,7 +80,7 @@ export default defineComponent({
       errorMessage: error || assignMutation.error,
       data,
       filter: searchQuery,
-      reloadTasks,
+      reloadTasks: refetch,
       pagination: {
         page,
         size,
@@ -114,9 +108,9 @@ export default defineComponent({
       },
       onFilterChange: (newFilter: string | undefined) => {
         setSearchQuery(newFilter || "");
-        reloadTasks();
+        refetch();
       },
     };
-  },
+  }
 });
 </script>

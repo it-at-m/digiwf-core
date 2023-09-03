@@ -399,4 +399,174 @@ public class UserTaskNotificationListenerTest {
         assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user1.getEmail())));
         assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user2.getEmail())));
     }
+
+    /**
+     * Tests if a notification to the assignee is send out with the default mail subject, body and bottom text.
+     */
+    @Test
+    public void testDelegateTask_WithAssigneeAndDefaultSubjectBodyAndBottomText() throws Exception {
+        final String username = "flash.gordon";
+        DelegateTask task = Mockito.mock(DelegateTask.class);
+        Mockito.when(task.getEventName()).thenReturn("create");
+        Mockito.when(task.getVariable("digitalwf_notification_send_assignee")).thenReturn("true");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("false");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("false");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
+        when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
+
+        DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
+        UserService userService = Mockito.mock(UserService.class);
+        User user = new User();
+        user.setEmail(username + "@muenchen.de");
+        when(userService.getUser(username)).thenReturn(user);
+        MailingService mailingService = Mockito.mock(MailingService.class);
+        RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+
+        // execute
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService).sendMailTemplateWithLink(argument.capture());
+        assertEquals(user.getEmail(), argument.getValue().getReceivers());
+        assertThat(argument.getValue().getSubject()).isEqualTo("Es liegt eine neue Aufgabe für Sie bereit");
+        assertThat(argument.getValue().getBody()).isEqualTo("Sie haben eine Aufgabe in DigiWF.");
+        assertThat(argument.getValue().getBottomText()).isBlank();
+    }
+
+    /**
+     * Tests if a notification to the assignee is send out with the customized mail subject, body and bottom text.
+     */
+    @Test
+    public void testDelegateTask_WithAssigneeAndCustomizedSubjectBodyAndBottomText() throws Exception {
+        final String username = "flash.gordon";
+        DelegateTask task = Mockito.mock(DelegateTask.class);
+        Mockito.when(task.getEventName()).thenReturn("create");
+        Mockito.when(task.getVariable("digitalwf_notification_send_assignee")).thenReturn("true");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("false");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("false");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(username);
+        Mockito.when(task.getVariable("mail_subject")).thenReturn("Neue Testaufgabe");
+        Mockito.when(task.getVariable("mail_body")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
+        Mockito.when(task.getVariable("mail_bottom_text")).thenReturn("Viele Grüße");
+        when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
+
+        DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
+        UserService userService = Mockito.mock(UserService.class);
+        User user = new User();
+        user.setEmail(username + "@muenchen.de");
+        when(userService.getUser(username)).thenReturn(user);
+        MailingService mailingService = Mockito.mock(MailingService.class);
+        RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+
+        // execute
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService).sendMailTemplateWithLink(argument.capture());
+        assertEquals(user.getEmail(), argument.getValue().getReceivers());
+        assertThat(argument.getValue().getSubject()).isEqualTo("Neue Testaufgabe");
+        assertThat(argument.getValue().getBody()).isEqualTo("Hier kommen Sie zu der neuen Testaufgabe.");
+        assertThat(argument.getValue().getBottomText()).isEqualTo("Viele Grüße");
+    }
+
+    /**
+     * Tests if a notification to the candidate users and groups is send out with the default mail subject, body and bottom text.
+     */
+    @Test
+    public void testDelegateTask_WithCandidateUsersAndCandidateGroupsAndDefaultSubjectBodyAndBottomText() throws Exception {
+        final String candidateName = "dale.arden";
+        final String groupName = "itm-km82";
+        DelegateTask task = Mockito.mock(DelegateTask.class);
+        Mockito.when(task.getEventName()).thenReturn("create");
+        Mockito.when(task.getVariable("digitalwf_notification_send_assignee")).thenReturn("false");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("true");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("true");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
+        HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
+        IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
+        when(identityLink1.getUserId()).thenReturn(candidateName);
+        when(identityLink1.getType()).thenReturn(IdentityLinkType.CANDIDATE);
+        candidateSet.add(identityLink1);
+        IdentityLink identityLink2 = Mockito.mock(IdentityLink.class);
+        when(identityLink2.getGroupId()).thenReturn(groupName);
+        when(identityLink2.getType()).thenReturn(IdentityLinkType.CANDIDATE);
+        candidateSet.add(identityLink2);
+        when(task.getCandidates()).thenReturn(candidateSet);
+
+        DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
+        UserService userService = Mockito.mock(UserService.class);
+        User user1 = new User();
+        user1.setEmail(candidateName + "@muenchen.de");
+        when(userService.getUser(candidateName)).thenReturn(user1);
+        User user2 = new User();
+        user2.setEmail(groupName + "@muenchen.de");
+        when(userService.getOuByShortName(groupName)).thenReturn(Optional.of(user2));
+        MailingService mailingService = Mockito.mock(MailingService.class);
+        RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+
+        // execute
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+
+        // check if service is called with defined mail addresses and if the right mail subject, body and bottom text are set
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
+        List<MailTemplate> arguments = argument.getAllValues();
+        assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user1.getEmail())));
+        assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user2.getEmail())));
+        assertTrue(arguments.stream().allMatch(a -> a.getSubject().contains("Es liegt eine neue Gruppenaufgabe für Sie bereit")));
+        assertTrue(arguments.stream().allMatch(a -> a.getBody().contains("Sie haben eine Gruppenaufgabe in DigiWF.")));
+        assertTrue(arguments.stream().allMatch(a -> a.getBottomText().isBlank()));
+    }
+
+    /**
+     * Tests if a notification to the candidate users and groups is send out with the customized mail subject, body and bottom text.
+     */
+    @Test
+    public void testDelegateTask_WithCandidateUsersAndCandidateGroupsAndCustomizedSubjectBodyAndBottomText() throws Exception {
+        final String candidateName = "dale.arden";
+        final String groupName = "itm-km82";
+        DelegateTask task = Mockito.mock(DelegateTask.class);
+        Mockito.when(task.getEventName()).thenReturn("create");
+        Mockito.when(task.getVariable("digitalwf_notification_send_assignee")).thenReturn("false");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_users")).thenReturn("true");
+        Mockito.when(task.getVariable("digitalwf_notification_send_candidate_groups")).thenReturn("true");
+        Mockito.when(task.getVariable("app_task_assignee")).thenReturn(null);
+        Mockito.when(task.getVariable("mail_subject")).thenReturn("Neue Testaufgabe");
+        Mockito.when(task.getVariable("mail_body")).thenReturn("Hier kommen Sie zu der neuen Testaufgabe.");
+        Mockito.when(task.getVariable("mail_bottom_text")).thenReturn("Viele Grüße");
+        HashSet<IdentityLink> candidateSet = new HashSet<IdentityLink>();
+        IdentityLink identityLink1 = Mockito.mock(IdentityLink.class);
+        when(identityLink1.getUserId()).thenReturn(candidateName);
+        when(identityLink1.getType()).thenReturn(IdentityLinkType.CANDIDATE);
+        candidateSet.add(identityLink1);
+        IdentityLink identityLink2 = Mockito.mock(IdentityLink.class);
+        when(identityLink2.getGroupId()).thenReturn(groupName);
+        when(identityLink2.getType()).thenReturn(IdentityLinkType.CANDIDATE);
+        candidateSet.add(identityLink2);
+        when(task.getCandidates()).thenReturn(candidateSet);
+
+        DigitalWFProperties properties = Mockito.mock(DigitalWFProperties.class);
+        UserService userService = Mockito.mock(UserService.class);
+        User user1 = new User();
+        user1.setEmail(candidateName + "@muenchen.de");
+        when(userService.getUser(candidateName)).thenReturn(user1);
+        User user2 = new User();
+        user2.setEmail(groupName + "@muenchen.de");
+        when(userService.getOuByShortName(groupName)).thenReturn(Optional.of(user2));
+        MailingService mailingService = Mockito.mock(MailingService.class);
+        RepositoryService repositoryService = Mockito.mock(RepositoryService.class);
+
+        // execute
+        new UserTaskNotificationListener(repositoryService, mailingService, userService, properties).delegateTask(task);
+
+        // check if service is called with defined mail addresses and if the right mail subject, body and bottom text are set
+        ArgumentCaptor<MailTemplate> argument = ArgumentCaptor.forClass(MailTemplate.class);
+        verify(mailingService, times(2)).sendMailTemplateWithLink(argument.capture());
+        List<MailTemplate> arguments = argument.getAllValues();
+        assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user1.getEmail())));
+        assertTrue(arguments.stream().anyMatch(a -> a.getReceivers().contains(user2.getEmail())));
+        assertTrue(arguments.stream().allMatch(a -> a.getSubject().contains("Neue Testaufgabe")));
+        assertTrue(arguments.stream().allMatch(a -> a.getBody().contains("Hier kommen Sie zu der neuen Testaufgabe.")));
+        assertTrue(arguments.stream().allMatch(a -> a.getBottomText().contains("Viele Grüße")));
+    }
 }
