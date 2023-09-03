@@ -23,7 +23,7 @@ public class CreateVorgangService implements CreateVorgangUseCase {
             @NotNull final VorgangArt art,
             @NotBlank final String user) {
 
-        final Vorgang vorgang = new Vorgang(titel, sachakteCOO, art);
+        final Vorgang vorgang = new Vorgang(sachakteCOO, titel, art);
 
         return vorgangRepository.createVorgang(vorgang, user);
     }

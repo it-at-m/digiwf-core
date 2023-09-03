@@ -13,9 +13,10 @@ public class Vorgang {
     private String title;
     private VorgangArt art;
 
-    public Vorgang(final String sachakteCoo, final String title, VorgangArt art) {
+    public Vorgang(final String sachakteCoo, final String title, final VorgangArt art) {
         this.sachakteCoo = sachakteCoo;
         this.title = title;
+        this.art = art;
     }
 
 }
