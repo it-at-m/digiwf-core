@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class FabasoftAdapter implements VorgangRepository {
 
-    private final DmsProperties properties;
+    private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
 
     @Override

@@ -13,8 +13,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "digiwf.integration.dms")
-public class DmsProperties {
+@ConfigurationProperties(prefix = "digiwf.integration.dms.fabasoft")
+public class FabasoftProperties {
 
     @NotBlank
     private String address;

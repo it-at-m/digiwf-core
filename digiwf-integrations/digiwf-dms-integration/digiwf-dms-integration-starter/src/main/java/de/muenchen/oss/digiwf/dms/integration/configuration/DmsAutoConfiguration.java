@@ -3,9 +3,9 @@ package de.muenchen.oss.digiwf.dms.integration.configuration;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateVorgangDto;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.DmsProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
+import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateVorgangService;
@@ -24,12 +24,12 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({DmsProperties.class})
+@EnableConfigurationProperties({FabasoftProperties.class})
 public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public VorgangRepository vorgangRepository(final DmsProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
+    public VorgangRepository vorgangRepository(final FabasoftProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
         return new FabasoftAdapter(dmsProperties, wsCleint);
     }
 

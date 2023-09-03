@@ -20,7 +20,7 @@ import javax.xml.ws.soap.SOAPBinding;
 @RequiredArgsConstructor
 public class FabasoftClientConfiguration {
 
-    private final DmsProperties properties;
+    private final FabasoftProperties properties;
 
     @Bean
     public LHMBAI151700GIWSDSoap dmsWsClient() {

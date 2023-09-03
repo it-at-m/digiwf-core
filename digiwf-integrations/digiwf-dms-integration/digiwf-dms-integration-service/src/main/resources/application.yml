@@ -50,7 +50,8 @@ management:
 digiwf:
   integration:
     dms:
-      businessapp: digiwf
-      username: ${DMS_USERNAME}
-      password: ${DMS_PASSWORD}
-      address: "${DMS_HOST:http://localhost}:${DMS_PORT:8191}/services/dms"
+      fabasoft:
+        businessapp: digiwf
+        username: ${FABASOFT_DMS_USERNAME}
+        password: ${FABASOFT_DMS_PASSWORD}
+        address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
