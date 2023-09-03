@@ -41,7 +41,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Consumer<Message<CreateVorgangDto>> emailMessageProcessor(final ProcessApi processApi, final ErrorApi errorApi, final CreateVorgangUseCase createVorgangUseCase) {
+    public Consumer<Message<CreateVorgangDto>> createVorgangMessageProcessor(final ProcessApi processApi, final ErrorApi errorApi, final CreateVorgangUseCase createVorgangUseCase) {
         final MessageProcessor messageProcessor = new MessageProcessor(processApi, errorApi, createVorgangUseCase);
         return messageProcessor.createVorgang();
     }

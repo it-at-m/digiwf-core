@@ -55,3 +55,13 @@ digiwf:
         username: ${FABASOFT_DMS_USERNAME}
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
+
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          createVorgangFromEventBus: "createVorgangMessageProcessor"

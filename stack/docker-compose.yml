@@ -63,6 +63,7 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_COSYS_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
 
       echo -e 'Resulting topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
