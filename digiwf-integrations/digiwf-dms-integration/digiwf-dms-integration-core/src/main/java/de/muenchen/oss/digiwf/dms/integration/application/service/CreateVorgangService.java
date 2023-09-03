@@ -5,14 +5,23 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangReposi
 import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Validated
 @RequiredArgsConstructor
 public class CreateVorgangService implements CreateVorgangUseCase {
 
     private final VorgangRepository vorgangRepository;
 
     @Override
-    public Vorgang createVorgang(String titel, String sachakteCOO, VorgangArt art, String user) {
+    public Vorgang createVorgang(
+            @NotBlank final String titel,
+            @NotBlank final String sachakteCOO,
+            @NotNull final VorgangArt art,
+            @NotBlank final String user) {
 
         final Vorgang vorgang = new Vorgang(titel, sachakteCOO, art);
 

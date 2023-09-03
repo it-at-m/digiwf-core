@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
+import javax.validation.ValidationException;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -44,6 +45,8 @@ public class MessageProcessor {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {
                 this.errorApi.handleIncident(message.getHeaders(), incidentError);
+            } catch (final ValidationException validationException) {
+                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
             }
         };
     }
