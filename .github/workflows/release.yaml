@@ -151,6 +151,13 @@ jobs:
           push: true
           tags: itatm/digiwf-tasklist-backend-service:${{ env.RELEASE_VERSION }},itatm/digiwf-tasklist-backend-service:dev
 
+      - name: Build and push dms integration
+        uses: docker/build-push-action@v4
+        with:
+          context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
+          push: true
+          tags: itatm/digiwf-dms-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-dms-integration-service:dev
+
   release-services-camunda-ee:
     if: github.event.inputs.services == 'true'
     runs-on: ubuntu-latest
