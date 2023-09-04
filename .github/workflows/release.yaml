@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Java and Maven
         uses: actions/setup-java@v3
@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Java and Maven
         uses: actions/setup-java@v3
@@ -206,7 +206,7 @@ jobs:
       run:
         working-directory: ./digiwf-apps
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -256,7 +256,7 @@ jobs:
       run:
         working-directory: ./docs
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -277,7 +277,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Create tag
         uses: actions/github-script@v6
@@ -311,7 +311,7 @@ jobs:
       - release-services-camunda-ee
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup git
         run: |
           git config --global user.email "digiwf@muenchen.de"
@@ -349,7 +349,7 @@ jobs:
         working-directory: ./digiwf-apps
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup git
         run: |
           git config --global user.email "digiwf@muenchen.de"
