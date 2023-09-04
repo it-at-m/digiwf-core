@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.type.MapLikeType;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.LegacyPayloadTaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.camunda.bpm.engine.TaskService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ public class RemoteLegacyPayloadTaskAdapter implements LegacyPayloadTaskCommandP
 
   private final LegacyTaskClient legacyTaskClient;
   private final ObjectMapper objectMapper;
+  private final TaskService taskService;
   private MapLikeType mapType;
 
   @PostConstruct
@@ -36,6 +39,9 @@ public class RemoteLegacyPayloadTaskAdapter implements LegacyPayloadTaskCommandP
   @Override
   public void saveOldSchemaUserTask(String taskId, Map<String, Object> payload) {
     legacyTaskClient.saveTask(new LegacyTaskClient.SaveTO(taskId, payload));
+    // fetch task and save it to trigger update event
+    val task = taskService.createTaskQuery().taskId(taskId).singleResult();
+    taskService.saveTask(task);
   }
 
   @Override
