@@ -29,8 +29,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
 
     @Override
     public PageOfTasks getTasksForCurrentUser(User currentUser, String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting) {
-        // FIXME: add tag i search
-        var filters = buildFilters(query, followUp);
+        var filters = buildFilters(query, tag, followUp);
         var result = taskQueryClient.query(new TasksForUserQuery(
                 new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
                 true, // assigned to me only
@@ -48,8 +47,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
 
     @Override
     public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, String tag, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
-        // FIXME: add tag in search
-        var filters = buildFilters(query, null);
+        var filters = buildFilters(query, tag, null);
         var result = taskQueryClient.query(new TasksForCandidateUserAndGroupQuery(
                 currentUser,
                 includeAssigned,
@@ -81,13 +79,16 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
-    private List<String> buildFilters(String query, LocalDate followUp) {
+    private List<String> buildFilters(String query, String tag, LocalDate followUp) {
         val filters = new ArrayList<String>();
         if (followUp != null) {
             filters.add("task.followUpDate<" + followUp.atStartOfDay().plusSeconds(1).toInstant(ZoneOffset.UTC));
         }
         if (query != null && !query.isEmpty()) {
             filters.add("task.textSearch%" + query);
+        }
+        if(tag != null) {
+            filters.add("app_task_tag=" + tag);
         }
         return filters;
     }

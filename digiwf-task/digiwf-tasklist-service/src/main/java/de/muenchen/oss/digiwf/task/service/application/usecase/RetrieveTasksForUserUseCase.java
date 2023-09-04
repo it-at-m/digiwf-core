@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.Can
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.tag.TaskTagResolverPort;
 import de.muenchen.oss.digiwf.task.service.domain.PageOfTasks;
 import de.muenchen.oss.digiwf.task.service.domain.PageOfTasksWithSchema;
 import de.muenchen.oss.digiwf.task.service.domain.PagingAndSorting;
@@ -25,6 +26,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final TaskSchemaRefResolverPort taskSchemaRefResolverPort;
   private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
   private final CancellationFlagOutPort cancellationFlagOutPort;
+  private final TaskTagResolverPort taskTagResolverPort;
 
   @Override
   public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
@@ -54,7 +56,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
                 taskSchemaRefResolverPort.apply(task),
                 cancellationFlagOutPort.apply(task),
                 taskSchemaTypeResolverPort.apply(task),
-                "dummy-tag" // FIXME: add logic
+                taskTagResolverPort.apply(task)
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

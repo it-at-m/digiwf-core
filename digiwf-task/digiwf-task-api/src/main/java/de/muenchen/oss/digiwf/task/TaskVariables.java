@@ -42,7 +42,10 @@ public class TaskVariables {
    * Reflects the task description.
    */
   public static final VariableFactory<String> TASK_DESCRIPTION = stringVariable("app_task_description");
-
+  /**
+   * Reflects the task description.
+   */
+  public static final VariableFactory<String> TASK_TAG = stringVariable("app_task_tag");
   /**
    * Reflects the task description.
    */
