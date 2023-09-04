@@ -52,13 +52,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - name: Set apps release version env variable
-        if: github.event.inputs.snapshot-build == 'false'
         working-directory: ./digiwf-apps
         run: |
-          $(if github.event.inputs.snapshot-build == 'true'; \
-            then echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV; \
-            else echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV; \
-          fi)
+          echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
       - name: Remove snapshot from services
         if: github.event.inputs.snapshot-build == 'false'
         run: mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules

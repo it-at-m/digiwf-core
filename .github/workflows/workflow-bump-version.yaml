@@ -62,7 +62,7 @@ jobs:
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version != ''
         run: |
-          mvn versions:set --batch-mode -DnextSnapshot -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT
+          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT
           mvn versions:commit
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version == ''
