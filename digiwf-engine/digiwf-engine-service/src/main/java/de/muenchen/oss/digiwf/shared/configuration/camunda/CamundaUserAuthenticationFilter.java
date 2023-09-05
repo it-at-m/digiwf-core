@@ -33,10 +33,8 @@ class CamundaUserAuthenticationFilter implements Filter {
       // could be a service account, add groups from LDAP if it is a user.
       user.ifPresent(value -> roles.addAll(userService.getGroups(value.getLhmObjectId())));
       log.debug("Accessing {} [ {} ]", userId, roles);
-      identityService.setAuthentication(user.get().getLhmObjectId(), roles);
+      identityService.setAuthentication(userId, roles);
       chain.doFilter(request, response);
-    } catch (Exception e) {
-      log.error("Error while setting authentication", e);
     } finally {
       identityService.clearAuthentication();
     }
