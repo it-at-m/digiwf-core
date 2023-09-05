@@ -74,11 +74,32 @@ public class MockUserServiceImpl implements UserService {
             "",
             "group1"
     );
+    private final User serviceAccount = new User(
+            "service.account",
+            "999999999",
+            "Foo",
+            "Bar",
+            "digiwf.itm@muenchen.de",
+            "cn",
+            "86153",
+            "Boeheimstrasse 8",
+            "group1", // org
+            "Anon",
+            "group1",
+            "86153",
+            "1",
+            "Boeheimstrasse 8",
+            "0000-0000000",
+            "0000-0000000",
+            true,
+            Set.of("group1"),
+            "",
+            "group1"
+    );
 
     private final Map<String, User> users = Map.of(
             john.getLhmObjectId(), john,
             jane.getLhmObjectId(), jane
-
     );
 
     @Override
@@ -118,7 +139,8 @@ public class MockUserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserOrNull(final String userId) {
-        return Optional.ofNullable(this.users.getOrDefault(userId, null));
+        return Optional.ofNullable(serviceAccount);
+//        return Optional.ofNullable(this.users.getOrDefault(userId, this.serviceAccount));
     }
 
     @Override

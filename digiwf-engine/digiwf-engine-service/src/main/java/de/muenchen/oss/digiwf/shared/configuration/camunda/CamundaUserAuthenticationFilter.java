@@ -10,7 +10,6 @@ import org.camunda.bpm.engine.IdentityService;
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 
 /**
@@ -34,7 +33,7 @@ class CamundaUserAuthenticationFilter implements Filter {
       // could be a service account, add groups from LDAP if it is a user.
       user.ifPresent(value -> roles.addAll(userService.getGroups(value.getLhmObjectId())));
       log.debug("Accessing {} [ {} ]", userId, roles);
-      identityService.setAuthentication(userId, roles);
+      identityService.setAuthentication(user.get().getLhmObjectId(), roles);
       chain.doFilter(request, response);
     } finally {
       identityService.clearAuthentication();
