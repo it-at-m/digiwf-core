@@ -33,6 +33,14 @@ import {
   isInFinishedProcesses
 } from "./mutatedTaskFilter";
 
+const extractTag = (tag: Ref<string | undefined>): string | undefined => {
+  const currentValue = tag.value;
+  if(currentValue === undefined) {
+    return undefined;
+  }
+  return currentValue.trim().length === 0 ? undefined :currentValue;
+};
+
 const userTasksQueryId = "user-tasks";
 const assignedGroupTasksQueryId = "assigned-group-tasks";
 const openGroupTasksQueryId = "open-group-tasks";
@@ -83,7 +91,7 @@ const handleTaskLoadingFromTaskService = (
     page.value,
     size.value,
     query.value,
-    tag.value,
+    extractTag(tag),
     shouldIgnoreFollowUpTasks.value
       ? undefined
       : getCurrentDate(),
@@ -115,7 +123,7 @@ export const useOpenGroupTasksQuery = (
 ) => useQuery({
   queryKey: [openGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetOpenGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, tag.value)
+    return callGetOpenGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, extractTag(tag))
       .then(handlePageOfTaskResponse);
   },
 });
@@ -129,7 +137,7 @@ export const useAssignedGroupTasksQuery = (
 ) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, tag.value)
+    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, extractTag(tag))
       .then(handlePageOfTaskResponse);
   },
 });

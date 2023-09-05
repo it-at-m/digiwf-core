@@ -156,11 +156,10 @@ export default {
     },
   },
   setup: (props: any) => {
-    console.log("props.tag", props);
     const dialogOpen = ref<boolean>(false);
     const {setTag} = useGetPaginationData();
     const onTagClick = () => {
-setTag(props.task.tag);
+      setTag(props.task.tag);
     };
     return {
       dialogOpen,

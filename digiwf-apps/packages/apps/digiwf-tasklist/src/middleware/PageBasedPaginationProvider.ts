@@ -32,7 +32,6 @@ export class PageBasedPaginationProvider {
     });
   }
   public setTag(pageId: PageId, tag?: string) {
-    console.log("setTag", {pageId, tag})
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
       tag

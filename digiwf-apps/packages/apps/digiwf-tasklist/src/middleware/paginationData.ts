@@ -1,5 +1,5 @@
 import {useRouter} from "vue-router/composables";
-import {inject, ref, Ref} from "vue";
+import {inject, ref, Ref, watch} from "vue";
 import {usePageId} from "./pageId";
 import {DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
 
@@ -67,6 +67,7 @@ export const useGetPaginationData = (): PaginationData => {
     });
     pageKeyToPaginationData.setPageOfPageId(pageId.id, newPage);
   };
+  watch(tag, (newTag) => console.log("new Tag in hook: ", newTag));
   const setSize = (newSize: number) => {
     size.value = newSize;
     router.replace({
@@ -119,6 +120,6 @@ export const useGetPaginationData = (): PaginationData => {
     setSearchQuery,
     getSearchQueryOfUrl,
     tag,
-    setTag
+    setTag,
   };
 };

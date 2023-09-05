@@ -70,6 +70,9 @@ export default defineComponent({
       refetch();
     });
 
+    // FIXME: why is the watch not triggered
+    watch(tag, (newTag) => console.log("newTag:", newTag));
+
     const assignTask = async (id: string): Promise<void> => {
       assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}));
     };
