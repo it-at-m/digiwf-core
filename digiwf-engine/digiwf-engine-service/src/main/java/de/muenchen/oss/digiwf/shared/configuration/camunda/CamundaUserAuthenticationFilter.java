@@ -35,6 +35,8 @@ class CamundaUserAuthenticationFilter implements Filter {
       log.debug("Accessing {} [ {} ]", userId, roles);
       identityService.setAuthentication(user.get().getLhmObjectId(), roles);
       chain.doFilter(request, response);
+    } catch (Exception e) {
+      log.error("Error while setting authentication", e);
     } finally {
       identityService.clearAuthentication();
     }

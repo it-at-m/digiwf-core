@@ -139,8 +139,10 @@ public class MockUserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserOrNull(final String userId) {
-        return Optional.ofNullable(serviceAccount);
-//        return Optional.ofNullable(this.users.getOrDefault(userId, this.serviceAccount));
+        if (userId == null) {
+            return Optional.of(this.serviceAccount);
+        }
+        return Optional.ofNullable(this.users.getOrDefault(userId, null));
     }
 
     @Override
