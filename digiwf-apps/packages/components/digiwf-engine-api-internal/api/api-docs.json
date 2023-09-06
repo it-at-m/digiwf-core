@@ -14,7 +14,7 @@
     "url" : "https://wilma.muenchen.de/workspaces/digitale-workflows/apps/wiki/wiki/list"
   },
   "servers" : [ {
-    "url" : "http://localhost:8082/api/digitalwf-backend-service",
+    "url" : "http://localhost:8083/api/digitalwf-backend-service",
     "description" : "Generated server url"
   } ],
   "security" : [ {

@@ -71,9 +71,9 @@ Anschließend kann das Frontend mit `npm run serve:tasklist` gestartet werden.
 Beim ersten Start des Frontends muss noch ein `npm run init` durchgeführt werden, damit alle notwendigen Dependencies installiert werden. 
 
 
-Anschließend kann man im Browser [http://localhost:8082](http://localhost:8082) aufrufen, sich einloggen und
+Anschließend kann man im Browser [http://localhost:8083](http://localhost:8083) aufrufen, sich einloggen und
 anschließend zur
-Tasklist [http://localhost:8083](http://localhost:8083) wechseln.
+Tasklist [http://localhost:8084](http://localhost:8083) wechseln.
 Nachdem erfolgreichen Login kommt eine leere weiße Seite. Das ist gewollt und zeigt, dass der Login erfolgreich war.
 
 Anmelden können Sie sich mit dem Nutzername _johndoe_ und dem Passwort _test_.
@@ -89,7 +89,7 @@ Dazu startet man dieses mit folgenden Profilen: local, streaming, no-ldap
 Zusätzlich bindet man die .env Datei aus dem Stack Ordner ein (Dafür kann man das Idea
 Plugin [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) nutzen)
 
-Anschließend sollte man beim Aufruf von [http://localhost:8082](http://localhost:8082) auf die Keycloak Loginmaske
+Anschließend sollte man beim Aufruf von [http://localhost:8083](http://localhost:8083) auf die Keycloak Loginmaske
 weitergeleitet werden.
 Dort meldet man sich mit dem Nutzername _johndoe_ und dem Passwort _test_ an.
 
