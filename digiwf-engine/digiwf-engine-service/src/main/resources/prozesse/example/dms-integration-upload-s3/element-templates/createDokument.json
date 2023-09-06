@@ -66,8 +66,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "vorgang_coo",
-        "target": "vorgang_coo"
+        "name": "vorgangCoo",
+        "target": "vorgangCoo"
       },
       "constraints": {
         "notEmpty": true
@@ -108,8 +108,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "ein_ausgehend_intern",
-        "target": "ein_ausgehend_intern"
+        "name": "art",
+        "target": "art"
       },
       "constraints": {
         "notEmpty": true
@@ -122,8 +122,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "s3_dateien",
-        "target": "s3_dateien"
+        "name": "s3Dateien",
+        "target": "s3Dateien"
       },
       "constraints": {
         "notEmpty": true
