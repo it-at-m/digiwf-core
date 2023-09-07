@@ -53,7 +53,7 @@ public class LdapTemplateConfiguration {
      */
     @Bean
     public LhmLdapClient lhmLdapTemplate(final LdapContextSource ldapContextSource, final LdapQueryFactory ldapQueryFactory) {
-        return new LhmLdapClient(ldapContextSource, ldapQueryFactory);
+        return new LhmLdapClient(ldapContextSource, ldapQueryFactory, serviceAuthLdapProperties);
     }
 
 }

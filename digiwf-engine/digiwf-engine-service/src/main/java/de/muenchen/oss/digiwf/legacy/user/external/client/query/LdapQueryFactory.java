@@ -11,6 +11,7 @@ import org.springframework.ldap.query.SearchScope;
 
 import java.util.List;
 
+import static de.muenchen.oss.digiwf.legacy.user.external.mapper.LdapAttributeConstants.LDAP_CN;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 /**
@@ -57,13 +58,6 @@ public class LdapQueryFactory {
                 );
     }
 
-    public LdapQuery createOuByNameAndParentPathQuery(final String ouName, final String parentPath) {
-        return query()
-                .searchScope(SearchScope.SUBTREE)
-                .base(parentPath)
-                .filter(ldapFilterFactory.createOuNameFilter(ouName));
-    }
-
     public LdapQuery createOuByShortNameQuery(final String shortName) {
         return query()
                 .searchScope(SearchScope.SUBTREE)
@@ -71,11 +65,12 @@ public class LdapQueryFactory {
                 .where(LdapAttributeConstants.LDAP_SHORTNAME).is(shortName);
     }
 
-    public LdapQuery createPersonByObjectIdQuery(final String lhmObjectId) {
+    public LdapQuery createOuTreeByShortcodeQuery(final String ouShortCode) {
         return query()
                 .searchScope(SearchScope.SUBTREE)
-                .base(personSearchBase)
-                .where(LdapAttributeConstants.LDAP_OBJID).is(lhmObjectId);
+                .base(this.personSearchBase)
+                .countLimit(1)
+                .where(LDAP_CN).is(ouShortCode);
     }
 
 }
