@@ -5,9 +5,16 @@
     <bpmn:participant id="Participant_1nz00x0" name="User Task process" processRef="Usertask-Example" />
   </bpmn:collaboration>
   <bpmn:process id="Usertask-Example" name="Example Usertask" isExecutable="true">
-    <bpmn:userTask id="Task_UserTask" name="User Task" camunda:assignee="${FORMFIELD_User}">
+    <bpmn:userTask id="Task_UserTask" name="User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${FORMFIELD_User}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

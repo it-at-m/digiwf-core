@@ -9,11 +9,17 @@
     <bpmn:participant id="Participant_0sc4hu1" name="Group task process" processRef="Grouptask-Example" />
   </bpmn:collaboration>
   <bpmn:process id="Grouptask-Example" name="Example Grouptask" isExecutable="true">
-    <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:candidateGroups="${FORMFIELD_group}">
+    <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:candidateGroups="${FORMFIELD_group}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_description">Aufgabe innerhalb des Gruppenzuweisungsprozesses</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">group-user-task</camunda:inputParameter>
-          <camunda:inputParameter name="digitalwf_task_description">Aufgabe innerhalb des Gruppenzuweisungsprozesses</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1xbaxeu</bpmn:incoming>
