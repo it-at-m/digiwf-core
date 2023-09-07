@@ -82,6 +82,8 @@ public class HumanTaskService {
 
         final Map<String, Object> filteredVariables = this.humanTaskDataService.serializeGivenVariables(task, variables);
         this.taskService.setVariables(taskId, filteredVariables);
+        val updatedTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+        taskService.saveTask(updatedTask);
     }
 
     private void checkTaskAccess(String taskId, String userId) {
