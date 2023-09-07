@@ -73,4 +73,19 @@ public class TaskVariables {
    */
   public static final VariableFactory<String> FILE_PATHS_READONLY = stringVariable("app_file_paths_readonly");
 
+  /**
+   * Task variable containing the customized mail subject of the task.
+   */
+  public static final VariableFactory<String> MAIL_SUBJECT = stringVariable("mail_subject");
+
+  /**
+   * Task variable containing the customized mail body of the task.
+   */
+  public static final VariableFactory<String> MAIL_BODY = stringVariable("mail_body");
+
+  /**
+   * Task variable containing the customized mail bottom text of the task.
+   */
+  public static final VariableFactory<String> MAIL_BOTTOM_TEXT  = stringVariable("mail_bottom_text");
+
 }

@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.spring.security.SpringSecurityProperties;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.user.UserGroupResolverPort;
 import io.holunda.polyflow.view.auth.User;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;

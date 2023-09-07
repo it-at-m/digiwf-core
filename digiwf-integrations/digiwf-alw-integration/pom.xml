@@ -20,7 +20,6 @@
         <module>digiwf-alw-integration-core</module>
         <module>digiwf-alw-integration-starter</module>
         <module>digiwf-alw-integration-service</module>
-        <module>digiwf-alw-integration-example</module>
     </modules>
 
 </project>

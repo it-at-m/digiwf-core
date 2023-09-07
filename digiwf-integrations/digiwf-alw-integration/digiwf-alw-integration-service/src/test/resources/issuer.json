@@ -1,0 +1,7 @@
+{
+  "realm": "P82",
+  "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAty6G9T4LhypLBsCVUJwbiUadD6d17n2RU1orB0KEFlz2xHkpl1HcTnxLl2/+T/OZuRGW5//sGta4fN1etnOKzOQ9m7p0pQ3JynZQX9jKf6Ssnzj3LESzUTJZGnQ5GCioEUxTeSieN30lS1CZCqP3LT1h1DDQfFZQm2WlLlp5NikhyNEahORZViAjUz6Fmwl2JutPOA3HRo3iniu2zHAW+riphqoi3eoR1q2+yCX48wo3ps+EDQG2N9zHe9Pk3yMOXOHIzilhxt+dBO44tVwGogz/1Nn6YdfR5n9Y6CfwaHnRRUwa82sflyitP32HwIKn3TFw0B7gUGa1rldIrNPZfwIDAQAB",
+  "token-service": "http://localhost:60001/auth/realms/P82/protocol/openid-connect",
+  "account-service": "http://localhost:60001/auth/realms/P82/account",
+  "tokens-not-before": 0
+}

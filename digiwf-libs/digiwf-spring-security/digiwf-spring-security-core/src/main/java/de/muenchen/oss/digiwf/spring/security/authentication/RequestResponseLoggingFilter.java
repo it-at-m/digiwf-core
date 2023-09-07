@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -52,11 +53,13 @@ public class RequestResponseLoggingFilter implements Filter {
   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest httpRequest = (HttpServletRequest) request;
+    final HttpServletResponse httpResponse = (HttpServletResponse) response;
     if (this.checkForLogging(httpRequest)) {
-      log.info("User {} executed {} on URI {}",
+      log.info("User {} executed {} on URI {} with http status {}",
           userAuthenticationProvider.getLoggedInUser(),
           httpRequest.getMethod(),
-          httpRequest.getRequestURI()
+          httpRequest.getRequestURI(),
+          httpResponse.getStatus()
       );
     }
     chain.doFilter(request, response);

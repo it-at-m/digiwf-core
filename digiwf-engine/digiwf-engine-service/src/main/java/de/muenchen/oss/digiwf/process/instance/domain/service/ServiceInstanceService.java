@@ -7,7 +7,6 @@ package de.muenchen.oss.digiwf.process.instance.domain.service;
 import de.muenchen.oss.digiwf.jsonschema.domain.model.JsonSchema;
 import de.muenchen.oss.digiwf.jsonschema.domain.service.JsonSchemaService;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
-import de.muenchen.oss.digiwf.process.instance.api.mapper.ProcessInstancePageMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.mapper.HistoryTaskMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.mapper.ServiceInstanceMapper;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
@@ -20,6 +19,9 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
@@ -50,7 +52,6 @@ public class ServiceInstanceService {
 
     private final JsonSchemaService jsonSchemaService;
     private final ServiceInstanceDataService serviceInstanceDataService;
-    private final ProcessInstancePageMapper processInstancePageMapper;
 
 
     /**
@@ -62,12 +63,15 @@ public class ServiceInstanceService {
             final String userId,
             final int page,
             final int size,
-            @Nullable
-            final String query
-            ) {
-        final List<String> processAuthIds = this.serviceInstanceAuthService.getAllServiceInstanceIdsByUser(userId);
-        val instances =  this.serviceInstanceMapper.map2Model(this.processInstanceInfoRepository.findAllByInstanceIdIn(processAuthIds));
-        return processInstancePageMapper.toPage(instances, page, size, query);
+            @Nullable final String query
+    ) {
+        final Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"startTime"));
+        if (query == null || query.isBlank()) {
+            return processInstanceInfoRepository.findAllByUserId(userId, pageRequest)
+                    .map(this.serviceInstanceMapper::map2Model);
+        }
+        return processInstanceInfoRepository.searchAllByUserId(query.toLowerCase(), userId, pageRequest)
+                .map(this.serviceInstanceMapper::map2Model);
     }
 
     /**
@@ -196,5 +200,4 @@ public class ServiceInstanceService {
             log.info("Service instance cleaned up: {}", entity.get().getInstanceId());
         }
     }
-
 }

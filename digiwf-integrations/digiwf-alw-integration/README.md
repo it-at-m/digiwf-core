@@ -1,13 +1,14 @@
 # Digiwf ALW Integration
 
-Checkout the documentation at tbd.
+Provides integration to ALW (Ausländerwesen) service for retrieval of responsible employees.
 
-## Getting Started
+## Request
 
-```
-# build
-# execute in the root directory
-mvn clean install
-```
+For the valid request an AZR number must be provided. This number must contain 12-digits. If the AZR number
+is missing or has a wrong format a VALIDATION ERROR is thrown.
 
-Execute the [Example](digiwf-alw-integration-example) application and try the integrations features out.
+## Manual Test outside of München Network
+
+1. Start the `docker-compose` setup
+2. Start application with profiles `local` and `alw-emulation`
+3. Use `digiwf-alw-integration-service/rest-api-client/example.http`
