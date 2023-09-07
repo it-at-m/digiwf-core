@@ -16,7 +16,7 @@
         <v-chip
           v-if="task.tag"
           small
-          @click.prevent="onTagClick"
+          @click.prevent="$emit('clickTag', task.tag)"
         >
           {{ task.tag }}
         </v-chip>
@@ -136,12 +136,11 @@ export default {
       default: ""
     }
   },
-  setup: (props: any) => {
-    const {setTag} = useGetPaginationData();
-    return {
-      onTagClick: () => setTag(props.task.tag)
-    };
-  }
+  emits: {
+    clickTag: {
+      type: Function as PropType<(tag: string) => void>
+    },
+  },
 };
 
 </script>

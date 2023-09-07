@@ -20,6 +20,7 @@
           :show-assignee="true"
           :search-string="props.item.searchInput"
           @edit="reassignTask(props.item.id)"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>

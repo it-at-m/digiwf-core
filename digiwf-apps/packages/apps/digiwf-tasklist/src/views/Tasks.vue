@@ -16,6 +16,7 @@
           :key="props.item.id"
           :task="props.item"
           :search-string="props.item.searchInput"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>

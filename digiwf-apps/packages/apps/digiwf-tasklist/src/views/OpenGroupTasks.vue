@@ -18,6 +18,7 @@
           :task="props.item"
           :search-string="props.item.searchInput"
           @edit="assignTask(props.item.id)"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>
@@ -43,7 +44,7 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, watch} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 import {useAssignTaskToCurrentUserMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
@@ -69,9 +70,6 @@ export default defineComponent({
       setSize(newSize);
       refetch();
     });
-
-    // FIXME: why is the watch not triggered
-    watch(tag, (newTag) => console.log("newTag:", newTag));
 
     const assignTask = async (id: string): Promise<void> => {
       assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}));
