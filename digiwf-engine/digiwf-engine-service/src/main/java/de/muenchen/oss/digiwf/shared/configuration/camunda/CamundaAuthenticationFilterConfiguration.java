@@ -12,6 +12,9 @@ import org.camunda.bpm.engine.IdentityService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
 
 /**
  * Camunda Security configuration.
@@ -20,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
+@Profile(SECURITY)
 public class CamundaAuthenticationFilterConfiguration {
 
   @Bean
