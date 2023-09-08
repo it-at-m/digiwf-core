@@ -12,5 +12,6 @@ import java.io.Serializable;
 public class ProcessMock implements Serializable {
 
     private String description;
+    private String status;
 
 }

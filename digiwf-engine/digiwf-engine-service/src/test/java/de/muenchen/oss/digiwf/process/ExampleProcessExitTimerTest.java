@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 import static org.camunda.bpm.engine.variable.Variables.createVariables;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test to demonstrate correct exit timer usage.
@@ -20,25 +21,25 @@ public class ExampleProcessExitTimerTest {
 
     private UserMock userMock = new UserMock("firstname", "lastname");
 
-//    @Test
-//    @Deployment(resources = "prozesse/example/all-input-fields/all-input-fields-process.bpmn")
-//    public void terminates_all_fields_process_after_timer_job_is_triggered() {
-//        ProcessMock processMock = new ProcessMock();
-//
-//        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("example-all-input-fields",
-//                createVariables()
-//                        .putValue("FormField_User", "1234567")
-//                        .putValue("user", userMock)
-//                        .putValue("process", processMock)
-//        );
-//        assertThat(instance).isStarted();
-//        assertThat(instance).isWaitingAt("Task_UserTask");
-//        execute(job());
-//        assertThat(instance).isEnded();
-//        assertThat(instance).hasNotPassed("End_completed");
-//        assertThat(instance).hasPassed("End_terminated"); // process terminated
-//        assertEquals("AllInputsField gestartet von: firstname lastname", processMock.getDescription());
-//    }
+    @Test
+    @Deployment(resources = "prozesse/example/all-input-fields/all-input-fields-process.bpmn")
+    public void terminates_all_fields_process_after_timer_job_is_triggered() {
+        ProcessMock processMock = new ProcessMock();
+
+        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("example-all-input-fields",
+                createVariables()
+                        .putValue("FormField_User", "1234567")
+                        .putValue("user", userMock)
+                        .putValue("process", processMock)
+        );
+        assertThat(instance).isStarted();
+        assertThat(instance).isWaitingAt("Task_UserTask");
+        execute(job());
+        assertThat(instance).isEnded();
+        assertThat(instance).hasNotPassed("End_completed");
+        assertThat(instance).hasPassed("End_terminated"); // process terminated
+        assertEquals("AllInputsField gestartet von: firstname lastname", processMock.getDescription());
+    }
 
     @Test
     @Deployment(resources = {"prozesse/example/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV02.bpmn"})
@@ -79,48 +80,49 @@ public class ExampleProcessExitTimerTest {
         assertThat(instance).hasPassed("End_terminated"); // process terminated
     }
 
-//    @Test
-//    @Deployment(resources = {"prozesse/example/user-tasks/usertask-process.bpmn"})
-//    public void terminates_user_task_process_after_timer_job_is_triggered() {
-//        ProcessMock processMock = new ProcessMock();
-//
-//        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("Usertask-Example",
-//                createVariables()
-//                        .putValue("FORMFIELD_NumberOfTasks", 1)
-//                        .putValue("FORMFIELD_User", "12345678")
-//                        .putValue("user", userMock)
-//                        .putValue("process", processMock)
-//        );
-//        assertThat(instance).isStarted();
-//        assertThat(instance).isWaitingAt("Task_UserTask");
-//        execute(job());
-//        assertThat(instance).isEnded();
-//        assertThat(instance).hasNotPassed("End_completed");
-//        assertThat(instance).hasPassed("End_terminated"); // process terminated
-//        assertEquals("Usertask gestartet von: firstname lastname", processMock.getDescription());
-//
-//    }
-//
-//    @Test
-//    @Deployment(resources = {"prozesse/example/group-tasks/grouptask-process.bpmn"})
-//    public void terminates_group_task_process_after_timer_job_is_triggered() {
-//        ProcessMock processMock = new ProcessMock();
-//
-//        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("Grouptask-Example",
-//                createVariables()
-//                        .putValue("FORMFIELD_NumberOfTasks", 1)
-//                        .putValue("FORMFIELD_group", "group1")
-//                        .putValue("user", userMock)
-//                        .putValue("process", processMock)
-//        );
-//        assertThat(instance).isStarted();
-//        assertThat(instance).isWaitingAt("Task_GroupUserTask");
-//        execute(job());
-//        assertThat(instance).isEnded();
-//        assertThat(instance).hasNotPassed("End_completed");
-//        assertThat(instance).hasPassed("End_terminated"); // process terminated
-//        assertEquals("Gruppentask gestartet von: firstname lastname", processMock.getDescription());
-//
-//    }
+    @Test
+    @Deployment(resources = {"prozesse/example/user-tasks/usertask-process.bpmn"})
+    public void terminates_user_task_process_after_timer_job_is_triggered() {
+        ProcessMock processMock = new ProcessMock();
+
+        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("Usertask-Example",
+                createVariables()
+                        .putValue("FORMFIELD_NumberOfTasks", 1)
+                        .putValue("FORMFIELD_User", "12345678")
+                        .putValue("user", userMock)
+                        .putValue("process", processMock)
+        );
+
+        assertThat(instance).isStarted();
+        assertThat(instance).isWaitingAt("Task_UserTask");
+        execute(job());
+        assertThat(instance).isEnded();
+        assertThat(instance).hasNotPassed("End_completed");
+        assertThat(instance).hasPassed("End_terminated"); // process terminated
+        assertEquals("Usertask gestartet von: firstname lastname", processMock.getDescription());
+
+    }
+
+    @Test
+    @Deployment(resources = {"prozesse/example/group-tasks/grouptask-process.bpmn"})
+    public void terminates_group_task_process_after_timer_job_is_triggered() {
+        ProcessMock processMock = new ProcessMock();
+
+        ProcessInstance instance = rule.getRuntimeService().startProcessInstanceByKey("Grouptask-Example",
+                createVariables()
+                        .putValue("FORMFIELD_NumberOfTasks", 1)
+                        .putValue("FORMFIELD_group", "group1")
+                        .putValue("user", userMock)
+                        .putValue("process", processMock)
+        );
+        assertThat(instance).isStarted();
+        assertThat(instance).isWaitingAt("Task_GroupUserTask");
+        execute(job());
+        assertThat(instance).isEnded();
+        assertThat(instance).hasNotPassed("End_completed");
+        assertThat(instance).hasPassed("End_terminated"); // process terminated
+        assertEquals("Gruppentask gestartet von: firstname lastname", processMock.getDescription());
+
+    }
 
 }
