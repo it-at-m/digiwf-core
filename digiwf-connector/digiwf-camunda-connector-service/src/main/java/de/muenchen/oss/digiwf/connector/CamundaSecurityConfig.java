@@ -1,39 +1,25 @@
 package de.muenchen.oss.digiwf.connector;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import de.muenchen.oss.digiwf.spring.security.client.OAuth2AccessTokenSupplier;
+import lombok.AllArgsConstructor;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.camunda.bpm.client.interceptor.ClientRequestInterceptor;
 import org.camunda.community.rest.client.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
 @Configuration
 @Profile("!no-security")
+@AllArgsConstructor
 public class CamundaSecurityConfig {
 
-
-    @Value("${digiwf.c7.auth.server.url}")
-    private String authServerUrl;
-
-    @Value("${digiwf.c7.client.id}")
-    private String clientId;
-
-    @Value("${digiwf.c7.client.secret}")
-    private String clientSecret;
+    private final OAuth2AccessTokenSupplier tokenSupplier;
 
     @Bean
     public ClientRequestInterceptor interceptor() {
@@ -56,18 +42,6 @@ public class CamundaSecurityConfig {
     }
 
     public String getAccessToken() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("grant_type", "client_credentials");
-        map.add("client_id", this.clientId);
-        map.add("client_secret", this.clientSecret);
-
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-        final ResponseEntity<JsonNode> response = new RestTemplate().postForEntity(this.authServerUrl, request, JsonNode.class);
-        return "Bearer " + response.getBody().get("access_token").asText();
+        return "Bearer "+ this.tokenSupplier.get().getTokenValue();
     }
-
-
 }

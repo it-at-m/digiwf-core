@@ -98,7 +98,7 @@ services:
     env_file:
       - local-docker.env
     ports:
-      - "8082:8082"
+      - "8083:8083"
     environment:
       #
       # profile specific configuration
@@ -108,7 +108,7 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - internal
-  # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8081
+  # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
     ports:

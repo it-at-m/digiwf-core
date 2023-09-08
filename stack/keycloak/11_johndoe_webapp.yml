@@ -1,0 +1,13 @@
+id: johndoe_assign_webapp_role
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: digiwf-webapp-user
+      description: Can use Camunda web apps.
+  - assignRole:
+      user: johndoe
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      role: digiwf-webapp-user

@@ -39,6 +39,9 @@ spring:
         provider:
           keycloak:
             issuer-uri: http://local-itest
+            user-info-uri: http://local-itest/realms/itest/protocol/openid-connect/userinfo
+            jwk-set-uri: http://local-itest/realms/itest/protocol/openid-connect/certs
+
 
 feign:
   client:

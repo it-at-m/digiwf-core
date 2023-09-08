@@ -9,6 +9,7 @@ export interface HumanTask {
   readonly assigneeId?: string;
   readonly assigneeFormatted?: string;
   readonly inFinishProcess: boolean;
+  readonly inAssignProcess: boolean;
 }
 
 // eslint-disable-next-line

@@ -17,7 +17,7 @@
     "url": "https://github.com/it-at-m/digiwf-core/tree/test/cypress/was_ist_digiwf/digiwf-cypress"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "cypress": "^12.9.0",
     "cypress-multi-reporters": "^1.5.0",
