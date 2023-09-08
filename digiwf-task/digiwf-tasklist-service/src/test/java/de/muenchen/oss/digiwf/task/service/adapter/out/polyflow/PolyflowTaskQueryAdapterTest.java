@@ -71,7 +71,7 @@ public class PolyflowTaskQueryAdapterTest {
     val result = port.getTasksForCurrentUserGroup(
         user,
         query,
-            null,
+            "tag",
         true,
         new PagingAndSorting(
             0,
@@ -87,7 +87,7 @@ public class PolyflowTaskQueryAdapterTest {
         0,
         100,
         "-createTime",
-        Lists.newArrayList("task.textSearch%" + query)
+        Lists.newArrayList("task.textSearch%" + query, "app_task_tag=tag")
     ));
   }
 

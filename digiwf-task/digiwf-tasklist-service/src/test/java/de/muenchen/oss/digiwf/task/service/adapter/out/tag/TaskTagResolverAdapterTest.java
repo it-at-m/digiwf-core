@@ -9,10 +9,10 @@ import org.camunda.bpm.engine.variable.VariableMap;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTagResolverAdapterTest {
 
@@ -24,7 +24,7 @@ private final TaskTagResolverPort taskTagResolverPort = new TaskTagResolverAdapt
                 .set(TaskVariables.TASK_TAG, "task-tag-value")
                 .build();
         Task task = TestFixtures.generateTask("task-id", Set.of("candidate"), Set.of("group1"), "candidate", Instant.now(), true, variables);
-        String tag = taskTagResolverPort.apply(task);
+        String tag = taskTagResolverPort.apply(task).get();
         assertEquals("task-tag-value", tag);
     }
     @Test
@@ -32,7 +32,7 @@ private final TaskTagResolverPort taskTagResolverPort = new TaskTagResolverAdapt
         VariableMap variables = CamundaBpmData.builder()
                 .build();
         Task task = TestFixtures.generateTask("task-id", Set.of("candidate"), Set.of("group1"), "candidate", Instant.now(), true, variables);
-        String tag = taskTagResolverPort.apply(task);
-        assertNull(tag);
+        Optional<String> tag = taskTagResolverPort.apply(task);
+        assertTrue(tag.isEmpty());
     }
 }

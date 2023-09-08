@@ -56,7 +56,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
                 taskSchemaRefResolverPort.apply(task),
                 cancellationFlagOutPort.apply(task),
                 taskSchemaTypeResolverPort.apply(task),
-                taskTagResolverPort.apply(task)
+                taskTagResolverPort.apply(task).orElse(null)
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

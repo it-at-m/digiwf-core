@@ -6,14 +6,16 @@ import io.holunda.polyflow.view.Task;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class TaskTagResolverAdapter implements TaskTagResolverPort {
     @Override
-    public String apply(Task task) {
+    public Optional<String> apply(Task task) {
         val object =  task.getPayload().getOrDefault(TaskVariables.TASK_TAG.getName(), null);
         if(object != null) {
-            return object.toString();
+            return Optional.of(object.toString());
         }
-        return null;
+        return Optional.empty();
     }
 }
