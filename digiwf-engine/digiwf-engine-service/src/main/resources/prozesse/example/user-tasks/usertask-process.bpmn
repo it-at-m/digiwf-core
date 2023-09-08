@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.14.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:collaboration id="Collaboration_0e6ak52">
     <bpmn:extensionElements />
     <bpmn:participant id="Participant_1nz00x0" name="User Task process" processRef="Usertask-Example" />
@@ -26,6 +26,11 @@
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_091qwfe" sourceRef="Task_UserTask" targetRef="End_completed" />
     <bpmn:endEvent id="End_completed" name="Ended">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">process.setStatus("finished");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_091qwfe</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
@@ -48,7 +53,8 @@
         <camunda:executionListener event="start">
           <camunda:script scriptFormat="Javascript">var startername = user.lastname(execution.getVariable("starterOfInstance"));
 var startervorname = user.firstname(execution.getVariable("starterOfInstance"));
-process.setDescription("Usertask gestartet von: " + startervorname + " " + startername);</camunda:script>
+process.setDescription("Usertask gestartet von: " + startervorname + " " + startername);
+process.setStatus("started");</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0lnd3z6</bpmn:incoming>
@@ -72,18 +78,6 @@ process.setDescription("Usertask gestartet von: " + startervorname + " " + start
           <dc:Bounds x="525" y="165" width="32" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1acjyv3_di" bpmnElement="Start_Form">
-        <dc:Bounds x="212" y="122" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="214" y="165" width="36" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0xd4rk4_di" bpmnElement="Event_StatusGestartetUndBeschreibungSetzen">
-        <dc:Bounds x="292" y="122" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="278" y="165" width="68" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="282" y="240" width="275" height="130" />
       </bpmndi:BPMNShape>
@@ -103,6 +97,18 @@ process.setDescription("Usertask gestartet von: " + startervorname + " " + start
         <di:waypoint x="370" y="290" />
         <di:waypoint x="474" y="290" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1acjyv3_di" bpmnElement="Start_Form">
+        <dc:Bounds x="212" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="214" y="165" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xd4rk4_di" bpmnElement="Event_StatusGestartetUndBeschreibungSetzen">
+        <dc:Bounds x="292" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="278" y="165" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_091qwfe_di" bpmnElement="Flow_091qwfe">
         <di:waypoint x="470" y="140" />
         <di:waypoint x="522" y="140" />
