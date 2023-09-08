@@ -70,12 +70,6 @@ spring:
 io:
   muenchendigital:
     digiwf:
-      message:
-        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
-        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
-        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
-        typeMappings:
-          createPresignedUrl: "createPresignedUrl"
       s3:
         bucketname: ${S3_BUCKETNAME}
         accesskey: ${S3_ACCESSKEY}
