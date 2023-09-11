@@ -80,11 +80,11 @@
                 },
                 "x-rules": []
               },
-              "sachakteCoo": {
+              "fileCOO": {
                 "fieldType": "text",
                 "title": "Sachakte (COO)",
                 "type": "string",
-                "key": "sachakteCoo",
+                "key": "fileCOO",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

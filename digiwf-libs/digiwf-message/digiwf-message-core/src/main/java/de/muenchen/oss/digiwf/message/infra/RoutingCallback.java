@@ -20,6 +20,7 @@ public class RoutingCallback implements MessageRoutingCallback {
      * Either routes the message to the corresponding function (if present), or, in case the TYPE header is unknown or unset,
      * to the corresponding error functions.
      * unknown or unset.
+     *
      * @param message incoming message
      * @return FunctionRoutingResult as described above
      */

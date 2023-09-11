@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CreateVorgangDto {
+public class CreateProcedureDto {
 
     private String fileCOO;
 

@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class FabasoftAdapter implements VorgangRepository {
+public class FabasoftAdapter implements ProcedureRepository {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;

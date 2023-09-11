@@ -1,13 +1,12 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
@@ -25,21 +24,20 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
-    private final CreateVorgangUseCase createVorgangUseCase;
+    private final CreateProcedureUseCase createVorgangUseCase;
 
-    @Bean
-    public Consumer<Message<CreateVorgangDto>> createVorgang() {
+    public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
             try {
-                final CreateVorgangDto createVorgangDto = message.getPayload();
-                final Procedure vorgang = this.createVorgangUseCase.createVorgang(
+                final CreateProcedureDto createVorgangDto = message.getPayload();
+                final Procedure vorgang = this.createVorgangUseCase.createProcedure(
                         createVorgangDto.getTitle(),
                         createVorgangDto.getFileCOO(),
                         createVorgangDto.getUser()
                 );
 
                 this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
-                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("vorgangCoo", vorgang.getCoo()));
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("procedureCOO", vorgang.getCoo()));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {

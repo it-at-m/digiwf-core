@@ -48,7 +48,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "createVorgangFromEventBus",
+      "value": "createProcedure",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -94,8 +94,21 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "sachakteCoo",
-        "target": "sachakteCoo"
+        "name": "fileCOO",
+        "target": "fileCOO"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Procedure (Coo)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "procedureCOO"
       },
       "constraints": {
         "notEmpty": true
