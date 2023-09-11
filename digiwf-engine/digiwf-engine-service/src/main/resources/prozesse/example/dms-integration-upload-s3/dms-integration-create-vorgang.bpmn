@@ -36,6 +36,7 @@
         <camunda:in sourceExpression="" target="user" />
         <camunda:in sourceExpression="" target="ein_ausgehend_intern" />
         <camunda:in sourceExpression="" target="s3_dateien" />
+        <camunda:in sourceExpression="INTERN" target="art" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>

@@ -102,9 +102,14 @@
       }
     },
     {
-      "label": "Ein-/Ausgehend/Intern",
-      "type": "String",
-      "value": "",
+      "label": "Typ (Ein-/Ausgehend/Intern)",
+      "type": "Dropdown",
+      "value": "EINGEHEND",
+      "choices": [
+        { "name": "Eingehend", "value": "EINGEHEND" },
+        { "name": "Ausgehend", "value": "AUSGEHEND" },
+        { "name": "Intern", "value": "INTERN" }
+      ],
       "binding": {
         "type": "camunda:in",
         "expression": true,

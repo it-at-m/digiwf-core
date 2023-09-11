@@ -6,6 +6,7 @@ package de.muenchen.oss.digiwf.dms.integration.domain;
 public enum DokumentArt {
 
     EINGEHEND,
-    AUSGEHEND;
+    AUSGEHEND,
+    INTERN;
 
 }
