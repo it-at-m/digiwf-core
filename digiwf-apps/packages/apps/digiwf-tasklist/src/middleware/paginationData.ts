@@ -92,22 +92,24 @@ export const useGetPaginationData = (): PaginationData => {
 
   const setTag = (newTag?: string) => {
     tag.value = newTag;
-    setPage(0);
     router.replace({
       query: {
         ...router.currentRoute.query,
         tag: newTag
       }
     });
+    // jump back to first page, so that user can see the first results again
+    setPage(0);
     pageKeyToPaginationData.setTag(pageId.id, tag.value);
   };
 
   // load pagination from session after page switch
   if (paginationInformationOfPage) {
     setSearchQuery(paginationInformationOfPage.searchQuery);
-    setSize(paginationInformationOfPage.size);
-    setPage(paginationInformationOfPage.page);
     setTag(paginationInformationOfPage.tag);
+    setSize(paginationInformationOfPage.size);
+    // set page must be the last mutation because the upper ones has impact of the page
+    setPage(paginationInformationOfPage.page);
   }
 
   return {
