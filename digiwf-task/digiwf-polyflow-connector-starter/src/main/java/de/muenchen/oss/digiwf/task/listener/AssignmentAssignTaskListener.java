@@ -21,8 +21,8 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
 
 
 /**
- * Task listener invoked on change of assignee, making sure that no assignment information is ever stored
- * in the process engine.
+ * Task listener invoked on change of assignee, candidate user and candidate group making to pass this information
+ * via variables or direct commands to Polyflow.
  */
 @Component
 @Slf4j
@@ -31,6 +31,12 @@ public class AssignmentAssignTaskListener {
   private final TaskManagementProperties.AssignmentProperties properties;
   private final ProcessEngineConfigurationImpl processEngineServices;
 
+  /**
+   * Reacts on assignment change on the task.
+   *
+   * @param task task event fired by Camunda engine if assignment is changed.
+   * @return assign command sent to polyflow.
+   */
   @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
   @EventListener(condition = "#task.eventName.equals('assignment')")
   public AssignTaskCommand taskAssigned(final DelegateTask task) {
@@ -64,6 +70,12 @@ public class AssignmentAssignTaskListener {
   }
 
 
+  /**
+   * React on candidate-user / candidate-group change on the task.
+   *
+   * @param historic historic event containing the assignment information,
+   * @return assignment update command.
+   */
   @Order(TaskEventCollectorService.ORDER - 1000) // be before polyflow
   @EventListener(condition = "#historic.eventType.equals('add-identity-link') || #historic.eventType.equals('delete-identity-link')")
   public UpdateAssignmentTaskCommand taskCandidatesChanged(final HistoricIdentityLinkLogEventEntity historic) {
@@ -87,6 +99,7 @@ public class AssignmentAssignTaskListener {
               writer.set(TaskVariables.TASK_CANDIDATE_USERS, candidateUsers);
             }
             return new AddCandidateUsersCommand(historic.getTaskId(), Collections.singleton(userId));
+
           } else if (historic.getGroupId() != null) {
             val groupId = historic.getGroupId();
             lowerCaseCandidateGroups.add(groupId.toLowerCase());
@@ -107,6 +120,7 @@ public class AssignmentAssignTaskListener {
               writer.set(TaskVariables.TASK_CANDIDATE_USERS, candidateUsers);
             }
             return new DeleteCandidateUsersCommand(historic.getTaskId(), Collections.singleton(historic.getUserId()));
+
           } else if (historic.getGroupId() != null) {
             val groupId = historic.getGroupId();
             lowerCaseCandidateGroups.remove(groupId.toLowerCase());
@@ -124,4 +138,52 @@ public class AssignmentAssignTaskListener {
     // skip everything
     return null;
   }
+
+  /**
+   * Catches the task attribute update command indicating just a candidate update (since unchanged is true, no other task attributes
+   * where changed or detected as changed by Camunda).
+   * <p>
+   * Flip the changed property to allow the update command be sent
+   * as a dedicated intent by the Polyflow Intent Detector, see {@link io.holunda.polyflow.taskpool.sender.task.accumulator.SimpleEngineTaskCommandIntentDetector}
+   * If the "unchanged" command is caught we duplicate it with a "changed" version.
+   * By a candidate-user/candidate-group change this will result in 5 commands in total:
+   * the one thrown by the method above + 2 unchanged updates + 2 changed updates.
+   * Since the updates have high priority than assignment, those two changed will be detected as one own intent and will be projected together with
+   * unchanged versions.
+   * </p>
+   * <p>
+   * At the end two commands will be sent to Polyflow: an assignment change and the "changed" attribute update carrying variable changes.
+   * </p>
+   *
+   * @param updateAttributeCommand command resulted from an "echo" of Camunda during update of a task candidate group or user.
+   * @return update command as a separate intent.
+   */
+  @Order(TaskEventCollectorService.ORDER - 1001) // be before polyflow
+  @EventListener
+  public UpdateAttributeTaskCommand taskCandidatesChanged(final UpdateAttributeTaskCommand updateAttributeCommand) {
+    if (updateAttributeCommand.getUnchanged()) {
+      return updateAttributeCommand.copy(
+          updateAttributeCommand.getId(),
+          updateAttributeCommand.getOrder(),
+          updateAttributeCommand.getEventName(),
+          updateAttributeCommand.getSourceReference(),
+          updateAttributeCommand.getTaskDefinitionKey(),
+          updateAttributeCommand.getBusinessKey(),
+          updateAttributeCommand.getPayload(),
+          updateAttributeCommand.getCorrelations(),
+          updateAttributeCommand.getEnriched(),
+          updateAttributeCommand.getDescription(),
+          updateAttributeCommand.getDueDate(),
+          updateAttributeCommand.getFollowUpDate(),
+          updateAttributeCommand.getName(),
+          updateAttributeCommand.getOwner(),
+          updateAttributeCommand.getPriority(),
+          false // flip to false => the task update is now changed, and we will get two commands (because of two intents), since the "changed"
+          // UpdateAttributeCommand is not "projectable" with UpdateAssignmentCommand and will be delivered independently.
+      );
+    } else {
+      return null;
+    }
+  }
+
 }
