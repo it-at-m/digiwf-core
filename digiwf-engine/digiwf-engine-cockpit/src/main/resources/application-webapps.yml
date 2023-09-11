@@ -1,11 +1,3 @@
 digiwf:
   camunda-webapps:
     web-app-role: digiwf-webapp-user
-
-
-camunda:
-  bpm:
-    webapp:
-      csrf:
-        denyStatus: 400
-        entry-points: /camunda/api/engine/engine/default/process-instance/count,/camunda/api/engine/engine/default/history/task/count,/camunda/api/engine/engine/default/history/instance/count,/camunda/api/engine/engine/default/process-instance/count,/camunda/api/engine/engine/default/history/variable/count,/camunda/api/engine/engine/default/task/count,/camunda/api/engine/engine/default/process-instance,/camunda/api/cockpit/plugin/base/default/process-instance,/camunda/api/engine/engine/default/variable-instance,/camunda/api/engine/engine/default/variable-instance/count
