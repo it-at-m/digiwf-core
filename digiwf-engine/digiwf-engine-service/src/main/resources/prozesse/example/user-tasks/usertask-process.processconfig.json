@@ -1,0 +1,16 @@
+{
+  "key": "Usertask-Example",
+  "statusConfig": [
+    {
+      "key": "started",
+      "label": "Started",
+      "position": 1
+    },
+    {
+      "key": "finished",
+      "label": "Finished",
+      "position": 2
+    }
+  ],
+  "statusDokument" : "example-user-task-status-document"
+}

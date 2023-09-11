@@ -25,6 +25,10 @@ class Page{
         return cy.get('a.v-list-item:nth-child(8)')
     }
 
+    navbarGruppenAufgabenInBearbeitung(){
+        return cy.get('a.v-list-item:nth-child(10)')
+    }
+
     clickNavbar(){
         this.navBar().click()
     }
@@ -53,6 +57,15 @@ class Page{
         }).as('filter')
         this.navbarGruppenAufgabenOffen().click()
         cy.wait('@filter').its('response.statusCode').should('equal', 200)
+    }
+
+    openInBearbeitung(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api/digitalwf-tasklist-service/rest/tasks/group/*',
+        }).as('userTasks')
+        this.navbarGruppenAufgabenInBearbeitung().click()
+        cy.wait('@userTasks').its('response.statusCode').should('equal', 200)
     }
 }
 

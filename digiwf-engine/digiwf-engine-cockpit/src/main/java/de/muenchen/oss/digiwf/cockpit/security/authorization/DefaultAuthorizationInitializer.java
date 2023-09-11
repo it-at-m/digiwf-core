@@ -8,11 +8,13 @@ import de.muenchen.oss.digiwf.cockpit.CamundaWebappsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.AuthorizationService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 import static de.muenchen.oss.digiwf.cockpit.security.authorization.AuthorizationHelper.*;
+import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
 
 /**
  * Authorization initializer.
@@ -20,6 +22,7 @@ import static de.muenchen.oss.digiwf.cockpit.security.authorization.Authorizatio
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Profile(SECURITY)
 public class DefaultAuthorizationInitializer {
 
   private final AuthorizationService authorizationService;
