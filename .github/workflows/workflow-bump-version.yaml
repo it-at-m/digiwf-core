@@ -1,0 +1,121 @@
+name: Bump version
+
+on:
+  workflow_call:
+    inputs:
+      bump-services-version:
+        description: 'Bump services version'
+        type: boolean
+        required: true
+        default: true
+      services-new-version:
+        description: 'New services version'
+        type: string
+        required: false
+      bump-apps-version:
+        description: 'Bump apps version'
+        type: boolean
+        required: true
+        default: true
+      apps-new-version:
+        description: 'New apps version'
+        type: string
+        required: false
+  workflow_dispatch:
+    inputs:
+      bump-services-version:
+        description: 'Bump services version'
+        required: false
+        type: boolean
+        default: true
+      services-new-version:
+        description: 'New services version (only if services) - SNAPSHOT will be added to the version'
+        required: false
+      bump-apps-version:
+        description: 'Bump apps version'
+        required: false
+        type: boolean
+        default: true
+      apps-new-version:
+        description: 'New apps version (only if apps)'
+        required: false
+
+jobs:
+  bump-versions:
+    name: Bumps versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup git
+        run: |
+          git config --global user.email "digiwf@muenchen.de"
+          git config --global user.name "DigiWF Github Bot"
+      # bump mvn version
+      - name: Install Java and Maven
+        if: inputs.bump-services-version== true
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Raise mvn version
+        if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version != ''
+        run: |
+          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT
+          mvn versions:commit
+      - name: Raise mvn version
+        if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version == ''
+        run: |
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
+          mvn versions:commit
+      - name: Git commit
+        if: github.event.inputs.bump-services-version == true || inputs.bump-services-version == true
+        run: |
+          git add .
+          git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+
+      # bump apps version
+      - name: Setup node
+        if: inputs.bump-apps-version == true
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./digiwf-apps/package-lock.json"
+      - name: Raise apps version
+        if: (github.event.inputs.bump-apps-version == true || inputs.bump-apps-version == true) && inputs.apps-new-version != ''
+        working-directory: ./digiwf-apps
+        run: |
+          npm run init
+          lerna version ${{ inputs.apps-new-version }} --ignore-changes --no-push --yes
+        # lerna automatically creates a commits
+      - name: Raise apps version
+        if: (github.event.inputs.bump-apps-version == true || inputs.bump-apps-version == true) && inputs.apps-new-version == ''
+        working-directory: ./digiwf-apps
+        run: |
+          npm run init
+          lerna version patch --ignore-changes --no-push --yes
+        # lerna automatically creates a commit
+
+      # Create a PR for the new version
+      - name: Push changes to new branch
+        run: |
+          git checkout -b chore/bump-release-version
+          git push --force origin chore/bump-release-version
+      - name: Create pull request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const result = await github.rest.pulls.create({
+              title: 'chore: bump release version',
+              owner,
+              repo,
+              head: 'chore/bump-release-version',
+              base: '${{ github.ref_name }}',
+              body: [
+                'This PR is auto-generated'
+              ].join('\n')
+            });

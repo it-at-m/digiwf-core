@@ -78,31 +78,6 @@ public class HumanTaskDataService {
         }
     }
 
-
-    public Map<String, Object> getVariablesForTask(final Task task) {
-        final Optional<Form> form = this.formService.getForm(task.getFormKey());
-
-        if (form.isPresent()) {
-            final Map<String, Object> variables = this.taskService.getVariables(task.getId());
-            return this.dataService.calculateDefaultValues(form.get(), variables);
-        } else {
-            final JsonSchema jsonSchema = this.jsonSchemaService.getByKey(this.getSchemaKey(task.getId()).orElseThrow())
-                    .orElseThrow();
-            return this.engineDataMapper.mapToData(this.serializationService.deserializeData(jsonSchema.getSchemaMap(), this.taskService.getVariablesTyped(task.getId())));
-        }
-    }
-
-    public String getTaskDescription(final String taskId) {
-        Object variable = this.taskService.getVariable(taskId, ProcessTaskConstants.TASK_DESCRIPTION);
-        if (variable == null) {
-            variable = this.taskService.getVariable(taskId, ProcessTaskConstants.TASK_DESCRIPTION_DIGITALWF);
-        }
-        if (variable == null) {
-            return "";
-        }
-        return variable.toString();
-    }
-
     public Optional<String> getSchemaKey(final String taskId) {
         return Optional.ofNullable(this.taskService.getVariable(taskId, ProcessTaskConstants.TASK_SCHEMA_KEY))
                 .map(Object::toString);

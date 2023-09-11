@@ -10,6 +10,7 @@ changes:
         - http://localhost:39146/*
         - http://localhost:8082/*
         - http://localhost:8083/*
+        - http://localhost:8084/*
   - addRole:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       clientRole: true

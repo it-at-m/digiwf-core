@@ -14,7 +14,7 @@ import static org.camunda.bpm.engine.authorization.Authorization.AUTH_TYPE_GRANT
 public class AuthorizationHelper {
 
   public static void setupGroupAppPermissions(@NonNull AuthorizationService authorizationService, @NonNull String groupId) {
-    if (authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(Resources.APPLICATION).count() != 0) {
+    if (existsByGroupIdAndResourceType(authorizationService, groupId, Resources.APPLICATION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -31,7 +31,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupGroupAuthorizationPermissions(@NonNull AuthorizationService authorizationService, @NonNull String groupId) {
-    if (authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(Resources.AUTHORIZATION).count() != 0) {
+    if (existsByGroupIdAndResourceType(authorizationService, groupId, Resources.AUTHORIZATION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -94,7 +94,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserBatchPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.BATCH).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.BATCH)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -113,7 +113,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserAppPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.APPLICATION).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.APPLICATION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -129,7 +129,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserTaskPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.TASK).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.TASK)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -143,7 +143,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserProcessDefinitionPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.PROCESS_DEFINITION).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.PROCESS_DEFINITION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -158,7 +158,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserHistoricProcessInstancePermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.HISTORIC_PROCESS_INSTANCE).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.HISTORIC_PROCESS_INSTANCE)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -172,10 +172,10 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserDashboardPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.DASHBOARD).count() != 0) {
-      // there are permissions present, avoid initialization
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.DASHBOARD)) {
       return;
     }
+
     log.info("Setting up Camunda Dashboard Permissions for user '{}'", userId);
     val historicProcessInstanceAuth = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
     historicProcessInstanceAuth.setUserId(userId);
@@ -186,6 +186,9 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserOpLogPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.REPORT)) {
+      return;
+    }
     if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.OPERATION_LOG_CATEGORY).count() != 0) {
       // there are permissions present, avoid initialization
       return;
@@ -200,7 +203,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserReportPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.REPORT).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.REPORT)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -214,7 +217,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserDeploymentPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.DEPLOYMENT).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.DEPLOYMENT)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -228,7 +231,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserDecisionRequirementPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.DECISION_REQUIREMENTS_DEFINITION).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.DECISION_REQUIREMENTS_DEFINITION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -242,7 +245,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserDecisionPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.DECISION_DEFINITION).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.DECISION_DEFINITION)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -256,7 +259,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserSystemPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.SYSTEM).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.SYSTEM)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -270,7 +273,7 @@ public class AuthorizationHelper {
   }
 
   public static void setupUserHistoricTaskPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.HISTORIC_TASK).count() != 0) {
+    if (existsByUserIdAndResourceType(authorizationService, userId, Resources.HISTORIC_TASK)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -285,7 +288,7 @@ public class AuthorizationHelper {
 
 
   public static void setupUserProcessInstancePermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {
-    if (authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(Resources.PROCESS_INSTANCE).count() != 0) {
+    if(existsByUserIdAndResourceType(authorizationService, userId, Resources.PROCESS_INSTANCE)) {
       // there are permissions present, avoid initialization
       return;
     }
@@ -296,5 +299,13 @@ public class AuthorizationHelper {
     processInstanceAuth.setResource(Resources.PROCESS_INSTANCE);
     processInstanceAuth.setResourceId(ANY);
     authorizationService.saveAuthorization(processInstanceAuth);
+  }
+
+  private static boolean existsByUserIdAndResourceType(@NonNull AuthorizationService authorizationService, @NonNull String userId, @NonNull Resources resources) {
+    return authorizationService.createAuthorizationQuery().userIdIn(userId).resourceType(resources).count() != 0;
+  }
+
+  private static boolean existsByGroupIdAndResourceType(@NonNull AuthorizationService authorizationService, @NonNull String groupId, @NonNull Resources resources) {
+    return authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(resources).count() != 0;
   }
 }

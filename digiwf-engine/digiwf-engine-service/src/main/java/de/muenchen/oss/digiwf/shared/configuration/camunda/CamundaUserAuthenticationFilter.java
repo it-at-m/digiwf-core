@@ -10,7 +10,6 @@ import org.camunda.bpm.engine.IdentityService;
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 
 /**
