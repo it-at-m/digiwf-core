@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 import static org.camunda.bpm.engine.variable.Variables.createVariables;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test to demonstrate correct exit timer usage.
@@ -92,6 +92,7 @@ public class ExampleProcessExitTimerTest {
                         .putValue("user", userMock)
                         .putValue("process", processMock)
         );
+
         assertThat(instance).isStarted();
         assertThat(instance).isWaitingAt("Task_UserTask");
         execute(job());

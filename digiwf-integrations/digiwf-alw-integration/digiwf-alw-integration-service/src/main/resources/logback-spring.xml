@@ -19,6 +19,23 @@
             </encoder>
         </appender>
 
+        <logger name="org.apache.kafka.clients.admin"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.producer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.consumer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
+
         <!-- Logger -->
         <logger name="de.muenchen.oss.digiwf"
                 level="debug"

@@ -28,13 +28,13 @@ In der folgenden Abbildung ist die Verwaltung der Session abgebildet:
 
 ## Normalfall bei Netzwerkrequest
 
-Beim Starten der Anwendung zur lokalen Entwicklung muss man als Erstes das Api Gateway (http://localhost:8082) aufrufen (1). 
+Beim Starten der Anwendung zur lokalen Entwicklung muss man als Erstes das Api Gateway (http://localhost:8083) aufrufen (1). 
 Dabei erscheint die Keycloak Login Maske (2). Nach erfolgreichen Login sieht man auf der Seite des Api Gateways entweder
 * eine HTTP 500 Error Page
 * endloses Neuladen von der Seite.
 Somit ist Schritt 3 abgeschlossen.
 
-In beiden Fällen wechselt man zur URL des Frontends (http://localhost:8081) (4).
+In beiden Fällen wechselt man zur URL des Frontends (http://localhost:8084) (4).
 Dabei sollte das Frontend korrekt geladen und die ersten XHR Requests gestartet werden (5).
 
 Jeder Netzwerkrequest vom Browser zum Api Gateway liefert die Cookies und somit die Session mit. Um Requests an andere Domains zu vermeiden wird bei jedem Netzwerkrequest der Proxy Server des Vite Development Servers angesprochen (5). Dieser leitet den Request unverarbeitet weiter zum Api Gateway (6).
