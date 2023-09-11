@@ -41,7 +41,7 @@ Die Aktion `POST` wird für die Erstellung neuer Dateien im S3 Speicher verwende
 Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Prozessentwicklung zu beschleunigen und befüllen Sie es mit den gewünschten Informationen:
 
 * [Cosys all data](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-alle-daten.json)
-* [Cosys create document](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
+* [Cosys create document](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-document-erstellen.json)
 * [Cosys create document (V02)](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
 
 Zur Erstellung von presigned URLs können Sie das Element-Template [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 

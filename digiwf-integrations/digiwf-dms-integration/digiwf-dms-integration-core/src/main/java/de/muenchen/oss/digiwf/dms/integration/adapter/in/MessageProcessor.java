@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDokumentUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
-import de.muenchen.oss.digiwf.dms.integration.domain.Dokument;
-import de.muenchen.oss.digiwf.dms.integration.domain.DokumentArt;
+import de.muenchen.oss.digiwf.dms.integration.domain.Document;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
 import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -11,6 +11,7 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -29,9 +30,10 @@ public class MessageProcessor {
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
     private final CreateVorgangUseCase createVorgangUseCase;
-    private final CreateDokumentUseCase createDokumentUseCase;
+    private final CreateDocumentUseCase createDocumentUseCase;
 
     @Bean
+    @ConditionalOnMissingBean
     public Consumer<Message<CreateVorgangDto>> createVorgang() {
         return message -> {
             try {
@@ -56,20 +58,22 @@ public class MessageProcessor {
     }
 
     @Bean
-    public Consumer<Message<CreateDokumentDto>> createDokument() {
+    @ConditionalOnMissingBean
+    public Consumer<Message<CreateDocumentDto>> createDokument() {
         return message -> {
             try {
-                final CreateDokumentDto createDokumentDto = message.getPayload();
-                final Dokument dokument = this.createDokumentUseCase.createDocument(
-                        createDokumentDto.getVorgangCoo(),
-                        createDokumentDto.getTitle(),
-                        createDokumentDto.getUser(),
-                        DokumentArt.valueOf(createDokumentDto.getArt()),
-                        createDokumentDto.getS3Dateien()
+                final CreateDocumentDto createDocumentDto = message.getPayload();
+                final Document document = this.createDocumentUseCase.createDocument(
+                        createDocumentDto.getProcedureCoo(),
+                        createDocumentDto.getTitle(),
+                        createDocumentDto.getUser(),
+                        DocumentType.valueOf(createDocumentDto.getType()),
+                        createDocumentDto.getFilepathsAsList(),
+                        createDocumentDto.getFileContext()
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("dokumentCoo", dokument.getCoo()));
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document.getCoo()));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {

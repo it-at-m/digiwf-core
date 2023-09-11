@@ -31,12 +31,11 @@
         <camunda:in sourceExpression="" target="app_topic_name" />
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
-        <camunda:in sourceExpression="" target="vorgang_coo" />
+        <camunda:in sourceExpression="" target="procedureCoo" />
         <camunda:in sourceExpression="" target="title" />
         <camunda:in sourceExpression="" target="user" />
-        <camunda:in sourceExpression="" target="ein_ausgehend_intern" />
-        <camunda:in sourceExpression="" target="s3_dateien" />
-        <camunda:in sourceExpression="INTERN" target="art" />
+        <camunda:in sourceExpression="INTERN" target="type" />
+        <camunda:in sourceExpression="" target="filepaths" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>

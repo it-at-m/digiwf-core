@@ -60,14 +60,29 @@
       }
     },
     {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
       "label": " Vorgang-COO",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "vorgangCoo",
-        "target": "vorgangCoo"
+        "name": "procedureCoo",
+        "target": "procedureCoo"
       },
       "constraints": {
         "notEmpty": true
@@ -113,8 +128,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "art",
-        "target": "art"
+        "name": "type",
+        "target": "type"
       },
       "constraints": {
         "notEmpty": true
@@ -127,8 +142,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "s3Dateien",
-        "target": "s3Dateien"
+        "name": "filepaths",
+        "target": "filepaths"
       },
       "constraints": {
         "notEmpty": true

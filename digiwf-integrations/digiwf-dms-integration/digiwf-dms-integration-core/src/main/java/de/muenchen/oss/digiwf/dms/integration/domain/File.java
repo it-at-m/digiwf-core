@@ -5,14 +5,14 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Schriftstueck {
+public class File {
 
     private String extension;
     private String name;
     private byte[] content;
     private String coo;
 
-    public Schriftstueck(final String extension, final String name, final byte[] content) {
+    public File(final String extension, final String name, final byte[] content) {
         this.extension = extension;
         this.name = name;
         this.content = content;

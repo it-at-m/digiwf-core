@@ -64,7 +64,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_0qb6ikl</bpmn:incoming>
       <bpmn:outgoing>Flow_0815z5m</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys dokument" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV01">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />

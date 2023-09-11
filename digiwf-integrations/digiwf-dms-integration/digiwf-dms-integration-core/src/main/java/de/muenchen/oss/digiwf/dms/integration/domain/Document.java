@@ -8,19 +8,19 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Dokument {
+public class Document {
 
     private String coo;
     private String vorgangCoo;
     private String title;
-    private DokumentArt art;
-    private List<Schriftstueck> schriftstuecke = new ArrayList<>();
+    private DocumentType type;
+    private List<File> files = new ArrayList<>();
 
-    public Dokument(final String vorgangCoo, final String title, final DokumentArt art,final List<Schriftstueck> schriftstuecke) {
+    public Document(final String vorgangCoo, final String title, final DocumentType art, final List<File> schriftstuecke) {
         this.vorgangCoo = vorgangCoo;
         this.title = title;
-        this.art = art;
-        this.schriftstuecke.addAll(schriftstuecke);
+        this.type = type;
+        this.files.addAll(schriftstuecke);
     }
 
 }

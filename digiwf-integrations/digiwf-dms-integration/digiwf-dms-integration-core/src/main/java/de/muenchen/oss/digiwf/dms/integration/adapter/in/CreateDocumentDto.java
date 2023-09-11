@@ -5,23 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class CreateDokumentDto {
+public class CreateDocumentDto {
 
-    private String vorgangCoo;
+    private String procedureCoo;
 
     private String title;
 
     private String user;
 
-    @NotBlank
-    private String art;
+    private String type;
 
-    private String s3Dateien;
+    private String filepaths;
+
+    private String fileContext;
+
+    private List<String> filepathsAsList = Arrays.asList(filepaths.split(","));
 
 }
