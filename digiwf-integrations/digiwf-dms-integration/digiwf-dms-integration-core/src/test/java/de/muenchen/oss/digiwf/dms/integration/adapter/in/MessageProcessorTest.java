@@ -1,8 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
-import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
-import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
+import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
@@ -32,8 +31,7 @@ class MessageProcessorTest {
     private final CreateVorgangDto createVorgangDto = new CreateVorgangDto(
             "sachakteCoo",
             "title",
-            "user",
-            VorgangArt.Elektronisch.name()
+            "user"
     );
     private MessageProcessor messageProcessor;
     private Message<CreateVorgangDto> message;
@@ -43,10 +41,9 @@ class MessageProcessorTest {
         this.messageProcessor = new MessageProcessor(processApi, errorApiMock, sendMailMock);
         Mockito.when(sendMailMock.createVorgang(
                         createVorgangDto.getTitle(),
-                        createVorgangDto.getSachakteCoo(),
-                        VorgangArt.valueOf(createVorgangDto.getArt()),
+                        createVorgangDto.getFileCOO(),
                         createVorgangDto.getUser()))
-                .thenReturn(new Vorgang("coo", createVorgangDto.getTitle(), createVorgangDto.getSachakteCoo(), VorgangArt.valueOf(createVorgangDto.getArt())));
+                .thenReturn(new Procedure("coo", createVorgangDto.getTitle(), createVorgangDto.getFileCOO()));
         this.message = new Message<CreateVorgangDto>() {
             @Override
             public CreateVorgangDto getPayload() {
@@ -63,12 +60,12 @@ class MessageProcessorTest {
     @Test
     void testDmsIntegrationCreateVorgangSuccessfully() {
         messageProcessor.createVorgang().accept(this.message);
-        verify(sendMailMock, times(1)).createVorgang(createVorgangDto.getTitle(), createVorgangDto.getSachakteCoo(), VorgangArt.valueOf(createVorgangDto.getArt()), createVorgangDto.getUser());
+        verify(sendMailMock, times(1)).createVorgang(createVorgangDto.getTitle(), createVorgangDto.getFileCOO(), createVorgangDto.getUser());
     }
 
     @Test
     void testDmsIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).createVorgang(any(), any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).createVorgang(any(), any(), any());
         messageProcessor.createVorgang().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
@@ -78,7 +75,7 @@ class MessageProcessorTest {
 
     @Test
     void testDmsIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).createVorgang(any(), any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).createVorgang(any(), any(), any());
         messageProcessor.createVorgang().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

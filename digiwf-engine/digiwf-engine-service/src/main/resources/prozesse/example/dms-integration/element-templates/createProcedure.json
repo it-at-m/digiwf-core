@@ -1,6 +1,6 @@
 {
   "name": "Create Vorgang",
-  "id": "de.muenchen.digitalwf.templates.create-vorgang",
+  "id": "de.muenchen.digitalwf.templates.create-procedure",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -48,7 +48,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "sendMailFromEventBus",
+      "value": "createVorgangFromEventBus",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -96,20 +96,6 @@
         "expression": true,
         "name": "sachakteCoo",
         "target": "sachakteCoo"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Vorgangsart",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "art",
-        "target": "art"
       },
       "constraints": {
         "notEmpty": true

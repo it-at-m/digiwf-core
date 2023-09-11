@@ -1,8 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
-import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
-import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
+import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -17,11 +16,11 @@ class CreateVorgangServiceTest {
     @Test
     void createVorgang() {
 
-        when(this.vorgangRepository.createVorgang(any(), any())).thenReturn(new Vorgang("sachakteCoo", "title", VorgangArt.Elektronisch));
+        when(this.vorgangRepository.createVorgang(any(), any())).thenReturn(new Procedure("fileCOO", "title"));
 
-        createVorgangService.createVorgang("title", "sachakteCoo", VorgangArt.Elektronisch, "user");
+        createVorgangService.createVorgang("title", "fileCOO", "user");
 
-        verify(this.vorgangRepository, times(1)).createVorgang(new Vorgang("sachakteCoo", "title", VorgangArt.Elektronisch), "user");
+        verify(this.vorgangRepository, times(1)).createVorgang(new Procedure("coo", "fileCOO"), "user");
     }
 
 

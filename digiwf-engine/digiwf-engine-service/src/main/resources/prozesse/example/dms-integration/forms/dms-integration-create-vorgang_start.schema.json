@@ -43,11 +43,11 @@
                 },
                 "x-rules": []
               },
-              "createVorgangTopic": {
+              "topic": {
                 "fieldType": "text",
-                "title": "Create Vorgang Topic",
+                "title": "Create Procedure Topic",
                 "type": "string",
-                "key": "createVorgangTopic",
+                "key": "topic",
                 "default": "dwf-dms-local-01",
                 "x-options": {
                   "fieldColProps": {
@@ -85,24 +85,6 @@
                 "title": "Sachakte (COO)",
                 "type": "string",
                 "key": "sachakteCoo",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
-              "art": {
-                "fieldType": "text",
-                "title": "Vorgangsart",
-                "type": "string",
-                "key": "art",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

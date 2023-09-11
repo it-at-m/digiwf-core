@@ -1,10 +1,9 @@
 package de.muenchen.oss.digiwf.dms.integration.application.port.in;
 
-import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
-import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
+import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 
 public interface CreateVorgangUseCase {
 
-    Vorgang createVorgang(final String titel, final String sachakteCOO, VorgangArt art, final String user);
+    Procedure createVorgang(final String titel, final String fileCOO, final String user);
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
   <bpmn:collaboration id="Collaboration_0iserd2">
-    <bpmn:participant id="Participant_141ljpi" name="Create Vorgang process" processRef="create-vorgang-integration-example" />
+    <bpmn:participant id="Participant_141ljpi" name="Create Vorgang process" processRef="create-procedure-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="create-vorgang-integration-example" name="Example Create Vorgang Integration" isExecutable="true">
+  <bpmn:process id="create-procedure-integration-example" name="Example Create Vorgang Integration" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-create-vorgang_start">
@@ -21,20 +21,19 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="send-mail" />
-    <bpmn:sequenceFlow id="Flow_021rbp5" sourceRef="send-mail" targetRef="Event_completed" />
+    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="create-procedure" />
+    <bpmn:sequenceFlow id="Flow_021rbp5" sourceRef="create-procedure" targetRef="Event_completed" />
     <bpmn:endEvent id="Event_completed" name="Ended">
       <bpmn:incoming>Flow_021rbp5</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="send-mail" name="Create Vorgang" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-vorgang" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="create-procedure" name="Create Procedure" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-procedure" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
-        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="createVorgangFromEventBusx" target="app_type_name" />
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${createVorgangTopic}" target="app_topic_name" />
         <camunda:in sourceExpression="${sachakteCoo}" target="sachakteCoo" />
-        <camunda:in sourceExpression="${art}" target="art" />
+        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>
@@ -77,8 +76,9 @@
           <dc:Bounds x="511" y="122" width="32" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_169lyjt_di" bpmnElement="send-mail">
+      <bpmndi:BPMNShape id="Activity_169lyjt_di" bpmnElement="create-procedure">
         <dc:Bounds x="350" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
         <di:waypoint x="288" y="100" />

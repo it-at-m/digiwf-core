@@ -12,12 +12,10 @@ import lombok.Setter;
 @Getter
 public class CreateVorgangDto {
 
-    private String sachakteCoo;
+    private String fileCOO;
 
     private String title;
 
     private String user;
-
-    private String art;
 
 }

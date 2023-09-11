@@ -4,7 +4,7 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
-import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
+import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +17,16 @@ public class FabasoftAdapter implements VorgangRepository {
     private final LHMBAI151700GIWSDSoap wsClient;
 
     @Override
-    public Vorgang createVorgang(Vorgang vorgang, String user) {
-        log.info("calling CreateProcedureGI: " + vorgang.toString());
+    public Procedure createVorgang(Procedure procedure, String user) {
+        log.info("calling CreateProcedureGI: " + procedure.toString());
 
         final CreateProcedureGI request = new CreateProcedureGI();
         request.setUserlogin(user);
-        request.setReferrednumber(vorgang.getSachakteCoo());
+        request.setReferrednumber(procedure.getFileCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
-        request.setShortname(vorgang.getTitle());
-        request.setFilesubj(vorgang.getTitle());
-        request.setFiletype(vorgang.getArt().toString());
+        request.setShortname(procedure.getTitle());
+        request.setFilesubj(procedure.getTitle());
+        request.setFiletype("Elektronisch");
 
         final CreateProcedureGIResponse response = this.wsClient.createProcedureGI(request);
 
@@ -35,7 +35,7 @@ public class FabasoftAdapter implements VorgangRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        return new Vorgang(response.getObjid(), vorgang.getSachakteCoo(), vorgang.getTitle(), vorgang.getArt());
+        return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
 
 }
