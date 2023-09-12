@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.spring.security.client;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 
 /**
  * Configures the OAuth2 request interceptor for Feign clients.
@@ -15,6 +16,6 @@ public class DigiwfFeignOauthClientConfig {
     @Bean
     public RequestInterceptor oAuth2RequestInterceptor() {
         return (requestTemplate ->
-                requestTemplate.header("Authorization", "Bearer " + oAuth2AccessTokenSupplier.get().getTokenValue()));
+                requestTemplate.header(HttpHeaders.AUTHORIZATION, "Bearer " + oAuth2AccessTokenSupplier.get().getTokenValue()));
     }
 }
