@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateDocumentService implements CreateDocumentUseCase {
 
-    private final VorgangRepository vorgangRepository;
+    private final ProcedureRepository vorgangRepository;
 
     private final LoadFilePort loadFilePort;
 

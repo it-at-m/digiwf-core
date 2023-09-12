@@ -1,11 +1,8 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.Vorgang;
-import de.muenchen.oss.digiwf.dms.integration.domain.VorgangArt;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -32,14 +29,12 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
-    private final CreateVorgangUseCase createVorgangUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
     private final CreateProcedureUseCase createVorgangUseCase;
 
-    public Consumer<Message<CreateProcedureDto>> createProcedure() {
     @Bean
     @ConditionalOnMissingBean
-    public Consumer<Message<CreateVorgangDto>> createVorgang() {
+    public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
             try {
                 final CreateProcedureDto createVorgangDto = message.getPayload();

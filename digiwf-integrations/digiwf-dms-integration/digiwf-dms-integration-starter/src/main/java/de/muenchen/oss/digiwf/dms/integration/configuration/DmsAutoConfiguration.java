@@ -8,11 +8,8 @@ import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClien
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateVorgangUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.VorgangRepository;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateVorgangService;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
@@ -57,11 +54,9 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocumentUseCase createDocumentUseCase(final VorgangRepository vorgangRepository, LoadFilePort loadFilePort) {
+    public CreateDocumentUseCase createDocumentUseCase(final ProcedureRepository vorgangRepository, LoadFilePort loadFilePort) {
         return new CreateDocumentService(vorgangRepository, loadFilePort);
-    public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final ProcessApi processApi, final ErrorApi errorApi, final CreateProcedureUseCase createProcedureUseCase) {
-        final MessageProcessor messageProcessor = new MessageProcessor(processApi, errorApi, createProcedureUseCase);
-        return messageProcessor.createProcedure();
     }
+
 
 }
