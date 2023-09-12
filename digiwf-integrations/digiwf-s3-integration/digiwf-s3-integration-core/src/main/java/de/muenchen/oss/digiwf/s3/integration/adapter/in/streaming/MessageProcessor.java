@@ -10,12 +10,14 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Configuration
 @RequiredArgsConstructor
 public class MessageProcessor {
   /**

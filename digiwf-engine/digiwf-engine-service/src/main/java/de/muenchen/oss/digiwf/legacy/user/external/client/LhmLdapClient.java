@@ -3,13 +3,12 @@
  */
 package de.muenchen.oss.digiwf.legacy.user.external.client;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.naming.ldap.LdapName;
-
-import de.muenchen.oss.digiwf.legacy.user.external.client.query.LdapQueryFactory;
 import de.muenchen.oss.digiwf.legacy.user.domain.model.User;
+import de.muenchen.oss.digiwf.legacy.user.external.client.query.LdapQueryFactory;
+import de.muenchen.oss.digiwf.legacy.user.external.configuration.ServiceAuthLdapProperties;
+import de.muenchen.oss.digiwf.legacy.user.external.mapper.UserAttributesMapper;
+import de.muenchen.oss.digiwf.legacy.user.infrastructure.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +16,20 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.query.LdapQuery;
+import org.springframework.ldap.query.SearchScope;
 
-import de.muenchen.oss.digiwf.legacy.user.external.mapper.LdapAttributeConstants;
-import de.muenchen.oss.digiwf.legacy.user.external.mapper.UserAttributesMapper;
-import de.muenchen.oss.digiwf.legacy.user.infrastructure.UserRepository;
+import javax.naming.ldap.LdapName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 /**
  * The {@link LdapTemplate} to query the ldap directory.
@@ -41,12 +47,18 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
     public static final String CACHE_OUTREE = "ldapoutree";
     public static final String CACHE_OUS = "ldapous";
     private static final String LDAP_TYPE_OU = "ou";
+    private static final String LHM_OBJECT_PATH = "lhmObjectPath";
+    private static final String LHM_OU_SHORTNAME = "lhmOUShortname";
+    private static final String ATTRIBUTE_OBJECT_CLASS = "objectClass";
+    private static final String LHM_ORGANIZATIONAL_UNIT = "lhmOrganizationalUnit";
 
     private final LdapQueryFactory ldapQueryFactory;
+    private final ServiceAuthLdapProperties serviceAuthLdapProperties;
 
-    public LhmLdapClient(final ContextSource contextSource, final LdapQueryFactory ldapQueryFactory) {
+    public LhmLdapClient(final ContextSource contextSource, final LdapQueryFactory ldapQueryFactory, final ServiceAuthLdapProperties serviceAuthLdapProperties) {
         super(contextSource);
         this.ldapQueryFactory = ldapQueryFactory;
+        this.serviceAuthLdapProperties = serviceAuthLdapProperties;
     }
 
     /**
@@ -134,6 +146,8 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
     /**
      * The method queries for all ous the specified user is part of.
      *
+     * Copy & paste from https://git.muenchen.de/km23/ezLDAP/ezLDAP/-/blob/master/lib-core/src/main/java/de/muenchen/itm/km23/ezldap/core/LdapService.java
+     *
      * @param userid The uid for which the search within LDAP is performed.
      * @return a list of ous the user is in
      */
@@ -142,32 +156,25 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
     public List<String> findOuTree(final String userid) {
         LOG.debug("Get LDAP ou tree for user {}.", userid);
 
-        final List<LdapName> usersObjectPathList = this.searchObjectPaths(userid);
+        final LdapQuery query = ldapQueryFactory.createPersonByIdQuery(userid);
 
-        if (usersObjectPathList.size() > 1) {
-            log.warn("More than one entry found for user: {}", userid);
-        }
-
-        if (usersObjectPathList.size() == 0) {
-            throw new IllegalArgumentException(String.format("OU tree for user with id %s not available", userid));
-        }
-
-        final List<String> ouTreeItems = initOuTreeItems();
-        // take first user
-        final LdapName ldapName = usersObjectPathList.get(0);
-
-        for (int i = 0; i < ldapName.getRdns().size(); i++) {
-            if (!ldapName.getRdn(i).getType().equals(LDAP_TYPE_OU)){
-                log.debug("Ignoring ldap objectpath entry: {}", ldapName.getRdn(i));
-                continue;
+        // Get the users OU to search for the OUs outree
+        List<String> ouShortCodes = super.search(query, (AttributesMapper<String>) attrs -> {
+            if (null != attrs.get(LDAP_TYPE_OU)) {
+                return (String) attrs.get(LDAP_TYPE_OU).get();
             }
-            final List<String> ouShortnames = searchOuShortnames(ldapName, i);
-            if (!ouShortnames.isEmpty()) {
-                ouTreeItems.addAll(ouShortnames);
-            }
+            return null;
+        });
+        ouShortCodes = ouShortCodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if (ouShortCodes.isEmpty()) {
+            log.debug("Found no ou tree");
+            return new ArrayList<>();
         }
-        log.info("OU tree for user {}: {}", userid, String.join(", ", ouTreeItems));
-        return ouTreeItems;
+        final String ouShortCode = ouShortCodes.get(0);
+
+        final LdapQuery ouQuery = ldapQueryFactory.createOuTreeByShortcodeQuery(ouShortCode);
+
+        return this.findOuTree(ouQuery).orElse(new ArrayList<>());
     }
 
     /**
@@ -196,61 +203,76 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
         return Optional.empty();
     }
 
-    private List<String> searchOuShortnames(final LdapName ldapName, final int rdnIndex) {
-        final String ou = ldapName.getRdn(rdnIndex).getValue().toString();
-        final String parentPath = this.buildObjectPath(ldapName, rdnIndex - 1);
-        final List<String> ouShortnames = this.searchOusShortname(ou, parentPath);
-        if (ouShortnames != null && !ouShortnames.isEmpty()) {
-            // remove enties without value
-            final List<String> cleanedOuShortnames = ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList());
-            if (cleanedOuShortnames.size() > 1) {
-                log.warn("More than 1 ou for {} in {}", ou, parentPath);
-            }
-            return cleanedOuShortnames;
-        }
-        else {
-            log.warn("No ou found for {} in {}", ou, parentPath);
-        }
-        return Collections.emptyList();
-    }
-
-    private List<String> initOuTreeItems() {
-        final List<String> ouTreeItems = new ArrayList<>();
-        ouTreeItems.add("LHM");
-        return ouTreeItems;
-    }
-
-    private List<String> searchOusShortname(final String ou, final String parentPath) {
-        final LdapQuery query = ldapQueryFactory.createOuByNameAndParentPathQuery(ou, parentPath);
-
-        return this.search(query, (AttributesMapper<String>) attrs -> {
-            if (null != attrs.get(LdapAttributeConstants.LDAP_SHORTNAME)) {
-                return (String) attrs.get(LdapAttributeConstants.LDAP_SHORTNAME).get();
+    /**
+     * Copy & paste from https://git.muenchen.de/km23/ezLDAP/ezLDAP/-/blob/master/lib-core/src/main/java/de/muenchen/itm/km23/ezldap/core/LdapService.java
+     *
+     * @param query
+     * @return
+     */
+    private Optional<List<String>> findOuTree(final LdapQuery query) {
+        List<LdapName> ldapNames = super.search(query, (AttributesMapper<LdapName>) attrs -> {
+            if (null != attrs.get(LHM_OBJECT_PATH)) {
+                return new LdapName((String) attrs.get(LHM_OBJECT_PATH).get());
             }
             return null;
         });
-
-    }
-
-    /**
-     * Search object path of specified user.
-     */
-    private List<LdapName> searchObjectPaths(final String lhmObjectId) {
-        final LdapQuery query = ldapQueryFactory.createPersonByObjectIdQuery(lhmObjectId);
-        return this.search(query, (AttributesMapper<LdapName>) attrs -> new LdapName((String) attrs.get(LdapAttributeConstants.LDAP_OBJECT_PATH).get()));
-    }
-
-    /**
-     * Build an ldap object path string out of a given number of rdns.
-     */
-    private String buildObjectPath(final LdapName ldapName, final int pos) {
-        final StringBuilder buf = new StringBuilder();
-        for (int i = pos; i >= 0; i--) {
-            if (buf.length() > 0)
-                buf.append(",");
-            buf.append(ldapName.get(i));
+        // clean ldapNames from null values
+        ldapNames = ldapNames.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if (ldapNames.isEmpty()) {
+            log.debug("Found no ou tree");
+            return Optional.empty();
         }
-        return buf.toString();
+        final LdapName ldapName = ldapNames.get(0);
+
+        // ou tree always starts with LHM
+        final List<String> ouTree = new ArrayList<>(List.of("LHM"));
+
+        // iterate through ou tree and search for ou short codes
+        String parentBase = this.serviceAuthLdapProperties.getOuSearchBase();
+        for (int i = 0; i < ldapName.getRdns().size(); i++) {
+            // ignore all rdn's except ou
+            if (!ldapName.getRdn(i).getType().equals(LDAP_TYPE_OU)) {
+                continue;
+            }
+            final String ouLongName = ldapName.getRdn(i).getValue().toString();
+            ouTree.addAll(this.findOUShortCodeForOULongName(ouLongName, parentBase));
+
+            // update parent base by adding the current ou to the base path
+            parentBase = ldapName.get(i) + "," + parentBase;
+        }
+        return Optional.of(ouTree);
+    }
+
+    /**
+     * Copy & paste from https://git.muenchen.de/km23/ezLDAP/ezLDAP/-/blob/master/lib-core/src/main/java/de/muenchen/itm/km23/ezldap/core/LdapService.java
+     *
+     * Helper method to look up the ou short code for a given ou long name in a given base path.
+     *
+     * @param ouLongName OU long name to search for
+     * @param basePath Base path to search for the ou short code
+     * @return List of ou short codes
+     */
+    private List<String> findOUShortCodeForOULongName(final String ouLongName, final String basePath) {
+        final Filter createOuNameFilter = new AndFilter()
+                .and(new EqualsFilter(LDAP_TYPE_OU, ouLongName))
+                .and(new EqualsFilter(ATTRIBUTE_OBJECT_CLASS, LHM_ORGANIZATIONAL_UNIT));
+
+        final LdapQuery query = query()
+                .searchScope(SearchScope.SUBTREE)
+                .base(basePath)
+                .filter(createOuNameFilter);
+        log.debug("Searching for ou='{} & objectClass='{}' in subtree '{}' ...", ouLongName, LHM_ORGANIZATIONAL_UNIT, basePath);
+
+        final List<String> ouShortCodes = super.search(query, (AttributesMapper<String>) attrs -> {
+            if (null != attrs.get(LHM_OU_SHORTNAME)) {
+                return (String) attrs.get(LHM_OU_SHORTNAME).get();
+            }
+            return null;
+        });
+        // clean ouShortCodes from null values
+        List<String> cleanedOuShortCodes = ouShortCodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        log.debug("Resolved ou shortcodes for ouLongName='{}': {}", ouLongName, cleanedOuShortCodes);
+        return cleanedOuShortCodes;
     }
 
 }

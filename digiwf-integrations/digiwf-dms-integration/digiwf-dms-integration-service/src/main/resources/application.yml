@@ -64,4 +64,4 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         typeMappings:
-          createVorgangFromEventBus: "createVorgangMessageProcessor"
+          createProcedure: "createProcedureMessageProcessor"

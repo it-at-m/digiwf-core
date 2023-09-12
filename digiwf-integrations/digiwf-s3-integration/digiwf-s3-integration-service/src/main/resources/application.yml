@@ -49,7 +49,7 @@ spring:
           group: "dwf-s3-service"
           destination: dwf-s3-${DIGIWF_ENV}
         sendMessage-out-0:
-          destination: dwf-digiwf-engine-${DIGIWF_ENV}
+          destination: dwf-connector-${DIGIWF_ENV}
       default:
         consumer:
           maxAttempts: '1'
@@ -84,6 +84,12 @@ io:
             unused-files: 0 15 10 16 * ?
             expired-files: 0 15 10 15 * ?
         proxyEnabled: 'false'
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          createPresignedUrl: "createPresignedUrl"
 
 server:
   port: "${S3_INTEGRATION_SERVER_PORT:8086}"
