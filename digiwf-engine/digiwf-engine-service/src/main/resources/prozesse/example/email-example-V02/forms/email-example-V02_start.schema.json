@@ -48,6 +48,36 @@
                     },
                     {
                         "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "FORMFIELD_EMAIL_TOPIC": {
+                                "fieldType": "text",
+                                "title": "Email Topic",
+                                "type": "string",
+                                "key": "FORMFIELD_EMAIL_TOPIC",
+                                "default": "dwf-email-local-01",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        },
+                        "key": "83da6f62-99d1-43a8-8139-93082db58310"
+                    },
+                    {
+                        "containerType": "group",
                         "title": "Email",
                         "description": "",
                         "key": "5ababe10-52df-4a00-bc71-6d5ae8f35550",

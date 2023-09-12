@@ -24,23 +24,23 @@ public class TasksApiDelegateImpl implements TasksApiDelegate {
   private final RetrieveTasksForUser retrieveTasksForUser;
 
   @Override
-  public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, LocalDate followUp, String sort) {
+  public ResponseEntity<PageOfTasksTO> getCurrentUserTasks(Integer page, Integer size, String query, String tag, LocalDate followUp, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
-    var result = retrieveTasksForUser.getTasksForCurrentUser(query, followUp, pagingAndSorting);
+    var result = retrieveTasksForUser.getTasksForCurrentUser(query, tag, followUp, pagingAndSorting);
     return ok(taskMapper.toSchemaTO(result));
   }
 
   @Override
-  public ResponseEntity<PageOfTasksTO> getAssignedGroupTasks(Integer page, Integer size, String query, String sort) {
+  public ResponseEntity<PageOfTasksTO> getAssignedGroupTasks(Integer page, Integer size, String query, String tag, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
-    var result = retrieveTasksForUser.getAssignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    var result = retrieveTasksForUser.getAssignedTasksForCurrentUserGroup(query, tag, pagingAndSorting);
     return ok(taskMapper.toSchemaTO(result));
   }
 
   @Override
-  public ResponseEntity<PageOfTasksTO> getUnassignedGroupTasks(Integer page, Integer size, String query, String sort) {
+  public ResponseEntity<PageOfTasksTO> getUnassignedGroupTasks(Integer page, Integer size, String query, String tag, String sort) {
     var pagingAndSorting = new PagingAndSorting(page, size, sort);
-    var result = retrieveTasksForUser.getUnassignedTasksForCurrentUserGroup(query, pagingAndSorting);
+    var result = retrieveTasksForUser.getUnassignedTasksForCurrentUserGroup(query, tag, pagingAndSorting);
     return ok(taskMapper.toSchemaTO(result));
   }
 }

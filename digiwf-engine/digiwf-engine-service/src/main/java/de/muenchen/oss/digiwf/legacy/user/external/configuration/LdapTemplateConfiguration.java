@@ -3,9 +3,9 @@
  */
 package de.muenchen.oss.digiwf.legacy.user.external.configuration;
 
+import de.muenchen.oss.digiwf.legacy.user.external.client.LhmLdapClient;
 import de.muenchen.oss.digiwf.legacy.user.external.client.query.LdapFilterFactory;
 import de.muenchen.oss.digiwf.legacy.user.external.client.query.LdapQueryFactory;
-import de.muenchen.oss.digiwf.legacy.user.external.client.LhmLdapClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +53,7 @@ public class LdapTemplateConfiguration {
      */
     @Bean
     public LhmLdapClient lhmLdapTemplate(final LdapContextSource ldapContextSource, final LdapQueryFactory ldapQueryFactory) {
-        return new LhmLdapClient(this.contextSourceTarget(), ldapQueryFactory);
+        return new LhmLdapClient(ldapContextSource, ldapQueryFactory, serviceAuthLdapProperties);
     }
 
 }

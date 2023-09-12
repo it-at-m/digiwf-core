@@ -1,0 +1,21 @@
+{
+  "key": "example-all-input-fields",
+  "statusConfig": [
+    {
+      "key": "firstUserTask",
+      "label": "First User Task",
+      "position": 1
+    },
+    {
+      "key": "secondUserTask",
+      "label": "Second User Task",
+      "position": 2
+    },
+    {
+      "key": "finished",
+      "label": "Finished",
+      "position": 3
+    }
+  ],
+  "statusDokument" : "example-all-input-fields-status-document"
+}

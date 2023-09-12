@@ -7,9 +7,11 @@
       :show-assignee="true"
       :is-loading="isLoading"
       :errorMessage="errorMessage"
+      :tag="tag"
       :filter="filter"
       @loadTasks="reloadTasks"
       @changeFilter="onFilterChange"
+      @changeTag="onTagChange"
     >
       <template #default="props">
         <group-task-item
@@ -18,6 +20,7 @@
           :show-assignee="true"
           :search-string="props.item.searchInput"
           @edit="reassignTask(props.item.id)"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>
@@ -54,9 +57,9 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, currentSortDirection);
+    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
 
     const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
@@ -83,6 +86,7 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
+      tag,
       reloadTasks: refetch,
       pagination: {
         page,
@@ -109,8 +113,12 @@ export default defineComponent({
         isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
         updateItemsPerPage: setSize
       },
-      onFilterChange: (newFilter: string | undefined) => {
+      onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
+        refetch();
+      },
+      onTagChange: (newTag?: string) => {
+        setTag(newTag || "");
         refetch();
       },
     };

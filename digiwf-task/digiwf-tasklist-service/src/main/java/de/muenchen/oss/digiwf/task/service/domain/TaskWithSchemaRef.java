@@ -10,4 +10,5 @@ public class TaskWithSchemaRef {
   private final String schemaRef;
   private final boolean cancelable;
   private final TaskSchemaType taskSchemaType;
+  private final String tag;
 }
