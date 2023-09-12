@@ -7,9 +7,10 @@
     :outlined="outlined"
     :disabled="readOnly"
     :rules="[validationResult, ...rules]"
-    @change="onChange"
-    @input="onInput"
-    >
+    @change="onChange(event)"
+    @input="onInput(event)"
+    :id="schema.key"
+  >
     <template #append-outer>
       <v-tooltip v-if="description" left :open-on-hover="false">
         <template v-slot:activator="{ on }">
@@ -27,18 +28,19 @@
 import {defineComponent, ref} from "vue";
 import {validateDate} from "@/validation/dateValidation";
 
-export default defineComponent ({
+export default defineComponent({
   props: [
     'value',
     'schema',
     'on'
   ],
-  setup({value, schema, on}){
+  setup({value, schema, on}) {
     const {title: label, readOnly, description} = schema;
     const {dense, outlined} = schema['x-props'];
+    const nativeElement = ref<HTMLInputElement>();
     let rules: any[] = [];
 
-    if(!!schema['x-rules']?.includes('required')){
+    if (!!schema['x-rules']?.includes('required')) {
       rules.push((v: string) => !!v || 'Dieses Feld ist ein Pflichtfeld');
     }
 
@@ -46,14 +48,14 @@ export default defineComponent ({
     const validationResult = ref<string | boolean>(true);
 
     const onChange = () => {
-      if(!!on?.input) {
+      if (!!on?.input) {
         on.input(dateValue.value);
       }
-      validationResult.value = validateDate(dateValue.value);
+      validationResult.value = validateDate(dateValue.value, nativeElement.value?.validity?.valid);
     }
 
     const onInput = () => {
-      validationResult.value = validateDate(dateValue.value);
+      validationResult.value = validateDate(dateValue.value, nativeElement.value?.validity?.valid);
     }
 
     return {
@@ -66,8 +68,13 @@ export default defineComponent ({
       validationResult,
       rules,
       onChange,
-      onInput
+      onInput,
+      nativeElement
     }
+  },
+  mounted() {
+    this.nativeElement = document.getElementById(this.schema.key) as HTMLInputElement;
+
   }
 })
 </script>
