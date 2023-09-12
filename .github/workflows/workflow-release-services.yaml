@@ -47,15 +47,7 @@ jobs:
         run: mvn --batch-mode install -DskipTests
 
       - name: Perform maven release
-        if: inputs.snapshot-release == false && inputs.maven-release == true
-        run: mvn clean deploy --batch-mode deploy -DskipTests --activate-profiles deploy
-        env:
-          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
-          OSSRH_USERNAME: ${{ secrets.nexus_username }}
-          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
-
-      - name: Perform maven snapshot release
-        if: inputs.snapshot-release == true && inputs.maven-release == true
+        if: inputs.maven-release == true
         run: mvn --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
