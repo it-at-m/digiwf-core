@@ -44,11 +44,11 @@ jobs:
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        run: mvn clean --batch-mode install -DskipTests
+        run: mvn --batch-mode clean install -DskipTests
 
       - name: Perform maven release
         if: inputs.maven-release == true
-        run: mvn clean --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
+        run: mvn --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
