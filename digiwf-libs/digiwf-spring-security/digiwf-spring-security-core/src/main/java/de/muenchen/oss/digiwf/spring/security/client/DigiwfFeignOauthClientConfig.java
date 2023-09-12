@@ -1,12 +1,14 @@
-package de.muenchen.oss.digiwf.process.api.config.impl;
+package de.muenchen.oss.digiwf.spring.security.client;
 
-import de.muenchen.oss.digiwf.spring.security.client.OAuth2AccessTokenSupplier;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Configures the OAuth2 request interceptor for Feign clients.
+ */
 @RequiredArgsConstructor
-public class FeignConfig {
+public class DigiwfFeignOauthClientConfig {
 
     private final OAuth2AccessTokenSupplier oAuth2AccessTokenSupplier;
 
