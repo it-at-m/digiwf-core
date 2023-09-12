@@ -65,63 +65,63 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push connector
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
           tags: itatm/digiwf-camunda-connector-service:${{ inputs.release-version }},itatm/digiwf-camunda-connector-service:dev
 
       - name: Build and push gateway
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-gateway
           push: true
           tags: itatm/digiwf-gateway:${{ inputs.release-version }},itatm/digiwf-gateway:dev
 
       - name: Build and push cosys
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
           tags: itatm/digiwf-cosys-integration-service:${{ inputs.release-version }},itatm/digiwf-cosys-integration-service:dev
 
       - name: Build and push email integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
           push: true
           tags: itatm/digiwf-email-integration-service:${{ inputs.release-version }},itatm/digiwf-email-integration-service:dev
 
       - name: Build and push alw-integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
           push: true
           tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-integration-service:dev
 
       - name: Build and push verification-integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
           push: true
           tags: itatm/digiwf-verification-integration-service:${{ inputs.release-version }},itatm/digiwf-verification-integration-service:dev
 
       - name: Build and push s3-integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
           push: true
           tags: itatm/digiwf-s3-integration-service:${{ inputs.release-version }},itatm/digiwf-s3-integration-service:dev
 
       - name: Build and push oss engine
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
           tags: itatm/digiwf-engine-service-community:${{ inputs.release-version }},itatm/digiwf-engine-service-community:dev
 
       - name: Build and push tasklist backend
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-task/digiwf-tasklist-service
           push: true
@@ -164,7 +164,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push engine
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true

@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push tasklist
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
