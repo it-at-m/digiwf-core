@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.process.api;
+package de.muenchen.oss.digiwf.process.api.start;
 
 import lombok.*;
 
