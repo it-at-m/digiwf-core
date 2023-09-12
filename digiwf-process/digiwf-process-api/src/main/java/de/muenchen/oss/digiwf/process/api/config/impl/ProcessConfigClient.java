@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @FeignClient(
         name = "${feign.client.config.digiwf-process-config.name:digiwf-process-api}",
-        url = "${feign.client.config.digiwf-process-config.url:${feign.client.config.default.url:http://localhost:39146}}",
+        url = "${feign.client.config.digiwf-process-config.url}",
         configuration = DigiwfFeignOauthClientConfig.class
 )
 public interface ProcessConfigClient {
