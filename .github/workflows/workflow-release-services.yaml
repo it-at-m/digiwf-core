@@ -56,10 +56,7 @@ jobs:
 
       - name: Perform maven snapshot release
         if: inputs.snapshot-release == true && inputs.maven-release == true
-        run: >
-          mvn -B -ntp deploy
-          --activate-profile release
-          -Darguments="-DskipTests"
+        run: mvn --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
