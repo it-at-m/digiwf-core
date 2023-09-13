@@ -5,6 +5,7 @@ import userTask from "../pages/userTask"
 import * as dataElementKeys from "../constants/dataElementKeys"
 import * as environmentVariables from "../constants/environmentVariables"
 import aktuelleVorgaenge from "../pages/aktuelleVorgaenge"
+import workflowUserTask from "../pages/workflowUserTask"
 
 const numberOfTasks = 21
 
@@ -62,6 +63,8 @@ describe('Vorgaenge Anzeigen', () => {
         aktuelleVorgaenge.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME)
         cy.wait(3000)
         aktuelleVorgaenge.getElement(1).click();
+        workflowUserTask.taskIsCorrect(1,"User Taskcd")
+        workflowUserTask.isOpen(1)
         //cy.wait(3000)
         //aktuelleVorgaenge.clickElement(1);
         //userTask.checkHeadline("User Task");
