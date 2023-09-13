@@ -32,8 +32,6 @@ public class MessageProcessor {
     private final CreateDocumentUseCase createDocumentUseCase;
     private final CreateProcedureUseCase createVorgangUseCase;
 
-    @Bean
-    @ConditionalOnMissingBean
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
             try {
@@ -56,9 +54,7 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public Consumer<Message<CreateDocumentDto>> createDokument() {
+    public Consumer<Message<CreateDocumentDto>> createDocument() {
         return message -> {
             try {
                 final CreateDocumentDto createDocumentDto = message.getPayload();

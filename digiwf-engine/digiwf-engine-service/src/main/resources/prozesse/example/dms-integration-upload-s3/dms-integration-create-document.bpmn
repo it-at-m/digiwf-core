@@ -29,10 +29,10 @@
     <bpmn:callActivity id="Activity_086s3nk" name="Upload Document To DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.upload-file-to-dms" calledElement="StreamingTemplateV01">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
-        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="createDocument" target="app_type_name" />
         <camunda:in sourceExpression="43e1d8cf-5a8d-4d03-b97c-544380a698c8/" target="fileContext" />
         <camunda:in sourceExpression="EINGEHEND" target="type" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dwf-dms-local-01" target="app_topic_name" />
         <camunda:in sourceExpression="vorgang" target="procedureCoo" />
         <camunda:in sourceExpression="titel" target="title" />
         <camunda:in sourceExpression="user" target="user" />

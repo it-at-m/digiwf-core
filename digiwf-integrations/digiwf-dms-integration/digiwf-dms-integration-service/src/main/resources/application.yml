@@ -65,3 +65,4 @@ io:
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         typeMappings:
           createProcedure: "createProcedureMessageProcessor"
+          createDocument: "createDocumentMessageProcessor"
