@@ -21,23 +21,20 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log('Step 0');
         meineAufgaben.openVorgangStarten();
         vorgangStarten.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME);
-        vorgangStarten.clickListElement(dataElementKeys.EXAMPLE_USER_TASK_KEY);
-        exampleUserTask.setNumberOfTasks(numberOfTasks);
-        exampleUserTask.setUserName(environmentVariables.FULL_USER_NAME);
-        exampleUserTask.clickAbschliessen();
+        createTasks(numberOfTasks-1)
         //ensures all the tasks are loaded
         vorgangStarten.openMeineAufgaben();
-        reloadPageUntilTasksVisible();
+        reloadPageUntilTasksVisible(numberOfTasks-1);
         cy.wait(3000)
-        for (let i=1; i<= numberOfTasks; i++){
-            meineAufgaben.clickElement(1);
-            userTask.clickAbschliessen();
-            //necessary to wait for the task to be deleted
-            cy.wait(3000);
-            meineAufgaben.clickAktualisieren();
-        }
+        closeTasks(numberOfTasks-1)
         //ensures all the tasks are loaded
         cy.wait(3000)
+
+        //create tracked task
+        meineAufgaben.openVorgangStarten();
+        cy.wait(3000)
+        vorgangStarten.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME);
+        createTasks(1)
 
         //Step 1: Open Aktuelle Vorgaenge
         cy.log('Step 1');
@@ -50,37 +47,58 @@ describe('Vorgaenge Anzeigen', () => {
 
         pageSize = 5;
         aktuelleVorgaenge.changePageSize(pageSize);
-        //aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
+        aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
 
         pageSize = 10;
         aktuelleVorgaenge.changePageSize(pageSize);
-        //aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
+        aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
 
         pageSize = 20;
         aktuelleVorgaenge.changePageSize(pageSize);
-        //aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
+        aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks)
 
         //Step 6-7: Check one list element
         cy.log('Step 6-7');
-        //aktuelleVorgaenge.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME)
-        //cy.wait(3000)
-        //aktuelleVorgaenge.getElement(1).click();
+        aktuelleVorgaenge.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME)
+        cy.wait(3000)
+        aktuelleVorgaenge.getElement(1).click();
         //cy.wait(3000)
         //aktuelleVorgaenge.clickElement(1);
         //userTask.checkHeadline("User Task");
+
+        //closeTasks(1)
     })
 
-    function reloadPageUntilTasksVisible(maxAttempts=20, attempts=0) {
+    function reloadPageUntilTasksVisible(number, maxAttempts=20, attempts=0) {
         if (attempts > maxAttempts) {
             throw new Error("Timed out waiting")
         }
         meineAufgaben.getFoundTasks().then(numTasks => {
-            if (numTasks != numberOfTasks) {
+            if (numTasks != number) {
                 cy.wait(100)
                 cy.log('iteration')
                 meineAufgaben.clickAktualisieren();
-                reloadPageUntilTasksVisible(maxAttempts, attempts+1)
+                reloadPageUntilTasksVisible(number, maxAttempts, attempts+1)
             }
         })
+    }
+
+    function createTasks(number){
+        for (let i=1; i<= number; i++){
+            vorgangStarten.clickListElement(dataElementKeys.EXAMPLE_USER_TASK_KEY);
+            exampleUserTask.setNumberOfTasks(1);
+            exampleUserTask.setUserName(environmentVariables.FULL_USER_NAME);
+            exampleUserTask.clickAbschliessen();
+        }
+    }
+
+    function closeTasks(number){
+        for (let i=1; i<= number; i++){
+            meineAufgaben.clickElement(1);
+            userTask.clickAbschliessen();
+            //necessary to wait for the task to be deleted
+            cy.wait(3000);
+            meineAufgaben.clickAktualisieren();
+        }
     }
 })
