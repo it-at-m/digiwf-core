@@ -20,7 +20,7 @@ public class ProcessConfigApiImpl implements ProcessConfigApi {
      * @return the process configuration
      */
     @Override
-    public ProcessConfigTO getProcessConfig(String processDefinitionId) {
+    public ProcessConfigTO getProcessConfig(final String processDefinitionId) {
         return this.processConfigClient.getProcessConfig(processDefinitionId);
     }
 

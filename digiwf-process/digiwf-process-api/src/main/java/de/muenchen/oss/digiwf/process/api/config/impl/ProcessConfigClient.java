@@ -20,10 +20,10 @@ public interface ProcessConfigClient {
     /**
      * Feign Client to obtain the process configuration from digiwf-engine.
      *
-     * @param engine
-     * @return
+     * @param processDefinitionId the process definition id
+     * @return the process configuration
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/processconfig/{key}", consumes = "application/json")
-    ProcessConfigTO getProcessConfig(@PathVariable("key") final String engine);
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/processconfig/{key}")
+    ProcessConfigTO getProcessConfig(@PathVariable("key") final String processDefinitionId);
 
 }
