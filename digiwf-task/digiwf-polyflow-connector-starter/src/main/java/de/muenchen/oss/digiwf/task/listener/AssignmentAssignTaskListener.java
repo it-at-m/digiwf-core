@@ -10,6 +10,7 @@ import lombok.val;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.event.HistoricIdentityLinkLogEventEntity;
+import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -80,8 +81,9 @@ public class AssignmentAssignTaskListener {
   @EventListener(condition = "#historic.eventType.equals('add-identity-link') || #historic.eventType.equals('delete-identity-link')")
   public UpdateAssignmentTaskCommand taskCandidatesChanged(final HistoricIdentityLinkLogEventEntity historic) {
     log.info("Historic id link change: {}", historic);
-    if (properties.isShadow()) {
-      if (historic.getType().equals("candidate") && historic.getTaskId() != null) {
+    if (properties.isShadow() && historic.getTaskId() != null) {
+      val taskEntity = (TaskEntity)processEngineServices.getTaskService().createTaskQuery().taskId(historic.getTaskId()).singleResult();
+      if (historic.getType().equals("candidate") && taskEntity != null) {
         val writer = writer(processEngineServices.getTaskService(), historic.getTaskId());
 
         val candidates = TaskUtil.getTaskCandidates(processEngineServices.getTaskService(), historic.getTaskId());
