@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-date-input",
   "description": "Customized component with possibility to enter date with keyboard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "module": "dist/digiwf-date-input.mjs",
   "scripts": {
     "build": "vite build",
@@ -9,9 +9,9 @@
     "test": "jest src"
   },
   "peerDependencies": {
+    "luxon": "^1.25.0",
     "vue": "^2.7.0",
-    "vuetify": "^2.6.0",
-    "luxon": "^1.25.0"
+    "vuetify": "^2.6.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
