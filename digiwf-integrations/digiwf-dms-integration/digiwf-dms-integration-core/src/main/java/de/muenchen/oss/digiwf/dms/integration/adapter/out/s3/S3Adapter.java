@@ -66,7 +66,7 @@ public class S3Adapter implements LoadFilePort {
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            final List<String> supportedExtension = List.of("pdf");
+            final List<String> supportedExtension = List.of("application/pdf");
 
             if(!supportedExtension.contains(type.toLowerCase())) {
                 log.error("The type of this file is not supported: {}", filepath);

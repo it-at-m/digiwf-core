@@ -60,13 +60,13 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    //@ConditionalOnMissingBean
     public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    //@ConditionalOnMissingBean
     public Consumer<Message<CreateDocumentDto>> createDocumentMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createDocument();
     }

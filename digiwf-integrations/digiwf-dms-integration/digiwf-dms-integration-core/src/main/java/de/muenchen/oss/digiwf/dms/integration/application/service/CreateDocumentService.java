@@ -23,12 +23,12 @@ public class CreateDocumentService implements CreateDocumentUseCase {
 
     @Override
     public Document createDocument(
-            @NotBlank final String procedureCOO,
-            @NotBlank final String title,
-            @NotBlank final String user,
-            @NotNull final DocumentType type,
-            @NotBlank final List<String> filepaths,
-            @NotBlank final String fileContext
+            final String procedureCOO,
+            final String title,
+            final String user,
+            final DocumentType type,
+            final List<String> filepaths,
+            final String fileContext
             ) {
 
         final List<File> files = loadFilePort.loadFiles(filepaths, fileContext);

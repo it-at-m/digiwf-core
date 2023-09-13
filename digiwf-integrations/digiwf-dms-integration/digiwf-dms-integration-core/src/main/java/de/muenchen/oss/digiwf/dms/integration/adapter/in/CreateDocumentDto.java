@@ -26,6 +26,8 @@ public class CreateDocumentDto {
 
     private String fileContext;
 
-    private List<String> filepathsAsList = Arrays.asList(filepaths.split(","));
+    public List<String> getFilepathsAsList() {
+        return Arrays.asList(filepaths.split(","));
+    }
 
 }
