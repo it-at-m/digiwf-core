@@ -125,6 +125,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
+                                'libs/digiwf-spring-security/',
                             ]
                         },
                         {

@@ -16,6 +16,8 @@
 
     <modules>
         <module>digiwf-process-api</module>
+        <module>digiwf-process-starter</module>
+        <module>digiwf-process-example</module>
     </modules>
 
 </project>
