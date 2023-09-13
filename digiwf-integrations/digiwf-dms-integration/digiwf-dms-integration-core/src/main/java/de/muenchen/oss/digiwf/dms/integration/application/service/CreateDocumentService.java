@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,24 +17,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateDocumentService implements CreateDocumentUseCase {
 
-    private final ProcedureRepository vorgangRepository;
+    private final ProcedureRepository procedureRepository;
 
     private final LoadFilePort loadFilePort;
 
     @Override
     public Document createDocument(
-            @NotBlank final String vorgangCOO,
-            @NotBlank final String titel,
+            @NotBlank final String procedureCOO,
+            @NotBlank final String title,
             @NotBlank final String user,
             @NotNull final DocumentType type,
             @NotBlank final List<String> filepaths,
             @NotBlank final String fileContext
             ) {
 
-//        final Vorgang vorgang = new Vorgang(sachakteCOO, titel, art);
-//
-//        return vorgangRepository.createVorgang(vorgang, user);
+        final List<File> files = loadFilePort.loadFiles(filepaths, fileContext);
+
+        //final Document document = new Document(procedureCOO, title, type, files);
+
+        //return procedureRepository.createDocument(document, user);
         return null;
+
     }
 
 }

@@ -11,16 +11,16 @@ import java.util.List;
 public class Document {
 
     private String coo;
-    private String vorgangCoo;
+    private String procedureCOO;
     private String title;
     private DocumentType type;
     private List<File> files = new ArrayList<>();
 
-    public Document(final String vorgangCoo, final String title, final DocumentType art, final List<File> schriftstuecke) {
-        this.vorgangCoo = vorgangCoo;
+    public Document(final String procedureCOO, final String title, final DocumentType type, final List<File> files) {
+        this.procedureCOO = procedureCOO;
         this.title = title;
         this.type = type;
-        this.files.addAll(schriftstuecke);
+        this.files.addAll(files);
     }
 
 }

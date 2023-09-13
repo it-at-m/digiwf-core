@@ -55,7 +55,7 @@ public class FabasoftAdapter implements ProcedureRepository {
         return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
 
-    public Document createDokument(final Document document, final String user) {
+    public Document createDocument(final Document document, final String user) {
         log.info("calling CreateIncomingGI: " + document.toString());
 
         switch (document.getType()) {
@@ -71,7 +71,7 @@ public class FabasoftAdapter implements ProcedureRepository {
     private Document createEingehendesDokumentWithUser(final Document document, final String user) {
         final CreateIncomingGI request = new CreateIncomingGI();
         request.setUserlogin(user);
-        request.setReferrednumber(document.getVorgangCoo());
+        request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
@@ -93,13 +93,13 @@ public class FabasoftAdapter implements ProcedureRepository {
         }
 
         val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
-        return new Document(response.getObjid(), document.getVorgangCoo(), document.getTitle(), document.getType() , schriftstuecke);
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
 
     private Document createAusgehendesDokumentWithUser(final Document document, final String user)  {
         final CreateOutgoingGI request = new CreateOutgoingGI();
         request.setUserlogin(user);
-        request.setReferrednumber(document.getVorgangCoo());
+        request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
 
         request.setShortname(document.getTitle());
@@ -124,7 +124,7 @@ public class FabasoftAdapter implements ProcedureRepository {
         }
 
         val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
-        return new Document(response.getObjid(), document.getVorgangCoo(), document.getTitle(), document.getType() , schriftstuecke);
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final File file) {
