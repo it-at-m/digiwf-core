@@ -8,6 +8,8 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIAttachment
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateIncomingGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGIResponse;
+import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGI;
+import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ReadDocumentGIObjects;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ReadDocumentGIObjectsResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIObjectType;
@@ -63,7 +65,8 @@ public class FabasoftAdapter implements ProcedureRepository {
                 return this.createEingehendesDokumentWithUser(document, user);
             case AUSGEHEND:
                 return this.createAusgehendesDokumentWithUser(document, user);
-                //TODO Internes Dokument
+            case INTERN:
+                return this.createInternesDokumentWithUser(document, user);
             default:
                 throw new AssertionError("must not happen");
         }
@@ -127,6 +130,35 @@ public class FabasoftAdapter implements ProcedureRepository {
         val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
+
+    private Document createInternesDokumentWithUser(final Document document, final String user) {
+        final CreateInternalGI request = new CreateInternalGI();
+        request.setUserlogin(user);
+        request.setReferrednumber(document.getProcedureCOO());
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setShortname(document.getTitle());
+        request.setFilesubj(document.getTitle());
+
+        final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
+        final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
+
+        for (final File file : document.getFiles()) {
+            files.add(this.parseSchriftstueck(file));
+        }
+
+        request.setGiattachmenttype(attachmentType);
+
+        final CreateInternalGIResponse response = this.wsClient.createInternalGI(request);
+
+        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
+        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
+            throw new IncidentError(response.getErrormessage());
+        }
+
+        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
+    }
+
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final File file) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
