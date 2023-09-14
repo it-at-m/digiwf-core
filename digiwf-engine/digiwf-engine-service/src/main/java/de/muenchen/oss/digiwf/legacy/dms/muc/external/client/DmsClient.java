@@ -350,7 +350,7 @@ public class DmsClient {
                 .coo(coo)
                 .name(response.getGiattachmenttype().getLHMBAI151700Filename())
                 .extension(response.getGiattachmenttype().getLHMBAI151700Fileextension())
-                .content(IOUtils.toByteArray(response.getGiattachmenttype().getLHMBAI151700Filecontent().getInputStream()))
+                .content(response.getGiattachmenttype().getLHMBAI151700Filecontent())
                 .build();
     }
 
@@ -358,8 +358,8 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final NeuesSchriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
-        attachment.setLHMBAI151700Filecontent(dataHandler);
+        final byte[] data = parseSchriftstueckToByteArray(schriftstueck.getContent(), schriftstueck.getExtension());
+        attachment.setLHMBAI151700Filecontent(data);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
@@ -367,11 +367,20 @@ public class DmsClient {
 
     private LHMBAI151700GIAttachmentType parseSchriftstueck(final Schriftstueck schriftstueck) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        final DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(schriftstueck.getContent(), schriftstueck.getExtension()));
-        attachment.setLHMBAI151700Filecontent(dataHandler);
+        final byte[] data = parseSchriftstueckToByteArray(schriftstueck.getContent(), schriftstueck.getExtension());
+        attachment.setLHMBAI151700Filecontent(data);
         attachment.setLHMBAI151700Fileextension(schriftstueck.getExtension());
         attachment.setLHMBAI151700Filename(schriftstueck.getName());
         return attachment;
+    }
+
+    private byte[] parseSchriftstueckToByteArray(final byte[] content, final String extension) {
+        try {
+            return new ByteArrayDataSource(content, extension).getInputStream().readAllBytes();
+        } catch (IOException e) {
+            log.error("could not transform content and extension of schriftstueck to byte array. content: {}, extension: {}", content, extension);
+            return null;
+        }
     }
 
     private Dokument createEingehendesDokumentWithUser(final NeuesDokument dokument, final String username) throws DMSException {
