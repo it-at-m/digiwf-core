@@ -9,8 +9,8 @@ class WorkflowUserTask extends Page{
         this.elements.elem(elementNumber,2).should('contain.text',text)
     }
 
-    isOpen(elementNumber){
-        this.elements.elem(elementNumber, 3).should('contain.text','offen')
+    getStatus(elementNumber){
+        return this.elements.elem(elementNumber, 3)
     }
 
 

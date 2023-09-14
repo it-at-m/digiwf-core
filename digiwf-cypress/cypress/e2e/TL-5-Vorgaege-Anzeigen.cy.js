@@ -63,13 +63,16 @@ describe('Vorgaenge Anzeigen', () => {
         aktuelleVorgaenge.findProcess(dataElementKeys.EXAMPLE_USER_TASK_NAME)
         cy.wait(3000)
         aktuelleVorgaenge.getElement(1).click();
-        workflowUserTask.taskIsCorrect(1,"User Taskcd")
-        workflowUserTask.isOpen(1)
-        //cy.wait(3000)
-        //aktuelleVorgaenge.clickElement(1);
-        //userTask.checkHeadline("User Task");
-
-        //closeTasks(1)
+        workflowUserTask.taskIsCorrect(1,"User Task")
+        workflowUserTask.getStatus(1).should('contain.text','offen')
+        cy.wait(3000)
+        workflowUserTask.openMeineAufgaben()
+        closeTasks(1)
+        meineAufgaben.openAktuelleVorgaenge()
+        cy.wait(3000)
+        aktuelleVorgaenge.getElement(1).click();
+        workflowUserTask.taskIsCorrect(1,"User Task")
+        workflowUserTask.getStatus(1).should('not.contain.text','offen')
     })
 
     function reloadPageUntilTasksVisible(number, maxAttempts=20, attempts=0) {
