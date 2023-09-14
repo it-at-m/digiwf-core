@@ -1,0 +1,171 @@
+package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
+
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static reactor.core.publisher.Mono.just;
+
+class S3AdapterTest {
+
+    private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
+
+    private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
+
+    private S3Adapter s3Adapter;
+
+    @BeforeEach
+    void setup() {
+        s3Adapter = new S3Adapter(documentStorageFileRepository,documentStorageFolderRepository);
+    }
+
+    @Test
+    void testLoadFileFromFilePath() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String pdfPath = "test/test-pdf.pdf";
+        final String pngPath = "test/digiwf_logo.png";
+        final String fileContext = "files";
+
+        final String fullPdfPath = fileContext + "/" + pdfPath;
+        final String fullPngPath = fileContext + "/" + pngPath;
+
+        final List<String> filePaths = List.of(pdfPath,pngPath);
+
+        final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
+        final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
+
+        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
+
+        final List<File> files = this.s3Adapter.loadFiles(filePaths, fileContext);
+
+        final File pdfFile = new File("application/pdf","test-pdf",testPdf);
+        final File pngFile = new File("image/png","digiwf_logo",testPng);
+
+        assertTrue(files.contains(pdfFile));
+        assertTrue(files.contains(pngFile));
+    }
+
+    @Test
+    void testLoadFileFromFolderPath() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String folderPath = "test/";
+        final String fileContext = "files";
+        final String fullFolderPath = fileContext + "/" + folderPath;
+
+        final String fullPdfPath = "files/test/test-pdf.pdf";
+        final String fullPngPath = "files/test/digiwf_logo.png";
+        final String fullWordPath = "files/test/test-word.docx";
+
+        final List<String> paths = List.of(folderPath);
+
+        Set<String> filesPaths = new HashSet<>(List.of(fullPdfPath, fullPngPath, fullWordPath));
+
+        final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
+        final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
+        final byte[] testWord = new ClassPathResource(fullWordPath).getInputStream().readAllBytes();
+
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenReturn((just(filesPaths)));
+
+        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath,3)).thenReturn(testWord);
+
+        final List<File> files = this.s3Adapter.loadFiles(paths, fileContext);
+
+        final File pdfFile = new File("application/pdf","test-pdf",testPdf);
+        final File pngFile = new File("image/png","digiwf_logo",testPng);
+        final File wordFile = new File("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
+
+        assertTrue(files.contains(pdfFile));
+        assertTrue(files.contains(pngFile));
+        assertTrue(files.contains(wordFile));
+    }
+
+    @Test
+    void testLoadFileFromFilePathThrowsDocumentStorageException() throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String pdfPath = "test/test-pdf.pdf";
+        final String fileContext = "files";
+
+        final String fullPdfPath = fileContext + "/" + pdfPath;
+
+        final List<String> filePaths = List.of(pdfPath);
+
+        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
+
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext));
+
+        String expectedMessage = "An file could not be loaded from url: " + fullPdfPath;
+        String actualMessage = bpmnError.getErrorMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
+        assertEquals("LOAD_FILE_FAILED",bpmnError.getErrorCode());
+    }
+
+    @Test
+    void testLoadFileFromFolderPathThrowsDocumentStorageServerErrorException() throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String folderPath = "test/";
+        final String fileContext = "files";
+
+        final String fullFolderPath = fileContext + "/" + folderPath;
+
+        final List<String> filePaths = List.of(folderPath);
+
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenThrow(new DocumentStorageServerErrorException("Some error", new RuntimeException("Some error")));
+
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext));
+
+        String expectedMessage = "An folder could not be loaded from url: " + fullFolderPath;
+        String actualMessage = bpmnError.getErrorMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
+        assertEquals("LOAD_FOLDER_FAILED",bpmnError.getErrorCode());
+    }
+
+    @Test
+    void testLoadFileFromFilePathThrowsUnsupportedFileTypeException() throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException {
+
+        final String htmlPath = "fail/test-html.html";
+        final String fileContext = "files";
+
+        final String fullHtmlPath = fileContext + "/" + htmlPath;
+
+        final List<String> filePaths = List.of(htmlPath);
+
+        final byte[] testHtml = new ClassPathResource(fullHtmlPath).getInputStream().readAllBytes();
+
+        when(documentStorageFileRepository.getFile(fullHtmlPath,3)).thenReturn(testHtml);
+
+        try {
+            this.s3Adapter.loadFiles(filePaths, fileContext);
+        } catch (BpmnError bpmnError) {
+            String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
+            String actualMessage = bpmnError.getErrorMessage();
+
+            assertEquals(expectedMessage, actualMessage);
+
+            assertEquals("UNSUPPORTED_FILE_TYPE",bpmnError.getErrorCode());
+        }
+
+    }
+}

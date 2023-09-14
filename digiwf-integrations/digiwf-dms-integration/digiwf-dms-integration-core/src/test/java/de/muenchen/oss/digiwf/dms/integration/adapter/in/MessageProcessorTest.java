@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -26,6 +27,7 @@ class MessageProcessorTest {
     private final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
     private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
     private final CreateProcedureUseCase sendMailMock = Mockito.mock(CreateProcedureUseCase.class);
+    private final CreateDocumentUseCase createDocumentUseCase = Mockito.mock(CreateDocumentUseCase.class);
     private final String processInstanceId = "exampleProcessInstanceId";
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
     private final CreateProcedureDto createVorgangDto = new CreateProcedureDto(
@@ -38,7 +40,7 @@ class MessageProcessorTest {
 
     @BeforeEach
     void setup() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, sendMailMock);
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createDocumentUseCase, sendMailMock);
         Mockito.when(sendMailMock.createProcedure(
                         createVorgangDto.getTitle(),
                         createVorgangDto.getFileCOO(),

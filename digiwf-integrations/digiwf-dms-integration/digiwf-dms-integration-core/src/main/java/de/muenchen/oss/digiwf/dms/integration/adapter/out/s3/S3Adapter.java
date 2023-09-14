@@ -33,7 +33,7 @@ public class S3Adapter implements LoadFilePort {
         List<File> files = new ArrayList<>();
 
         filepaths.forEach(path -> {
-            String fullPath = fileContext + path;
+            String fullPath = fileContext + "/" + path;
             if (fullPath.endsWith("/")) {
                 files.addAll(getFilesFromFolder(fullPath));
             } else {
@@ -66,7 +66,7 @@ public class S3Adapter implements LoadFilePort {
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            final List<String> supportedExtension = List.of("application/pdf");
+            final List<String> supportedExtension = List.of("application/pdf","image/png","application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
             if(!supportedExtension.contains(type.toLowerCase())) {
                 log.error("The type of this file is not supported: {}", filepath);

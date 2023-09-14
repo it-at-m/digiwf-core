@@ -30,13 +30,13 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="createDocument" target="app_type_name" />
-        <camunda:in sourceExpression="43e1d8cf-5a8d-4d03-b97c-544380a698c8/" target="fileContext" />
+        <camunda:in sourceExpression="43e1d8cf-5a8d-4d03-b97c-544380a698c8" target="fileContext" />
         <camunda:in sourceExpression="EINGEHEND" target="type" />
         <camunda:in sourceExpression="dwf-dms-local-01" target="app_topic_name" />
         <camunda:in sourceExpression="vorgang" target="procedureCoo" />
         <camunda:in sourceExpression="titel" target="title" />
         <camunda:in sourceExpression="user" target="user" />
-        <camunda:in sourceExpression="Documents/test1/Test.pdf" target="filepaths" />
+        <camunda:in sourceExpression="Documents/test1/Test.pdf,Testfolder/" target="filepaths" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_0gnzyhg</bpmn:outgoing>

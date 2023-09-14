@@ -63,6 +63,7 @@ public class FabasoftAdapter implements ProcedureRepository {
                 return this.createEingehendesDokumentWithUser(document, user);
             case AUSGEHEND:
                 return this.createAusgehendesDokumentWithUser(document, user);
+                //TODO Internes Dokument
             default:
                 throw new AssertionError("must not happen");
         }
