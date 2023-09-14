@@ -5,14 +5,14 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class File {
+public class Content {
 
     private String extension;
     private String name;
     private byte[] content;
     private String coo;
 
-    public File(final String extension, final String name, final byte[] content) {
+    public Content(final String extension, final String name, final byte[] content) {
         this.extension = extension;
         this.name = name;
         this.content = content;

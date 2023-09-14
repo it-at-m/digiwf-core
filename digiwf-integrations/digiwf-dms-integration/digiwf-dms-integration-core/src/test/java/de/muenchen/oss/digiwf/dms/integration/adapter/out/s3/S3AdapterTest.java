@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
@@ -53,13 +53,13 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
 
-        final List<File> files = this.s3Adapter.loadFiles(filePaths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final File pdfFile = new File("application/pdf","test-pdf",testPdf);
-        final File pngFile = new File("image/png","digiwf_logo",testPng);
+        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
 
-        assertTrue(files.contains(pdfFile));
-        assertTrue(files.contains(pngFile));
+        assertTrue(contents.contains(pdfContent));
+        assertTrue(contents.contains(pngContent));
     }
 
     @Test
@@ -87,15 +87,15 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath,3)).thenReturn(testWord);
 
-        final List<File> files = this.s3Adapter.loadFiles(paths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final File pdfFile = new File("application/pdf","test-pdf",testPdf);
-        final File pngFile = new File("image/png","digiwf_logo",testPng);
-        final File wordFile = new File("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
+        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
+        final Content wordContent = new Content("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
 
-        assertTrue(files.contains(pdfFile));
-        assertTrue(files.contains(pngFile));
-        assertTrue(files.contains(wordFile));
+        assertTrue(contents.contains(pdfContent));
+        assertTrue(contents.contains(pngContent));
+        assertTrue(contents.contains(wordContent));
     }
 
     @Test

@@ -14,13 +14,13 @@ public class Document {
     private String procedureCOO;
     private String title;
     private DocumentType type;
-    private List<File> files = new ArrayList<>();
+    private List<Content> contents = new ArrayList<>();
 
-    public Document(final String procedureCOO, final String title, final DocumentType type, final List<File> files) {
+    public Document(final String procedureCOO, final String title, final DocumentType type, final List<Content> contents) {
         this.procedureCOO = procedureCOO;
         this.title = title;
         this.type = type;
-        this.files.addAll(files);
+        this.contents.addAll(contents);
     }
 
 }

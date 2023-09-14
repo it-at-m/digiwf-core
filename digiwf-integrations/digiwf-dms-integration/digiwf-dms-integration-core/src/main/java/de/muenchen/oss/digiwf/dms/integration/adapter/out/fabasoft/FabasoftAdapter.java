@@ -15,9 +15,9 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ReadDocumentGIObjectsRes
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIObjectType;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
@@ -83,8 +83,8 @@ public class FabasoftAdapter implements ProcedureRepository {
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File file : document.getFiles()) {
-            files.add(this.parseSchriftstueck(file));
+        for (final Content content : document.getContents()) {
+            files.add(this.parseSchriftstueck(content));
         }
 
         request.setGiattachmenttype(attachmentType);
@@ -96,7 +96,7 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
+        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
 
@@ -112,8 +112,8 @@ public class FabasoftAdapter implements ProcedureRepository {
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File file : document.getFiles()) {
-            files.add(this.parseSchriftstueck(file));
+        for (final Content content : document.getContents()) {
+            files.add(this.parseSchriftstueck(content));
         }
 
         request.setGiattachmenttype(attachmentType);
@@ -127,7 +127,7 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
+        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
 
@@ -142,8 +142,8 @@ public class FabasoftAdapter implements ProcedureRepository {
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File file : document.getFiles()) {
-            files.add(this.parseSchriftstueck(file));
+        for (final Content content : document.getContents()) {
+            files.add(this.parseSchriftstueck(content));
         }
 
         request.setGiattachmenttype(attachmentType);
@@ -155,20 +155,20 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getFiles());
+        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
     }
 
 
-    private LHMBAI151700GIAttachmentType parseSchriftstueck(final File file) {
+    private LHMBAI151700GIAttachmentType parseSchriftstueck(final Content content) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
-        attachment.setLHMBAI151700Filecontent(file.getContent());
-        attachment.setLHMBAI151700Fileextension(file.getExtension());
-        attachment.setLHMBAI151700Filename(file.getName());
+        attachment.setLHMBAI151700Filecontent(content.getContent());
+        attachment.setLHMBAI151700Fileextension(content.getExtension());
+        attachment.setLHMBAI151700Filename(content.getName());
         return attachment;
     }
 
-    private List<File> checkSchriftstuecke(final String documentCoo, final String username, final List<File> schriftstuecke) {
+    private List<Content> checkSchriftstuecke(final String documentCoo, final String username, final List<Content> schriftstuecke) {
         if (schriftstuecke.size() == 0) {
             return Collections.emptyList();
         }
@@ -188,17 +188,17 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new BpmnError("TODO", message); //TODO Error Code erstellen
         }
 
-        final List<File> erstellteSchriftstuecke = new ArrayList<>();
+        final List<Content> erstellteSchriftstuecke = new ArrayList<>();
 
         for (int i = 0; i < schriftstuecke.size(); i++) {
-            final File file = schriftstuecke.get(i);
+            final Content content = schriftstuecke.get(i);
             final LHMBAI151700GIObjectType erstelltesSchriftstueck = geladeneSchriftstuecke.get(i);
-            if (!file.getName().equals(erstelltesSchriftstueck.getLHMBAI151700Objname())) {
+            if (!content.getName().equals(erstelltesSchriftstueck.getLHMBAI151700Objname())) {
                 // Wir brauchen die IDs der Schriftstücke fürs herunterladen, leider gibt/gab es in der Schnittstelle bei der Antwort keine Infos zu
                 // den IDs. Deswegen laden wir die mit leseIdsFuerSchriftstueckeMitUser nach, und hoffen das die Reihenfolge und Anzahl gleich wie beim hochladen ist.
                 throw new BpmnError("TODO", "Reihenfolge der gelesenen IDs stimmt nicht mit der hochgeladenen überein. Kommentar dazu im Code lesen"); //TODO Error Code erstellen
             }
-            erstellteSchriftstuecke.add(new File(file.getExtension(), file.getName(), file.getContent(), erstelltesSchriftstueck.getLHMBAI151700Objaddress()));
+            erstellteSchriftstuecke.add(new Content(content.getExtension(), content.getName(), content.getContent(), erstelltesSchriftstueck.getLHMBAI151700Objaddress()));
         }
 
         return erstellteSchriftstuecke;
