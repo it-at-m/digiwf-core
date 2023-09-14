@@ -1,11 +1,11 @@
 package de.muenchen.oss.digiwf.dms.integration.application.port.out;
 
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 
 import java.util.List;
 
 public interface LoadFilePort {
 
-    List<File> loadFiles(final List<String> filepaths, final String fileContext);
+    List<Content> loadFiles(final List<String> filepaths, final String fileContext);
 
 }
