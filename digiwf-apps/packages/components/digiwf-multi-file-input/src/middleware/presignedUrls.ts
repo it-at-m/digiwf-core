@@ -3,8 +3,8 @@ import {
   ServiceInstanceFileRestControllerApiFactory,
   ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
-import {FetchUtils} from "@muenchen/digiwf-task-api-internal";
-import {Ref} from "vue";
+import { FetchUtils } from "@muenchen/digiwf-task-api-internal";
+import { Ref } from "vue";
 import {
   getFileNamesFromTaskservice,
   getPresignedUrlForFileDeletionFromTaskservice,
@@ -26,7 +26,7 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
 
   let res: any;
   if (formContext!.type === "start") {
-    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload1(
+    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload(
       formContext!.id,
       file!.name,
       filePath.value
@@ -35,7 +35,7 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
     return await getPresignedUrlForFileUploadFromTaskservice(taskServiceAxiosConfig, formContext!.id, file!.name, filePath.value)
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload1(
       formContext!.id,
       file!.name,
       filePath.value
@@ -54,7 +54,7 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
   if (formContext!.type === "start") {
     res = await ServiceStartFileRestControllerApiFactory(
       engineAxiosConfig
-    ).getPresignedUrlForFileDownload1(
+    ).getPresignedUrlForFileDownload(
       formContext!.id,
       filename,
       filePath.value
@@ -71,7 +71,7 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
     return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileDownload2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileDownload1(
       formContext!.id,
       filename,
       filePath.value
@@ -92,7 +92,7 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
   if (formContext!.type === "start") {
     res = await ServiceStartFileRestControllerApiFactory(
       engineDeleteAxiosConfig
-    ).getPresignedUrlForFileDeletion1(
+    ).getPresignedUrlForFileDeletion(
       formContext!.id,
       filename,
       filePath.value
@@ -109,7 +109,7 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
     return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineDeleteAxiosConfig).getPresignedUrlForFileDeletion2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineDeleteAxiosConfig).getPresignedUrlForFileDeletion1(
       formContext!.id,
       filename,
       filePath.value
@@ -122,12 +122,13 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
 export const getFilenames = async (config: EngineInteractionConfig): Promise<string[]> => {
   const {apiEndpoint, filePath, formContext, taskServiceApiEndpoint} = config;
   const engineAxiosConfig = axiosConfig(apiEndpoint);
+  console.log("called");
 
   const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
 
   let res: any;
   if (formContext!.type === "start") {
-    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getFileNames1(
+    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getFileNames(
       formContext!.id,
       filePath.value
     );
@@ -142,7 +143,7 @@ export const getFilenames = async (config: EngineInteractionConfig): Promise<str
     return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getFileNames2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getFileNames1(
       formContext!.id,
       filePath.value
     );
