@@ -14,1127 +14,1138 @@
 
 
 import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import {
+  assertParamExists,
+  createRequestFunction,
+  DUMMY_BASE_URL,
+  serializeDataIfNeeded,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
+  setSearchParams,
+  toPathString
+} from './common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError } from './base';
 
 /**
- * 
+ *
  * @export
  * @interface AlwMetaDataTO
  */
 export interface AlwMetaDataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'url'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'extension'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'contentSize'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ButtonTO
  */
 export interface ButtonTO {
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof ButtonTO
      */
     'showButton'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ButtonTO
      */
     'buttonText'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ButtonsTO
  */
 export interface ButtonsTO {
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'complete'?: ButtonTO;
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'cancel'?: ButtonTO;
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'statusPdf'?: ButtonTO;
 }
 /**
- * 
+ *
  * @export
  * @interface ConfigEntryTO
  */
 export interface ConfigEntryTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ConfigEntryTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ConfigEntryTO
      */
     'value': string;
 }
 /**
- * 
+ *
  * @export
  * @interface DeploymentDto
  */
 export interface DeploymentDto {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'deploymentId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'versionId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'target'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'file'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'artifactType'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface DeploymentStatusDto
  */
 export interface DeploymentStatusDto {
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof DeploymentStatusDto
      */
     'success'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentStatusDto
      */
     'message'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface FilterTO
  */
 export interface FilterTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'filterString'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'pageId'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface FormFieldTO
  */
 export interface FormFieldTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'type': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'defaultValue'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'defaultValueField'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'label'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'prependIcon'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'tooltip'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'ext'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'multiple'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'ldapOus'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'imageHeight'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'imageWidth'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'readonly'?: boolean;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FormFieldTO
      */
     'rows'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FormFieldTO
      */
     'col'?: number;
     /**
-     * 
+     *
      * @type {Array<ItemTO>}
      * @memberof FormFieldTO
      */
     'items'?: Array<ItemTO>;
     /**
-     * 
+     *
      * @type {Array<RuleTO>}
      * @memberof FormFieldTO
      */
     'rules'?: Array<RuleTO>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'itemText'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'itemValue'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'returnObject'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface FormTO
  */
 export interface FormTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'authorizedGroups'?: string;
     /**
-     * 
+     *
      * @type {ButtonsTO}
      * @memberof FormTO
      */
     'buttons'?: ButtonsTO;
     /**
-     * 
+     *
      * @type {Array<GroupTO>}
      * @memberof FormTO
      */
     'groups'?: Array<GroupTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface GetAlwMetadataTO
  */
 export interface GetAlwMetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GetAlwMetadataTO
      */
     'url': string;
 }
 /**
- * 
+ *
  * @export
  * @interface GetMetadataTO
  */
 export interface GetMetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GetMetadataTO
      */
     'url': string;
 }
 /**
- * 
+ *
  * @export
  * @interface GroupTO
  */
 export interface GroupTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GroupTO
      */
     'label'?: string;
     /**
-     * 
+     *
      * @type {Array<FormFieldTO>}
      * @memberof GroupTO
      */
     'schema'?: Array<FormFieldTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface HistoryTask
  */
 export interface HistoryTask {
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'endTime'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface InfoTO
  */
 export interface InfoTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'maintenanceInfo1'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'maintenanceInfo2'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'environment'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ItemTO
  */
 export interface ItemTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ItemTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ItemTO
      */
     'value'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface JsonSchemaTO
  */
 export interface JsonSchemaTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof JsonSchemaTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof JsonSchemaTO
      */
     'schema': { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface MetadataTO
  */
 export interface MetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'url'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface PageServiceDefinitionTO
  */
 export interface PageServiceDefinitionTO {
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'totalElements'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'totalPages'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'size'?: number;
     /**
-     * 
+     *
      * @type {Array<ServiceDefinitionTO>}
      * @memberof PageServiceDefinitionTO
      */
     'content'?: Array<ServiceDefinitionTO>;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'number'?: number;
     /**
-     * 
+     *
      * @type {SortObject}
      * @memberof PageServiceDefinitionTO
      */
     'sort'?: SortObject;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceDefinitionTO
      */
     'first'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceDefinitionTO
      */
     'last'?: boolean;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'numberOfElements'?: number;
     /**
-     * 
+     *
      * @type {PageableObject}
      * @memberof PageServiceDefinitionTO
      */
     'pageable'?: PageableObject;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceDefinitionTO
      */
     'empty'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface PageServiceInstanceTO
  */
 export interface PageServiceInstanceTO {
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'totalElements'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'totalPages'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'size'?: number;
     /**
-     * 
+     *
      * @type {Array<ServiceInstanceTO>}
      * @memberof PageServiceInstanceTO
      */
     'content'?: Array<ServiceInstanceTO>;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'number'?: number;
     /**
-     * 
+     *
      * @type {SortObject}
      * @memberof PageServiceInstanceTO
      */
     'sort'?: SortObject;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceInstanceTO
      */
     'first'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceInstanceTO
      */
     'last'?: boolean;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'numberOfElements'?: number;
     /**
-     * 
+     *
      * @type {PageableObject}
      * @memberof PageServiceInstanceTO
      */
     'pageable'?: PageableObject;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageServiceInstanceTO
      */
     'empty'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface PageableObject
  */
 export interface PageableObject {
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageableObject
      */
     'offset'?: number;
     /**
-     * 
+     *
      * @type {SortObject}
      * @memberof PageableObject
      */
     'sort'?: SortObject;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageableObject
      */
     'pageNumber'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof PageableObject
      */
     'pageSize'?: number;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageableObject
      */
     'paged'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof PageableObject
      */
     'unpaged'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface ProcessConfigTO
  */
 export interface ProcessConfigTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigTO
      */
     'statusDokument'?: string;
     /**
-     * 
+     *
      * @type {Array<StatusConfigTO>}
      * @memberof ProcessConfigTO
      */
     'statusConfig'?: Array<StatusConfigTO>;
     /**
-     * 
+     *
      * @type {Array<ConfigEntryTO>}
      * @memberof ProcessConfigTO
      */
     'configs'?: Array<ConfigEntryTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface RuleTO
  */
 export interface RuleTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'value'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'target'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface SaveFilterTO
  */
 export interface SaveFilterTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SaveFilterTO
      */
     'filterString': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SaveFilterTO
      */
     'pageId': string;
 }
 /**
- * 
+ *
  * @export
  * @interface SearchUserTO
  */
 export interface SearchUserTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SearchUserTO
      */
     'searchString'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SearchUserTO
      */
     'ous'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceDefinitionDetailTO
  */
 export interface ServiceDefinitionDetailTO {
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof ServiceDefinitionDetailTO
      */
     'startForm'?: FormTO;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceDefinitionDetailTO
      */
     'jsonSchema'?: { [key: string]: object; };
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'versionTag'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceDefinitionTO
  */
 export interface ServiceDefinitionTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'key'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'versionTag'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceInstanceDetailTO
  */
 export interface ServiceInstanceDetailTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'definitionName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'startTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'endTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'status'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'statusKey'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {ProcessConfigTO}
      * @memberof ServiceInstanceDetailTO
      */
     'processConfig'?: ProcessConfigTO;
     /**
-     * 
+     *
      * @type {Array<HistoryTask>}
      * @memberof ServiceInstanceDetailTO
      */
     'historyTasks'?: Array<HistoryTask>;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceInstanceDetailTO
      */
     'data'?: { [key: string]: object; };
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceInstanceDetailTO
      */
     'jsonSchema'?: { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceInstanceTO
  */
 export interface ServiceInstanceTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'definitionName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'startTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'endTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'status'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'description'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface SortObject
  */
 export interface SortObject {
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof SortObject
      */
     'empty'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof SortObject
      */
     'sorted'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof SortObject
      */
     'unsorted'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface StartInstanceTO
  */
 export interface StartInstanceTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StartInstanceTO
      */
     'key'?: string;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof StartInstanceTO
      */
     'variables'?: { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface StatusConfigTO
  */
 export interface StatusConfigTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusConfigTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusConfigTO
      */
     'label': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof StatusConfigTO
      */
     'position': number;
 }
 /**
- * 
+ *
  * @export
  * @interface StatusDokumentTO
  */
 export interface StatusDokumentTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusDokumentTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof StatusDokumentTO
      */
     'data'?: Array<string>;
 }
 /**
- * 
+ *
  * @export
  * @interface UserTO
  */
 export interface UserTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'lhmObjectId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'username'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'forename'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'surname'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'ou'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'department'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
@@ -1148,8 +1159,8 @@ export interface UserTO {
 export const AlwDmsRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1173,7 +1184,7 @@ export const AlwDmsRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1197,8 +1208,8 @@ export const AlwDmsRestControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = AlwDmsRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1217,8 +1228,8 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
     const localVarFp = AlwDmsRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1235,7 +1246,7 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
  */
 export interface AlwDmsRestControllerApiGetMetadataRequest {
     /**
-     * 
+     *
      * @type {GetAlwMetadataTO}
      * @memberof AlwDmsRestControllerApiGetMetadata
      */
@@ -1250,7 +1261,7 @@ export interface AlwDmsRestControllerApiGetMetadataRequest {
  */
 export class AlwDmsRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {AlwDmsRestControllerApiGetMetadataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1269,8 +1280,8 @@ export class AlwDmsRestControllerApi extends BaseAPI {
 export const DeploymentControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1294,7 +1305,7 @@ export const DeploymentControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1318,8 +1329,8 @@ export const DeploymentControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = DeploymentControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1338,8 +1349,8 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
     const localVarFp = DeploymentControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1356,7 +1367,7 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
  */
 export interface DeploymentControllerApiDeployArtifactsRequest {
     /**
-     * 
+     *
      * @type {DeploymentDto}
      * @memberof DeploymentControllerApiDeployArtifacts
      */
@@ -1371,7 +1382,7 @@ export interface DeploymentControllerApiDeployArtifactsRequest {
  */
 export class DeploymentControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DeploymentControllerApiDeployArtifactsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1390,8 +1401,8 @@ export class DeploymentControllerApi extends BaseAPI {
 export const DmsRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1415,7 +1426,7 @@ export const DmsRestControllerApiAxiosParamCreator = function (configuration?: C
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1439,8 +1450,8 @@ export const DmsRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DmsRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1459,8 +1470,8 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
     const localVarFp = DmsRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1477,7 +1488,7 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
  */
 export interface DmsRestControllerApiGetMetaDataRequest {
     /**
-     * 
+     *
      * @type {GetMetadataTO}
      * @memberof DmsRestControllerApiGetMetaData
      */
@@ -1492,7 +1503,7 @@ export interface DmsRestControllerApiGetMetaDataRequest {
  */
 export class DmsRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DmsRestControllerApiGetMetaDataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1511,8 +1522,8 @@ export class DmsRestControllerApi extends BaseAPI {
 export const DocumentRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1537,7 +1548,7 @@ export const DocumentRestControllerApiAxiosParamCreator = function (configuratio
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1558,8 +1569,8 @@ export const DocumentRestControllerApiFp = function(configuration?: Configuratio
     const localVarAxiosParamCreator = DocumentRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1578,8 +1589,8 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
     const localVarFp = DocumentRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1596,7 +1607,7 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
  */
 export interface DocumentRestControllerApiGetStatusDokumentForTaskRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DocumentRestControllerApiGetStatusDokumentForTask
      */
@@ -1611,7 +1622,7 @@ export interface DocumentRestControllerApiGetStatusDokumentForTaskRequest {
  */
 export class DocumentRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DocumentRestControllerApiGetStatusDokumentForTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1630,8 +1641,8 @@ export class DocumentRestControllerApi extends BaseAPI {
 export const FilterRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1656,7 +1667,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1667,7 +1678,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1689,7 +1700,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1700,8 +1711,8 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1725,7 +1736,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1749,8 +1760,8 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = FilterRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1759,7 +1770,7 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1768,8 +1779,8 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1788,8 +1799,8 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
     const localVarFp = FilterRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1797,7 +1808,7 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
             return localVarFp._delete(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1805,8 +1816,8 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
             return localVarFp.getFilters(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1823,7 +1834,7 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
  */
 export interface FilterRestControllerApiDeleteRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterRestControllerApiDelete
      */
@@ -1837,7 +1848,7 @@ export interface FilterRestControllerApiDeleteRequest {
  */
 export interface FilterRestControllerApiSaveFilterRequest {
     /**
-     * 
+     *
      * @type {SaveFilterTO}
      * @memberof FilterRestControllerApiSaveFilter
      */
@@ -1852,7 +1863,7 @@ export interface FilterRestControllerApiSaveFilterRequest {
  */
 export class FilterRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {FilterRestControllerApiDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1863,7 +1874,7 @@ export class FilterRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilterRestControllerApi
@@ -1873,7 +1884,7 @@ export class FilterRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FilterRestControllerApiSaveFilterRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1892,8 +1903,8 @@ export class FilterRestControllerApi extends BaseAPI {
 export const FormRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1917,7 +1928,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1931,8 +1942,8 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1957,7 +1968,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1968,7 +1979,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1990,7 +2001,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2001,9 +2012,9 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2030,7 +2041,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2054,8 +2065,8 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FormRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2064,8 +2075,8 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2074,7 +2085,7 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2083,9 +2094,9 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2104,8 +2115,8 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = FormRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2113,8 +2124,8 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.createForm(formTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2122,7 +2133,7 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getForm(key, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2130,9 +2141,9 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getForms(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2149,7 +2160,7 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
  */
 export interface FormRestControllerApiCreateFormRequest {
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof FormRestControllerApiCreateForm
      */
@@ -2163,7 +2174,7 @@ export interface FormRestControllerApiCreateFormRequest {
  */
 export interface FormRestControllerApiGetFormRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormRestControllerApiGetForm
      */
@@ -2177,14 +2188,14 @@ export interface FormRestControllerApiGetFormRequest {
  */
 export interface FormRestControllerApiUpdateFormRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormRestControllerApiUpdateForm
      */
     readonly key: string
 
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof FormRestControllerApiUpdateForm
      */
@@ -2199,7 +2210,7 @@ export interface FormRestControllerApiUpdateFormRequest {
  */
 export class FormRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {FormRestControllerApiCreateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2210,7 +2221,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FormRestControllerApiGetFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2221,7 +2232,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FormRestControllerApi
@@ -2231,7 +2242,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FormRestControllerApiUpdateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2250,7 +2261,7 @@ export class FormRestControllerApi extends BaseAPI {
 export const InfoRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2272,7 +2283,7 @@ export const InfoRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2293,7 +2304,7 @@ export const InfoRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = InfoRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2312,7 +2323,7 @@ export const InfoRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = InfoRestControllerApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2330,7 +2341,7 @@ export const InfoRestControllerApiFactory = function (configuration?: Configurat
  */
 export class InfoRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InfoRestControllerApi
@@ -2348,8 +2359,8 @@ export class InfoRestControllerApi extends BaseAPI {
 export const ProcessConfigurationControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2373,7 +2384,7 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2387,8 +2398,8 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2413,7 +2424,7 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2434,8 +2445,8 @@ export const ProcessConfigurationControllerApiFp = function(configuration?: Conf
     const localVarAxiosParamCreator = ProcessConfigurationControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2444,8 +2455,8 @@ export const ProcessConfigurationControllerApiFp = function(configuration?: Conf
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2464,8 +2475,8 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
     const localVarFp = ProcessConfigurationControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2473,8 +2484,8 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
             return localVarFp.createConfig(processConfigTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2491,7 +2502,7 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
  */
 export interface ProcessConfigurationControllerApiCreateConfigRequest {
     /**
-     * 
+     *
      * @type {ProcessConfigTO}
      * @memberof ProcessConfigurationControllerApiCreateConfig
      */
@@ -2505,7 +2516,7 @@ export interface ProcessConfigurationControllerApiCreateConfigRequest {
  */
 export interface ProcessConfigurationControllerApiGetConfigRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigurationControllerApiGetConfig
      */
@@ -2520,7 +2531,7 @@ export interface ProcessConfigurationControllerApiGetConfigRequest {
  */
 export class ProcessConfigurationControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {ProcessConfigurationControllerApiCreateConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2531,7 +2542,7 @@ export class ProcessConfigurationControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ProcessConfigurationControllerApiGetConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2551,7 +2562,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2575,7 +2586,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2590,7 +2601,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2615,7 +2626,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2637,7 +2648,7 @@ export const SchemaRestControllerApiFp = function(configuration?: Configuration)
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2647,7 +2658,7 @@ export const SchemaRestControllerApiFp = function(configuration?: Configuration)
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2667,7 +2678,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2676,7 +2687,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2693,7 +2704,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
  */
 export interface SchemaRestControllerApiCreateJsonSchemaRequest {
     /**
-     * 
+     *
      * @type {JsonSchemaTO}
      * @memberof SchemaRestControllerApiCreateJsonSchema
      */
@@ -2707,7 +2718,7 @@ export interface SchemaRestControllerApiCreateJsonSchemaRequest {
  */
 export interface SchemaRestControllerApiGetJsonSchemaRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SchemaRestControllerApiGetJsonSchema
      */
@@ -2753,7 +2764,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2778,7 +2789,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2790,9 +2801,9 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
         },
         /**
          * load all available service definitions
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2826,7 +2837,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2838,7 +2849,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2862,7 +2873,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2887,7 +2898,7 @@ export const ServiceDefinitionControllerApiFp = function(configuration?: Configu
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2897,9 +2908,9 @@ export const ServiceDefinitionControllerApiFp = function(configuration?: Configu
         },
         /**
          * load all available service definitions
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2909,7 +2920,7 @@ export const ServiceDefinitionControllerApiFp = function(configuration?: Configu
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2929,7 +2940,7 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2938,9 +2949,9 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
         },
         /**
          * load all available service definitions
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2949,7 +2960,7 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2966,7 +2977,7 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
  */
 export interface ServiceDefinitionControllerApiGetServiceDefinitionRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionControllerApiGetServiceDefinition
      */
@@ -2980,21 +2991,21 @@ export interface ServiceDefinitionControllerApiGetServiceDefinitionRequest {
  */
 export interface ServiceDefinitionControllerApiGetServiceDefinitionsRequest {
     /**
-     * 
+     *
      * @type {number}
      * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
      */
     readonly page?: number
 
     /**
-     * 
+     *
      * @type {number}
      * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
      */
     readonly size?: number
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
      */
@@ -3008,7 +3019,7 @@ export interface ServiceDefinitionControllerApiGetServiceDefinitionsRequest {
  */
 export interface ServiceDefinitionControllerApiStartInstanceRequest {
     /**
-     * 
+     *
      * @type {StartInstanceTO}
      * @memberof ServiceDefinitionControllerApiStartInstance
      */
@@ -3064,10 +3075,10 @@ export class ServiceDefinitionControllerApi extends BaseAPI {
 export const ServiceInstanceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3101,7 +3112,7 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3112,8 +3123,8 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             };
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3138,7 +3149,7 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3159,10 +3170,10 @@ export const ServiceInstanceControllerApiFp = function(configuration?: Configura
     const localVarAxiosParamCreator = ServiceInstanceControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3171,8 +3182,8 @@ export const ServiceInstanceControllerApiFp = function(configuration?: Configura
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3191,10 +3202,10 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
     const localVarFp = ServiceInstanceControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3202,8 +3213,8 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
             return localVarFp.getAssignedInstances(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3220,21 +3231,21 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
  */
 export interface ServiceInstanceControllerApiGetAssignedInstancesRequest {
     /**
-     * 
+     *
      * @type {number}
      * @memberof ServiceInstanceControllerApiGetAssignedInstances
      */
     readonly page?: number
 
     /**
-     * 
+     *
      * @type {number}
      * @memberof ServiceInstanceControllerApiGetAssignedInstances
      */
     readonly size?: number
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceControllerApiGetAssignedInstances
      */
@@ -3248,7 +3259,7 @@ export interface ServiceInstanceControllerApiGetAssignedInstancesRequest {
  */
 export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceControllerApiGetProcessInstanceDetail
      */
@@ -3263,7 +3274,7 @@ export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
  */
 export class ServiceInstanceControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {ServiceInstanceControllerApiGetAssignedInstancesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3274,7 +3285,7 @@ export class ServiceInstanceControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceInstanceControllerApiGetProcessInstanceDetailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3293,9 +3304,9 @@ export class ServiceInstanceControllerApi extends BaseAPI {
 export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3326,7 +3337,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3337,10 +3348,10 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3374,7 +3385,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3385,10 +3396,10 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3422,7 +3433,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3433,10 +3444,10 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3470,7 +3481,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3491,9 +3502,9 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
     const localVarAxiosParamCreator = ServiceInstanceFileRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3502,10 +3513,10 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3514,10 +3525,10 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3526,10 +3537,10 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3548,9 +3559,9 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
     const localVarFp = ServiceInstanceFileRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3558,10 +3569,10 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
             return localVarFp.getFileNames1(instanceId, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3569,10 +3580,10 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
             return localVarFp.getPresignedUrlForFileDeletion1(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3580,10 +3591,10 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
             return localVarFp.getPresignedUrlForFileDownload1(instanceId, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3600,14 +3611,14 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
  */
 export interface ServiceInstanceFileRestControllerApiGetFileNames1Request {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
@@ -3621,21 +3632,21 @@ export interface ServiceInstanceFileRestControllerApiGetFileNames1Request {
  */
 export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
@@ -3649,21 +3660,21 @@ export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDelet
  */
 export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly fileName: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
@@ -3677,21 +3688,21 @@ export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownl
  */
 export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
@@ -3706,7 +3717,7 @@ export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUploa
  */
 export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {ServiceInstanceFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3717,7 +3728,7 @@ export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3728,7 +3739,7 @@ export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3739,7 +3750,7 @@ export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3758,9 +3769,9 @@ export class ServiceInstanceFileRestControllerApi extends BaseAPI {
 export const ServiceStartFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3791,7 +3802,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3802,10 +3813,10 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3839,7 +3850,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3850,10 +3861,10 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3887,7 +3898,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3898,10 +3909,10 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3935,7 +3946,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3956,9 +3967,9 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
     const localVarAxiosParamCreator = ServiceStartFileRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3967,10 +3978,10 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3979,10 +3990,10 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3991,10 +4002,10 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4013,9 +4024,9 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
     const localVarFp = ServiceStartFileRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4023,10 +4034,10 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
             return localVarFp.getFileNames(definitionKey, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4034,10 +4045,10 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
             return localVarFp.getPresignedUrlForFileDeletion(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4045,10 +4056,10 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
             return localVarFp.getPresignedUrlForFileDownload(definitionKey, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4065,14 +4076,14 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
  */
 export interface ServiceStartFileRestControllerApiGetFileNamesRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
@@ -4086,21 +4097,21 @@ export interface ServiceStartFileRestControllerApiGetFileNamesRequest {
  */
 export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
@@ -4114,21 +4125,21 @@ export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
  */
 export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly fileName: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
@@ -4142,21 +4153,21 @@ export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
  */
 export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
@@ -4171,7 +4182,7 @@ export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRe
  */
 export class ServiceStartFileRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {ServiceStartFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4182,7 +4193,7 @@ export class ServiceStartFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4193,7 +4204,7 @@ export class ServiceStartFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4204,7 +4215,7 @@ export class ServiceStartFileRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4223,7 +4234,7 @@ export class ServiceStartFileRestControllerApi extends BaseAPI {
 export const TaskImporterServiceApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4245,7 +4256,7 @@ export const TaskImporterServiceApiAxiosParamCreator = function (configuration?:
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4256,7 +4267,7 @@ export const TaskImporterServiceApiAxiosParamCreator = function (configuration?:
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4278,7 +4289,7 @@ export const TaskImporterServiceApiAxiosParamCreator = function (configuration?:
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4299,7 +4310,7 @@ export const TaskImporterServiceApiFp = function(configuration?: Configuration) 
     const localVarAxiosParamCreator = TaskImporterServiceApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4308,7 +4319,7 @@ export const TaskImporterServiceApiFp = function(configuration?: Configuration) 
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4327,7 +4338,7 @@ export const TaskImporterServiceApiFactory = function (configuration?: Configura
     const localVarFp = TaskImporterServiceApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4335,7 +4346,7 @@ export const TaskImporterServiceApiFactory = function (configuration?: Configura
             return localVarFp.enrichExistingTasks(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4353,7 +4364,7 @@ export const TaskImporterServiceApiFactory = function (configuration?: Configura
  */
 export class TaskImporterServiceApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaskImporterServiceApi
@@ -4363,7 +4374,7 @@ export class TaskImporterServiceApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaskImporterServiceApi
@@ -4381,8 +4392,8 @@ export class TaskImporterServiceApi extends BaseAPI {
 export const UserRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4407,7 +4418,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4418,8 +4429,8 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4444,7 +4455,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4455,8 +4466,8 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4480,7 +4491,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4494,7 +4505,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4516,7 +4527,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4537,8 +4548,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4547,8 +4558,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4557,8 +4568,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4567,7 +4578,7 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4586,8 +4597,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = UserRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4595,8 +4606,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUser(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4604,8 +4615,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUserByUsername(username, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4613,7 +4624,7 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUsers(searchUserTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4630,7 +4641,7 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
  */
 export interface UserRestControllerApiGetUserRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserRestControllerApiGetUser
      */
@@ -4644,7 +4655,7 @@ export interface UserRestControllerApiGetUserRequest {
  */
 export interface UserRestControllerApiGetUserByUsernameRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserRestControllerApiGetUserByUsername
      */
@@ -4658,7 +4669,7 @@ export interface UserRestControllerApiGetUserByUsernameRequest {
  */
 export interface UserRestControllerApiGetUsersRequest {
     /**
-     * 
+     *
      * @type {SearchUserTO}
      * @memberof UserRestControllerApiGetUsers
      */
@@ -4673,7 +4684,7 @@ export interface UserRestControllerApiGetUsersRequest {
  */
 export class UserRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4684,7 +4695,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUserByUsernameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4695,7 +4706,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4706,7 +4717,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestControllerApi
