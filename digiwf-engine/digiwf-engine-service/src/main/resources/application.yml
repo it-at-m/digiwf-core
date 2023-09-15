@@ -102,6 +102,16 @@ spring:
             fallback: true
           starttls:
             enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_S3_CLIENT_ID}
+            client-secret: ${SSO_S3_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
 
 springdoc:
   packagesToScan: de.muenchen.oss.digiwf
@@ -177,3 +187,4 @@ io:
       s3:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'
+          securityEnabled: true

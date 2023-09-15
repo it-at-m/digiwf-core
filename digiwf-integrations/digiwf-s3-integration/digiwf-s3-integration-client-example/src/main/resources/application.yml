@@ -69,3 +69,7 @@ logging:
       muenchendigital: info
 server:
   port: 8079
+digiwf:
+  security:
+    client-id: ${SSO_S3_CLIENT_ID}
+    client-secret: ${SSO_S3_CLIENT_SECRET}
