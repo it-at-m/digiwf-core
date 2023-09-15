@@ -20,7 +20,7 @@ class CreateVorgangServiceTest {
 
         createVorgangService.createProcedure("title", "fileCOO", "user");
 
-        verify(this.vorgangRepository, times(1)).createVorgang(new Procedure("coo", "fileCOO"), "user");
+        verify(this.vorgangRepository, times(1)).createVorgang(new Procedure("fileCOO", "title"), "user");
     }
 
 
