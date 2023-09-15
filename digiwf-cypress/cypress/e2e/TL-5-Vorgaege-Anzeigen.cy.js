@@ -28,8 +28,6 @@ describe('Vorgaenge Anzeigen', () => {
         vorgangStarten.openMeineAufgaben();
         reloadPageUntilTasksVisible(numberOfTasks-1);
         closeTasks(numberOfTasks-1);
-        //ensures all the tasks are loaded
-
 
         //create tracked task
         meineAufgaben.openVorgangStarten();
@@ -40,7 +38,6 @@ describe('Vorgaenge Anzeigen', () => {
         //Step 1: Open Aktuelle Vorgaenge
         cy.log('Step 1');
         vorgangStarten.openAktuelleVorgaenge();
-        //aktuelleVorgaenge.getElement(1).should('contain.text', 'User Task');
 
         //Step 2-5: Test different page sizes
         cy.log('Step 2-5');
