@@ -67,11 +67,8 @@ public class ServiceDefinitionDataService {
         //3. simulate previous data for merging and removing JSON.null values
         final JSONObject previousData = this.serializationService.initialize(new JSONObject(definition.getJsonSchema()).toString());
         final Map<String, Object> clearedData = this.serializationService.merge(filteredData, previousData);
-        //4. merge with default values
-        final JSONObject defaultValue = this.serializationService.initialize(new JSONObject(definition.getJsonSchema()).toString());
-        final Map<String, Object> serializedData = this.serializationService.merge(new JSONObject(clearedData), defaultValue);
         //5. map to engine data and return
-        return this.engineDataMapper.mapObjectsToVariables(serializedData);
+        return this.engineDataMapper.mapObjectsToVariables(clearedData);
     }
 
 }
