@@ -12,16 +12,15 @@ import javax.validation.constraints.NotBlank;
 @RequiredArgsConstructor
 public class CreateProcedureService implements CreateProcedureUseCase {
 
-    private final ProcedureRepository vorgangRepository;
+    private final ProcedureRepository procedureRepository;
 
     @Override
     public Procedure createProcedure(
             @NotBlank final String titel,
             @NotBlank final String fileCOO,
             @NotBlank final String user) {
-
         final Procedure procedure = new Procedure(fileCOO, titel);
 
-        return vorgangRepository.createVorgang(procedure, user);
+        return procedureRepository.createVorgang(procedure, user);
     }
 }
