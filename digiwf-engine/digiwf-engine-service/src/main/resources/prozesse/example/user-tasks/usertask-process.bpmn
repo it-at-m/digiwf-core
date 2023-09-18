@@ -16,6 +16,7 @@
           <camunda:inputParameter name="app_file_paths" />
           <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">example-task</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1jis6kc</bpmn:incoming>

@@ -16,14 +16,15 @@ public interface TaskQueryPort {
    *
    * @param user             user.
    * @param query            additional query.
+   * @param tag              additional tag of the task.
    * @param followUp         date to indicate that the tasks with follow-up date later than given date are excluded.
    * @param pagingAndSorting paging and sorting info.
    * @return page of tasks.
    */
-  PageOfTasks getTasksForCurrentUser(User user, String query, LocalDate followUp, PagingAndSorting pagingAndSorting);
+  PageOfTasks getTasksForCurrentUser(User user, String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting);
 
   /**
-   * Retrieves tasks visiable via user's group.
+   * Retrieves tasks visible via user's group.
    *
    * @param user             user.
    * @param includeAssigned  include tasks assigned to someone.
@@ -31,7 +32,7 @@ public interface TaskQueryPort {
    * @param pagingAndSorting paging and sorting info.
    * @return page of tasks.
    */
-  PageOfTasks getTasksForCurrentUserGroup(User user, String query, boolean includeAssigned, PagingAndSorting pagingAndSorting);
+  PageOfTasks getTasksForCurrentUserGroup(User user, String query, String tag, boolean includeAssigned, PagingAndSorting pagingAndSorting);
 
   /**
    * Load task by id.

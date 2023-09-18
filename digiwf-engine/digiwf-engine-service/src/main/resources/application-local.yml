@@ -17,6 +17,13 @@ spring:
     web:
       enabled: false
 
+server:
+  error:
+    include-exception: true
+    include-stacktrace: always
+    whitelabel:
+      enabled: true
+
 logging:
   level:
     de.muenchen.oss.digiwf.legacy.form.domain.service.FormService: WARN

@@ -25,6 +25,7 @@ DigiWF speichert in der Prozessinstanz verschiedene Variablen, die für die Mode
 
 - **starterOfInstance:** Der Benutzer, der die Prozessinstanz über die DigiWF Taskliste gestartet hat.
 - **app_file_context:** Der Kontext, in dem die Datei hochgeladen werden.
+- **app_task_tag:** Der Tag, der für die Aufgabe (Usertask) gesetzt wurde und nach dem gefiltert werden kann. Die Variable ist standardmäßig leer und muss in der Modellierung bei Bedarf gesetzt werden.
 
 ::: warning
 Die folgenden Variablen stehen ebenfalls zur Verfügung, sollten aber nicht verwendet werden, da sie bald abgeschafft
