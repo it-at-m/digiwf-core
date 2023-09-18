@@ -10,8 +10,8 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
 ## Verwendung
 
-Durch die dms Integration wird die Erstellungen von Dokumenten ermöglicht, die anschließend in einem S3 Speicher
-abgelegt werden. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
+Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
+Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 
 ### Vorgang anlegen
 
