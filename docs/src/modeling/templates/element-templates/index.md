@@ -11,7 +11,7 @@
     artifact="cosys-alle-daten.json"
     type="element-template" />
 <DownloadArtifact
-    artifact="cosys-document-erstellen.json"
+    artifact="cosys-dokument-erstellen.json"
     type="element-template" />
 
 ## S3 Integration

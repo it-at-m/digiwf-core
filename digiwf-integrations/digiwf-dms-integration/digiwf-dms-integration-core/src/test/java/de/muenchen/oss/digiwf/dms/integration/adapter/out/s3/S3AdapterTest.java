@@ -164,7 +164,7 @@ class S3AdapterTest {
 
             assertEquals(expectedMessage, actualMessage);
 
-            assertEquals("UNSUPPORTED_FILE_TYPE",bpmnError.getErrorCode());
+            assertEquals("FILE_TYPE_NOT_SUPPORTED",bpmnError.getErrorCode());
         }
 
     }
