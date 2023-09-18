@@ -10,22 +10,15 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ReadDocumentGIObjects;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ReadDocumentGIObjectsResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIObjectType;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
-import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -34,6 +27,7 @@ public class FabasoftAdapter implements ProcedureRepository {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
+    private final DMSErrorHandler dmsErrorHandler = new DMSErrorHandler();
 
     @Override
     public Procedure createVorgang(Procedure procedure, String user) {
@@ -57,23 +51,22 @@ public class FabasoftAdapter implements ProcedureRepository {
         return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
 
-    // TODO DMSSTATUSCODES error handling in eigene Klasse / rename Methoden auf englisch
     public Document createDocument(final Document document, final String user) {
         log.info("calling CreateIncomingGI: " + document.toString());
 
         switch (document.getType()) {
             case EINGEHEND:
-                return this.createEingehendesDokumentWithUser(document, user);
+                return this.createIncomingDocument(document, user);
             case AUSGEHEND:
-                return this.createAusgehendesDokumentWithUser(document, user);
+                return this.createOutgoingDocument(document, user);
             case INTERN:
-                return this.createInternesDokumentWithUser(document, user);
+                return this.createInternalDocument(document, user);
             default:
                 throw new AssertionError("must not happen");
         }
     }
 
-    private Document createEingehendesDokumentWithUser(final Document document, final String user) {
+    private Document createIncomingDocument(final Document document, final String user) {
         final CreateIncomingGI request = new CreateIncomingGI();
         request.setUserlogin(user);
         request.setReferrednumber(document.getProcedureCOO());
@@ -85,23 +78,20 @@ public class FabasoftAdapter implements ProcedureRepository {
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
         for (final Content content : document.getContents()) {
-            files.add(this.parseSchriftstueck(content));
+            files.add(this.parseContent(content));
         }
 
         request.setGiattachmenttype(attachmentType);
 
         final CreateIncomingGIResponse response = this.wsClient.createIncomingGI(request);
 
-        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
-        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
-            throw new IncidentError(response.getErrormessage());
-        }
+        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
 
         //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
-    private Document createAusgehendesDokumentWithUser(final Document document, final String user)  {
+    private Document createOutgoingDocument(final Document document, final String user)  {
         final CreateOutgoingGI request = new CreateOutgoingGI();
         request.setUserlogin(user);
         request.setReferrednumber(document.getProcedureCOO());
@@ -114,25 +104,22 @@ public class FabasoftAdapter implements ProcedureRepository {
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
         for (final Content content : document.getContents()) {
-            files.add(this.parseSchriftstueck(content));
+            files.add(this.parseContent(content));
         }
 
         request.setGiattachmenttype(attachmentType);
-        //request.setSubfiletype("Dokumenttyp für Ausgangsdokumente"); // TODO: check
+        //request.setSubfiletype("Dokumenttyp für Ausgangsdokumente");
         //request.setSubfiletype("BeZweck-Ausgang");
 
         final CreateOutgoingGIResponse response = this.wsClient.createOutgoingGI(request);
 
-        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
-        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
-            throw new IncidentError(response.getErrormessage());
-        }
+        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
 
         //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
-    private Document createInternesDokumentWithUser(final Document document, final String user) {
+    private Document createInternalDocument(final Document document, final String user) {
         final CreateInternalGI request = new CreateInternalGI();
         request.setUserlogin(user);
         request.setReferrednumber(document.getProcedureCOO());
@@ -144,24 +131,21 @@ public class FabasoftAdapter implements ProcedureRepository {
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
         for (final Content content : document.getContents()) {
-            files.add(this.parseSchriftstueck(content));
+            files.add(this.parseContent(content));
         }
 
         request.setGiattachmenttype(attachmentType);
 
         final CreateInternalGIResponse response = this.wsClient.createInternalGI(request);
 
-        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
-        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
-            throw new IncidentError(response.getErrormessage());
-        }
+        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
 
         //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
         return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
 
-    private LHMBAI151700GIAttachmentType parseSchriftstueck(final Content content) {
+    private LHMBAI151700GIAttachmentType parseContent(final Content content) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
         attachment.setLHMBAI151700Filecontent(content.getContent());
         attachment.setLHMBAI151700Fileextension(content.getExtension());

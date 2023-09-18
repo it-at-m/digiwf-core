@@ -33,8 +33,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
 
         final Document document = new Document(procedureCOO, title, type, contents);
 
-//        return procedureRepository.createDocument(document, user);
-         return document;
+        return procedureRepository.createDocument(document, user);
 
     }
 
