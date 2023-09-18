@@ -57,6 +57,7 @@ public class FabasoftAdapter implements ProcedureRepository {
         return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
 
+    // TODO DMSSTATUSCODES error handling in eigene Klasse / rename Methoden auf englisch
     public Document createDocument(final Document document, final String user) {
         log.info("calling CreateIncomingGI: " + document.toString());
 
@@ -96,8 +97,8 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
-        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
+        //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
     private Document createAusgehendesDokumentWithUser(final Document document, final String user)  {
@@ -118,7 +119,7 @@ public class FabasoftAdapter implements ProcedureRepository {
 
         request.setGiattachmenttype(attachmentType);
         //request.setSubfiletype("Dokumenttyp für Ausgangsdokumente"); // TODO: check
-        request.setSubfiletype("BeZweck-Ausgang");
+        //request.setSubfiletype("BeZweck-Ausgang");
 
         final CreateOutgoingGIResponse response = this.wsClient.createOutgoingGI(request);
 
@@ -127,8 +128,8 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
-        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
+        //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
     private Document createInternesDokumentWithUser(final Document document, final String user) {
@@ -155,8 +156,8 @@ public class FabasoftAdapter implements ProcedureRepository {
             throw new IncidentError(response.getErrormessage());
         }
 
-        val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
-        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , schriftstuecke);
+        //val schriftstuecke = this.checkSchriftstuecke(response.getObjid(), user, document.getContents());
+        return new Document(response.getObjid(), document.getProcedureCOO(), document.getTitle(), document.getType() , document.getContents());
     }
 
 
@@ -168,40 +169,40 @@ public class FabasoftAdapter implements ProcedureRepository {
         return attachment;
     }
 
-    private List<Content> checkSchriftstuecke(final String documentCoo, final String username, final List<Content> schriftstuecke) {
-        if (schriftstuecke.size() == 0) {
-            return Collections.emptyList();
-        }
-
-        final ReadDocumentGIObjects readRequest = new ReadDocumentGIObjects();
-        readRequest.setObjaddress(documentCoo);
-        readRequest.setBusinessapp(this.properties.getBusinessapp());
-        readRequest.setUserlogin(username);
-        final ReadDocumentGIObjectsResponse readResponse = this.wsClient.readDocumentGIObjects(readRequest);
-        final List<LHMBAI151700GIObjectType> geladeneSchriftstuecke = readResponse.getGiobjecttype().getLHMBAI151700GIObjectType();
-
-        if (geladeneSchriftstuecke.size() != schriftstuecke.size()) {
-            final String message = String.format("dms hat nicht die richtige anzahl an schriftstücken erstellt (erwartet: %s, ist: %d)",
-                    geladeneSchriftstuecke.size(),
-                    schriftstuecke.size()
-            );
-            throw new BpmnError("TODO", message); //TODO Error Code erstellen
-        }
-
-        final List<Content> erstellteSchriftstuecke = new ArrayList<>();
-
-        for (int i = 0; i < schriftstuecke.size(); i++) {
-            final Content content = schriftstuecke.get(i);
-            final LHMBAI151700GIObjectType erstelltesSchriftstueck = geladeneSchriftstuecke.get(i);
-            if (!content.getName().equals(erstelltesSchriftstueck.getLHMBAI151700Objname())) {
-                // Wir brauchen die IDs der Schriftstücke fürs herunterladen, leider gibt/gab es in der Schnittstelle bei der Antwort keine Infos zu
-                // den IDs. Deswegen laden wir die mit leseIdsFuerSchriftstueckeMitUser nach, und hoffen das die Reihenfolge und Anzahl gleich wie beim hochladen ist.
-                throw new BpmnError("TODO", "Reihenfolge der gelesenen IDs stimmt nicht mit der hochgeladenen überein. Kommentar dazu im Code lesen"); //TODO Error Code erstellen
-            }
-            erstellteSchriftstuecke.add(new Content(content.getExtension(), content.getName(), content.getContent(), erstelltesSchriftstueck.getLHMBAI151700Objaddress()));
-        }
-
-        return erstellteSchriftstuecke;
-    }
+//    private List<Content> checkSchriftstuecke(final String documentCoo, final String username, final List<Content> schriftstuecke) {
+//        if (schriftstuecke.size() == 0) {
+//            return Collections.emptyList();
+//        }
+//
+//        final ReadDocumentGIObjects readRequest = new ReadDocumentGIObjects();
+//        readRequest.setObjaddress(documentCoo);
+//        readRequest.setBusinessapp(this.properties.getBusinessapp());
+//        readRequest.setUserlogin(username);
+//        final ReadDocumentGIObjectsResponse readResponse = this.wsClient.readDocumentGIObjects(readRequest);
+//        final List<LHMBAI151700GIObjectType> geladeneSchriftstuecke = readResponse.getGiobjecttype().getLHMBAI151700GIObjectType();
+//
+//        if (geladeneSchriftstuecke.size() != schriftstuecke.size()) {
+//            final String message = String.format("dms hat nicht die richtige anzahl an schriftstücken erstellt (erwartet: %s, ist: %d)",
+//                    geladeneSchriftstuecke.size(),
+//                    schriftstuecke.size()
+//            );
+//            throw new BpmnError("TODO", message); //TODO Error Code erstellen
+//        }
+//
+//        final List<Content> erstellteSchriftstuecke = new ArrayList<>();
+//
+//        for (int i = 0; i < schriftstuecke.size(); i++) {
+//            final Content content = schriftstuecke.get(i);
+//            final LHMBAI151700GIObjectType erstelltesSchriftstueck = geladeneSchriftstuecke.get(i);
+//            if (!content.getName().equals(erstelltesSchriftstueck.getLHMBAI151700Objname())) {
+//                // Wir brauchen die IDs der Schriftstücke fürs herunterladen, leider gibt/gab es in der Schnittstelle bei der Antwort keine Infos zu
+//                // den IDs. Deswegen laden wir die mit leseIdsFuerSchriftstueckeMitUser nach, und hoffen das die Reihenfolge und Anzahl gleich wie beim hochladen ist.
+//                throw new BpmnError("TODO", "Reihenfolge der gelesenen IDs stimmt nicht mit der hochgeladenen überein. Kommentar dazu im Code lesen"); //TODO Error Code erstellen
+//            }
+//            erstellteSchriftstuecke.add(new Content(content.getExtension(), content.getName(), content.getContent(), erstelltesSchriftstueck.getLHMBAI151700Objaddress()));
+//        }
+//
+//        return erstellteSchriftstuecke;
+//    }
 
 }

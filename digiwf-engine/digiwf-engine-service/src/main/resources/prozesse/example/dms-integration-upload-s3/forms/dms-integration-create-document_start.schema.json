@@ -61,9 +61,37 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "formfield-files": {
+                "fieldType": "file",
+                "title": "Dateien",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "formfield-files",
+                "uuidEnabled": false,
+                "filePath": "test",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
               }
             },
-
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"
           }
         ],
