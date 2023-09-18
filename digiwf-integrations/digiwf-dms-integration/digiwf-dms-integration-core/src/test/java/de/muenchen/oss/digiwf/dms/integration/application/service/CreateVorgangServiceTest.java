@@ -16,11 +16,11 @@ class CreateVorgangServiceTest {
     @Test
     void createVorgang() {
 
-        when(this.vorgangRepository.createVorgang(any(), any())).thenReturn(new Procedure("fileCOO", "title"));
+        when(this.vorgangRepository.createProcedure(any(), any())).thenReturn(new Procedure("fileCOO", "title"));
 
         createVorgangService.createProcedure("title", "fileCOO", "user");
 
-        verify(this.vorgangRepository, times(1)).createVorgang(new Procedure("fileCOO", "title"), "user");
+        verify(this.vorgangRepository, times(1)).createProcedure(new Procedure("fileCOO", "title"), "user");
     }
 
 

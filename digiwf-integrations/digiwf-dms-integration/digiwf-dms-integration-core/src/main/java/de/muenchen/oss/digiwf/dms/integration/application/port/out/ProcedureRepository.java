@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 
 public interface ProcedureRepository {
 
-    Procedure createVorgang(Procedure procedure, String user);
+    Procedure createProcedure(Procedure procedure, String user);
 
     Document createDocument(Document document, String user);
 

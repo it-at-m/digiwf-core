@@ -73,7 +73,7 @@ public class DmsAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public MessageProcessor createMessageProcessor(final ProcessApi processApi, final ErrorApi errorApi, final CreateProcedureUseCase createProcedureUseCase, final CreateDocumentUseCase createDocumentUseCase) {
-        return new MessageProcessor(processApi, errorApi, createDocumentUseCase, createProcedureUseCase);
+        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase);
     }
 
 }

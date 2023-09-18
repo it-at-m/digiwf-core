@@ -27,6 +27,7 @@ class MessageProcessorTest {
     private final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
     private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
     private final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
+    private final CreateDocumentUseCase createDocumentUseCaseMock = Mockito.mock(CreateDocumentUseCase.class);
     private final String processInstanceId = "exampleProcessInstanceId";
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
     private final CreateProcedureDto createProcedureDto = new CreateProcedureDto(
@@ -39,7 +40,7 @@ class MessageProcessorTest {
 
     @BeforeEach
     void setup() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock);
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock);
         Mockito.when(createProcedureMock.createProcedure(
                         createProcedureDto.getTitle(),
                         createProcedureDto.getFileCOO(),
