@@ -25,10 +25,10 @@ import static org.mockito.Mockito.verify;
 class MessageProcessorTest {
     private final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
     private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
-    private final CreateProcedureUseCase sendMailMock = Mockito.mock(CreateProcedureUseCase.class);
+    private final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
     private final String processInstanceId = "exampleProcessInstanceId";
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
-    private final CreateProcedureDto createVorgangDto = new CreateProcedureDto(
+    private final CreateProcedureDto createProcedureDto = new CreateProcedureDto(
             "sachakteCoo",
             "title",
             "user"
@@ -38,16 +38,16 @@ class MessageProcessorTest {
 
     @BeforeEach
     void setup() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, sendMailMock);
-        Mockito.when(sendMailMock.createProcedure(
-                        createVorgangDto.getTitle(),
-                        createVorgangDto.getFileCOO(),
-                        createVorgangDto.getUser()))
-                .thenReturn(new Procedure("coo", createVorgangDto.getTitle(), createVorgangDto.getFileCOO()));
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock);
+        Mockito.when(createProcedureMock.createProcedure(
+                        createProcedureDto.getTitle(),
+                        createProcedureDto.getFileCOO(),
+                        createProcedureDto.getUser()))
+                .thenReturn(new Procedure("coo", createProcedureDto.getTitle(), createProcedureDto.getFileCOO()));
         this.message = new Message<CreateProcedureDto>() {
             @Override
             public CreateProcedureDto getPayload() {
-                return createVorgangDto;
+                return createProcedureDto;
             }
 
             @Override
@@ -58,14 +58,14 @@ class MessageProcessorTest {
     }
 
     @Test
-    void testDmsIntegrationCreateVorgangSuccessfully() {
+    void testDmsIntegrationCreateProcedureSuccessfully() {
         messageProcessor.createProcedure().accept(this.message);
-        verify(sendMailMock, times(1)).createProcedure(createVorgangDto.getTitle(), createVorgangDto.getFileCOO(), createVorgangDto.getUser());
+        verify(createProcedureMock, times(1)).createProcedure(createProcedureDto.getTitle(), createProcedureDto.getFileCOO(), createProcedureDto.getUser());
     }
 
     @Test
     void testDmsIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).createProcedure(any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(createProcedureMock).createProcedure(any(), any(), any());
         messageProcessor.createProcedure().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
@@ -75,7 +75,7 @@ class MessageProcessorTest {
 
     @Test
     void testDmsIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).createProcedure(any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(createProcedureMock).createProcedure(any(), any(), any());
         messageProcessor.createProcedure().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

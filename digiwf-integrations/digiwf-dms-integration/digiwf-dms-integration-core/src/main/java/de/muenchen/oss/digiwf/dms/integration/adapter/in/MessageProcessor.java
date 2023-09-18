@@ -24,16 +24,16 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
-    private final CreateProcedureUseCase createVorgangUseCase;
+    private final CreateProcedureUseCase createProcedureUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
             try {
-                final CreateProcedureDto createVorgangDto = message.getPayload();
-                final Procedure vorgang = this.createVorgangUseCase.createProcedure(
-                        createVorgangDto.getTitle(),
-                        createVorgangDto.getFileCOO(),
-                        createVorgangDto.getUser()
+                final CreateProcedureDto createProcedureDto = message.getPayload();
+                final Procedure vorgang = this.createProcedureUseCase.createProcedure(
+                        createProcedureDto.getTitle(),
+                        createProcedureDto.getFileCOO(),
+                        createProcedureDto.getUser()
                 );
 
                 this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
