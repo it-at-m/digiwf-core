@@ -128,7 +128,7 @@ jobs:
           tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
 
       - name: Build and push dms integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
