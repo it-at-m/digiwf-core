@@ -70,7 +70,7 @@ public class S3Adapter implements LoadFilePort {
 
             if(!supportedExtension.contains(type.toLowerCase())) {
                 log.error("The type of this file is not supported: {}", filepath);
-                throw new BpmnError("UNSUPPORTED_FILE_TYPE", "The type of this file is not supported: " + filepath);
+                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
             }
 
             return new Content(type, filename, bytes);

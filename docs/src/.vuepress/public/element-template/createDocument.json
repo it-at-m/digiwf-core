@@ -1,6 +1,6 @@
 {
-  "name": "Upload file to dms",
-  "id": "de.muenchen.digitalwf.templates.upload-file-to-dms",
+  "name": "Create Dokument",
+  "id": "de.muenchen.digitalwf.templates.create-document",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,7 +9,7 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
@@ -75,7 +75,7 @@
       }
     },
     {
-      "label": " Vorgang-COO",
+      "label": " Vorgang (COO)",
       "type": "String",
       "value": "",
       "binding": {
@@ -144,6 +144,19 @@
         "expression": true,
         "name": "filepaths",
         "target": "filepaths"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Document (Coo)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "documentCOO"
       },
       "constraints": {
         "notEmpty": true
