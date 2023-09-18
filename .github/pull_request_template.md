@@ -8,5 +8,5 @@ Issues: ###
 
 ### Check-List
 
-- [] Documentation created
-- [] Environments configured
+- [ ] Documentation created
+- [ ] Environments configured
