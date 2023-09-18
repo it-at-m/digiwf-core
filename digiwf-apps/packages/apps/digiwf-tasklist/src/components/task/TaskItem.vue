@@ -13,13 +13,21 @@
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
+        <v-chip
+          v-if="task.tag"
+          small
+          @click.prevent="$emit('clickTag', task.tag)"
+        >
+          {{ task.tag }}
+        </v-chip>
       </h2>
       <p
         v-if="task.inFinishProcess"
         class="grey--text"
         style="font-size: 0.9rem"
       >
-        <v-icon>mdi-progress-clock</v-icon> Task wird aktuell abgeschlossen
+        <v-icon>mdi-progress-clock</v-icon>
+        Task wird aktuell abgeschlossen
       </p>
       <p
         v-if="task.followUpDateFormatted"
@@ -97,6 +105,8 @@
 .taskTitle {
   font-size: 1.1rem;
   font-weight: 600;
+  display: flex;
+  justify-content: space-between;
 }
 
 .taskInfo {
@@ -115,6 +125,7 @@
 <script lang="ts">
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
+import {useGetPaginationData} from "../../middleware/paginationData";
 
 export default {
   props: {
@@ -126,7 +137,12 @@ export default {
       type: String,
       default: ""
     }
-  }
+  },
+  emits: {
+    clickTag: {
+      type: Function as PropType<(tag: string) => void>
+    },
+  },
 };
 
 </script>

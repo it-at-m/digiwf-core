@@ -20,6 +20,7 @@
           <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_description">Aufgabe innerhalb des Gruppenzuweisungsprozesses</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">group-user-task</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">example-task</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1xbaxeu</bpmn:incoming>

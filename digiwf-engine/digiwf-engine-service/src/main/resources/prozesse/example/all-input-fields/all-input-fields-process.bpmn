@@ -80,7 +80,7 @@ process.setStatus("firstUserTask");</camunda:script>
     <bpmn:endEvent id="End_completed" name="Ended">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="Javascript">process.setStatus("finished)</camunda:script>
+          <camunda:script scriptFormat="Javascript">process.setStatus("finished")</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1gtaf1o</bpmn:incoming>

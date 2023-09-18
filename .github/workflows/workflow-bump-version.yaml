@@ -96,7 +96,7 @@ jobs:
         working-directory: ./digiwf-apps
         run: |
           npm run init
-          lerna version patch --ignore-changes --no-push --yes
+          lerna version minor --ignore-changes --no-push --yes
         # lerna automatically creates a commit
 
       # Create a PR for the new version

@@ -17,4 +17,5 @@ public class TaskWithSchema {
 
   private final JsonSchema schema;
   private final Form legacyForm;
+  private final String tag;
 }

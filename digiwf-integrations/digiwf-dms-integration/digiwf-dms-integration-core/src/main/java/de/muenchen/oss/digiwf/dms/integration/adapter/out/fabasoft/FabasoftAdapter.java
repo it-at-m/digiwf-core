@@ -27,10 +27,11 @@ public class FabasoftAdapter implements ProcedureRepository {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
+
     private final DMSErrorHandler dmsErrorHandler = new DMSErrorHandler();
 
     @Override
-    public Procedure createVorgang(Procedure procedure, String user) {
+    public Procedure createProcedure(Procedure procedure, String user) {
         log.info("calling CreateProcedureGI: " + procedure.toString());
 
         final CreateProcedureGI request = new CreateProcedureGI();

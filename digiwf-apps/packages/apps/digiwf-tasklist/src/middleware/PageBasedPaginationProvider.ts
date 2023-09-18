@@ -31,6 +31,12 @@ export class PageBasedPaginationProvider {
       searchQuery
     });
   }
+  public setTag(pageId: PageId, tag?: string) {
+    this.pageKeyToPaginationData.set(pageId, {
+      ...this.getPaginationDataInSessionOrDefault(pageId),
+      tag
+    });
+  }
 
   private getPaginationDataInSessionOrDefault(pageId: PageId): PaginationDataInSession {
     const paginationInformationOfPage = this.pageKeyToPaginationData.get(pageId);
@@ -38,12 +44,14 @@ export class PageBasedPaginationProvider {
       size: paginationInformationOfPage?.size || DEFAULT_SIZE,
       page: paginationInformationOfPage?.page || DEFAULT_PAGE,
       searchQuery: paginationInformationOfPage?.searchQuery,
+      tag: paginationInformationOfPage?.tag,
     };
   }
 }
 
 export interface PaginationDataInSession {
   readonly searchQuery?: string;
+  readonly tag?: string
   readonly page: number;
   readonly size: number;
 }

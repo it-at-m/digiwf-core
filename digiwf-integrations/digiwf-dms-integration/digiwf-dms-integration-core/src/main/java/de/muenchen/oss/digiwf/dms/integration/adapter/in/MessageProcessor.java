@@ -10,8 +10,6 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
@@ -29,17 +27,17 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
+    private final CreateProcedureUseCase createProcedureUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
-    private final CreateProcedureUseCase createVorgangUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
             try {
-                final CreateProcedureDto createVorgangDto = message.getPayload();
-                final Procedure vorgang = this.createVorgangUseCase.createProcedure(
-                        createVorgangDto.getTitle(),
-                        createVorgangDto.getFileCOO(),
-                        createVorgangDto.getUser()
+                final CreateProcedureDto createProcedureDto = message.getPayload();
+                final Procedure vorgang = this.createProcedureUseCase.createProcedure(
+                        createProcedureDto.getTitle(),
+                        createProcedureDto.getFileCOO(),
+                        createProcedureDto.getUser()
                 );
 
                 this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),

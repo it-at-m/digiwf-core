@@ -21,6 +21,6 @@ public class CreateProcedureService implements CreateProcedureUseCase {
             @NotBlank final String user) {
         final Procedure procedure = new Procedure(fileCOO, titel);
 
-        return procedureRepository.createVorgang(procedure, user);
+        return procedureRepository.createProcedure(procedure, user);
     }
 }
