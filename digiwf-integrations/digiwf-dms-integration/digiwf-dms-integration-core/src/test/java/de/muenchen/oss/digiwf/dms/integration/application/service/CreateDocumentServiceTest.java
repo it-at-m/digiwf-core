@@ -21,8 +21,6 @@ class CreateDocumentServiceTest {
 
     private final ProcedureRepository procedureRepository = mock(ProcedureRepository.class);
 
-    private final ProcessConfigApi processConfigApi = mock((ProcessConfigApi.class));
-
     private final CreateDocumentService createDocumentService = new CreateDocumentService(procedureRepository, loadFilePort);
 
     @Test
@@ -35,8 +33,6 @@ class CreateDocumentServiceTest {
         when(this.loadFilePort.loadFiles(any(),any(),any())).thenReturn(List.of(content));
 
         when(this.procedureRepository.createDocument(any(),any())).thenReturn("documentCOO");
-
-        when(this.processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
         createDocumentService.createDocument("procedureCOO","title","user", DocumentType.EINGEHEND,filepaths, "filecontext","processInstance");
 

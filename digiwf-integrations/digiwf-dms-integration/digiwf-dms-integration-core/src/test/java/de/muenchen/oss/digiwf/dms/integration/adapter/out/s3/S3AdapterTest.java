@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
+import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
 import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
@@ -72,6 +73,35 @@ class S3AdapterTest {
     }
 
     @Test
+    void testLoadFileFromFilePathWithStorageUrl() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String pdfPath = "test/test-pdf.pdf";
+        final String pngPath = "test/digiwf_logo.png";
+        final String fileContext = "files";
+
+        final String fullPdfPath = fileContext + "/" + pdfPath;
+        final String fullPngPath = fileContext + "/" + pngPath;
+
+        final List<String> filePaths = List.of(pdfPath,pngPath);
+
+        final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
+        final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
+
+        when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
+        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO("app_file_s3_sync_config","S3Url"))));
+
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance");
+
+        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
+
+        assertTrue(contents.contains(pdfContent));
+        assertTrue(contents.contains(pngContent));
+    }
+
+
+    @Test
     void testLoadFileFromFolderPath() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
         final String folderPath = "test/";
@@ -96,6 +126,43 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath,3)).thenReturn(testWord);
         when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
+
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, "processInstance");
+
+        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
+        final Content wordContent = new Content("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
+
+        assertTrue(contents.contains(pdfContent));
+        assertTrue(contents.contains(pngContent));
+        assertTrue(contents.contains(wordContent));
+    }
+
+    @Test
+    void testLoadFileFromFolderPathWithStorageUrl() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+
+        final String folderPath = "test/";
+        final String fileContext = "files";
+        final String fullFolderPath = fileContext + "/" + folderPath;
+
+        final String fullPdfPath = "files/test/test-pdf.pdf";
+        final String fullPngPath = "files/test/digiwf_logo.png";
+        final String fullWordPath = "files/test/test-word.docx";
+
+        final List<String> paths = List.of(folderPath);
+
+        Set<String> filesPaths = new HashSet<>(List.of(fullPdfPath, fullPngPath, fullWordPath));
+
+        final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
+        final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
+        final byte[] testWord = new ClassPathResource(fullWordPath).getInputStream().readAllBytes();
+
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath,"S3Url")).thenReturn((just(filesPaths)));
+
+        when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath,3,"S3Url")).thenReturn(testWord);
+        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO("app_file_s3_sync_config","S3Url"))));
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, "processInstance");
 
