@@ -55,6 +55,10 @@ digiwf:
         username: ${FABASOFT_DMS_USERNAME}
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
+  security:
+    # client-id and client-secret are required for feign client authentication
+    client-id: ${SSO_TASK_CLIENT_ID}
+    client-secret: ${SSO_TASK_CLIENT_SECRET}
 
 io:
   muenchendigital:
@@ -79,3 +83,10 @@ de:
             - "application/pdf"
             - "image/png"
             - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+feign:
+  client:
+    config:
+      digiwf-process-config:
+        url: ${ENGINE_REST_ENDPOINT_URL}
+        name: digiwf-process-config
