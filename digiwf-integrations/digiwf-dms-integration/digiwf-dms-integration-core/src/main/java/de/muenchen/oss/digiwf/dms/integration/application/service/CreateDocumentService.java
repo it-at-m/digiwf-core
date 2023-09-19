@@ -26,10 +26,11 @@ public class CreateDocumentService implements CreateDocumentUseCase {
             final String user,
             final DocumentType type,
             final List<String> filepaths,
-            final String fileContext
+            final String fileContext,
+            final String processInstance
             ) {
 
-        final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext);
+        final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext, processInstance);
 
         final Document document = new Document(procedureCOO, title, type, contents);
 

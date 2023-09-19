@@ -62,6 +62,60 @@
                 },
                 "x-rules": []
               },
+              "title": {
+                "fieldType": "text",
+                "title": "Title",
+                "type": "string",
+                "key": "title",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "procedureCoo": {
+                "fieldType": "text",
+                "title": "Sachakte (COO)",
+                "type": "string",
+                "key": "procedureCoo",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "user": {
+                "fieldType": "text",
+                "title": "Dms User",
+                "type": "string",
+                "key": "user",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "formfield-files": {
                 "fieldType": "file",
                 "title": "Dateien",

@@ -69,3 +69,13 @@ io:
         typeMappings:
           createProcedure: "createProcedureMessageProcessor"
           createDocument: "createDocumentMessageProcessor"
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        dms:
+          supportedExtensions:
+            - "application/pdf"
+            - "image/png"
+            - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

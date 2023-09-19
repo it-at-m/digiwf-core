@@ -61,7 +61,8 @@ public class MessageProcessor {
                         createDocumentDto.getUser(),
                         DocumentType.valueOf(createDocumentDto.getType()),
                         createDocumentDto.getFilepathsAsList(),
-                        createDocumentDto.getFileContext()
+                        createDocumentDto.getFileContext(),
+                        message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString()
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),

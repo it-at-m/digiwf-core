@@ -16,6 +16,7 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepo
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,10 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({FabasoftProperties.class})
+@EnableConfigurationProperties({FabasoftProperties.class, DmsProperties.class})
 public class DmsAutoConfiguration {
+
+    private final DmsProperties dmsProperties;
 
     @Bean
     @ConditionalOnMissingBean
@@ -42,8 +45,8 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadFilePort loadFilePort(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository);
+    public LoadFilePort loadFilePort(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository, ProcessConfigApi processConfigApi) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions(), processConfigApi);
     }
 
     @Bean

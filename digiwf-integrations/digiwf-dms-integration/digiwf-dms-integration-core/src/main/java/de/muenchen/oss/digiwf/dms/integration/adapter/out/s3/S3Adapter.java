@@ -3,6 +3,9 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
+import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
+import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -16,6 +19,7 @@ import org.apache.tika.Tika;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -26,17 +30,21 @@ public class S3Adapter implements LoadFilePort {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
+    private final List<String> supportedExtensions;
+
+    private final ProcessConfigApi processConfigApi;
+
     @Override
-    public List<Content> loadFiles(final List<String> filepaths, final String fileContext){
+    public List<Content> loadFiles(final List<String> filepaths, final String fileContext, final String processInstance){
 
         List<Content> contents = new ArrayList<>();
 
         filepaths.forEach(path -> {
             String fullPath = fileContext + "/" + path;
             if (fullPath.endsWith("/")) {
-                contents.addAll(getFilesFromFolder(fullPath));
+                contents.addAll(getFilesFromFolder(fullPath, processInstance));
             } else {
-                contents.add(getFile(fullPath));
+                contents.add(getFile(fullPath,processInstance));
             }
         });
 
@@ -44,12 +52,15 @@ public class S3Adapter implements LoadFilePort {
 
     }
 
-    private List<Content> getFilesFromFolder(String folderpath) {
+    private List<Content> getFilesFromFolder(String folderpath, String processInstance) {
         try {
+            Optional<String> customS3 = this.getCustomS3IntegrationUrl(processInstance);
             List<Content> contents = new ArrayList<>();
-            Set<String> filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
+            Set<String> filepath = customS3.isPresent()
+                    ? documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath,customS3.get()).block()
+                    : documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
             filepath.forEach(file -> {
-                contents.add(getFile(file));
+                contents.add(getFile(file,processInstance));
             });
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
@@ -58,17 +69,17 @@ public class S3Adapter implements LoadFilePort {
         }
     }
 
-    private Content getFile (String filepath) {
+    private Content getFile (String filepath, String processInstance) {
         try {
+            Optional<String> customS3 = this.getCustomS3IntegrationUrl(processInstance);
             final Tika tika = new Tika();
-            final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3);
+            final byte[] bytes = customS3.isPresent()
+                    ? this.documentStorageFileRepository.getFile(filepath,3,customS3.get())
+                    : this.documentStorageFileRepository.getFile(filepath, 3);
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            // TODO Extensions auslagern
-            final List<String> supportedExtension = List.of("application/pdf","image/png","application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-
-            if(!supportedExtension.contains(type.toLowerCase())) {
+            if(!supportedExtensions.contains(type.toLowerCase())) {
                 log.error("The type of this file is not supported: {}", filepath);
                 throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
             }
@@ -79,6 +90,16 @@ public class S3Adapter implements LoadFilePort {
             log.error("An file could not be loaded from url: {}", filepath);
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
+    }
+
+    private Optional<String> getCustomS3IntegrationUrl (String processInstance) {
+
+        ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processInstance);
+
+        return  processConfig.getConfigs().stream()
+                .filter(config -> config.getKey().equalsIgnoreCase("app_file_s3_sync_config"))
+                .map(ConfigEntryTO::getValue)
+                .findAny();
     }
 
 
