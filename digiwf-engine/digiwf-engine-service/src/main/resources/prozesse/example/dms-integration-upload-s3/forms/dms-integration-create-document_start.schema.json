@@ -82,7 +82,7 @@
               },
               "procedureCoo": {
                 "fieldType": "text",
-                "title": "Sachakte (COO)",
+                "title": "Vorgang (COO)",
                 "type": "string",
                 "key": "procedureCoo",
                 "x-options": {
@@ -115,6 +115,41 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "document-type": {
+                "fieldType": "select",
+                "title": "Dokument Type",
+                "type": "string",
+                "key": "type",
+                "default": "EINGEHEND",
+                "anyOf": [
+                  {
+                    "title": "Eingehend",
+                    "const": "EINGEHEND"
+                  },
+                  {
+                    "title": "Ausgehend",
+                    "const": "AUSGEHEND"
+                  },
+                  {
+                    "title": "Intern",
+                    "const": "INTERN"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
               },
               "formfield-files": {
                 "fieldType": "file",

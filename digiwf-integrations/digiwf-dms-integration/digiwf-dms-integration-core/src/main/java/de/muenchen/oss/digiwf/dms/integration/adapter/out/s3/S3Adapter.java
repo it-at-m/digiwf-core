@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants.DIGIWF_S3_SYNC_CONFIG;
+
 @Slf4j
 @RequiredArgsConstructor
 public class S3Adapter implements LoadFilePort {
@@ -97,7 +99,7 @@ public class S3Adapter implements LoadFilePort {
         ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processInstance);
 
         return  processConfig.getConfigs().stream()
-                .filter(config -> config.getKey().equalsIgnoreCase("app_file_s3_sync_config"))
+                .filter(config -> config.getKey().equalsIgnoreCase(DIGIWF_S3_SYNC_CONFIG))
                 .map(ConfigEntryTO::getValue)
                 .findAny();
     }

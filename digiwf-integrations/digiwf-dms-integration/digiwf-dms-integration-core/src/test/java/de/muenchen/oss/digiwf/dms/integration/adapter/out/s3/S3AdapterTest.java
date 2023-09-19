@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
+import static de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants.DIGIWF_S3_SYNC_CONFIG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -89,7 +90,7 @@ class S3AdapterTest {
 
         when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO("app_file_s3_sync_config","S3Url"))));
+        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO(DIGIWF_S3_SYNC_CONFIG,"S3Url"))));
 
         final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance");
 
@@ -162,7 +163,7 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath,3,"S3Url")).thenReturn(testWord);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO("app_file_s3_sync_config","S3Url"))));
+        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO(DIGIWF_S3_SYNC_CONFIG,"S3Url"))));
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, "processInstance");
 
