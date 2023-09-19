@@ -7,6 +7,6 @@ public interface ProcedureRepository {
 
     Procedure createProcedure(Procedure procedure, String user);
 
-    Document createDocument(Document document, String user);
+    String createDocument(Document document, String user);
 
 }

@@ -25,7 +25,7 @@ public class FabasoftClientConfiguration {
     @Bean
     public LHMBAI151700GIWSDSoap dmsWsClient() {
         final LHMBAI151700GIWSD service = new LHMBAI151700GIWSD();
-        final LHMBAI151700GIWSDSoap soapClient = service.getLHMBAI151700GIWSDSoap12();
+        final LHMBAI151700GIWSDSoap soapClient = service.getLHMBAI151700GIWSDSoap();
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, this.properties.getAddress());
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, this.properties.getUsername());
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, this.properties.getPassword());

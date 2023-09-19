@@ -29,7 +29,7 @@ class CreateDocumentServiceTest {
 
         when(this.loadFilePort.loadFiles(any(),any())).thenReturn(List.of(content));
 
-        when(this.procedureRepository.createDocument(any(),any())).thenReturn(new Document("procedureCOO","title", DocumentType.EINGEHEND,List.of(content)));
+        when(this.procedureRepository.createDocument(any(),any())).thenReturn("documentCOO");
 
         createDocumentService.createDocument("procedureCOO","title","user", DocumentType.EINGEHEND,filepaths, "filecontext");
 

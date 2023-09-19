@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
@@ -56,7 +55,7 @@ public class MessageProcessor {
         return message -> {
             try {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
-                final Document document = this.createDocumentUseCase.createDocument(
+                final String document = this.createDocumentUseCase.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getUser(),
@@ -66,7 +65,7 @@ public class MessageProcessor {
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document.getCoo()));
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {

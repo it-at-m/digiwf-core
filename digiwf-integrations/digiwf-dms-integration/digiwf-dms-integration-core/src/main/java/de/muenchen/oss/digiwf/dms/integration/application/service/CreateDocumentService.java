@@ -20,7 +20,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
     private final LoadFilePort loadFilePort;
 
     @Override
-    public Document createDocument(
+    public String createDocument(
             final String procedureCOO,
             final String title,
             final String user,
