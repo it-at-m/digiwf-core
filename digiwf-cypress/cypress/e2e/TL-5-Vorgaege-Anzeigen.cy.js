@@ -17,7 +17,6 @@ before(() => {
 
 describe('Vorgaenge Anzeigen', () => {
     it('passes', () => {
-        let pageSize = 20;
 
         // Step 0: Create User processes
         cy.log('Step 0');
@@ -42,7 +41,7 @@ describe('Vorgaenge Anzeigen', () => {
         //Step 2-5: Test different page sizes
         cy.log('Step 2-5');
 
-        pageSize = 5;
+        let pageSize = 5;
         aktuelleVorgaenge.changePageSize(pageSize);
         aktuelleVorgaenge.checkPageSize(pageSize,numberOfTasks);
 
