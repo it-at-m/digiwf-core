@@ -21,7 +21,6 @@
       placeholder="Benutzer suchen..."
       return-object
       multiple
-      @input="input"
       @change="change"
     >
       <template
@@ -140,7 +139,8 @@ export default class VMultiUserInput extends Vue {
   @Prop()
   schema: string | undefined;
 
-  input(value: any): any {
+  input(value: string[]): any {
+    console.log("input: ", value);
     return this.on.input(value);
   }
 
@@ -240,7 +240,9 @@ export default class VMultiUserInput extends Vue {
   }
 
   change(): void {
-    let selectedLhmObjectIds = this.selectedUsers.map(a => a.lhmObjectId);
+    let selectedLhmObjectIds = this.selectedUsers
+      .map(a => a.lhmObjectId)
+      .filter((it): it is string => !!it);
     this.input(selectedLhmObjectIds);
   }
 
