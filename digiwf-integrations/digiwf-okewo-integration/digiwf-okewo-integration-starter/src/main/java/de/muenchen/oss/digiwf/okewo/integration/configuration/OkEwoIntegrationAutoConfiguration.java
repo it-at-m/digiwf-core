@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.okewo.integration.configuration;
 
 import de.muenchen.oss.digiwf.okewo.integration.gen.ApiClient;
 import de.muenchen.oss.digiwf.okewo.integration.properties.OkEwoIntegrationProperties;
-import de.muenchen.oss.digiwf.okewo.integration.service.PropertiesService;
+import de.muenchen.oss.digiwf.okewo.integration.service.PropertiesServiceTemplate;
 import de.muenchen.oss.digiwf.okewo.integration.gen.api.PersonApi;
 import de.muenchen.oss.digiwf.okewo.integration.gen.api.PersonErweitertApi;
 import lombok.RequiredArgsConstructor;
@@ -83,11 +83,11 @@ public class OkEwoIntegrationAutoConfiguration {
     }
 
     /**
-     * @return a bean of type {@link PropertiesService} named by method name.
+     * @return a bean of type {@link PropertiesServiceTemplate} named by method name.
      */
     @Bean
-    public PropertiesService propertiesService() {
-        return new PropertiesService(this.okEwoIntegrationProperties.getBenutzerId());
+    public PropertiesServiceTemplate propertiesService() {
+        return new PropertiesServiceTemplate(this.okEwoIntegrationProperties.getBenutzerId());
     }
 
 }

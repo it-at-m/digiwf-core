@@ -18,9 +18,9 @@ class OkEwoPersonErweitertServiceTest {
 
     private final OkEwoPersonErweitertRepository okEwoPersonErweitertRepository = mock(OkEwoPersonErweitertRepository.class);
 
-    private final PropertiesService propertiesService = new PropertiesService("benutzerId");
+    private final PropertiesServiceTemplate propertiesServiceTemplate = new PropertiesServiceTemplate("benutzerId");
 
-    private final OkEwoPersonErweitertService okEwoPersonErweitertService = new OkEwoPersonErweitertService(this.okEwoPersonErweitertRepository, this.propertiesService);
+    private final OkEwoPersonErweitertService okEwoPersonErweitertService = new OkEwoPersonErweitertService(this.okEwoPersonErweitertRepository, this.propertiesServiceTemplate);
 
     @Test
     void getPerson() throws OkEwoIntegrationException, OkEwoIntegrationClientErrorException, OkEwoIntegrationServerErrorException {
@@ -38,7 +38,7 @@ class OkEwoPersonErweitertServiceTest {
     @Test
     void searchPerson() throws OkEwoIntegrationException, OkEwoIntegrationClientErrorException, OkEwoIntegrationServerErrorException {
         final SuchePersonerweitertAnfrage suchePersonerweitertAnfrage = new SuchePersonerweitertAnfrage();
-        suchePersonerweitertAnfrage.setBenutzer(this.propertiesService.getBenutzerTypeWithBenutzerId());
+        suchePersonerweitertAnfrage.setBenutzer(this.propertiesServiceTemplate.getBenutzerTypeWithBenutzerId());
 
         Mockito.when(this.okEwoPersonErweitertRepository.searchPerson(suchePersonerweitertAnfrage)).thenReturn(new SuchePersonerweitertAntwort());
 

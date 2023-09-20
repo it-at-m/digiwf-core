@@ -18,7 +18,7 @@ public class OkEwoPersonService {
 
     private final OkEwoPersonRepository okEwoPersonRepository;
 
-    private final PropertiesService propertiesService;
+    private final PropertiesServiceTemplate propertiesServiceTemplate;
 
     /**
      * Gets a {@link Person} by Ordnungsmerkmal.
@@ -32,7 +32,7 @@ public class OkEwoPersonService {
     public Person getPerson(final String om) throws OkEwoIntegrationClientErrorException, OkEwoIntegrationServerErrorException, OkEwoIntegrationException {
         return this.okEwoPersonRepository.getPerson(
                 om,
-                this.propertiesService.getBenutzerId()
+                this.propertiesServiceTemplate.getBenutzerId()
         );
     }
 
@@ -46,7 +46,7 @@ public class OkEwoPersonService {
      * @throws OkEwoIntegrationException            if the problem cannot be assigned directly to OK.EWO or client.
      */
     public SuchePersonAntwort searchPerson(final SuchePersonAnfrage suchePersonAnfrage) throws OkEwoIntegrationClientErrorException, OkEwoIntegrationServerErrorException, OkEwoIntegrationException {
-        suchePersonAnfrage.setBenutzer(this.propertiesService.getBenutzerTypeWithBenutzerId());
+        suchePersonAnfrage.setBenutzer(this.propertiesServiceTemplate.getBenutzerTypeWithBenutzerId());
         return this.okEwoPersonRepository.searchPerson(suchePersonAnfrage);
     }
 

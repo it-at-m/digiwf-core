@@ -6,16 +6,16 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-class PropertiesServiceTest {
+class PropertiesServiceTemplateTest {
 
-    private final PropertiesService propertiesService = new PropertiesService("benutzerId");
+    private final PropertiesServiceTemplate propertiesServiceTemplate = new PropertiesServiceTemplate("benutzerId");
 
     @Test
     void getBenutzerTypeWithBenutzerId() {
         final BenutzerType expected = new BenutzerType();
         expected.setBenutzerId("benutzerId");
 
-        assertThat(this.propertiesService.getBenutzerTypeWithBenutzerId(), is(expected));
+        assertThat(this.propertiesServiceTemplate.getBenutzerTypeWithBenutzerId(), is(expected));
     }
 
 }
