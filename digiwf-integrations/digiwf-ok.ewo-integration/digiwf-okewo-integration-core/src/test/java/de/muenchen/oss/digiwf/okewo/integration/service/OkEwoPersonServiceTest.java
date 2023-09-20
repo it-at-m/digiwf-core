@@ -7,34 +7,20 @@ import de.muenchen.oss.digiwf.okewo.integration.exception.OkEwoIntegrationExcept
 import de.muenchen.oss.digiwf.okewo.integration.exception.OkEwoIntegrationServerErrorException;
 import de.muenchen.oss.digiwf.okewo.integration.gen.model.Person;
 import de.muenchen.oss.digiwf.okewo.integration.repository.OkEwoPersonRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.mock;
 
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 class OkEwoPersonServiceTest {
 
-    @Mock
-    private OkEwoPersonRepository okEwoPersonRepository;
+    private final OkEwoPersonRepository okEwoPersonRepository = mock(OkEwoPersonRepository.class);
 
     private final PropertiesService propertiesService = new PropertiesService("benutzerId");
 
-    private OkEwoPersonService okEwoPersonService;
-
-    @BeforeEach
-    public void beforeEach() {
-        this.okEwoPersonService = new OkEwoPersonService(this.okEwoPersonRepository, this.propertiesService);
-        Mockito.reset(this.okEwoPersonRepository);
-    }
+    private final OkEwoPersonService okEwoPersonService = new OkEwoPersonService(this.okEwoPersonRepository, this.propertiesService);
 
     @Test
     void getPerson() throws OkEwoIntegrationException, OkEwoIntegrationClientErrorException, OkEwoIntegrationServerErrorException {

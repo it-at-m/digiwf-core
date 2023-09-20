@@ -2,17 +2,19 @@ package de.muenchen.oss.digiwf.okewo.integration.service;
 
 import de.muenchen.oss.digiwf.okewo.integration.gen.model.BenutzerType;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class PropertiesService {
+
+    public PropertiesService(String benutzerId) {
+        this.benutzerId = benutzerId;
+    }
 
     @Getter
     private final String benutzerId;
 
     public BenutzerType getBenutzerTypeWithBenutzerId() {
         final var benutzerType = new BenutzerType();
-        benutzerType.setBenutzerId(this.getBenutzerId());
+        benutzerType.setBenutzerId(this.benutzerId);
         return benutzerType;
     }
 
