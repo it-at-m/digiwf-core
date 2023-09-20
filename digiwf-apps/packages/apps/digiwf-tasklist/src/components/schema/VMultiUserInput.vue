@@ -140,7 +140,6 @@ export default class VMultiUserInput extends Vue {
   schema: string | undefined;
 
   input(value: string[]): any {
-    console.log("input: ", value);
     return this.on.input(value);
   }
 
