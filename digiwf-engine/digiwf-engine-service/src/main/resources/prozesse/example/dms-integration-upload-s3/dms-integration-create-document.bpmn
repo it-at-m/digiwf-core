@@ -26,7 +26,7 @@
       <bpmn:incoming>Flow_0gnzyhg</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0gnzyhg" sourceRef="Activity_086s3nk" targetRef="Event_completed" />
-    <bpmn:callActivity id="Activity_086s3nk" name="Upload Document To DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.upload-file-to-dms" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_086s3nk" name="Upload Document To DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.upload-file-to-dms" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="createDocument" target="app_type_name" />
@@ -36,7 +36,7 @@
         <camunda:in sourceExpression="${procedureCoo}" target="procedureCoo" />
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${formfield-files}" target="filepaths" />
+        <camunda:in sourceExpression="test/" target="filepaths" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_0gnzyhg</bpmn:outgoing>

@@ -81,8 +81,18 @@ de:
         dms:
           supportedExtensions:
             - "application/pdf"
+            - "text/plain"
             - "image/png"
+            - "image/x-citrix-jpeg"
             - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            - "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            - "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            - "application/vnd.visio2013"
+            - "application/vnd.ms-project"
+            - "application/vnd.oasis.opendocument.formula"
+            - "application/vnd.oasis.opendocument.presentation"
+            - "application/vnd.oasis.opendocument.spreadsheet"
+            - "application/vnd.oasis.opendocument.text"
 
 feign:
   client:

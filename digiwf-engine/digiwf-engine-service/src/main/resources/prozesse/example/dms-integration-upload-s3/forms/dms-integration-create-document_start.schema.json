@@ -43,11 +43,11 @@
                 },
                 "x-rules": []
               },
-              "createVorgangTopic": {
+              "topic": {
                 "fieldType": "text",
                 "title": "Create Vorgang Topic",
                 "type": "string",
-                "key": "createVorgangTopic",
+                "key": "topic",
                 "default": "dwf-dms-local-01",
                 "x-options": {
                   "fieldColProps": {
@@ -116,7 +116,7 @@
                 },
                 "x-rules": []
               },
-              "document-type": {
+              "type": {
                 "fieldType": "select",
                 "title": "Dokument Type",
                 "type": "string",
@@ -151,7 +151,7 @@
                   "required"
                 ]
               },
-              "formfield-files": {
+              "files": {
                 "fieldType": "file",
                 "title": "Dateien",
                 "x-display": "custom-multi-file-input",
@@ -164,7 +164,7 @@
                     "type": "integer"
                   }
                 },
-                "key": "formfield-files",
+                "key": "files",
                 "uuidEnabled": false,
                 "filePath": "test",
                 "x-options": {
