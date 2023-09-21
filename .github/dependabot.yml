@@ -9,12 +9,18 @@ updates:
       interval: "daily"
     labels:
       - "Technical Dept"
+    # Disable version updates for github-actions dependencies
+    open-pull-requests-limit: 0
+
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
       interval: "daily"
     labels:
       - "Technical Dept"
+    # Disable version updates for maven dependencies
+    open-pull-requests-limit: 0
+
   - package-ecosystem: npm
     directory: "/docs"
     target-branch: "dev"
@@ -22,3 +28,5 @@ updates:
       - "Technical Dept"
     schedule:
       interval: weekly
+    # Disable version updates for npm dependencies (docs)
+    open-pull-requests-limit: 0
