@@ -31,17 +31,6 @@ add the env file to your run configuration.
 
 ### Running the stack for the first time
 
-**Setup Minio**
-
-1. Go to [http://localhost:9001/](http://localhost:9001/)
-2. Sign in with *minio* and *Test1234*
-3. Create a bucket
-4. Create a service account
-5. Add the bucket name and service account secrets as env variables to the digiwf-s3-integration
-    * `S3_BUCKETNAME`
-    * `S3_ACCESSKEY`
-    * `S3_SECRETKEY`
-
 ## Additional Properties/Envs
 
 There is a set of properties defined in `local-docker.env`.
