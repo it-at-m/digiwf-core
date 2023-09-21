@@ -53,7 +53,13 @@ public class FabasoftAdapter implements ProcedureRepository {
     }
 
     public String createDocument(final Document document, final String user) {
-        log.info("calling CreateIncomingGI: " + document.toString());
+        //logging for dms team
+        log.info("calling CreateIncomingGI"
+                + " Userlogin: " + user
+                + " Referrednumber: " + document.getProcedureCOO()
+                + " Shortname: " + document.getTitle()
+                + " Filesubj: " + document.getTitle()
+        );
 
         switch (document.getType()) {
             case EINGEHEND:

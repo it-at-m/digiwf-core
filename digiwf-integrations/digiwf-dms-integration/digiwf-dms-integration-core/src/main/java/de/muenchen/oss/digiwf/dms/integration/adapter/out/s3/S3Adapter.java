@@ -66,7 +66,6 @@ public class S3Adapter implements LoadFilePort {
             });
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
-            log.error("An folder could not be loaded from url: {}", folderpath);
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
@@ -82,26 +81,26 @@ public class S3Adapter implements LoadFilePort {
             final String filename = FilenameUtils.getBaseName(filepath);
 
             if(!supportedExtensions.contains(type.toLowerCase())) {
-                log.error("The type of this file is not supported: {}", filepath);
                 throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
             }
 
             return new Content(type, filename, bytes);
 
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
-            log.error("An file could not be loaded from url: {}", filepath);
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
 
     private Optional<String> getCustomS3IntegrationUrl (String processInstance) {
 
-        ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processInstance);
+        return Optional.empty();
 
-        return  processConfig.getConfigs().stream()
-                .filter(config -> config.getKey().equalsIgnoreCase(DIGIWF_S3_SYNC_CONFIG))
-                .map(ConfigEntryTO::getValue)
-                .findAny();
+//        ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processInstance);
+
+//        return  processConfig.getConfigs().stream()
+//                .filter(config -> config.getKey().equalsIgnoreCase(DIGIWF_S3_SYNC_CONFIG))
+//                .map(ConfigEntryTO::getValue)
+//                .findAny();
     }
 
 
