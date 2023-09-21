@@ -15,6 +15,7 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.jar.skip>true</maven.jar.skip>
     </properties>
 
     <dependencies>

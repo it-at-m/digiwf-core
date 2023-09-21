@@ -16,7 +16,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-boot.version>2.7.15</spring-boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <okhttp.version>4.10.0</okhttp.version>
         <lombok.version>1.18.26</lombok.version>
@@ -204,6 +204,7 @@
                     <version>3.11.0</version>
                     <configuration>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <showWarnings>true</showWarnings>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.projectlombok</groupId>
@@ -221,12 +222,11 @@
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${org.mapstruct.version}</version>
                             </path>
-                            <!-- other annotation processors -->
                         </annotationProcessorPaths>
                         <compilerArgs>
-                            <compilerArg>
+                            <arg>
                                 -Amapstruct.defaultComponentModel=spring
-                            </compilerArg>
+                            </arg>
                         </compilerArgs>
                     </configuration>
                 </plugin>
@@ -312,10 +312,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
