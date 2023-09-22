@@ -19,11 +19,12 @@ public interface OutputService {
      * @param data        payload data
      */
     void emitEvent(
-            String messageName,
-            String destination,
-            String type,
-            String instanceId,
-            Map<String, Object> data);
+            final String messageName,
+            final String destination,
+            final String type,
+            final String instanceId,
+            final String definitionKey,
+            final Map<String, Object> data);
 
     /**
      * Emit a message to a specific topic
@@ -34,10 +35,11 @@ public interface OutputService {
      * @param data        payload data
      */
     void emitEvent(
-            String destination,
-            String type,
-            String instanceId,
-            Map<String, Object> data);
+            final String destination,
+            final String type,
+            final String instanceId,
+            final String definitionId,
+            final Map<String, Object> data);
 
 
     /**
@@ -53,5 +55,6 @@ public interface OutputService {
             final String destination,
             final String type,
             final String instanceId,
+            final String definitionId,
             final Map<String, Object> data);
 }

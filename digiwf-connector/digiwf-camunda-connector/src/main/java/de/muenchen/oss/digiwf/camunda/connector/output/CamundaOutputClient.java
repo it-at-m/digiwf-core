@@ -31,9 +31,9 @@ public class CamundaOutputClient implements ExternalTaskHandler {
         final Map<String, Object> filteredData = this.filterVariables(data);
 
         if (message.isPresent()) {
-            this.outputService.emitEvent(message.get(), topic, type, externalTask.getProcessInstanceId(), filteredData);
+            this.outputService.emitEvent(message.get(), topic, type, externalTask.getProcessInstanceId(), externalTask.getProcessDefinitionId(), filteredData);
         } else {
-            this.outputService.emitEvent(topic, type, externalTask.getProcessInstanceId(), filteredData);
+            this.outputService.emitEvent(topic, type, externalTask.getProcessInstanceId(), externalTask.getProcessDefinitionId(), filteredData);
         }
 
         externalTaskService.complete(externalTask);

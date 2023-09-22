@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @DisplayName("Streaming Service Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OutputServiceTest extends BaseSpringTest {
+class OutputServiceTest extends BaseSpringTest {
 
 
     @Mock
@@ -24,18 +24,18 @@ public class OutputServiceTest extends BaseSpringTest {
     private OutputService outputService;
 
     @BeforeEach
-    private void initTests() {
+    public void initTests() {
         this.outputService = new OutputServiceImpl(this.dynamicSink);
     }
 
     @Order(1)
     @Test
     @DisplayName("shouldEmitMessage")
-    public void shouldEmitMessage() {
+    void shouldEmitMessage() {
 
         when(this.dynamicSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);
 
-        this.outputService.emitEvent("myTopic", "myType", "myInstance", Map.of("key", "value"));
+        this.outputService.emitEvent("myTopic", "myType", "myInstance", "myDefinitionId", Map.of("key", "value"));
 
         verify(this.dynamicSink, times(1)).tryEmitNext(any());
     }

@@ -23,8 +23,9 @@ public class OutputServiceImpl implements OutputService {
             final String destination,
             final String type,
             final String instanceId,
+            final String definitionId,
             final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, data).build();
+        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, definitionId, data).build();
         log.debug("Emit message {}", message);
         this.dynamicSink.tryEmitNext(message).orThrow();
     }
@@ -35,8 +36,9 @@ public class OutputServiceImpl implements OutputService {
             final String destination,
             final String type,
             final String instanceId,
+            final String definitionId,
             final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, data)
+        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, definitionId, data)
                 .setHeader(StreamingHeaders.DIGIWF_MESSAGE_NAME, messageName)
                 .build();
         log.debug("Emit message {}", message);
@@ -48,13 +50,15 @@ public class OutputServiceImpl implements OutputService {
             final String destination,
             final String type,
             final String instanceId,
+            final String definitionId,
             final Map<String, Object> data) {
 
         return MessageBuilder
                 .withPayload(data)
                 .setHeader(StreamingHeaders.STREAM_SEND_TO_DESTINATION, destination)
                 .setHeader(StreamingHeaders.TYPE, type)
-                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId);
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId)
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_DEFINITION_ID, definitionId);
     }
 
 }
