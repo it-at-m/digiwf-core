@@ -12,7 +12,7 @@ class VorgangStarten extends Page{
         pageSize5: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(1)`),
         pageSize10: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(2)`),
         pageSize20: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(3)`),
-
+        list: () => cy.get('div.v-list:nth-child(3)')
     }
 
     checkHeadline(text){
@@ -42,6 +42,11 @@ class VorgangStarten extends Page{
 
     getListElement(num){
         return this.elements.listElement(num)
+    }
+
+    getList(){
+        cy.wait(3000)
+        return this.elements.list()
     }
 
     getSearchField(){
