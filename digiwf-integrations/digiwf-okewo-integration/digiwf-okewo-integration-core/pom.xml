@@ -14,7 +14,8 @@
     </parent>
 
     <properties>
-        <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
+        <rest.base-package-name>de.muenchen.oss.digiwf.okewo.integration.gen</rest.base-package-name>
+
         <apache.commons.version>4.4</apache.commons.version>
         <hamcrest.version>1.3</hamcrest.version>
         <swagger.codegen.version>3.0.33</swagger.codegen.version>
@@ -45,8 +46,28 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.openapi.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- Testing -->
         <dependency>
@@ -89,6 +110,106 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.6.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-server-stubs</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+<!--                        <configuration>-->
+<!--                            <inputSpec>${project.basedir}/src/main/api/api-docs.json</inputSpec>-->
+<!--                            <generatorName>java</generatorName>-->
+<!--                            <removeOperationIdPrefix>true</removeOperationIdPrefix>-->
+<!--                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore-->
+<!--                            </ignoreFileOverride>-->
+<!--                            <library>resttemplate</library>-->
+<!--                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>-->
+<!--                            &lt;!&ndash; <modelNameSuffix>TO</modelNameSuffix> no suffix for the first moment&ndash;&gt;-->
+<!--                            &lt;!&ndash;configHelp>true</configHelp&ndash;&gt;-->
+
+
+<!--                            <generateApiTests>false</generateApiTests>-->
+<!--                            <generateModelTests>false</generateModelTests>-->
+<!--                            <generateApiDocumentation>false</generateApiDocumentation>-->
+<!--                            <generateModelDocumentation>false</generateModelDocumentation>-->
+<!--                            <generateSupportingFiles>false</generateSupportingFiles>-->
+
+<!--                            &lt;!&ndash; https://openapi-generator.tech/docs/generators/spring/ &ndash;&gt;-->
+<!--                            <configOptions>-->
+<!--                                <basePackage>${rest.base-package-name}</basePackage>-->
+<!--                                <invokerPackage>${rest.base-package-name}</invokerPackage>-->
+<!--                                <apiPackage>${rest.base-package-name}.api</apiPackage>-->
+<!--                                <modelPackage>${rest.base-package-name}.model</modelPackage>-->
+<!--                                <java8>true</java8>-->
+<!--                                <delegatePattern>true</delegatePattern>-->
+<!--                                <generateSupportingFiles>false</generateSupportingFiles>-->
+<!--                                <hideGenerationTimestamp>true</hideGenerationTimestamp>-->
+<!--                                <useTags>true</useTags>-->
+<!--                            </configOptions>-->
+<!--                        </configuration>-->
+                        <configuration>
+                            <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <library>resttemplate</library>
+                            <output>${project.basedir}</output>
+
+
+                            <apiPackage>de.muenchen.oss.digiwf.okewo.integration.gen.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.okewo.integration.gen.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.okewo.integration.gen</invokerPackage>
+
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+
+                            <environmentVariables>
+                                <supportingFiles>
+                                    ApiClient.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,RFC3339DateFormat.java
+                                </supportingFiles>
+                            </environmentVariables>
+
+                            <typeMappings>
+                                <typeMapping>DateTime=String</typeMapping>
+                                <typeMapping>Date=String</typeMapping>
+                            </typeMappings>
+
+                            <additionalProperties>
+                                <additionalProperty>performBeanValidation=true</additionalProperty>
+                                <additionalProperty>useBeanValidation=true</additionalProperty>
+                            </additionalProperties>
+
+                            <configOptions>
+                                <dateLibrary>Java8</dateLibrary>
+                                <java8>true</java8>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <sourceFolder>src/main/java/</sourceFolder>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>repackage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
             <!--
             <plugin>
