@@ -2,9 +2,6 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
-import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -12,20 +9,18 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetExce
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
-import static de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants.DIGIWF_S3_SYNC_CONFIG;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.*;
 import static reactor.core.publisher.Mono.just;
 
 class S3AdapterTest {
@@ -36,13 +31,11 @@ class S3AdapterTest {
 
     private final List<String> supportedExtensions = List.of("application/pdf","image/png","application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
-    private final ProcessConfigApi processConfigApi = mock((ProcessConfigApi.class));
-
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(documentStorageFileRepository,documentStorageFolderRepository,supportedExtensions,processConfigApi);
+        s3Adapter = new S3Adapter(documentStorageFileRepository,documentStorageFolderRepository,supportedExtensions);
     }
 
     @Test
@@ -62,9 +55,8 @@ class S3AdapterTest {
 
         when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
-        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance");
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
         final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
         final Content pngContent = new Content("image/png","digiwf_logo",testPng);
@@ -73,6 +65,7 @@ class S3AdapterTest {
         assertTrue(contents.contains(pngContent));
     }
 
+    @Disabled("This test is disabled because the feature domain specific s3 storage url is not implemented yet. See https://github.com/it-at-m/digiwf-core/issues/734")
     @Test
     void testLoadFileFromFilePathWithStorageUrl() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
@@ -90,9 +83,8 @@ class S3AdapterTest {
 
         when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO(DIGIWF_S3_SYNC_CONFIG,"S3Url"))));
 
-        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance");
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
         final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
         final Content pngContent = new Content("image/png","digiwf_logo",testPng);
@@ -126,9 +118,8 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath,3)).thenReturn(testWord);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
-        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, "processInstance");
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
         final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
         final Content pngContent = new Content("image/png","digiwf_logo",testPng);
@@ -139,6 +130,7 @@ class S3AdapterTest {
         assertTrue(contents.contains(wordContent));
     }
 
+    @Disabled("This test is disabled because the feature domain specific s3 storage url is not implemented yet. See https://github.com/it-at-m/digiwf-core/issues/734")
     @Test
     void testLoadFileFromFolderPathWithStorageUrl() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
@@ -163,9 +155,8 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath,3,"S3Url")).thenReturn(testWord);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),List.of(new ConfigEntryTO(DIGIWF_S3_SYNC_CONFIG,"S3Url"))));
 
-        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, "processInstance");
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
         final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
         final Content pngContent = new Content("image/png","digiwf_logo",testPng);
@@ -187,9 +178,8 @@ class S3AdapterTest {
         final List<String> filePaths = List.of(pdfPath);
 
         when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
-        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance"));
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext));
 
         String expectedMessage = "An file could not be loaded from url: " + fullPdfPath;
         String actualMessage = bpmnError.getErrorMessage();
@@ -210,9 +200,8 @@ class S3AdapterTest {
         final List<String> filePaths = List.of(folderPath);
 
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenThrow(new DocumentStorageServerErrorException("Some error", new RuntimeException("Some error")));
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
-        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance"));
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext));
 
         String expectedMessage = "An folder could not be loaded from url: " + fullFolderPath;
         String actualMessage = bpmnError.getErrorMessage();
@@ -235,10 +224,9 @@ class S3AdapterTest {
         final byte[] testHtml = new ClassPathResource(fullHtmlPath).getInputStream().readAllBytes();
 
         when(documentStorageFileRepository.getFile(fullHtmlPath,3)).thenReturn(testHtml);
-        when(processConfigApi.getProcessConfig(any())).thenReturn(new ProcessConfigTO("key","statusdocument",new ArrayList<>(),new ArrayList<>()));
 
         try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, "processInstance");
+            this.s3Adapter.loadFiles(filePaths, fileContext);
         } catch (BpmnError bpmnError) {
             String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
             String actualMessage = bpmnError.getErrorMessage();

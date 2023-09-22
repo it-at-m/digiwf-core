@@ -5,11 +5,8 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepo
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,13 +27,13 @@ class CreateDocumentServiceTest {
 
         List<String> filepaths = List.of("path/content.pdf");
 
-        when(this.loadFilePort.loadFiles(any(),any(),any())).thenReturn(List.of(content));
+        when(this.loadFilePort.loadFiles(any(),any())).thenReturn(List.of(content));
 
         when(this.procedureRepository.createDocument(any(),any())).thenReturn("documentCOO");
 
-        createDocumentService.createDocument("procedureCOO","title","user", DocumentType.EINGEHEND,filepaths, "filecontext","processInstance");
+        createDocumentService.createDocument("procedureCOO","title","user", DocumentType.EINGEHEND,filepaths, "filecontext");
 
-        verify(this.loadFilePort, times(1)).loadFiles(filepaths, "filecontext","processInstance");
+        verify(this.loadFilePort, times(1)).loadFiles(filepaths, "filecontext");
 
         verify(this.procedureRepository, times(1)).createDocument(new Document("procedureCOO","title",DocumentType.EINGEHEND,List.of(content)),"user");
 

@@ -3,9 +3,6 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
-import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -19,10 +16,7 @@ import org.apache.tika.Tika;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-
-import static de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants.DIGIWF_S3_SYNC_CONFIG;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,19 +28,17 @@ public class S3Adapter implements LoadFilePort {
 
     private final List<String> supportedExtensions;
 
-    private final ProcessConfigApi processConfigApi;
-
     @Override
-    public List<Content> loadFiles(final List<String> filepaths, final String fileContext, final String processInstance){
+    public List<Content> loadFiles(final List<String> filepaths, final String fileContext){
 
         List<Content> contents = new ArrayList<>();
 
         filepaths.forEach(path -> {
             String fullPath = fileContext + "/" + path;
             if (fullPath.endsWith("/")) {
-                contents.addAll(getFilesFromFolder(fullPath, processInstance));
+                contents.addAll(getFilesFromFolder(fullPath));
             } else {
-                contents.add(getFile(fullPath,processInstance));
+                contents.add(getFile(fullPath));
             }
         });
 
@@ -54,15 +46,12 @@ public class S3Adapter implements LoadFilePort {
 
     }
 
-    private List<Content> getFilesFromFolder(String folderpath, String processInstance) {
+    private List<Content> getFilesFromFolder(String folderpath) {
         try {
-            Optional<String> customS3 = this.getCustomS3IntegrationUrl(processInstance);
             List<Content> contents = new ArrayList<>();
-            Set<String> filepath = customS3.isPresent()
-                    ? documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath,customS3.get()).block()
-                    : documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
+            Set<String> filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
             filepath.forEach(file -> {
-                contents.add(getFile(file,processInstance));
+                contents.add(getFile(file));
             });
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
@@ -70,13 +59,10 @@ public class S3Adapter implements LoadFilePort {
         }
     }
 
-    private Content getFile (String filepath, String processInstance) {
+    private Content getFile (String filepath) {
         try {
-            Optional<String> customS3 = this.getCustomS3IntegrationUrl(processInstance);
             final Tika tika = new Tika();
-            final byte[] bytes = customS3.isPresent()
-                    ? this.documentStorageFileRepository.getFile(filepath,3,customS3.get())
-                    : this.documentStorageFileRepository.getFile(filepath, 3);
+            final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3);
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
@@ -90,18 +76,5 @@ public class S3Adapter implements LoadFilePort {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
-
-    private Optional<String> getCustomS3IntegrationUrl (String processInstance) {
-
-        return Optional.empty();
-
-//        ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processInstance);
-
-//        return  processConfig.getConfigs().stream()
-//                .filter(config -> config.getKey().equalsIgnoreCase(DIGIWF_S3_SYNC_CONFIG))
-//                .map(ConfigEntryTO::getValue)
-//                .findAny();
-    }
-
 
 }

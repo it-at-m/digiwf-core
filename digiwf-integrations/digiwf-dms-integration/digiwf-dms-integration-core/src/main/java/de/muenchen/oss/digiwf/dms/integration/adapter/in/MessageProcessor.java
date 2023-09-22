@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
@@ -61,8 +61,7 @@ public class MessageProcessor {
                         createDocumentDto.getUser(),
                         DocumentType.valueOf(createDocumentDto.getType()),
                         createDocumentDto.getFilepathsAsList(),
-                        createDocumentDto.getFileContext(),
-                        message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString()
+                        createDocumentDto.getFileContext()
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
