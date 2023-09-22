@@ -9,10 +9,10 @@ import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClien
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
+import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
@@ -62,13 +62,11 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    //@ConditionalOnMissingBean
     public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
 
     @Bean
-    //@ConditionalOnMissingBean
     public Consumer<Message<CreateDocumentDto>> createDocumentMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createDocument();
     }
