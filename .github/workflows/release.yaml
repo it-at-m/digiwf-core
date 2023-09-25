@@ -137,6 +137,13 @@ jobs:
           push: true
           tags: itatm/digiwf-s3-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-s3-integration-service:dev
 
+      - name: Build and push ok evo integration
+        uses: docker/build-push-action@v4
+        with:
+          context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
+          push: true
+          tags: itatm/digiwf-okewo-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-okewo-integration-service:dev
+
       - name: Build and push oss engine
         uses: docker/build-push-action@v4
         with:
