@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>digiwf-dms-integration</artifactId>
+        <artifactId>digiwf-dms-integration-fabasoft</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
@@ -16,24 +16,6 @@
         <javax.xml.version>2.3.0</javax.xml.version>
     </properties>
 
-    <dependencies>
-        <dependency> <!-- javax.jws.WebMethod -->
-            <groupId>javax.jws</groupId>
-            <artifactId>javax.jws-api</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency> <!-- javax.xml.ws.WebEndpoint -->
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency> <!-- com.sun.xml.internal.ws.spi.ProviderImpl -->
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>2.3.6</version>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -49,7 +31,7 @@
                             <goal>wsdl2java</goal>
                         </goals>
                         <configuration>
-                            <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                            <sourceRoot>target/generated/cxf</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/fabasoft.wsdl</wsdl>
