@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+de.muenchen.oss.digiwf.dms.integration.configuration.DmsAutoConfiguration

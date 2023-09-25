@@ -6,12 +6,15 @@ export interface HumanTask {
   readonly processName?: string;
   readonly name: string
   readonly description?: string;
+  readonly tag?: string;
   readonly assigneeId?: string;
   readonly assigneeFormatted?: string;
   readonly inFinishProcess: boolean;
-
-
+  readonly inAssignProcess: boolean;
 }
+
+// eslint-disable-next-line
+export type TaskVariables = any;
 
 export interface HumanTaskDetails extends HumanTask {
   /**
@@ -22,7 +25,7 @@ export interface HumanTaskDetails extends HumanTask {
    * new schema for user forms: is used by https://github.com/koumoul-dev/vuetify-jsonschema-form
    */
   readonly schema?: any;
-  readonly variables: any
+  readonly variables: TaskVariables
 
   readonly isCancelable: boolean;
 

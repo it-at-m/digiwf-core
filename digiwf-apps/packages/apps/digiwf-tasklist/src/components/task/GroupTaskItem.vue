@@ -1,18 +1,34 @@
 <template>
   <v-list-item
-    :aria-label="'Gruppenaufgabe '+task.name+ ' öffnen'"
+    :aria-label="'Gruppenaufgabe '+ task.name+ ' öffnen'"
     class="d-flex align-center"
-    :to="'/opengrouptask/'+task.id"
+    :style="(task.inAssignProcess && !showAssignee) && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
+    :to="(!task.inAssignProcess ||showAssignee) ? '/opengrouptask/'+ task.id : ''"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
       style="min-height: 5rem; max-height: 6.5rem; margin: 8px 0"
     >
-      <h2 class="taskTitel">
+      <h2 class="taskTitle">
         <text-highlight :queries="searchString">
           {{ task.name }}
         </text-highlight>
+        <v-chip
+          v-if="task.tag"
+          small
+          @click.prevent="$emit('clickTag', task.tag)"
+        >
+          {{ task.tag }}
+        </v-chip>
       </h2>
+      <p
+        v-if="task.inAssignProcess && !showAssignee"
+        class="grey--text"
+        style="font-size: 0.9rem"
+      >
+        <v-icon>mdi-progress-clock</v-icon>
+        Task wird aktuell einer Person zugewiesen
+      </p>
       <p
         v-if="task.followUpDate"
         class="grey--text"
@@ -86,48 +102,40 @@
             :aria-label="'Aufgabe '+task.name+ ' bearbeiten'"
             link
             @click="(event) => {
-              this.$emit('edit', task.id);
+              $emit('edit', task.id);
               event.preventDefault();
             }"
           >
             <v-list-item-title>Bearbeiten</v-list-item-title>
           </v-list-item>
+          <v-list-item
+            :aria-label="'Aufgabe '+task.name+ ' zuweisen'"
+            link
+            @click="() => dialogOpen = true"
+          >
+            <v-list-item-title>Zuweisen</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-flex>
+    <assign-task-dialog
+      v-if="dialogOpen"
+      :open="true"
+      :task-name="task.name"
+      :task-id="task.id"
+      @close="dialogOpen = false"
+    />
   </v-list-item>
 </template>
 
-<style scoped>
-
-.taskColumn {
-  margin: 0 0 0 8px;
-  align-self: baseline;
-  overflow: hidden;
-}
-
-.taskTitel {
-  font-size: 1.2rem;
-}
-
-.taskInfo {
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.3rem;
-}
-
-.taskInfo span {
-  margin-right: 0.5rem;
-}
-
-</style>
-
 <script lang="ts">
 import {HumanTask} from "../../middleware/tasks/tasksModels";
-import {PropType} from "vue";
+import {PropType, ref} from "vue";
+import AssignTaskDialog from "./AssignTaskDialog.vue";
+import {useGetPaginationData} from "../../middleware/paginationData";
 
 export default {
+  components: {AssignTaskDialog},
   props: {
     task: {
       type: Object as PropType<HumanTask>,
@@ -145,8 +153,45 @@ export default {
   emits: {
     edit: {
       type: Function as PropType<(id: string) => void>
-    }
+    },
+    clickTag: {
+      type: Function as PropType<(tag: string) => void>
+    },
+  },
+  setup: () => {
+    const dialogOpen = ref<boolean>(false);
+    return {
+      dialogOpen
+    };
   }
 };
 
 </script>
+
+<style scoped>
+
+.taskColumn {
+  margin: 0 0 0 8px;
+  align-self: baseline;
+  overflow: hidden;
+}
+
+.taskTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskInfo {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.taskInfo span {
+  margin-right: 0.5rem;
+}
+
+</style>

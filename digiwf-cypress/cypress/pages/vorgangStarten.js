@@ -44,12 +44,17 @@ class VorgangStarten extends Page{
         return this.elements.listElement(num)
     }
 
+    getSearchField(){
+        return this.elements.searchBox()
+    }
     findProcess(text){
         this.elements.searchBox().type(text)
     }
 
-    clickListElement(elementNumber){
-        this.elements.listElement(elementNumber).click()
+    clickListElement(key){
+        //this.elements.listElement(elementNumber).click()
+        cy.get('[data-element-key="' + key + '"]')
+            .click()
     }
 
     clickRightArrow(){

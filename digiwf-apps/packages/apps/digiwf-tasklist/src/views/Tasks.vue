@@ -6,14 +6,17 @@
       :is-loading="isLoading"
       :error-message="errorMessage"
       :filter="filter"
+      :tag="tag"
       @changeFilter="onFilterChange"
       @loadTasks="reloadTasks"
+      @changeTag="onTagChange"
     >
       <template #default="props">
         <task-item
           :key="props.item.id"
           :task="props.item"
           :search-string="props.item.searchInput"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>
@@ -59,6 +62,7 @@ import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 import {useMyTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageId} from "../middleware/pageId";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   components: {AppPaginationFooter, TaskItem, TaskList, AppViewLayout},
@@ -66,11 +70,16 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
 
+    const {currentSortDirection} = usePageFilters();
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, shouldIgnoreFollowUpTasks);
+    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, tag,shouldIgnoreFollowUpTasks, currentSortDirection);
+
+    watch(currentSortDirection, () => {
+      refetch();
+    });
 
     watch(page, (newPage) => {
       setPage(newPage);
@@ -98,6 +107,7 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
+      tag,
       reloadTasks: refetch,
       pagination: {
         page,
@@ -126,6 +136,10 @@ export default defineComponent({
       },
       onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
+        refetch();
+      },
+      onTagChange: (newTag?: string) => {
+        setTag(newTag || "");
         refetch();
       },
     };

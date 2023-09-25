@@ -11,6 +11,8 @@ interface PaginationData {
   readonly setPage: (page: number) => void;
   readonly setSize: (size: number) => void;
   readonly getSearchQueryOfUrl: () => string | undefined;
+  readonly tag: Ref<string | undefined>;
+  readonly setTag: (tag: string) => void;
 }
 
 export const useGetPaginationData = (): PaginationData => {
@@ -38,16 +40,23 @@ export const useGetPaginationData = (): PaginationData => {
   };
   const getSearchQueryOfUrl = (): string | undefined => {
     const queryFilterValue = router.currentRoute.query?.filter as string | null;
-    if (!!queryFilterValue) {
+    if (queryFilterValue) {
       return queryFilterValue;
     }
-    return !!paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
+    return paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
+  };
+  const getTagOfUrl = (): string | undefined => {
+    const queryTagValue = router.currentRoute.query?.tag as string | null;
+    if (queryTagValue) {
+      return queryTagValue;
+    }
+    return paginationInformationOfPage?.tag ? paginationInformationOfPage?.tag : undefined;
   };
 
   const searchQuery = ref<string | undefined>(getSearchQueryOfUrl());
   const page = ref<number>(getDefaultPage());
   const size = ref<number>(getDefaultSize());
-
+  const tag = ref<string | undefined>(getTagOfUrl());
   const setPage = (newPage: number) => {
     page.value = newPage;
     router.replace({
@@ -81,10 +90,25 @@ export const useGetPaginationData = (): PaginationData => {
     pageKeyToPaginationData.setSearchQuery(pageId.id, searchQuery.value);
   };
 
+  const setTag = (newTag?: string) => {
+    tag.value = newTag;
+    router.replace({
+      query: {
+        ...router.currentRoute.query,
+        tag: newTag
+      }
+    });
+    // jump back to first page, so that user can see the first results again
+    setPage(0);
+    pageKeyToPaginationData.setTag(pageId.id, tag.value);
+  };
+
   // load pagination from session after page switch
   if (paginationInformationOfPage) {
     setSearchQuery(paginationInformationOfPage.searchQuery);
+    setTag(paginationInformationOfPage.tag);
     setSize(paginationInformationOfPage.size);
+    // set page must be the last mutation because the upper ones has impact of the page
     setPage(paginationInformationOfPage.page);
   }
 
@@ -96,6 +120,7 @@ export const useGetPaginationData = (): PaginationData => {
     setSize,
     setSearchQuery,
     getSearchQueryOfUrl,
+    tag,
+    setTag,
   };
 };
-

@@ -1,0 +1,53 @@
+{
+    "key": "ExampleIntegrationStartForm",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "stepper",
+        "allOf": [
+            {
+                "title": "Section",
+                "description": "",
+                "type": "object",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "some_data": {
+                                "fieldType": "text",
+                                "title": "Some data",
+                                "type": "string",
+                                "key": "some_data",
+                                "default": "This is a test",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        },
+                        "key": "a60f5312-1d2a-498a-af38-8bd17e967c00"
+                    }
+                ],
+                "key": "f2ef649a-033b-4a84-9ec9-857b1ac669eb"
+            }
+        ]
+    }
+}

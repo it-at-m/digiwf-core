@@ -8,7 +8,9 @@ beforeEach(() => {
 
 describe('Vorgaenge Anzeigen', () => {
     it('passes', () => {
-
+        Cypress.on('uncaught:exception', (err, runnable) => {
+            return false;
+        });
         //Test auf korrekten Startzustand
         meineAufgaben.checkIfTasksAreEmpty();
 

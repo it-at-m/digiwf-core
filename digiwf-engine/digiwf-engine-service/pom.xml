@@ -7,9 +7,9 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>0.17.17-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -52,18 +52,28 @@
 
         <!-- DigiWF -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-engine-cockpit</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -129,7 +139,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jsonSchema</artifactId>
-            <version>2.14.2</version>
+            <version>2.15.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -162,8 +172,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <!-- Use version 1.4.xx for compatibility reasons with our flyway scripts -->
-            <version>1.4.200</version>
         </dependency>
         <!-- Hibernate Model Gen for type safe criteria -->
         <dependency>
@@ -365,22 +373,25 @@
                     <execution>
                         <id>generate-sources</id>
                         <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
                         <configuration>
                             <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                            <additionalJvmArgs>-Dlogback.configurationFile=${project.basedir}/src/test/resources/logback-codegen.xml</additionalJvmArgs>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/dms.wsdl</wsdl>
+                                    <extraargs>
+                                        <extraarg>-quiet</extraarg>
+                                    </extraargs>
                                     <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
-
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/binding.xml</bindingFile>
                                     </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -407,35 +418,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>camunda-ce</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.1</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>camunda-ee</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.1</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
         <profile>
             <!-- Profile for generating SQL scripts out of Hibernate Entities -->
             <id>generate-sql</id>
@@ -469,7 +451,7 @@
                                     <goal>create</goal>
                                 </goals>
                                 <configuration>
-                                    <dialect>io.muenchendigital.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect</dialect>
+                                    <dialect>de.muenchen.oss.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect</dialect>
                                     <physicalNamingStrategy>org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</physicalNamingStrategy>
                                     <execute>false</execute>
                                     <show>true</show>

@@ -20,7 +20,7 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf.gateway"
+        <logger name="de.muenchen.oss.digiwf.gateway"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
@@ -71,9 +71,8 @@
                             {
                                 "timestamp" : "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
                                 "appName" : "${springAppName}",
-                                "X-B3-TraceId" : "%mdc{X-B3-TraceId}",
-                                "X-B3-SpanId" : "%mdc{X-B3-SpanId}",
-                                "X-Span-Export" : "%mdc{X-Span-Export}",
+                                "TraceId" : "%mdc{traceId}",
+                                "SpanId" : "%mdc{spanId}",
                                 "thread" : "%thread",
                                 "level" : "%level",
                                 "logger": "%logger",

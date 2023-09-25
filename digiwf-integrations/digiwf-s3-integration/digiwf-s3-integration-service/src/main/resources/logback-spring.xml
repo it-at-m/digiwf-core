@@ -7,7 +7,6 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
-
     <springProfile name="local,test">
 
         <!-- Log appender -->
@@ -20,32 +19,42 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="de.muenchen.digiwf"
+        <logger name="de.muenchen.oss.digiwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="de.muenchen.allgemein"
-                level="debug"
+        <logger name="org.apache.kafka.clients.admin"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.producer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.consumer"
+                level="warn"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="org.springframework.cache"
-                level="trace"
+        <logger name="io.muenchendigital.allgemein"
+                level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
         <logger name="org.springframework.web"
-                level="debug"
+                level="info"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
 
-        <logger name="de.muenchen.digiwf.configuration.nfcconverter"
-                level="warn"
+        <logger name="org.springframework.security"
+                level="info"
                 additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
@@ -70,9 +79,8 @@
                             {
                                 "timestamp" : "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
                                 "appName" : "${springAppName}",
-                                "X-B3-TraceId" : "%mdc{X-B3-TraceId}",
-                                "X-B3-SpanId" : "%mdc{X-B3-SpanId}",
-                                "X-Span-Export" : "%mdc{X-Span-Export}",
+                                "TraceId" : "%mdc{traceId}",
+                                "SpanId" : "%mdc{spanId}",
                                 "thread" : "%thread",
                                 "level" : "%level",
                                 "logger": "%logger",

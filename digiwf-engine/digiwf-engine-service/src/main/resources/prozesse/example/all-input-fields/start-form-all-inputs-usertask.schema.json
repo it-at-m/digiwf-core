@@ -43,7 +43,7 @@
                 },
                 "x-rules": []
               },
-              "FORMFIELD_User": {
+              "FormField_User": {
                 "fieldType": "user-input",
                 "title": "User",
                 "x-display": "custom-user-input",

@@ -3,6 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   viewportHeight: 1200,
   viewportWidth: 2000,
+  //pageLoadTimeout: 300000,
   videosFolder: "output/videos",
   reporter: "cypress-multi-reporters",
   reporterOptions: {
@@ -16,14 +17,16 @@ module.exports = defineConfig({
     }
   },
   env: {
-    username: "user",
-    password: "pw",
-    home: "localhost:8082"
+    username: "johndoe",
+    fullUsername: "John Doe",
+    password: "test",
+    home: "localhost:8083/",
+    groupName1: "group1"
   },
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
   },
-  chromeWebSecurity:true
+  chromeWebSecurity:false
 });

@@ -80,12 +80,24 @@ die Aufgaben von den Engines in zentrale Task Management transportiert werden. D
 eingesammelt, mit den Metadaten eingereichert und an das Kafka Topic `dwf-taskmanagement-tasks-<STAGE>` versandt. Dabei werden
 `polyflow-connector` und `polyflow-core` Komponenten auf der Engine-Seite deployed. 
 
+Besonders zu beachten ist hier, dass durch die Nutzung von Axon die Kommunikation der Task-Events anders als die restliche Plattform
+funktioniert. Alle [Events](https://docs.axoniq.io/reference-guide/axon-framework/events) zu den Tasks werden zunächst in der 
+Datenbank in der Tabelle `domain_event_entry` abgelegt. Von dort aus greift ein [Kafka-Consumer](https://docs.axoniq.io/reference-guide/extensions/kafka)
+die Events ab und schickt sie über Kafka an das Task Management. Damit der Stand des Kafka-Consumers in der Tabelle nicht verloren geht,
+wird in der `token_entry` Tabelle der [Status gespeichert](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#token-store).
+Sollte es mehrere Instanzen des Connectors geben, kann nur eine von denen den Token führen, 
+sodass eine [Mehrfachverarbeitung](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#tracking-tokens) verhindert wird.
+
 ## Task Management
 
 Das Task Management sammelt die Aufgaben, die über den Kafka Topic `dwf-taskmanagement-tasks-<STAGE>` ankommen und stellt diese 
 über eine REST Schnittstelle der Task Liste bereit. Dabei werden die Taskformulare und die Taskdaten an die Task Liste übermittelt. 
 Wenn der Task abgeschlossen wird, übernimmt das Task Management die Validierung der Daten und schickt diese im Erfolgsfall via
 REST an die Prozess Engine.
+
+Bei der Verarbeitung der Aufgaben über Kafka ist zu beachten, 
+dass [Axon keine Consumer-Groups nutzt](https://docs.axoniq.io/reference-guide/extensions/kafka#consuming-events-with-a-streamable-message-source).
+Der Stand innerhalb des Event-Streams wird mit einem Token in der Datenbank verfolgt und damit über mehrere Instanzen synchronisiert.  
 
 ## Anbindung Security
 

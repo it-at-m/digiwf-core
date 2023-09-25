@@ -11,3 +11,7 @@ jobs:
         uses: tinkurlab/monorepo-pr-labeler-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: TimonVS/pr-labeler-action@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/pr-labeler.yml

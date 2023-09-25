@@ -1,0 +1,10 @@
+server:
+  port: 8091
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-message-example-incident"
+        bpmnErrorDestination: "dwf-message-example-bpmn-error"
+        correlateMessageDestination: "dwf-message-example-correlate-message"
+        startProcessDestination: "dwf-message-example-start-process"

@@ -7,9 +7,11 @@
       :show-assignee="true"
       :is-loading="isLoading"
       :errorMessage="errorMessage"
+      :tag="tag"
       :filter="filter"
       @loadTasks="reloadTasks"
       @changeFilter="onFilterChange"
+      @changeTag="onTagChange"
     >
       <template #default="props">
         <group-task-item
@@ -18,6 +20,7 @@
           :show-assignee="true"
           :search-string="props.item.searchInput"
           @edit="reassignTask(props.item.id)"
+          @clickTag="onTagChange(props.item.tag)"
         />
         <hr class="hrDivider">
       </template>
@@ -43,36 +46,38 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, watch} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
-import {useAssignedGroupTasksQuery, useAssignTaskMutation} from "../middleware/tasks/taskMiddleware";
+import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery} = useGetPaginationData();
-    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery);
-    const assignMutation = useAssignTaskMutation();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
+    const {currentSortDirection} = usePageFilters();
+    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
 
+    const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
-      assignMutation.mutateAsync(id).then(() => router.push({path: '/task/' + id}))
-    }
-
-    const reloadTasks = (): void => {
-      refetch()
+      assignToCurrentUserMutation.mutateAsync(id)
+        .then(() => router.push({path: '/task/' + id}));
     };
+    watch(currentSortDirection, () => {
+      refetch();
+    });
 
     watch(page, (newPage) => {
       setPage(newPage);
-      reloadTasks();
-    })
+      refetch();
+    });
     watch(size, (newSize) => {
-      setSize(newSize)
-      reloadTasks();
-    })
+      setSize(newSize);
+      refetch();
+    });
 
     return {
       pageId,
@@ -81,7 +86,8 @@ export default defineComponent({
       errorMessage: error,
       data,
       filter: searchQuery,
-      reloadTasks,
+      tag,
+      reloadTasks: refetch,
       pagination: {
         page,
         size,
@@ -92,8 +98,8 @@ export default defineComponent({
           if (page.value === 0) {
             return;
           }
-          setPage(page.value - 1)
-          refetch()
+          setPage(page.value - 1);
+          refetch();
         },
         nextPage: () => {
           const totalPages = data.value?.totalPages;
@@ -107,11 +113,15 @@ export default defineComponent({
         isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
         updateItemsPerPage: setSize
       },
-      onFilterChange: (newFilter: string | undefined) => {
+      onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
-        reloadTasks();
+        refetch();
       },
-    }
+      onTagChange: (newTag?: string) => {
+        setTag(newTag || "");
+        refetch();
+      },
+    };
   }
 });
 

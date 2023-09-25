@@ -1,6 +1,3 @@
-import {ActionContext} from "vuex";
-import {RootState} from "../index";
-
 export interface MenuState {
   open: boolean;
 }
@@ -20,9 +17,4 @@ export default {
       state.open = open;
     }
   },
-  actions: {
-    async setOpen(context: ActionContext<MenuState, RootState>, open: boolean): Promise<void> {
-      context.commit('setOpen', open);
-    }
-  }
 };
