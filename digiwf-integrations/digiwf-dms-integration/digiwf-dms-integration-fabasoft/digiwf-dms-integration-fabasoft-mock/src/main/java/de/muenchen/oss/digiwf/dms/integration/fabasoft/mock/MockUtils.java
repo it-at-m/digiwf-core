@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 
@@ -84,6 +85,13 @@ public class MockUtils {
 
     public static <T> void stubOperation(String operation, Class<T> clazz, Predicate<T> predicate, Object response) {
         stubFor(requestMatching(new SoapObjectMatcher<>(clazz, operation, predicate))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/xml")
+                        .withBody(serializeObject(response))));
+    }
+
+    public static <T> void stubOperation(WireMockServer server, String operation, Class<T> clazz, Predicate<T> predicate, Object response) {
+        server.stubFor(requestMatching(new SoapObjectMatcher<>(clazz, operation, predicate))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "text/xml")
                         .withBody(serializeObject(response))));

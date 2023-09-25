@@ -6,7 +6,6 @@
     <artifactId>digiwf-dms-integration-fabasoft</artifactId>
     <packaging>pom</packaging>
 
-
     <parent>
         <artifactId>digiwf-dms-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
@@ -39,6 +38,7 @@
     <modules>
         <module>digiwf-dms-integration-fabasoft-api</module>
         <module>digiwf-dms-integration-fabasoft-mock</module>
+        <module>digiwf-dms-integration-fabasoft-mock-service</module>
     </modules>
 
 </project>
