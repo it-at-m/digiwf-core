@@ -8,7 +8,6 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSD;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
 
 /**
  * Configuration of the Webservice Client.
@@ -22,8 +21,6 @@ public class FabasoftClienFactory {
         final LHMBAI151700GIWSD service = new LHMBAI151700GIWSD();
         final LHMBAI151700GIWSDSoap soapClient = service.getLHMBAI151700GIWSDSoap();
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, address);
-        final SOAPBinding binding = (SOAPBinding) ((BindingProvider) soapClient).getBinding();
-        //   binding.setMTOMEnabled(true);
         return soapClient;
     }
 

@@ -3,12 +3,10 @@ package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
@@ -16,13 +14,11 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.function.Predicate;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class MockUtils {
 
@@ -86,30 +82,10 @@ public class MockUtils {
         return jb.getValue();
     }
 
-    private XPath getXPathFactory() {
-
-        Map<String, String> namespaceUris = new HashMap<>();
-        namespaceUris.put("xml", XMLConstants.XML_NS_URI);
-        namespaceUris.put("soap", "http://schemas.xmlsoap.org/soap/envelope/");
-        // Add additional namespaces to this map
-
-        XPath xpath = XPathFactory.newInstance().newXPath();
-
-        xpath.setNamespaceContext(new NamespaceContext() {
-            public String getNamespaceURI(String prefix) {
-                return namespaceUris.getOrDefault(prefix, XMLConstants.NULL_NS_URI);
-            }
-
-            public String getPrefix(String uri) {
-                throw new UnsupportedOperationException();
-            }
-
-            public Iterator getPrefixes(String uri) {
-                throw new UnsupportedOperationException();
-            }
-        });
-
-        return xpath;
+    public static <T> void stubOperation(String operation, Class<T> clazz, Predicate<T> predicate, Object response) {
+        stubFor(requestMatching(new SoapObjectMatcher<>(clazz, operation, predicate))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/xml")
+                        .withBody(serializeObject(response))));
     }
-
 }
