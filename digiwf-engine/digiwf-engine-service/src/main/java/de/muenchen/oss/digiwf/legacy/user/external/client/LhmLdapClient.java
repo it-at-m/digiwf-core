@@ -13,6 +13,7 @@ import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
@@ -263,12 +264,20 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
                 .filter(createOuNameFilter);
         log.debug("Searching for ou='{} & objectClass='{}' in subtree '{}' ...", ouLongName, LHM_ORGANIZATIONAL_UNIT, basePath);
 
-        final List<String> ouShortCodes = super.search(query, (AttributesMapper<String>) attrs -> {
-            if (null != attrs.get(LHM_OU_SHORTNAME)) {
-                return (String) attrs.get(LHM_OU_SHORTNAME).get();
-            }
-            return null;
-        });
+        final List<String> ouShortCodes = new ArrayList<>();
+        try {
+            ouShortCodes.addAll(super.search(query, (AttributesMapper<String>) attrs -> {
+                if (null != attrs.get(LHM_OU_SHORTNAME)) {
+                    return (String) attrs.get(LHM_OU_SHORTNAME).get();
+                }
+                return null;
+            }));
+        } catch (final NameNotFoundException ex) {
+            // Exception is caused by inconsistent ldap naming
+            // Note: This catch will prevent the application from failing, but the returned ou tree is missing entries
+            log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, basePath, ex.getClass().getName());
+        }
+
         // clean ouShortCodes from null values
         List<String> cleanedOuShortCodes = ouShortCodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
         log.debug("Resolved ou shortcodes for ouLongName='{}': {}", ouLongName, cleanedOuShortCodes);
