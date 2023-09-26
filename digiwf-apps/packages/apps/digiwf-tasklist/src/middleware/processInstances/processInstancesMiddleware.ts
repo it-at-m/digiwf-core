@@ -29,6 +29,7 @@ export const useGetProcessInstances = (page: Ref<number>, size: Ref<number>, que
           const content = data.content?.map<ProcessInstance>(it => ({
             id: it.id || "", // FIXME: look if key could be really undefined
             definitionName: it.definitionName || "Unbekannt",
+            description: it.description,
             startTime: it.startTime ? DateTime.fromISO(it.startTime).toLocaleString(DateTime.DATETIME_SHORT) : "-",
             endTime: it.endTime,
           })) ?? [];

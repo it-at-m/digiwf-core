@@ -8,22 +8,23 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
+
+@ConfigurationProperties(prefix = "io.muenchendigital.digiwf.alw.personeninfo")
 @Data
-@ConfigurationProperties(prefix = "digiwf.alw.personeninfo")
 public class AlwPersoneninfoProperties {
 
-    private String baseurl;
-    private Integer port;
-    private String restEndpoint;
-    private Integer timeout;
-    private String username;
-    private String password;
-    @NestedConfigurationProperty
-    private FunctionalPingConfig functionalPing;
+  private String baseurl;
+  private Integer port;
+  private String restEndpoint;
+  private Integer timeout;
+  private String username;
+  private String password;
+  @NestedConfigurationProperty
+  private FunctionalPingConfig functionalPing = new FunctionalPingConfig();
 
-    @Data
-    public static class FunctionalPingConfig {
-        private boolean enabled;
-        private String azrNumber;
-    }
+  @Data
+  public static class FunctionalPingConfig {
+    private boolean enabled = false;
+    private String azrNumber = null;
+  }
 }

@@ -20,7 +20,7 @@ module.exports = defineConfig({
     username: "johndoe",
     fullUsername: "John Doe",
     password: "test",
-    home: "localhost:8082/",
+    home: "localhost:8083/",
     groupName1: "group1"
   },
   e2e: {

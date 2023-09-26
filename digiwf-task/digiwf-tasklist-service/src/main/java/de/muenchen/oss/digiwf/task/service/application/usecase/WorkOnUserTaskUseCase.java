@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.engine.LegacyFor
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.LegacyPayloadTaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.*;
+import de.muenchen.oss.digiwf.task.service.application.port.out.tag.TaskTagResolverPort;
 import io.holunda.polyflow.view.Task;
 import de.muenchen.oss.digiwf.json.validation.DigiWFValidationException;
 import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnUserTask;
@@ -36,6 +37,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
     private final JsonSchemaValidationPort jsonSchemaValidationPort;
     private final CancellationFlagOutPort cancellationFlagOutPort;
     private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
+    private final TaskTagResolverPort taskTagResolverPort;
 
     @Override
     public JsonSchema loadSchema(String schemaId) throws JsonSchemaNotFoundException {
@@ -49,6 +51,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         val cancelable = cancellationFlagOutPort.apply(task);
         val schemaRef = taskSchemaRefResolverPort.apply(task);
         val type = taskSchemaTypeResolverPort.apply(task);
+        String tag = taskTagResolverPort.apply(task).orElse(null);
 
         switch (type) {
             case VUETIFY_FORM_BASE:
@@ -62,7 +65,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
                 break;
         }
 
-        return new TaskWithSchemaRef(task, schemaRef, cancelable, type);
+        return new TaskWithSchemaRef(task, schemaRef, cancelable, type, tag);
     }
 
     @Override
@@ -72,16 +75,17 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         val cancelable = cancellationFlagOutPort.apply(task);
         val schemaRef = taskSchemaRefResolverPort.apply(task);
         val type = taskSchemaTypeResolverPort.apply(task);
+        val tag = taskTagResolverPort.apply(task).orElse(null);
         switch (type) {
             case VUETIFY_FORM_BASE:
                 val form = legacyPayloadTasCommandPort.loadFormById(schemaRef);
                 this.filterLegacyFormBased(task, form);
-                return new TaskWithSchema(task, cancelable, type, null, form);
+                return new TaskWithSchema(task, cancelable, type, null, form, tag);
             case SCHEMA_BASED:
             default:
                 val schema = jsonSchemaPort.getSchemaById(schemaRef);
                 filterSchemaBased(task, schema);
-                return new TaskWithSchema(task, cancelable, type, schema, null);
+                return new TaskWithSchema(task, cancelable, type, schema, null, tag);
         }
     }
 

@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.infrastruc
 
 import de.muenchen.oss.digiwf.connector.api.bpmnerror.BpmnErrorEvent;
 import de.muenchen.oss.digiwf.connector.api.message.CorrelateMessageEvent;
-import de.muenchen.oss.digiwf.process.api.StartProcessEvent;
+import de.muenchen.oss.digiwf.process.api.start.StartProcessEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;

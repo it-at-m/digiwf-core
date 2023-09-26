@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 
 import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.DEFAULT_SECURITY_ORDER;
+import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
 
 /**
  * Configuration making sure that webapps can be accessed only is the user has a specific role.
@@ -19,6 +21,7 @@ import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.DEFAU
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
+@Profile(SECURITY)
 public class CamundaWebAppsSecurityConfiguration {
   private static final String[] CAMUNDA_APP_PATHS = {
       "/camunda/app/**",

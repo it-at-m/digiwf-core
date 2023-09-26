@@ -6,6 +6,7 @@ export interface HumanTask {
   readonly processName?: string;
   readonly name: string
   readonly description?: string;
+  readonly tag?: string;
   readonly assigneeId?: string;
   readonly assigneeFormatted?: string;
   readonly inFinishProcess: boolean;

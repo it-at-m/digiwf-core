@@ -9,7 +9,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jsonSchema</artifactId>
-            <version>2.14.2</version>
+            <version>2.15.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -418,35 +418,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>camunda-ce</id>
-            <activation>
-                <property>
-                    <name>!camunda-ee</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>camunda-ee</id>
-            <activation>
-                <property>
-                    <name>camunda-ee</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
         <profile>
             <!-- Profile for generating SQL scripts out of Hibernate Entities -->
             <id>generate-sql</id>

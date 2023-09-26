@@ -2,4 +2,22 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="/" level="INFO"/>
+
+    <logger name="org.apache.kafka"
+            level="warn"
+            additivity="false">
+    </logger>
+    <logger name="org.apache.zookeeper"
+            level="warn"
+            additivity="false">
+    </logger>
+    <logger name="state.change.logger"
+            level="warn"
+            additivity="false">
+    </logger>
+    <logger name="kafka"
+            level="warn"
+            additivity="false">
+    </logger>
+
 </configuration>

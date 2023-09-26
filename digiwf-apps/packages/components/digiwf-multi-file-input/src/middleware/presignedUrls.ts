@@ -1,16 +1,10 @@
 import {
   Configuration,
-  FetchUtils,
   ServiceInstanceFileRestControllerApiFactory,
   ServiceStartFileRestControllerApiFactory
 } from "@muenchen/digiwf-engine-api-internal";
-import {Ref} from "vue";
-import {
-  getFileNamesFromEngine,
-  getPresignedUrlForFileDeletionFromEngine,
-  getPresignedUrlForFileDownloadFromEngine,
-  getPresignedUrlForFileUploadFromEngine
-} from "@/apiClient/engineCalls";
+import { FetchUtils } from "@muenchen/digiwf-task-api-internal";
+import { Ref } from "vue";
 import {
   getFileNamesFromTaskservice,
   getPresignedUrlForFileDeletionFromTaskservice,
@@ -22,33 +16,26 @@ interface EngineInteractionConfig {
   readonly formContext: any;
   readonly apiEndpoint: string;
   readonly filePath: Ref<string>
-  readonly shouldUseTaskService: boolean;
   readonly taskServiceApiEndpoint: string;
 }
 
 export const getPresignedUrlForPost = async (file: File, config: EngineInteractionConfig): Promise<string> => {
-  const {filePath, formContext, shouldUseTaskService, apiEndpoint, taskServiceApiEndpoint} = config;
+  const {filePath, formContext, apiEndpoint, taskServiceApiEndpoint} = config;
   const engineAxiosConfig = axiosConfig(apiEndpoint);
   const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
 
   let res: any;
   if (formContext!.type === "start") {
-    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload1(
+    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload(
       formContext!.id,
       file!.name,
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    if (shouldUseTaskService) {
-      res = await getPresignedUrlForFileUploadFromTaskservice(taskServiceAxiosConfig, formContext!.id, file!.name, filePath.value)
-      // res.data does not exist
-      return res;
-    } else {
-      res = await getPresignedUrlForFileUploadFromEngine(engineAxiosConfig, formContext!.id, file!.name, filePath.value)
-    }
+    return await getPresignedUrlForFileUploadFromTaskservice(taskServiceAxiosConfig, formContext!.id, file!.name, filePath.value)
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileUpload1(
       formContext!.id,
       file!.name,
       filePath.value
@@ -59,7 +46,7 @@ export const getPresignedUrlForPost = async (file: File, config: EngineInteracti
 }
 
 export const getPresignedUrlForGet = async (filename: string, config: EngineInteractionConfig): Promise<string> => {
-  const {apiEndpoint, taskServiceApiEndpoint, filePath, formContext, shouldUseTaskService} = config;
+  const {apiEndpoint, taskServiceApiEndpoint, filePath, formContext} = config;
   const engineAxiosConfig = axiosConfig(apiEndpoint);
   const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
 
@@ -67,32 +54,24 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
   if (formContext!.type === "start") {
     res = await ServiceStartFileRestControllerApiFactory(
       engineAxiosConfig
-    ).getPresignedUrlForFileDownload1(
+    ).getPresignedUrlForFileDownload(
       formContext!.id,
       filename,
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    if (shouldUseTaskService) {
-      res = await getPresignedUrlForFileDownloadFromTaskservice(
-        taskServiceAxiosConfig,
-        formContext!.id,
-        filename,
-        filePath.value
-      );
-      // res.data does not exist
-      return res;
-    } else {
-      res = await getPresignedUrlForFileDownloadFromEngine(
-        engineAxiosConfig,
-        formContext!.id,
-        filename,
-        filePath.value
-      );
-    }
+
+    res = await getPresignedUrlForFileDownloadFromTaskservice(
+      taskServiceAxiosConfig,
+      formContext!.id,
+      filename,
+      filePath.value
+    );
+    // res.data does not exist
+    return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileDownload2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getPresignedUrlForFileDownload1(
       formContext!.id,
       filename,
       filePath.value
@@ -103,7 +82,7 @@ export const getPresignedUrlForGet = async (filename: string, config: EngineInte
 }
 
 export const getPresignedUrlForDelete = async (filename: string, config: EngineInteractionConfig): Promise<string> => {
-  const {apiEndpoint, filePath, formContext, shouldUseTaskService, taskServiceApiEndpoint} = config;
+  const {apiEndpoint, filePath, formContext, taskServiceApiEndpoint} = config;
   const engineDeleteAxiosConfig = FetchUtils.getAxiosConfig(FetchUtils.getDELETEConfig());
   engineDeleteAxiosConfig.basePath = apiEndpoint;
 
@@ -113,32 +92,24 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
   if (formContext!.type === "start") {
     res = await ServiceStartFileRestControllerApiFactory(
       engineDeleteAxiosConfig
-    ).getPresignedUrlForFileDeletion1(
+    ).getPresignedUrlForFileDeletion(
       formContext!.id,
       filename,
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    if (shouldUseTaskService) {
-      res = await getPresignedUrlForFileDeletionFromTaskservice(
-        taskServiceAxiosConfig,
-        formContext!.id,
-        filename,
-        filePath.value
-      );
-      // res.data does not exist
-      return res;
-    } else {
-      res = await getPresignedUrlForFileDeletionFromEngine(
-        engineDeleteAxiosConfig,
-        formContext!.id,
-        filename,
-        filePath.value
-      );
-    }
+
+    res = await getPresignedUrlForFileDeletionFromTaskservice(
+      taskServiceAxiosConfig,
+      formContext!.id,
+      filename,
+      filePath.value
+    );
+    // res.data does not exist
+    return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineDeleteAxiosConfig).getPresignedUrlForFileDeletion2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineDeleteAxiosConfig).getPresignedUrlForFileDeletion1(
       formContext!.id,
       filename,
       filePath.value
@@ -149,36 +120,30 @@ export const getPresignedUrlForDelete = async (filename: string, config: EngineI
 }
 
 export const getFilenames = async (config: EngineInteractionConfig): Promise<string[]> => {
-  const {apiEndpoint, filePath, formContext, shouldUseTaskService, taskServiceApiEndpoint} = config;
+  const {apiEndpoint, filePath, formContext, taskServiceApiEndpoint} = config;
   const engineAxiosConfig = axiosConfig(apiEndpoint);
+  console.log("called");
 
   const taskServiceAxiosConfig = axiosConfig(taskServiceApiEndpoint);
 
   let res: any;
   if (formContext!.type === "start") {
-    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getFileNames1(
+    res = await ServiceStartFileRestControllerApiFactory(engineAxiosConfig).getFileNames(
       formContext!.id,
       filePath.value
     );
   } else if (formContext!.type == "task") {
-    if (shouldUseTaskService) {
-      res = await getFileNamesFromTaskservice(
-        taskServiceAxiosConfig,
-        formContext!.id,
-        filePath.value
-      );
-      // res.data does not exist
-      return res;
-    } else {
-      res = await getFileNamesFromEngine(
-        engineAxiosConfig,
-        formContext!.id,
-        filePath.value
-      );
-    }
+
+    res = await getFileNamesFromTaskservice(
+      taskServiceAxiosConfig,
+      formContext!.id,
+      filePath.value
+    );
+    // res.data does not exist
+    return res;
   } else {
     //type "instance"
-    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getFileNames2(
+    res = await ServiceInstanceFileRestControllerApiFactory(engineAxiosConfig).getFileNames1(
       formContext!.id,
       filePath.value
     );
