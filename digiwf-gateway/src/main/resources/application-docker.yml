@@ -23,6 +23,11 @@ spring:
             - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
+        - id: backend-cockpit
+          uri: http://host.docker.internal:${ENGINE_SERVER_PORT}
+          predicates:
+            - Path=/camunda/**
+
         - id: frontend-dockerized
           uri: http://digiwf-tasklist:8080/
           predicates:

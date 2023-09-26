@@ -1,0 +1,18 @@
+server:
+  port: 8098
+
+digiwf:
+  security:
+    # disbale security for /test/**
+    permitted-urls:
+      - /test/**
+    # client-id and client-secret are required for feign client authentication
+    client-id: ${SSO_TASK_CLIENT_ID}
+    client-secret: ${SSO_TASK_CLIENT_SECRET}
+
+feign:
+  client:
+    config:
+      digiwf-process-config:
+        url: ${ENGINE_REST_ENDPOINT_URL}
+        name: digiwf-process-config

@@ -10,11 +10,11 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-s3-integration</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <logstash.encoder>6.6</logstash.encoder>
+        <logstash.encoder>7.4</logstash.encoder>
         <apache.commons.csv>1.8</apache.commons.csv>
         <apache.commons.io>2.13.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
@@ -178,6 +178,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
@@ -193,17 +198,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

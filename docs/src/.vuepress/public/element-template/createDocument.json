@@ -1,0 +1,166 @@
+{
+  "name": "Create Dokument",
+  "id": "de.muenchen.digitalwf.templates.create-document",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "createDocument",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": " Vorgang (COO)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "procedureCoo",
+        "target": "procedureCoo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Title",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "title",
+        "target": "title"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "User",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "user",
+        "target": "user"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Typ (Ein-/Ausgehend/Intern)",
+      "type": "Dropdown",
+      "value": "EINGEHEND",
+      "choices": [
+        { "name": "Eingehend", "value": "EINGEHEND" },
+        { "name": "Ausgehend", "value": "AUSGEHEND" },
+        { "name": "Intern", "value": "INTERN" }
+      ],
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "type",
+        "target": "type"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Pfad(e) im S3",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "filepaths",
+        "target": "filepaths"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Document (Coo)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "documentCOO"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ]
+}

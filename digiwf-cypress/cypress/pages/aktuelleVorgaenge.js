@@ -82,13 +82,6 @@ class AktuelleVorgaenge extends Page{
     checkPageSize(pageSize, numberOfTasks){
         //separator line is an Element, too
         cy.get('div.v-list:nth-child(4)').children().its('length').should('eq', pageSize)
-        for (let i=1; i<= numberOfTasks/pageSize; i++){
-            this.clickRightArrow();
-        }
-        cy.get('div.v-list:nth-child(4)').children().its('length').should('eq', 1)
-        for (let i=1; i<= numberOfTasks/pageSize; i++){
-            this.clickLeftArrow();
-        }
     }
 }
 

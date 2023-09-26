@@ -44,6 +44,9 @@ class VorgangStarten extends Page{
         return this.elements.listElement(num)
     }
 
+    getSearchField(){
+        return this.elements.searchBox()
+    }
     findProcess(text){
         this.elements.searchBox().type(text)
     }

@@ -49,8 +49,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"itest", "embedded-kafka"})
 @AutoConfigureMockMvc(addFilters = false)
 @EmbeddedKafka(
-        partitions = 1,
-        topics = {"plf_data_entries", "plf_tasks"}
+    partitions = 1,
+    topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
 )
 @Slf4j
 @WireMockTest(httpPort = 7080)

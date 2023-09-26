@@ -67,6 +67,7 @@ spring:
             trusted:
               packages: '*'
 
+
 io:
   muenchendigital:
     digiwf:
@@ -113,4 +114,7 @@ management:
     health.enabled: true
     info.enabled: true
     prometheus.enabled: true
-
+digiwf:
+  security:
+    client-id: ${SSO_S3_CLIENT_ID}
+    client-secret: ${SSO_S3_CLIENT_SECRET}

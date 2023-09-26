@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.process.service;
 
+import de.muenchen.oss.digiwf.process.api.start.StartProcessEvent;
 import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.StreamingHeaders;
-import de.muenchen.oss.digiwf.process.api.StartProcessEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;

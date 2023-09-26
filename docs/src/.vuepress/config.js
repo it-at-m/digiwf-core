@@ -125,6 +125,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
+                                'libs/digiwf-spring-security/',
                             ]
                         },
                         {
@@ -254,7 +255,8 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-verification-integration',
-                                'digiwf-formserver-integration'
+                                'digiwf-formserver-integration',
+                                'digiwf-dms-integration'
                             ]
                         },
                         {
