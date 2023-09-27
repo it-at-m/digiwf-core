@@ -1,5 +1,5 @@
 {
-    "key": "formserver_example_form",
+    "key": "formserver_example_parkausweis_form",
     "schema": {
         "type": "object",
         "x-display": "tabs",
@@ -488,7 +488,7 @@
                                                 },
                                                 "key": "zulassungsbescheinigung_i_fahrzeugschein",
                                                 "uuidEnabled": false,
-                                                "filePath": "/zulassungsbescheinigung_i_fahrzeugschein/assistants.983259487DF9C6CD2E8C6FE4F2032E82CC0B0657,/zulassungsbescheinigung_i_fahrzeugschein/assistants.983259487DF9C6CD2E8C6FE4F2032E82CC0B0658",
+                                                "filePath": "zulassungsbescheinigung_i_fahrzeugschein/assistants",
                                                 "x-options": {
                                                     "fieldColProps": {
                                                         "cols": 12,
