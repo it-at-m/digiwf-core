@@ -135,7 +135,7 @@ jobs:
           tags: itatm/digiwf-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-dms-integration-service:dev
 
       - name: Build and push ok evo integration
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
           push: true
