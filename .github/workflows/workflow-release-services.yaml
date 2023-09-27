@@ -139,7 +139,7 @@ jobs:
         with:
           context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
           push: true
-          tags: itatm/digiwf-okewo-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-okewo-integration-service:dev
+          tags: itatm/digiwf-okewo-integration-service:${{ inputs.release-version }},itatm/digiwf-okewo-integration-service:dev
 
 
   release-services-camunda-ee:
