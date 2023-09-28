@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Wirkung mit Datum, Status und Vorgang")
 
+
 public class Wirkung {
   /**
    * Gets or Sets vorgang

@@ -10,14 +10,8 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-address-service-integration</artifactId>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <springdoc.openapi.version>1.6.2</springdoc.openapi.version>
-        <apache.commons.version>4.4</apache.commons.version>
-        <hamcrest.version>1.3</hamcrest.version>
-    </properties>
 
     <dependencies>
         <!-- Spring -->
@@ -36,9 +30,9 @@
 
         <!-- Cloud Stream -->
         <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-            <version>${digiwf.spring.cloudstream.utils.version}</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -60,7 +54,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash.encoder}</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -120,7 +113,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -132,12 +124,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

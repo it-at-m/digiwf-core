@@ -27,6 +27,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Externe Adresse aus Strasse, Hausnummer, Buchstabe usw.")
 
+
 public class BundesweiteAdresse {
   @JsonProperty("buchstabe")
   private String buchstabe = null;

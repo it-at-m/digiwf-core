@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "ExterneAdresseResponseItem mit Score-Wert und Adress-Objekt")
 
+
 public class BundesweiteAdresseResponseItem {
   @JsonProperty("score")
   private Float score = null;

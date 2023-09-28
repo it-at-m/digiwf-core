@@ -27,6 +27,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Geozuordnungen einer Adresse")
 
+
 public class MuenchenAdresseGeozuordnungen {
   @JsonProperty("baublock")
   private String baublock = null;

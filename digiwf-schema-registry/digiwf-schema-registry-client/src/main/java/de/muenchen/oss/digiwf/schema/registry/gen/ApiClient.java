@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.function.Supplier;
 
 import de.muenchen.oss.digiwf.schema.registry.gen.auth.Authentication;
 

@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.address.service.integration.gen.auth;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
+
 public class OAuth implements Authentication {
     private String accessToken;
 

@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "StrasseResponseItem mit Score-Wert und Strasse-Objekt")
 
+
 public class StrasseResponseItem {
   @JsonProperty("score")
   private Float score = null;

@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+
 @Component("de.muenchen.oss.digiwf.address.service.integration.gen.api.StraenMnchenApi")
 public class StraenMnchenApi {
     private ApiClient apiClient;

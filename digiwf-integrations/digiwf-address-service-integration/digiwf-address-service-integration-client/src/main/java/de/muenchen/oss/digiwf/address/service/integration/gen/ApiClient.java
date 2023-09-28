@@ -50,6 +50,7 @@ import de.muenchen.oss.digiwf.address.service.integration.gen.auth.HttpBasicAuth
 import de.muenchen.oss.digiwf.address.service.integration.gen.auth.ApiKeyAuth;
 import de.muenchen.oss.digiwf.address.service.integration.gen.auth.OAuth;
 
+
 @Component("de.muenchen.oss.digiwf.address.service.integration.gen.ApiClient")
 public class ApiClient {
     public enum CollectionFormat {

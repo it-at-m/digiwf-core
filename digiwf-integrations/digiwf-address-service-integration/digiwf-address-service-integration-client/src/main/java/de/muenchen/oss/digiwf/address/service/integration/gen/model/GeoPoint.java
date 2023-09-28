@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 
 
+
 public class GeoPoint {
   @JsonProperty("lat")
   private Double lat = null;

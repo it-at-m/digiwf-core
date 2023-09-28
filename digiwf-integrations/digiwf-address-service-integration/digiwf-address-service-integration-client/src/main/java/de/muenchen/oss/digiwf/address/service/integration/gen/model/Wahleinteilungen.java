@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Wahleinteilungen mit Stimm- und Wahlgebieten")
 
+
 public class Wahleinteilungen {
   @JsonProperty("stimmbezirk")
   private Long stimmbezirk = null;
