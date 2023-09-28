@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-configuration.de.muenchen.oss.digiwf.address.service.integration.AddressServiceIntegrationAutoConfiguration
+de.muenchen.oss.digiwf.address.service.integration.configuration.AddressServiceIntegrationAutoConfiguration
