@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Stadtbezirk aus Nummer und Name")
 
+
 public class Stadtbezirk {
   @JsonProperty("nummer")
   private Long nummer = null;

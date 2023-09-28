@@ -28,6 +28,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Liste der Stadtbezirke")
 
+
 public class StrasseVerwaltungszuteilung {
   @JsonProperty("stadtbezirke")
   private List<Stadtbezirk> stadtbezirke = null;

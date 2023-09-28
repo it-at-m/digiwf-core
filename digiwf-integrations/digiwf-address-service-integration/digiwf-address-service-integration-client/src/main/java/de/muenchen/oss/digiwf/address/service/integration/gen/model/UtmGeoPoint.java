@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 
 
+
 public class UtmGeoPoint {
   @JsonProperty("north")
   private Double north = null;

@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Verwaltungszuteilung als Geozuordnungen einer Strasse")
 
+
 public class StrasseGeozuordnungen {
   @JsonProperty("verwaltungszuteilung")
   private StrasseVerwaltungszuteilung verwaltungszuteilung = null;

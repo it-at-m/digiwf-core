@@ -27,6 +27,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Position aus UTM- und WGS-Koordinaten")
 
+
 public class Position {
   @JsonProperty("utm")
   private UtmGeoPoint utm = null;

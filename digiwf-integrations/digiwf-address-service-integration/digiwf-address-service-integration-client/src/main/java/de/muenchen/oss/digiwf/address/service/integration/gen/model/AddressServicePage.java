@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Page-Objekt für Informationen zur Pagination")
 
+
 public class AddressServicePage {
   @JsonProperty("size")
   private Integer size = null;

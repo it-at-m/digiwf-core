@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Verwaltungszuteilung einer Adresse")
 
+
 public class AdresseVerwaltungszuteilung {
   @JsonProperty("gemeinde")
   private String gemeinde = null;

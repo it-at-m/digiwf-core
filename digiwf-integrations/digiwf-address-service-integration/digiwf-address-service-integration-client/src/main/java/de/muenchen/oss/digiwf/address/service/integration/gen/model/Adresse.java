@@ -28,6 +28,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Adresse aus Strasse, Hausnummer, Buchstabe usw.")
 
+
 public class Adresse {
   @JsonProperty("adressId")
   private String adressId = null;

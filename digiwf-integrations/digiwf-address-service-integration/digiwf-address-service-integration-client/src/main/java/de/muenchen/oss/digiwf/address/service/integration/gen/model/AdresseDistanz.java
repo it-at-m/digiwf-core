@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Adresse mit Distanz")
 
+
 public class AdresseDistanz {
   @JsonProperty("adresse")
   private MuenchenAdresse adresse = null;

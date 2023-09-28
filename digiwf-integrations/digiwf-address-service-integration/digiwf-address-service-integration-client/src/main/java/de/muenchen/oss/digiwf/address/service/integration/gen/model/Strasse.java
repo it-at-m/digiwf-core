@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Strasse mit Id und Schreibweise")
 
+
 public class Strasse {
   @JsonProperty("strasseId")
   private Long strasseId = null;

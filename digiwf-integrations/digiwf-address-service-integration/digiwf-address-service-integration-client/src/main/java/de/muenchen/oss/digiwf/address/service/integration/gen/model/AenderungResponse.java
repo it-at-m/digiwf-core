@@ -29,6 +29,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "AenderungResponse mit Page-Informationen und Ergebnisliste")
 
+
 public class AenderungResponse {
   @JsonProperty("page")
   private AddressServicePage page = null;

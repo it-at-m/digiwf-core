@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "AenderungsResponseItem mit Adresse und Vorgängeradresse")
 
+
 public class AenderungsResponseItem {
   @JsonProperty("adresse")
   private MuenchenAdresse adresse = null;

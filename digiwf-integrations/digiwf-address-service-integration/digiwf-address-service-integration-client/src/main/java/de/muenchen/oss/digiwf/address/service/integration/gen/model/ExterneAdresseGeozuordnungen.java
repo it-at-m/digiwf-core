@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Schema(description = "Geozuordnungen einer externen Adresse")
 
+
 public class ExterneAdresseGeozuordnungen {
   @JsonProperty("postleitzahl")
   private String postleitzahl = null;
