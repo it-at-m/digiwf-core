@@ -16,7 +16,7 @@ public interface RetrieveTasksForUser {
    * @param pagingAndSorting information about paging and sorting.
    * @return a page of tasks with schema.
    */
-  PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, PagingAndSorting pagingAndSorting);
+  PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting);
 
   /**
    * Retrieves a list of tasks assigned to someone, but visible via one of current user's groups.
@@ -25,7 +25,7 @@ public interface RetrieveTasksForUser {
    * @param pagingAndSorting information about paging and sorting.
    * @return a page of tasks with schema.
    */
-  PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, PagingAndSorting pagingAndSorting);
+  PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting);
 
   /**
    * Retrieves the list of tasks assigned directly to the current user.
@@ -35,5 +35,5 @@ public interface RetrieveTasksForUser {
    * @param pagingAndSorting information about paging and sorting.
    * @return a page of tasks with schema.
    */
-  PageOfTasksWithSchema getTasksForCurrentUser(String query, LocalDate followUp, PagingAndSorting pagingAndSorting);
+  PageOfTasksWithSchema getTasksForCurrentUser(String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting);
 }

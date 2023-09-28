@@ -17,11 +17,17 @@ spring:
     web:
       enabled: false
 
+server:
+  error:
+    include-exception: true
+    include-stacktrace: always
+    whitelabel:
+      enabled: true
+
 logging:
   level:
     de.muenchen.oss.digiwf.legacy.form.domain.service.FormService: WARN
     de.muenchen.oss.digiwf.shared.configuration: DEBUG
-    org.springframework.boot.web: TRACE
-    org.springframework.security: TRACE
+    org.springframework.boot.web: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
 

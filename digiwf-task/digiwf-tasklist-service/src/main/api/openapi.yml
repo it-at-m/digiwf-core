@@ -255,6 +255,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/FollowUpParam'
       - $ref: '#/components/parameters/SortParam'
     get:
@@ -275,6 +276,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
@@ -294,6 +296,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
@@ -359,7 +362,13 @@ components:
       required: false
       schema:
         type: string
-
+    TagParam:
+      name: tag
+      in: query
+      description: A tag string used during search with the tag string, format is <field><op><value>.
+      required: false
+      schema:
+        type: string
     SortParam:
       name: sort
       in: query
@@ -530,6 +539,9 @@ components:
         name:
           description: Name of the task.
           type: string
+        tag:
+          description: Tag of the task
+          type: string
         description:
           description: Description of the task.
           type: string
@@ -566,6 +578,9 @@ components:
           type: string
         name:
           description: Name of the task.
+          type: string
+        tag:
+          description: Tag of the task
           type: string
         description:
           description: Description of the task.
@@ -616,6 +631,9 @@ components:
           type: string
         name:
           description: Name of the task.
+          type: string
+        tag:
+          description: Tag of the task
           type: string
         description:
           description: Description of the task.

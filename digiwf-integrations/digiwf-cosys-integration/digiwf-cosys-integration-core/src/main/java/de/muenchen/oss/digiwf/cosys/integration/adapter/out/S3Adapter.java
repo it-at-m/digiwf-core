@@ -31,7 +31,7 @@ public class S3Adapter implements SaveFileToStoragePort {
             }
         } catch (final DocumentStorageClientErrorException | DocumentStorageServerErrorException |
                        DocumentStorageException ex) {
-            log.error("Document could not be saved.", ex);
+            log.debug("Document could not be saved.", ex);
             throw new BpmnError("S3_FILE_SAVE_ERROR", ex.getMessage());
         }
     }

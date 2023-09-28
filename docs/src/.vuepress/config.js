@@ -14,6 +14,10 @@ module.exports = {
      * Output directory
      */
     dest: "dist",
+    /**
+     * port to run dev server
+     */
+    port: 8099,
 
     /**
      * Extra tags to be injected to the page HTML `<head>`
@@ -113,7 +117,7 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
-                                'guides/taskservice-integration/',
+                                'guides/feature-toggle-taskservice-integration/',
                             ]
                         },
                         {
@@ -121,6 +125,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
+                                'libs/digiwf-spring-security/',
                             ]
                         },
                         {
@@ -250,7 +255,8 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-verification-integration',
-                                'digiwf-formserver-integration'
+                                'digiwf-formserver-integration',
+                                'digiwf-dms-integration'
                             ]
                         },
                         {

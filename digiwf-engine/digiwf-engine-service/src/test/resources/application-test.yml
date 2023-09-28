@@ -1,13 +1,3 @@
-# overwrite envs
-engine:
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
-    username: sa
-    password:
-    driverclassname: org.h2.Driver
-  database:
-    platform: org.hibernate.dialect.H2Dialect
-
 spring:
   flyway:
     enabled: false
@@ -19,15 +9,16 @@ spring:
     properties:
       hibernate:
         show_sql: false
-
-  # Spring data rest
-  data:
-    rest:
-      # Definition of page size for PagingAndSortingRepository
-      max-page-size: 0x7fffffff
-      default-page-size: 0x7fffffff
-      return-body-on-update: true
-      return-body-on-create: true
+  datasource:
+    url: jdbc:h2:mem:testdb-${random.uuid};DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=key
+    username: sa
+    password:
+    driverclassname: org.h2.Driver
+  database:
+    platform: org.hibernate.dialect.H2Dialect
+  test:
+    database:
+      replace: NONE
 logging:
   level:
     root: info

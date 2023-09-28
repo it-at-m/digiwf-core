@@ -10,11 +10,12 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.jar.skip>true</maven.jar.skip>
     </properties>
 
     <dependencies>
@@ -63,11 +64,6 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-alw-integration-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-alw-integration-example</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -222,7 +218,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

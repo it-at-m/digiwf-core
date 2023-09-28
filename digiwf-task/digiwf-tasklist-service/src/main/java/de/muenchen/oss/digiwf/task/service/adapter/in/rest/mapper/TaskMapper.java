@@ -29,7 +29,8 @@ public interface TaskMapper {
   @Mapping(target = "processName", source = "task.sourceReference.name")
   @Mapping(target = "schemaRef", source = "schemaRef")
   @Mapping(target = "schemaType", source = "schemaType")
-  TaskTO to(Task task, String schemaRef, @NonNull TaskSchemaType schemaType);
+  @Mapping(target = "tag", source = "tag")
+  TaskTO to(Task task, String schemaRef, @NonNull TaskSchemaType schemaType, String tag);
 
   @Mapping(target = "processName", source = "task.sourceReference.name")
   @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
@@ -37,7 +38,8 @@ public interface TaskMapper {
   @Mapping(target = "schemaRef", source = "schemaRef")
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
-  TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable, @NonNull TaskSchemaType schemaType);
+  @Mapping(target = "tag", source = "tag")
+  TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
 
   @Mapping(target = "schemaId", source = "id")
   @Mapping(target = "schemaJson", source = "schema")
@@ -56,7 +58,8 @@ public interface TaskMapper {
   @Mapping(target = "schema", source = "schema")
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
-  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Map<String, Object> schema, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType);
+  @Mapping(target = "tag", source = "tag")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Map<String, Object> schema, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
 
 
   @Mapping(target = "id", source = "task.id")
@@ -71,7 +74,8 @@ public interface TaskMapper {
   @Mapping(target = "schema", source = "form")
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
-  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType);
+  @Mapping(target = "tag", source = "tag")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
 
   default Map<String,Object> map(Form value) {
     val objectMapper = new ObjectMapper();
@@ -96,7 +100,8 @@ public interface TaskMapper {
     var tasks = domain.getTasks().stream().map(taskWithSchema -> this.to(
         taskWithSchema.getTask(),
         taskWithSchema.getSchemaRef(),
-        taskWithSchema.getTaskSchemaType()
+        taskWithSchema.getTaskSchemaType(),
+            taskWithSchema.getTag()
         )).collect(Collectors.toList());
     var empty = domain.getTotalElementsCount() == 0;
     var sortRequested = pagingAndSorting.getSort() != null;

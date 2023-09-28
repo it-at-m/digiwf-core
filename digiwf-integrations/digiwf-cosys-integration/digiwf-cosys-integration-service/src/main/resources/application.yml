@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: @project.artifactId@
+
 io:
   muenchendigital:
     digiwf:

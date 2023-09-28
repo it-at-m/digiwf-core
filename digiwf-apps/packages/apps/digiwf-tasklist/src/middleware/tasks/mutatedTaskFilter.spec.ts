@@ -3,7 +3,7 @@ import {addFinishedTaskIds, FINISHED_TASK_IDS_KEY, getFinishedTaskIds} from "./m
 /*
  source: https://stackoverflow.com/questions/51566816/what-is-the-best-way-to-mock-window-sessionstorage-in-jest
  */
-const localStorageMock = (() => {
+const sessionStorageMock = (() => {
   let store: any = {};
 
   return {
@@ -22,7 +22,7 @@ const localStorageMock = (() => {
   };
 })();
 Object.defineProperty(window, 'sessionStorage', {
-  value: localStorageMock
+  value: sessionStorageMock
 });
 
 
@@ -34,22 +34,22 @@ describe("finishedTaskFilter", () => {
 
   describe("addFinishedTaskIds", () => {
     it("should add id correctly", () => {
-      localStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
+      sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
       addFinishedTaskIds("c");
-      expect(localStorageMock.getItem(FINISHED_TASK_IDS_KEY)).toBe('["a","b","c"]');
+      expect(sessionStorageMock.getItem(FINISHED_TASK_IDS_KEY)).toBe('["a","b","c"]');
     });
   });
 
   describe("getFinishedTaskIds", () => {
     it("should return parsed array from sessionStorage", () => {
-      localStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
+      sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
       expect(getFinishedTaskIds()).toEqual(["a", "b"]);
     });
     it("should return empty array if no value exists in sessionStorage", () => {
       expect(getFinishedTaskIds()).toEqual([]);
     });
     it("should return empty array if json is not parsable", () => {
-      localStorageMock.setItem(FINISHED_TASK_IDS_KEY, 'no-json');
+      sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, 'no-json');
       expect(getFinishedTaskIds()).toEqual([]);
     });
   });

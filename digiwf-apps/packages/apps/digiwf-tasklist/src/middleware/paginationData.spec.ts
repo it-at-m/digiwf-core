@@ -17,55 +17,54 @@ jest.mock("vue-router/composables", () => ({
           size: "100"
         }
       },
-      push: () => {
-      },
-      replace: () => {
-      },
-    }
+      push: () => {},
+      replace: () => {},
+    };
   })
-}))
+}));
 jest.mock('vue', () => ({
   ...jest.requireActual('vue'),
   inject: jest.fn(() => {
     return new PageBasedPaginationProvider();
   }),
 }));
-const mockRouter = (path: string, page?: number, size?: number, filter?: string) => {
+const mockRouter = (path: string, page?: number, size?: number, filter?: string, tag?: string) => {
   (useRouter as any).mockImplementation(() => ({
     currentRoute: {
       path,
       query: {
         page: page + "",
         size: size + "",
-        filter
+        filter,
+        tag
       }
     },
     push: () => {
     },
     replace: () => {
     },
-  }))
-}
+  }));
+};
 
 describe("usePaginationData", () => {
   it("should throw exception if PageBasesPaginationProvider could not be injected", () => {
     (inject as any).mockImplementation(() => {
-    })
-    expect(useGetPaginationData).toThrow()
-  })
+    });
+    expect(useGetPaginationData).toThrow();
+  });
   it("should return values from url query if session is empty", () => {
     (inject as any).mockImplementation(() => {
-      return new PageBasedPaginationProvider()
-    })
+      return new PageBasedPaginationProvider();
+    });
     mockRouter("/#/mytasks", 99, 999, "filter")
     const {
       size,
       page,
       searchQuery
-    } = useGetPaginationData()
-    expect(size.value).toBe(999)
-    expect(page.value).toBe(99)
-    expect(searchQuery.value).toBe("filter")
+    } = useGetPaginationData();
+    expect(size.value).toBe(999);
+    expect(page.value).toBe(99);
+    expect(searchQuery.value).toBe("filter");
   });
 
   it("should return values from session if session is existing", () => {
@@ -73,18 +72,19 @@ describe("usePaginationData", () => {
     sessionData.setPageOfPageId("unknown", 22);
     sessionData.setSizeOfPageId("unknown", 11);
     sessionData.setSearchQuery("unknown", "session filter");
+    // sessionData.setTag("unknown", "tag");
     (inject as any).mockImplementation(() => {
-      return sessionData
-    })
-    mockRouter("/", 99, 999, "filter")
+      return sessionData;
+    });
+    mockRouter("/", 99, 999, "filter");
     const {
       size,
       page,
       searchQuery
-    } = useGetPaginationData()
-    expect(size.value).toBe(11)
-    expect(page.value).toBe(22)
-    expect(searchQuery.value).toBe("session filter")
+    } = useGetPaginationData();
+    expect(size.value).toBe(11);
+    expect(page.value).toBe(22);
+    expect(searchQuery.value).toBe("session filter");
   });
 
   it("should set page to zero if search query is changed", () => {
@@ -93,20 +93,20 @@ describe("usePaginationData", () => {
     sessionData.setSizeOfPageId("unknown", 5);
     sessionData.setSearchQuery("unknown", undefined);
     (inject as any).mockImplementation(() => {
-      return sessionData
-    })
-    mockRouter("/", 0, 0, "filter")
+      return sessionData;
+    });
+    mockRouter("/", 0, 0, "filter");
     const {
       size,
       page,
       searchQuery,
       setSearchQuery
-    } = useGetPaginationData()
-    expect(size.value).toBe(5)
-    expect(page.value).toBe(1)
-    expect(searchQuery.value).toBe(undefined)
-    setSearchQuery("new filter")
-    expect(page.value).toBe(0)
-    expect(searchQuery.value).toBe("new filter")
+    } = useGetPaginationData();
+    expect(size.value).toBe(5);
+    expect(page.value).toBe(1);
+    expect(searchQuery.value).toBe(undefined);
+    setSearchQuery("new filter");
+    expect(page.value).toBe(0);
+    expect(searchQuery.value).toBe("new filter");
   });
 });
