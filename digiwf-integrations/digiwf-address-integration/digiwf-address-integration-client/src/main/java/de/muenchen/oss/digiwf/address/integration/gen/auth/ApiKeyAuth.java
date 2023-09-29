@@ -1,15 +1,13 @@
 package de.muenchen.oss.digiwf.address.integration.gen.auth;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.util.MultiValueMap;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 
-
-public class ApiKeyAuth implements Authentication {
+public class ApiKeyAuth implements RequestInterceptor {
     private final String location;
     private final String paramName;
 
     private String apiKey;
-    private String apiKeyPrefix;
 
     public ApiKeyAuth(String location, String paramName) {
         this.location = location;
@@ -32,29 +30,14 @@ public class ApiKeyAuth implements Authentication {
         this.apiKey = apiKey;
     }
 
-    public String getApiKeyPrefix() {
-        return apiKeyPrefix;
-    }
-
-    public void setApiKeyPrefix(String apiKeyPrefix) {
-        this.apiKeyPrefix = apiKeyPrefix;
-    }
-
     @Override
-    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
-        if (apiKey == null) {
-            return;
+    public void apply(RequestTemplate template) {
+        if ("query".equals(location)) {
+            template.query(paramName, apiKey);
+        } else if ("header".equals(location)) {
+            template.header(paramName, apiKey);
+        } else if ("cookie".equals(location)) {
+            template.header("Cookie", String.format("%s=%s", paramName, apiKey));
         }
-        String value;
-        if (apiKeyPrefix != null) {
-            value = apiKeyPrefix + " " + apiKey;
-        } else {
-            value = apiKey;
-        }
-        if (location.equals("query")) {
-            queryParams.add(paramName, value);
-        } else if (location.equals("header")) {
-            headerParams.add(paramName, value);
-       }
     }
 }

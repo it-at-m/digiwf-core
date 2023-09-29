@@ -41,6 +41,35 @@
             <version>1.7.0</version>
         </dependency>
 
+        <!-- feign client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -83,20 +112,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.6.0</version>
                 <executions>
                     <execution>
-                        <id>ok.ewo-api</id>
+                        <id>address-integration</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
+                            <generatorName>java</generatorName>
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
-                            <language>java</language>
-                            <library>resttemplate</library>
+                            <library>feign</library>
                             <output>${project.basedir}</output>
-
 
                             <apiPackage>de.muenchen.oss.digiwf.address.integration.gen.api</apiPackage>
                             <modelPackage>de.muenchen.oss.digiwf.address.integration.gen.model</modelPackage>
@@ -110,14 +139,9 @@
 
                             <environmentVariables>
                                 <supportingFiles>
-                                    ApiClient.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,RFC3339DateFormat.java
+                                    StringUtil.java,ApiClient.java,EncodingUtils.java,ApiResponse.java,ApiResponseDecoder.java,HttpBearerAuth.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,RFC3339DateFormat.java
                                 </supportingFiles>
                             </environmentVariables>
-
-                            <typeMappings>
-                                <typeMapping>DateTime=String</typeMapping>
-                                <typeMapping>Date=String</typeMapping>
-                            </typeMappings>
 
                             <additionalProperties>
                                 <additionalProperty>performBeanValidation=true</additionalProperty>
@@ -125,10 +149,14 @@
                             </additionalProperties>
 
                             <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <feign>true</feign>
                                 <dateLibrary>Java8</dateLibrary>
                                 <java8>true</java8>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <sourceFolder>src/main/java/</sourceFolder>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <openApiNullable>false</openApiNullable>
+                                <performBeanValidation>true</performBeanValidation>
+                                <additionalProperty>true</additionalProperty>
                             </configOptions>
                         </configuration>
                     </execution>
