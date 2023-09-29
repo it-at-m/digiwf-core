@@ -141,6 +141,12 @@ jobs:
           push: true
           tags: itatm/digiwf-okewo-integration-service:${{ inputs.release-version }},itatm/digiwf-okewo-integration-service:dev
 
+      - name: Build and push address-integration
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-address-integration/digiwf-address-integration-service
+          push: true
+          tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }},itatm/digiwf-address-integration-service:dev
 
   release-services-camunda-ee:
     runs-on: ubuntu-latest
