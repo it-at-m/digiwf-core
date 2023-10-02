@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = FabasoftMockApplication.class)
+@SpringBootTest(classes = FabasoftMockApplication.class, properties = "mock.port=9070")
 public class ExampleTest {
 
     @Value("${mock.port:9070}")
