@@ -74,6 +74,33 @@ Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozesse
 befüllen Sie es mit den gewünschten Informationen:
 [Dokument erstellen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createDocument.json)
 
+### Zu den Akten legen
+
+Um ein Objekt im Dms zu den Akten zu legen, erzeugen Sie zuerst ein `DepositObjectDto`-Objekt und setzen den
+TYPE-Header auf `depositObject`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `DepositObjectDto`-Objekt aufgeführt:
+
+```json
+{
+  "objectCoo": "",
+  "user": ""
+}
+```
+
+Die Dms Integration legt das Object mit der angegebenen `Coo` zu den Akten.
+Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Zu den Akten legen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/depositObject.json)
+
 ### Fehlerbehandlung
 
 Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.

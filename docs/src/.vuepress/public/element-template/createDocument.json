@@ -1,5 +1,5 @@
 {
-  "name": "Create Dokument",
+  "name": "DMS: Create Dokument",
   "id": "de.muenchen.digitalwf.templates.create-document",
   "appliesTo": [
     "bpmn:CallActivity"
@@ -121,9 +121,18 @@
       "type": "Dropdown",
       "value": "EINGEHEND",
       "choices": [
-        { "name": "Eingehend", "value": "EINGEHEND" },
-        { "name": "Ausgehend", "value": "AUSGEHEND" },
-        { "name": "Intern", "value": "INTERN" }
+        {
+          "name": "Eingehend",
+          "value": "EINGEHEND"
+        },
+        {
+          "name": "Ausgehend",
+          "value": "AUSGEHEND"
+        },
+        {
+          "name": "Intern",
+          "value": "INTERN"
+        }
       ],
       "binding": {
         "type": "camunda:in",

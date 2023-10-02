@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Create Vorgang",
-  "id": "de.muenchen.digitalwf.templates.create-procedure",
+  "name": "DMS: Objekt zu den Akten legen",
+  "id": "de.muenchen.digitalwf.templates.deposit-object",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -48,7 +48,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "createProcedure",
+      "value": "depositObject",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -60,14 +60,14 @@
       }
     },
     {
-      "label": "Title",
+      "label": "Coo",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "title",
-        "target": "title"
+        "name": "objectCoo",
+        "target": "objectCoo"
       },
       "constraints": {
         "notEmpty": true
@@ -82,33 +82,6 @@
         "expression": true,
         "name": "user",
         "target": "user"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Sachakte (Coo)",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "fileCOO",
-        "target": "fileCOO"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Procedure (Coo)",
-      "description": "Out Mapping",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:out",
-        "source": "procedureCOO"
       },
       "constraints": {
         "notEmpty": true
