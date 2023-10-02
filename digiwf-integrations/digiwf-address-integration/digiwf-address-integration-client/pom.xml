@@ -125,7 +125,6 @@
                             <generatorName>java</generatorName>
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
                             <library>feign</library>
-                            <output>${project.basedir}</output>
 
                             <apiPackage>de.muenchen.oss.digiwf.address.integration.gen.api</apiPackage>
                             <modelPackage>de.muenchen.oss.digiwf.address.integration.gen.model</modelPackage>
@@ -143,10 +142,10 @@
                                 </supportingFiles>
                             </environmentVariables>
 
-                            <additionalProperties>
-                                <additionalProperty>performBeanValidation=true</additionalProperty>
-                                <additionalProperty>useBeanValidation=true</additionalProperty>
-                            </additionalProperties>
+                            <typeMappings>
+                                <typeMapping>DateTime=String</typeMapping>
+                                <typeMapping>Date=String</typeMapping>
+                            </typeMappings>
 
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
