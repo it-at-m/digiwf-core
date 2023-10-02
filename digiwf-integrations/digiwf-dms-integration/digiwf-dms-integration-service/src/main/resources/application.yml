@@ -74,6 +74,7 @@ io:
         typeMappings:
           createProcedure: "createProcedureMessageProcessor"
           createDocument: "createDocumentMessageProcessor"
+          depositObject: "depositObjectMessageProcessor"
 
 de:
   muenchen:

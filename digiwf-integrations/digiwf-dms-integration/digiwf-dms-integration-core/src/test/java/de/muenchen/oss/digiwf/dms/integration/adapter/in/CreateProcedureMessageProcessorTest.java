@@ -1,10 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
-import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
-import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,36 +13,29 @@ import org.springframework.messaging.MessageHeaders;
 import javax.validation.ValidationException;
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class MessageProcessorTest {
-    private final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
-    private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
-    private final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
-    private final CreateDocumentUseCase createDocumentUseCaseMock = Mockito.mock(CreateDocumentUseCase.class);
-    private final String processInstanceId = "exampleProcessInstanceId";
-    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
+class CreateProcedureMessageProcessorTest extends MessageProcessorTestBase {
+
     private final CreateProcedureDto createProcedureDto = new CreateProcedureDto(
             "sachakteCoo",
             "title",
             "user"
     );
-    private MessageProcessor messageProcessor;
     private Message<CreateProcedureDto> message;
 
     @BeforeEach
     void setup() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock);
+        setupBase();
         Mockito.when(createProcedureMock.createProcedure(
                         createProcedureDto.getTitle(),
                         createProcedureDto.getFileCOO(),
                         createProcedureDto.getUser()))
                 .thenReturn(new Procedure("coo", createProcedureDto.getTitle(), createProcedureDto.getFileCOO()));
-        this.message = new Message<CreateProcedureDto>() {
+        this.message = new Message<>() {
             @Override
             public CreateProcedureDto getPayload() {
                 return createProcedureDto;

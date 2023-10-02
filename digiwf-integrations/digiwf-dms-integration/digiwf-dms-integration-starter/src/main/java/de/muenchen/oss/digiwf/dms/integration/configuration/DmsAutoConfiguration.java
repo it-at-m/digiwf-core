@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.dms.integration.configuration;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateDocumentDto;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateProcedureDto;
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.DepositObjectDto;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.MessageProcessor;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
@@ -10,10 +11,14 @@ import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftPrope
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
+import de.muenchen.oss.digiwf.dms.integration.application.service.DepositObjectService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
@@ -38,7 +43,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ProcedureRepository procedureRepository(final FabasoftProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
+    public FabasoftAdapter fabasoftAdapter(final FabasoftProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
         return new FabasoftAdapter(dmsProperties, wsCleint);
     }
 
@@ -50,14 +55,20 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateProcedureUseCase createProcedureUseCase(final ProcedureRepository vorgangRepository) {
-        return new CreateProcedureService(vorgangRepository);
+    public CreateProcedureUseCase createProcedureUseCase(final CreateProcedurePort createProcedurePort) {
+        return new CreateProcedureService(createProcedurePort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocumentUseCase createDocumentUseCase(final ProcedureRepository vorgangRepository, LoadFilePort loadFilePort) {
-        return new CreateDocumentService(vorgangRepository, loadFilePort);
+    public CreateDocumentUseCase createDocumentUseCase(final CreateDocumentPort createDocumentPort, LoadFilePort loadFilePort) {
+        return new CreateDocumentService(createDocumentPort, loadFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DepositObjectUseCase depositObjectUseCase(DepositObjectPort depositObjectPort) {
+        return new DepositObjectService(depositObjectPort);
     }
 
     @Bean
@@ -71,9 +82,19 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<DepositObjectDto>> depositObjectMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.depositObject();
+    }
+
+    @Bean
     @ConditionalOnMissingBean
-    public MessageProcessor createMessageProcessor(final ProcessApi processApi, final ErrorApi errorApi, final CreateProcedureUseCase createProcedureUseCase, final CreateDocumentUseCase createDocumentUseCase) {
-        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase);
+    public MessageProcessor createMessageProcessor(
+            final ProcessApi processApi,
+            final ErrorApi errorApi,
+            final CreateProcedureUseCase createProcedureUseCase,
+            final CreateDocumentUseCase createDocumentUseCase,
+            final DepositObjectUseCase depositObjectUseCase) {
+        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase, depositObjectUseCase);
     }
 
 }

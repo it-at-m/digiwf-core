@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateDocumentService implements CreateDocumentUseCase {
 
-    private final ProcedureRepository procedureRepository;
+    private final CreateDocumentPort createDocumentPort;
 
     private final LoadFilePort loadFilePort;
 
@@ -27,13 +27,13 @@ public class CreateDocumentService implements CreateDocumentUseCase {
             final DocumentType type,
             final List<String> filepaths,
             final String fileContext
-            ) {
+    ) {
 
         final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext);
 
         final Document document = new Document(procedureCOO, title, type, contents);
 
-        return procedureRepository.createDocument(document, user);
+        return createDocumentPort.createDocument(document, user);
 
     }
 

@@ -1,20 +1,12 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGI;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateIncomingGI;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.ArrayOfLHMBAI151700GIAttachmentType;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIAttachmentType;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateIncomingGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGI;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateOutgoingGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGI;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateInternalGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.ProcedureRepository;
+import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
-import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
+import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class FabasoftAdapter implements ProcedureRepository {
+public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort, DepositObjectPort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -92,12 +84,12 @@ public class FabasoftAdapter implements ProcedureRepository {
 
         final CreateIncomingGIResponse response = this.wsClient.createIncomingGI(request);
 
-        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return response.getObjid();
     }
 
-    private String createOutgoingDocument(final Document document, final String user)  {
+    private String createOutgoingDocument(final Document document, final String user) {
         final CreateOutgoingGI request = new CreateOutgoingGI();
         request.setUserlogin(user);
         request.setReferrednumber(document.getProcedureCOO());
@@ -119,7 +111,7 @@ public class FabasoftAdapter implements ProcedureRepository {
 
         final CreateOutgoingGIResponse response = this.wsClient.createOutgoingGI(request);
 
-        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return response.getObjid();
     }
@@ -143,11 +135,24 @@ public class FabasoftAdapter implements ProcedureRepository {
 
         final CreateInternalGIResponse response = this.wsClient.createInternalGI(request);
 
-        dmsErrorHandler.handleError(response.getStatus(),response.getErrormessage());
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return response.getObjid();
     }
 
+    @Override
+    public void depositObject(String objectCoo, String user) {
+        log.info("calling DepositObject: " + objectCoo);
+
+        final DepositObjectGI request = new DepositObjectGI();
+        request.setUserlogin(user);
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setObjaddress(objectCoo);
+
+        final DepositObjectGIResponse response = this.wsClient.depositObjectGI(request);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+    }
 
     private LHMBAI151700GIAttachmentType parseContent(final Content content) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();

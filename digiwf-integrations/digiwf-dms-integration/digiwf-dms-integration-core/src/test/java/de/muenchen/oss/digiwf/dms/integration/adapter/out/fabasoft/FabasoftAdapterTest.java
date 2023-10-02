@@ -1,8 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGI;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIResponse;
-import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
+import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
@@ -46,6 +44,20 @@ public class FabasoftAdapterTest {
         val procedureResponse = fabasoftAdapter.createProcedure(procedure, "user");
 
         assertEquals(procedureResponse.getCoo(), "1234567890");
+    }
+
+    @Test
+    public void execute_depositObject_request() {
+        val response = new DepositObjectGIResponse();
+        response.setObjid("objectCoo");
+
+        stubOperation(
+                "DepositObjectGI",
+                DepositObjectGI.class, (u) -> true,
+                response);
+
+
+        fabasoftAdapter.depositObject("objectCoo", "user");
     }
 
 
