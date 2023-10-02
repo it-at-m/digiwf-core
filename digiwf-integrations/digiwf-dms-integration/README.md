@@ -21,6 +21,7 @@ The following steps are needed to run the integration locally.
 | FABASOFT_DMS_PASSWORD       | technical fabasoft dms password                   |
 | FABASOFT_DMS_HOST           | fabasoft url                                      |
 | FABASOFT_DMS_PORT           | fabasoft port                                     |
+| FABASOFT_ENABLE_MTOM        | MTOM enables - default true                       |
 
 ## Testing with DigiWF
 

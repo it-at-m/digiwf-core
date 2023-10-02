@@ -29,8 +29,10 @@ public class FabasoftClientConfiguration {
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, this.properties.getAddress());
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, this.properties.getUsername());
         ((BindingProvider) soapClient).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, this.properties.getPassword());
-        final SOAPBinding binding = (SOAPBinding) ((BindingProvider) soapClient).getBinding();
-        binding.setMTOMEnabled(true);
+        if (properties.getEnableMTOM()) {
+            final SOAPBinding binding = (SOAPBinding) ((BindingProvider) soapClient).getBinding();
+            binding.setMTOMEnabled(true);
+        }
         return soapClient;
     }
 

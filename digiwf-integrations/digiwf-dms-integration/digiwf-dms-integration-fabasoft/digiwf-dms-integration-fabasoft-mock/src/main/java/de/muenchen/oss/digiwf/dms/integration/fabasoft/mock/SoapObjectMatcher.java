@@ -24,7 +24,6 @@ public class SoapObjectMatcher<T> extends RequestMatcherExtension {
             return MatchResult.noMatch();
         }
 
-
         T object = deserializeSoapRequest(request.getBodyAsString(), clazz);
         boolean erg = predicate.test(object);
         return erg ? MatchResult.exactMatch() : MatchResult.noMatch();
