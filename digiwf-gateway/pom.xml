@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <apache.commons.lang.version>3.12.0</apache.commons.lang.version>
+        <apache.commons.lang.version>3.13.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
     </properties>
 
