@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 public class AddressDistancesModel {
 
-    List<AdresseDistanz> adresseDistances;
+    List<AdresseDistanz> addressDistances;
 
 }

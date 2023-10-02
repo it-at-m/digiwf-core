@@ -1,11 +1,18 @@
 package de.muenchen.oss.digiwf.address.integration.configuration;
 
+import de.muenchen.oss.digiwf.address.integration.api.AddressGermanyApi;
+import de.muenchen.oss.digiwf.address.integration.api.AddressMunichApi;
+import de.muenchen.oss.digiwf.address.integration.api.StreetsMunichApi;
 import de.muenchen.oss.digiwf.address.integration.gen.ApiClient;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenBundesweitApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenMnchenApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.StraenMnchenApi;
+import de.muenchen.oss.digiwf.address.integration.impl.AddressGermanyImpl;
+import de.muenchen.oss.digiwf.address.integration.impl.AddressesMunichImpl;
+import de.muenchen.oss.digiwf.address.integration.impl.StreetsMunichImpl;
 import de.muenchen.oss.digiwf.address.integration.properties.AddressServiceIntegrationProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -91,6 +98,26 @@ public class AddressServiceIntegrationAutoConfiguration {
     public StraenMnchenApi addressServiceStraenMnchenApi(final RestTemplateBuilder restTemplateBuilder) {
         final ApiClient apiClient = this.addressServiceApiClient(restTemplateBuilder);
         return new StraenMnchenApi(apiClient);
+    }
+
+    // digiwf-address-client api
+
+    @ConditionalOnMissingBean
+    @Bean
+    public AddressGermanyApi addressGermanyApi(final AdressenBundesweitApi apiClient) {
+        return new AddressGermanyImpl(apiClient);
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public AddressMunichApi addressMunichApi(final AdressenMnchenApi apiClient) {
+        return new AddressesMunichImpl(apiClient);
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public StreetsMunichApi munichStreetApi(final StraenMnchenApi apiClient) {
+        return new StreetsMunichImpl(apiClient);
     }
 
 }

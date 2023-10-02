@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ListStrassenModel {
+public class ListStreetsModel {
 
-    private List<String> stadtbezirksnamen;
+    private List<String> cityDistrictNames;
 
-    private List<Long> stadtbezirksnummern;
+    private List<Long> cityDistrictNumbers;
 
-    private String strassenname;
+    private String streetName;
 
     private String sortdir;
 

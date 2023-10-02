@@ -5,19 +5,17 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SearchAdressenBundesweitModel {
+public class SearchAddressesModel {
 
     private String query;
 
-    private String plz;
+    private List<String> zipFilter;
 
-    private String ortsname;
+    private List<Long> houseNumberFilter;
 
-    private String gemeindeschluessel;
+    private List<String> letterFilter;
 
-    private List<Long> hausnummerfilter;
-
-    private List<String> buchstabefilter;
+    private String searchtype;
 
     private String sort;
 

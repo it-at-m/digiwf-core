@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ListAdressenMuenchenModel {
+public class ListAddressesModel {
 
     private List<String> baublock;
 
@@ -15,7 +15,7 @@ public class ListAdressenMuenchenModel {
 
     private List<String> kaminkehrerbezirk;
 
-    private List<String> plz;
+    private List<String> zip;
 
     private List<String> mittelschule;
 

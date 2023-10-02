@@ -3,15 +3,15 @@ package de.muenchen.oss.digiwf.address.integration.model.request;
 import lombok.Data;
 
 @Data
-public class SearchAdressenGeoMuenchenModel {
+public class SearchAddressesGeoModel {
 
-    private String geometrie;
+    private String geometry;
 
     private Double lat;
 
     private Double lng;
 
-    private Double distanz;
+    private Double distance;
 
     private Double topleftlat;
 
