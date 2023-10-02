@@ -1,10 +1,10 @@
 package de.muenchen.oss.digiwf.address.integration.configuration;
 
 import de.muenchen.oss.digiwf.address.integration.gen.ApiClient;
-import de.muenchen.oss.digiwf.address.integration.properties.AddressServiceIntegrationProperties;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenBundesweitApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenMnchenApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.StraenMnchenApi;
+import de.muenchen.oss.digiwf.address.integration.properties.AddressServiceIntegrationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(
-        basePackages = "de.muenchen.oss.digiwf.address.service.integration",
+        basePackages = "de.muenchen.oss.digiwf.address.integration",
         excludeFilters = {
                 @ComponentScan.Filter(
                         type = FilterType.ASSIGNABLE_TYPE,
