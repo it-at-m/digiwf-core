@@ -22,8 +22,6 @@ public interface AddressServiceMapper {
 
     SearchAddressesGeoModel dto2Model(final SearchAdressenGeoMuenchenDto searchAdressenGeoMuenchenDto);
 
-    StrassenIdModel dto2Model(final StrassenIdDto strassenIdDto);
-
     ListStreetsModel dto2Model(final ListStrassenDto listStrassenDto);
 
     AddressDistancesDto model2Dto(final AddressDistancesModel addressDistancesModel);

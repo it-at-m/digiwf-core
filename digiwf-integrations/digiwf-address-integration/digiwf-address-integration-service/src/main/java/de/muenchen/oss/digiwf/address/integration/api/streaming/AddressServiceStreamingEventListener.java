@@ -1,5 +1,8 @@
 package de.muenchen.oss.digiwf.address.integration.api.streaming;
 
+import de.muenchen.oss.digiwf.address.integration.api.AddressGermanyApi;
+import de.muenchen.oss.digiwf.address.integration.api.AddressMunichApi;
+import de.muenchen.oss.digiwf.address.integration.api.StreetsMunichApi;
 import de.muenchen.oss.digiwf.address.integration.api.dto.request.*;
 import de.muenchen.oss.digiwf.address.integration.api.dto.response.AddressDistancesDto;
 import de.muenchen.oss.digiwf.address.integration.api.dto.response.AddressServiceErrorDto;
@@ -7,9 +10,6 @@ import de.muenchen.oss.digiwf.address.integration.api.mapper.AddressServiceMappe
 import de.muenchen.oss.digiwf.address.integration.gen.model.*;
 import de.muenchen.oss.digiwf.address.integration.model.request.*;
 import de.muenchen.oss.digiwf.address.integration.model.response.AddressDistancesModel;
-import de.muenchen.oss.digiwf.address.integration.service.AdressenBundesweitService;
-import de.muenchen.oss.digiwf.address.integration.service.AdressenMuenchenService;
-import de.muenchen.oss.digiwf.address.integration.service.StrassenMuenchenService;
 import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.message.service.CorrelateMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +30,9 @@ public class AddressServiceStreamingEventListener {
     private final AddressServiceMapper addressServiceMapper;
 
     private final CorrelateMessageService correlateMessageService;
-
-    private final AdressenBundesweitService adressenBundesweitService;
-
-    private final AdressenMuenchenService adressenMuenchenService;
-
-    private final StrassenMuenchenService strassenMuenchenService;
+    private final AddressGermanyApi addressGermanyApi;
+    private final AddressMunichApi addressMunichApi;
+    private final StreetsMunichApi streetsMunichApi;
 
     /**
      * The Consumer expects an {@link AddressServiceEventDto} which represents an {@link SearchAdressenBundesweitDto}.
@@ -54,7 +51,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final SearchAdressesGermanyModel model = this.addressServiceMapper.dto2Model(searchAdressenBundesweit);
-                addressServiceResult = this.adressenBundesweitService.searchAdressen(model);
+                addressServiceResult = this.addressGermanyApi.searchAddresses(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -83,7 +80,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final CheckAddressesModel model = this.addressServiceMapper.dto2Model(checkAdresseMuenchen);
-                addressServiceResult = this.adressenMuenchenService.checkAdresse(model);
+                addressServiceResult = this.addressMunichApi.checkAddress(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -112,7 +109,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final ListAddressesModel model = this.addressServiceMapper.dto2Model(listAdressenMuenchen);
-                addressServiceResult = this.adressenMuenchenService.listAdressen(model);
+                addressServiceResult = this.addressMunichApi.listAddresses(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -141,7 +138,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final ListAddressChangesModel model = this.addressServiceMapper.dto2Model(listAenderungenMuenchen);
-                addressServiceResult = this.adressenMuenchenService.listAenderungen(model);
+                addressServiceResult = this.addressMunichApi.listChanges(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -170,7 +167,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final SearchAddressesModel model = this.addressServiceMapper.dto2Model(searchAdressenMuenchen);
-                addressServiceResult = this.adressenMuenchenService.searchAdressen(model);
+                addressServiceResult = this.addressMunichApi.searchAddresses(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -199,7 +196,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final SearchAddressesGeoModel requestModel = this.addressServiceMapper.dto2Model(searchAdressenGeoMuenchen);
-                final AddressDistancesModel resultModel = this.adressenMuenchenService.searchAdressenGeo(requestModel);
+                final AddressDistancesModel resultModel = this.addressMunichApi.searchAddressesGeo(requestModel);
                 addressServiceResult = this.addressServiceMapper.model2Dto(resultModel);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
@@ -228,8 +225,7 @@ public class AddressServiceStreamingEventListener {
 
             Object addressServiceResult;
             try {
-                final StrassenIdModel model = this.addressServiceMapper.dto2Model(strassenId);
-                addressServiceResult = this.strassenMuenchenService.findStrasseById(model);
+                addressServiceResult = this.streetsMunichApi.findStreetsById(strassenId.getStrasseId());
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
@@ -258,7 +254,7 @@ public class AddressServiceStreamingEventListener {
             Object addressServiceResult;
             try {
                 final ListStreetsModel model = this.addressServiceMapper.dto2Model(listStrassen);
-                addressServiceResult = this.strassenMuenchenService.listStrassen(model);
+                addressServiceResult = this.streetsMunichApi.listStreets(model);
             } catch (final Exception exception) {
                 addressServiceResult = new AddressServiceErrorDto(exception.getMessage());
             }
