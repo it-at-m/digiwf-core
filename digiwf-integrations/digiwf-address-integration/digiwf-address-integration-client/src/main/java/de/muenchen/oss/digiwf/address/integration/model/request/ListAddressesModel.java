@@ -1,9 +1,11 @@
 package de.muenchen.oss.digiwf.address.integration.model.request;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
+@Builder
 @Data
 public class ListAddressesModel {
 

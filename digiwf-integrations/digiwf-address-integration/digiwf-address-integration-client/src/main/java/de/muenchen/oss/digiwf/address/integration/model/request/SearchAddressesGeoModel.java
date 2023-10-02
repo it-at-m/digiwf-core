@@ -1,7 +1,9 @@
 package de.muenchen.oss.digiwf.address.integration.model.request;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class SearchAddressesGeoModel {
 

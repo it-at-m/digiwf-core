@@ -154,7 +154,6 @@ public class AddressesMunichImpl implements AddressMunichApi {
     @Override
     public AddressDistancesModel searchAddressesGeo(final SearchAddressesGeoModel searchAddressesGeoModel) throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         try {
-            final var addressDistancesModel = new AddressDistancesModel();
             final List<AdresseDistanz> addressDistances = this.adressenMuenchenApi.searchAdressenGeo(
                     searchAddressesGeoModel.getGeometry(),
                     searchAddressesGeoModel.getLat(),
@@ -166,8 +165,9 @@ public class AddressesMunichImpl implements AddressMunichApi {
                     searchAddressesGeoModel.getBottomrightlng(),
                     searchAddressesGeoModel.getFormat()
             );
-            addressDistancesModel.setAddressDistances(addressDistances);
-            return addressDistancesModel;
+            return AddressDistancesModel.builder()
+                    .addressDistances(addressDistances)
+                    .build();
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
             log.warn(message);
