@@ -3,15 +3,23 @@ package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIResponse;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
+import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
 
-@WireMockTest(httpPort = 8080)
+@WireMockTest()
 public class ExampleTest {
 
-    private final LHMBAI151700GIWSDSoap soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:8080/");
+    private LHMBAI151700GIWSDSoap soapClient;
+
+
+    @BeforeEach
+    public void setUp(WireMockRuntimeInfo wmRuntimeInfo) {
+        soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:" + wmRuntimeInfo.getHttpPort() + "/");
+    }
 
     @Test
     public void execute_createProcedure_request() {
