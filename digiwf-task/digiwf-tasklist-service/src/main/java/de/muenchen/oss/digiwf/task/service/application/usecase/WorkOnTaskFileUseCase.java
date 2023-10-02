@@ -13,10 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,8 +39,8 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
     private TaskFileConfig fileConfig;
 
-
-    public List<String> getFileNames(final String taskId, final String filePath) {
+    @NonNull
+    public List<String> getFileNames(@NonNull final String taskId, @NonNull final String filePath) {
 
         this.initializeFileConfig(taskId);
         this.fileConfig.checkReadAccess(filePath);
@@ -47,18 +49,20 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
         try {
             String documentStorageUrl = this.fileConfig.processSyncConfig;
+            String pathToFolder = fileContext + "/" + filePath;
             if (documentStorageUrl != null) {
-                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl).block());
+                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block());
             }
-            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath).block());
+            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block());
         } catch (final Exception ex) {
-            log.error("Getting all files of folder {} failed: {}", filePath, ex);
+            log.error("Getting all files of folder {} failed", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
         }
     }
 
     @Override
-    public String getPresignedUrl(final PresignedUrlAction action, final String taskId, final String filePath, final String fileName) {
+    @NonNull
+    public String getPresignedUrl(final PresignedUrlAction action, @NonNull final String taskId, @NonNull final String filePath, @NonNull final String fileName) {
 
         this.initializeFileConfig(taskId);
 

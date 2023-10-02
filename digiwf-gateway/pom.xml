@@ -16,7 +16,7 @@
 
     <properties>
         <apache.commons.lang.version>3.12.0</apache.commons.lang.version>
-        <hazelcast.version>4.2.4</hazelcast.version>
+        <hazelcast.version>4.2.8</hazelcast.version>
     </properties>
 
     <dependencies>

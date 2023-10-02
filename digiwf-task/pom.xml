@@ -16,7 +16,7 @@
     <description>Task management used by DigiWF</description>
 
     <properties>
-        <polyflow.version>3.14.0</polyflow.version>
+        <polyflow.version>3.15.0</polyflow.version>
         <axon-framework.version>4.6.8</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
         <kotlin.version>1.9.10</kotlin.version>

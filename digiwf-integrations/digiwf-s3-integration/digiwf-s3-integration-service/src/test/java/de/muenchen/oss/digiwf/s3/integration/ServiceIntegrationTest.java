@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAu
 import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.messaging.Message;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -28,6 +29,10 @@ import static org.assertj.core.api.Assertions.assertThat;
         OAuth2ClientAutoConfiguration.class,
         OAuth2ResourceServerAutoConfiguration.class
     }
+)
+@EmbeddedKafka(
+    partitions = 1,
+    topics = {"${spring.cloud.stream.bindings.functionRouter-in-0.destination}", "${spring.cloud.stream.bindings.sendMessage-out-0.destination}"}
 )
 public class ServiceIntegrationTest {
 

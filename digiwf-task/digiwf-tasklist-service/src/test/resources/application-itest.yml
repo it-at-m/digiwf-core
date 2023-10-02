@@ -6,7 +6,7 @@ spring:
   main:
     allow-bean-definition-overriding: true # Allow Bean re-definition in itest
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;INIT=create schema if not exists PUBLIC;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:testdb-${uuid.random};MODE=PostgreSQL;INIT=create schema if not exists PUBLIC;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: sa
     hikari:
@@ -58,3 +58,7 @@ ezldap:
     port: 8183
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
+logging:
+  level:
+    root: info
+    org.eclipse.jetty: warn

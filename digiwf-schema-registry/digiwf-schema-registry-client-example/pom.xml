@@ -7,7 +7,7 @@
     <name>digiwf-schema-registry-client-example</name>
 
     <properties>
-        <logstash.encoder>7.3</logstash.encoder>
+        <logstash.encoder>7.4</logstash.encoder>
     </properties>
 
     <parent>

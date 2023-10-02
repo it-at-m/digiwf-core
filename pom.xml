@@ -16,10 +16,10 @@
         <maven.compiler.source>11</maven.compiler.source>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-boot.version>2.7.16</spring-boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
-        <okhttp.version>4.10.0</okhttp.version>
-        <lombok.version>1.18.26</lombok.version>
+        <okhttp.version>4.11.0</okhttp.version>
+        <lombok.version>1.18.30</lombok.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <camunda.version.ce>7.18.0</camunda.version.ce>
@@ -27,8 +27,8 @@
         <camunda.version.ee>7.18.0-ee</camunda.version.ee>
         <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <tika.version>2.8.0</tika.version>
-        <logstash.encoder.version>7.3</logstash.encoder.version>
+        <tika.version>2.9.0</tika.version>
+        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
 
     <modules>
@@ -155,7 +155,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -178,7 +178,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.4.1</version>
                     <executions>
                         <execution>
                             <id>enforce-maven</id>
@@ -204,6 +204,7 @@
                     <version>3.11.0</version>
                     <configuration>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <showWarnings>true</showWarnings>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.projectlombok</groupId>
@@ -221,12 +222,11 @@
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${org.mapstruct.version}</version>
                             </path>
-                            <!-- other annotation processors -->
                         </annotationProcessorPaths>
                         <compilerArgs>
-                            <compilerArg>
+                            <arg>
                                 -Amapstruct.defaultComponentModel=spring
-                            </compilerArg>
+                            </arg>
                         </compilerArgs>
                     </configuration>
                 </plugin>
@@ -247,7 +247,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.2</version>
                     <executions>
                         <execution>
                             <id>run-itests</id>
@@ -265,7 +265,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.9</version>
+                    <version>0.8.10</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -287,22 +287,22 @@
                 <plugin>
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
-                    <version>6.6.0</version>
+                    <version>7.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.15.0</version>
+                    <version>2.16.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -312,10 +312,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>

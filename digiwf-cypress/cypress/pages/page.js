@@ -34,11 +34,21 @@ class Page{
     }
 
     openMeineAufgaben(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api/digitalwf-backend-service/rest/service/*',
+        }).as('dataGetDefinitions')
         this.navBarMeineAufgaben().click({ multiple: true } )
+        cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
     }
 
     openAktuelleVorgaenge(){
+        cy.intercept({
+            method: 'GET',
+            url: '/api//digitalwf-backend-service/rest/service/instance**',
+        }).as('dataGetInstance')
         this.navBarAktuelleVorgaenge().click()
+        cy.wait('@dataGetInstance').its('response.statusCode').should('equal', 200)
     }
 
     openVorgangStarten(){
