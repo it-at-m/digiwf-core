@@ -55,6 +55,7 @@ digiwf:
         username: ${FABASOFT_DMS_USERNAME}
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
+        enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
   security:
     # client-id and client-secret are required for feign client authentication
     client-id: ${SSO_TASK_CLIENT_ID}

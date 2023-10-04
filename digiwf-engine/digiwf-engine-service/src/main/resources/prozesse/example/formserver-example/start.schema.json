@@ -1,0 +1,702 @@
+{
+    "key": "formserver_example_parkausweis_form",
+    "schema": {
+        "type": "object",
+        "x-display": "tabs",
+        "allOf": [
+            {
+                "title": "Section",
+                "description": "",
+                "type": "object",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "quickcheck1": {
+                                "fieldType": "text",
+                                "title": "quickcheck1",
+                                "type": "string",
+                                "key": "quickcheck1",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "quickcheck2": {
+                                "fieldType": "text",
+                                "title": "quickcheck2",
+                                "type": "string",
+                                "key": "quickcheck2",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "quickcheck3": {
+                                "fieldType": "text",
+                                "title": "quickcheck3",
+                                "type": "string",
+                                "key": "quickcheck3",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "name_vermieter": {
+                                "fieldType": "text",
+                                "title": "Name Vermieter",
+                                "type": "string",
+                                "key": "name_vermieter",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "adresse_vermieter": {
+                                "fieldType": "text",
+                                "title": "Adresse Vermieter",
+                                "type": "string",
+                                "key": "adresse_vermieter",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "postleitzahl_vermieter": {
+                                "fieldType": "text",
+                                "title": "Postleitzahl Vermieter",
+                                "type": "string",
+                                "key": "postleitzahl_vermieter",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "ort_vermieter": {
+                                "fieldType": "text",
+                                "title": "Ort Vermieter",
+                                "type": "string",
+                                "key": "ort_vermieter",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "quickcheck4": {
+                                "fieldType": "text",
+                                "title": "Quickcheck 4",
+                                "type": "string",
+                                "key": "quickcheck4",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "antragstyp": {
+                                "fieldType": "text",
+                                "title": "antragstyp",
+                                "type": "string",
+                                "key": "antragstyp",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "familienname": {
+                                "fieldType": "text",
+                                "title": "familienname",
+                                "type": "string",
+                                "key": "familienname",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "vorname": {
+                                "fieldType": "text",
+                                "title": "vorname",
+                                "type": "string",
+                                "key": "vorname",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "geburtsdatum": {
+                                "fieldType": "date",
+                                "title": "geburtsdatum",
+                                "type": "string",
+                                "format": "date",
+                                "key": "geburtsdatum",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "adresse": {
+                                "fieldType": "text",
+                                "title": "adresse",
+                                "type": "string",
+                                "key": "adresse",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "lizenzgebiet": {
+                                "fieldType": "text",
+                                "title": "lizenzgebiet",
+                                "type": "string",
+                                "key": "lizenzgebiet",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "parklizenzgebiet": {
+                                "fieldType": "text",
+                                "title": "parklizenzgebiet",
+                                "type": "string",
+                                "key": "parklizenzgebiet",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "postleitzahl": {
+                                "fieldType": "text",
+                                "title": "postleitzahl",
+                                "type": "string",
+                                "key": "postleitzahl",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "wohnort": {
+                                "fieldType": "text",
+                                "title": "wohnort",
+                                "type": "string",
+                                "key": "wohnort",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "mailadresse_p_bk": {
+                                "fieldType": "text",
+                                "title": "mailadresse_p_bk",
+                                "type": "string",
+                                "key": "mailadresse_p_bk",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "telefonnummer_np_bk": {
+                                "fieldType": "text",
+                                "title": "telefonnummer_np_bk",
+                                "type": "string",
+                                "key": "telefonnummer_np_bk",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "fahrzeugdaten": {
+                                "key": "fahrzeugdaten",
+                                "fieldType": "object",
+                                "title": "fahrzeugdaten",
+                                "type": "object",
+                                "additionalProperties": false,
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "properties": {
+                                    "fahrzeugdaten-item": {
+                                        "key": "fahrzeugdaten-item",
+                                        "fieldType": "object",
+                                        "title": "fahrzeugdaten-item",
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "x-options": {
+                                            "fieldColProps": {
+                                                "cols": 12,
+                                                "sm": 12,
+                                                "messages": {}
+                                            }
+                                        },
+                                        "x-props": {
+                                            "outlined": true,
+                                            "dense": true
+                                        },
+                                        "properties": {
+                                            "fahrzeugkennzeichen_de_val_p": {
+                                                "fieldType": "text",
+                                                "title": "fahrzeugkennzeichen_de_val_p",
+                                                "type": "string",
+                                                "key": "fahrzeugkennzeichen_de_val_p",
+                                                "x-options": {
+                                                    "fieldColProps": {
+                                                        "cols": 12,
+                                                        "sm": 12,
+                                                        "messages": {}
+                                                    }
+                                                },
+                                                "x-props": {
+                                                    "outlined": true,
+                                                    "dense": true
+                                                },
+                                                "x-rules": []
+                                            },
+                                            "deutsches_kennzeichen": {
+                                                "fieldType": "text",
+                                                "title": "deutsches_kennzeichen",
+                                                "type": "string",
+                                                "key": "deutsches_kennzeichen",
+                                                "x-options": {
+                                                    "fieldColProps": {
+                                                        "cols": 12,
+                                                        "sm": 12,
+                                                        "messages": {}
+                                                    }
+                                                },
+                                                "x-props": {
+                                                    "outlined": true,
+                                                    "dense": true
+                                                },
+                                                "x-rules": []
+                                            },
+                                            "kennzeichen_de_p": {
+                                                "fieldType": "text",
+                                                "title": "kennzeichen_de_p",
+                                                "type": "string",
+                                                "key": "kennzeichen_de_p",
+                                                "x-options": {
+                                                    "fieldColProps": {
+                                                        "cols": 12,
+                                                        "sm": 12,
+                                                        "messages": {}
+                                                    }
+                                                },
+                                                "x-props": {
+                                                    "outlined": true,
+                                                    "dense": true
+                                                },
+                                                "x-rules": []
+                                            },
+                                            "selbst_zugelassen": {
+                                                "fieldType": "text",
+                                                "title": "selbst_zugelassen",
+                                                "type": "string",
+                                                "key": "selbst_zugelassen",
+                                                "x-options": {
+                                                    "fieldColProps": {
+                                                        "cols": 12,
+                                                        "sm": 12,
+                                                        "messages": {}
+                                                    }
+                                                },
+                                                "x-props": {
+                                                    "outlined": true,
+                                                    "dense": true
+                                                },
+                                                "x-rules": []
+                                            },
+                                            "zulassungsbescheinigung_i_fahrzeugschein": {
+                                                "fieldType": "file",
+                                                "title": "zulassungsbescheinigung_i_fahrzeugschein",
+                                                "x-display": "custom-multi-file-input",
+                                                "type": "object",
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string"
+                                                    },
+                                                    "amount": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "key": "zulassungsbescheinigung_i_fahrzeugschein",
+                                                "uuidEnabled": false,
+                                                "filePath": "zulassungsbescheinigung_i_fahrzeugschein/assistants",
+                                                "x-options": {
+                                                    "fieldColProps": {
+                                                        "cols": 12,
+                                                        "sm": 12,
+                                                        "messages": {}
+                                                    }
+                                                },
+                                                "x-props": {
+                                                    "outlined": true,
+                                                    "dense": true
+                                                },
+                                                "x-rules": []
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "weiteres_fahrzeug_zugelassen": {
+                                "fieldType": "text",
+                                "title": "weiteres_fahrzeug_zugelassen",
+                                "type": "string",
+                                "key": "weiteres_fahrzeug_zugelassen",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "erklaerung": {
+                                "fieldType": "textarea",
+                                "title": "erklaerung",
+                                "x-display": "textarea",
+                                "type": "string",
+                                "key": "erklaerung",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "lizenzdauer2": {
+                                "fieldType": "text",
+                                "title": "lizenzdauer2",
+                                "type": "string",
+                                "key": "lizenzdauer2",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "buergerkontaktmail": {
+                                "fieldType": "text",
+                                "title": "buergerkontaktmail",
+                                "type": "string",
+                                "key": "buergerkontaktmail",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "referat_mail_betreff": {
+                                "fieldType": "text",
+                                "title": "referat_mail_betreff",
+                                "type": "string",
+                                "key": "referat_mail_betreff",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "datenschutz1": {
+                                "fieldType": "boolean",
+                                "title": "datenschutz1",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "datenschutz1",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "datenschutz2": {
+                                "fieldType": "boolean",
+                                "title": "datenschutz2",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "datenschutz2",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "datenschutz3": {
+                                "fieldType": "boolean",
+                                "title": "datenschutz3",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "datenschutz3",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "datenschutz4": {
+                                "fieldType": "boolean",
+                                "title": "datenschutz4",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "datenschutz4",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "antragsdatum": {
+                                "fieldType": "text",
+                                "title": "antragsdatum",
+                                "type": "string",
+                                "key": "antragsdatum",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        },
+                        "key": "94e39366-8f9c-43da-8402-b9b7d2c8c040"
+                    }
+                ],
+                "key": "d5207789-dd3d-4c56-b2bd-43945711168b"
+            }
+        ]
+    }
+}

@@ -27,7 +27,7 @@
         <module>digiwf-dms-integration-core</module>
         <module>digiwf-dms-integration-starter</module>
         <module>digiwf-dms-integration-service</module>
-        <module>digiwf-dms-integration-fabasoft-api</module>
+        <module>digiwf-dms-integration-fabasoft</module>
     </modules>
 
 </project>

@@ -10,17 +10,18 @@ The following steps are needed to run the integration locally.
 
 ## Configuration
 
-| Environment Variable        | Description                                       |
-|-----------------------------|---------------------------------------------------|
-| DMS_INTEGRATION_SERVER_PORT | Port of the Application                           |
-| DIGIWF_ENV                  | Environment in which the services runs            |
-| KAFKA_SECURITY_PROTOCOL     | Security protocol of kafka (default is PLAINTEXT) |
-| KAFKA_BOOTSTRAP_SERVER      | kafka server address (default is localhost)       |
-| KAFKA_BOOTSTRAP_SERVER_PORT | kafka server port (default is 29092)              |
-| FABASOFT_DMS_USERNAME       | technical fabasoft dms user                       |
-| FABASOFT_DMS_PASSWORD       | technical fabasoft dms password                   |
-| FABASOFT_DMS_HOST           | fabasoft url                                      |
-| FABASOFT_DMS_PORT           | fabasoft port                                     |
+| Environment Variable        | Description                                                   |
+|-----------------------------|---------------------------------------------------------------|
+| DMS_INTEGRATION_SERVER_PORT | Port of the Application                                       |
+| DIGIWF_ENV                  | Environment in which the services runs                        |
+| KAFKA_SECURITY_PROTOCOL     | Security protocol of kafka (default is PLAINTEXT)             |
+| KAFKA_BOOTSTRAP_SERVER      | kafka server address (default is localhost)                   |
+| KAFKA_BOOTSTRAP_SERVER_PORT | kafka server port (default is 29092)                          |
+| FABASOFT_DMS_USERNAME       | technical fabasoft dms user                                   |
+| FABASOFT_DMS_PASSWORD       | technical fabasoft dms password                               |
+| FABASOFT_DMS_HOST           | fabasoft url                                                  |
+| FABASOFT_DMS_PORT           | fabasoft port                                                 |
+| FABASOFT_ENABLE_MTOM        | Enables MTOM default is true. Should be disabled with mocking |
 
 ## Testing with DigiWF
 
