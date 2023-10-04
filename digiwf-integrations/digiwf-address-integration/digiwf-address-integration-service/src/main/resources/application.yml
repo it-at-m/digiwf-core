@@ -30,16 +30,14 @@ spring:
     timeout-per-shutdown-phase: 1m
   cloud:
     function:
-      definition: functionRouter;sendMessage;sendCorrelateMessage;
+      definition: functionRouter;sendMessage;
     stream:
       bindings:
         functionRouter-in-0:
           destination: "dwf-address-${DIGIWF_ENV}"
           group: dwf-address-service
-        sendCorrelateMessage-out-0:
-          destination: "dwf-engine-${DIGIWF_ENV}"
         sendMessage-out-0:
-          destination: "dwf-engine-${DIGIWF_ENV}"
+          destination: "dwf-connector-${DIGIWF_ENV}"
       function:
         routing:
           enabled: true
@@ -69,6 +67,22 @@ spring:
           json:
             trusted:
               packages: '*'
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          searchAddressesGermany: searchAddressesGermany
+          checkAddressMunich: checkAddressMunich
+          listAddressesMunich: listAddressesMunich
+          listChangesMunich: listChangesMunich
+          searchAddressesMunich: searchAddressesMunich
+          searchAddressesGeoMunich: searchAddressesGeoMunich
+          findStreetByIdMunich: findStreetByIdMunich
+          listStreetMunich: listStreetMunich
 
 de:
   muenchen:

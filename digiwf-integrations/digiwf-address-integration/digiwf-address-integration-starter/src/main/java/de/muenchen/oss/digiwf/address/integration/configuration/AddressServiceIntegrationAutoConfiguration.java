@@ -1,16 +1,28 @@
 package de.muenchen.oss.digiwf.address.integration.configuration;
 
-import de.muenchen.oss.digiwf.address.integration.api.AddressGermanyApi;
-import de.muenchen.oss.digiwf.address.integration.api.AddressMunichApi;
-import de.muenchen.oss.digiwf.address.integration.api.StreetsMunichApi;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.IntegrationOutAdapter;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.AddressClientOutAdapter;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.AddressGermanyApi;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.AddressMunichApi;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.StreetsMunichApi;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.AddressGermanyImpl;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.AddressesMunichImpl;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.StreetsMunichImpl;
+import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressGermanyInPort;
+import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;
+import de.muenchen.oss.digiwf.address.integration.application.port.in.StreetsMunichInPort;
+import de.muenchen.oss.digiwf.address.integration.application.port.out.AddressClientOutPort;
+import de.muenchen.oss.digiwf.address.integration.application.port.out.IntegrationOutPort;
+import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesGermanyUseCase;
+import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesMunichUseCase;
+import de.muenchen.oss.digiwf.address.integration.application.usecase.StreetsMunichUseCase;
 import de.muenchen.oss.digiwf.address.integration.gen.ApiClient;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenBundesweitApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenMnchenApi;
 import de.muenchen.oss.digiwf.address.integration.gen.api.StraenMnchenApi;
-import de.muenchen.oss.digiwf.address.integration.impl.AddressGermanyImpl;
-import de.muenchen.oss.digiwf.address.integration.impl.AddressesMunichImpl;
-import de.muenchen.oss.digiwf.address.integration.impl.StreetsMunichImpl;
 import de.muenchen.oss.digiwf.address.integration.properties.AddressServiceIntegrationProperties;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -100,7 +112,41 @@ public class AddressServiceIntegrationAutoConfiguration {
         return new StraenMnchenApi(apiClient);
     }
 
-    // digiwf-address-client api
+    @Bean
+    @ConditionalOnMissingBean
+    public AddressClientOutPort addressClientOutPort(
+            final AddressGermanyApi addressGermanyApi,
+            final AddressMunichApi addressMunichApi,
+            final StreetsMunichApi streetsMunichApi
+    ) {
+        return new AddressClientOutAdapter(addressGermanyApi, addressMunichApi, streetsMunichApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
+        return new IntegrationOutAdapter(processApi, errorApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AddressGermanyInPort addressGermanyInPort(final AddressClientOutPort addressClientOutPort) {
+        return new AddressesGermanyUseCase(addressClientOutPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AddressMunichInPort addressMunichInPort(final AddressClientOutPort addressClientOutPort) {
+        return new AddressesMunichUseCase(addressClientOutPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StreetsMunichInPort streetsMunichInPort(final AddressClientOutPort addressClientOutPort) {
+        return new StreetsMunichUseCase(addressClientOutPort);
+    }
+
+    // client api
 
     @ConditionalOnMissingBean
     @Bean
