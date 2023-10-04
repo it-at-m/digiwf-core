@@ -132,7 +132,7 @@ jobs:
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
-          tags: itatm/digiwf-dms-integration-service:${{ env.RELEASE_VERSION }},itatm/digiwf-dms-integration-service:dev
+          tags: itatm/digiwf-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-dms-integration-service:dev
 
 
   release-services-camunda-ee:
