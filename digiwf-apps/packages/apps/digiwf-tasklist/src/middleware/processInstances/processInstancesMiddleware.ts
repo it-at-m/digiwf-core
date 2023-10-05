@@ -1,6 +1,5 @@
 import {Ref} from "vue";
 import {useQuery} from "@tanstack/vue-query";
-import {callGetProcessDefinitionsFromEngine} from "../../api/processDefinitions/processDefinitionApiCalls";
 import {Page} from "../commonModels";
 import {callGetProcessInstances} from "../../api/processInstances/processInstancesApiCalls";
 import {queryClient} from "../queryClient";
@@ -15,7 +14,7 @@ export interface ProcessInstance { // FIXME: check nullable properties
   readonly status?: string;
 }
 
-const processInstancesQueryKey = "process-definitions";
+const processInstancesQueryKey = "process-instances";
 export const invalidProcessInstances = () =>
   queryClient.invalidateQueries([processInstancesQueryKey]);
 
