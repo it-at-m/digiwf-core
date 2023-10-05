@@ -48,6 +48,7 @@
         <template #activator="{ on, attrs }">
           <v-btn
             :disabled="lastPageButtonDisabled"
+            aria-label="Vorherige Seite"
             small
             text
             color="primary"
@@ -70,6 +71,7 @@
             small
             text
             :disabled="nextPageButtonDisabled"
+            aria-label="Nächste Seite"
             color="primary"
             class="ml-1"
             v-bind="attrs"

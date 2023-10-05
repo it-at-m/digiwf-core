@@ -37,6 +37,7 @@
             />
           </template>
           <v-date-picker
+            role="menuitem"
             v-model="dateSelection"
             locale="de-de"
             @input="dateSelectionOpen = false"
