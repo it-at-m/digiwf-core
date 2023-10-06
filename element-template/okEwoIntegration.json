@@ -1,0 +1,105 @@
+{
+  "name": "DigiWF OK EWO Integration",
+  "id": "de.muenchen.digitalwf.templates.digiwf-okewo-integration",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV01",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericOkEwoEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "",
+      "choices": [
+        {
+          "name": "Get Person on the basis of an Ordnungsmerkmal",
+          "value": "getPerson"
+        },
+        {
+          "name": "Search Person based on search parameters",
+          "value": "searchPerson"
+        },
+        {
+          "name": "Get PersonErweitert on the basis an Ordnungsmerkmal",
+          "value": "getPersonErweitert"
+        },
+        {
+          "name": "Search PersonErweitert based on search parameters",
+          "value": "searchPersonErweitert"
+        }
+      ],
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "OK.EWO request as JSON object",
+      "type": "String",
+      "value": "${request}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "request"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "OK.EWO response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}
