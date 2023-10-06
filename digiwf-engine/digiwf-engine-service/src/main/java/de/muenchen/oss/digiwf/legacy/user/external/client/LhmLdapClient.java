@@ -50,7 +50,7 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
     private static final String LDAP_TYPE_OU = "ou";
     private static final String LHM_OBJECT_PATH = "lhmObjectPath";
     private static final String LHM_OU_SHORTNAME = "lhmOUShortname";
-    private static final String LHM_OU_LONGNAME = "lhmoulongname";
+    private static final String LHM_OU_LONGNAME = "lhmOULongname";
     private static final String ATTRIBUTE_OBJECT_CLASS = "objectClass";
     private static final String LHM_ORGANIZATIONAL_UNIT = "lhmOrganizationalUnit";
 
