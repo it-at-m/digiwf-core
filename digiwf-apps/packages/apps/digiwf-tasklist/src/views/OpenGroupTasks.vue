@@ -4,7 +4,7 @@
       view-name="Offene Gruppenaufgaben"
       description="Hier sehen Sie alle Aufgaben Ihrer Gruppe. Klicken Sie auf bearbeiten, um sich eine Aufgabe zu nehmen."
       :tasks="data?.content || []"
-      :is-loading="isLoading"
+      :is-loading="isLoading || isRefetching"
       :errorMessage="errorMessage"
       :filter="filter"
       :tag="tag"
@@ -44,20 +44,25 @@
 </style>
 
 <script lang="ts">
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 import {useAssignTaskToCurrentUserMutation, useOpenGroupTasksQuery} from "../middleware/tasks/taskMiddleware";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageFilters} from "../store/modules/filters";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import GroupTaskItem from "../components/task/GroupTaskItem.vue";
+import TaskList from "../components/task/TaskList.vue";
+import AppViewLayout from "../components/UI/AppViewLayout.vue";
 
 export default defineComponent({
+  components: {AppViewLayout, TaskList, GroupTaskItem, AppPaginationFooter},
   setup() {
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch} = useOpenGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
+    const {isLoading, data, error, refetch, isRefetching} = useOpenGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
     const assignMutation = useAssignTaskToCurrentUserMutation();
     watch(currentSortDirection, () => {
       refetch();
@@ -79,6 +84,7 @@ export default defineComponent({
       assignTask,
       pageId,
       isLoading,
+      isRefetching,
       errorMessage: error || assignMutation.error,
       data,
       filter: searchQuery,

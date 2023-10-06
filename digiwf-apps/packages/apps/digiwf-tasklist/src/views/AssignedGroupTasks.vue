@@ -5,7 +5,7 @@
       description="Hier sehen Sie alle Aufgaben, die in Ihrer Gruppe aktuell bearbeitet werden. Klicken Sie auf übernehmen, um eine Aufgabe zu übernehmen."
       :tasks="data?.content || []"
       :show-assignee="true"
-      :is-loading="isLoading"
+      :is-loading="isLoading || isRefetching"
       :errorMessage="errorMessage"
       :tag="tag"
       :filter="filter"
@@ -52,14 +52,19 @@ import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation} from "..
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
 import {usePageFilters} from "../store/modules/filters";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import GroupTaskItem from "../components/task/GroupTaskItem.vue";
+import AppViewLayout from "../components/UI/AppViewLayout.vue";
+import TaskList from "../components/task/TaskList.vue";
 
 export default defineComponent({
+  components: {TaskList, AppViewLayout, GroupTaskItem, AppPaginationFooter},
   setup() {
     const router = useRouter();
     const pageId = usePageId();
     const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch} = useAssignedGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
+    const {isLoading, data, error, refetch, isRefetching} = useAssignedGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
 
     const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
@@ -83,6 +88,7 @@ export default defineComponent({
       pageId,
       reassignTask,
       isLoading,
+      isRefetching,
       errorMessage: error,
       data,
       filter: searchQuery,
