@@ -53,7 +53,7 @@ describe('Vorgaenge Anzeigen', () => {
         cy.log("Step 4");
         pageSize = 10
         vorgangStarten.changePageSize(pageSize);
-        cy.wait(10000)
+        cy.wait(3000)
         vorgangStarten.goToLastPage();
         vorgangStarten.getLastPageNumber().then((maxPageNumber) =>{
             vorgangStarten.checkPageNumber(maxPageNumber);
@@ -72,23 +72,23 @@ describe('Vorgaenge Anzeigen', () => {
 
         //Step6
         cy.log("Step 6");
-        let search_request = 'DigiWF er'
         vorgangStarten.getFoundProcesses().then((numProcessesOld) => {
-            vorgangStarten.findProcess(search_request)
+            vorgangStarten.findProcess(EXAMPLE_GROUP_TASK_NAME)
+            cy.wait(3000)
                 vorgangStarten.getFoundProcesses().then((numProcesses) => {
                     expect(numProcesses).lt(numProcessesOld);
                 })
-                vorgangStarten.getListElement(1).invoke('text').then((txt) => {
-                    expect(txt).to.contain(search_request)
+                vorgangStarten.getListElement(EXAMPLE_GROUP_TASK_KEY).invoke('text').then((txt) => {
+                    expect(txt).to.contain(EXAMPLE_GROUP_TASK_NAME)
                 })
         })
 
 
         //Step7
         cy.log("Step 7");
-        vorgangStarten.findProcess(EXAMPLE_GROUP_TASK_NAME);
         vorgangStarten.clickListElement(EXAMPLE_GROUP_TASK_KEY);
-        startDigiWFErleben.checkHeadline(search_request)
+        cy.wait(3000)
+        startDigiWFErleben.checkHeadline(EXAMPLE_GROUP_TASK_NAME)
 
     })
 })

@@ -40,8 +40,8 @@ class VorgangStarten extends Page{
         })
     }
 
-    getListElement(num){
-        return this.elements.listElement(num)
+    getListElement(key){
+        return cy.get('[data-element-key="' + key + '"]')
     }
 
     getList(){
