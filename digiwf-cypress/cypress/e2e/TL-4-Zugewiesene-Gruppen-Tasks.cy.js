@@ -85,7 +85,7 @@ describe('zugewiesene Gruppentasks anzeigen', () => {
             groupUserTasks.tickCheckbox();
             groupUserTasks.clickAbschliessen();
             //necessary to wait for the task to be deleted
-            cy.wait(3000)
+            cy.wait(4000)
             meineAufgaben.clickAktualisieren();
         }
     })
