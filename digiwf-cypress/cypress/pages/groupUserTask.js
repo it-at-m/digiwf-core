@@ -31,6 +31,7 @@ class GroupUserTask extends Page{
 
     tickCheckbox(){
         this.elements.checkBox().should('be.visible')
+        cy.wait(2000);
         this.elements.checkBox().click()
     }
 
