@@ -562,6 +562,9 @@ const timeSchema = {
         ...basicAttributes,
         properties: {
           ...basicAttributes.properties,
+          "x-display": {
+            "const": "custom-time-input"
+          },
           "format": {
             "const": "time"
           },
