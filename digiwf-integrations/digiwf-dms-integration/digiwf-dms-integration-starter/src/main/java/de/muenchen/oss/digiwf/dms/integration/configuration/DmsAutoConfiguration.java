@@ -10,10 +10,8 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUs
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
+import de.muenchen.oss.digiwf.dms.integration.application.service.CancelObjectService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.DepositObjectService;
@@ -67,6 +65,12 @@ public class DmsAutoConfiguration {
     @ConditionalOnMissingBean
     public DepositObjectUseCase depositObjectUseCase(DepositObjectPort depositObjectPort) {
         return new DepositObjectService(depositObjectPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CancelObjectUseCase cancelObjectUseCase(CancelObjectPort cancelObjectPort) {
+        return new CancelObjectService(cancelObjectPort);
     }
 
     @Bean

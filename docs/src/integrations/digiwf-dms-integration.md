@@ -101,6 +101,33 @@ Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozesse
 befüllen Sie es mit den gewünschten Informationen:
 [Zu den Akten legen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/depositObject.json)
 
+### Objekt stornieren
+
+Um ein Objekt im Dms zu stornieren, erzeugen Sie zuerst ein `CancelObjectDto`-Objekt und setzen den
+TYPE-Header auf `cancelObject`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `CancelObjectDto`-Objekt aufgeführt:
+
+```json
+{
+  "objectCoo": "",
+  "user": ""
+}
+```
+
+Die Dms Integration storniert das Objekt mit der angegebenen `Coo`.
+Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+
 ### Fehlerbehandlung
 
 Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.
