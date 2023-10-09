@@ -4,6 +4,7 @@ import {Page} from "../commonModels";
 import {callGetProcessInstances} from "../../api/processInstances/processInstancesApiCalls";
 import {queryClient} from "../queryClient";
 import {DateTime} from "luxon";
+import {nullToUndefined} from "../../utils/dataTransformations";
 
 export interface ProcessInstance { // FIXME: check nullable properties
   readonly id: string;
@@ -22,7 +23,7 @@ export const useGetProcessInstances = (page: Ref<number>, size: Ref<number>, que
   useQuery({
     queryKey: [processInstancesQueryKey, page.value, size.value, query.value], //.filter(it => !!it), // remove query key if not set
     queryFn: () => {
-      return callGetProcessInstances(page.value, size.value, query.value)
+      return callGetProcessInstances(page.value, size.value, nullToUndefined(query.value))
         .then(data => {
 
           const content = data.content?.map<ProcessInstance>(it => ({

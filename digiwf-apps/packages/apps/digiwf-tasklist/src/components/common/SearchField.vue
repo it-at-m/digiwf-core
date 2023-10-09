@@ -60,6 +60,7 @@ import {
   useGetPersistentFilters,
   useSavePersistentFilters
 } from "../../middleware/persistentFilter/persistentFilters";
+import {SEARCH_DEBOUNCE_INTERVAL} from "../../constants";
 
 export default defineComponent({
   props:{
@@ -108,7 +109,7 @@ export default defineComponent({
       return isNotBlank && isSaved;
     };
 
-    const debouncedCallback = props.onFilterChange && debounce(props.onFilterChange, 200);
+    const debouncedCallback = props.onFilterChange && debounce(props.onFilterChange, SEARCH_DEBOUNCE_INTERVAL);
 
     return {
       isLoading,
