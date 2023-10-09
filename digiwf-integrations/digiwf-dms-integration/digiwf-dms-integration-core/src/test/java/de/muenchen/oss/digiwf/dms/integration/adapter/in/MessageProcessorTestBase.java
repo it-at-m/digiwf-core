@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
@@ -19,12 +20,13 @@ class MessageProcessorTestBase {
     protected final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
     protected final CreateDocumentUseCase createDocumentUseCaseMock = Mockito.mock(CreateDocumentUseCase.class);
     protected final DepositObjectUseCase depositObjectUseCaseMock = Mockito.mock(DepositObjectUseCase.class);
+    protected final CancelObjectUseCase cancelObjectUseCaseMock = Mockito.mock(CancelObjectUseCase.class);
     protected final String processInstanceId = "exampleProcessInstanceId";
     protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
     protected MessageProcessor messageProcessor;
 
     protected void setupBase() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock, depositObjectUseCaseMock);
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock, depositObjectUseCaseMock, cancelObjectUseCaseMock);
     }
 }
 

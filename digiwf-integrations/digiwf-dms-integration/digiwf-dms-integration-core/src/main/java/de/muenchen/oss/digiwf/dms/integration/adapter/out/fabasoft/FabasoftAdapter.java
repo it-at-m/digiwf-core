@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.CancelObjectPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
@@ -15,7 +16,11 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort, DepositObjectPort {
+public class FabasoftAdapter implements
+        CreateProcedurePort,
+        CreateDocumentPort,
+        DepositObjectPort,
+        CancelObjectPort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -162,4 +167,20 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
         return attachment;
     }
 
+    @Override
+    public void cancelObject(final String objectCoo, final String user) {
+        log.info("calling CancelObjectGI"
+                + " Userlogin: " + user
+                + " Objaddress: " + objectCoo
+        );
+
+        final CancelObjectGI cancelObjectGI = new CancelObjectGI();
+        cancelObjectGI.setObjaddress(objectCoo);
+        cancelObjectGI.setUserlogin(user);
+        cancelObjectGI.setBusinessapp(this.properties.getBusinessapp());
+
+        final CancelObjectGIResponse response = this.wsClient.cancelObjectGI(cancelObjectGI);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+    }
 }

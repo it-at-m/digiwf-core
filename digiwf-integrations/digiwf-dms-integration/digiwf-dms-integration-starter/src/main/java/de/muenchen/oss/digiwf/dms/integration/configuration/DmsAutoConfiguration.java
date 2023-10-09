@@ -1,14 +1,12 @@
 package de.muenchen.oss.digiwf.dms.integration.configuration;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateDocumentDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateProcedureDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.DepositObjectDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.MessageProcessor;
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.*;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
@@ -87,14 +85,26 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<CancelObjectDto>> cancelObjectMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.cancelObject();
+    }
+
+    @Bean
     @ConditionalOnMissingBean
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final CreateProcedureUseCase createProcedureUseCase,
             final CreateDocumentUseCase createDocumentUseCase,
-            final DepositObjectUseCase depositObjectUseCase) {
-        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase, depositObjectUseCase);
+            final DepositObjectUseCase depositObjectUseCase,
+            final CancelObjectUseCase cancelObjectUseCase) {
+        return new MessageProcessor(
+                processApi,
+                errorApi,
+                createProcedureUseCase,
+                createDocumentUseCase,
+                depositObjectUseCase,
+                cancelObjectUseCase);
     }
 
 }

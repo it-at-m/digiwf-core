@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
@@ -30,6 +31,7 @@ public class MessageProcessor {
     private final CreateProcedureUseCase createProcedureUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
+    private final CancelObjectUseCase cancelObjectUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
@@ -89,6 +91,27 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document));
+            } catch (final BpmnError bpmnError) {
+                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
+            } catch (final IncidentError incidentError) {
+                this.errorApi.handleIncident(message.getHeaders(), incidentError);
+            } catch (final ValidationException validationException) {
+                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
+            }
+        };
+    }
+
+    public Consumer<Message<CancelObjectDto>> cancelObject() {
+        return message -> {
+            try {
+                final CancelObjectDto cancelObjectDto = message.getPayload();
+                this.cancelObjectUseCase.cancelObject(
+                        cancelObjectDto.getObjectCoo(),
+                        cancelObjectDto.getUser()
+                );
+
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {
