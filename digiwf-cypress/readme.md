@@ -2,8 +2,12 @@
 
 ## Getting started
 
-Download and install cypress like described in: https://docs.cypress.io/guides/getting-started/installing-cypress
-It is important to use cypress direct in the digiwf-cypress folder. 
+Download and install run:
+```BASH
+npm install
+```
+For further information see:  https://docs.cypress.io/guides/getting-started/installing-cypress
+It is important to use cypress in the digiwf-cypress folder. 
 
 ## Run a cypress test
 
