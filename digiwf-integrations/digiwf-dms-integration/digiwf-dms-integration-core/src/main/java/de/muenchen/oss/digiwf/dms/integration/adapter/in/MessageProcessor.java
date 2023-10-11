@@ -3,6 +3,8 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocumentUseCase;
+import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -29,6 +31,7 @@ public class MessageProcessor {
     private final ErrorApi errorApi;
     private final CreateProcedureUseCase createProcedureUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
+    private final UpdateDocumentUseCase updateDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
@@ -89,6 +92,31 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document));
+            } catch (final BpmnError bpmnError) {
+                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
+            } catch (final IncidentError incidentError) {
+                this.errorApi.handleIncident(message.getHeaders(), incidentError);
+            } catch (final ValidationException validationException) {
+                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
+            }
+        };
+    }
+
+    public Consumer<Message<UpdateDocumentDto>> updateDocument() {
+        return message -> {
+            try {
+                final UpdateDocumentDto updateDocumentDto = message.getPayload();
+                this.updateDocumentUseCase.updateDocument(
+                        updateDocumentDto.getDocumentCoo(),
+                        updateDocumentDto.getTitle(),
+                        updateDocumentDto.getUser(),
+                        DocumentType.valueOf(updateDocumentDto.getType()),
+                        updateDocumentDto.getFilepathsAsList(),
+                        updateDocumentDto.getFileContext()
+                );
+
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final IncidentError incidentError) {
