@@ -164,10 +164,13 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
         switch (type) {
             case EINGEHEND:
                 this.updateIncomingDocument(documentCOO, title, contents, user);
+                return;
             case AUSGEHEND:
                 this.updateOutgoingDocument(documentCOO, title, contents, user);
+                return;
             case INTERN:
                 this.updateInternalDocument(documentCOO, title, contents, user);
+                return;
             default:
                 throw new AssertionError("must not happen");
         }

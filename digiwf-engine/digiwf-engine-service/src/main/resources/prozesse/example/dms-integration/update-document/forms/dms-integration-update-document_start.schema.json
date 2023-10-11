@@ -80,7 +80,7 @@
                 },
                 "x-rules": []
               },
-              "procedureCoo": {
+              "documentCoo": {
                 "fieldType": "text",
                 "title": "Dokuement (COO)",
                 "type": "string",

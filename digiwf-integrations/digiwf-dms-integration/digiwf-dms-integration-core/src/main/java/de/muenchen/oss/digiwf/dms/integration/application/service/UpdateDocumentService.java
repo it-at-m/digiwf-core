@@ -4,7 +4,6 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocument
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.UpdateDocumentPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
