@@ -1,0 +1,18 @@
+{
+  "key": "update-document-integration-example",
+  "statusConfig": [],
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": "test"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "test"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "dms-integration-update-document_start"
+    }
+  ]
+}

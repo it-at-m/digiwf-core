@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-create-document_start",
+  "key": "dms-integration-update-document_start",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -29,7 +29,7 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process create a document with the information from the form below.",
+                "default": "With this test process update a document with the information from the form below.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -45,7 +45,7 @@
               },
               "topic": {
                 "fieldType": "text",
-                "title": "Create Document Topic",
+                "title": "Update Document Topic",
                 "type": "string",
                 "key": "topic",
                 "default": "dwf-dms-local-01",
@@ -82,9 +82,9 @@
               },
               "procedureCoo": {
                 "fieldType": "text",
-                "title": "Vorgang (COO)",
+                "title": "Dokuement (COO)",
                 "type": "string",
-                "key": "procedureCoo",
+                "key": "documentCoo",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
