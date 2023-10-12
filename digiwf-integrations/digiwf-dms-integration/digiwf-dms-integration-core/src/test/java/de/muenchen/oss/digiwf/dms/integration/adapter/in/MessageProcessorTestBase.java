@@ -19,14 +19,14 @@ class MessageProcessorTestBase {
     protected final ProcessApi processApi = Mockito.mock(ProcessApi.class);
     protected final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
     protected final CreateDocumentUseCase createDocumentUseCaseMock = Mockito.mock(CreateDocumentUseCase.class);
-    protected final UpdateDocumentUseCase updateDocumentUseCase = Mockito.mock(UpdateDocumentUseCase.class);
+    protected final UpdateDocumentUseCase updateDocumentUseCaseMock = Mockito.mock(UpdateDocumentUseCase.class);
     protected final DepositObjectUseCase depositObjectUseCaseMock = Mockito.mock(DepositObjectUseCase.class);
     protected final String processInstanceId = "exampleProcessInstanceId";
     protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
     protected MessageProcessor messageProcessor;
 
     protected void setupBase() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock, updateDocumentUseCase, depositObjectUseCaseMock);
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock, updateDocumentUseCaseMock, depositObjectUseCaseMock);
     }
 }
 
