@@ -11,6 +11,7 @@
     outlined
     hide-details
     :items="persistentFilters?.map((f) => f.filterString) || []"
+    aria-label="Aufgaben durchsuchen"
     label="Aufgaben durchsuchen"
     clearable
     style="max-width: 500px"
@@ -26,7 +27,7 @@
           class="v-icon"
           @click="deletePersistentFilter()"
         >
-          <v-icon color="primary">
+          <v-icon color="primary" aria-label="Filter löschen" role="img" aria-hidden="false">
             mdi-star
           </v-icon>
         </v-btn>
@@ -37,12 +38,12 @@
           class="v-icon"
           @click="savePersistentFilter()"
         >
-          <v-icon color="primary">
+          <v-icon color="primary" aria-label="Filter speichern" role="img" aria-hidden="false">
             mdi-star-outline
           </v-icon>
         </v-btn>
       </div>
-      <v-icon class="ml-2">
+      <v-icon class="ml-2" aria-label="Aufgaben durchsuchen" role="img" aria-hidden="false">
         mdi-magnify
       </v-icon>
     </template>
