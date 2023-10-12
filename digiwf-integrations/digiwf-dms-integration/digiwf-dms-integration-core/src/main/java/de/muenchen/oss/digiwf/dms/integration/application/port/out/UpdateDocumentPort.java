@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UpdateDocumentPort {
 
-    void updateDocument(String documentCOO, String title, DocumentType type, List<Content> contents, String user);
+    void updateDocument(String documentCOO, DocumentType type, List<Content> contents, String user);
 
 }

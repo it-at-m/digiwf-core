@@ -16,8 +16,6 @@ public class UpdateDocumentDto {
 
     private String documentCoo;
 
-    private String title;
-
     private String user;
 
     private String type;

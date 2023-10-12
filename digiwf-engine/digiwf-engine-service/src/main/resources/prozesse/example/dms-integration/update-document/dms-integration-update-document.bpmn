@@ -34,7 +34,6 @@
         <camunda:in sourceExpression="${type}" target="type" />
         <camunda:in sourceExpression="${topic}" target="app_topic_name" />
         <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
-        <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />
       </bpmn:extensionElements>

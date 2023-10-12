@@ -62,24 +62,6 @@
                 },
                 "x-rules": []
               },
-              "title": {
-                "fieldType": "text",
-                "title": "Title",
-                "type": "string",
-                "key": "title",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
               "documentCoo": {
                 "fieldType": "text",
                 "title": "Dokuement (COO)",

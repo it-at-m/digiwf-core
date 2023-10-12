@@ -108,7 +108,6 @@ public class MessageProcessor {
                 final UpdateDocumentDto updateDocumentDto = message.getPayload();
                 this.updateDocumentUseCase.updateDocument(
                         updateDocumentDto.getDocumentCoo(),
-                        updateDocumentDto.getTitle(),
                         updateDocumentDto.getUser(),
                         DocumentType.valueOf(updateDocumentDto.getType()),
                         updateDocumentDto.getFilepathsAsList(),

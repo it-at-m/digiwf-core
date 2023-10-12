@@ -20,7 +20,6 @@ public class UpdateDocumentService implements UpdateDocumentUseCase {
     @Override
     public void updateDocument(
             final String documentCOO,
-            final String title,
             final String user,
             final DocumentType type,
             final List<String> filepaths,
@@ -29,7 +28,7 @@ public class UpdateDocumentService implements UpdateDocumentUseCase {
 
         final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext);
 
-        updateDocumentPort.updateDocument(documentCOO, title, type, contents, user);
+        updateDocumentPort.updateDocument(documentCOO, type, contents, user);
 
     }
 

@@ -89,20 +89,6 @@
       }
     },
     {
-      "label": "Title",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "title",
-        "target": "title"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "User",
       "type": "String",
       "value": "",

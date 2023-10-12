@@ -160,31 +160,29 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
     }
 
     @Override
-    public void updateDocument(final String documentCOO, final String title, final DocumentType type, final List<Content> contents, final String user) {
+    public void updateDocument(final String documentCOO, final DocumentType type, final List<Content> contents, final String user) {
         switch (type) {
             case EINGEHEND:
-                this.updateIncomingDocument(documentCOO, title, contents, user);
+                this.updateIncomingDocument(documentCOO, contents, user);
                 return;
             case AUSGEHEND:
-                this.updateOutgoingDocument(documentCOO, title, contents, user);
+                this.updateOutgoingDocument(documentCOO, contents, user);
                 return;
             case INTERN:
-                this.updateInternalDocument(documentCOO, title, contents, user);
+                this.updateInternalDocument(documentCOO, contents, user);
                 return;
             default:
                 throw new AssertionError("must not happen");
         }
     }
 
-    private void updateIncomingDocument(final String documentCOO, final String title, final List<Content> contents, final String user) {
+    private void updateIncomingDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateIncomingGI: " + documentCOO);
 
         final UpdateIncomingGI request = new UpdateIncomingGI();
         request.setUserlogin(user);
         request.setObjaddress(documentCOO);
         request.setBusinessapp(this.properties.getBusinessapp());
-        request.setShortname(title);
-        request.setFilesubj(title);
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -200,16 +198,13 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
     }
 
-    private void updateOutgoingDocument(final String documentCOO, final String title, final List<Content> contents, final String user) {
+    private void updateOutgoingDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateOutgoingGI: " + documentCOO);
 
         final UpdateOutgoingGI request = new UpdateOutgoingGI();
         request.setUserlogin(user);
         request.setObjaddress(documentCOO);
         request.setBusinessapp(this.properties.getBusinessapp());
-
-        request.setShortname(title);
-        request.setFilesubj(title);
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -225,15 +220,13 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
     }
 
-    private void updateInternalDocument(final String documentCOO, final String title, final List<Content> contents, final String user) {
+    private void updateInternalDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateInternalGI: " + documentCOO);
 
         final UpdateInternalGI request = new UpdateInternalGI();
         request.setUserlogin(user);
         request.setObjaddress(documentCOO);
         request.setBusinessapp(this.properties.getBusinessapp());
-        request.setShortname(title);
-        request.setFilesubj(title);
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();

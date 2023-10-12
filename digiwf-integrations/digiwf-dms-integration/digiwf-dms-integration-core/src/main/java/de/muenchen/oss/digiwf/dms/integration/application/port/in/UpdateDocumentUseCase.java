@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UpdateDocumentUseCase {
 
-    void updateDocument(final String documentCOO, final String title, final String user, DocumentType type, final List<String> filepaths, final String fileContext);
+    void updateDocument(final String documentCOO, final String user, DocumentType type, final List<String> filepaths, final String fileContext);
 
 }
