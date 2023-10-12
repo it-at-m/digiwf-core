@@ -30,8 +30,10 @@ public class JsonSchemaValidationAdapter implements JsonSchemaValidationPort {
         val taskData = this.engineDataMapper.mapToData(task.getPayload());
         val targetData = this.serializationService.deserializeData(schema.asMap(), taskData);
         val serializedData = this.serializationService.merge(filteredData, new JSONObject(targetData));
+        val defaultValue = this.serializationService.initialize(new JSONObject(schema.getSchema()).toString());
+        val serializedDataWithDefaultValues = this.serializationService.merge(new JSONObject(serializedData), defaultValue);
 
-        return this.engineDataMapper.mapObjectsToVariables(serializedData);
+        return this.engineDataMapper.mapObjectsToVariables(serializedDataWithDefaultValues);
     }
 
     @Override
