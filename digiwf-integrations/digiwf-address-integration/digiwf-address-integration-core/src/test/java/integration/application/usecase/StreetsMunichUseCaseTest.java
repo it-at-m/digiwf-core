@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.address.integration.gen.model.StrasseResponse;
 import de.muenchen.oss.digiwf.address.integration.model.request.ListStreetsModel;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,6 +20,7 @@ class StreetsMunichUseCaseTest {
 
     private final StreetsMunichInPort streetsMunichUseCase = new StreetsMunichUseCase(addressClientOutPort);
 
+    @Test
     void testFindStreetsById_returnsStrasse() throws BpmnError, IncidentError {
         long streetId = 0L;
         final Strasse expectedResponse = new Strasse();
@@ -31,6 +33,7 @@ class StreetsMunichUseCaseTest {
         verify(addressClientOutPort).findStreetsById(streetId);
     }
 
+    @Test
     void testFindStreetsById_throwsBpmnError() throws BpmnError, IncidentError {
         final long streetId = 0L;
         final BpmnError expectedError = new BpmnError("400", "SomeError");
@@ -42,6 +45,7 @@ class StreetsMunichUseCaseTest {
         });
     }
 
+    @Test
     void testFindStreetsById_throwsIncidentError() throws BpmnError, IncidentError {
         final long streetId = 0L;
         final IncidentError expectedError = new IncidentError("SomeError");
@@ -53,6 +57,7 @@ class StreetsMunichUseCaseTest {
         });
     }
 
+    @Test
     void testListStreets_returnsStrasseResponse() throws BpmnError, IncidentError {
         final ListStreetsModel listStreetsModel = new ListStreetsModel();
         final StrasseResponse expectedResponse = new StrasseResponse();
@@ -65,6 +70,7 @@ class StreetsMunichUseCaseTest {
         verify(addressClientOutPort).listStreets(listStreetsModel);
     }
 
+    @Test
     void testListStreets_throwsBpmnError() throws BpmnError, IncidentError {
         final ListStreetsModel listStreetsModel = new ListStreetsModel();
         final BpmnError expectedError = new BpmnError("400", "SomeError");
@@ -76,6 +82,7 @@ class StreetsMunichUseCaseTest {
         });
     }
 
+    @Test
     void testListStreets_throwsIncidentError() throws BpmnError, IncidentError {
         final ListStreetsModel listStreetsModel = new ListStreetsModel();
         final IncidentError expectedError = new IncidentError("SomeError");
