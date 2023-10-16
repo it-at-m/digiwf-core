@@ -76,6 +76,7 @@ io:
           createDocument: "createDocumentMessageProcessor"
           updateDocument: "updateDocumentMessageProcessor"
           depositObject: "depositObjectMessageProcessor"
+          cancelObject: "cancelObjectMessageProcessor"
 
 de:
   muenchen:

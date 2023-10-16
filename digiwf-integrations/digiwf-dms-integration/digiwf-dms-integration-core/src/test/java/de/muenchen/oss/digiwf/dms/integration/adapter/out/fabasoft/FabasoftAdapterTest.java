@@ -109,5 +109,19 @@ public class FabasoftAdapterTest {
         fabasoftAdapter.updateDocument("documentCOO", DocumentType.INTERN, List.of(content), "user");
     }
 
+    @Test
+    public void execute_cancelObject_request() {
+        val response = new CancelObjectGIResponse();
+        response.setStatus(0);
+
+        stubOperation(
+                "CancelObjectGI",
+                CancelObjectGI.class, (u) -> true,
+                response);
+
+
+        fabasoftAdapter.cancelObject("objectCoo", "user");
+    }
+
 
 }
