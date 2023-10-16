@@ -45,13 +45,13 @@ class CancelObjectMessageProcessorTest extends MessageProcessorTestBase {
     }
 
     @Test
-    void testDepositObjectSuccessful() {
+    void testCancelObjectSuccessful() {
         messageProcessor.cancelObject().accept(this.message);
         verify(cancelObjectUseCaseMock, times(1)).cancelObject(cancelObjectDto.getObjectCoo(), cancelObjectDto.getUser());
     }
 
     @Test
-    void testDepositObjectValidationException() {
+    void testCancelObjectValidationException() {
         Mockito.doThrow(new ValidationException("Test ValidationException")).when(cancelObjectUseCaseMock).cancelObject(any(), any());
         messageProcessor.cancelObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -61,7 +61,7 @@ class CancelObjectMessageProcessorTest extends MessageProcessorTestBase {
 
 
     @Test
-    void testDepositObjectIncidentError() {
+    void testCancelObjectIncidentError() {
         Mockito.doThrow(new IncidentError("Error Message")).when(cancelObjectUseCaseMock).cancelObject(any(), any());
         messageProcessor.cancelObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
