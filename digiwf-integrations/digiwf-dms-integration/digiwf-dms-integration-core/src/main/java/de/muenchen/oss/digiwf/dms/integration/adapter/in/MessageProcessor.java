@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocument
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;

@@ -13,7 +13,6 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectU
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CancelObjectService;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
 import de.muenchen.oss.digiwf.dms.integration.application.service.DepositObjectService;
@@ -115,8 +114,6 @@ public class DmsAutoConfiguration {
             final CreateProcedureUseCase createProcedureUseCase,
             final CreateDocumentUseCase createDocumentUseCase,
             final UpdateDocumentUseCase updateDocumentUseCase,
-            final DepositObjectUseCase depositObjectUseCase) {
-        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase, updateDocumentUseCase, depositObjectUseCase);
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase) {
         return new MessageProcessor(
@@ -124,6 +121,7 @@ public class DmsAutoConfiguration {
                 errorApi,
                 createProcedureUseCase,
                 createDocumentUseCase,
+                updateDocumentUseCase,
                 depositObjectUseCase,
                 cancelObjectUseCase);
     }
