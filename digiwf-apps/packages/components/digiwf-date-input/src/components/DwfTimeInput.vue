@@ -27,6 +27,7 @@
 <script lang="ts">
 import {defineComponent, ref} from "vue";
 import {validateTime} from "@/validation/timeValidation";
+import {transformNativeTimeValue} from "@/transformation/transformNativeTimeValue";
 
 export default defineComponent({
   props: [
@@ -49,7 +50,7 @@ export default defineComponent({
 
     const onChange = () => {
       if (!!on?.input) {
-        on.input(timeValue.value);
+        on.input(transformNativeTimeValue(timeValue.value));
       }
       validationResult.value = validateTime(timeValue.value, nativeElement.value?.validity?.valid);
     }
