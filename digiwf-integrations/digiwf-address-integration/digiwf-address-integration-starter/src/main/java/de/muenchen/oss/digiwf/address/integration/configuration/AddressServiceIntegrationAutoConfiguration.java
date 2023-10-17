@@ -1,13 +1,7 @@
 package de.muenchen.oss.digiwf.address.integration.configuration;
 
+import de.muenchen.oss.digiwf.address.integration.adapter.out.AddressClientOutAdapter;
 import de.muenchen.oss.digiwf.address.integration.adapter.out.IntegrationOutAdapter;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.AddressClientOutAdapter;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.AddressGermanyApi;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.AddressMunichApi;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.api.StreetsMunichApi;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.AddressGermanyImpl;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.AddressesMunichImpl;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.client.impl.StreetsMunichImpl;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressGermanyInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.StreetsMunichInPort;
@@ -16,10 +10,16 @@ import de.muenchen.oss.digiwf.address.integration.application.port.out.Integrati
 import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesGermanyUseCase;
 import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesMunichUseCase;
 import de.muenchen.oss.digiwf.address.integration.application.usecase.StreetsMunichUseCase;
-import de.muenchen.oss.digiwf.address.integration.gen.ApiClient;
-import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenBundesweitApi;
-import de.muenchen.oss.digiwf.address.integration.gen.api.AdressenMnchenApi;
-import de.muenchen.oss.digiwf.address.integration.gen.api.StraenMnchenApi;
+import de.muenchen.oss.digiwf.address.integration.client.api.AddressGermanyApi;
+import de.muenchen.oss.digiwf.address.integration.client.api.AddressMunichApi;
+import de.muenchen.oss.digiwf.address.integration.client.api.StreetsMunichApi;
+import de.muenchen.oss.digiwf.address.integration.client.gen.ApiClient;
+import de.muenchen.oss.digiwf.address.integration.client.gen.api.AdressenBundesweitApi;
+import de.muenchen.oss.digiwf.address.integration.client.gen.api.AdressenMnchenApi;
+import de.muenchen.oss.digiwf.address.integration.client.gen.api.StraenMnchenApi;
+import de.muenchen.oss.digiwf.address.integration.client.impl.AddressGermanyImpl;
+import de.muenchen.oss.digiwf.address.integration.client.impl.AddressesMunichImpl;
+import de.muenchen.oss.digiwf.address.integration.client.impl.StreetsMunichImpl;
 import de.muenchen.oss.digiwf.address.integration.properties.AddressServiceIntegrationProperties;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;

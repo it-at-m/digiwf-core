@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.address.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.dto.*;
-import de.muenchen.oss.digiwf.address.integration.model.request.*;
+import de.muenchen.oss.digiwf.address.integration.client.model.request.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -2,9 +2,9 @@ package de.muenchen.oss.digiwf.address.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.address.integration.application.port.in.StreetsMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.out.AddressClientOutPort;
-import de.muenchen.oss.digiwf.address.integration.gen.model.Strasse;
-import de.muenchen.oss.digiwf.address.integration.gen.model.StrasseResponse;
-import de.muenchen.oss.digiwf.address.integration.model.request.ListStreetsModel;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.Strasse;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.StrasseResponse;
+import de.muenchen.oss.digiwf.address.integration.client.model.request.ListStreetsModel;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;

@@ -25,6 +25,7 @@
     </properties>
 
     <modules>
+        <module>digiwf-address-integration-client</module>
         <module>digiwf-address-integration-core</module>
         <module>digiwf-address-integration-starter</module>
         <module>digiwf-address-integration-service</module>

@@ -5,9 +5,9 @@ import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressGer
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.StreetsMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.out.IntegrationOutPort;
-import de.muenchen.oss.digiwf.address.integration.gen.model.*;
-import de.muenchen.oss.digiwf.address.integration.model.request.*;
-import de.muenchen.oss.digiwf.address.integration.model.response.AddressDistancesModel;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.*;
+import de.muenchen.oss.digiwf.address.integration.client.model.request.*;
+import de.muenchen.oss.digiwf.address.integration.client.model.response.AddressDistancesModel;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;

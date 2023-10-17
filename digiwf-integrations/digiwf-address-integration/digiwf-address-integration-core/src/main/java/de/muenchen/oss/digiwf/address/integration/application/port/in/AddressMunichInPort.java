@@ -1,10 +1,10 @@
 package de.muenchen.oss.digiwf.address.integration.application.port.in;
 
-import de.muenchen.oss.digiwf.address.integration.gen.model.AenderungResponse;
-import de.muenchen.oss.digiwf.address.integration.gen.model.MuenchenAdresse;
-import de.muenchen.oss.digiwf.address.integration.gen.model.MuenchenAdresseResponse;
-import de.muenchen.oss.digiwf.address.integration.model.request.*;
-import de.muenchen.oss.digiwf.address.integration.model.response.AddressDistancesModel;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.AenderungResponse;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.MuenchenAdresse;
+import de.muenchen.oss.digiwf.address.integration.client.gen.model.MuenchenAdresseResponse;
+import de.muenchen.oss.digiwf.address.integration.client.model.request.*;
+import de.muenchen.oss.digiwf.address.integration.client.model.response.AddressDistancesModel;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 
