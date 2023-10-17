@@ -57,7 +57,7 @@ public class IncidentServiceImpl implements IncidentService {
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
             createIncidentDto.setIncidentType(INCIDENT_TYPE);
             createIncidentDto.setMessage(
-                    messageContent != null
+                    messageContent != null  && !messageContent.isBlank()
                         ? messageContent
                         : "Error occurred in integration service"
             );

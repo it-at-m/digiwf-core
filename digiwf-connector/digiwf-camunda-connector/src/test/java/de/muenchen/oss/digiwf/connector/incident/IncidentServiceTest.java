@@ -69,6 +69,53 @@ public class IncidentServiceTest {
 
         verify(this.executionApi).createIncident("executionId", expectedCreateIncidentDto);
     }
+
+    @Test
+    @DisplayName("should create incident with default error message when message body is blank")
+    public void shouldCreateIncidentWithDefaultErrorMessageWhenMessageBodyIsBlank() throws ApiException {
+
+        final EventSubscriptionDto eventSubscriptionDto = new EventSubscriptionDto();
+        eventSubscriptionDto.setExecutionId("executionId");
+
+        final CreateIncidentDto expectedCreateIncidentDto = new CreateIncidentDto();
+        expectedCreateIncidentDto.setIncidentType("integrationError");
+        expectedCreateIncidentDto.setMessage("Error occurred in integration service");
+
+        when(this.eventSubscriptionApi.getEventSubscriptions(
+                null,
+                "messageName",
+                "message",
+                null,
+                "instanceId",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null)).thenReturn(List.of(eventSubscriptionDto));
+
+        this.incidentService.createIncident("instanceId", "messageName", " ");
+
+        verify(this.eventSubscriptionApi).getEventSubscriptions(
+                null,
+                "messageName",
+                "message",
+                null,
+                "instanceId",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        verify(this.executionApi).createIncident("executionId", expectedCreateIncidentDto);
+    }
+
     @Test
     @DisplayName("should create incident with given error message")
     public void shouldCreateIncidentWithGivenErrorMessage() throws ApiException {
