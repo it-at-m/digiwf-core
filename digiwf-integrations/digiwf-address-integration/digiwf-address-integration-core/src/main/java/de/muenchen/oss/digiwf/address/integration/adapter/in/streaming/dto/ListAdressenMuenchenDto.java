@@ -1,10 +1,16 @@
 package de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ListAdressenMuenchenDto {
 
     private List<String> baublock;

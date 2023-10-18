@@ -1,7 +1,7 @@
 spring:
     cloud:
         function:
-            definition: functionRouter;sendMessage;consume;
+            definition: functionRouter;sendMessage;integrationTestConsumer;
         stream:
             bindings:
                 functionRouter-in-0:
@@ -9,8 +9,8 @@ spring:
                     group: dwf-address-service
                 sendMessage-out-0:
                     destination: "dwf-connector-e2e-test"
-                consume-in-0:
-                    destination: "dwf-connector-incident-e2e-test"
+                integrationTestConsumer-in-0:
+                    destination: "dwf-connector-e2e-test"
                     group: dwf-address-service-e2e
             function:
                 routing:

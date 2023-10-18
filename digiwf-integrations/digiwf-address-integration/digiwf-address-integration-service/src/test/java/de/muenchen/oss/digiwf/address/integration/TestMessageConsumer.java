@@ -6,30 +6,25 @@ import org.springframework.messaging.Message;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Configuration
 public class TestMessageConsumer {
 
-    private final CountDownLatch latch = new CountDownLatch(1);
-
     private final Map<String, Map<String, Object>> receivedMessages = new HashMap<>();
 
     @Bean
-    public Consumer<Message<Map<String, Object>>> consume() {
+    public Consumer<Message<Map<String, Object>>> integrationTestConsumer() {
         return message -> {
-            receivedMessages.put(message.getHeaders().get(TYPE).toString(), message.getPayload());
-            latch.countDown();
+            final Map<String, Object> payloadVariables = (Map<String, Object>) message.getPayload().get("payloadVariables");
+            receivedMessages.put(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), payloadVariables);
         };
     }
 
-    public Map<String, Object> awaitMessage(final String type) throws InterruptedException {
-        latch.await(10, TimeUnit.SECONDS);
-        return receivedMessages.get(type);
+    public Map<String, Object> receiveMessage(final String processInstanceId) {
+        return receivedMessages.get(processInstanceId);
     }
 
 }
