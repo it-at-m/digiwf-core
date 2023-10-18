@@ -59,7 +59,7 @@ class StreetsMunichUseCaseTest {
 
     @Test
     void testListStreets_returnsStrasseResponse() throws BpmnError, IncidentError {
-        final ListStreetsModel listStreetsModel = new ListStreetsModel();
+        final ListStreetsModel listStreetsModel = ListStreetsModel.builder().build();
         final StrasseResponse expectedResponse = new StrasseResponse();
 
         when(addressClientOutPort.listStreets(listStreetsModel)).thenReturn(expectedResponse);
@@ -72,7 +72,7 @@ class StreetsMunichUseCaseTest {
 
     @Test
     void testListStreets_throwsBpmnError() throws BpmnError, IncidentError {
-        final ListStreetsModel listStreetsModel = new ListStreetsModel();
+        final ListStreetsModel listStreetsModel = ListStreetsModel.builder().build();
         final BpmnError expectedError = new BpmnError("400", "SomeError");
 
         when(addressClientOutPort.listStreets(listStreetsModel)).thenThrow(expectedError);
@@ -84,7 +84,7 @@ class StreetsMunichUseCaseTest {
 
     @Test
     void testListStreets_throwsIncidentError() throws BpmnError, IncidentError {
-        final ListStreetsModel listStreetsModel = new ListStreetsModel();
+        final ListStreetsModel listStreetsModel = ListStreetsModel.builder().build();
         final IncidentError expectedError = new IncidentError("SomeError");
 
         when(addressClientOutPort.listStreets(listStreetsModel)).thenThrow(expectedError);

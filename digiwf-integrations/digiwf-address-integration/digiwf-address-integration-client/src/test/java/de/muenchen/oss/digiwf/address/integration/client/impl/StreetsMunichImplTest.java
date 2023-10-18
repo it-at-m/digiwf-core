@@ -77,8 +77,9 @@ class StreetsMunichImplTest {
 
     @Test
     void testListStreets_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
-        final ListStreetsModel listStreetsModel = new ListStreetsModel();
-        listStreetsModel.setStreetName("streetName");
+        final ListStreetsModel listStreetsModel = ListStreetsModel.builder()
+                .streetName("streetName")
+                .build();
 
         final StrasseResponse expectedResponse = new StrasseResponse();
         expectedResponse.setPage(new AddressServicePage());
@@ -103,7 +104,7 @@ class StreetsMunichImplTest {
 
     @Test
     void testListStreets_ClientErrorException() {
-        ListStreetsModel listStreetsModel = new ListStreetsModel(); // Create a valid model
+        ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
         Mockito.when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
@@ -118,7 +119,7 @@ class StreetsMunichImplTest {
 
     @Test
     void testListStreets_ServerErrorException() {
-        ListStreetsModel listStreetsModel = new ListStreetsModel(); // Create a valid model
+        ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
         Mockito.when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
@@ -133,7 +134,7 @@ class StreetsMunichImplTest {
 
     @Test
     void testListStreets_RestClientException() {
-        ListStreetsModel listStreetsModel = new ListStreetsModel(); // Create a valid model
+        ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
         Mockito.when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),

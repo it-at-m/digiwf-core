@@ -23,7 +23,7 @@ class AddressesGermanyUseCaseTest {
 
     @Test
     void testSearchAddresses_returnsBundesweiteAdresseResponse() throws BpmnError, IncidentError {
-        SearchAddressesGermanyModel model = new SearchAddressesGermanyModel();
+        SearchAddressesGermanyModel model = SearchAddressesGermanyModel.builder().build();
         BundesweiteAdresseResponse expectedResponse = new BundesweiteAdresseResponse();
 
         when(addressClientOutPort.searchAddresses(model)).thenReturn(expectedResponse);
@@ -36,7 +36,7 @@ class AddressesGermanyUseCaseTest {
 
     @Test
     void testSearchAddresses_throwsBpmnError() throws BpmnError, IncidentError {
-        final SearchAddressesGermanyModel model = new SearchAddressesGermanyModel();
+        final SearchAddressesGermanyModel model = SearchAddressesGermanyModel.builder().build();
         final BpmnError expectedError = new BpmnError("400", "SomeError");
 
         when(addressClientOutPort.searchAddresses(model)).thenThrow(expectedError);
@@ -48,7 +48,7 @@ class AddressesGermanyUseCaseTest {
 
     @Test
     void testSearchAddresses_throwsIncidentError() throws BpmnError, IncidentError {
-        final SearchAddressesGermanyModel model = new SearchAddressesGermanyModel();
+        final SearchAddressesGermanyModel model = SearchAddressesGermanyModel.builder().build();
         final IncidentError expectedError = new IncidentError("SomeError");
 
         when(addressClientOutPort.searchAddresses(model)).thenThrow(expectedError);

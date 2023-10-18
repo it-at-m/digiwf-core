@@ -26,7 +26,7 @@ class AddressGermanyImplTest {
     private final AdressenBundesweitApi adressenBundesweitApi = Mockito.mock(AdressenBundesweitApi.class);
     private final AddressGermanyApi addressGermany = new AddressGermanyImpl(adressenBundesweitApi);
 
-    private final SearchAddressesGermanyModel searchAddressesModel = new SearchAddressesGermanyModel();
+    private final SearchAddressesGermanyModel searchAddressesModel = SearchAddressesGermanyModel.builder().build();
     private final BundesweiteAdresseResponse bundesweiteAdresseResponse = new BundesweiteAdresseResponse();
 
     @BeforeEach
