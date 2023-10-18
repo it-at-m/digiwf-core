@@ -29,14 +29,14 @@ public abstract class DigiWFIntegrationE2eTest {
     protected Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType) throws InterruptedException {
         this.sendMessage(payload, processInstanceId, messageType);
         // wait for a short moment for the integration to process the message
-        Thread.sleep(200);
+        Thread.sleep(800);
         final Map<String, Object> payloadVariables = this.receiveMessage(processInstanceId);
         if (payloadVariables != null) {
             return payloadVariables;
         }
 
         // try again
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         return this.receiveMessage(processInstanceId);
     }
 
