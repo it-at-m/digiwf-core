@@ -33,9 +33,9 @@ class S3AdapterTest {
 
     @BeforeEach
     void setup() {
-        supportedExtensions.put("application/pdf", "pdf");
-        supportedExtensions.put("image/png", "png");
-        supportedExtensions.put("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx");
+        supportedExtensions.put("pdf", "application/pdf");
+        supportedExtensions.put("png", "image/png");
+        supportedExtensions.put("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         s3Adapter = new S3Adapter(documentStorageFileRepository,documentStorageFolderRepository,supportedExtensions);
     }
 
