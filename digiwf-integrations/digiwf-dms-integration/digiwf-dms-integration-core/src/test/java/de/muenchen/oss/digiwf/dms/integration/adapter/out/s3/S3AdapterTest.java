@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -29,12 +27,15 @@ class S3AdapterTest {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
 
-    private final List<String> supportedExtensions = List.of("application/pdf","image/png","application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    private Map<String,String> supportedExtensions = new HashMap<>();
 
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
+        supportedExtensions.put("application/pdf", "pdf");
+        supportedExtensions.put("image/png", "png");
+        supportedExtensions.put("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx");
         s3Adapter = new S3Adapter(documentStorageFileRepository,documentStorageFolderRepository,supportedExtensions);
     }
 
@@ -58,8 +59,8 @@ class S3AdapterTest {
 
         final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
-        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
+        final Content pdfContent = new Content("pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("png","digiwf_logo",testPng);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -86,8 +87,8 @@ class S3AdapterTest {
 
         final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
-        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
+        final Content pdfContent = new Content("pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("png","digiwf_logo",testPng);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -121,9 +122,9 @@ class S3AdapterTest {
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
-        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
-        final Content wordContent = new Content("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
+        final Content pdfContent = new Content("pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("png","digiwf_logo",testPng);
+        final Content wordContent = new Content("docx","test-word",testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -158,9 +159,9 @@ class S3AdapterTest {
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final Content pdfContent = new Content("application/pdf","test-pdf",testPdf);
-        final Content pngContent = new Content("image/png","digiwf_logo",testPng);
-        final Content wordContent = new Content("application/vnd.openxmlformats-officedocument.wordprocessingml.document","test-word",testWord);
+        final Content pdfContent = new Content("pdf","test-pdf",testPdf);
+        final Content pngContent = new Content("png","digiwf_logo",testPng);
+        final Content wordContent = new Content("docx","test-word",testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
