@@ -30,6 +30,7 @@ public interface IntegrationOutPort {
 
   /**
    * Handles incident.
+   *
    * @param headers headers for error details.
    * @param incidentError incident to handle.
    */
