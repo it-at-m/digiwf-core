@@ -1,40 +1,12 @@
-# Digiwf Address-Service Integration 
+# Digiwf Address Integration 
+
+The following steps are needed to run the integration locally.
 
 ## Getting started
 
-Below is an example of how you can install and set up your service.
+1. Build it with `mvn clean install`
+2. Execute the e2e test [AddressIntegrationE2eTest.java](digiwf-address-integration-service/src/test/java/de/muenchen/oss/digiwf/address/integration/AddressIntegrationE2eTest.java)
 
-1. Use the spring initializer and create a Spring Boot application with `Spring Web`
-   dependencies [https://start.spring.io](https://start.spring.io)
-2. Add the `digiwf-address-service-integration-starter` dependency.
+## Testing functionality
 
-With Maven:
-
-```
-   <dependency>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-address-service-integration-starter</artifactId>
-        <version>${version}</version>
-   </dependency>
-```
-
-With Gradle:
-
-```
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-address-service-integration-starter', version: '${version}'
-```
-
-4. Configure your application
-
-```yaml
-de.muenchen.oss.digiwf.address.service:
-  url: <URL>
-```
-
-5. Use the repository beans
-
-To request the MAstER rest api, the methods of the following listed spring beans can be used.
-
-* `AddressenBundesweitService`
-* `AdressenMuenchenService`
-* `StrassenMuenchenService`
+The [AddressIntegrationE2eTest.java](digiwf-address-integration-service/src/test/java/de/muenchen/oss/digiwf/address/integration/AddressIntegrationE2eTest.java) is a test of the integrations functionality using an embedded kafka instance and wiremock to mock the api to the Address-Service.
