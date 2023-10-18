@@ -4,6 +4,7 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
+import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.FabasoftClienFactory;
@@ -62,6 +63,57 @@ public class FabasoftAdapterTest {
 
 
         fabasoftAdapter.depositObject("objectCoo", "user");
+    }
+
+    @Test
+    public void execute_createIncomingDocument_request() {
+        Content content = new Content("extension", "name", "content".getBytes());
+
+        val response = new CreateIncomingGIResponse();
+        response.setObjid("documentCOO");
+
+        stubOperation(
+                "CreateIncomingGI",
+                CreateIncomingGI.class, (u) -> true,
+                response);
+
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.EINGEHEND, List.of(content)), "user");
+
+        assertEquals(documentResponse, "documentCOO");
+    }
+
+    @Test
+    public void execute_createOutgoingDocument_request() {
+        Content content = new Content("extension", "name", "content".getBytes());
+
+        val response = new CreateOutgoingGIResponse();
+        response.setObjid("documentCOO");
+
+        stubOperation(
+                "CreateOutgoingGI",
+                CreateOutgoingGI.class, (u) -> true,
+                response);
+
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.AUSGEHEND, List.of(content)), "user");
+
+        assertEquals(documentResponse, "documentCOO");
+    }
+
+    @Test
+    public void execute_createInternalDocument_request() {
+        Content content = new Content("extension", "name", "content".getBytes());
+
+        val response = new CreateInternalGIResponse();
+        response.setObjid("documentCOO");
+
+        stubOperation(
+                "CreateInternalGI",
+                CreateInternalGI.class, (u) -> true,
+                response);
+
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.INTERN, List.of(content)), "user");
+
+        assertEquals(documentResponse, "documentCOO");
     }
 
     @Test
