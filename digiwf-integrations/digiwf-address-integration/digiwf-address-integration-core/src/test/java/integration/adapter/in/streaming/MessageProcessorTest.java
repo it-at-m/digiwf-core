@@ -43,7 +43,7 @@ class MessageProcessorTest {
 
     @Test
     void testSearchAddressesGermany() {
-        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(new SearchAdressenDeutschlandDto());
+        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(SearchAdressenDeutschlandDto.builder().build());
         when(addressGermanyInPort.searchAddresses(any())).thenReturn(new BundesweiteAdresseResponse());
         messageProcessor.searchAddressesGermany().accept(searchAdressenDeutschlandMsg);
         verify(integrationOutPort, times(1)).correlateProcessMessage(any(), anyMap());
@@ -51,7 +51,7 @@ class MessageProcessorTest {
 
     @Test
     void testSearchAddressesGermanyBpmnErrorHandling() {
-        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(new SearchAdressenDeutschlandDto());
+        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(SearchAdressenDeutschlandDto.builder().build());
         when(addressGermanyInPort.searchAddresses(any())).thenThrow(new BpmnError("400", "BpmnError"));
         messageProcessor.searchAddressesGermany().accept(searchAdressenDeutschlandMsg);
         verify(integrationOutPort, times(1)).handleBpmnError(any(), any());
@@ -59,7 +59,7 @@ class MessageProcessorTest {
 
     @Test
     void testSearchAddressesGermanyIncidentErrorHandling() {
-        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(new SearchAdressenDeutschlandDto());
+        final Message<SearchAdressenDeutschlandDto> searchAdressenDeutschlandMsg = createMessageHelper(SearchAdressenDeutschlandDto.builder().build());
         when(addressGermanyInPort.searchAddresses(any())).thenThrow(new IncidentError("IncidentError"));
         messageProcessor.searchAddressesGermany().accept(searchAdressenDeutschlandMsg);
         verify(integrationOutPort, times(1)).handleIncident(any(), any());
