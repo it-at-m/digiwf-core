@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.address.integration.utility;
 import de.muenchen.oss.digiwf.address.integration.TestMessageConsumer;
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
 
@@ -14,7 +15,8 @@ public abstract class DigiWFIntegrationE2eTest {
     private MessageApi messageApi;
     @Autowired
     private TestMessageConsumer testMessageConsumer;
-    private final String messageTopic = "dwf-address-e2e-test";
+    @Value("${spring.cloud.stream.bindings.functionRouter-in-0.destination}")
+    private String messageTopic;
 
 
     protected Map<String, Object> receiveMessage(final String processInstanceId) {
@@ -35,7 +37,7 @@ public abstract class DigiWFIntegrationE2eTest {
             return payloadVariables;
         }
 
-        // try again
+        // try again in case it takes longer than expected
         Thread.sleep(3000);
         return this.receiveMessage(processInstanceId);
     }
