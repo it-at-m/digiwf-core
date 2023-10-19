@@ -14,11 +14,11 @@ describe("transformNativeTimeValue", () => {
     });
     it("should return undefined when the given value is undefined", () => {
       const result = transformNativeTimeValue(undefined);
-      expect(result).toBeUndefined()
+      expect(result).toBeUndefined();
     });
     it("should return undefined when the given value is null", () => {
       const result = transformNativeTimeValue(undefined);
-      expect(result).toBeUndefined()
+      expect(result).toBeUndefined();
     });
   });
 
@@ -35,12 +35,12 @@ describe("transformNativeTimeValue", () => {
     });
     it("should return undefined when the given value is undefined", () => {
       const result = transformToNativeTimeValue(undefined);
-      expect(result).toBeUndefined()
+      expect(result).toBeUndefined();
     });
 
     it("should return undefined when the given value is null", () => {
       const result = transformToNativeTimeValue(null);
-      expect(result).toBeUndefined()
+      expect(result).toBeUndefined();
     });
   });
 });
