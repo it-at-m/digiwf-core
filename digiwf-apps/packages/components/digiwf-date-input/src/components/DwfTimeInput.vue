@@ -27,7 +27,7 @@
 <script lang="ts">
 import {defineComponent, ref} from "vue";
 import {validateTime} from "@/validation/timeValidation";
-import {transformNativeTimeValue} from "@/transformation/transformNativeTimeValue";
+import {transformNativeTimeValue, transformToNativeTimeValue} from "@/transformation/transformNativeTimeValue";
 
 export default defineComponent({
   props: [
@@ -44,8 +44,7 @@ export default defineComponent({
     if (!!schema['x-rules']?.includes('required')) {
       rules.push((v: string) => !!v || 'Dieses Feld ist ein Pflichtfeld');
     }
-
-    const timeValue = ref(value);
+    const timeValue = ref(transformToNativeTimeValue(value));
     const validationResult = ref<string | boolean>(true);
 
     const onChange = () => {

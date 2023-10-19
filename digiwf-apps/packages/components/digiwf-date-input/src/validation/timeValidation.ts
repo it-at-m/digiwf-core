@@ -7,7 +7,7 @@ export const ERROR_MESSAGES = {
   HOURS_TO_HIGH: "Stunden dürfen nicht höher als 24 sein.",
 }
 
-export const validateTime = (time: string, nativeValidationResult: boolean = true): string | boolean => {
+export const validateTime = (time: string = "", nativeValidationResult: boolean = true): string | boolean => {
   // if date is empty and html native input validation was successfully
   if (time.trim().length === 0 && nativeValidationResult) {
     return true
