@@ -26,7 +26,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressGermanyApi.searchAddresses(searchAddressesGermanyModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -37,7 +37,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressMunichApi.checkAddress(checkAddressesModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -48,7 +48,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressMunichApi.listAddresses(listAddressesModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -59,7 +59,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressMunichApi.listChanges(listAddressChangesModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -70,7 +70,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressMunichApi.searchAddresses(searchAddressesModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -81,7 +81,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.addressMunichApi.searchAddressesGeo(searchAddressesGeoModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -92,7 +92,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.streetsMunichApi.findStreetsById(streetId);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }
@@ -103,7 +103,7 @@ public class AddressClientOutAdapter implements AddressClientOutPort {
         try {
             return this.streetsMunichApi.listStreets(listStreetsModel);
         } catch (final AddressServiceIntegrationClientErrorException exception) {
-            throw new BpmnError("400", exception.getMessage());
+            throw new BpmnError("ADDRESS_SERVICE_CLIENT_ERROR", exception.getMessage());
         } catch (final AddressServiceIntegrationException | AddressServiceIntegrationServerErrorException exception) {
             throw new IncidentError(exception.getMessage());
         }

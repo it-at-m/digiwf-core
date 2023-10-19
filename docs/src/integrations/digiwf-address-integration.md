@@ -1,55 +1,17 @@
-# DigiWF Address-Service Integration
+# DigiWF Address Integration
 
-## Documentation
+Die Address Integration bindet den Address-Service der Stadt München an die DigiWF Plattform an, wodurch Informationen
+zu Adressen sowie Straßen abgerufen werden können.
 
-Basically, two artifacts are available.
-This is on the one hand the Spring-Boot-Starter `digiwf-address-service-integration-starter`
-and on the other hand the service `digiwf-address-service-integration-service` which is provided as an
-[Image](https://hub.docker.com/repository/docker/itatm/digiwf-address-service-integration-service).
+## Verwendung
 
-### Spring-Boot-Starter
+Die Address Integration bietet 3 verschiedene APIs an, um Adressen und Straßen abzurufen.
 
-The usage of the starter is documented
-in [README.md](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-service-integration).
+### Adressen bundesweit
 
-#### Error handling
-
-The errors occurring during the rest request are divided into three error categories.
-These are client-side errors, server-side errors and errors that cannot be assigned to either the client or the server.
-Each of these three error categories is assigned its own exception, which is then thrown when the methods in the
-repository classes `AdressenBundesweitRepository`, `AdressenMuenchenRepository` and `StrassenMuenchenRepository` are
-called.
-
-### Service provided as an image
-
-The service is provided via Dockerhub as
-an [Image](https://hub.docker.com/repository/docker/itatm/digiwf-address-service-integration-service).
-The source code for the service can be found in
-submodule [digiwf-address-service-integration-service](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-service-integration/digiwf-address-service-integration-service)
-.
-
-The requests to the address service are expected by the service over kafka event bus messages.
-To provide the event bus functionality via kafka,
-the [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils) are used.
-
-#### Service Configuration
-
-An example configuration can be found within the properties files.
-
-* `application.yml`: `digiwf-address-service-integration-service/src/main/resources/application.yml`
-* `application-local.yml`: `digiwf-address-service-integration-service/src/main/resources/application-local.yml`
-
-The file `application.yml` contains the configuration according graceful shutdown, metrics, ports, ...
-
-The file `application-local.yml` provides the event bus and address service relevant configuration.
-The event bus configuration is implemented
-according [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started).
-
-#### Service API usage
-
-The address service requests have to be made via the element template defined in `addressServiceIntegration.json`.
-The service and the template are providing eight types of requests.
-The request type can be defined via the element template dropdown in field `Event Type`.
+Die Adressdienstanfragen müssen über die in `addressServiceIntegration.json` definierte Element-Template gemacht werden.
+Der Dienst und die Vorlage bieten acht Arten von Anfragen.
+Der Anfragetyp kann über das Dropdown-Menü der Elementvorlage im Feld `Event Type` festgelegt werden.
 
 * `searchAdressenBundesweit`
 * `checkAdresseMuenchen`
@@ -60,18 +22,18 @@ The request type can be defined via the element template dropdown in field `Even
 * `findStrasseByIdMuenchen`
 * `listStrassenMuenchen`
 
-For each request type, the payload has to be defined in the element templates request field as a JSON object.
-The response is also an JSON object.
-A crucial and mandatory JSON object attribute for a request is `eventType`.
-This attribute is necessary for correct deserialization of the requests JSON payload within the integration service.
+Für jeden Anfragetyp muss das Datenpaket als JSON-Objekt im Anfragefeld der Elementvorlage definiert werden.
+Die Antwort ist ebenfalls ein JSON-Objekt.
+Ein entscheidendes und obligatorisches JSON-Objektattribut für eine Anfrage ist `eventType`.
+Dieses Attribut ist für die korrekte Deserialisierung des JSON-Datenpakets der Anfrage innerhalb des Integrationsservices erforderlich
 
-The exact characteristics of the request and response attributes described below can be found at the following link.
+Die genauen Eigenschaften der Anfrage- und Antwortattribute, die unten beschrieben sind, finden Sie unter folgendem Link:
 
 https://address-service-test.muenchen.de/swagger-ui/index.html
 
-##### searchAdressenBundesweit
+#### searchAdressenBundesweit
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -91,7 +53,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -197,9 +159,11 @@ The response is as follows.
 }
 ```
 
-##### checkAdresseMuenchen
+### Adressen München
 
-The following JSON object shows the example payload set at the element templates request field.
+#### checkAdresseMuenchen
+
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -216,7 +180,7 @@ The following JSON object shows the example payload set at the element templates
 
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -279,9 +243,9 @@ The response is as follows.
 }
 ```
 
-##### listAdressenMuenchen
+#### listAdressenMuenchen
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -310,7 +274,7 @@ The following JSON object shows the example payload set at the element templates
 
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -524,9 +488,9 @@ The response is as follows.
 }
 ```
 
-##### listAenderungenMuenchen
+#### listAenderungenMuenchen
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -544,7 +508,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -796,9 +760,9 @@ The response is as follows.
 }
 ```
 
-##### searchAdressenMuenchen
+#### searchAdressenMuenchen
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -815,7 +779,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -1031,7 +995,7 @@ The response is as follows.
 
 ##### searchAdressenGeoMuenchen
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -1048,7 +1012,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -1179,9 +1143,11 @@ The response is as follows.
 }
 ```
 
-##### findStrasseByIdMuenchen
+### Straßen München
 
-The following JSON object shows the example payload set at the element templates request field.
+#### findStrasseByIdMuenchen
+
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -1190,7 +1156,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -1215,9 +1181,9 @@ The response is as follows.
 }
 ```
 
-##### listStrassenMuenchen
+#### listStrassenMuenchen
 
-The following JSON object shows the example payload set at the element templates request field.
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
 
 ```json
 {
@@ -1231,7 +1197,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+Die Antwort lautet wie folgt:
 
 ```json
 {
@@ -1293,13 +1259,35 @@ The response is as follows.
 }
 ```
 
-#### Error handling
+### Fehlerbehandlung
 
-If client-side errors, server-side errors or errors that cannot be assigned to either the client or the server occur
-during the rest request within the service, an error response is returned to the caller via the event bus.
+| Error Code         | Error Message                                                            | Beschreibung                                                                            | Handlungsempfehlung                                                             | 
+|--------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `ADDRESS_SERVICE_CLIENT_ERROR` | Die Fehlermeldung des Stadt München Address Services wird weitergegeben. | Beim Aufrufen des Address Services ist ein Client Fehler aufgetreten (HTTP Status 4xx). | Analysieren sie die Fehlermeldung und versuchen den Request nochmals zu senden. | 
 
-```json
-{
-  "message": "THE GENERIC ERROR MESSAGE"
-}
-```
+## DigiWF Address Integration anpassen
+
+Die Integration wurde in einer hexagonalen Architektur implementiert, um Anpassbarkeit und Erweiterbarkeit zu gewährleisten.
+Um die Funktionen der Integration zu erweitern bzw. zu ersetzen, müssen lediglich die Port Interfaces überschrieben und als `@bean`
+bereitgestellt werden. Dadurch wird unsere Standard-Implementierung durch die eigene Implementierung ersetzt.
+
+Die Port Definitionen finden Sie unter dem Pfad: [digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port)
+
+### Address-Client anpassen
+
+Der Address-Client ist für die Kommunikation mit dem Address-Service der Stadt München zuständig.
+Der Client wurde in einem eigenen Maven Modul als Bibliothek implementiert, um die Abhängigkeiten zu kapseln.
+Die Implementierung des Clients kann ebenfalls erweitert bzw. zu ersetzt werden durch die Implementierung der API Interfaces `AddressGermanyApi`, `AddressMunichApi` und `StreetsMunichApi`.
+Die Implementierung dieser Interfaces muss ebenfalls als `@bean` bereitgestellt werden.
+
+Die API Interfaces finden Sie unter dem Pfad: [digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api)
+
+## Konfigurationen
+
+Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
+sind, können Sie die folgenden Konfigurationen für die DigiWF Address Integration verwenden:
+
+| Eigenschaft                                  | Bedeutung                |
+|----------------------------------------------|--------------------------|
+| `de.muenchen.oss.digiwf.address.service.url` | URL des Address Services |
