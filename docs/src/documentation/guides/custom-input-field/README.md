@@ -18,9 +18,9 @@ Grundsätzlich ist zu beachten, dass Änderungen im Ordner `de` und `en` gleiche
 
 ### Fall 1: Änderung Eingabefeld für ein bestehenden Eingabetypen
 
-Im Fall, dass ein vorhandenes Eingabefeld überschreiben werden soll, 
+Im Fall, dass ein vorhandenes Eingabefeld überschrieben werden soll, 
 sucht man als Erstes die Definition von entsprechendem Formfield in der `FormFields.ts`.
-Anschließend fügt man die Property "x-display" mit dem Komponentenreferenzschlüssel. Dieser ist frei wählbar. 
+Anschließend fügt man die Property "x-display" mit dem Komponentenreferenzschlüssel ein. Dieser ist frei wählbar. 
 Beispiele für das Vorgehen ist die Zeit oder Datumseingabe. 
 
 Beispiel X-Options: 
@@ -43,7 +43,7 @@ Anschließend fügt man die Property in die `ModelerPalette.ts` in dem entsprech
 ### Fall 2: Hinzufügen eines Eingabefelds für einen neuen Datentypen
 
 Man fügt in der `FormFields.ts` Datei einen entsprechenden neuen Eintrag ein 
-und export diesen in der "schemaMap" am Ende der Datei. 
+und exportiert diesen in der "schemaMap" am Ende der Datei. 
 Als Orientierung dafür kann die `multi-user-input` Komponente genutzt werden.
 
 Anschließend fügt man einen neuen Eintrag in die `ModelerPalette.ts` ein.
@@ -64,5 +64,5 @@ In der Tasklist muss dies auf gleichen Weg in zwei Dateien gemacht werden:
 ## Erweitern des all-input-fields Prozesses
 
 Für das Testen der Komponente sollte das all-inputs-field Formschema
-(zu finden im Projektpfad: `C:\Users\stephan.strehler\projects\digiwf-core\digiwf-engine\digiwf-engine-service\src\main\resources\prozesse\example\all-input-fields\all-inputs.schema.json`).
+(zu finden im Projektpfad: `digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/all-input-fields/all-inputs.schema.json`).
 um die Komponente erweitert werden.
