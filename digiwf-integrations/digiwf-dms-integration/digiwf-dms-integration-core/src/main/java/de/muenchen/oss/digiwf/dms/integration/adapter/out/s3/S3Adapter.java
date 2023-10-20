@@ -67,14 +67,13 @@ public class S3Adapter implements LoadFilePort {
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            if(!supportedExtensions.containsValue(type.toLowerCase())) {
-                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
-            }
 
-            String extension = "";
-            for(Map.Entry<String, String> entry : supportedExtensions.entrySet()){
-                if(entry.getValue().equals(type)){extension = entry.getKey();}
-            }
+            final String extension = supportedExtensions.entrySet()
+                    .stream()
+                    .filter(set -> set.getValue().equals(type))
+                    .findFirst()
+                    .map(Map.Entry::getKey)
+                    .orElseThrow(() -> new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath));
 
             return new Content(extension, filename, bytes);
 
