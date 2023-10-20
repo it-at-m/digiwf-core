@@ -11,12 +11,8 @@
           :on-filter-change="onFilterChanged"
         />
         <div class="d-flex align-center">
-          <v-btn
+          <dwf-button
             aria-label="Vorgänge aktualisieren"
-            text
-            style="padding-left: 13px;"
-            large
-            color="primary"
             @click="refetch"
           >
             <div style="min-width: 30px">
@@ -34,7 +30,7 @@
               </v-icon>
             </div>
             Aktualisieren
-          </v-btn>
+          </dwf-button>
         </div>
       </v-flex>
       <v-flex v-if="errorMessage">
@@ -80,9 +76,11 @@ import {useGetPaginationData} from "../middleware/paginationData";
 import SearchField from "../components/common/SearchField.vue";
 import {useGetProcessDefinitions} from "../middleware/processDefinitions/processDefinitionMiddleware";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import DwfButton from "../components/common/DwfButton.vue";
 
 export default defineComponent({
   components: {
+    DwfButton,
     AppPaginationFooter,
     SearchField, ProcessDefinitionItem, AppToast, AppViewLayout
   },

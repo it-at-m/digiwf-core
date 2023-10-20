@@ -23,11 +23,8 @@
         <sort-by-select/>
       </v-flex>
       <div class="d-flex align-center">
-        <v-btn
+        <dwf-button
           aria-label="Aufgaben aktualisieren"
-          text
-          color="primary"
-          large
           @click="$emit('loadTasks')"
         >
           <div style="min-width: 30px">
@@ -41,7 +38,8 @@
             <v-icon v-else> mdi-refresh</v-icon>
           </div>
           Aktualisieren
-        </v-btn>
+
+        </dwf-button>
       </div>
     </v-flex>
     <v-flex v-if="errorMessage">
@@ -97,9 +95,10 @@ import SearchField from "../common/SearchField.vue";
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
 import SortBySelect from "../common/SortBySelect.vue";
+import DwfButton from "../common/DwfButton.vue";
 
 export default {
-  components: {SortBySelect, SearchField, AppToast},
+  components: {DwfButton, SortBySelect, SearchField, AppToast},
   props: {
     filter: {
       type: String,
