@@ -1,6 +1,6 @@
 {
-  "name": "DigiWF Address Service Integration",
-  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration",
+  "name": "Address: List Street",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.listStreet",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -22,6 +22,7 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
+        "name": "app_topic_name",
         "target": "app_topic_name"
       },
       "constraints": {
@@ -32,10 +33,11 @@
       "label": "Event Message",
       "type": "String",
       "editable": false,
-      "value": "genericAddressServiceEvent",
+      "value": "genericEvent",
       "binding": {
         "type": "camunda:in",
         "expression": true,
+        "name": "app_message_name",
         "target": "app_message_name"
       },
       "constraints": {
@@ -45,41 +47,7 @@
     {
       "label": "Type Header",
       "type": "String",
-      "value": "",
-      "choices": [
-        {
-          "name": "Searches for addresses Bundesweit",
-          "value": "searchAdressenBundesweit"
-        },
-        {
-          "name": "Checks for addresses in Munich",
-          "value": "checkAdresseMuenchen"
-        },
-        {
-          "name": "Lists addresses in Munich",
-          "value": "listAdressenMuenchen"
-        },
-        {
-          "name": "Lists addresses changes in Munich",
-          "value": "listAenderungenMuenchen"
-        },
-        {
-          "name": "Search for addresses in Munich",
-          "value": "searchAdressenMuenchen"
-        },
-        {
-          "name": "Search for addresses with geo information in Munich",
-          "value": "searchAdressenGeoMuenchen"
-        },
-        {
-          "name": "Finds streets by ID in Munich",
-          "value": "findStrasseByIdMuenchen"
-        },
-        {
-          "name": "Lists streets in Munich",
-          "value": "listStrassenMuenchen"
-        }
-      ],
+      "value": "listStreetMunich",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -90,16 +58,49 @@
       }
     },
     {
-      "label": "Address service request as JSON object",
+      "label": "Strassenname",
       "type": "String",
-      "value": "${request}",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "target": "request"
+        "source": "strassenname",
+        "target": "strassenname"
       },
       "constraints": {
         "notEmpty": true
+      }
+    },
+    {
+      "label": "page",
+      "type": "String",
+      "value": "1",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "page",
+        "target": "page"
+      }
+    },
+    {
+      "label": "pagesize",
+      "type": "String",
+      "value": "20",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "pagesize",
+        "target": "pagesize"
+      }
+    },
+    {
+      "label": "sortdir",
+      "type": "String",
+      "value": "ASC",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "sortdir",
+        "target": "sortdir"
       }
     },
     {
