@@ -12,6 +12,6 @@ public class Document {
     private String procedureCOO;
     private String title;
     private DocumentType type;
-    private List<Content> contents;
+    private List<File> contents;
 
 }

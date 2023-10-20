@@ -1,7 +1,8 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.TransferFilePort;
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements LoadFilePort {
+public class S3Adapter implements LoadFilePort, TransferFilePort {
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
 
@@ -29,9 +30,9 @@ public class S3Adapter implements LoadFilePort {
     private final List<String> supportedExtensions;
 
     @Override
-    public List<Content> loadFiles(final List<String> filepaths, final String fileContext){
+    public List<File> loadFiles(final List<String> filepaths, final String fileContext) {
 
-        List<Content> contents = new ArrayList<>();
+        List<File> contents = new ArrayList<>();
 
         filepaths.forEach(path -> {
             String fullPath = fileContext + "/" + path;
@@ -46,35 +47,41 @@ public class S3Adapter implements LoadFilePort {
 
     }
 
-    private List<Content> getFilesFromFolder(String folderpath) {
+    private List<File> getFilesFromFolder(String folderpath) {
         try {
-            List<Content> contents = new ArrayList<>();
+            List<File> contents = new ArrayList<>();
             Set<String> filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
             filepath.forEach(file -> {
                 contents.add(getFile(file));
             });
             return contents;
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
 
-    private Content getFile (String filepath) {
+    private File getFile(String filepath) {
         try {
             final Tika tika = new Tika();
             final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3);
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            if(!supportedExtensions.contains(type.toLowerCase())) {
+            if (!supportedExtensions.contains(type.toLowerCase())) {
                 throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
             }
 
-            return new Content(type, filename, bytes);
+            return new File(type, filename, bytes);
 
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
 
+    @Override
+    public List<File> transferFiles(List<File> files, String filepath, String fileContext) {
+        return null;
+    }
 }

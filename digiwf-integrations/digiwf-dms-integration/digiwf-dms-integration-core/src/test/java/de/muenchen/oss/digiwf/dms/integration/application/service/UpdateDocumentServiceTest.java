@@ -2,8 +2,8 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.UpdateDocumentPort;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,18 +17,18 @@ class UpdateDocumentServiceTest {
 
     private final UpdateDocumentPort updateDocumentPort = mock(UpdateDocumentPort.class);
 
-    private final UpdateDocumentService updateDocumentService = new UpdateDocumentService(updateDocumentPort,loadFilePort);
+    private final UpdateDocumentService updateDocumentService = new UpdateDocumentService(updateDocumentPort, loadFilePort);
 
     @Test
     void updateDocument() {
 
-        Content content = new Content("extension", "name", "content".getBytes());
+        File content = new File("extension", "name", "content".getBytes());
 
         List<String> filepaths = List.of("path/content.pdf");
 
         when(this.loadFilePort.loadFiles(any(), any())).thenReturn(List.of(content));
 
-        doNothing().when(updateDocumentPort).updateDocument(any(), any(),any(), any());
+        doNothing().when(updateDocumentPort).updateDocument(any(), any(), any(), any());
 
         updateDocumentService.updateDocument("procedureCOO", "user", DocumentType.EINGEHEND, filepaths, "filecontext");
 

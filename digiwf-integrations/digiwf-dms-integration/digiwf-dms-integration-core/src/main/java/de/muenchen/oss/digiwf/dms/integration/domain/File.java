@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Content {
+public class File {
 
     private String extension;
     private String name;

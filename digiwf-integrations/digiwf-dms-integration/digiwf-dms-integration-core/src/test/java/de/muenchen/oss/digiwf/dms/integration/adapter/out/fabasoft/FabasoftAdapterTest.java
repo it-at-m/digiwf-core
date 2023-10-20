@@ -3,8 +3,8 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.FabasoftClienFactory;
 import lombok.val;
@@ -66,7 +66,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateIncomingDocument_request() {
-        Content content = new Content("extension", "name", "content".getBytes());
+        File content = new File("extension", "name", "content".getBytes());
 
         val response = new UpdateIncomingGIResponse();
         response.setObjid("documentCOO");
@@ -81,7 +81,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateOutgoingDocument_request() {
-        Content content = new Content("extension", "name", "content".getBytes());
+        File content = new File("extension", "name", "content".getBytes());
 
         val response = new UpdateOutgoingGIResponse();
         response.setObjid("documentCOO");
@@ -96,7 +96,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateInternalDocument_request() {
-        Content content = new Content("extension", "name", "content".getBytes());
+        File content = new File("extension", "name", "content".getBytes());
 
         val response = new UpdateInternalGIResponse();
         response.setObjid("documentCOO");

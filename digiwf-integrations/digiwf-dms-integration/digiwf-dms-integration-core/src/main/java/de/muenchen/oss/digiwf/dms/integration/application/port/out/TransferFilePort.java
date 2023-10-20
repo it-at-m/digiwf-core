@@ -4,8 +4,8 @@ import de.muenchen.oss.digiwf.dms.integration.domain.File;
 
 import java.util.List;
 
-public interface LoadFilePort {
+public interface TransferFilePort {
 
-    List<File> loadFiles(final List<String> filepaths, final String fileContext);
+    List<File> transferFiles(List<File> files, final String filepath, final String fileContext);
 
 }
