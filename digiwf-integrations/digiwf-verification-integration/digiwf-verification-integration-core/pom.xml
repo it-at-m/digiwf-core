@@ -40,7 +40,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.1</version>
             <scope>provided</scope>
         </dependency>
 

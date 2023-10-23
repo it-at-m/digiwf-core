@@ -38,8 +38,8 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-cloudstream-utils-starter</artifactId>
-<!--            has to bet set hard to version 0.18.3 otherwise it uses digiwf-spring-security-starter and requires OAuth2 config -->
-            <version>0.18.3</version>
+<!--            has to bet set hard to version 1.0.1 otherwise it uses digiwf-spring-security-starter and requires OAuth2 config -->
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
