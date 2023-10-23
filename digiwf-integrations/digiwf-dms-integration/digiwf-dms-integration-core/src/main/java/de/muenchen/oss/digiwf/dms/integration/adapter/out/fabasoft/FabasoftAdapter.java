@@ -9,7 +9,9 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -287,6 +289,27 @@ public class FabasoftAdapter implements
 
     @Override
     public List<File> readFiles(List<String> coos, String user) {
-        return null;
+
+        final List<File> files = new ArrayList<>();
+
+        for (val coo : coos) {
+            val request = new ReadContentObjectGI();
+            request.setUserlogin(user);
+            request.setBusinessapp(this.properties.getBusinessapp());
+            request.setObjaddress(coo);
+            val response = this.wsClient.readContentObjectGI(request);
+            dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+            files.add(this.map(response));
+        }
+        
+        return files;
+    }
+
+    private File map(ReadContentObjectGIResponse response) {
+        return new File(
+                response.getGiattachmenttype().getLHMBAI151700Fileextension(),
+                response.getGiattachmenttype().getLHMBAI151700Filename(),
+                response.getGiattachmenttype().getLHMBAI151700Filecontent()
+        );
     }
 }

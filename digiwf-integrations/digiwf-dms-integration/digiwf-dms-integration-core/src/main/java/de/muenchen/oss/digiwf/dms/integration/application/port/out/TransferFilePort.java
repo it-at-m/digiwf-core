@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TransferFilePort {
 
-    List<File> transferFiles(List<File> files, final String filepath, final String fileContext);
+    void transferFiles(List<File> files, final String filepath, final String fileContext);
 
 }

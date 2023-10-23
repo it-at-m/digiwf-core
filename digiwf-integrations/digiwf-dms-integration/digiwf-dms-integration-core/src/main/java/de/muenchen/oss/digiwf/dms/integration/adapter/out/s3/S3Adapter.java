@@ -12,6 +12,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFi
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 
@@ -44,7 +45,6 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
         });
 
         return contents;
-
     }
 
     private List<File> getFilesFromFolder(String folderpath) {
@@ -81,7 +81,15 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
     }
 
     @Override
-    public List<File> transferFiles(List<File> files, String filepath, String fileContext) {
-        return null;
+    public void transferFiles(List<File> files, String filepath, String fileContext) {
+        val fullPath = fileContext + "/" + filepath;
+
+        for (val file : files) {
+            try {
+                this.documentStorageFileRepository.saveFile(fullPath, file.getContent(), 1, null);
+            } catch (Exception e) {
+                throw new BpmnError("SAVE_FILE_FAILED", "An file could not be saved to path: " + fullPath);
+            }
+        }
     }
 }
