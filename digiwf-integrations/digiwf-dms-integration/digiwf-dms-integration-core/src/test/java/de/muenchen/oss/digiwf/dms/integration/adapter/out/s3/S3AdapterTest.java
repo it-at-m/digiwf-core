@@ -27,7 +27,7 @@ class S3AdapterTest {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
 
-    private final List<String> supportedExtensions = List.of("application/pdf", "image/png", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    private Map<String, String> supportedExtensions = new HashMap<>();
 
     private S3Adapter s3Adapter;
 
@@ -49,13 +49,13 @@ class S3AdapterTest {
         final String fullPdfPath = fileContext + "/" + pdfPath;
         final String fullPngPath = fileContext + "/" + pngPath;
 
-        final List<String> filePaths = List.of(pdfPath,pngPath);
+        final List<String> filePaths = List.of(pdfPath, pngPath);
 
         final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
 
         final List<File> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
@@ -77,18 +77,18 @@ class S3AdapterTest {
         final String fullPdfPath = fileContext + "/" + pdfPath;
         final String fullPngPath = fileContext + "/" + pngPath;
 
-        final List<String> filePaths = List.of(pdfPath,pngPath);
+        final List<String> filePaths = List.of(pdfPath, pngPath);
 
         final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, "S3Url")).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
 
         final List<File> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final File pdfContent = new File("pdf","test-pdf",testPdf);
-        final File pngContent = new File("png","digiwf_logo",testPng);
+        final File pdfContent = new File("pdf", "test-pdf", testPdf);
+        final File pngContent = new File("png", "digiwf_logo", testPng);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -116,15 +116,15 @@ class S3AdapterTest {
 
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenReturn((just(filesPaths)));
 
-        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath,3)).thenReturn(testPng);
-        when(documentStorageFileRepository.getFile(fullWordPath,3)).thenReturn(testWord);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath, 3)).thenReturn(testWord);
 
         final List<File> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final File pdfContent = new File("pdf","test-pdf",testPdf);
-        final File pngContent = new File("png","digiwf_logo",testPng);
-        final File wordContent = new File("docx","test-word",testWord);
+        final File pdfContent = new File("pdf", "test-pdf", testPdf);
+        final File pngContent = new File("png", "digiwf_logo", testPng);
+        final File wordContent = new File("docx", "test-word", testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -151,17 +151,17 @@ class S3AdapterTest {
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
         final byte[] testWord = new ClassPathResource(fullWordPath).getInputStream().readAllBytes();
 
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath,"S3Url")).thenReturn((just(filesPaths)));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, "S3Url")).thenReturn((just(filesPaths)));
 
-        when(documentStorageFileRepository.getFile(fullPdfPath,3,"S3Url")).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath,3,"S3Url")).thenReturn(testPng);
-        when(documentStorageFileRepository.getFile(fullWordPath,3,"S3Url")).thenReturn(testWord);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, "S3Url")).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath, 3, "S3Url")).thenReturn(testWord);
 
         final List<File> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final File pdfContent = new File("pdf","test-pdf",testPdf);
-        final File pngContent = new File("png","digiwf_logo",testPng);
-        final File wordContent = new File("docx","test-word",testWord);
+        final File pdfContent = new File("pdf", "test-pdf", testPdf);
+        final File pngContent = new File("png", "digiwf_logo", testPng);
+        final File wordContent = new File("docx", "test-word", testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -178,7 +178,7 @@ class S3AdapterTest {
 
         final List<String> filePaths = List.of(pdfPath);
 
-        when(documentStorageFileRepository.getFile(fullPdfPath,3)).thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
 
         BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext));
 
@@ -187,7 +187,7 @@ class S3AdapterTest {
 
         assertEquals(expectedMessage, actualMessage);
 
-        assertEquals("LOAD_FILE_FAILED",bpmnError.getErrorCode());
+        assertEquals("LOAD_FILE_FAILED", bpmnError.getErrorCode());
     }
 
     @Test
@@ -209,7 +209,7 @@ class S3AdapterTest {
 
         assertEquals(expectedMessage, actualMessage);
 
-        assertEquals("LOAD_FOLDER_FAILED",bpmnError.getErrorCode());
+        assertEquals("LOAD_FOLDER_FAILED", bpmnError.getErrorCode());
     }
 
     @Test
@@ -224,7 +224,7 @@ class S3AdapterTest {
 
         final byte[] testHtml = new ClassPathResource(fullHtmlPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullHtmlPath,3)).thenReturn(testHtml);
+        when(documentStorageFileRepository.getFile(fullHtmlPath, 3)).thenReturn(testHtml);
 
         try {
             this.s3Adapter.loadFiles(filePaths, fileContext);
@@ -234,7 +234,7 @@ class S3AdapterTest {
 
             assertEquals(expectedMessage, actualMessage);
 
-            assertEquals("FILE_TYPE_NOT_SUPPORTED",bpmnError.getErrorCode());
+            assertEquals("FILE_TYPE_NOT_SUPPORTED", bpmnError.getErrorCode());
         }
 
     }
