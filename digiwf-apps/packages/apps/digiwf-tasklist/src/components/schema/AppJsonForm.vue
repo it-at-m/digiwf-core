@@ -85,6 +85,6 @@ export default class AppJsonForm extends Vue {
 
 <style scoped>
 .form-submit-button:focus, .form-submit-button:hover  {
-  opacity: 0.6; // first fix for increasing contrast. User feedback is required
+  opacity: 0.6; /* first fix for increasing contrast. User feedback is required */
 }
 </style>
