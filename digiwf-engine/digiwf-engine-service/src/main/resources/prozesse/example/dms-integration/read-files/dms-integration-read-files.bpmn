@@ -22,18 +22,6 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
     </bpmn:subProcess>
-    <bpmn:callActivity id="Activity_1nk1luw" name="Read Files" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-procedure" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
-        <camunda:in sourceExpression="createProcedure" target="app_type_name" />
-        <camunda:in sourceExpression="${title}" target="title" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
-        <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
-        <camunda:out source="procedureCOO" target="procedureCoo" />
-      </bpmn:extensionElements>
-    </bpmn:callActivity>
     <bpmn:endEvent id="Event_completed" name="Ended">
       <bpmn:incoming>Flow_14y36ao</bpmn:incoming>
     </bpmn:endEvent>
@@ -45,8 +33,8 @@
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="${topic}" target="app_topic_name" />
         <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="/test" target="filePath" />
         <camunda:in sourceExpression="${fileCoos}" target="fileCoos" />
+        <camunda:in sourceExpression="path" target="filePath" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_0sls4lv</bpmn:outgoing>
@@ -66,7 +54,7 @@
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_task_schema_key">dms-integration-read-files_check</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">path</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0sls4lv</bpmn:incoming>
@@ -104,10 +92,6 @@
         <di:waypoint x="428" y="210" />
         <di:waypoint x="592" y="210" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="BPMNShape_1aysi0m" bpmnElement="Activity_1nk1luw">
-        <dc:Bounds x="700" y="185" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_15xklzj_di" bpmnElement="Event_completed">
         <dc:Bounds x="702" y="82" width="36" height="36" />
         <bpmndi:BPMNLabel>

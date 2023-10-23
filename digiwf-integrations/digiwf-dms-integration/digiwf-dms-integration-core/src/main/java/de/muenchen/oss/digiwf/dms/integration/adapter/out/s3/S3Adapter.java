@@ -29,7 +29,7 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
-    private final Map<String,String> supportedExtensions;
+    private final Map<String, String> supportedExtensions;
 
     @Override
     public List<File> loadFiles(final List<String> filepaths, final String fileContext) {
@@ -80,7 +80,8 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
 
             return new File(extension, filename, bytes);
 
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
@@ -91,7 +92,7 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
 
         for (val file : files) {
             try {
-                this.documentStorageFileRepository.saveFile(fullPath, file.getContent(), 1, null);
+                this.documentStorageFileRepository.saveFile(fullPath + "/" + file.getName() + "." + file.getExtension(), file.getContent(), 1, null);
             } catch (Exception e) {
                 throw new BpmnError("SAVE_FILE_FAILED", "An file could not be saved to path: " + fullPath);
             }
