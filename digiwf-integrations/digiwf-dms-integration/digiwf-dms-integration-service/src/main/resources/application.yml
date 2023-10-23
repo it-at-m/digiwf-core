@@ -48,8 +48,8 @@ spring:
           s3:
             provider: keycloak
             authorization-grant-type: client_credentials
-            client-id: ${SSO_TASK_CLIENT_ID}
-            client-secret: ${SSO_TASK_CLIENT_SECRET}
+            client-id: ${SSO_DMS_CLIENT_ID}
+            client-secret: ${SSO_DMS_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
   kafka:
     consumer:
