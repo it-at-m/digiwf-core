@@ -18,6 +18,7 @@ import org.apache.tika.Tika;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
-    private final List<String> supportedExtensions;
+    private final Map<String,String> supportedExtensions;
 
     @Override
     public List<File> loadFiles(final List<String> filepaths, final String fileContext) {
@@ -45,6 +46,7 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
         });
 
         return contents;
+
     }
 
     private List<File> getFilesFromFolder(String folderpath) {
@@ -68,14 +70,17 @@ public class S3Adapter implements LoadFilePort, TransferFilePort {
             final String type = tika.detect(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
-            if (!supportedExtensions.contains(type.toLowerCase())) {
-                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
-            }
 
-            return new File(type, filename, bytes);
+            final String extension = supportedExtensions.entrySet()
+                    .stream()
+                    .filter(set -> set.getValue().equals(type))
+                    .findFirst()
+                    .map(Map.Entry::getKey)
+                    .orElseThrow(() -> new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath));
 
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException | PropertyNotSetException e) {
+            return new File(extension, filename, bytes);
+
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }

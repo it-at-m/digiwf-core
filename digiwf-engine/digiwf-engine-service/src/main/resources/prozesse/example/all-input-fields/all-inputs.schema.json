@@ -117,6 +117,7 @@
               },
               "FormField_time": {
                 "fieldType": "time",
+                "x-display": "custom-time-input",
                 "title": "Time",
                 "type": "string",
                 "format": "time",
@@ -442,6 +443,7 @@
               },
               "FormField_time2": {
                 "fieldType": "time",
+                "x-display": "custom-time-input",
                 "title": "Time",
                 "type": "string",
                 "format": "time",

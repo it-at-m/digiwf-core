@@ -117,6 +117,7 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
+                                'guides/custom-input-field/',
                                 'guides/feature-toggle-taskservice-integration/',
                             ]
                         },

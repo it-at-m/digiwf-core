@@ -26,7 +26,7 @@ public class IncidentServiceImpl implements IncidentService {
     private final EventSubscriptionApi eventSubscriptionApi;
 
     @Override
-    public void createIncident(final String processInstanceId, final String messageName) {
+    public void createIncident(final String processInstanceId, final String messageName, final String messageContent) {
         try {
 
             //check parameters
@@ -56,7 +56,11 @@ public class IncidentServiceImpl implements IncidentService {
             // create incident body
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
             createIncidentDto.setIncidentType(INCIDENT_TYPE);
-            createIncidentDto.setMessage("Error occurred in integration service");
+            createIncidentDto.setMessage(
+                    messageContent != null  && !messageContent.isBlank()
+                        ? messageContent
+                        : "Error occurred in integration service"
+            );
 
             // send create incident call
             this.executionApi.createIncident(executionId, createIncidentDto);
