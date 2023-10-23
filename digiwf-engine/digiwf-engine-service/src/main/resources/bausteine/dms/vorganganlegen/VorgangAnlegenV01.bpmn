@@ -77,8 +77,8 @@
     <bpmn:userTask id="Task_ZustaendigkeitAendernOderVergabeVonRechtenBeauftragen" name="Zuständigkeit ändern oder Vergabe von Rechten beauftragen" camunda:asyncBefore="true" camunda:formKey="VorgangAnlegen_FehlerPruefenMitUserAuswahlV01" camunda:candidateUsers="${dms_fehlerhandling_user}">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
-          <camunda:script scriptFormat="Javascript">sozSachbearbeitung = task.getVariable("FormField_Neue_Sachbearbeitung");
-task.setVariable("dms_user_login",sozSachbearbeitung);</camunda:script>
+          <camunda:script scriptFormat="Javascript">sozSachbearbeitung = task.getExecution().getVariable("FormField_Neue_Sachbearbeitung");
+task.getExecution().setVariable("dms_user_login",sozSachbearbeitung);</camunda:script>
         </camunda:taskListener>
         <camunda:inputOutput>
           <camunda:inputParameter name="FormField_Handlungsanweisung">Bitte geben Sie eine andere zuständige Sachbearbeitung an. Bitte stellen Sie sicher, dass die Sachbearbeitung einen Account im Dokumentenmanagementsystem besitzt und über ausreichende Berechtigungen verfügt.</camunda:inputParameter>
