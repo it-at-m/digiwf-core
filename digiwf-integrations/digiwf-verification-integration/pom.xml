@@ -6,14 +6,14 @@
 
     <artifactId>digiwf-verification-integration</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.3-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <name>digiwf-verification-integration</name>
     <description>Verification Integration</description>
 
     <parent>
         <artifactId>digiwf-integrations</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.1.3-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <modules>
