@@ -3,24 +3,41 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
-    </parent>
-
-
+    <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-task</artifactId>
     <name>${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Task management used by DigiWF</description>
 
     <properties>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.7.17</spring-boot.version>
         <polyflow.version>3.15.0</polyflow.version>
         <axon-framework.version>4.6.8</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
         <kotlin.version>1.9.10</kotlin.version>
+        <camunda.version.ce>7.18.0</camunda.version.ce>
+        <camunda.version>${camunda.version.ce}</camunda.version>
+        <camunda.version.ee>7.18.0-ee</camunda.version.ee>
+        <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
+        <lombok.version>1.18.30</lombok.version>
+        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
+
+    <modules>
+        <module>digiwf-task-api</module>
+        <module>digiwf-tasklist-service</module>
+        <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -52,6 +69,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
 
             <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
@@ -64,14 +96,106 @@
                 <artifactId>camunda-bpm-data</artifactId>
                 <version>1.2.8</version>
             </dependency>
+
+            <!-- Open API -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>0.2.6</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.encoder.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>digiwf-task-api</module>
-        <module>digiwf-tasklist-service</module>
-        <module>digiwf-polyflow-connector-starter</module>
-        <module>digiwf-task-itest</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <showWarnings>true</showWarnings>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <!-- Version muss mit der durch Spring-Boot-Starter bereitgestellten Version übereinstimmen -->
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok.mapstruct.binding.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <arg>
+                                -Amapstruct.defaultComponentModel=spring
+                            </arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

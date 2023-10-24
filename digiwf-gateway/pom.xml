@@ -3,21 +3,52 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-gateway</artifactId>
-    <name>digiwf-gateway</name>
+    <name>${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>Apigateway used by DigiWF</description>
 
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
-    </parent>
-
     <properties>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
         <apache.commons.lang.version>3.13.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
+        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.encoder.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- spring cloud gateway -->
@@ -128,6 +159,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>
