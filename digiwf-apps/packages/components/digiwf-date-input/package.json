@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-date-input",
   "description": "Customized component with possibility to enter date with keyboard",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "module": "dist/digiwf-date-input.mjs",
   "scripts": {
     "build": "vite build",
