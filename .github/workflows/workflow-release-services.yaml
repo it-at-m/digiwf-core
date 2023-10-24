@@ -151,7 +151,7 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'adopt'
           server-id: camunda-bpm-nexus-ee
           server-username: CAMUNDA_USER_REF
