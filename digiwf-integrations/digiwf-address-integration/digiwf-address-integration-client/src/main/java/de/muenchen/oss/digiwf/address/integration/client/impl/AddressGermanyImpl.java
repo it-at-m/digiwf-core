@@ -36,18 +36,15 @@ public class AddressGermanyImpl implements AddressGermanyApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address bundesweit failed with %s.", exception.getStatusCode());
-            log.error(exception.getMessage());
-            log.error(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address bundesweit failed with %s.", exception.getStatusCode());
-            log.error(exception.getMessage());
-            log.error(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = String.format("The request to get address bundesweit failed.");
-            log.error(exception.getMessage());
-            log.error(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }

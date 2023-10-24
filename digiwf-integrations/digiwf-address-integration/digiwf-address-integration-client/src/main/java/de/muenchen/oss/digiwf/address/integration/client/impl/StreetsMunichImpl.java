@@ -26,15 +26,15 @@ public class StreetsMunichImpl implements StreetsMunichApi {
             return this.straessenMuenchenApi.findStrasseByNummer(streetId);
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get street failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
@@ -52,15 +52,15 @@ public class StreetsMunichImpl implements StreetsMunichApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get street failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }

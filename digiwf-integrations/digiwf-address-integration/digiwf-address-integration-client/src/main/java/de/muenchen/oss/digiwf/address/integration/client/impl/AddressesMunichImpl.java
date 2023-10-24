@@ -40,15 +40,15 @@ public class AddressesMunichImpl implements AddressMunichApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get address failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
@@ -79,15 +79,15 @@ public class AddressesMunichImpl implements AddressMunichApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get address failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
@@ -109,15 +109,15 @@ public class AddressesMunichImpl implements AddressMunichApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get address failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
@@ -138,15 +138,15 @@ public class AddressesMunichImpl implements AddressMunichApi {
             );
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get address failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
@@ -170,15 +170,15 @@ public class AddressesMunichImpl implements AddressMunichApi {
                     .build();
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
             final String message = String.format("The request to get address failed with %s. %s", exception.getStatusCode(), exception.getMessage());
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get address failed.";
-            log.warn(message);
+            log.debug(message);
             throw new AddressServiceIntegrationException(message, exception);
         }
     }
