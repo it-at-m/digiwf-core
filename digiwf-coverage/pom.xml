@@ -8,182 +8,201 @@
     <description>Jacoco Code Coverage</description>
 
     <parent>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
+        <relativePath>../digiwf-parent</relativePath>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <maven.jar.skip>true</maven.jar.skip>
-    </properties>
-
     <dependencies>
         <!-- digiwf-connector -->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-camunda-connector</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-connector-api</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-connector-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-connector-starter-rest</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-camunda-connector-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-camunda-connector</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-connector-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-connector-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-connector-starter-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-camunda-connector-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; digiwf-engine &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-engine-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!-- digiwf-engine -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-engine-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; digiwf-gateway &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-gateway</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!-- digiwf-gateway -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-gateway</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; digiwf-integrations &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-alw-integration-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-alw-integration-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-cosys-integration-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-cosys-integration-example</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-cosys-integration-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-cosys-integration-client</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-email-integration-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-email-integration-example</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-email-integration-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-s3-integration-client</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-s3-integration-client-example</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-s3-integration-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-verification-integration-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-verification-integration-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!-- digiwf-integrations -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-alw-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-alw-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-cosys-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-cosys-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-cosys-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-cosys-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-integration-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-verification-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-verification-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; digiwf-libs &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-json-serialization-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>example-json-serialization</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-camunda-prometheus-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-camunda-prometheus-example</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-message-core</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!-- digiwf-libs -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-json-serialization-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>example-json-serialization</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-camunda-prometheus-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-camunda-prometheus-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; Digiwf-process &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-process-api</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!-- Digiwf-process -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-process-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; DigiWF task &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-polyflow-connector-starter</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-task-itest</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>de.muenchen.oss.digiwf</groupId>-->
-<!--            <artifactId>digiwf-tasklist-service</artifactId>-->
-<!--            <version>1.1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-
-
+        <!-- DigiWF task -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-polyflow-connector-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-task-itest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-tasklist-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -234,7 +253,7 @@
                         </goals>
                         <configuration>
                             <title>DigiWF</title>
-                            <footer>Code Coverage Report for DigiWF 1.1.0-SNAPSHOT</footer>
+                            <footer>Code Coverage Report for DigiWF ${project.version}</footer>
                             <outputDirectory>${project.build.directory}/coverage</outputDirectory>
                         </configuration>
                     </execution>
