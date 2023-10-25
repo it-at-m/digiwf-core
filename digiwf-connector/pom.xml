@@ -65,6 +65,18 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-core</artifactId>
+                <version>${digiwf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-starter</artifactId>
+                <version>${digiwf.version}</version>
+            </dependency>
+
             <!-- Open API -->
             <dependency>
                 <groupId>org.springdoc</groupId>

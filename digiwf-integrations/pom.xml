@@ -58,6 +58,18 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-message-starter</artifactId>
+                <version>${digiwf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-s3-integration-client-starter</artifactId>
+                <version>${digiwf.version}</version>
+            </dependency>
+
             <!-- Open API -->
             <dependency>
                 <groupId>org.springdoc</groupId>
