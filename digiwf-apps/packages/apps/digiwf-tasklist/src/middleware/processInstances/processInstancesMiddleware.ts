@@ -32,6 +32,7 @@ export const useGetProcessInstances = (page: Ref<number>, size: Ref<number>, que
             description: it.description,
             startTime: it.startTime ? DateTime.fromISO(it.startTime).toLocaleString(DateTime.DATETIME_SHORT) : "-",
             endTime: it.endTime,
+            status: it.status,
           })) ?? [];
 
           return Promise.resolve<Page<ProcessInstance>>({
