@@ -2,8 +2,10 @@
 import {defineComponent} from "vue";
 import {useTheme} from "../../plugins/vuetify";
 import {useAccessibility} from "../../store/modules/accessibility";
+import HighContrastIcon from "./icons/HighContrastIcon.vue";
 
 export default defineComponent({
+  components: {HighContrastIcon},
   setup: () => {
     const theme = useTheme();
     const {isHighContrastModeEnabled, setHighContrastModeEnabled} = useAccessibility();
@@ -27,11 +29,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <button
+  <v-switch
     :aria-label="isHighContrastModeEnabled() ? 'Hohen Kontrast deaktivieren' : 'Hohen Kontrast aktivieren'"
-    @click.stop="onClick" >
-    {{ isHighContrastModeEnabled() ? "Hohen Kontrast deaktivieren" : "Hohen Kontrast aktivieren" }}
-  </button>
+    :value="isHighContrastModeEnabled()"
+    label="Hohen Kontrast"
+    @click.stop="onClick"
+  >
+    <template v-slot:label>
+      <high-contrast-icon /> Hoher Kontrast
+    </template>
+  </v-switch>
 </template>
 
 <style scoped>
