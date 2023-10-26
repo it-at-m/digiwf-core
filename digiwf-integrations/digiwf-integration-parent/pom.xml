@@ -56,9 +56,6 @@
                 <artifactId>digiwf-s3-integration-client-starter</artifactId>
                 <version>${digiwf.version}</version>
             </dependency>
-
-<!--        copied from digiwf-parent. TODO check each one if necessary  -->
-
             <dependency>
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>

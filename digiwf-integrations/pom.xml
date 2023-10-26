@@ -12,7 +12,6 @@
 
     <modules>
         <module>digiwf-integration-parent</module>
-
         <module>digiwf-cosys-integration</module>
         <module>digiwf-email-integration</module>
         <module>digiwf-s3-integration</module>
