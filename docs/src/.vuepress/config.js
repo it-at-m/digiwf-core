@@ -14,6 +14,10 @@ module.exports = {
      * Output directory
      */
     dest: "dist",
+    /**
+     * port to run dev server
+     */
+    port: 8099,
 
     /**
      * Extra tags to be injected to the page HTML `<head>`
@@ -113,8 +117,16 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
-                                'guides/custom-integration-service/',
-
+                                'guides/custom-input-field/',
+                                'guides/feature-toggle-taskservice-integration/',
+                            ]
+                        },
+                        {
+                            title: 'Bibliotheken',
+                            collapsable: false,
+                            children: [
+                                'libs/digiwf-message/',
+                                'libs/digiwf-spring-security/',
                             ]
                         },
                         {
@@ -206,6 +218,15 @@ module.exports = {
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
                             ]
+                        },
+                        {
+                            title: 'Templates und Beispiele',
+                            collapsable: true,
+                            children: [
+                                'templates/bpmn/',
+                                'templates/element-templates/',
+                                'templates/examples/'
+                            ]
                         }
                     ],
                     '/apis/': [
@@ -230,18 +251,28 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
-                                'digiwf-alw-integration/',
-                                'digiwf-cosys-integration/',
-                                'digiwf-mail-integration/',
-                                'digiwf-s3-integration/',
-                                'digiwf-verification-integration/',
+                                'digiwf-alw-integration',
+                                'digiwf-cosys-integration',
+                                'digiwf-mail-integration',
+                                'digiwf-s3-integration',
+                                'digiwf-verification-integration',
+                                'digiwf-formserver-integration',
+                                'digiwf-dms-integration'
                             ]
                         },
                         {
                             title: 'Konzept',
-                            collapsable: false,
+                            collapsable: true,
                             children: [
-                                'error-handling/'
+                                'concept/integration-service',
+                                'concept/error-handling',
+                            ]
+                        },
+                        {
+                            title: 'Guides',
+                            collapsable: true,
+                            children: [
+                                'guides/custom-integration-service',
                             ]
                         }
                     ],

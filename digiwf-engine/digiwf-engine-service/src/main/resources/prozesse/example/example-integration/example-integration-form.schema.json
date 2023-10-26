@@ -1,0 +1,70 @@
+{
+  "key": "example-integration-form",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Erste Gruppe",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process you start a process that assignes a usertask to the user you select.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FORMFIELD_someData": {
+                "fieldType": "text",
+                "title": "Enter some data",
+                "type": "string",
+                "key": "FORMFIELD_someData",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 6,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

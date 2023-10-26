@@ -8,7 +8,7 @@ export class PageBasedPaginationProvider {
   private pageKeyToPaginationData: Map<PageId, PaginationDataInSession> = new Map();
 
   public getPaginationDataInSession(pageId: PageId): PaginationDataInSession | undefined {
-    return this.pageKeyToPaginationData.get(pageId)
+    return this.pageKeyToPaginationData.get(pageId);
   }
 
   public setPageOfPageId(pageId: PageId, page: number) {
@@ -29,7 +29,13 @@ export class PageBasedPaginationProvider {
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
       searchQuery
-    })
+    });
+  }
+  public setTag(pageId: PageId, tag?: string) {
+    this.pageKeyToPaginationData.set(pageId, {
+      ...this.getPaginationDataInSessionOrDefault(pageId),
+      tag
+    });
   }
 
   private getPaginationDataInSessionOrDefault(pageId: PageId): PaginationDataInSession {
@@ -38,12 +44,14 @@ export class PageBasedPaginationProvider {
       size: paginationInformationOfPage?.size || DEFAULT_SIZE,
       page: paginationInformationOfPage?.page || DEFAULT_PAGE,
       searchQuery: paginationInformationOfPage?.searchQuery,
+      tag: paginationInformationOfPage?.tag,
     };
   }
 }
 
 export interface PaginationDataInSession {
   readonly searchQuery?: string;
+  readonly tag?: string
   readonly page: number;
   readonly size: number;
 }

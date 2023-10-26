@@ -1,6 +1,7 @@
 server:
   port: ${TASKSERVICE_SERVER_PORT}
 spring:
+  application.name: @project.artifactId@
   profiles:
     active: no-ldap # this profile is activating mock group resolution and should be replaced by the LDAP-aware client on production
   datasource:
@@ -17,41 +18,20 @@ spring:
   flyway:
     enabled: true
     locations: "classpath:db/migration/{vendor}"
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${SSO_ISSUER_URL}
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${SSO_ISSUER_URL}
-            user-name-attribute: lhmObjectID
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: ${SSO_TASK_CLIENT_ID}
-            client-secret: ${SSO_TASK_CLIENT_SECRET}
-            scope: email, profile, openid  # needed for userInfo endpoint
-          keycloak-service-account:
-            provider: keycloak
-            authorization-grant-type: client_credentials
-            client-id: ${SSO_TASK_CLIENT_ID}
-            client-secret: ${SSO_TASK_CLIENT_SECRET}
-            scope: email, profile, openid  # needed for userInfo endpoint
-
 
 feign:
   client:
     config:
       jsonschema:
         url: ${ENGINE_REST_ENDPOINT_URL}
+      legacy-task:
+        url: ${ENGINE_REST_ENDPOINT_URL}
       default:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
 
-easyldap:
+ezldap:
   client:
-    url: ${EASYLDAP_ENDPOINT_URL}
+    url: ${EZLDAP_ENDPOINT_URL}
 
 axon:
   serializer:
@@ -92,6 +72,9 @@ polyflow:
   view:
     jpa:
       stored-items: TASK, DATA_ENTRY # currently only tasks and data entries, no process definition or process instances
+      payload-attribute-level-limit: 1
+      task-filters:
+        include: app_task_tag
 
 springdoc:
   swagger-ui:
@@ -110,5 +93,19 @@ logging:
     org.apache.kafka.clients.consumer.ConsumerConfig: WARN
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     org.apache.kafka.clients.admin.AdminClientConfig: WARN
-    org.camunda.community.rest.client.api: DEBUG
-    org.springframework.security: DEBUG
+    org.camunda.community.rest.client.api: INFO
+    org.springframework.security: INFO
+
+digiwf:
+  s3service:
+    topic: 'dwf-s3-${DIGIWF_ENV}'
+    httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+  security:
+    client-id: ${SSO_TASK_CLIENT_ID}
+    client-secret: ${SSO_TASK_CLIENT_SECRET}
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          documentStorageUrl: '${digiwf.s3service.httpAPI}'

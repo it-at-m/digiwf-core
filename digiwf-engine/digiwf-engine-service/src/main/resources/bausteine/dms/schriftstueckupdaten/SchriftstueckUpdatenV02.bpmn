@@ -68,8 +68,8 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
           </camunda:inputParameter>
         </camunda:inputOutput>
         <camunda:taskListener event="complete">
-          <camunda:script scriptFormat="javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
-task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+          <camunda:script scriptFormat="javascript">sachbearbeitung= task.getExecution().getVariable("FormField_Neue_Sachbearbeitung");
+task.getExecution().setVariable("dms_user_login",sachbearbeitung);</camunda:script>
         </camunda:taskListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1uetbey</bpmn:incoming>

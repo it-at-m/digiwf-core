@@ -1,0 +1,32 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: 8080
+  shutdown: graceful
+spring:
+  application:
+    name: DigiWF OK.EWO Integration
+  banner:
+    location: banner.txt
+  lifecycle:
+    timeout-per-shutdown-phase: 1m

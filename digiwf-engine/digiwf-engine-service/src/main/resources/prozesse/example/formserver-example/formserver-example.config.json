@@ -1,0 +1,25 @@
+{
+    "key": "Formserver_Integration_Test",
+    "configs": [
+      {
+        "key": "app_file_s3_async_config",
+        "value": "dwf-s3-local-01"
+      },
+      {
+        "key": "app_file_s3_sync_config",
+        "value": "http://127.0.0.1:8086"
+      },
+      {
+        "key": "app_instance_schema_key",
+        "value": "formserver_example_parkausweis_form"
+      },
+      {
+        "key": "app_instance_file_paths_readonly",
+        "value": "zulassungsbescheinigung_i_fahrzeugschein/assistants"
+      },
+      {
+        "key": "app_instance_file_paths",
+        "value": "zulassungsbescheinigung_i_fahrzeugschein/assistants"
+      }
+    ]
+  }

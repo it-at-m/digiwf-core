@@ -14,13 +14,30 @@
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>
-                    %date{yyyy.MM.dd HH:mm:ss.SSS} | [${springAppName}, TraceId: %X{X-B3-TraceId:-}, SpanId: %X{X-B3-SpanId:-}, Span-Export: %X{X-Span-Export:-}] | %level | [%thread] | %logger{0} | [%file : %line]  -  %msg%n
+                    %date{yyyy.MM.dd HH:mm:ss.SSS} | %highlight(%level) | [%thread] | %cyan(%logger{0}) | [%file : %line] - %msg%n
                 </pattern>
             </encoder>
         </appender>
 
+        <logger name="org.apache.kafka.clients.admin"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.producer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="org.apache.kafka.clients.consumer"
+                level="warn"
+                additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
+
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf"
+        <logger name="de.muenchen.oss.digiwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="STDOUT" />
@@ -71,9 +88,8 @@
                             {
                                 "timestamp" : "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
                                 "appName" : "${springAppName}",
-                                "X-B3-TraceId" : "%mdc{X-B3-TraceId}",
-                                "X-B3-SpanId" : "%mdc{X-B3-SpanId}",
-                                "X-Span-Export" : "%mdc{X-Span-Export}",
+                                "TraceId" : "%mdc{traceId}",
+                                "SpanId" : "%mdc{spanId}",
                                 "thread" : "%thread",
                                 "level" : "%level",
                                 "logger": "%logger",
@@ -81,7 +97,8 @@
                                     "fileName" : "%file",
                                     "line" : "%line"
                                 },
-                                "message": "%message"
+                                "message": "%msg",
+                                "stacktrace": "%rEx"
                             }
                         </pattern>
                     </pattern>
@@ -90,7 +107,7 @@
         </appender>
 
         <!-- Logger -->
-        <logger name="io.muenchendigital.digiwf"
+        <logger name="de.muenchen.oss.digiwf"
                 level="debug"
                 additivity="false">
             <appender-ref ref="JSON_STDOUT" />
@@ -101,15 +118,8 @@
                 additivity="false">
             <appender-ref ref="JSON_STDOUT" />
         </logger>
-
-        <logger name="de.muenchen.allgemein"
-                level="info"
-                additivity="false">
-            <appender-ref ref="JSON_STDOUT" />
-        </logger>
-
-        <logger name="org.springframework.web"
-                level="info"
+        <logger name="org.apache.kafka"
+                level="warn"
                 additivity="false">
             <appender-ref ref="JSON_STDOUT" />
         </logger>

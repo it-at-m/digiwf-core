@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_11454is" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Example-Integration" name="Example Integration" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="example-integration-form">
+      <bpmn:outgoing>Flow_1jz5sat</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:callActivity id="Activity_1481t7n" name="Call Example Integration" camunda:modelerTemplate="de.muenchen.digitalwf.templates.example-integration" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in source="digiwf-example-integration-local-01" target="app_topic_name" />
+        <camunda:in source="genericEvent" target="app_message_name" />
+        <camunda:in source="exampleIntegration" target="app_type_name" />
+        <camunda:in source="${FORMFIELD_someData}" target="someData" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jz5sat</bpmn:incoming>
+      <bpmn:outgoing>Flow_02rtz4d</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:boundaryEvent id="Event_1hunkeq" attachedToRef="Activity_1481t7n">
+      <bpmn:outgoing>Flow_0crk7t8</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_16jo4bm" camunda:errorCodeVariable="bpm_error_code" camunda:errorMessageVariable="bpm_error_message" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1jz5sat" sourceRef="StartEvent_1" targetRef="Activity_1481t7n" />
+    <bpmn:sequenceFlow id="Flow_0crk7t8" sourceRef="Event_1hunkeq" targetRef="Activity_08uz2ed" />
+    <bpmn:endEvent id="Event_100xby3">
+      <bpmn:incoming>Flow_1lmsfdb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1lmsfdb" sourceRef="Activity_08uz2ed" targetRef="Event_100xby3" />
+    <bpmn:endEvent id="Event_14jd0xt">
+      <bpmn:incoming>Flow_02rtz4d</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_02rtz4d" sourceRef="Activity_1481t7n" targetRef="Event_14jd0xt" />
+    <bpmn:userTask id="Activity_08uz2ed" name="Verify" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">example-integration-error</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0crk7t8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lmsfdb</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Example-Integration">
+      <bpmndi:BPMNShape id="Activity_1hjpz5f_di" bpmnElement="Activity_1481t7n">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_100xby3_di" bpmnElement="Event_100xby3">
+        <dc:Bounds x="552" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14jd0xt_di" bpmnElement="Event_14jd0xt">
+        <dc:Bounds x="412" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h3yit6_di" bpmnElement="Activity_08uz2ed">
+        <dc:Bounds x="410" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hunkeq_di" bpmnElement="Event_1hunkeq">
+        <dc:Bounds x="352" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1jz5sat_di" bpmnElement="Flow_1jz5sat">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="270" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02rtz4d_di" bpmnElement="Flow_02rtz4d">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="412" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lmsfdb_di" bpmnElement="Flow_1lmsfdb">
+        <di:waypoint x="510" y="240" />
+        <di:waypoint x="552" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0crk7t8_di" bpmnElement="Flow_0crk7t8">
+        <di:waypoint x="370" y="178" />
+        <di:waypoint x="370" y="240" />
+        <di:waypoint x="410" y="240" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

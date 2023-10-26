@@ -7,7 +7,7 @@ The service needs a RDBMS (currently postgresql), Kafka and SSO to work properly
 
 ## Start from IDEA
 
-In order to start the task list service, please run the `io.muenchendigital.digiwf.task.service.TaskListApplication` from your 
+In order to start the task list service, please run the `service.de.muenchen.oss.digiwf.task.TaskListApplication` from your 
 IDE. The application relies on several environment variables, so either copy the content of the `local.env` into your environment
 variables or use the [.EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) and add the file to your execution.
 

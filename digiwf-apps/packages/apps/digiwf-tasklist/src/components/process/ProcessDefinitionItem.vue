@@ -4,17 +4,24 @@
       :aria-label="'Vorgang '+item.name+ ' starten'"
       class="d-flex justify-space-between"
       :to="'/process/'+item.key"
+      data-cy="process-definition-item"
+      :data-element-key="item.key"
     >
       <v-flex
         class="d-flex flex-column"
         style="height: 5rem; margin: 15px 0"
       >
-        <h2 class="processTitle">
+        <h2
+          class="processTitle"
+          data-cy="name"
+        >
           <text-highlight :queries="searchString">
             {{ item.name }}
           </text-highlight>
         </h2>
-        <p>
+        <p
+          data-cy="description"
+        >
           <text-highlight :queries="searchString">
             {{ item.description }}
           </text-highlight>
@@ -32,10 +39,13 @@
             <v-btn
               icon
               v-bind="attrs"
+              data-cy="dropdown-menu-button"
               @click="(event) => { event.preventDefault()}"
               v-on.prevent="on"
+              aria-label="Aktionen für den Vorgang"
+              aria-hidden="false"
             >
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon aria-label="Aktionen für den Vorgang" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
@@ -43,6 +53,8 @@
               :aria-label="'Vorgang '+item.name+ ' starten'"
               link
               :to="'/process/'+item.key"
+              data-cy="start-button"
+              :data-process-definition-key="item.key"
               @click="(event) => { event.preventDefault()}"
             >
               <v-list-item-title>Starten</v-list-item-title>
@@ -55,6 +67,29 @@
   </div>
 </template>
 
+<script lang="ts">
+import {PropType} from "vue";
+import {ProcessDefinition} from "../../middleware/processDefinitions/processDefinitionMiddleware";
+
+export default {
+  props: {
+    item: {
+      type: Object as PropType<ProcessDefinition>,
+      required: true
+    },
+    searchString: {
+      type: String,
+      default: ""
+    }
+  },
+  emits: {
+    click: {
+      type: Function as PropType<(id: string) => void>
+    }
+  }
+};
+</script>
+
 <style scoped>
 
 .processTitle {
@@ -62,24 +97,3 @@
 }
 
 </style>
-
-<script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {ServiceDefinitionTO} from '@muenchen/digiwf-engine-api-internal';
-
-@Component
-export default class ProcessDefinitionItem extends Vue {
-
-  @Prop()
-  item!: ServiceDefinitionTO;
-
-  @Prop()
-  searchString!: string;
-
-  @Emit("on-click")
-  onClick(): string {
-    return this.item.key!;
-  }
-
-}
-</script>

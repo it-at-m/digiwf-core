@@ -1,14 +1,14 @@
 {
   "name": "@muenchen/digiwf-form-renderer",
   "description": "Form renderer",
-  "version": "0.21.9",
+  "version": "1.2.0",
   "module": "dist/digiwf-form-renderer.mjs",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"
   },
   "peerDependencies": {
-    "@muenchen/vjsf": "^2.21.6",
+    "@muenchen/vjsf": "^2.21.7",
     "vue": "^2.7.0",
     "vuetify": "^2.6.0"
   },

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0">
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="SchriftstueckUpdatenV01" />
   </bpmn:collaboration>
@@ -68,8 +68,8 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
           </camunda:inputParameter>
         </camunda:inputOutput>
         <camunda:taskListener event="complete">
-          <camunda:script scriptFormat="javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
-task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+          <camunda:script scriptFormat="javascript">sachbearbeitung= task.getExecution().getVariable("FormField_Neue_Sachbearbeitung");
+task.getExecution().setVariable("dms_user_login",sachbearbeitung);</camunda:script>
         </camunda:taskListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1uetbey</bpmn:incoming>
@@ -154,52 +154,6 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
       <bpmndi:BPMNShape id="Lane_127e0t2_di" bpmnElement="Lane_DigitalWF" isHorizontal="true">
         <dc:Bounds x="159" y="80" width="911" height="420" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
-        <di:waypoint x="530" y="250" />
-        <di:waypoint x="822" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1k35r3h_di" bpmnElement="Flow_1k35r3h">
-        <di:waypoint x="890" y="670" />
-        <di:waypoint x="920" y="670" />
-        <di:waypoint x="920" y="730" />
-        <di:waypoint x="350" y="730" />
-        <di:waypoint x="350" y="275" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0mng1oi_di" bpmnElement="Flow_0mng1oi">
-        <di:waypoint x="890" y="560" />
-        <di:waypoint x="970" y="560" />
-        <di:waypoint x="970" y="750" />
-        <di:waypoint x="350" y="750" />
-        <di:waypoint x="350" y="275" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_019cchd_di" bpmnElement="Flow_019cchd">
-        <di:waypoint x="375" y="250" />
-        <di:waypoint x="430" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08blmjk_di" bpmnElement="Flow_08blmjk">
-        <di:waypoint x="720" y="670" />
-        <di:waypoint x="790" y="670" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0yxsf8j_di" bpmnElement="Flow_0yxsf8j">
-        <di:waypoint x="430" y="308" />
-        <di:waypoint x="430" y="670" />
-        <di:waypoint x="620" y="670" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
-        <di:waypoint x="530" y="308" />
-        <di:waypoint x="530" y="410" />
-        <di:waypoint x="620" y="410" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
-        <di:waypoint x="720" y="410" />
-        <di:waypoint x="750" y="410" />
-        <di:waypoint x="750" y="560" />
-        <di:waypoint x="790" y="560" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vq6htj_di" bpmnElement="Flow_0vq6htj" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
-        <di:waypoint x="278" y="250" />
-        <di:waypoint x="325" y="250" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_SchriftstueckUpdaten" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="242" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -242,6 +196,52 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
           <dc:Bounds x="547" y="299" width="65" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0vq6htj_di" bpmnElement="Flow_0vq6htj" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="278" y="250" />
+        <di:waypoint x="325" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
+        <di:waypoint x="720" y="410" />
+        <di:waypoint x="750" y="410" />
+        <di:waypoint x="750" y="560" />
+        <di:waypoint x="790" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
+        <di:waypoint x="530" y="308" />
+        <di:waypoint x="530" y="410" />
+        <di:waypoint x="620" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yxsf8j_di" bpmnElement="Flow_0yxsf8j">
+        <di:waypoint x="430" y="308" />
+        <di:waypoint x="430" y="670" />
+        <di:waypoint x="620" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08blmjk_di" bpmnElement="Flow_08blmjk">
+        <di:waypoint x="720" y="670" />
+        <di:waypoint x="790" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_019cchd_di" bpmnElement="Flow_019cchd">
+        <di:waypoint x="375" y="250" />
+        <di:waypoint x="430" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mng1oi_di" bpmnElement="Flow_0mng1oi">
+        <di:waypoint x="890" y="560" />
+        <di:waypoint x="970" y="560" />
+        <di:waypoint x="970" y="750" />
+        <di:waypoint x="350" y="750" />
+        <di:waypoint x="350" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k35r3h_di" bpmnElement="Flow_1k35r3h">
+        <di:waypoint x="890" y="670" />
+        <di:waypoint x="920" y="670" />
+        <di:waypoint x="920" y="730" />
+        <di:waypoint x="350" y="730" />
+        <di:waypoint x="350" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
+        <di:waypoint x="530" y="250" />
+        <di:waypoint x="822" y="250" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

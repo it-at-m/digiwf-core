@@ -85,14 +85,6 @@ You may run the applications with the default settings (from `application.yml`) 
 by adding environment variables. You always have to set the env variable `DIGIWF_ENV` (for local development `DIGIWF_ENV=local-01`).
 Additionally, some services require a few more environment variables.
 
-E.g. the s3-integration-example:
-
-```dotenv
-S3_BUCKETNAME=
-S3_ACCESSKEY=
-S3_SECRETKEY=
-```
-
 Under (All env variables)[#all-env-variables] you will find a list of all possible env variables. 
 
 ### Setup a local dev environment

@@ -89,7 +89,7 @@
     },
     {
       "label": "Body",
-      "type": "Text",
+      "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",

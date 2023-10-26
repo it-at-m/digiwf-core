@@ -11,6 +11,8 @@ interface PaginationData {
   readonly setPage: (page: number) => void;
   readonly setSize: (size: number) => void;
   readonly getSearchQueryOfUrl: () => string | undefined;
+  readonly tag: Ref<string | undefined>;
+  readonly setTag: (tag: string) => void;
 }
 
 export const useGetPaginationData = (): PaginationData => {
@@ -18,7 +20,7 @@ export const useGetPaginationData = (): PaginationData => {
   const pageId = usePageId();
   const pageKeyToPaginationData = inject<PageBasedPaginationProvider>("paginationData");
   if (!pageKeyToPaginationData) {
-    throw Error("could not inject PageBasedPaginationProvider")
+    throw Error("could not inject PageBasedPaginationProvider");
   }
 
   const paginationInformationOfPage = pageKeyToPaginationData.getPaginationDataInSession(pageId.id || "unknown");
@@ -28,26 +30,33 @@ export const useGetPaginationData = (): PaginationData => {
       return parseInt(pageString);
     }
     return paginationInformationOfPage?.page || DEFAULT_PAGE;
-  }
+  };
   const getDefaultSize = (): number => {
     const sizeString = router.currentRoute.query?.size as string | null;
     if (!!sizeString && !isNaN(parseInt(sizeString))) {
       return parseInt(sizeString);
     }
     return paginationInformationOfPage?.size || DEFAULT_SIZE;
-  }
+  };
   const getSearchQueryOfUrl = (): string | undefined => {
-    const queryFilterValue = router.currentRoute.query?.filter as string | null
-    if (!!queryFilterValue) {
+    const queryFilterValue = router.currentRoute.query?.filter as string | null;
+    if (queryFilterValue) {
       return queryFilterValue;
     }
-    return !!paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
-  }
+    return paginationInformationOfPage?.searchQuery ? paginationInformationOfPage?.searchQuery : undefined;
+  };
+  const getTagOfUrl = (): string | undefined => {
+    const queryTagValue = router.currentRoute.query?.tag as string | null;
+    if (queryTagValue) {
+      return queryTagValue;
+    }
+    return paginationInformationOfPage?.tag ? paginationInformationOfPage?.tag : undefined;
+  };
 
   const searchQuery = ref<string | undefined>(getSearchQueryOfUrl());
   const page = ref<number>(getDefaultPage());
   const size = ref<number>(getDefaultSize());
-
+  const tag = ref<string | undefined>(getTagOfUrl());
   const setPage = (newPage: number) => {
     page.value = newPage;
     router.replace({
@@ -56,8 +65,8 @@ export const useGetPaginationData = (): PaginationData => {
         page: page.value?.toString(),
       }
     });
-    pageKeyToPaginationData.setPageOfPageId(pageId.id, newPage)
-  }
+    pageKeyToPaginationData.setPageOfPageId(pageId.id, newPage);
+  };
   const setSize = (newSize: number) => {
     size.value = newSize;
     router.replace({
@@ -66,10 +75,10 @@ export const useGetPaginationData = (): PaginationData => {
         size: size.value?.toString(),
       }
     });
-    pageKeyToPaginationData.setSizeOfPageId(pageId.id, newSize)
-  }
+    pageKeyToPaginationData.setSizeOfPageId(pageId.id, newSize);
+  };
   const setSearchQuery = (newSearchQuery?: string) => {
-    searchQuery.value = newSearchQuery
+    searchQuery.value = newSearchQuery;
     router.replace({
       query: {
         ...router.currentRoute.query,
@@ -78,14 +87,29 @@ export const useGetPaginationData = (): PaginationData => {
     });
     // jump back to first page, so that user can see the first results again
     setPage(0);
-    pageKeyToPaginationData.setSearchQuery(pageId.id, searchQuery.value)
-  }
+    pageKeyToPaginationData.setSearchQuery(pageId.id, searchQuery.value);
+  };
+
+  const setTag = (newTag?: string) => {
+    tag.value = newTag;
+    router.replace({
+      query: {
+        ...router.currentRoute.query,
+        tag: newTag
+      }
+    });
+    // jump back to first page, so that user can see the first results again
+    setPage(0);
+    pageKeyToPaginationData.setTag(pageId.id, tag.value);
+  };
 
   // load pagination from session after page switch
   if (paginationInformationOfPage) {
-    setSearchQuery(paginationInformationOfPage.searchQuery)
-    setSize(paginationInformationOfPage.size)
-    setPage(paginationInformationOfPage.page)
+    setSearchQuery(paginationInformationOfPage.searchQuery);
+    setTag(paginationInformationOfPage.tag);
+    setSize(paginationInformationOfPage.size);
+    // set page must be the last mutation because the upper ones has impact of the page
+    setPage(paginationInformationOfPage.page);
   }
 
   return {
@@ -96,6 +120,7 @@ export const useGetPaginationData = (): PaginationData => {
     setSize,
     setSearchQuery,
     getSearchQueryOfUrl,
-  }
-}
-
+    tag,
+    setTag,
+  };
+};

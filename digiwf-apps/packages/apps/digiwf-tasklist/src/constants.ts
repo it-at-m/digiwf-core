@@ -7,3 +7,4 @@ export const mucatarURL = function (username: string, mode?: string) {
     return `${baseUrl}${username}&m=${usedMode}`;
 };
 
+export const SEARCH_DEBOUNCE_INTERVAL = 200;

@@ -6,7 +6,7 @@ spring:
   main:
     allow-bean-definition-overriding: true # Allow Bean re-definition in itest
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;INIT=create schema if not exists PUBLIC;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:testdb-${uuid.random};MODE=PostgreSQL;INIT=create schema if not exists PUBLIC;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: sa
     hikari:
@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        show_sql: false
   security:
     oauth2:
       resourceserver:
@@ -38,17 +39,26 @@ spring:
         provider:
           keycloak:
             issuer-uri: http://local-itest
+            user-info-uri: http://local-itest/realms/itest/protocol/openid-connect/userinfo
+            jwk-set-uri: http://local-itest/realms/itest/protocol/openid-connect/certs
+
 
 feign:
   client:
     config:
       jsonschema:
         url: "http://localhost:7080/"
+      legacy-task:
+        url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"
 
-easyldap:
+ezldap:
   client:
-    port: 19561
-    url: "http://localhost:${easyldap.client.port}"
+    port: 8183
+    url: "http://localhost:${ezldap.client.port}"
     request: "/test"
+logging:
+  level:
+    root: info
+    org.eclipse.jetty: warn

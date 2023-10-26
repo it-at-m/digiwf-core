@@ -66,9 +66,6 @@ cmake-build-*/
 # File-based project format
 *.iws
 
-# IntelliJ
-out/
-
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -398,5 +395,3 @@ gradle-app.setting
 **/pom.xml.versionsBackup
 **/application-internal.*
 /docs/node/
-
-digiwf-schema-registry/digiwf-schema-registry-client/.openapi-generator-ignore

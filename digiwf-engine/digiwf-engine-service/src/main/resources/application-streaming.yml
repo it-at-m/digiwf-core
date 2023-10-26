@@ -76,11 +76,3 @@ digiwf:
         TEST: dwf-cocreation-deploy-test
         LOCAL: dwf-cocreation-deploy-local-01
         DEV: dwf-cocreation-deploy-dev
-io:
-  muenchendigital:
-    digiwf:
-      docs:
-        basePackage: de.muenchen.digitalwf
-        enabled: 'true'
-        version: ${info.application.version}
-        title: ${info.application.name}

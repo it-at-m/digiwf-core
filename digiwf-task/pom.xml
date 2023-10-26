@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.muenchendigital.digiwf</groupId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>0.17.9-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
 
@@ -16,10 +16,10 @@
     <description>Task management used by DigiWF</description>
 
     <properties>
-        <polyflow.version>3.11.0</polyflow.version>
-        <axon-framework.version>4.6.6</axon-framework.version>
+        <polyflow.version>3.15.0</polyflow.version>
+        <axon-framework.version>4.6.8</axon-framework.version>
         <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <kotlin.version>1.8.21</kotlin.version>
+        <kotlin.version>1.9.10</kotlin.version>
     </properties>
 
     <dependencyManagement>
@@ -54,7 +54,7 @@
             </dependency>
 
             <dependency>
-                <groupId>io.muenchendigital.digiwf</groupId>
+                <groupId>de.muenchen.oss.digiwf</groupId>
                 <artifactId>digiwf-task-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -71,6 +71,7 @@
         <module>digiwf-task-api</module>
         <module>digiwf-tasklist-service</module>
         <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
     </modules>
 
 </project>

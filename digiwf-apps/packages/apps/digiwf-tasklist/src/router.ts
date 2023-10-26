@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Tasks from "@/views/Tasks.vue";
 import TaskDetail from "@/views/TaskDetail.vue";
-import Processes from "@/views/Processes.vue";
+import ProcessDefinitions from "@/views/ProcessDefinitions.vue";
 import StartProcess from "@/views/StartProcess.vue";
 import ProcessInstances from "@/views/ProcessInstances.vue";
 import OpenGroupTasks from "@/views/OpenGroupTasks.vue";
@@ -47,7 +47,7 @@ const router = new Router({
     {
       path: "/process",
       name: "processes",
-      component: Processes
+      component: ProcessDefinitions
     },
     {
       path: '/process/:processKey',

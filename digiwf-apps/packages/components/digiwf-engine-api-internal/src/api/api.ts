@@ -14,1270 +14,1138 @@
 
 
 import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import {
+  assertParamExists,
+  createRequestFunction,
+  DUMMY_BASE_URL,
+  serializeDataIfNeeded,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
+  setSearchParams,
+  toPathString
+} from './common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError } from './base';
 
 /**
- * 
+ *
  * @export
  * @interface AlwMetaDataTO
  */
 export interface AlwMetaDataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'url'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'extension'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof AlwMetaDataTO
      */
     'contentSize'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ButtonTO
  */
 export interface ButtonTO {
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof ButtonTO
      */
     'showButton'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ButtonTO
      */
     'buttonText'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ButtonsTO
  */
 export interface ButtonsTO {
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'complete'?: ButtonTO;
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'cancel'?: ButtonTO;
     /**
-     * 
+     *
      * @type {ButtonTO}
      * @memberof ButtonsTO
      */
     'statusPdf'?: ButtonTO;
 }
 /**
- * 
- * @export
- * @interface CompleteTO
- */
-export interface CompleteTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof CompleteTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof CompleteTO
-     */
-    'variables': { [key: string]: object; };
-}
-/**
- * 
+ *
  * @export
  * @interface ConfigEntryTO
  */
 export interface ConfigEntryTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ConfigEntryTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ConfigEntryTO
      */
     'value': string;
 }
 /**
- * 
+ *
  * @export
  * @interface DeploymentDto
  */
 export interface DeploymentDto {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'deploymentId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'versionId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'target'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'file'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentDto
      */
     'artifactType'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface DeploymentStatusDto
  */
 export interface DeploymentStatusDto {
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof DeploymentStatusDto
      */
     'success'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof DeploymentStatusDto
      */
     'message'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface FilterTO
  */
 export interface FilterTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'filterString'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterTO
      */
     'pageId'?: string;
 }
 /**
- * 
- * @export
- * @interface FollowUpTO
- */
-export interface FollowUpTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof FollowUpTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FollowUpTO
-     */
-    'followUpDate'?: string;
-}
-/**
- * 
+ *
  * @export
  * @interface FormFieldTO
  */
 export interface FormFieldTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'type': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'defaultValue'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'defaultValueField'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'label'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'prependIcon'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'tooltip'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'ext'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'multiple'?: boolean;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'ldapOus'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'imageHeight'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'imageWidth'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'readonly'?: boolean;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FormFieldTO
      */
     'rows'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof FormFieldTO
      */
     'col'?: number;
     /**
-     * 
+     *
      * @type {Array<ItemTO>}
      * @memberof FormFieldTO
      */
     'items'?: Array<ItemTO>;
     /**
-     * 
+     *
      * @type {Array<RuleTO>}
      * @memberof FormFieldTO
      */
     'rules'?: Array<RuleTO>;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'itemText'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormFieldTO
      */
     'itemValue'?: string;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof FormFieldTO
      */
     'returnObject'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface FormTO
  */
 export interface FormTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormTO
      */
     'authorizedGroups'?: string;
     /**
-     * 
+     *
      * @type {ButtonsTO}
      * @memberof FormTO
      */
     'buttons'?: ButtonsTO;
     /**
-     * 
+     *
      * @type {Array<GroupTO>}
      * @memberof FormTO
      */
     'groups'?: Array<GroupTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface GetAlwMetadataTO
  */
 export interface GetAlwMetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GetAlwMetadataTO
      */
     'url': string;
 }
 /**
- * 
+ *
  * @export
  * @interface GetMetadataTO
  */
 export interface GetMetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GetMetadataTO
      */
     'url': string;
 }
 /**
- * 
+ *
  * @export
  * @interface GroupTO
  */
 export interface GroupTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof GroupTO
      */
     'label'?: string;
     /**
-     * 
+     *
      * @type {Array<FormFieldTO>}
      * @memberof GroupTO
      */
     'schema'?: Array<FormFieldTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface HistoryTask
  */
 export interface HistoryTask {
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof HistoryTask
      */
     'endTime'?: string;
 }
 /**
- * 
- * @export
- * @interface HumanTaskDetailTO
- */
-export interface HumanTaskDetailTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'processName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'processInstanceId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'assignee'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'assigneeFormatted'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'followUpDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskDetailTO
-     */
-    'creationTime': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof HumanTaskDetailTO
-     */
-    'variables'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {FormTO}
-     * @memberof HumanTaskDetailTO
-     */
-    'form'?: FormTO;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof HumanTaskDetailTO
-     */
-    'jsonSchema'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {boolean}
-     * @memberof HumanTaskDetailTO
-     */
-    'statusDocument'?: boolean;
-}
-/**
- * 
- * @export
- * @interface HumanTaskTO
- */
-export interface HumanTaskTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'processName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'assignee'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'assigneeFormatted'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'followUpDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskTO
-     */
-    'creationTime'?: string;
-}
-/**
- * 
+ *
  * @export
  * @interface InfoTO
  */
 export interface InfoTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'maintenanceInfo1'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'maintenanceInfo2'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof InfoTO
      */
     'environment'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ItemTO
  */
 export interface ItemTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ItemTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ItemTO
      */
     'value'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface JsonSchemaTO
  */
 export interface JsonSchemaTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof JsonSchemaTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof JsonSchemaTO
      */
     'schema': { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface MetadataTO
  */
 export interface MetadataTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof MetadataTO
      */
     'url'?: string;
 }
 /**
- * 
+ *
  * @export
- * @interface PageHumanTaskTO
+ * @interface PageServiceDefinitionTO
  */
-export interface PageHumanTaskTO {
+export interface PageServiceDefinitionTO {
     /**
-     * 
+     *
      * @type {number}
-     * @memberof PageHumanTaskTO
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageHumanTaskTO
+     * @memberof PageServiceDefinitionTO
      */
     'totalElements'?: number;
     /**
-     * 
+     *
      * @type {number}
-     * @memberof PageHumanTaskTO
+     * @memberof PageServiceDefinitionTO
      */
-    'numberOfElements'?: number;
+    'totalPages'?: number;
     /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageHumanTaskTO
-     */
-    'last'?: boolean;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageHumanTaskTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
+     *
      * @type {number}
-     * @memberof PageHumanTaskTO
+     * @memberof PageServiceDefinitionTO
      */
     'size'?: number;
     /**
-     * 
-     * @type {Array<HumanTaskTO>}
-     * @memberof PageHumanTaskTO
+     *
+     * @type {Array<ServiceDefinitionTO>}
+     * @memberof PageServiceDefinitionTO
      */
-    'content'?: Array<HumanTaskTO>;
+    'content'?: Array<ServiceDefinitionTO>;
     /**
-     * 
+     *
      * @type {number}
-     * @memberof PageHumanTaskTO
+     * @memberof PageServiceDefinitionTO
      */
     'number'?: number;
     /**
-     * 
-     * @type {Sort}
-     * @memberof PageHumanTaskTO
+     *
+     * @type {SortObject}
+     * @memberof PageServiceDefinitionTO
      */
-    'sort'?: Sort;
+    'sort'?: SortObject;
     /**
-     * 
+     *
      * @type {boolean}
-     * @memberof PageHumanTaskTO
+     * @memberof PageServiceDefinitionTO
+     */
+    'first'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageServiceDefinitionTO
+     */
+    'last'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceDefinitionTO
+     */
+    'numberOfElements'?: number;
+    /**
+     *
+     * @type {PageableObject}
+     * @memberof PageServiceDefinitionTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageServiceDefinitionTO
      */
     'empty'?: boolean;
 }
 /**
- * 
+ *
+ * @export
+ * @interface PageServiceInstanceTO
+ */
+export interface PageServiceInstanceTO {
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'totalElements'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'totalPages'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'size'?: number;
+    /**
+     *
+     * @type {Array<ServiceInstanceTO>}
+     * @memberof PageServiceInstanceTO
+     */
+    'content'?: Array<ServiceInstanceTO>;
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'number'?: number;
+    /**
+     *
+     * @type {SortObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'sort'?: SortObject;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'first'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'last'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof PageServiceInstanceTO
+     */
+    'numberOfElements'?: number;
+    /**
+     *
+     * @type {PageableObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'empty'?: boolean;
+}
+/**
+ *
  * @export
  * @interface PageableObject
  */
 export interface PageableObject {
     /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
-    'pageNumber'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
-    'pageSize'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    'paged'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    'unpaged'?: boolean;
-    /**
-     * 
+     *
      * @type {number}
      * @memberof PageableObject
      */
     'offset'?: number;
     /**
-     * 
-     * @type {Sort}
+     *
+     * @type {SortObject}
      * @memberof PageableObject
      */
-    'sort'?: Sort;
+    'sort'?: SortObject;
+    /**
+     *
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'pageNumber'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'pageSize'?: number;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    'paged'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    'unpaged'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface ProcessConfigTO
  */
 export interface ProcessConfigTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigTO
      */
     'statusDokument'?: string;
     /**
-     * 
+     *
      * @type {Array<StatusConfigTO>}
      * @memberof ProcessConfigTO
      */
     'statusConfig'?: Array<StatusConfigTO>;
     /**
-     * 
+     *
      * @type {Array<ConfigEntryTO>}
      * @memberof ProcessConfigTO
      */
     'configs'?: Array<ConfigEntryTO>;
 }
 /**
- * 
+ *
  * @export
  * @interface RuleTO
  */
 export interface RuleTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'type'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'value'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof RuleTO
      */
     'target'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface SaveFilterTO
  */
 export interface SaveFilterTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SaveFilterTO
      */
     'filterString': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SaveFilterTO
      */
     'pageId': string;
 }
 /**
- * 
- * @export
- * @interface SaveTO
- */
-export interface SaveTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof SaveTO
-     */
-    'taskId': string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof SaveTO
-     */
-    'variables'?: { [key: string]: object; };
-}
-/**
- * 
+ *
  * @export
  * @interface SearchUserTO
  */
 export interface SearchUserTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SearchUserTO
      */
     'searchString'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof SearchUserTO
      */
     'ous'?: string;
 }
 /**
- * 
- * @export
- * @interface SendMessageTO
- */
-export interface SendMessageTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof SendMessageTO
-     */
-    'instanceId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SendMessageTO
-     */
-    'message'?: string;
-}
-/**
- * 
+ *
  * @export
  * @interface ServiceDefinitionDetailTO
  */
 export interface ServiceDefinitionDetailTO {
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof ServiceDefinitionDetailTO
      */
     'startForm'?: FormTO;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceDefinitionDetailTO
      */
     'jsonSchema'?: { [key: string]: object; };
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'name': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionDetailTO
      */
     'versionTag'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceDefinitionTO
  */
 export interface ServiceDefinitionTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'key'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionTO
      */
     'versionTag'?: string;
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceInstanceDetailTO
  */
 export interface ServiceInstanceDetailTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'definitionName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'startTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'endTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'status'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'statusKey'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceDetailTO
      */
     'description'?: string;
     /**
-     * 
+     *
      * @type {ProcessConfigTO}
      * @memberof ServiceInstanceDetailTO
      */
     'processConfig'?: ProcessConfigTO;
     /**
-     * 
+     *
      * @type {Array<HistoryTask>}
      * @memberof ServiceInstanceDetailTO
      */
     'historyTasks'?: Array<HistoryTask>;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceInstanceDetailTO
      */
     'data'?: { [key: string]: object; };
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof ServiceInstanceDetailTO
      */
     'jsonSchema'?: { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface ServiceInstanceTO
  */
 export interface ServiceInstanceTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'id'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'definitionName'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'startTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'endTime'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'status'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceTO
      */
     'description'?: string;
 }
 /**
- * 
+ *
  * @export
- * @interface Sort
+ * @interface SortObject
  */
-export interface Sort {
+export interface SortObject {
     /**
-     * 
+     *
      * @type {boolean}
-     * @memberof Sort
+     * @memberof SortObject
+     */
+    'empty'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof SortObject
      */
     'sorted'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
-     * @memberof Sort
+     * @memberof SortObject
      */
     'unsorted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Sort
-     */
-    'empty'?: boolean;
 }
 /**
- * 
+ *
  * @export
  * @interface StartInstanceTO
  */
 export interface StartInstanceTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StartInstanceTO
      */
     'key'?: string;
     /**
-     * 
+     *
      * @type {{ [key: string]: object; }}
      * @memberof StartInstanceTO
      */
     'variables'?: { [key: string]: object; };
 }
 /**
- * 
+ *
  * @export
  * @interface StatusConfigTO
  */
 export interface StatusConfigTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusConfigTO
      */
     'key': string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusConfigTO
      */
     'label': string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof StatusConfigTO
      */
     'position': number;
 }
 /**
- * 
+ *
  * @export
  * @interface StatusDokumentTO
  */
 export interface StatusDokumentTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof StatusDokumentTO
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {Array<string>}
      * @memberof StatusDokumentTO
      */
     'data'?: Array<string>;
 }
 /**
- * 
+ *
  * @export
  * @interface UserTO
  */
 export interface UserTO {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'lhmObjectId'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'username'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'forename'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'surname'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'ou'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
     'department'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserTO
      */
@@ -1291,8 +1159,8 @@ export interface UserTO {
 export const AlwDmsRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1316,7 +1184,7 @@ export const AlwDmsRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1340,8 +1208,8 @@ export const AlwDmsRestControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = AlwDmsRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1360,8 +1228,8 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
     const localVarFp = AlwDmsRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {GetAlwMetadataTO} getAlwMetadataTO 
+         *
+         * @param {GetAlwMetadataTO} getAlwMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1378,7 +1246,7 @@ export const AlwDmsRestControllerApiFactory = function (configuration?: Configur
  */
 export interface AlwDmsRestControllerApiGetMetadataRequest {
     /**
-     * 
+     *
      * @type {GetAlwMetadataTO}
      * @memberof AlwDmsRestControllerApiGetMetadata
      */
@@ -1393,7 +1261,7 @@ export interface AlwDmsRestControllerApiGetMetadataRequest {
  */
 export class AlwDmsRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {AlwDmsRestControllerApiGetMetadataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1412,8 +1280,8 @@ export class AlwDmsRestControllerApi extends BaseAPI {
 export const DeploymentControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1437,7 +1305,7 @@ export const DeploymentControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1461,8 +1329,8 @@ export const DeploymentControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = DeploymentControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1481,8 +1349,8 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
     const localVarFp = DeploymentControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {DeploymentDto} deploymentDto 
+         *
+         * @param {DeploymentDto} deploymentDto
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1499,7 +1367,7 @@ export const DeploymentControllerApiFactory = function (configuration?: Configur
  */
 export interface DeploymentControllerApiDeployArtifactsRequest {
     /**
-     * 
+     *
      * @type {DeploymentDto}
      * @memberof DeploymentControllerApiDeployArtifacts
      */
@@ -1514,7 +1382,7 @@ export interface DeploymentControllerApiDeployArtifactsRequest {
  */
 export class DeploymentControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DeploymentControllerApiDeployArtifactsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1533,8 +1401,8 @@ export class DeploymentControllerApi extends BaseAPI {
 export const DmsRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1558,7 +1426,7 @@ export const DmsRestControllerApiAxiosParamCreator = function (configuration?: C
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1582,8 +1450,8 @@ export const DmsRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DmsRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1602,8 +1470,8 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
     const localVarFp = DmsRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {GetMetadataTO} getMetadataTO 
+         *
+         * @param {GetMetadataTO} getMetadataTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1620,7 +1488,7 @@ export const DmsRestControllerApiFactory = function (configuration?: Configurati
  */
 export interface DmsRestControllerApiGetMetaDataRequest {
     /**
-     * 
+     *
      * @type {GetMetadataTO}
      * @memberof DmsRestControllerApiGetMetaData
      */
@@ -1635,7 +1503,7 @@ export interface DmsRestControllerApiGetMetaDataRequest {
  */
 export class DmsRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DmsRestControllerApiGetMetaDataRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1654,8 +1522,8 @@ export class DmsRestControllerApi extends BaseAPI {
 export const DocumentRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1680,7 +1548,7 @@ export const DocumentRestControllerApiAxiosParamCreator = function (configuratio
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1701,8 +1569,8 @@ export const DocumentRestControllerApiFp = function(configuration?: Configuratio
     const localVarAxiosParamCreator = DocumentRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1721,8 +1589,8 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
     const localVarFp = DocumentRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1739,7 +1607,7 @@ export const DocumentRestControllerApiFactory = function (configuration?: Config
  */
 export interface DocumentRestControllerApiGetStatusDokumentForTaskRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof DocumentRestControllerApiGetStatusDokumentForTask
      */
@@ -1754,7 +1622,7 @@ export interface DocumentRestControllerApiGetStatusDokumentForTaskRequest {
  */
 export class DocumentRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {DocumentRestControllerApiGetStatusDokumentForTaskRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1773,8 +1641,8 @@ export class DocumentRestControllerApi extends BaseAPI {
 export const FilterRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1799,7 +1667,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1810,7 +1678,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1832,7 +1700,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1843,8 +1711,8 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1868,7 +1736,7 @@ export const FilterRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1892,8 +1760,8 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = FilterRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1902,7 +1770,7 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1911,8 +1779,8 @@ export const FilterRestControllerApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1931,8 +1799,8 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
     const localVarFp = FilterRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1940,7 +1808,7 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
             return localVarFp._delete(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1948,8 +1816,8 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
             return localVarFp.getFilters(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {SaveFilterTO} saveFilterTO 
+         *
+         * @param {SaveFilterTO} saveFilterTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1966,7 +1834,7 @@ export const FilterRestControllerApiFactory = function (configuration?: Configur
  */
 export interface FilterRestControllerApiDeleteRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FilterRestControllerApiDelete
      */
@@ -1980,7 +1848,7 @@ export interface FilterRestControllerApiDeleteRequest {
  */
 export interface FilterRestControllerApiSaveFilterRequest {
     /**
-     * 
+     *
      * @type {SaveFilterTO}
      * @memberof FilterRestControllerApiSaveFilter
      */
@@ -1995,7 +1863,7 @@ export interface FilterRestControllerApiSaveFilterRequest {
  */
 export class FilterRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {FilterRestControllerApiDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2006,7 +1874,7 @@ export class FilterRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilterRestControllerApi
@@ -2016,7 +1884,7 @@ export class FilterRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FilterRestControllerApiSaveFilterRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2035,8 +1903,8 @@ export class FilterRestControllerApi extends BaseAPI {
 export const FormRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2060,7 +1928,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2074,8 +1942,8 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2100,7 +1968,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2111,7 +1979,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2133,7 +2001,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2144,9 +2012,9 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2173,7 +2041,7 @@ export const FormRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2197,8 +2065,8 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FormRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2207,8 +2075,8 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2217,7 +2085,7 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2226,9 +2094,9 @@ export const FormRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2247,8 +2115,8 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = FormRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {FormTO} formTO 
+         *
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2256,8 +2124,8 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.createForm(formTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2265,7 +2133,7 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getForm(key, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2273,9 +2141,9 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getForms(options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
-         * @param {FormTO} formTO 
+         *
+         * @param {string} key
+         * @param {FormTO} formTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2292,7 +2160,7 @@ export const FormRestControllerApiFactory = function (configuration?: Configurat
  */
 export interface FormRestControllerApiCreateFormRequest {
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof FormRestControllerApiCreateForm
      */
@@ -2306,7 +2174,7 @@ export interface FormRestControllerApiCreateFormRequest {
  */
 export interface FormRestControllerApiGetFormRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormRestControllerApiGetForm
      */
@@ -2320,14 +2188,14 @@ export interface FormRestControllerApiGetFormRequest {
  */
 export interface FormRestControllerApiUpdateFormRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FormRestControllerApiUpdateForm
      */
     readonly key: string
 
     /**
-     * 
+     *
      * @type {FormTO}
      * @memberof FormRestControllerApiUpdateForm
      */
@@ -2342,7 +2210,7 @@ export interface FormRestControllerApiUpdateFormRequest {
  */
 export class FormRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {FormRestControllerApiCreateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2353,7 +2221,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FormRestControllerApiGetFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2364,7 +2232,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FormRestControllerApi
@@ -2374,7 +2242,7 @@ export class FormRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {FormRestControllerApiUpdateFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2387,1352 +2255,13 @@ export class FormRestControllerApi extends BaseAPI {
 
 
 /**
- * HumanTaskFileRestControllerApi - axios parameter creator
- * @export
- */
-export const HumanTaskFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getFileNames: async (taskId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getFileNames', 'taskId', taskId)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDeletion: async (taskId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'taskId', taskId)
-            // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'filename', filename)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{filename}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDownload: async (taskId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'taskId', taskId)
-            // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'fileName', fileName)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{fileName}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileUpload: async (taskId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'taskId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'taskId', taskId)
-            // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'filename', filename)
-            // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload', 'filePath', filePath)
-            const localVarPath = `/rest/task/file/{taskId}/{filename}`
-                .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)))
-                .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (filePath !== undefined) {
-                localVarQueryParameter['filePath'] = filePath;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HumanTaskFileRestControllerApi - functional programming interface
- * @export
- */
-export const HumanTaskFileRestControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HumanTaskFileRestControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getFileNames(taskId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames(taskId, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileDeletion(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion(taskId, filename, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileDownload(taskId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload(taskId, fileName, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPresignedUrlForFileUpload(taskId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload(taskId, filename, filePath, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * HumanTaskFileRestControllerApi - factory interface
- * @export
- */
-export const HumanTaskFileRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HumanTaskFileRestControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getFileNames(taskId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames(taskId, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDeletion(taskId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion(taskId, filename, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} fileName 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileDownload(taskId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload(taskId, fileName, filePath, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} taskId 
-         * @param {string} filename 
-         * @param {string} filePath 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPresignedUrlForFileUpload(taskId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload(taskId, filename, filePath, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for getFileNames operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetFileNamesRequest
- */
-export interface HumanTaskFileRestControllerApiGetFileNamesRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetFileNames
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetFileNames
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileDeletion operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly filename: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletion
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileDownload operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly fileName: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileDownload
-     */
-    readonly filePath: string
-}
-
-/**
- * Request parameters for getPresignedUrlForFileUpload operation in HumanTaskFileRestControllerApi.
- * @export
- * @interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest
- */
-export interface HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly taskId: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly filename: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskFileRestControllerApiGetPresignedUrlForFileUpload
-     */
-    readonly filePath: string
-}
-
-/**
- * HumanTaskFileRestControllerApi - object-oriented interface
- * @export
- * @class HumanTaskFileRestControllerApi
- * @extends {BaseAPI}
- */
-export class HumanTaskFileRestControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getFileNames(requestParameters: HumanTaskFileRestControllerApiGetFileNamesRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getFileNames(requestParameters.taskId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileDeletion(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDeletionRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileDownload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileDownloadRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(requestParameters.taskId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskFileRestControllerApi
-     */
-    public getPresignedUrlForFileUpload(requestParameters: HumanTaskFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
-        return HumanTaskFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.taskId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
- * HumanTaskRestControllerApi - axios parameter creator
- * @export
- */
-export const HumanTaskRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        assignTask: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('assignTask', 'id', id)
-            const localVarPath = `/rest/task/assign/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelTask: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cancelTask', 'id', id)
-            const localVarPath = `/rest/task/cancel/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        completeTask: async (completeTO: CompleteTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'completeTO' is not null or undefined
-            assertParamExists('completeTask', 'completeTO', completeTO)
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(completeTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followUpTask: async (followUpTO: FollowUpTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'followUpTO' is not null or undefined
-            assertParamExists('followUpTask', 'followUpTO', followUpTO)
-            const localVarPath = `/rest/task/followup`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(followUpTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAssignedGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task/group/assigned`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOpenGroupTasks: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task/group/open`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTaskDetail: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getTaskDetail', 'id', id)
-            const localVarPath = `/rest/task/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTasks: async (page?: number, size?: number, query?: string, followUp?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (query !== undefined) {
-                localVarQueryParameter['query'] = query;
-            }
-
-            if (followUp !== undefined) {
-                localVarQueryParameter['followUp'] = followUp;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        saveTask: async (saveTO: SaveTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'saveTO' is not null or undefined
-            assertParamExists('saveTask', 'saveTO', saveTO)
-            const localVarPath = `/rest/task`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(saveTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HumanTaskRestControllerApi - functional programming interface
- * @export
- */
-export const HumanTaskRestControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HumanTaskRestControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async assignTask(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.assignTask(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cancelTask(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelTask(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async completeTask(completeTO: CompleteTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.completeTask(completeTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async followUpTask(followUpTO: FollowUpTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followUpTask(followUpTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(page, size, query, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getOpenGroupTasks(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOpenGroupTasks(page, size, query, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTaskDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HumanTaskDetailTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaskDetail(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageHumanTaskTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(page, size, query, followUp, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async saveTask(saveTO: SaveTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.saveTask(saveTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * HumanTaskRestControllerApi - factory interface
- * @export
- */
-export const HumanTaskRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HumanTaskRestControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        assignTask(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.assignTask(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelTask(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.cancelTask(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {CompleteTO} completeTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        completeTask(completeTO: CompleteTO, options?: any): AxiosPromise<void> {
-            return localVarFp.completeTask(completeTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {FollowUpTO} followUpTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followUpTask(followUpTO: FollowUpTO, options?: any): AxiosPromise<void> {
-            return localVarFp.followUpTask(followUpTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAssignedGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getAssignedGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOpenGroupTasks(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getOpenGroupTasks(page, size, query, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTaskDetail(id: string, options?: any): AxiosPromise<HumanTaskDetailTO> {
-            return localVarFp.getTaskDetail(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] 
-         * @param {number} [size] 
-         * @param {string} [query] 
-         * @param {boolean} [followUp] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTasks(page?: number, size?: number, query?: string, followUp?: boolean, options?: any): AxiosPromise<PageHumanTaskTO> {
-            return localVarFp.getTasks(page, size, query, followUp, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {SaveTO} saveTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        saveTask(saveTO: SaveTO, options?: any): AxiosPromise<void> {
-            return localVarFp.saveTask(saveTO, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for assignTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiAssignTaskRequest
- */
-export interface HumanTaskRestControllerApiAssignTaskRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiAssignTask
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for cancelTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiCancelTaskRequest
- */
-export interface HumanTaskRestControllerApiCancelTaskRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiCancelTask
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for completeTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiCompleteTaskRequest
- */
-export interface HumanTaskRestControllerApiCompleteTaskRequest {
-    /**
-     * 
-     * @type {CompleteTO}
-     * @memberof HumanTaskRestControllerApiCompleteTask
-     */
-    readonly completeTO: CompleteTO
-}
-
-/**
- * Request parameters for followUpTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiFollowUpTaskRequest
- */
-export interface HumanTaskRestControllerApiFollowUpTaskRequest {
-    /**
-     * 
-     * @type {FollowUpTO}
-     * @memberof HumanTaskRestControllerApiFollowUpTask
-     */
-    readonly followUpTO: FollowUpTO
-}
-
-/**
- * Request parameters for getAssignedGroupTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest
- */
-export interface HumanTaskRestControllerApiGetAssignedGroupTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetAssignedGroupTasks
-     */
-    readonly query?: string
-}
-
-/**
- * Request parameters for getOpenGroupTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetOpenGroupTasksRequest
- */
-export interface HumanTaskRestControllerApiGetOpenGroupTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetOpenGroupTasks
-     */
-    readonly query?: string
-}
-
-/**
- * Request parameters for getTaskDetail operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetTaskDetailRequest
- */
-export interface HumanTaskRestControllerApiGetTaskDetailRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetTaskDetail
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getTasks operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiGetTasksRequest
- */
-export interface HumanTaskRestControllerApiGetTasksRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly size?: number
-
-    /**
-     * 
-     * @type {string}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly query?: string
-
-    /**
-     * 
-     * @type {boolean}
-     * @memberof HumanTaskRestControllerApiGetTasks
-     */
-    readonly followUp?: boolean
-}
-
-/**
- * Request parameters for saveTask operation in HumanTaskRestControllerApi.
- * @export
- * @interface HumanTaskRestControllerApiSaveTaskRequest
- */
-export interface HumanTaskRestControllerApiSaveTaskRequest {
-    /**
-     * 
-     * @type {SaveTO}
-     * @memberof HumanTaskRestControllerApiSaveTask
-     */
-    readonly saveTO: SaveTO
-}
-
-/**
- * HumanTaskRestControllerApi - object-oriented interface
- * @export
- * @class HumanTaskRestControllerApi
- * @extends {BaseAPI}
- */
-export class HumanTaskRestControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiAssignTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public assignTask(requestParameters: HumanTaskRestControllerApiAssignTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).assignTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiCancelTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public cancelTask(requestParameters: HumanTaskRestControllerApiCancelTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).cancelTask(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiCompleteTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public completeTask(requestParameters: HumanTaskRestControllerApiCompleteTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).completeTask(requestParameters.completeTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiFollowUpTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public followUpTask(requestParameters: HumanTaskRestControllerApiFollowUpTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).followUpTask(requestParameters.followUpTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetAssignedGroupTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getAssignedGroupTasks(requestParameters: HumanTaskRestControllerApiGetAssignedGroupTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getAssignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetOpenGroupTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getOpenGroupTasks(requestParameters: HumanTaskRestControllerApiGetOpenGroupTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getOpenGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetTaskDetailRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getTaskDetail(requestParameters: HumanTaskRestControllerApiGetTaskDetailRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTaskDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiGetTasksRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public getTasks(requestParameters: HumanTaskRestControllerApiGetTasksRequest = {}, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).getTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.followUp, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {HumanTaskRestControllerApiSaveTaskRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HumanTaskRestControllerApi
-     */
-    public saveTask(requestParameters: HumanTaskRestControllerApiSaveTaskRequest, options?: AxiosRequestConfig) {
-        return HumanTaskRestControllerApiFp(this.configuration).saveTask(requestParameters.saveTO, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
  * InfoRestControllerApi - axios parameter creator
  * @export
  */
 export const InfoRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3754,7 +2283,7 @@ export const InfoRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3775,7 +2304,7 @@ export const InfoRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = InfoRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3794,7 +2323,7 @@ export const InfoRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = InfoRestControllerApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3812,7 +2341,7 @@ export const InfoRestControllerApiFactory = function (configuration?: Configurat
  */
 export class InfoRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InfoRestControllerApi
@@ -3824,135 +2353,14 @@ export class InfoRestControllerApi extends BaseAPI {
 
 
 /**
- * MessageControllerApi - axios parameter creator
- * @export
- */
-export const MessageControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {SendMessageTO} sendMessageTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendMessage: async (sendMessageTO: SendMessageTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'sendMessageTO' is not null or undefined
-            assertParamExists('sendMessage', 'sendMessageTO', sendMessageTO)
-            const localVarPath = `/rest/input/message/send/message`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication spring_oauth required
-            // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(sendMessageTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * MessageControllerApi - functional programming interface
- * @export
- */
-export const MessageControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MessageControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {SendMessageTO} sendMessageTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sendMessage(sendMessageTO: SendMessageTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.sendMessage(sendMessageTO, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * MessageControllerApi - factory interface
- * @export
- */
-export const MessageControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MessageControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {SendMessageTO} sendMessageTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendMessage(sendMessageTO: SendMessageTO, options?: any): AxiosPromise<void> {
-            return localVarFp.sendMessage(sendMessageTO, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * Request parameters for sendMessage operation in MessageControllerApi.
- * @export
- * @interface MessageControllerApiSendMessageRequest
- */
-export interface MessageControllerApiSendMessageRequest {
-    /**
-     * 
-     * @type {SendMessageTO}
-     * @memberof MessageControllerApiSendMessage
-     */
-    readonly sendMessageTO: SendMessageTO
-}
-
-/**
- * MessageControllerApi - object-oriented interface
- * @export
- * @class MessageControllerApi
- * @extends {BaseAPI}
- */
-export class MessageControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {MessageControllerApiSendMessageRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MessageControllerApi
-     */
-    public sendMessage(requestParameters: MessageControllerApiSendMessageRequest, options?: AxiosRequestConfig) {
-        return MessageControllerApiFp(this.configuration).sendMessage(requestParameters.sendMessageTO, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
  * ProcessConfigurationControllerApi - axios parameter creator
  * @export
  */
 export const ProcessConfigurationControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3976,7 +2384,7 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3990,8 +2398,8 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4016,7 +2424,7 @@ export const ProcessConfigurationControllerApiAxiosParamCreator = function (conf
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4037,8 +2445,8 @@ export const ProcessConfigurationControllerApiFp = function(configuration?: Conf
     const localVarAxiosParamCreator = ProcessConfigurationControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4047,8 +2455,8 @@ export const ProcessConfigurationControllerApiFp = function(configuration?: Conf
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4067,8 +2475,8 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
     const localVarFp = ProcessConfigurationControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {ProcessConfigTO} processConfigTO 
+         *
+         * @param {ProcessConfigTO} processConfigTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4076,8 +2484,8 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
             return localVarFp.createConfig(processConfigTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} key 
+         *
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4094,7 +2502,7 @@ export const ProcessConfigurationControllerApiFactory = function (configuration?
  */
 export interface ProcessConfigurationControllerApiCreateConfigRequest {
     /**
-     * 
+     *
      * @type {ProcessConfigTO}
      * @memberof ProcessConfigurationControllerApiCreateConfig
      */
@@ -4108,7 +2516,7 @@ export interface ProcessConfigurationControllerApiCreateConfigRequest {
  */
 export interface ProcessConfigurationControllerApiGetConfigRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ProcessConfigurationControllerApiGetConfig
      */
@@ -4123,7 +2531,7 @@ export interface ProcessConfigurationControllerApiGetConfigRequest {
  */
 export class ProcessConfigurationControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {ProcessConfigurationControllerApiCreateConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4134,7 +2542,7 @@ export class ProcessConfigurationControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {ProcessConfigurationControllerApiGetConfigRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4154,7 +2562,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4178,7 +2586,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4193,7 +2601,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4218,7 +2626,7 @@ export const SchemaRestControllerApiAxiosParamCreator = function (configuration?
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4240,7 +2648,7 @@ export const SchemaRestControllerApiFp = function(configuration?: Configuration)
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4250,7 +2658,7 @@ export const SchemaRestControllerApiFp = function(configuration?: Configuration)
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4270,7 +2678,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
     return {
         /**
          * create a new json schema
-         * @param {JsonSchemaTO} jsonSchemaTO 
+         * @param {JsonSchemaTO} jsonSchemaTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4279,7 +2687,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
         },
         /**
          * get json schema by key
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4296,7 +2704,7 @@ export const SchemaRestControllerApiFactory = function (configuration?: Configur
  */
 export interface SchemaRestControllerApiCreateJsonSchemaRequest {
     /**
-     * 
+     *
      * @type {JsonSchemaTO}
      * @memberof SchemaRestControllerApiCreateJsonSchema
      */
@@ -4310,7 +2718,7 @@ export interface SchemaRestControllerApiCreateJsonSchemaRequest {
  */
 export interface SchemaRestControllerApiGetJsonSchemaRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof SchemaRestControllerApiGetJsonSchema
      */
@@ -4356,7 +2764,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4381,7 +2789,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4393,10 +2801,13 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
         },
         /**
          * load all available service definitions
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServiceDefinitions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getServiceDefinitions: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/service/definition`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4413,8 +2824,20 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
 
-    
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4426,7 +2849,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4450,7 +2873,7 @@ export const ServiceDefinitionControllerApiAxiosParamCreator = function (configu
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4475,7 +2898,7 @@ export const ServiceDefinitionControllerApiFp = function(configuration?: Configu
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4485,16 +2908,19 @@ export const ServiceDefinitionControllerApiFp = function(configuration?: Configu
         },
         /**
          * load all available service definitions
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getServiceDefinitions(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ServiceDefinitionTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getServiceDefinitions(options);
+        async getServiceDefinitions(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageServiceDefinitionTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getServiceDefinitions(page, size, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4514,7 +2940,7 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
     return {
         /**
          * Get a specific service definition
-         * @param {string} key 
+         * @param {string} key
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4523,15 +2949,18 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
         },
         /**
          * load all available service definitions
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServiceDefinitions(options?: any): AxiosPromise<Array<ServiceDefinitionTO>> {
-            return localVarFp.getServiceDefinitions(options).then((request) => request(axios, basePath));
+        getServiceDefinitions(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageServiceDefinitionTO> {
+            return localVarFp.getServiceDefinitions(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
          * Start a specific service
-         * @param {StartInstanceTO} startInstanceTO 
+         * @param {StartInstanceTO} startInstanceTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4548,11 +2977,39 @@ export const ServiceDefinitionControllerApiFactory = function (configuration?: C
  */
 export interface ServiceDefinitionControllerApiGetServiceDefinitionRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceDefinitionControllerApiGetServiceDefinition
      */
     readonly key: string
+}
+
+/**
+ * Request parameters for getServiceDefinitions operation in ServiceDefinitionControllerApi.
+ * @export
+ * @interface ServiceDefinitionControllerApiGetServiceDefinitionsRequest
+ */
+export interface ServiceDefinitionControllerApiGetServiceDefinitionsRequest {
+    /**
+     *
+     * @type {number}
+     * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
+     */
+    readonly page?: number
+
+    /**
+     *
+     * @type {number}
+     * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
+     */
+    readonly size?: number
+
+    /**
+     *
+     * @type {string}
+     * @memberof ServiceDefinitionControllerApiGetServiceDefinitions
+     */
+    readonly query?: string
 }
 
 /**
@@ -4562,7 +3019,7 @@ export interface ServiceDefinitionControllerApiGetServiceDefinitionRequest {
  */
 export interface ServiceDefinitionControllerApiStartInstanceRequest {
     /**
-     * 
+     *
      * @type {StartInstanceTO}
      * @memberof ServiceDefinitionControllerApiStartInstance
      */
@@ -4589,12 +3046,13 @@ export class ServiceDefinitionControllerApi extends BaseAPI {
 
     /**
      * load all available service definitions
+     * @param {ServiceDefinitionControllerApiGetServiceDefinitionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceDefinitionControllerApi
      */
-    public getServiceDefinitions(options?: AxiosRequestConfig) {
-        return ServiceDefinitionControllerApiFp(this.configuration).getServiceDefinitions(options).then((request) => request(this.axios, this.basePath));
+    public getServiceDefinitions(requestParameters: ServiceDefinitionControllerApiGetServiceDefinitionsRequest = {}, options?: AxiosRequestConfig) {
+        return ServiceDefinitionControllerApiFp(this.configuration).getServiceDefinitions(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4617,11 +3075,14 @@ export class ServiceDefinitionControllerApi extends BaseAPI {
 export const ServiceInstanceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedInstances: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAssignedInstances: async (page?: number, size?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/service/instance`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4638,8 +3099,20 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
 
-    
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4650,8 +3123,8 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             };
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4676,7 +3149,7 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4697,17 +3170,20 @@ export const ServiceInstanceControllerApiFp = function(configuration?: Configura
     const localVarAxiosParamCreator = ServiceInstanceControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAssignedInstances(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ServiceInstanceTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedInstances(options);
+        async getAssignedInstances(page?: number, size?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageServiceInstanceTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedInstances(page, size, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4726,16 +3202,19 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
     const localVarFp = ServiceInstanceControllerApiFp(configuration)
     return {
         /**
-         * 
+         *
+         * @param {number} [page]
+         * @param {number} [size]
+         * @param {string} [query]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedInstances(options?: any): AxiosPromise<Array<ServiceInstanceTO>> {
-            return localVarFp.getAssignedInstances(options).then((request) => request(axios, basePath));
+        getAssignedInstances(page?: number, size?: number, query?: string, options?: any): AxiosPromise<PageServiceInstanceTO> {
+            return localVarFp.getAssignedInstances(page, size, query, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4746,13 +3225,41 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
 };
 
 /**
+ * Request parameters for getAssignedInstances operation in ServiceInstanceControllerApi.
+ * @export
+ * @interface ServiceInstanceControllerApiGetAssignedInstancesRequest
+ */
+export interface ServiceInstanceControllerApiGetAssignedInstancesRequest {
+    /**
+     *
+     * @type {number}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly page?: number
+
+    /**
+     *
+     * @type {number}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly size?: number
+
+    /**
+     *
+     * @type {string}
+     * @memberof ServiceInstanceControllerApiGetAssignedInstances
+     */
+    readonly query?: string
+}
+
+/**
  * Request parameters for getProcessInstanceDetail operation in ServiceInstanceControllerApi.
  * @export
  * @interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest
  */
 export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof ServiceInstanceControllerApiGetProcessInstanceDetail
      */
@@ -4767,17 +3274,18 @@ export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
  */
 export class ServiceInstanceControllerApi extends BaseAPI {
     /**
-     * 
+     *
+     * @param {ServiceInstanceControllerApiGetAssignedInstancesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceControllerApi
      */
-    public getAssignedInstances(options?: AxiosRequestConfig) {
-        return ServiceInstanceControllerApiFp(this.configuration).getAssignedInstances(options).then((request) => request(this.axios, this.basePath));
+    public getAssignedInstances(requestParameters: ServiceInstanceControllerApiGetAssignedInstancesRequest = {}, options?: AxiosRequestConfig) {
+        return ServiceInstanceControllerApiFp(this.configuration).getAssignedInstances(requestParameters.page, requestParameters.size, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
+     *
      * @param {ServiceInstanceControllerApiGetProcessInstanceDetailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4796,17 +3304,17 @@ export class ServiceInstanceControllerApi extends BaseAPI {
 export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames2: async (instanceId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getFileNames1: async (instanceId: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getFileNames2', 'instanceId', instanceId)
+            assertParamExists('getFileNames1', 'instanceId', instanceId)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames2', 'filePath', filePath)
+            assertParamExists('getFileNames1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4829,7 +3337,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4840,20 +3348,20 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion2: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDeletion1: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'instanceId', instanceId)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDeletion1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{filename}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -4877,7 +3385,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4888,20 +3396,20 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload2: async (instanceId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDownload1: async (instanceId: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileDownload1', 'instanceId', instanceId)
             // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'fileName', fileName)
+            assertParamExists('getPresignedUrlForFileDownload1', 'fileName', fileName)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDownload1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{fileName}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
@@ -4925,7 +3433,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4936,20 +3444,20 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             };
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload2: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileUpload1: async (instanceId: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'instanceId' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'instanceId', instanceId)
+            assertParamExists('getPresignedUrlForFileUpload1', 'instanceId', instanceId)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileUpload1', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload2', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileUpload1', 'filePath', filePath)
             const localVarPath = `/rest/service/instance/file/{instanceId}/{filename}`
                 .replace(`{${"instanceId"}}`, encodeURIComponent(String(instanceId)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -4973,7 +3481,7 @@ export const ServiceInstanceFileRestControllerApiAxiosParamCreator = function (c
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4994,50 +3502,50 @@ export const ServiceInstanceFileRestControllerApiFp = function(configuration?: C
     const localVarAxiosParamCreator = ServiceInstanceFileRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileNames2(instanceId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames2(instanceId, filePath, options);
+        async getFileNames1(instanceId: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames1(instanceId, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDeletion2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion2(instanceId, filename, filePath, options);
+        async getPresignedUrlForFileDeletion1(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion1(instanceId, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDownload2(instanceId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload2(instanceId, fileName, filePath, options);
+        async getPresignedUrlForFileDownload1(instanceId: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload1(instanceId, fileName, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileUpload2(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload2(instanceId, filename, filePath, options);
+        async getPresignedUrlForFileUpload1(instanceId: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload1(instanceId, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -5051,152 +3559,152 @@ export const ServiceInstanceFileRestControllerApiFactory = function (configurati
     const localVarFp = ServiceInstanceFileRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames2(instanceId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames2(instanceId, filePath, options).then((request) => request(axios, basePath));
+        getFileNames1(instanceId: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getFileNames1(instanceId, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion2(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion2(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDeletion1(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDeletion1(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload2(instanceId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload2(instanceId, fileName, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDownload1(instanceId: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDownload1(instanceId, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} instanceId 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} instanceId
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload2(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload2(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileUpload1(instanceId: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileUpload1(instanceId, filename, filePath, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for getFileNames2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getFileNames1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetFileNames2Request
+ * @interface ServiceInstanceFileRestControllerApiGetFileNames1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetFileNames2Request {
+export interface ServiceInstanceFileRestControllerApiGetFileNames1Request {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetFileNames2
+     * @memberof ServiceInstanceFileRestControllerApiGetFileNames1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDeletion2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDeletion1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDownload2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDownload1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly fileName: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileUpload2 operation in ServiceInstanceFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileUpload1 operation in ServiceInstanceFileRestControllerApi.
  * @export
- * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request
+ * @interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request
  */
-export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request {
+export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly instanceId: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2
+     * @memberof ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1
      */
     readonly filePath: string
 }
@@ -5209,47 +3717,47 @@ export interface ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUploa
  */
 export class ServiceInstanceFileRestControllerApi extends BaseAPI {
     /**
-     * 
-     * @param {ServiceInstanceFileRestControllerApiGetFileNames2Request} requestParameters Request parameters.
+     *
+     * @param {ServiceInstanceFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getFileNames2(requestParameters: ServiceInstanceFileRestControllerApiGetFileNames2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames2(requestParameters.instanceId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames1(requestParameters: ServiceInstanceFileRestControllerApiGetFileNames1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getFileNames1(requestParameters.instanceId, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request} requestParameters Request parameters.
+     *
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDeletion1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request} requestParameters Request parameters.
+     *
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload2(requestParameters.instanceId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileDownload1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(requestParameters.instanceId, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request} requestParameters Request parameters.
+     *
+     * @param {ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceInstanceFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload2(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload2Request, options?: AxiosRequestConfig) {
-        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload2(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload1(requestParameters: ServiceInstanceFileRestControllerApiGetPresignedUrlForFileUpload1Request, options?: AxiosRequestConfig) {
+        return ServiceInstanceFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(requestParameters.instanceId, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5261,17 +3769,17 @@ export class ServiceInstanceFileRestControllerApi extends BaseAPI {
 export const ServiceStartFileRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames1: async (definitionKey: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getFileNames: async (definitionKey: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getFileNames1', 'definitionKey', definitionKey)
+            assertParamExists('getFileNames', 'definitionKey', definitionKey)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getFileNames1', 'filePath', filePath)
+            assertParamExists('getFileNames', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -5294,7 +3802,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5305,20 +3813,20 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion1: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDeletion: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileDeletion', 'definitionKey', definitionKey)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileDeletion', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDeletion1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDeletion', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{filename}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -5342,7 +3850,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5353,20 +3861,20 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload1: async (definitionKey: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileDownload: async (definitionKey: string, fileName: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileDownload', 'definitionKey', definitionKey)
             // verify required parameter 'fileName' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'fileName', fileName)
+            assertParamExists('getPresignedUrlForFileDownload', 'fileName', fileName)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileDownload1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileDownload', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{fileName}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"fileName"}}`, encodeURIComponent(String(fileName)));
@@ -5390,7 +3898,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5401,20 +3909,20 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             };
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload1: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPresignedUrlForFileUpload: async (definitionKey: string, filename: string, filePath: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'definitionKey' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'definitionKey', definitionKey)
+            assertParamExists('getPresignedUrlForFileUpload', 'definitionKey', definitionKey)
             // verify required parameter 'filename' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'filename', filename)
+            assertParamExists('getPresignedUrlForFileUpload', 'filename', filename)
             // verify required parameter 'filePath' is not null or undefined
-            assertParamExists('getPresignedUrlForFileUpload1', 'filePath', filePath)
+            assertParamExists('getPresignedUrlForFileUpload', 'filePath', filePath)
             const localVarPath = `/rest/service/start/file/{definitionKey}/{filename}`
                 .replace(`{${"definitionKey"}}`, encodeURIComponent(String(definitionKey)))
                 .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
@@ -5438,7 +3946,7 @@ export const ServiceStartFileRestControllerApiAxiosParamCreator = function (conf
             }
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5459,50 +3967,50 @@ export const ServiceStartFileRestControllerApiFp = function(configuration?: Conf
     const localVarAxiosParamCreator = ServiceStartFileRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileNames1(definitionKey: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames1(definitionKey, filePath, options);
+        async getFileNames(definitionKey: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileNames(definitionKey, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDeletion1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion1(definitionKey, filename, filePath, options);
+        async getPresignedUrlForFileDeletion(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDeletion(definitionKey, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileDownload1(definitionKey: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload1(definitionKey, fileName, filePath, options);
+        async getPresignedUrlForFileDownload(definitionKey: string, fileName: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileDownload(definitionKey, fileName, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPresignedUrlForFileUpload1(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload1(definitionKey, filename, filePath, options);
+        async getPresignedUrlForFileUpload(definitionKey: string, filename: string, filePath: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPresignedUrlForFileUpload(definitionKey, filename, filePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -5516,152 +4024,152 @@ export const ServiceStartFileRestControllerApiFactory = function (configuration?
     const localVarFp = ServiceStartFileRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileNames1(definitionKey: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
-            return localVarFp.getFileNames1(definitionKey, filePath, options).then((request) => request(axios, basePath));
+        getFileNames(definitionKey: string, filePath: string, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getFileNames(definitionKey, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDeletion1(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDeletion1(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDeletion(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDeletion(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} fileName 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} fileName
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileDownload1(definitionKey: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileDownload1(definitionKey, fileName, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileDownload(definitionKey: string, fileName: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileDownload(definitionKey, fileName, filePath, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} definitionKey 
-         * @param {string} filename 
-         * @param {string} filePath 
+         *
+         * @param {string} definitionKey
+         * @param {string} filename
+         * @param {string} filePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPresignedUrlForFileUpload1(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
-            return localVarFp.getPresignedUrlForFileUpload1(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
+        getPresignedUrlForFileUpload(definitionKey: string, filename: string, filePath: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getPresignedUrlForFileUpload(definitionKey, filename, filePath, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for getFileNames1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getFileNames operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetFileNames1Request
+ * @interface ServiceStartFileRestControllerApiGetFileNamesRequest
  */
-export interface ServiceStartFileRestControllerApiGetFileNames1Request {
+export interface ServiceStartFileRestControllerApiGetFileNamesRequest {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetFileNames1
+     * @memberof ServiceStartFileRestControllerApiGetFileNames
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDeletion1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDeletion operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileDownload1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileDownload operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly fileName: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload
      */
     readonly filePath: string
 }
 
 /**
- * Request parameters for getPresignedUrlForFileUpload1 operation in ServiceStartFileRestControllerApi.
+ * Request parameters for getPresignedUrlForFileUpload operation in ServiceStartFileRestControllerApi.
  * @export
- * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request
+ * @interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest
  */
-export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request {
+export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest {
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly definitionKey: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly filename: string
 
     /**
-     * 
+     *
      * @type {string}
-     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1
+     * @memberof ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload
      */
     readonly filePath: string
 }
@@ -5674,47 +4182,205 @@ export interface ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1R
  */
 export class ServiceStartFileRestControllerApi extends BaseAPI {
     /**
-     * 
-     * @param {ServiceStartFileRestControllerApiGetFileNames1Request} requestParameters Request parameters.
+     *
+     * @param {ServiceStartFileRestControllerApiGetFileNamesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getFileNames1(requestParameters: ServiceStartFileRestControllerApiGetFileNames1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames1(requestParameters.definitionKey, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getFileNames(requestParameters: ServiceStartFileRestControllerApiGetFileNamesRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getFileNames(requestParameters.definitionKey, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request} requestParameters Request parameters.
+     *
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDeletion1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletion1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDeletion(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDeletionRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDeletion(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request} requestParameters Request parameters.
+     *
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileDownload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDownload1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload1(requestParameters.definitionKey, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileDownload(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileDownloadRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileDownload(requestParameters.definitionKey, requestParameters.fileName, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * 
-     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request} requestParameters Request parameters.
+     *
+     * @param {ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceStartFileRestControllerApi
      */
-    public getPresignedUrlForFileUpload1(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileUpload1Request, options?: AxiosRequestConfig) {
-        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload1(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    public getPresignedUrlForFileUpload(requestParameters: ServiceStartFileRestControllerApiGetPresignedUrlForFileUploadRequest, options?: AxiosRequestConfig) {
+        return ServiceStartFileRestControllerApiFp(this.configuration).getPresignedUrlForFileUpload(requestParameters.definitionKey, requestParameters.filename, requestParameters.filePath, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * TaskImporterServiceApi - axios parameter creator
+ * @export
+ */
+export const TaskImporterServiceApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        enrichExistingTasks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rest/admin/tasks/enrich`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        importExistingTasks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rest/admin/tasks/import`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TaskImporterServiceApi - functional programming interface
+ * @export
+ */
+export const TaskImporterServiceApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TaskImporterServiceApiAxiosParamCreator(configuration)
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async enrichExistingTasks(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.enrichExistingTasks(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async importExistingTasks(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importExistingTasks(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * TaskImporterServiceApi - factory interface
+ * @export
+ */
+export const TaskImporterServiceApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TaskImporterServiceApiFp(configuration)
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        enrichExistingTasks(options?: any): AxiosPromise<void> {
+            return localVarFp.enrichExistingTasks(options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        importExistingTasks(options?: any): AxiosPromise<void> {
+            return localVarFp.importExistingTasks(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TaskImporterServiceApi - object-oriented interface
+ * @export
+ * @class TaskImporterServiceApi
+ * @extends {BaseAPI}
+ */
+export class TaskImporterServiceApi extends BaseAPI {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskImporterServiceApi
+     */
+    public enrichExistingTasks(options?: AxiosRequestConfig) {
+        return TaskImporterServiceApiFp(this.configuration).enrichExistingTasks(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskImporterServiceApi
+     */
+    public importExistingTasks(options?: AxiosRequestConfig) {
+        return TaskImporterServiceApiFp(this.configuration).importExistingTasks(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5726,8 +4392,8 @@ export class ServiceStartFileRestControllerApi extends BaseAPI {
 export const UserRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5752,7 +4418,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5763,8 +4429,8 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5789,7 +4455,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5800,8 +4466,8 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5825,7 +4491,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5839,7 +4505,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             };
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5861,7 +4527,7 @@ export const UserRestControllerApiAxiosParamCreator = function (configuration?: 
             await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
 
 
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -5882,8 +4548,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserRestControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5892,8 +4558,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5902,8 +4568,8 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5912,7 +4578,7 @@ export const UserRestControllerApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5931,8 +4597,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
     const localVarFp = UserRestControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} id 
+         *
+         * @param {string} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5940,8 +4606,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUser(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {string} username 
+         *
+         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5949,8 +4615,8 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUserByUsername(username, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {SearchUserTO} searchUserTO 
+         *
+         * @param {SearchUserTO} searchUserTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5958,7 +4624,7 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
             return localVarFp.getUsers(searchUserTO, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5975,7 +4641,7 @@ export const UserRestControllerApiFactory = function (configuration?: Configurat
  */
 export interface UserRestControllerApiGetUserRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserRestControllerApiGetUser
      */
@@ -5989,7 +4655,7 @@ export interface UserRestControllerApiGetUserRequest {
  */
 export interface UserRestControllerApiGetUserByUsernameRequest {
     /**
-     * 
+     *
      * @type {string}
      * @memberof UserRestControllerApiGetUserByUsername
      */
@@ -6003,7 +4669,7 @@ export interface UserRestControllerApiGetUserByUsernameRequest {
  */
 export interface UserRestControllerApiGetUsersRequest {
     /**
-     * 
+     *
      * @type {SearchUserTO}
      * @memberof UserRestControllerApiGetUsers
      */
@@ -6018,7 +4684,7 @@ export interface UserRestControllerApiGetUsersRequest {
  */
 export class UserRestControllerApi extends BaseAPI {
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6029,7 +4695,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUserByUsernameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6040,7 +4706,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {UserRestControllerApiGetUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6051,7 +4717,7 @@ export class UserRestControllerApi extends BaseAPI {
     }
 
     /**
-     * 
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestControllerApi

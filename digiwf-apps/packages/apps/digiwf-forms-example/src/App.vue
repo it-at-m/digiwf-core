@@ -26,6 +26,9 @@
               <template #custom-date-input="context">
                 <dwf-date-input v-bind="context"/>
               </template>
+              <template #custom-time-input="context">
+                <dwf-time-input v-bind="context"/>
+              </template>
             </dwf-form-renderer>
           </v-form>
           <v-btn @click="validate">Validate</v-btn>
@@ -63,12 +66,12 @@ html, body {
 <script lang="ts">
 import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
 import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
-import { DwfDateInput } from "@muenchen/digiwf-date-input";
+import { DwfDateInput, DwfTimeInput } from "@muenchen/digiwf-date-input";
 import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
 import { defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
-  components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput},
+  components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput, DwfTimeInput},
   setup() {
     const componentKey = ref(0);
 

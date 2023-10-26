@@ -214,11 +214,48 @@ paths:
         404:
           description: Task not found.
 
+  /tasks/id/{taskId}/file:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+      - $ref: '#/components/parameters/FilePathParam'
+    get:
+      description: Get file names for task and fieldKey
+      operationId: getFileNames
+      tags:
+        - File
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListOfFilenames"
+
+  /tasks/id/{taskId}/file/{fileName}:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+      - $ref: '#/components/parameters/FileNameParam'
+      - $ref: '#/components/parameters/FilePathParam'
+      - $ref: '#/components/parameters/RequestMethodParam'
+    get:
+      description: Get a presigned url to load, upload or delete a file for a specific field key and file name
+      operationId: getPresignedUrlForFile
+      tags:
+        - File
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresignedUrl"
+
   /tasks/user:
     parameters:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/FollowUpParam'
       - $ref: '#/components/parameters/SortParam'
     get:
@@ -239,6 +276,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of unassigned tasks for the groups the current user is in (candidate groups).
@@ -258,6 +296,7 @@ paths:
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/SizeParam'
       - $ref: '#/components/parameters/QueryParam'
+      - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
     get:
       description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
@@ -323,7 +362,13 @@ components:
       required: false
       schema:
         type: string
-
+    TagParam:
+      name: tag
+      in: query
+      description: A tag string used during search with the tag string, format is <field><op><value>.
+      required: false
+      schema:
+        type: string
     SortParam:
       name: sort
       in: query
@@ -365,6 +410,34 @@ components:
       schema:
         type: string
 
+    FilePathParam:
+      name: filePath
+      in: query
+      description: File path
+      required: true
+      schema:
+        type: string
+
+    FileNameParam:
+      name: fileName
+      in: path
+      description: Filename.
+      required: true
+      schema:
+        type: string
+
+    RequestMethodParam:
+      name: requestMethod
+      in: query
+      description: HTTP request method.
+      required: true
+      schema:
+        type: string
+        enum:
+          - GET
+          - PUT
+          - POST
+          - DELETE
 
   schemas:
 
@@ -466,6 +539,9 @@ components:
         name:
           description: Name of the task.
           type: string
+        tag:
+          description: Tag of the task
+          type: string
         description:
           description: Description of the task.
           type: string
@@ -486,9 +562,12 @@ components:
         schemaRef:
           description: Reference to schema id.
           type: string
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
       required:
         - id
         - schemaRef
+        - schemaType
 
     TaskWithDetails:
       description: Represents a user task.
@@ -499,6 +578,9 @@ components:
           type: string
         name:
           description: Name of the task.
+          type: string
+        tag:
+          description: Tag of the task
           type: string
         description:
           description: Description of the task.
@@ -531,11 +613,14 @@ components:
         cancelable:
           description: Flag indicating if a task can be cancelled.
           type: boolean
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
       required:
         - id
         - schemaRef
         - variables
         - cancelable
+        - schemaType
 
     TaskWithSchema:
       description: Represents a user task with embedded combined schema.
@@ -546,6 +631,9 @@ components:
           type: string
         name:
           description: Name of the task.
+          type: string
+        tag:
+          description: Tag of the task
           type: string
         description:
           description: Description of the task.
@@ -580,12 +668,25 @@ components:
         cancelable:
           description: Flag indicating if a task can be cancelled.
           type: boolean
+        schemaType:
+          $ref: "#/components/schemas/TaskSchemaType"
+
 
       required:
         - id
         - schema
+        - schemaType
         - variables
         - cancelable
+
+
+    TaskSchemaType:
+      description: Task schema type.
+      type: string
+      enum:
+        - SCHEMA_BASED
+        - VUETIFY_FORM_BASE
+      default: SCHEMA_BASED
 
     TaskAssignment:
       description: Task assignment information.
@@ -649,5 +750,15 @@ components:
         - firstName
         - lastName
         - primaryOrgUnit
+
+    ListOfFilenames:
+      description: List of filenames.
+      type: array
+      items:
+        type: string
+
+    PresignedUrl:
+      description: Presigned Url.
+      type: string
 
 

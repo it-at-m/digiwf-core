@@ -44,10 +44,6 @@ Die folgenden Werte für den Header `type` werden derzeit unterstützt:
 | correlateMessageV01 | `CorrelateMessageTOV01` | Verwenden Sie `CorrelateMessageTOV01` als Wert für den Header type, um eine Nachricht mit einer Prozessinstanz zu korrelieren.                 |
 | startProcessV01     | `StartInstanceTOV01`    | Verwenden Sie `startProcessV01` als Wert für den Header type, um eine neue Prozessinstanz mit dem Prozessschlüssel und den Daten zu starten.   |
 
-
-> **Anmerkung:**
-> Wir benutzen springwolf, um asyncapi Dokumentationen zu generieren. Schauen Sie sich die asyncapi-Dokumentation der Dienste unter */springwolf/asyncapi-ui.html* an.
-
 ### Domäne cocreation
 
 Prozesse, Entscheidungstabellen und JSON-Schema-Formulare, die in der Cocreation-Plattform entwickelt werden, werden mit einem Deployment-Event, das an das Topic `dwf-cocreation-<ENV>` gesendet wird, in der digiwf-Engine deployed.
@@ -71,9 +67,6 @@ dwf-cocreation-deploy-<ENV>
 ```
 
 Nach jedem Deployment sendet die digiwf-engine ein Deployment-Status-Ereignis an das Topic `dwf-cocreation-deploy-<ENV>`, das die Abonnenten des Topics über den Erfolg oder Misserfolg des Deployments informiert.
-
-> **Anmerkung:**
-> Wir benutzen springwolf, um asyncapi Dokumentationen zu generieren. Schauen Sie sich die asyncapi-Dokumentation der Dienste unter */springwolf/asyncapi-ui.html* an.
 
 ### Domäne digiwf-task
 

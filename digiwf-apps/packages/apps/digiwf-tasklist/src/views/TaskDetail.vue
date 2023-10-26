@@ -20,14 +20,14 @@
         :form="task.form"
         :init-model="task.variables"
         @model-changed="modelChanged"
-        @complete-form="completeTask"
+        @complete-form="handleCompleteTask"
       />
       <app-json-form
         v-else
         :value="task.variables"
         :schema="task.schema"
         @input="modelChanged"
-        @complete-form="completeTask"
+        @complete-form="handleCompleteTask"
       />
     </v-flex>
     <v-flex class="buttonWrapper">
@@ -79,12 +79,12 @@
         </loading-fab>
 
         <loading-fab
-          v-if="task.isCancelable"
+          v-if="task?.isCancelable"
           :is-loading="isCancelling"
           :has-error="hasCancelError"
           color="white"
           :button-text="cancelText"
-          @on-click="cancelTask"
+          @on-click="handleCancelTask"
         >
           <v-icon> mdi-cancel</v-icon>
         </loading-fab>
@@ -149,7 +149,6 @@
 </style>
 
 <script lang="ts">
-
 import {Component, Prop, Provide} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -161,15 +160,15 @@ import LoadingFab from "@/components/UI/LoadingFab.vue";
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
-  cancelTaskInEngine,
+  cancelTask,
   completeTask,
   downloadPDFFromEngine,
   loadTask,
   saveTask,
   deferTask
 } from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
+import router from "../router";
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -208,11 +207,14 @@ export default class TaskDetail extends SaveLeaveMixin {
 
   @Provide('formContext')
   get formContext(): FormContext {
-    return {id: this.id, type: "task"}
-  };
+    return {id: this.id, type: "task"};
+  }
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
+
+  @Provide('taskServiceApiEndpoint')
+  taskServiceApiEndpoint = ApiConfig.tasklistBase;
 
   created() {
     loadTask(this.id).then(({data, error}) => {
@@ -220,7 +222,7 @@ export default class TaskDetail extends SaveLeaveMixin {
         this.task = data.task;
         this.model = data.model;
         this.followUpDate = data.followUpDate;
-        this.cancelText = data.cancelText
+        this.cancelText = data.cancelText;
         this.hasDownloadButton = data.hasDownloadButton;
         this.downloadButtonText = data.downloadButtonText;
       }
@@ -239,14 +241,18 @@ export default class TaskDetail extends SaveLeaveMixin {
       });
   }
 
-  completeTask(model: any) {
+  handleCompleteTask(model: any) {
     this.isCompleting = true;
     completeTask(this.id, model)
       .then(result => {
         this.isCompleting = false;
         this.hasCompleteError = result.isError;
         this.errorMessage = result.errorMessage || "";
-      })
+        if(!result.isError) {
+          this.hasChanges = false;
+          router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
+        }
+      });
   }
 
   async saveTask(): Promise<void> {
@@ -256,15 +262,15 @@ export default class TaskDetail extends SaveLeaveMixin {
     return saveTask(this.id, this.model).then((result) => {
       this.isSaving = false;
       this.errorMessage = result.errorMessage || "";
-      this.hasSaveError = result.isError
+      this.hasSaveError = result.isError;
       if(!result.isError) {
         this.hasChanges = false;
       }
 
       return result.isError
         ? Promise.reject()
-        : Promise.resolve()
-    })
+        : Promise.resolve();
+    });
   }
   openFollowUp(): void {
     this.isFollowUpDialogVisible = true;
@@ -275,7 +281,8 @@ export default class TaskDetail extends SaveLeaveMixin {
     this.isFollowUpDialogVisible = false;
   }
 
-  switchFab(): void {
+  switchFab():
+    void {
     this.fab = !this.fab;
   }
 
@@ -289,18 +296,18 @@ export default class TaskDetail extends SaveLeaveMixin {
       .then(() => {
         deferTask(this.id, followUpDate)
           .then(result => {
-            this.errorMessage = result.errorMessage || ""
-          })
+            this.errorMessage = result.errorMessage || "";
+          });
       });
   }
 
-  cancelTask() {
+  handleCancelTask() {
     this.isCancelling = true;
-    cancelTaskInEngine(this.id).then(result => {
+    cancelTask(this.id).then(result => {
       this.isCancelling = false;
       this.hasCancelError = result.isError;
-      this.errorMessage = result.errorMessage || ""
-    })
+      this.errorMessage = result.errorMessage || "";
+    });
   }
 
   downloadPDF() {
@@ -309,7 +316,7 @@ export default class TaskDetail extends SaveLeaveMixin {
     downloadPDFFromEngine(this.id).then(result => {
       this.errorMessage = result.errorMessage || "";
       this.hasDownloadError = result.isError;
-    })
+    });
   }
 
   modelChanged(model: any) {
