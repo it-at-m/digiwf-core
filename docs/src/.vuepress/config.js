@@ -199,7 +199,8 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/optional-content/'
+                                'forms/optional-content/',
+                                'forms/accessibility/'
                             ]
                         },
                         {
