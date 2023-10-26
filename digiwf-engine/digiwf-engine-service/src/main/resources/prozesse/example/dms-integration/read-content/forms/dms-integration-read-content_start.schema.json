@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-read-files_start",
+  "key": "dms-integration-read-content_start",
   "schema": {
     "type": "object",
     "x-display": "stepper",

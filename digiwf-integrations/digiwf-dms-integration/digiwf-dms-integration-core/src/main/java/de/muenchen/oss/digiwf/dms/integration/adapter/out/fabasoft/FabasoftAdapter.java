@@ -2,9 +2,9 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class FabasoftAdapter implements
         UpdateDocumentPort,
         DepositObjectPort,
         CancelObjectPort,
-        ReadFilesPort {
+        ReadContent {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -84,7 +84,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : document.getContents()) {
+        for (final Content content : document.getContents()) {
             files.add(this.parseContent(content));
         }
 
@@ -117,7 +117,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : document.getContents()) {
+        for (final Content content : document.getContents()) {
             files.add(this.parseContent(content));
         }
 
@@ -151,7 +151,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : document.getContents()) {
+        for (final Content content : document.getContents()) {
             files.add(this.parseContent(content));
         }
 
@@ -165,7 +165,7 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public void updateDocument(final String documentCOO, final DocumentType type, final List<File> contents, final String user) {
+    public void updateDocument(final String documentCOO, final DocumentType type, final List<Content> contents, final String user) {
         switch (type) {
             case EINGEHEND:
                 this.updateIncomingDocument(documentCOO, contents, user);
@@ -181,7 +181,7 @@ public class FabasoftAdapter implements
         }
     }
 
-    private void updateIncomingDocument(final String documentCOO, final List<File> contents, final String user) {
+    private void updateIncomingDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateIncomingGI: " + documentCOO);
 
         final UpdateIncomingGI request = new UpdateIncomingGI();
@@ -192,7 +192,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : contents) {
+        for (final Content content : contents) {
             files.add(this.parseContent(content));
         }
 
@@ -203,7 +203,7 @@ public class FabasoftAdapter implements
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
     }
 
-    private void updateOutgoingDocument(final String documentCOO, final List<File> contents, final String user) {
+    private void updateOutgoingDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateOutgoingGI: " + documentCOO);
 
         final UpdateOutgoingGI request = new UpdateOutgoingGI();
@@ -214,7 +214,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : contents) {
+        for (final Content content : contents) {
             files.add(this.parseContent(content));
         }
 
@@ -225,7 +225,7 @@ public class FabasoftAdapter implements
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
     }
 
-    private void updateInternalDocument(final String documentCOO, final List<File> contents, final String user) {
+    private void updateInternalDocument(final String documentCOO, final List<Content> contents, final String user) {
         log.info("calling UpdateInternalGI: " + documentCOO);
 
         final UpdateInternalGI request = new UpdateInternalGI();
@@ -236,7 +236,7 @@ public class FabasoftAdapter implements
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
 
-        for (final File content : contents) {
+        for (final Content content : contents) {
             files.add(this.parseContent(content));
         }
 
@@ -262,7 +262,7 @@ public class FabasoftAdapter implements
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
     }
 
-    private LHMBAI151700GIAttachmentType parseContent(final File content) {
+    private LHMBAI151700GIAttachmentType parseContent(final Content content) {
         final LHMBAI151700GIAttachmentType attachment = new LHMBAI151700GIAttachmentType();
         attachment.setLHMBAI151700Filecontent(content.getContent());
         attachment.setLHMBAI151700Fileextension(content.getExtension());
@@ -288,9 +288,9 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<File> readFiles(List<String> coos, String user) {
+    public List<Content> readContent(List<String> coos, String user) {
 
-        final List<File> files = new ArrayList<>();
+        final List<Content> files = new ArrayList<>();
 
         for (val coo : coos) {
             val request = new ReadContentObjectGI();
@@ -301,12 +301,12 @@ public class FabasoftAdapter implements
             dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
             files.add(this.map(response));
         }
-        
+
         return files;
     }
 
-    private File map(ReadContentObjectGIResponse response) {
-        return new File(
+    private Content map(ReadContentObjectGIResponse response) {
+        return new Content(
                 response.getGiattachmenttype().getLHMBAI151700Fileextension(),
                 response.getGiattachmenttype().getLHMBAI151700Filename(),
                 response.getGiattachmenttype().getLHMBAI151700Filecontent()

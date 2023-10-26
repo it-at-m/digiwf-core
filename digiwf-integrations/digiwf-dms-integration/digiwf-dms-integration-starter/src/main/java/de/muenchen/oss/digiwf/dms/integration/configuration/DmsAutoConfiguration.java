@@ -99,8 +99,8 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<ReadFilesDto>> readFilesMessageProcessor(final MessageProcessor messageProcessor) {
-        return messageProcessor.readFiles();
+    public Consumer<Message<ReadContentDto>> readContentMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.readContent();
     }
 
     @Bean
@@ -113,7 +113,7 @@ public class DmsAutoConfiguration {
             final UpdateDocumentUseCase updateDocumentUseCase,
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase,
-            final ReadFilesUseCase readFilesUseCase) {
+            final ReadContentUseCase readContentUseCase) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
@@ -122,7 +122,7 @@ public class DmsAutoConfiguration {
                 updateDocumentUseCase,
                 depositObjectUseCase,
                 cancelObjectUseCase,
-                readFilesUseCase);
+                readContentUseCase);
     }
 
 }

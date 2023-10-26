@@ -2,9 +2,9 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,7 +23,7 @@ class CreateDocumentServiceTest {
     @Test
     void createDocument() {
 
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         List<String> filepaths = List.of("path/content.pdf");
 

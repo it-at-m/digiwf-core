@@ -14,7 +14,7 @@ import java.io.IOException;
 import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
 
 @Component
-public class ReadFilesCase implements MockCase {
+public class ReadContentCase implements MockCase {
 
     @Override
     public void initCase(WireMockServer server) {

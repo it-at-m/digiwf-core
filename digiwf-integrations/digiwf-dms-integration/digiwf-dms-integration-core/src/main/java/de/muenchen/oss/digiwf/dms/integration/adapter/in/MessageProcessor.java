@@ -30,7 +30,7 @@ public class MessageProcessor {
     private final UpdateDocumentUseCase updateDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
-    private final ReadFilesUseCase readFilesUseCase;
+    private final ReadContentUseCase readContentUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
@@ -115,15 +115,15 @@ public class MessageProcessor {
         };
     }
 
-    public Consumer<Message<ReadFilesDto>> readFiles() {
+    public Consumer<Message<ReadContentDto>> readContent() {
         return message -> {
             withErrorHandling(message, () -> {
-                final ReadFilesDto readFilesDto = message.getPayload();
-                this.readFilesUseCase.readFiles(
-                        readFilesDto.getFileCoos(),
-                        readFilesDto.getUser(),
-                        readFilesDto.getFilePath(),
-                        readFilesDto.getFileContext()
+                final ReadContentDto readContentDto = message.getPayload();
+                this.readContentUseCase.readContent(
+                        readContentDto.getContentCoos(),
+                        readContentDto.getUser(),
+                        readContentDto.getFilePath(),
+                        readContentDto.getFileContext()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());

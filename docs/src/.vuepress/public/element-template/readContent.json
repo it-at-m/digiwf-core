@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Read files",
-  "id": "de.muenchen.digitalwf.templates.dms.read-files",
+  "name": "DMS: Read content",
+  "id": "de.muenchen.digitalwf.templates.dms.read-content",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -48,7 +48,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "readFiles",
+      "value": "readContent",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -75,14 +75,14 @@
       }
     },
     {
-      "label": " File-Coos",
+      "label": "Content-Coos",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "fileCoos",
-        "target": "fileCoos"
+        "name": "contentCoos",
+        "target": "contentCoos"
       },
       "constraints": {
         "notEmpty": true

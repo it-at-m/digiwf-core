@@ -3,9 +3,9 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,7 +29,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
             final String fileContext
     ) {
 
-        final List<File> contents = loadFilePort.loadFiles(filepaths, fileContext);
+        final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext);
 
         final Document document = new Document(procedureCOO, title, type, contents);
 

@@ -3,9 +3,9 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.FabasoftClienFactory;
 import lombok.val;
@@ -68,7 +68,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_createIncomingDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new CreateIncomingGIResponse();
         response.setObjid("documentCOO");
@@ -85,7 +85,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_createOutgoingDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new CreateOutgoingGIResponse();
         response.setObjid("documentCOO");
@@ -102,7 +102,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_createInternalDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new CreateInternalGIResponse();
         response.setObjid("documentCOO");
@@ -119,7 +119,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateIncomingDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new UpdateIncomingGIResponse();
         response.setObjid("documentCOO");
@@ -134,7 +134,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateOutgoingDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new UpdateOutgoingGIResponse();
         response.setObjid("documentCOO");
@@ -149,7 +149,7 @@ public class FabasoftAdapterTest {
 
     @Test
     public void execute_updateInternalDocument_request() {
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         val response = new UpdateInternalGIResponse();
         response.setObjid("documentCOO");
@@ -192,9 +192,9 @@ public class FabasoftAdapterTest {
                 CancelObjectGI.class, (u) -> true,
                 response);
 
-        val files = fabasoftAdapter.readFiles(List.of("coo1"), "user");
+        val files = fabasoftAdapter.readContent(List.of("coo1"), "user");
 
-        val expectedFile = new File("extension", "filename", "content".getBytes());
+        val expectedFile = new Content("extension", "filename", "content".getBytes());
 
         assertThat(files.size()).isEqualTo(1);
         assertThat(files.get(0)).usingRecursiveComparison().isEqualTo(expectedFile);

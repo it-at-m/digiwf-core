@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ReadFilesDto {
+public class ReadContentDto {
 
-    private List<String> fileCoos;
+    private List<String> contentCoos;
 
     private String filePath;
 

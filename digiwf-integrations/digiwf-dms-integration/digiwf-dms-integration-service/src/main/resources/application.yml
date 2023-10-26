@@ -94,7 +94,7 @@ io:
           updateDocument: "updateDocumentMessageProcessor"
           depositObject: "depositObjectMessageProcessor"
           cancelObject: "cancelObjectMessageProcessor"
-          readFiles: "readFilesMessageProcessor"
+          readContent: "readContentMessageProcessor"
 
 de:
   muenchen:

@@ -2,8 +2,8 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.UpdateDocumentPort;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +22,7 @@ class UpdateDocumentServiceTest {
     @Test
     void updateDocument() {
 
-        File content = new File("extension", "name", "content".getBytes());
+        Content content = new Content("extension", "name", "content".getBytes());
 
         List<String> filepaths = List.of("path/content.pdf");
 

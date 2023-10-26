@@ -1,7 +1,6 @@
 #
 # Configuration for the Spring Boot I-Test
 #
-
 spring:
   main:
     allow-bean-definition-overriding: true # Allow Bean re-definition in itest
@@ -62,3 +61,11 @@ logging:
   level:
     root: info
     org.eclipse.jetty: warn
+
+
+io:
+  muenchendigital:
+    digiwf:
+      s3:
+        client:
+          securityEnabled: false

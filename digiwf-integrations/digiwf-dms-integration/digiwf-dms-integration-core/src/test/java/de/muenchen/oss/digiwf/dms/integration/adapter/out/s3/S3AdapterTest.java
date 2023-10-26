@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
@@ -57,10 +57,10 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
 
-        final List<File> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final File pdfContent = new File("pdf", "test-pdf", testPdf);
-        final File pngContent = new File("png", "digiwf_logo", testPng);
+        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
+        final Content pngContent = new Content("png", "digiwf_logo", testPng);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -85,10 +85,10 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, "S3Url")).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
 
-        final List<File> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext);
 
-        final File pdfContent = new File("pdf", "test-pdf", testPdf);
-        final File pngContent = new File("png", "digiwf_logo", testPng);
+        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
+        final Content pngContent = new Content("png", "digiwf_logo", testPng);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -120,11 +120,11 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath, 3)).thenReturn(testWord);
 
-        final List<File> contents = this.s3Adapter.loadFiles(paths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final File pdfContent = new File("pdf", "test-pdf", testPdf);
-        final File pngContent = new File("png", "digiwf_logo", testPng);
-        final File wordContent = new File("docx", "test-word", testWord);
+        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
+        final Content pngContent = new Content("png", "digiwf_logo", testPng);
+        final Content wordContent = new Content("docx", "test-word", testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
@@ -157,11 +157,11 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath, 3, "S3Url")).thenReturn(testWord);
 
-        final List<File> contents = this.s3Adapter.loadFiles(paths, fileContext);
+        final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext);
 
-        final File pdfContent = new File("pdf", "test-pdf", testPdf);
-        final File pngContent = new File("png", "digiwf_logo", testPng);
-        final File wordContent = new File("docx", "test-word", testWord);
+        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
+        final Content pngContent = new Content("png", "digiwf_logo", testPng);
+        final Content wordContent = new Content("docx", "test-word", testWord);
 
         assertTrue(contents.contains(pdfContent));
         assertTrue(contents.contains(pngContent));
