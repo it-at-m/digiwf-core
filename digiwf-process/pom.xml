@@ -4,13 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-process</artifactId>
-    <name>digiwf-process</name>
+    <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>Process management used by DigiWF</description>
 
     <parent>
-        <artifactId>digiwf-core</artifactId>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-parent</relativePath>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
@@ -19,5 +20,14 @@
         <module>digiwf-process-starter</module>
         <module>digiwf-process-example</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

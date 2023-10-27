@@ -6,17 +6,9 @@ import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapt
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CancelObjectService;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.DepositObjectService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.UpdateDocumentService;
+import de.muenchen.oss.digiwf.dms.integration.application.service.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
@@ -47,7 +39,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadFilePort loadFilePort(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
+    public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
     }
 
@@ -107,6 +99,11 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<ReadContentDto>> readContentMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.readContent();
+    }
+
+    @Bean
     @ConditionalOnMissingBean
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
@@ -115,7 +112,8 @@ public class DmsAutoConfiguration {
             final CreateDocumentUseCase createDocumentUseCase,
             final UpdateDocumentUseCase updateDocumentUseCase,
             final DepositObjectUseCase depositObjectUseCase,
-            final CancelObjectUseCase cancelObjectUseCase) {
+            final CancelObjectUseCase cancelObjectUseCase,
+            final ReadContentUseCase readContentUseCase) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
@@ -123,7 +121,8 @@ public class DmsAutoConfiguration {
                 createDocumentUseCase,
                 updateDocumentUseCase,
                 depositObjectUseCase,
-                cancelObjectUseCase);
+                cancelObjectUseCase,
+                readContentUseCase);
     }
 
 }
