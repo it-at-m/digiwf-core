@@ -15,7 +15,6 @@
     <properties>
         <camunda.version>7.20.0</camunda.version>
         <camunda-engine-rest-client-openapi-java.version>7.20.0</camunda-engine-rest-client-openapi-java.version>
-        <spring-boot.version>3.1.5</spring-boot.version>
     </properties>
 
 
@@ -27,14 +26,6 @@
                 <version>${camunda.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <dependency>

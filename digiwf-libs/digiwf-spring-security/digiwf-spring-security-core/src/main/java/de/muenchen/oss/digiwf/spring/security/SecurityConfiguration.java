@@ -6,6 +6,7 @@ package de.muenchen.oss.digiwf.spring.security;
 
 import de.muenchen.oss.digiwf.spring.security.userinfo.UserInfoAuthoritiesConverter;
 import io.muenchendigital.digiwf.spring.security.client.ClientParameters;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -24,7 +25,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 
 import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
@@ -66,12 +66,12 @@ public class SecurityConfiguration {
     // @formatter:off
     http
         .csrf( csrf -> csrf
-            .ignoringAntMatchers(springSecurityProperties.getPermittedUrls())
+            .ignoringRequestMatchers(springSecurityProperties.getPermittedUrls())
             .disable()
         )
         .authorizeRequests( requests -> requests
-            .antMatchers(HttpMethod.OPTIONS).permitAll()
-            .antMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
+            .requestMatchers(HttpMethod.OPTIONS).permitAll()
+            .requestMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer( server -> server
