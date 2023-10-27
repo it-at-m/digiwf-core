@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>digiwf-address-service-integration</name>
+    <artifactId>digiwf-address-integration</artifactId>
+    <description>Integration of the Address Service used by DigiWF</description>
+    <packaging>pom</packaging>
+
+    <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-integration-parent</relativePath>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <spring.cloud.version>2021.0.3</spring.cloud.version>
+        <digiwf.spring.cloudstream.utils.version>1.0.0</digiwf.spring.cloudstream.utils.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <apache.commons.version>4.4</apache.commons.version>
+        <hamcrest.version>1.3</hamcrest.version>
+    </properties>
+
+    <modules>
+        <module>digiwf-address-integration-client</module>
+        <module>digiwf-address-integration-core</module>
+        <module>digiwf-address-integration-starter</module>
+        <module>digiwf-address-integration-service</module>
+    </modules>
+
+</project>

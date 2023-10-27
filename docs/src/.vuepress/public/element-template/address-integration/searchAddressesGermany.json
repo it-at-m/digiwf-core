@@ -1,0 +1,149 @@
+{
+  "name": "Address: Search Addresses Germany",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressesGermany",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "searchAddressesGermany",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Query",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "query",
+        "target": "query"
+      }
+    },
+    {
+      "label": "PLZ",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "plz",
+        "target": "plz"
+      }
+    },
+    {
+      "label": "Ortsname",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": false,
+        "name": "ortsname",
+        "target": "ortsname"
+      }
+    },
+    {
+      "label": "Gemeindeschlüssel",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "gemeindeschluessel",
+        "target": "gemeindeschluessel"
+      }
+    },
+    {
+      "label": "page",
+      "type": "String",
+      "value": "1",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "page",
+        "target": "page"
+      }
+    },
+    {
+      "label": "pagesize",
+      "type": "String",
+      "value": "20",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "pagesize",
+        "target": "pagesize"
+      }
+    },
+    {
+      "label": "sortdir",
+      "type": "String",
+      "value": "ASC",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "sortdir",
+        "target": "sortdir"
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "key": "37f4a23c-4ee7-4462-8065-6692a6a89f60",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Address Integration Example",
+        "description": "",
+        "type": "object",
+        "key": "dbd47510-56d4-47e5-aac7-d99462a43fab",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Address Integration Example",
+            "description": "",
+            "key": "d7d99319-fab5-409a-88e4-4c182a4e4835",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "0fe7a295-6cd5-441c-b630-4cb86993d1a6": {
+                "fieldType": "markdown",
+                "title": "Example Prozess",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "0fe7a295-6cd5-441c-b630-4cb86993d1a6",
+                "readOnly": true,
+                "default": "Beispiel Prozess, um die Features der Address Integration vorzustellen.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "address_integration_topic": {
+                "fieldType": "text",
+                "title": "Address Integration Topic",
+                "type": "string",
+                "key": "address_integration_topic",
+                "description": "",
+                "default": "dwf-address-local-01",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
