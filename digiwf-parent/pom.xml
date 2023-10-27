@@ -4,34 +4,104 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-core</artifactId>
-    <name>digiwf-core</name>
+    <artifactId>digiwf-parent</artifactId>
+    <name>${project.artifactId}</name>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <description>DigiWF Core Services</description>
-    <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
         <java.version>17</java.version>
+        <maven.version>3.6.0</maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <lombok.version>1.18.30</lombok.version>
+        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <camunda.version.ce>7.18.0</camunda.version.ce>
         <camunda.version>${camunda.version.ce}</camunda.version>
         <camunda.version.ee>7.18.0-ee</camunda.version.ee>
+        <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
+        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
+        <tika.version>2.9.1</tika.version>
+        <logstash.encoder.version>7.4</logstash.encoder.version>
+        <digiwf.version>1.2.0-SNAPSHOT</digiwf.version>
     </properties>
 
-    <modules>
-        <module>digiwf-parent</module>
-        <module>digiwf-engine</module>
-        <module>digiwf-connector</module>
-        <module>digiwf-task</module>
-        <module>digiwf-libs</module>
-        <module>digiwf-process</module>
-        <module>digiwf-gateway</module>
-        <module>digiwf-integrations</module>
-        <module>digiwf-coverage</module>
-    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!-- Open API -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>0.2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.encoder.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -77,30 +147,15 @@
                             <configuration>
                                 <rules>
                                     <requireJavaVersion>
-                                        <version>17</version>
+                                        <version>${java.version}</version>
                                     </requireJavaVersion>
                                     <requireMavenVersion>
-                                        <version>3.6.0</version>
+                                        <version>${maven.version}</version>
                                     </requireMavenVersion>
                                 </rules>
                             </configuration>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.13</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.11</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -113,6 +168,61 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <showWarnings>true</showWarnings>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <!-- Version muss mit der durch Spring-Boot-Starter bereitgestellten Version übereinstimmen -->
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok.mapstruct.binding.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <arg>
+                                -Amapstruct.defaultComponentModel=spring
+                            </arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.1.2</version>
+                    <configuration>
+                        <runOrder>random</runOrder>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.13</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.openapitools</groupId>
@@ -130,22 +240,22 @@
                     <version>3.1.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.16.1</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.11</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.1</version>
                 <configuration>
                     <autoVersionSubmodules>false</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
@@ -165,39 +275,19 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
-        <profile>
-            <id>frontend</id>
-            <modules>
-                <module>digiwf-apps</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>docs</id>
-            <modules>
-                <module>docs</module>
-            </modules>
-        </profile>
-
-        <profile>
-            <id>camunda-ee</id>
-            <properties>
-                <camunda.version>${camunda.version.ee}</camunda.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>https://camunda.jfrog.io/artifactory/private/</url>
-                </repository>
-            </repositories>
-        </profile>
-
 
         <!-- Release profile (required so these plugins are only used when deploying) -->
 
@@ -290,103 +380,5 @@
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <developers>
-        <developer>
-            <name>Alexander Boxhorn</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/boal</url>
-            <roles>
-                <role>initiator</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>axd4</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/axd4</url>
-            <roles>
-                <role>initiator</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Dominik Horn</name>
-            <organization>Miragon GmbH</organization>
-            <url>https://github.com/dominikhorn93</url>
-            <roles>
-                <role>initiator</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>martind260</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/martind260</url>
-            <roles>
-                <role>initiator</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Lukas Mösle</name>
-            <organization>Miragon GmbH</organization>
-            <url>https://github.com/lmoesle</url>
-            <roles>
-                <role>initiator</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Simon Zambrovski</name>
-            <email>simon.zambrovski@holisticon.de</email>
-            <organization>Holisticon AG</organization>
-            <organizationUrl>https://holisticon.de/</organizationUrl>
-            <url>https://github.com/zambrovski</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>StephanStrehlerCGI</name>
-            <organization>CGI Deutschland</organization>
-            <url>https://github.com/StephanStrehlerCGI</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Simon Hirtreiter</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/simonhir</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>lehju</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/lehju</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>darenegade</name>
-            <organization>Landeshauptstadt München</organization>
-            <url>https://github.com/darenegade</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-        </license>
-    </licenses>
-
-    <scm>
-        <url>https://github.com/it-at-m/digiwf-core</url>
-        <connection>scm:git:git@github.com:it-at-m/digiwf-core.git</connection>
-        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-core.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
 
 </project>

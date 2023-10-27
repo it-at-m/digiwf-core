@@ -30,18 +30,18 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <!-- Polyflow View -->
         <dependency>

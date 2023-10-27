@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
-    </parent>
-
-
     <artifactId>digiwf-task</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>Task management used by DigiWF</description>
+
+    <parent>
+        <artifactId>digiwf-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <polyflow.version>3.15.0</polyflow.version>
@@ -22,19 +22,19 @@
         <kotlin.version>1.9.10</kotlin.version>
     </properties>
 
+    <modules>
+        <module>digiwf-task-api</module>
+        <module>digiwf-tasklist-service</module>
+        <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-bom</artifactId>
                 <version>${kotlin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -67,11 +67,18 @@
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>digiwf-task-api</module>
-        <module>digiwf-tasklist-service</module>
-        <module>digiwf-polyflow-connector-starter</module>
-        <module>digiwf-task-itest</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

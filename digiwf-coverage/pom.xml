@@ -8,15 +8,11 @@
     <description>Jacoco Code Coverage</description>
 
     <parent>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
+        <relativePath>../digiwf-parent</relativePath>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <maven.jar.skip>true</maven.jar.skip>
-    </properties>
 
     <dependencies>
         <!-- digiwf-connector -->
@@ -131,6 +127,31 @@
             <artifactId>digiwf-verification-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- digiwf-libs -->
         <dependency>
@@ -182,8 +203,6 @@
             <artifactId>digiwf-tasklist-service</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
     </dependencies>
 
     <build>

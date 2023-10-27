@@ -4,17 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-integrations</artifactId>
-    <name>digiwf-integrations</name>
+    <groupId>de.muenchen.oss.digiwf</groupId>
+    <name>${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Integrations by DigiWF</description>
 
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
-    </parent>
-
     <modules>
+        <module>digiwf-integration-parent</module>
         <module>digiwf-cosys-integration</module>
         <module>digiwf-email-integration</module>
         <module>digiwf-s3-integration</module>
@@ -24,5 +21,4 @@
         <module>digiwf-example-integration</module>
         <module>digiwf-dms-integration</module>
     </modules>
-
 </project>

@@ -53,7 +53,6 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
