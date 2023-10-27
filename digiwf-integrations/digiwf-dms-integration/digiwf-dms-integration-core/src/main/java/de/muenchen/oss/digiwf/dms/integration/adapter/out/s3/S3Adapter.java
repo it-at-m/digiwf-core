@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.TransferContentPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
@@ -11,6 +12,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFi
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 
@@ -21,16 +23,16 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements LoadFilePort {
+public class S3Adapter implements LoadFilePort, TransferContentPort {
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
-    private final Map<String,String> supportedExtensions;
+    private final Map<String, String> supportedExtensions;
 
     @Override
-    public List<Content> loadFiles(final List<String> filepaths, final String fileContext){
+    public List<Content> loadFiles(final List<String> filepaths, final String fileContext) {
 
         List<Content> contents = new ArrayList<>();
 
@@ -55,12 +57,13 @@ public class S3Adapter implements LoadFilePort {
                 contents.add(getFile(file));
             });
             return contents;
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
 
-    private Content getFile (String filepath) {
+    private Content getFile(String filepath) {
         try {
             final Tika tika = new Tika();
             final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3);
@@ -77,9 +80,22 @@ public class S3Adapter implements LoadFilePort {
 
             return new Content(extension, filename, bytes);
 
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException | PropertyNotSetException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
 
+    @Override
+    public void transferContent(List<Content> content, String filepath, String fileContext) {
+        val fullPath = fileContext + "/" + filepath;
+
+        for (val file : content) {
+            try {
+                this.documentStorageFileRepository.saveFile(fullPath + "/" + file.getName() + "." + file.getExtension(), file.getContent(), 1, null);
+            } catch (Exception e) {
+                throw new BpmnError("SAVE_FILE_FAILED", "An file could not be saved to path: " + fullPath);
+            }
+        }
+    }
 }

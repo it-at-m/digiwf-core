@@ -29,7 +29,7 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process create a vorgang with the information from the form below.",
+                "default": "With this test process deposit a vorgang with the information from the form below.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -45,7 +45,7 @@
               },
               "topic": {
                 "fieldType": "text",
-                "title": "Create Procedure Topic",
+                "title": "Deposit Object Topic",
                 "type": "string",
                 "key": "topic",
                 "default": "dwf-dms-local-01",

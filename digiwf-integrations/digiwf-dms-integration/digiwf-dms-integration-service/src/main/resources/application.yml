@@ -35,6 +35,22 @@ spring:
             value:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
           brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: lhmObjectID
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_DMS_CLIENT_ID}
+            client-secret: ${SSO_DMS_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
   kafka:
     consumer:
       properties:
@@ -56,10 +72,6 @@ digiwf:
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
         enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
-  security:
-    # client-id and client-secret are required for feign client authentication
-    client-id: ${SSO_TASK_CLIENT_ID}
-    client-secret: ${SSO_TASK_CLIENT_SECRET}
 
 io:
   muenchendigital:
@@ -67,6 +79,7 @@ io:
       s3:
         client:
           document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+          securityEnabled: true
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
@@ -77,6 +90,7 @@ io:
           updateDocument: "updateDocumentMessageProcessor"
           depositObject: "depositObjectMessageProcessor"
           cancelObject: "cancelObjectMessageProcessor"
+          readContent: "readContentMessageProcessor"
 
 de:
   muenchen:
