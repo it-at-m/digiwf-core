@@ -1,5 +1,5 @@
 {
-  "name": "Update document in dms",
+  "name": "DMS: Dokument updaten",
   "id": "de.muenchen.digitalwf.templates.update-document-in-dms",
   "appliesTo": [
     "bpmn:CallActivity"
@@ -75,7 +75,7 @@
       }
     },
     {
-      "label": " Dokument-COO",
+      "label": "Dokument-COO",
       "type": "String",
       "value": "",
       "binding": {
@@ -107,9 +107,18 @@
       "type": "Dropdown",
       "value": "EINGEHEND",
       "choices": [
-        { "name": "Eingehend", "value": "EINGEHEND" },
-        { "name": "Ausgehend", "value": "AUSGEHEND" },
-        { "name": "Intern", "value": "INTERN" }
+        {
+          "name": "Eingehend",
+          "value": "EINGEHEND"
+        },
+        {
+          "name": "Ausgehend",
+          "value": "AUSGEHEND"
+        },
+        {
+          "name": "Intern",
+          "value": "INTERN"
+        }
       ],
       "binding": {
         "type": "camunda:in",

@@ -1,5 +1,5 @@
 {
-  "name": "DMS: Create Dokument",
+  "name": "DMS: Dokument anlegen",
   "id": "de.muenchen.digitalwf.templates.create-document",
   "appliesTo": [
     "bpmn:CallActivity"
