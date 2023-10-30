@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.jsonschema.deployment.api.streaming;
 
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentStatusModel;
 import de.muenchen.oss.digiwf.jsonschema.deployment.api.mapper.SchemaDeploymentMapper;
 import de.muenchen.oss.digiwf.jsonschema.deployment.api.streaming.event.SchemaDeploymentEvent;
@@ -25,7 +24,6 @@ public class SchemaDeploymentEventListener {
     private final SchemaDeploymentService modelDeploymentService;
     private final SchemaDeploymentMapper mapper;
 
-    @DocumentAsyncAPI(payload = SchemaDeploymentEvent.class, functionRouter = true, typeHeader = "deploySchema")
     @Bean
     public Consumer<Message<SchemaDeploymentEvent>> deploySchema() {
         return message -> {

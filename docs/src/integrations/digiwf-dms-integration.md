@@ -74,6 +74,38 @@ Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozesse
 befüllen Sie es mit den gewünschten Informationen:
 [Dokument erstellen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createDocument.json)
 
+### Dokument updaten
+
+Zum Updaten eines Dokuments im Dms, erzeugen Sie zuerst ein `UpdateDocumentDto`-Objekt und setzen den
+TYPE-Header auf `updateDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `UpdateDocumentDto`-Objekt aufgeführt:
+
+```json
+{
+  "documentCoo": "",
+  "user": "",
+  "type": "",
+  "filepaths": "",
+  "fileContext": ""
+}
+```
+
+Die Dms Integration fügt bei einem bestehenden Dokument die angegebenen Schriftstücke hinzu.
+Dafür muss vorab ein Dokument angelegt und die Id über das Feld `documentCoo` übergeben werden.
+Als `type` können die Werte EINGEHEND, AUSGEHEND oder INTERN angegeben werden.
+Bei `filepaths` können mehrere Pfade zu Dateien oder Ordnern mit einem Komma getrennt übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Dokument updaten](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/updateDocument.json)
+
 ### Zu den Akten legen
 
 Um ein Objekt im Dms zu den Akten zu legen, erzeugen Sie zuerst ein `DepositObjectDto`-Objekt und setzen den
@@ -100,6 +132,65 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
 befüllen Sie es mit den gewünschten Informationen:
 [Zu den Akten legen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/depositObject.json)
+
+### Objekt stornieren
+
+Um ein Objekt im Dms zu stornieren, erzeugen Sie zuerst ein `CancelObjectDto`-Objekt und setzen den
+TYPE-Header auf `cancelObject`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `CancelObjectDto`-Objekt aufgeführt:
+
+```json
+{
+  "objectCoo": "",
+  "user": ""
+}
+```
+
+Die Dms Integration storniert das Objekt mit der angegebenen `Coo`.
+Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+
+### Dateien lesen und in den S3 Speicher übertragen
+
+Um ein Datein aus dem Dms zu lesen und in den S3 zu übertragen, erzeugen Sie zuerst ein `ReadContentDto`-Objekt und
+setzen den
+TYPE-Header auf `readContent`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `ReadContent`-Objekt aufgeführt:
+
+```json
+{
+  "contentCoos": [
+    "coo1",
+    "coo2"
+  ],
+  "filePath": "folder",
+  "fileContext": "processContext",
+  "user": "test"
+}
+```
+
+Die Dms Integration liest die Inhalte mit den angegebenen `contentCoos` und überträgt sie an den S3 Speicher.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Read Content](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/readContent.json)
 
 ### Fehlerbehandlung
 

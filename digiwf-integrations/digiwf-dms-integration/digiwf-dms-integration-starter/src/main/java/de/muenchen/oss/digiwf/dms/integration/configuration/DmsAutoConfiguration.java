@@ -1,24 +1,14 @@
 package de.muenchen.oss.digiwf.dms.integration.configuration;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateDocumentDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.CreateProcedureDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.DepositObjectDto;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.MessageProcessor;
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.*;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateDocumentService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.CreateProcedureService;
-import de.muenchen.oss.digiwf.dms.integration.application.service.DepositObjectService;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
+import de.muenchen.oss.digiwf.dms.integration.application.service.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
@@ -49,7 +39,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadFilePort loadFilePort(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
+    public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
     }
 
@@ -67,8 +57,20 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public UpdateDocumentUseCase updateDocumentUseCase(final UpdateDocumentPort updateDocumentPort, LoadFilePort loadFilePort) {
+        return new UpdateDocumentService(updateDocumentPort, loadFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public DepositObjectUseCase depositObjectUseCase(DepositObjectPort depositObjectPort) {
         return new DepositObjectService(depositObjectPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CancelObjectUseCase cancelObjectUseCase(CancelObjectPort cancelObjectPort) {
+        return new CancelObjectService(cancelObjectPort);
     }
 
     @Bean
@@ -82,8 +84,23 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<UpdateDocumentDto>> updateDocumentMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.updateDocument();
+    }
+
+    @Bean
     public Consumer<Message<DepositObjectDto>> depositObjectMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.depositObject();
+    }
+
+    @Bean
+    public Consumer<Message<CancelObjectDto>> cancelObjectMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.cancelObject();
+    }
+
+    @Bean
+    public Consumer<Message<ReadContentDto>> readContentMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.readContent();
     }
 
     @Bean
@@ -93,8 +110,19 @@ public class DmsAutoConfiguration {
             final ErrorApi errorApi,
             final CreateProcedureUseCase createProcedureUseCase,
             final CreateDocumentUseCase createDocumentUseCase,
-            final DepositObjectUseCase depositObjectUseCase) {
-        return new MessageProcessor(processApi, errorApi, createProcedureUseCase, createDocumentUseCase, depositObjectUseCase);
+            final UpdateDocumentUseCase updateDocumentUseCase,
+            final DepositObjectUseCase depositObjectUseCase,
+            final CancelObjectUseCase cancelObjectUseCase,
+            final ReadContentUseCase readContentUseCase) {
+        return new MessageProcessor(
+                processApi,
+                errorApi,
+                createProcedureUseCase,
+                createDocumentUseCase,
+                updateDocumentUseCase,
+                depositObjectUseCase,
+                cancelObjectUseCase,
+                readContentUseCase);
     }
 
 }

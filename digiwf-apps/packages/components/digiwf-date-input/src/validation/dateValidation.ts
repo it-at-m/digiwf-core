@@ -1,6 +1,9 @@
 import {DateTime} from "luxon";
 
-
+export const ERROR_MESSAGES = {
+  INVALID: "Ungültiges Datumsformat",
+  YEAR_TO_HIGH: "Datum darf nicht mehr als 4 Jahreszahlen enthalten"
+}
 export const validateDate = (date: string, nativeValidationResult: boolean = true) : string | boolean => {
   // if date is empty and html native input validation was successfully
   if(date.trim().length === 0 && nativeValidationResult) {

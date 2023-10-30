@@ -3,7 +3,7 @@
     <task-list
       view-name="Meine Aufgaben"
       :tasks="data?.content || []"
-      :is-loading="isLoading"
+      :is-loading="isLoading || isRefetching"
       :error-message="errorMessage"
       :filter="filter"
       :tag="tag"
@@ -75,7 +75,7 @@ export default defineComponent({
     const {currentSortDirection} = usePageFilters();
     const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch} = useMyTasksQuery(page, size, searchQuery, tag,shouldIgnoreFollowUpTasks, currentSortDirection);
+    const {isLoading, data, error, refetch, isRefetching} = useMyTasksQuery(page, size, searchQuery, tag,shouldIgnoreFollowUpTasks, currentSortDirection);
 
     watch(currentSortDirection, () => {
       refetch();
@@ -104,6 +104,7 @@ export default defineComponent({
       pageId,
       shouldIgnoreFollowUpTasks,
       isLoading,
+      isRefetching,
       errorMessage: error,
       data,
       filter: searchQuery,

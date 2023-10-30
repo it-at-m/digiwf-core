@@ -1,5 +1,5 @@
 server:
-  port: '${DMS_INTEGRATION_SERVER_PORT:-8080}'
+  port: '${DMS_INTEGRATION_SERVER_PORT:8080}'
 spring:
   application:
     name: @project.artifactId@
@@ -35,6 +35,22 @@ spring:
             value:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
           brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: lhmObjectID
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_DMS_CLIENT_ID}
+            client-secret: ${SSO_DMS_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
   kafka:
     consumer:
       properties:
@@ -42,11 +58,24 @@ spring:
           json:
             trusted:
               packages: '*'
+# Config for spring actuator endpoints
 management:
+  server.port: ${server.port}
   endpoints:
+    enabled-by-default: false
     web:
       exposure:
-        include: health,info,prometheus
+        include: health, info, prometheus, livenessstate, readinessstate
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health.enabled: true
+    info.enabled: true
+    prometheus.enabled: true
+  info:
+    env:
+      enabled: true
+
 digiwf:
   integration:
     dms:
@@ -56,10 +85,6 @@ digiwf:
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
         enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
-  security:
-    # client-id and client-secret are required for feign client authentication
-    client-id: ${SSO_TASK_CLIENT_ID}
-    client-secret: ${SSO_TASK_CLIENT_SECRET}
 
 io:
   muenchendigital:
@@ -67,6 +92,7 @@ io:
       s3:
         client:
           document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+          securityEnabled: true
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
@@ -74,7 +100,10 @@ io:
         typeMappings:
           createProcedure: "createProcedureMessageProcessor"
           createDocument: "createDocumentMessageProcessor"
+          updateDocument: "updateDocumentMessageProcessor"
           depositObject: "depositObjectMessageProcessor"
+          cancelObject: "cancelObjectMessageProcessor"
+          readContent: "readContentMessageProcessor"
 
 de:
   muenchen:
@@ -82,16 +111,16 @@ de:
       digiwf:
         dms:
           supportedExtensions:
-            - "application/pdf"
-            - "text/plain"
-            - "image/png"
-            - "image/x-citrix-jpeg"
-            - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            - "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            - "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-            - "application/vnd.visio2013"
-            - "application/vnd.ms-project"
-            - "application/vnd.oasis.opendocument.formula"
-            - "application/vnd.oasis.opendocument.presentation"
-            - "application/vnd.oasis.opendocument.spreadsheet"
-            - "application/vnd.oasis.opendocument.text"
+            pdf: "application/pdf"
+            txt: "text/plain"
+            png: "image/png"
+            jpg: "image/jpeg"
+            docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            vsdx: "application/vnd.visio2013"
+            mpp: "application/vnd.ms-project"
+            odf: "application/vnd.oasis.opendocument.formula"
+            odp: "application/vnd.oasis.opendocument.presentation"
+            ods: "application/vnd.oasis.opendocument.spreadsheet"
+            odt: "application/vnd.oasis.opendocument.text"

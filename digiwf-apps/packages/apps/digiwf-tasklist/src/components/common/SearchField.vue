@@ -52,6 +52,7 @@
 
 <script lang="ts">
 import {defineComponent, ref} from "vue";
+import debounce from "debounce";
 import {FilterTO, SaveFilterTO} from "@muenchen/digiwf-engine-api-internal";
 import {usePageId} from "../../middleware/pageId";
 import {useGetPaginationData} from "../../middleware/paginationData";
@@ -60,6 +61,7 @@ import {
   useGetPersistentFilters,
   useSavePersistentFilters
 } from "../../middleware/persistentFilter/persistentFilters";
+import {SEARCH_DEBOUNCE_INTERVAL} from "../../constants";
 
 export default defineComponent({
   props:{
@@ -107,6 +109,9 @@ export default defineComponent({
       const isSaved = persistentFilters.value?.some(f => f.filterString === currentValue && f.pageId === pageId.id) || false;
       return isNotBlank && isSaved;
     };
+
+    const debouncedCallback = props.onFilterChange && debounce(props.onFilterChange, SEARCH_DEBOUNCE_INTERVAL);
+
     return {
       isLoading,
       syncedFilter: searchQuery,
@@ -121,8 +126,8 @@ export default defineComponent({
       savePersistentFilter,
       changeFilter: (newFilter: string) => {
         searchQuery.value = newFilter;
-        if(props.onFilterChange) {
-          props.onFilterChange(newFilter);
+        if(debouncedCallback) {
+          debouncedCallback(newFilter);
         }
       },
     };

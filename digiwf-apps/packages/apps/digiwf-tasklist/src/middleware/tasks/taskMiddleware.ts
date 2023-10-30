@@ -32,6 +32,7 @@ import {
   isInAssignedProcesses,
   isInFinishedProcesses
 } from "./mutatedTaskFilter";
+import {nullToUndefined} from "../../utils/dataTransformations";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
   const currentValue = tag.value;
@@ -68,37 +69,6 @@ const handlePageOfTaskResponse = (response: PageOfTasks) => {
       })
     );
 };
-/**
- *
- * possible sort columns: https://github.com/holunda-io/camunda-bpm-taskpool/blob/develop/view/view-api/src/main/kotlin/Task.kt
- *
- * @param page
- * @param size
- * @param query
- * @param tag
- * @param sort
- * @param shouldIgnoreFollowUpTasks
- */
-const handleTaskLoadingFromTaskService = (
-  page: Ref<number>,
-  size: Ref<number>,
-  query: Ref<string | undefined>,
-  tag: Ref<string | undefined>,
-  sort: Ref<string | undefined>,
-  shouldIgnoreFollowUpTasks: Ref<boolean | undefined>
-) => {
-  return callGetTasksFromTaskService(
-    page.value,
-    size.value,
-    query.value,
-    extractTag(tag),
-    shouldIgnoreFollowUpTasks.value
-      ? undefined
-      : getCurrentDate(),
-    sort.value,
-  ).then(handlePageOfTaskResponse);
-};
-
 export const useMyTasksQuery = (
   page: Ref<number>,
   size: Ref<number>,
@@ -110,7 +80,16 @@ export const useMyTasksQuery = (
   queryKey: [userTasksQueryId, page.value, size.value, query.value, tag.value, !shouldIgnoreFollowUp.value],
 
   queryFn: (): Promise<Page<HumanTask>> => {
-    return handleTaskLoadingFromTaskService(page, size, query, tag, sort, shouldIgnoreFollowUp);
+    return callGetTasksFromTaskService(
+      page.value,
+      size.value,
+      nullToUndefined(query.value),
+      extractTag(tag),
+      shouldIgnoreFollowUp.value
+        ? undefined
+        : getCurrentDate(),
+      sort.value,
+    ).then(handlePageOfTaskResponse);
   },
 });
 
@@ -123,7 +102,7 @@ export const useOpenGroupTasksQuery = (
 ) => useQuery({
   queryKey: [openGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetOpenGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, extractTag(tag))
+    return callGetOpenGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag))
       .then(handlePageOfTaskResponse);
   },
 });
@@ -137,7 +116,7 @@ export const useAssignedGroupTasksQuery = (
 ) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, query.value, extractTag(tag))
+    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag))
       .then(handlePageOfTaskResponse);
   },
 });

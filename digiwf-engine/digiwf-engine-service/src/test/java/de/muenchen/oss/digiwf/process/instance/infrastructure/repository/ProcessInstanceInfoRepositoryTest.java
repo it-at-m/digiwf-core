@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.process.instance.infrastructure.repository;
 import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInstanceAuthorizationEntity;
 import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
 import lombok.val;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,13 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class ProcessInstanceInfoRepositoryTest {
+public class ProcessInstanceInfoRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -32,7 +32,7 @@ class ProcessInstanceInfoRepositoryTest {
 
 
     @Test
-    void findAllUserId() {
+    public void findAllUserId() {
         createAndSaveProcessInstance(1);
         createAndSaveProcessInstance(2);
         createAndSaveProcessInstance(3);
@@ -71,7 +71,7 @@ class ProcessInstanceInfoRepositoryTest {
     }
 
     @Test
-    void searchAllByUserId() {
+    public void searchAllByUserId() {
         createAndSaveProcessInstance(1);
         createAndSaveProcessInstance(2);
         createAndSaveProcessInstance(3);

@@ -17,7 +17,7 @@
           >
             <div style="min-width: 30px">
               <v-progress-circular
-                v-if="isLoading"
+                v-if="isLoading || isRefetching"
                 :size="25"
                 width="2"
                 color="primary"
@@ -89,7 +89,7 @@ export default defineComponent({
 
     const {searchQuery, setSearchQuery, page, size, setSize, setPage} = useGetPaginationData();
 
-    const {isLoading, data, error: errorMessage, refetch} = useGetProcessDefinitions(page, size, searchQuery);
+    const {isLoading, data, error: errorMessage, refetch, isRefetching} = useGetProcessDefinitions(page, size, searchQuery);
 
     watch(page, (newPage) => {
       setPage(newPage);
@@ -108,6 +108,7 @@ export default defineComponent({
     return {
       data,
       isLoading,
+      isRefetching,
       searchQuery,
       errorMessage,
       onFilterChanged,

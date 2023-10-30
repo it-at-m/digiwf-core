@@ -56,19 +56,19 @@ jobs:
         if: inputs.bump-services-version== true
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'adopt'
 
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version != ''
         run: |
-          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT
-          mvn versions:commit
+          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT -DprocessAllModules
+          mvn versions:commit -DprocessAllModules
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version == ''
         run: |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
-          mvn versions:commit
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT -DprocessAllModules
+          mvn versions:commit -DprocessAllModules
       - name: Git commit
         if: github.event.inputs.bump-services-version == true || inputs.bump-services-version == true
         run: |

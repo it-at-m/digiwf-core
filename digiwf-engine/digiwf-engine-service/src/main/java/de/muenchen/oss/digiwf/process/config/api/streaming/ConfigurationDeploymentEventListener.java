@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.process.config.api.streaming;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import de.muenchen.oss.digiwf.deployment.api.enums.DeploymentStatus;
 import de.muenchen.oss.digiwf.deployment.api.streaming.event.DeploymentEvent;
 import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentStatusModel;
@@ -35,7 +34,6 @@ public class ConfigurationDeploymentEventListener {
     private final ProcessConfigApiMapper processConfigApiMapper;
     private final Sinks.Many<Message<DeploymentStatusModel>> statusEmitter;
 
-    @DocumentAsyncAPI(payload = DeploymentEvent.class, functionRouter = true, typeHeader = "deployConfiguration")
     @Bean
     public Consumer<Message<DeploymentEvent>> deployConfiguration() {
         return message -> {
