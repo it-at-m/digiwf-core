@@ -39,7 +39,7 @@ public class IncidentRestController {
     @PostMapping
     @Operation(description = "create incident")
     public ResponseEntity<Void> createIncident(@RequestBody @Valid final CreateIncidentDto dto) {
-        this.incidentService.createIncident(dto.getProcessInstanceId(), dto.getMessageName());
+        this.incidentService.createIncident(dto.getProcessInstanceId(), dto.getMessageName(), dto.getMessageContent());
         return ResponseEntity.ok().build();
     }
 

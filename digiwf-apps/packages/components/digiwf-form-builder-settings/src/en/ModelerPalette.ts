@@ -75,6 +75,7 @@ export const formFieldPalette = [
     {
       "fieldType": "time",
       title: "Time",
+      "x-display": "custom-time-input",
       type: "string",
       format: "time",
       ...basicOptions,

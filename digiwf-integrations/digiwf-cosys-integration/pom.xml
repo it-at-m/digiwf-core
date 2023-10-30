@@ -6,14 +6,15 @@
 
     <artifactId>digiwf-cosys-integration</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <name>digiwf-cosys-integration</name>
     <description>CoSys integration used by DigiWF</description>
 
     <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-integrations</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <relativePath>../digiwf-integration-parent</relativePath>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <modules>

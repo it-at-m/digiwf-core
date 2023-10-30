@@ -1,0 +1,66 @@
+spring:
+    cloud:
+        function:
+            definition: functionRouter;sendMessage;integrationTestConsumer;
+        stream:
+            bindings:
+                functionRouter-in-0:
+                    destination: "dwf-address-e2e-test"
+                    group: dwf-address-service
+                sendMessage-out-0:
+                    destination: "dwf-connector-e2e-test"
+                integrationTestConsumer-in-0:
+                    destination: "dwf-connector-e2e-test"
+                    group: dwf-address-service-e2e
+            function:
+                routing:
+                    enabled: true
+            kafka:
+                binder:
+                    configuration:
+                        security:
+                            protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+                    producerProperties:
+                        value:
+                            serializer: org.springframework.kafka.support.serializer.JsonSerializer
+                        key:
+                            serializer: org.springframework.kafka.support.serializer.JsonSerializer
+                    consumerProperties:
+                        auto:
+                            offset:
+                                reset: latest
+                        key:
+                            deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+                        value:
+                            deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+                    brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+    kafka:
+        consumer:
+            properties:
+                spring:
+                    json:
+                        trusted:
+                            packages: '*'
+io:
+    muenchendigital:
+        digiwf:
+            message:
+                incidentDestination: "dwf-connector-incident-e2e-test"
+                bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
+                correlateMessageDestination: "dwf-connector-e2e-test"
+                typeMappings:
+                    searchAddressesGermany: searchAddressesGermany
+                    checkAddressMunich: checkAddressMunich
+                    listAddressesMunich: listAddressesMunich
+                    listChangesMunich: listChangesMunich
+                    searchAddressesMunich: searchAddressesMunich
+                    searchAddressesGeoMunich: searchAddressesGeoMunich
+                    findStreetByIdMunich: findStreetByIdMunich
+                    listStreetMunich: listStreetMunich
+de:
+    muenchen:
+        oss:
+            digiwf:
+                address:
+                    service:
+                        url: http://localhost:8089

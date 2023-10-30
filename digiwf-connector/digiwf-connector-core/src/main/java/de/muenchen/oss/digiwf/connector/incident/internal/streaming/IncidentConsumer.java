@@ -26,9 +26,8 @@ public class IncidentConsumer {
     private final IncidentService incidentService;
 
     @Bean
-    public Consumer<Message<?>> createIncident() {
+    public Consumer<Message<String>> createIncident() {
         return correlation -> {
-
             final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get(HEADER_PROCESS_INSTANCE_ID)).map(Object::toString);
             final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get(HEADER_MESSAGE_NAME)).map(Object::toString);
 
@@ -43,7 +42,7 @@ public class IncidentConsumer {
             }
 
             log.info("Received create incident for process instance with id: {}", processInstanceId.get());
-            this.incidentService.createIncident(processInstanceId.get(), messageName.get());
+            this.incidentService.createIncident(processInstanceId.get(), messageName.get(), correlation.getPayload());
         };
     }
 }

@@ -9,13 +9,13 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <properties>
         <apache.commons.collections4>4.4</apache.commons.collections4>
         <apache.commons.csv>1.10.0</apache.commons.csv>
-        <apache.commons.io>2.14.0</apache.commons.io>
+        <apache.commons.io>2.15.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.10.0</apache.commons.text>
         <apache.commons.validator>1.7</apache.commons.validator>
@@ -54,22 +54,22 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-polyflow-connector-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
@@ -82,13 +82,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>
-
-        <!-- Asyncapi docs -->
-        <dependency>
-            <groupId>io.muenchendigital.digiwf</groupId>
-            <artifactId>digiwf-asyncapi-docs-starter</artifactId>
-            <version>0.0.6</version>
         </dependency>
 
         <!--
@@ -490,6 +483,34 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <!-- Starting from JDK 12+, Nashorn is not part of JDK -->
+            <id>jdk11</id>
+            <activation>
+                <jdk>[11,</jdk>
+            </activation>
+            <properties>
+                <graalvm.version>22.3.3</graalvm.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.graalvm.sdk</groupId>
+                    <artifactId>graal-sdk</artifactId>
+                    <version>${graalvm.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.graalvm.js</groupId>
+                    <artifactId>js</artifactId>
+                    <version>${graalvm.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.graalvm.js</groupId>
+                    <artifactId>js-scriptengine</artifactId>
+                    <version>${graalvm.version}</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

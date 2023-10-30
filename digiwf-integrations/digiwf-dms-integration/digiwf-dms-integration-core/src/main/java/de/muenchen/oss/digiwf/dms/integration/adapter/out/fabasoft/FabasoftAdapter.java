@@ -1,11 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CancelObjectPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateProcedurePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObjectPort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.UpdateDocumentPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
@@ -13,12 +9,20 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort, UpdateDocumentPort, DepositObjectPort, CancelObjectPort {
+public class FabasoftAdapter implements
+        CreateProcedurePort,
+        CreateDocumentPort,
+        UpdateDocumentPort,
+        DepositObjectPort,
+        CancelObjectPort,
+        ReadContent {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -281,5 +285,31 @@ public class FabasoftAdapter implements CreateProcedurePort, CreateDocumentPort,
         final CancelObjectGIResponse response = this.wsClient.cancelObjectGI(cancelObjectGI);
 
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+    }
+
+    @Override
+    public List<Content> readContent(List<String> coos, String user) {
+
+        final List<Content> files = new ArrayList<>();
+
+        for (val coo : coos) {
+            val request = new ReadContentObjectGI();
+            request.setUserlogin(user);
+            request.setBusinessapp(this.properties.getBusinessapp());
+            request.setObjaddress(coo);
+            val response = this.wsClient.readContentObjectGI(request);
+            dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+            files.add(this.map(response));
+        }
+
+        return files;
+    }
+
+    private Content map(ReadContentObjectGIResponse response) {
+        return new Content(
+                response.getGiattachmenttype().getLHMBAI151700Fileextension(),
+                response.getGiattachmenttype().getLHMBAI151700Filename(),
+                response.getGiattachmenttype().getLHMBAI151700Filecontent()
+        );
     }
 }

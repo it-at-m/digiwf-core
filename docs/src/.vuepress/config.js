@@ -117,6 +117,7 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
+                                'guides/custom-input-field/',
                                 'guides/feature-toggle-taskservice-integration/',
                             ]
                         },
@@ -251,6 +252,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
+                                'digiwf-address-integration',
                                 'digiwf-alw-integration',
                                 'digiwf-cosys-integration',
                                 'digiwf-mail-integration',

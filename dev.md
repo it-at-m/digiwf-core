@@ -6,27 +6,24 @@
 flowchart LR
     digiwf-gateway <--> digiwf-tasklist
     digiwf-gateway <--> digiwf-engine-service
-    
-    digiwf-engine-service <--to be replaced by connector--> kafka[(Kafka)]
-  
-    %% integrations
+    digiwf-engine-service <-- to be replaced by connector --> kafka[(Kafka)]
+%% integrations
     subgraph digiwf-integrations
-    digiwf-alw-integration
-    digiwf-cosys-integration
-    digiwf-email-integration
-    digiwf-s3-integration
-    digiwf-verification-integration
+        digiwf-alw-integration
+        digiwf-cosys-integration
+        digiwf-email-integration
+        digiwf-s3-integration
+        digiwf-verification-integration
     end
-    
+
     kafka <--> digiwf-alw-integration
     kafka <--> digiwf-cosys-integration
     kafka <--> digiwf-email-integration
     kafka <--> digiwf-s3-integration
     kafka <--> digiwf-verification-integration
-    %% sync connection to s3-integration
-    digiwf-engine-service --synchronous connection--> digiwf-s3-integration
-    
-    %% connector tbd.
+%% sync connection to s3-integration
+    digiwf-engine-service -- synchronous connection --> digiwf-s3-integration
+%% connector tbd.
     digiwf-connector <-.-> digiwf-engine-service
     digiwf-connector <-.-> kafka
 ```
@@ -36,75 +33,74 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph digiwf-tasklist
-    frontend
+        frontend
     end
-    
+
     digiwf-gateway <--> digiwf-tasklist
-    
     digiwf-gateway <--> digiwf-process
     digiwf-gateway <--> digiwf-task
-    
     kafka[(Kafka)]
-  
     digiwf-task <--> kafka
     digiwf-process <--> kafka
-  
-    %% connector
+%% connector
     digiwf-connector <--> camunda
     digiwf-connector <--> kafka
-  
-    %% integrations
+%% integrations
     subgraph digiwf-integrations
-    digiwf-alw-integration
-    digiwf-cosys-integration
-    digiwf-email-integration
-    digiwf-s3-integration
-    digiwf-verification-integration
+        digiwf-alw-integration
+        digiwf-cosys-integration
+        digiwf-email-integration
+        digiwf-s3-integration
+        digiwf-verification-integration
     end
-    
+
     kafka <--> digiwf-alw-integration
     kafka <--> digiwf-cosys-integration
     kafka <--> digiwf-email-integration
     kafka <--> digiwf-s3-integration
     kafka <--> digiwf-verification-integration
-    %% sync connection to s3-integration
-    digiwf-task --synchronous connection--> digiwf-s3-integration
-    
-    %% future tbd.
+%% sync connection to s3-integration
+    digiwf-task -- synchronous connection --> digiwf-s3-integration
+%% future tbd.
     subgraph digiwf-task
-    polyflow
+        polyflow
     end
 ```
 
 ## Local Setup
 
-For local development you have to start the digiwf-tasklist (the vue and vuetify based frontend application), the digiwf-engine-service (spring-boot and camunda based backend application) and the digiwf-gateway.
+For local development you have to start the digiwf-tasklist (the vue and vuetify based frontend application), the
+digiwf-engine-service (spring-boot and camunda based backend application) and the digiwf-gateway.
 Additionally, you can start the digiwf-integrations if you need features from any of the integration services.
 
 You may run the applications with the default settings (from `application.yml`) and customize the configurations
-by adding environment variables. You always have to set the env variable `DIGIWF_ENV` (for local development `DIGIWF_ENV=local-01`).
+by adding environment variables. You always have to set the env variable `DIGIWF_ENV` (for local
+development `DIGIWF_ENV=local-01`).
 Additionally, some services require a few more environment variables.
 
-Under (All env variables)[#all-env-variables] you will find a list of all possible env variables. 
+Under (All env variables)[#all-env-variables] you will find a list of all possible env variables.
 
 ### Setup a local dev environment
 
-You can use the docker-compose [stack](stack) to start all the necessary infrastructure components (like e.g. kafka and minio).
+You can use the docker-compose [stack](stack) to start all the necessary infrastructure components (like e.g. kafka and
+minio).
 For more information see [here](stack/README.md).
 
 ### Tasklist (Frontend)
 
 If you want to develop the frontend you can also use the dev server.
+
 1. Make sure you start the [stack](stack) **without** the tasklist profile (`docker compose up -d`).
 2. Go to digiwf-apps
 3. Run `npm run serve:tasklist`
-   * If the Command fails on the first attempt trigger a build (`npm run build`) and try it again
-   * If you want to debug any of the components, run additionally `npm run dev` to auto rebuild the components
+    * If the Command fails on the first attempt trigger a build (`npm run build`) and try it again
+    * If you want to debug any of the components, run additionally `npm run dev` to auto rebuild the components
 4. Go to [localhost:8081](http://localhost:8081)
 
 ### DigiWF-Engine (Backend)
 
-Run the [DigiWF-Engine](digiwf-engine/digiwf-engine-service) with the profiles `local`, `streaming`, `no-security` and `no-ldap`.
+Run the [DigiWF-Engine](digiwf-engine/digiwf-engine-service) with the profiles `local`, `streaming`, `no-security`
+and `no-ldap`.
 
 Additionally, set the environment variable `DIGIWF_ENV=local-01`.
 
@@ -115,8 +111,8 @@ Run the [DigiWF-Gateway](digiwf-gateway) with the profiles `local`, `no-security
 ### DigiWF-Integrations
 
 Run the [integrations](digiwf-integrations) you need.
-You may run the applications with the default settings, but you probably have to set a few environment variables (described above).
-
+You may run the applications with the default settings, but you probably have to set a few environment variables (
+described above).
 
 **Applications and profiles**
 
@@ -141,10 +137,12 @@ mvn clean verify
 
 ### Jacoco Coverage
 
-The use Jacoco with a maven multi-module project it's recommended to create a dedicated module for the test coverage generation ([see Jacoco docs](https://github.com/jacoco/jacoco/wiki/MavenMultiModule)).
+The use Jacoco with a maven multi-module project it's recommended to create a dedicated module for the test coverage
+generation ([see Jacoco docs](https://github.com/jacoco/jacoco/wiki/MavenMultiModule)).
 Therefore, we created the [digiwf-coverage](digiwf-coverage) module which depends on all modules that should get tested.
 
-> If you want to track the test coverage of additional modules you have to add the maven module as dependency in [digiwf-coverage](digiwf-coverage/pom.xml).
+> If you want to track the test coverage of additional modules you have to add the maven module as dependency
+> in [digiwf-coverage](digiwf-coverage/pom.xml).
 
 After executing the tests a jacoco coverage report is generated in [digiwf-coverage](digiwf-coverage) target directory.
 
@@ -213,6 +211,8 @@ For updating the version of the project we use maven-versions plugin.
 | S3INTEGRATION_DATASOURCE_PASSWORD      |                                                                  |                                                                            |
 | S3INTEGRATION_DATABASE_PLATFORM        | org.hibernate.dialect.H2Dialect                                  |                                                                            |
 | S3INTEGRATION_DATABASE_DRIVERCLASSNAME | org.h2.Driver                                                    |                                                                            |
+| ADDRESS_INTEGRATION_SERVER_PORT        | 8088                                                             | The address integration services server port                               |
+| ADDRESS_SERVICE_URL                    | http://localhost:8089                                            | The url of the Stadt München Address Service                               |
 
 **Legacy EAI Properties**
 
