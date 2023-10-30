@@ -2,9 +2,9 @@
   <v-dialog
     :key="value"
     :value="value"
+    max-width="600px"
     @click:outside="close"
     @keydown.esc="close"
-    max-width="600px"
   >
     <v-card>
       <v-card-title>
@@ -12,6 +12,10 @@
       </v-card-title>
       <v-card-text>
         <v-container>
+          <key-binding-line
+            key-binding="Tabulatortaste"
+            action="Fokus vorwärts bewegen"
+          />
           <v-row>
             <v-col
               cols="12"
@@ -237,23 +241,19 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-
 </template>
 
-<script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+<script setup lang="ts">
+import KeyBindingLine from "./KeyBindingLine.vue";
 
-@Component
-export default class AppKeyBindingsDialog extends Vue {
-  @Prop()
-  value!: boolean;
-
-  @Emit("close")
-  close(): void {
-    //
+defineProps({
+  value: {
+    type:Boolean,
+    required:true
   }
+});
+defineEmits(["close"]);
 
-}
 </script>
 
 <style scoped>

@@ -179,7 +179,7 @@ import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
-import AppKeyBindingsDialog from "./components/UI/AppKeyBindingsDialog.vue";
+import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
 
