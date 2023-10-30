@@ -75,6 +75,7 @@ management:
   info:
     env:
       enabled: true
+
 digiwf:
   integration:
     dms:
