@@ -165,7 +165,7 @@
       "value": "",
       "binding": {
         "type": "camunda:out",
-        "source": "documentCOO"
+        "source": "documentCoo"
       },
       "constraints": {
         "notEmpty": true
