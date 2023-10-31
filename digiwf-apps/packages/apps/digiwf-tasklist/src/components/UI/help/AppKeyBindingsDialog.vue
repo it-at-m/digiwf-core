@@ -16,216 +16,62 @@
             key-binding="Tabulatortaste"
             action="Fokus vorwärts bewegen"
           />
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Fokus vorwärts bewegen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tabulatortaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Fokus rückwärts bewegen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tabulatortaste + Umschalttaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Dialogfenster schließen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Escapetaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tab auswählen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Entertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Button drücken
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Entertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Auswahlfelder öffnen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Entertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Auswahl in Auswahlfeld bestätigen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Entertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Mehrfachauswahlfeld verlassen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Escapetaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Checkbox aktivieren / deaktivieren
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Leertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Switch aktivieren / deaktivieren
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Leertaste
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Zahleneingabe
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tastatureingabe oder Pfeiltasten
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Datumseingabe
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tastatureingabe oder Pfeiltasten
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Uhrzeiteingabe
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Tastatureingabe oder Pfeiltasten
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Dateieingabe Feld öffnen
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Enter
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Dateieingabe Feld verlassen ohne Eingabe
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
-              Escapetaste
-            </v-col>
-          </v-row>
+          <key-binding-line
+            key-binding="Tabulatortaste + Umschalttaste"
+            action="Fokus rückwärts bewegen"
+          />
+          <key-binding-line
+            key-binding="Esc-Taste"
+            action="Dialogfenster schließen"
+          />
+          <key-binding-line
+            key-binding="Entertaste"
+            action="Tab auswählen"
+          />
+          <key-binding-line
+            key-binding="Entertaste"
+            action="Button drücken"
+          />
+          <key-binding-line
+            key-binding="Entertaste"
+            action="Auswahlfelder öffnen"
+          />
+          <key-binding-line
+            key-binding="Entertaste"
+            action="Auswahl in Auswahlfeld bestätigen"
+          />
+          <key-binding-line
+            key-binding="Esc-Taste"
+            action="Mehrfachauswahlfeld verlassen"
+          />
+          <key-binding-line
+            key-binding="Leertaste"
+            action="Checkbox aktivieren / deaktivieren"
+          />
+          <key-binding-line
+            key-binding="Leertaste"
+            action="Switch aktivieren / deaktivieren"
+          />
+          <key-binding-line
+            key-binding="Tastatureingabe oder Pfeiltasten"
+            action="Zahleneingabe"
+          />
+          <key-binding-line
+            key-binding="Tastatureingabe oder Pfeiltasten"
+            action="Datumseingabe"
+          />
+          <key-binding-line
+            key-binding="Tastatureingabe oder Pfeiltasten"
+            action="Uhrzeiteingabe"
+          />
+          <key-binding-line
+            key-binding="Entertaste"
+            action="Dateieingabefeld öffnen"
+          />
+          <key-binding-line
+            key-binding="Esc-Taste"
+            action="Dateieingabefeld verlassen ohne Eingabe"
+          />
         </v-container>
       </v-card-text>
       <v-card-actions>
