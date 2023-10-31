@@ -3,8 +3,8 @@
     :key="value"
     :value="value"
     max-width="600px"
-    @click:outside="close"
-    @keydown.esc="close"
+    @click:outside="$emit('close')"
+    @keydown.esc="$emit('close')"
   >
     <v-card>
       <v-card-title>
