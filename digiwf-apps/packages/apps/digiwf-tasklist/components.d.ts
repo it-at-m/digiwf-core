@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     FileOutput: typeof import('./src/components/form/FileOutput.vue')['default']
     GroupTaskItem: typeof import('./src/components/task/GroupTaskItem.vue')['default']
     ImageOutput: typeof import('./src/components/form/ImageOutput.vue')['default']
+    KeyBindingLine: typeof import('./src/components/UI/help/KeyBindingLine.vue')['default']
     LoadingFab: typeof import('./src/components/UI/LoadingFab.vue')['default']
     PdfOutput: typeof import('./src/components/form/PdfOutput.vue')['default']
     ProcessDefinitionItem: typeof import('./src/components/process/ProcessDefinitionItem.vue')['default']
