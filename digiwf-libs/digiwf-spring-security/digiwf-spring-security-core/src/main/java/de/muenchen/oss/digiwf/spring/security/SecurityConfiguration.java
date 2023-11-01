@@ -63,23 +63,19 @@ public class SecurityConfiguration {
       final HttpSecurity http,
       final JwtAuthenticationConverter jwtAuthenticationConverter
   ) throws Exception {
-    // @formatter:off
     http
-        .csrf( csrf -> csrf
+        .csrf(csrf -> csrf
             .ignoringRequestMatchers(springSecurityProperties.getPermittedUrls())
             .disable()
         )
-        .authorizeRequests( requests -> requests
+        .authorizeHttpRequests(requests -> requests
             .requestMatchers(HttpMethod.OPTIONS).permitAll()
             .requestMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
             .anyRequest().authenticated()
         )
-        .oauth2ResourceServer( server -> server
-            .jwt()
-            .jwtAuthenticationConverter(jwtAuthenticationConverter)
-        )
-        ;
-    // @formatter:on
+        .oauth2ResourceServer(server -> server
+            .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+        );
     return http.build();
   }
 
