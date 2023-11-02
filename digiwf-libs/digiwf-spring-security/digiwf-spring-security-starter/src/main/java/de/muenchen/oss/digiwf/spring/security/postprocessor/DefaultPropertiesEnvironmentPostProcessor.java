@@ -1,8 +1,14 @@
 package de.muenchen.oss.digiwf.spring.security.postprocessor;
 
-import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.ResourcePropertySource;
+
+import java.io.IOException;
 
 /**
  * This post processor is registered in spring.factories to be called by the "real" ConfigFileApplicationListener to register the properties from
@@ -11,9 +17,20 @@ import org.springframework.core.annotation.Order;
  * org.springframework.boot.autoconfigure.condition.ConditionalOnProperty} annotations to use them.
  */
 @Order(Ordered.LOWEST_PRECEDENCE - 1)
-public final class DefaultPropertiesEnvironmentPostProcessor extends ConfigFileApplicationListener {
-    public DefaultPropertiesEnvironmentPostProcessor() {
-        setSearchNames("application-spring-security-starter");
-        setOrder(Ordered.LOWEST_PRECEDENCE - 1);
+public final class DefaultPropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor {
+
+    private static final String DEFAULT_PROPERTY_SOURCE_NAME = "defaultProperties";
+    private static final String DEFAULT_PROPERTY_SOURCE_LOCATION = "classpath:application-spring-security-starter.yaml";
+
+    @Override
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        try {
+            environment.getPropertySources().addLast(new ResourcePropertySource(
+                    DEFAULT_PROPERTY_SOURCE_NAME,
+                    new ClassPathResource(DEFAULT_PROPERTY_SOURCE_LOCATION)
+            ));
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to add default properties", e);
+        }
     }
 }

@@ -129,6 +129,23 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-address-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-address-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-address-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-libs -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-dms-integration-core</artifactId>
             <version>${project.version}</version>
         </dependency>

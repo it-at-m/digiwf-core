@@ -1,0 +1,167 @@
+{
+  "name": "Address: Search Address Munich Geo",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunichGeo",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "searchAddressesGeoMunich",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Geometrie",
+      "type": "String",
+      "value": "Punkt",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "geometrie",
+        "target": "geometrie"
+      }
+    },
+    {
+      "label": "Koordinate lat",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "lat",
+        "target": "lat"
+      }
+    },
+    {
+      "label": "Koordinate lng",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "lng",
+        "target": "lng"
+      }
+    },
+    {
+      "label": "Distanz",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "distanz",
+        "target": "distanz"
+      }
+    },
+    {
+      "label": "Top Left Lat",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "topleftlat",
+        "target": "topleftlat"
+      }
+    },
+    {
+      "label": "Top Left Lng",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "topleftlng",
+        "target": "topleftlng"
+      }
+    },
+    {
+      "label": "Bottom Right Lat",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "bottomrightlat",
+        "target": "bottomrightlat"
+      }
+    },
+    {
+      "label": "Bottom Right Lng",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "bottomrightlng",
+        "target": "bottomrightlng"
+      }
+    },
+    {
+      "label": "Format",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "format",
+        "target": "format"
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

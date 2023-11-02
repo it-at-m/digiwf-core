@@ -78,7 +78,7 @@ jobs:
       # bump apps version
       - name: Setup node
         if: inputs.bump-apps-version == true
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           cache: 'npm'

@@ -1,0 +1,52 @@
+{
+  "key": "ec205ba1-129d-4529-a338-cd5b9950ec7f",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Erste Gruppe",
+            "type": "object",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "0fe7a295-6cd5-441c-b630-4cb86993d1a6": {
+                "fieldType": "markdown",
+                "title": "Example Prozess",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "0fe7a295-6cd5-441c-b630-4cb86993d1a6",
+                "readOnly": true,
+                "default": "Check Camunda Cockpit und verify address integration response in process vars",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
