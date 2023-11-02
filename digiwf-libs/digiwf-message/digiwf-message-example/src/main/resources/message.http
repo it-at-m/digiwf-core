@@ -1,5 +1,5 @@
 ### Send message
-POST http://localhost:8091/message
+POST http://localhost:8092/message
 Content-Type: application/json
 
 {

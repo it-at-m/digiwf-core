@@ -1,12 +1,12 @@
 package de.muenchen.oss.digiwf.camunda.prometheus;
 
 import io.prometheus.client.CollectorRegistry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @EnableScheduling
