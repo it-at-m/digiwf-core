@@ -31,7 +31,7 @@ In einem [Projekt](/modeling/plattform/project/) können verschiedene Artefakte,
 Formulare und Prozesskonfigurationen verwaltet werden.
 Um ein neues Artefakt hinzuzufügen, kann im Menü `+` das entsprechende Artefakt ausgewählt werden.
 
-![Artefakt hinzufügen](~@source/modeling/plattform/artefact/add_artefact.png)
+![Artefakt hinzufügen](add_artefact.png)
 
 ## Artefakt versionieren
 

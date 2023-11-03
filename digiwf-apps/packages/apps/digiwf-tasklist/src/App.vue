@@ -34,9 +34,31 @@
 
       {{ username }}
 
-      <v-icon class="white--text">
-        mdi-account-circle
-      </v-icon>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            aria-label="Avatar Icon Button"
+            text
+            fab
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon
+              aria-label="Avatar Icon"
+              class="white--text" >
+              mdi-account-circle
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>
+              <contrast-mode-selection/>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
 
     </v-app-bar>
 
@@ -182,9 +204,10 @@ import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
+import ContrastModeSelection from "./components/UI/ContrastModeSelection.vue";
 
 @Component({
-  components: {AppKeyBindingsDialog, AppMenuList}
+  components: {AppKeyBindingsDialog, ContrastModeSelection, AppMenuList}
 })
 export default class App extends Vue {
   drawer = true;

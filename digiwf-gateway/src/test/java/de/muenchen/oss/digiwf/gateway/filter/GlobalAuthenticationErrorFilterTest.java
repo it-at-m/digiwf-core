@@ -4,34 +4,21 @@
  */
 package de.muenchen.oss.digiwf.gateway.filter;
 
-import de.muenchen.oss.digiwf.gateway.ApiGatewayApplication;
-import de.muenchen.oss.digiwf.gateway.TestConstants;
 import com.github.tomakehurst.wiremock.http.HttpHeader;
 import com.github.tomakehurst.wiremock.http.HttpHeaders;
+import de.muenchen.oss.digiwf.gateway.annotations.ApiGatewayTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        classes = {ApiGatewayApplication.class},
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-)
-@ActiveProfiles(TestConstants.SPRING_TEST_PROFILE)
+@ApiGatewayTest
 @AutoConfigureWireMock
 class GlobalAuthenticationErrorFilterTest {
 
