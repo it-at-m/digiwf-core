@@ -39,36 +39,34 @@ public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                .logout()
+                .logout(logoutSpec -> {
                     //.logoutSuccessHandler(GatewayUtils.createLogoutSuccessHandler(LOGOUT_SUCCESS_URL))
-                    .logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
-                    .logoutUrl(LOGOUT_URL)
-                    .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL))
-                .and()
-                    .authorizeExchange()
+                    logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
+                            .logoutUrl(LOGOUT_URL)
+                            .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL));
+                })
+
+                    .authorizeExchange(authorizeExchangeSpec -> {
                         // permitAll
-                        .pathMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                        .pathMatchers(LOGOUT_SUCCESS_URL).permitAll()
-                        .pathMatchers("/api/*/info",
-                                "/actuator/health",
-                                "/actuator/info",
-                                "/actuator/metrics").permitAll()
-                        // only authenticated
-                        .anyExchange().authenticated()
-                .and()
+                        authorizeExchangeSpec.pathMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                                .pathMatchers(LOGOUT_SUCCESS_URL).permitAll()
+                                .pathMatchers("/api/*/info",
+                                        "/actuator/health",
+                                        "/actuator/info",
+                                        "/actuator/metrics").permitAll()
+                                // only authenticated
+                                .anyExchange().authenticated();
+                    })
+                .cors(corsSpec -> {})
+                .csrf(csrfSpec -> {
                     /*
                      * The necessary subscription for csrf token attachment to {@link ServerHttpResponse}
                      * is done in class {@link CsrfTokenAppendingHelperFilter}.
                      */
-                    .csrf().csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
-                    .cors()
-                .and()
-                    .oauth2Login()
-                    /*
-                     * Set security session timeout.
-                     */
-                    .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler() {
+                    csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse());
+                })
+                .oauth2Login(oAuth2LoginSpec -> {
+                    oAuth2LoginSpec.authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler() {
                         @Override
                         public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
                             webFilterExchange.getExchange().getSession().subscribe(
@@ -77,6 +75,8 @@ public class SecurityConfiguration {
                             return super.onAuthenticationSuccess(webFilterExchange, authentication);
                         }
                     });
+                });
+
         return http.build();
     }
 

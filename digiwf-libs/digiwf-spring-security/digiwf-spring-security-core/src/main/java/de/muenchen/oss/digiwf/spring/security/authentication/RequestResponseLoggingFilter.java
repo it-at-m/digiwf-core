@@ -3,15 +3,15 @@
  */
 package de.muenchen.oss.digiwf.spring.security.authentication;
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +44,11 @@ public class RequestResponseLoggingFilter implements Filter {
     this.requestLoggingMode = requestLoggingMode;
   }
 
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    Filter.super.init(filterConfig);
+  }
+
   /**
    * The method logs the username extracted out of the {@link SecurityContext}.
    * In addition to the username, the kind of HTTP-Request and the targeted URI is logged.
@@ -63,6 +68,11 @@ public class RequestResponseLoggingFilter implements Filter {
       );
     }
     chain.doFilter(request, response);
+  }
+
+  @Override
+  public void destroy() {
+    Filter.super.destroy();
   }
 
   /**
