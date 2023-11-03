@@ -2,7 +2,7 @@ import {usePageId} from "../../middleware/pageId";
 import {useStore} from "../../hooks/store";
 import {ref, Ref, watch} from "vue";
 
-export type FilterState = { general: {[key: string]:  PageFiltersState } }
+export type FilterState = { general: { [key: string]: PageFiltersState } }
 
 export interface PageFiltersState {
   readonly sortDirection: string;

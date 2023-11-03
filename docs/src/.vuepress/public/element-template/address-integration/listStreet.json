@@ -1,0 +1,122 @@
+{
+  "name": "Address: List Street",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.listStreet",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "listStreetMunich",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Strassenname",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "source": "strassenname",
+        "target": "strassenname"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "page",
+      "type": "String",
+      "value": "1",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "page",
+        "target": "page"
+      }
+    },
+    {
+      "label": "pagesize",
+      "type": "String",
+      "value": "20",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "pagesize",
+        "target": "pagesize"
+      }
+    },
+    {
+      "label": "sortdir",
+      "type": "String",
+      "value": "ASC",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "sortdir",
+        "target": "sortdir"
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

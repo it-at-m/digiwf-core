@@ -17,7 +17,7 @@ Es werden alle Daten der Prozessinstanz an CoSys übergeben
 |----------------------------|-----------------------------------------------------------------------------------------|--------------------------------------|
 | Event Topic                | Das Topic der Cosys Integration                                                         | dwf-cosys-demo                       |
 | Client                     | Der Name des Cosys Client                                                               | 9001                                 |
-| Role                       | Der Name der Cosys Role                                                                 | TESTER                               |
+| Role                       | Der Name der Cosys Role                                                                 | TESTER, SB                           |
 | Document Storage Urls (S3) | Zuvor generierte signierte Urls des S3-Service für die Ablage des generierten Dokumtens | ${presignedUrls}                     |
 | GUID                       | Eindeutiger Bezeichner der Cosys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
 | Daten                      | Daten als JSON Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |

@@ -200,7 +200,8 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/optional-content/'
+                                'forms/optional-content/',
+                                'forms/accessibility/'
                             ]
                         },
                         {
@@ -251,6 +252,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
+                                'digiwf-address-integration',
                                 'digiwf-alw-integration',
                                 'digiwf-cosys-integration',
                                 'digiwf-mail-integration',

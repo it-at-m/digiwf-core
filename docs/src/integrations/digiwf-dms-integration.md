@@ -106,7 +106,6 @@ Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozesse
 befüllen Sie es mit den gewünschten Informationen:
 [Dokument updaten](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/updateDocument.json)
 
-
 ### Zu den Akten legen
 
 Um ein Objekt im Dms zu den Akten zu legen, erzeugen Sie zuerst ein `DepositObjectDto`-Objekt und setzen den
@@ -160,6 +159,38 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
 befüllen Sie es mit den gewünschten Informationen:
 [Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+
+### Dateien lesen und in den S3 Speicher übertragen
+
+Um ein Datein aus dem Dms zu lesen und in den S3 zu übertragen, erzeugen Sie zuerst ein `ReadContentDto`-Objekt und
+setzen den
+TYPE-Header auf `readContent`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `ReadContent`-Objekt aufgeführt:
+
+```json
+{
+  "contentCoos": [
+    "coo1",
+    "coo2"
+  ],
+  "filePath": "folder",
+  "fileContext": "processContext",
+  "user": "test"
+}
+```
+
+Die Dms Integration liest die Inhalte mit den angegebenen `contentCoos` und überträgt sie an den S3 Speicher.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Read Content](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/readContent.json)
 
 ### Fehlerbehandlung
 

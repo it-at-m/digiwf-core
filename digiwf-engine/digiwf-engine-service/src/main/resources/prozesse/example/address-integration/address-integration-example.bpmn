@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_081hplj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="address-integration-example" name="Example Address Integration" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="37f4a23c-4ee7-4462-8065-6692a6a89f60">
+      <bpmn:outgoing>Flow_0jh1ycz</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0jh1ycz" sourceRef="StartEvent_1" targetRef="Gateway_1x191b4" />
+    <bpmn:callActivity id="Activity_0ps0q2b" name="Search Address in Germany" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressesGermany" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="searchAddressesGermany" target="app_type_name" />
+        <camunda:in sourceExpression="1" target="page" />
+        <camunda:in sourceExpression="ASC" target="sortdir" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:in source="Augsburg" target="ortsname" />
+        <camunda:in sourceExpression="86899" target="plz" />
+        <camunda:in sourceExpression="100" target="pagesize" />
+        <camunda:out source="response" target="searchAddressesGermanyResponse" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02kc8jc</bpmn:incoming>
+      <bpmn:outgoing>Flow_17m1hig</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_17m1hig" sourceRef="Activity_0ps0q2b" targetRef="Gateway_1qnkjyw" />
+    <bpmn:userTask id="Activity_11yfm79" name="Verify Response" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_schema_key">ec205ba1-129d-4529-a338-cd5b9950ec7f</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">address-integration-example</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a93nqt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j78kqh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_1wlaod6">
+      <bpmn:incoming>Flow_0j78kqh</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0j78kqh" sourceRef="Activity_11yfm79" targetRef="Event_1wlaod6" />
+    <bpmn:sequenceFlow id="Flow_02kc8jc" sourceRef="Gateway_1x191b4" targetRef="Activity_0ps0q2b" />
+    <bpmn:parallelGateway id="Gateway_1x191b4">
+      <bpmn:incoming>Flow_0jh1ycz</bpmn:incoming>
+      <bpmn:outgoing>Flow_02kc8jc</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1fnzzba</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0l6k0g0</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1elsocu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1fb9bgi</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1u05j0m</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_0a93nqt" sourceRef="Gateway_1qnkjyw" targetRef="Activity_11yfm79" />
+    <bpmn:parallelGateway id="Gateway_1qnkjyw">
+      <bpmn:incoming>Flow_17m1hig</bpmn:incoming>
+      <bpmn:incoming>Flow_14dfdn1</bpmn:incoming>
+      <bpmn:incoming>Flow_1uqw374</bpmn:incoming>
+      <bpmn:incoming>Flow_0vtajse</bpmn:incoming>
+      <bpmn:incoming>Flow_10jqwht</bpmn:incoming>
+      <bpmn:incoming>Flow_0i31klv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a93nqt</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:callActivity id="Activity_1liuli2" name="Find Street by Id" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.findStreetById" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="findStreetByIdMunich" target="app_type_name" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="2996" target="strasseId" />
+        <camunda:out source="response" target="findStreetByIdMunichResponse" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fb9bgi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uqw374</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_0msqgxc" name="List Streets" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.listStreet" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="listStreetMunich" target="app_type_name" />
+        <camunda:in sourceExpression="1" target="page" />
+        <camunda:in sourceExpression="ASC" target="sortdir" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="Marienplatz" target="strassenname" />
+        <camunda:in sourceExpression="20" target="pagesize" />
+        <camunda:out source="response" target="listStreetMunichResponse" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1u05j0m</bpmn:incoming>
+      <bpmn:outgoing>Flow_14dfdn1</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_00lpcz5" name="Search Address Munich Geo" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunichGeo" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="Punkt" target="geometrie" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="5334745.607" target="lat" />
+        <camunda:in sourceExpression="691641.878" target="lng" />
+        <camunda:in sourceExpression="searchAddressesGeoMunich" target="app_type_name" />
+        <camunda:out source="response" target="searchAddressesGeoMunichResponse" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1elsocu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vtajse</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_0926zi6" name="Search Address Munich" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunich" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="searchAddressesMunich" target="app_type_name" />
+        <camunda:in sourceExpression="1" target="page" />
+        <camunda:in sourceExpression="20" target="pagesize" />
+        <camunda:in sourceExpression="ASC" target="sortdir" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:out source="response" target="searchAddressesMunichResponse" />
+        <camunda:in sourceExpression="Agnes-Pockels-Bogen 21" target="query" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0l6k0g0</bpmn:incoming>
+      <bpmn:outgoing>Flow_10jqwht</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_19ir065" name="Check Address Munich" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.checkAddress" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="checkAddressMunich" target="app_type_name" />
+        <camunda:in sourceExpression="${address_integration_topic}" target="app_topic_name" />
+        <camunda:out source="response" target="checkAddressMunichResponse" />
+        <camunda:in sourceExpression="Agnes-Pockels-Bogen 21, 80992 München" target="adresse" />
+        <camunda:in sourceExpression="Agnes-Pockels-Bogen" target="strassenname" />
+        <camunda:in sourceExpression="21" target="hausnummer" />
+        <camunda:in sourceExpression="80992" target="plz" />
+        <camunda:in sourceExpression="München" target="ortsname" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fnzzba</bpmn:incoming>
+      <bpmn:outgoing>Flow_0i31klv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1fnzzba" sourceRef="Gateway_1x191b4" targetRef="Activity_19ir065" />
+    <bpmn:sequenceFlow id="Flow_0l6k0g0" sourceRef="Gateway_1x191b4" targetRef="Activity_0926zi6" />
+    <bpmn:sequenceFlow id="Flow_1elsocu" sourceRef="Gateway_1x191b4" targetRef="Activity_00lpcz5" />
+    <bpmn:sequenceFlow id="Flow_1fb9bgi" sourceRef="Gateway_1x191b4" targetRef="Activity_1liuli2" />
+    <bpmn:sequenceFlow id="Flow_1u05j0m" sourceRef="Gateway_1x191b4" targetRef="Activity_0msqgxc" />
+    <bpmn:sequenceFlow id="Flow_14dfdn1" sourceRef="Activity_0msqgxc" targetRef="Gateway_1qnkjyw" />
+    <bpmn:sequenceFlow id="Flow_1uqw374" sourceRef="Activity_1liuli2" targetRef="Gateway_1qnkjyw" />
+    <bpmn:sequenceFlow id="Flow_0vtajse" sourceRef="Activity_00lpcz5" targetRef="Gateway_1qnkjyw" />
+    <bpmn:sequenceFlow id="Flow_10jqwht" sourceRef="Activity_0926zi6" targetRef="Gateway_1qnkjyw" />
+    <bpmn:sequenceFlow id="Flow_0i31klv" sourceRef="Activity_19ir065" targetRef="Gateway_1qnkjyw" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="address-integration-example">
+      <bpmndi:BPMNEdge id="Flow_0i31klv_di" bpmnElement="Flow_0i31klv">
+        <di:waypoint x="430" y="120" />
+        <di:waypoint x="480" y="120" />
+        <di:waypoint x="480" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10jqwht_di" bpmnElement="Flow_10jqwht">
+        <di:waypoint x="430" y="230" />
+        <di:waypoint x="480" y="230" />
+        <di:waypoint x="480" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vtajse_di" bpmnElement="Flow_0vtajse">
+        <di:waypoint x="430" y="340" />
+        <di:waypoint x="480" y="340" />
+        <di:waypoint x="480" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uqw374_di" bpmnElement="Flow_1uqw374">
+        <di:waypoint x="430" y="560" />
+        <di:waypoint x="480" y="560" />
+        <di:waypoint x="480" y="475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14dfdn1_di" bpmnElement="Flow_14dfdn1">
+        <di:waypoint x="430" y="680" />
+        <di:waypoint x="480" y="680" />
+        <di:waypoint x="480" y="475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u05j0m_di" bpmnElement="Flow_1u05j0m">
+        <di:waypoint x="260" y="475" />
+        <di:waypoint x="260" y="680" />
+        <di:waypoint x="330" y="680" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fb9bgi_di" bpmnElement="Flow_1fb9bgi">
+        <di:waypoint x="260" y="475" />
+        <di:waypoint x="260" y="570" />
+        <di:waypoint x="330" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1elsocu_di" bpmnElement="Flow_1elsocu">
+        <di:waypoint x="260" y="425" />
+        <di:waypoint x="260" y="340" />
+        <di:waypoint x="330" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l6k0g0_di" bpmnElement="Flow_0l6k0g0">
+        <di:waypoint x="260" y="425" />
+        <di:waypoint x="260" y="230" />
+        <di:waypoint x="330" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fnzzba_di" bpmnElement="Flow_1fnzzba">
+        <di:waypoint x="260" y="425" />
+        <di:waypoint x="260" y="120" />
+        <di:waypoint x="330" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a93nqt_di" bpmnElement="Flow_0a93nqt">
+        <di:waypoint x="505" y="450" />
+        <di:waypoint x="540" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02kc8jc_di" bpmnElement="Flow_02kc8jc">
+        <di:waypoint x="285" y="450" />
+        <di:waypoint x="330" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j78kqh_di" bpmnElement="Flow_0j78kqh">
+        <di:waypoint x="640" y="450" />
+        <di:waypoint x="712" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17m1hig_di" bpmnElement="Flow_17m1hig">
+        <di:waypoint x="430" y="450" />
+        <di:waypoint x="455" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jh1ycz_di" bpmnElement="Flow_0jh1ycz">
+        <di:waypoint x="188" y="450" />
+        <di:waypoint x="235" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1btzjvp_di" bpmnElement="Activity_0ps0q2b">
+        <dc:Bounds x="330" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d13w5p_di" bpmnElement="Activity_11yfm79">
+        <dc:Bounds x="540" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wlaod6_di" bpmnElement="Event_1wlaod6">
+        <dc:Bounds x="712" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_03i83ay_di" bpmnElement="Gateway_1x191b4">
+        <dc:Bounds x="235" y="425" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1cedik3_di" bpmnElement="Gateway_1qnkjyw">
+        <dc:Bounds x="455" y="425" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u262z8_di" bpmnElement="Activity_1liuli2">
+        <dc:Bounds x="330" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_003auu2_di" bpmnElement="Activity_0msqgxc">
+        <dc:Bounds x="330" y="640" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m29b9f_di" bpmnElement="Activity_00lpcz5">
+        <dc:Bounds x="330" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0uocbot_di" bpmnElement="Activity_0926zi6">
+        <dc:Bounds x="330" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rhrh8f_di" bpmnElement="Activity_19ir065">
+        <dc:Bounds x="330" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

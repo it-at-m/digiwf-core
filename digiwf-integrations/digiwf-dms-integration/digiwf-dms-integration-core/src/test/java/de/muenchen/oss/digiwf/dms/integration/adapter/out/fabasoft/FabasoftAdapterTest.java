@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @WireMockTest()
@@ -173,6 +174,30 @@ public class FabasoftAdapterTest {
 
 
         fabasoftAdapter.cancelObject("objectCoo", "user");
+    }
+
+    @Test
+    public void execute_read_files() {
+        val content = new LHMBAI151700GIAttachmentType();
+        content.setLHMBAI151700Filename("filename");
+        content.setLHMBAI151700Fileextension("extension");
+        content.setLHMBAI151700Filecontent("content".getBytes());
+
+        val response = new ReadContentObjectGIResponse();
+        response.setStatus(0);
+        response.setGiattachmenttype(content);
+
+        stubOperation(
+                "ReadContentObjectGI",
+                CancelObjectGI.class, (u) -> true,
+                response);
+
+        val files = fabasoftAdapter.readContent(List.of("coo1"), "user");
+
+        val expectedFile = new Content("extension", "filename", "content".getBytes());
+
+        assertThat(files.size()).isEqualTo(1);
+        assertThat(files.get(0)).usingRecursiveComparison().isEqualTo(expectedFile);
     }
 
 

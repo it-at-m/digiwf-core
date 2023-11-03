@@ -17,6 +17,7 @@ public class UpdateDocumentService implements UpdateDocumentUseCase {
     private final UpdateDocumentPort updateDocumentPort;
 
     private final LoadFilePort loadFilePort;
+
     @Override
     public void updateDocument(
             final String documentCOO,
@@ -31,7 +32,6 @@ public class UpdateDocumentService implements UpdateDocumentUseCase {
         updateDocumentPort.updateDocument(documentCOO, type, contents, user);
 
     }
-
 
 
 }

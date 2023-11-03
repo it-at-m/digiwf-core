@@ -11,13 +11,14 @@
     <packaging>pom</packaging>
 
     <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-integrations</artifactId>
+        <relativePath>../digiwf-integration-parent</relativePath>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.2.1</maven.surefire.plugin.version>
     </properties>
 
 
@@ -61,5 +62,29 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>run-itests</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                        <argLine>@{argLine} -Xms256m -Xmx2048m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

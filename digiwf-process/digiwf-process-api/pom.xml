@@ -39,7 +39,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${digiwf.version}</version>
         </dependency>
 
         <!-- Testing -->

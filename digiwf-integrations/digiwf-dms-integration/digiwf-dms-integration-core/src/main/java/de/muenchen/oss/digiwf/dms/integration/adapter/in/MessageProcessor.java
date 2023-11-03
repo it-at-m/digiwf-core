@@ -1,10 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CancelObjectUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateProcedureUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.DepositObjectUseCase;
-import de.muenchen.oss.digiwf.dms.integration.application.port.in.UpdateDocumentUseCase;
+import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -34,10 +30,11 @@ public class MessageProcessor {
     private final UpdateDocumentUseCase updateDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
+    private final ReadContentUseCase readContentUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
-            try {
+            withErrorHandling(message, () -> {
                 final CreateProcedureDto createProcedureDto = message.getPayload();
                 final Procedure vorgang = this.createProcedureUseCase.createProcedure(
                         createProcedureDto.getTitle(),
@@ -47,19 +44,13 @@ public class MessageProcessor {
 
                 this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
                         Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("procedureCOO", vorgang.getCoo()));
-            } catch (final BpmnError bpmnError) {
-                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final IncidentError incidentError) {
-                this.errorApi.handleIncident(message.getHeaders(), incidentError);
-            } catch (final ValidationException validationException) {
-                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
-            }
+            });
         };
     }
 
     public Consumer<Message<DepositObjectDto>> depositObject() {
         return message -> {
-            try {
+            withErrorHandling(message, () -> {
                 final DepositObjectDto depositObjectDto = message.getPayload();
                 this.depositObjectUseCase.depositObject(
                         depositObjectDto.getObjectCoo(),
@@ -68,19 +59,13 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
-            } catch (final BpmnError bpmnError) {
-                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final IncidentError incidentError) {
-                this.errorApi.handleIncident(message.getHeaders(), incidentError);
-            } catch (final ValidationException validationException) {
-                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
-            }
+            });
         };
     }
 
     public Consumer<Message<CreateDocumentDto>> createDocument() {
         return message -> {
-            try {
+            withErrorHandling(message, () -> {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
                 final String document = this.createDocumentUseCase.createDocument(
                         createDocumentDto.getProcedureCoo(),
@@ -93,19 +78,13 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document));
-            } catch (final BpmnError bpmnError) {
-                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final IncidentError incidentError) {
-                this.errorApi.handleIncident(message.getHeaders(), incidentError);
-            } catch (final ValidationException validationException) {
-                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
-            }
+            });
         };
     }
 
     public Consumer<Message<UpdateDocumentDto>> updateDocument() {
         return message -> {
-            try {
+            withErrorHandling(message, () -> {
                 final UpdateDocumentDto updateDocumentDto = message.getPayload();
                 this.updateDocumentUseCase.updateDocument(
                         updateDocumentDto.getDocumentCoo(),
@@ -117,19 +96,13 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
-            } catch (final BpmnError bpmnError) {
-                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final IncidentError incidentError) {
-                this.errorApi.handleIncident(message.getHeaders(), incidentError);
-            } catch (final ValidationException validationException) {
-                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
-            }
+            });
         };
     }
 
     public Consumer<Message<CancelObjectDto>> cancelObject() {
         return message -> {
-            try {
+            withErrorHandling(message, () -> {
                 final CancelObjectDto cancelObjectDto = message.getPayload();
                 this.cancelObjectUseCase.cancelObject(
                         cancelObjectDto.getObjectCoo(),
@@ -138,14 +111,36 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
-            } catch (final BpmnError bpmnError) {
-                this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
-            } catch (final IncidentError incidentError) {
-                this.errorApi.handleIncident(message.getHeaders(), incidentError);
-            } catch (final ValidationException validationException) {
-                this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
-            }
+            });
         };
+    }
+
+    public Consumer<Message<ReadContentDto>> readContent() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final ReadContentDto readContentDto = message.getPayload();
+                this.readContentUseCase.readContent(
+                        readContentDto.getContentCoos(),
+                        readContentDto.getUser(),
+                        readContentDto.getFilePath(),
+                        readContentDto.getFileContext()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
+            });
+        };
+    }
+
+    private void withErrorHandling(final Message<?> message, final Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (final BpmnError bpmnError) {
+            this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
+        } catch (final IncidentError incidentError) {
+            this.errorApi.handleIncident(message.getHeaders(), incidentError);
+        } catch (final ValidationException validationException) {
+            this.errorApi.handleIncident(message.getHeaders(), new IncidentError(validationException.getMessage()));
+        }
     }
 
     public void correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> message) {

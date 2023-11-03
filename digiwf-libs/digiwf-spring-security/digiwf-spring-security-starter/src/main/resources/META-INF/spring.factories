@@ -1,5 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration
-
 org.springframework.boot.env.EnvironmentPostProcessor=\
 de.muenchen.oss.digiwf.spring.security.postprocessor.DefaultPropertiesEnvironmentPostProcessor

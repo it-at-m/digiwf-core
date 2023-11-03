@@ -4,19 +4,28 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-gateway</artifactId>
-    <name>digiwf-gateway</name>
+    <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <description>Apigateway used by DigiWF</description>
 
     <parent>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
+        <relativePath>../digiwf-parent</relativePath>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <properties>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <java.version>17</java.version>
+        <maven.version>3.6.0</maven.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
         <apache.commons.lang.version>3.13.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
+        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
 
     <dependencies>
@@ -104,14 +113,18 @@
 
         <!-- Logging -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+    <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
@@ -128,6 +141,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>

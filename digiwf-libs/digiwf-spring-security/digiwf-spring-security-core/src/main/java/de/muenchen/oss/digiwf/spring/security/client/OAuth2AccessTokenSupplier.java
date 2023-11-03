@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.spring.security.client;
 
 import de.muenchen.oss.digiwf.spring.security.SecurityConfiguration;
 import de.muenchen.oss.digiwf.spring.security.SpringSecurityProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,7 +13,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.function.Supplier;
 
 /**
