@@ -2,10 +2,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
-import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
+import de.muenchen.oss.digiwf.dms.integration.domain.*;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +19,8 @@ public class FabasoftAdapter implements
         UpdateDocumentPort,
         DepositObjectPort,
         CancelObjectPort,
-        ReadContent {
+        ReadContentPort,
+        SearchFilePort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -311,5 +309,10 @@ public class FabasoftAdapter implements
                 response.getGiattachmenttype().getLHMBAI151700Filename(),
                 response.getGiattachmenttype().getLHMBAI151700Filecontent()
         );
+    }
+
+    @Override
+    public List<File> searchFile(String searchString, String user) {
+        return null;
     }
 }

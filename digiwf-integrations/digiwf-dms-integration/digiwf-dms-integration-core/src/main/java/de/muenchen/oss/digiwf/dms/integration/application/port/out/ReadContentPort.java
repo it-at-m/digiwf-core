@@ -4,7 +4,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 
 import java.util.List;
 
-public interface ReadContent {
+public interface ReadContentPort {
 
     List<Content> readContent(final List<String> coos, final String user);
 

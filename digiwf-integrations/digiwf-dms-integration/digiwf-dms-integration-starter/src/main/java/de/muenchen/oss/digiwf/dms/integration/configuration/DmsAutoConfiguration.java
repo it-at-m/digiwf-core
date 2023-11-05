@@ -74,6 +74,18 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public ReadContentUseCase cancelObjectUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
+        return new ReadContentService(transferContentPort, readContentPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchFileUseCase searchFileUseCase(SearchFilePort searchFilePort) {
+        return new SearchFileService(searchFilePort);
+    }
+
+    @Bean
     public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
@@ -113,7 +125,8 @@ public class DmsAutoConfiguration {
             final UpdateDocumentUseCase updateDocumentUseCase,
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase,
-            final ReadContentUseCase readContentUseCase) {
+            final ReadContentUseCase readContentUseCase,
+            final SearchFileUseCase searchFileUseCase) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
@@ -122,7 +135,8 @@ public class DmsAutoConfiguration {
                 updateDocumentUseCase,
                 depositObjectUseCase,
                 cancelObjectUseCase,
-                readContentUseCase);
+                readContentUseCase,
+                searchFileUseCase);
     }
 
 }

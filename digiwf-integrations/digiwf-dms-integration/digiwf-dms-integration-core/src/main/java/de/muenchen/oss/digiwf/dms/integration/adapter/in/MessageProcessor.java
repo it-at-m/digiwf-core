@@ -31,6 +31,7 @@ public class MessageProcessor {
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
     private final ReadContentUseCase readContentUseCase;
+    private final SearchFileUseCase searchFileUseCase;
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
@@ -124,6 +125,20 @@ public class MessageProcessor {
                         readContentDto.getUser(),
                         readContentDto.getFilePath(),
                         readContentDto.getFileContext()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
+            });
+        };
+    }
+
+    public Consumer<Message<SearchFileDto>> searchFile() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchFileDto readContentDto = message.getPayload();
+                this.searchFileUseCase.searchFile(
+                        readContentDto.getSearchString(),
+                        readContentDto.getUser()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
