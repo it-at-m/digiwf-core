@@ -23,14 +23,13 @@ class MessageApiImplTest {
 
     @Test
     void testSendMessage() {
-        when(this.messageSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);
+        final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
+        when(this.messageSink.tryEmitNext(messageCaptor.capture())).thenReturn(Sinks.EmitResult.OK);
 
         final boolean success = this.messageApi.sendMessage("test", "test");
         Assertions.assertTrue(success);
 
         // check message object that should be sent
-        final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.messageSink).tryEmitNext(messageCaptor.capture());
         Assertions.assertEquals("test", messageCaptor.getValue().getPayload());
         Assertions.assertEquals("test", messageCaptor.getValue().getHeaders().get("spring.cloud.stream.sendto.destination"));
     }
@@ -44,15 +43,14 @@ class MessageApiImplTest {
 
     @Test
     void testSendMessageWithCustomHeaders() {
-        when(this.messageSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);
+        final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
+        when(this.messageSink.tryEmitNext(messageCaptor.capture())).thenReturn(Sinks.EmitResult.OK);
 
         final Map<String, Object> headers = Map.of("key", "value");
         final boolean success = this.messageApi.sendMessage("test", headers, "test");
         Assertions.assertTrue(success);
 
         // check message object that should be sent
-        final ArgumentCaptor<Message<Object>> messageCaptor = ArgumentCaptor.forClass(Message.class);
-        Mockito.verify(this.messageSink).tryEmitNext(messageCaptor.capture());
         Assertions.assertEquals("test", messageCaptor.getValue().getPayload());
         Assertions.assertEquals("test", messageCaptor.getValue().getHeaders().get("spring.cloud.stream.sendto.destination"));
         Assertions.assertEquals("value", messageCaptor.getValue().getHeaders().get("key"));
