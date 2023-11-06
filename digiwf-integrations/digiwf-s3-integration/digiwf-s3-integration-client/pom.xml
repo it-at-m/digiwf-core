@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <wiremock.version>2.35.1</wiremock.version>
+        <wiremock.version>3.0.1</wiremock.version>
         <spring-boot.version>3.1.5</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
     </properties>
