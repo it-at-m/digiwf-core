@@ -36,7 +36,6 @@ public class FabasoftAdapter implements
                 + " Filesubj: " + file.getTitle()
                 + " Shortname: " + file.getTitle()
                 + " Apentrysearch: true"
-                //+ " Procedureaccdef: " + sachakte.getZugriffsDefinitionVorgaenge()
         );
 
         final CreateFileGI request = new CreateFileGI();
@@ -46,7 +45,6 @@ public class FabasoftAdapter implements
         request.setFilesubj(file.getTitle());
         request.setShortname(file.getTitle());
         request.setApentrysearch(true); // looks for free parent entry
-        //request.setProcedureaccdef(sachakte.getZugriffsDefinitionVorgaenge());
 
         final CreateFileGIResponse response = this.wsClient.createFileGI(request);
 

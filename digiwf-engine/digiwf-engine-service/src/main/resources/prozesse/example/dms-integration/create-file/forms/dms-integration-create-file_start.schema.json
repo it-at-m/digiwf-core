@@ -80,7 +80,7 @@
                 },
                 "x-rules": []
               },
-              "fileCOO": {
+              "apentryCOO": {
                 "fieldType": "text",
                 "title": "Aktenplan (COO)",
                 "type": "string",
