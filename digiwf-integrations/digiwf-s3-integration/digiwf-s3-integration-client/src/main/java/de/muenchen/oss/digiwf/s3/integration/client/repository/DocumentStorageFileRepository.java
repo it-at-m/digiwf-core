@@ -7,7 +7,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetExce
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

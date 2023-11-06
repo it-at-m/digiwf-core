@@ -11,6 +11,29 @@
 
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
 
+    <properties>
+        <polyflow.version>3.15.0</polyflow.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+        <dependency>
+            <groupId>io.holunda.polyflow</groupId>
+            <artifactId>polyflow-taskpool-dependencies</artifactId>
+            <version>${polyflow.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.holunda.polyflow</groupId>
+            <artifactId>polyflow-datapool-dependencies</artifactId>
+            <version>${polyflow.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- digiwf task api -->
         <dependency>
@@ -35,6 +58,12 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.holunda.data</groupId>
+            <artifactId>camunda-bpm-data</artifactId>
+            <version>1.2.8</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
