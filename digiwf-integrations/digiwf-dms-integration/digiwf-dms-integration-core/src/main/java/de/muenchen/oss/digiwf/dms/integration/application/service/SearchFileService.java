@@ -2,7 +2,6 @@ package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.SearchFileUseCase;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.SearchFilePort;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -17,7 +16,7 @@ public class SearchFileService implements SearchFileUseCase {
     private final SearchFilePort searchFilePort;
 
     @Override
-    public File searchFile(String searchString, String user) {
+    public String searchFile(String searchString, String user) {
 
         val files = searchFilePort.searchFile(searchString, user);
 
@@ -26,6 +25,6 @@ public class SearchFileService implements SearchFileUseCase {
         }
 
         // return first result
-        return files.get(0);
+        return files.get(0).getCoo();
     }
 }

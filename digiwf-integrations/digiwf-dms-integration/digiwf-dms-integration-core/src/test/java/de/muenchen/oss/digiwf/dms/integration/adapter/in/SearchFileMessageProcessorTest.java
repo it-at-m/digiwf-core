@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +23,7 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
         Mockito.when(searchFileUseCase.searchFile(
                 searchFileDto.getSearchString(),
                 searchFileDto.getUser()
-        )).thenReturn(new File("coo", "name"));
+        )).thenReturn("coo");
 
         this.message = new Message<>() {
             @Override

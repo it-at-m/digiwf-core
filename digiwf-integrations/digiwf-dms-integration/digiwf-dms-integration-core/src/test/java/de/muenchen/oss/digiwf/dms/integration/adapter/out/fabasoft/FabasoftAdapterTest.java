@@ -172,7 +172,6 @@ public class FabasoftAdapterTest {
                 CancelObjectGI.class, (u) -> true,
                 response);
 
-
         fabasoftAdapter.cancelObject("objectCoo", "user");
     }
 
@@ -198,6 +197,30 @@ public class FabasoftAdapterTest {
 
         assertThat(files.size()).isEqualTo(1);
         assertThat(files.get(0)).usingRecursiveComparison().isEqualTo(expectedFile);
+    }
+
+    @Test
+    public void execute_searchFile_request() {
+        val file = new LHMBAI151700GIObjectType();
+        file.setLHMBAI151700Objaddress("testCoo");
+        file.setLHMBAI151700Objname("testName");
+
+        val array = new ArrayOfLHMBAI151700GIObjectType();
+        array.getLHMBAI151700GIObjectType().add(file);
+
+        val response = new SearchObjNameGIResponse();
+        response.setStatus(0);
+        response.setGiobjecttype(array);
+
+        stubOperation(
+                "SearchObjNameGI",
+                SearchObjNameGI.class, (u) -> true,
+                response);
+
+        val files = fabasoftAdapter.searchFile("searchString", "user");
+
+        assertThat(files.size()).isEqualTo(1);
+
     }
 
 
