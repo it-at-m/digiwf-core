@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ class AddressGermanyImplTest {
                 "asc",
                 1,
                 10
-        )).thenReturn(bundesweiteAdresseResponse);
+        )).thenReturn(Mono.just(bundesweiteAdresseResponse));
         final BundesweiteAdresseResponse result = addressGermany.searchAddresses(this.searchAddressesModel);
         Assertions.assertEquals(bundesweiteAdresseResponse, result);
     }
