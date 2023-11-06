@@ -67,10 +67,7 @@ public class FabasoftAdapter implements
 
         final CreateProcedureGIResponse response = this.wsClient.createProcedureGI(request);
 
-        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
-        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
-            throw new IncidentError(response.getErrormessage());
-        }
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
@@ -146,8 +143,6 @@ public class FabasoftAdapter implements
         }
 
         request.setGiattachmenttype(attachmentType);
-        //request.setSubfiletype("Dokumenttyp für Ausgangsdokumente");
-        //request.setSubfiletype("BeZweck-Ausgang");
 
         final CreateOutgoingGIResponse response = this.wsClient.createOutgoingGI(request);
 
