@@ -67,12 +67,7 @@
             <artifactId>h2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -119,34 +114,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>camunda-ce</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.2</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>camunda-ee</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.holunda</groupId>
-                    <artifactId>camunda-platform-7-autologin</artifactId>
-                    <version>0.0.2</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

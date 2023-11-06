@@ -8,6 +8,8 @@
     "test": "jest src --coverage"
   },
   "dependencies": {
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.3.67",
     "@muenchen/digiwf-date-input": "^1.2.0",
     "@muenchen/digiwf-engine-api-internal": "^1.2.0",
     "@muenchen/digiwf-form-renderer": "^1.2.0",

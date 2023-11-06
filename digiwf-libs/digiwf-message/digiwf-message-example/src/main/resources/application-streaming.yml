@@ -1,7 +1,13 @@
 spring:
   cloud:
     stream:
+      function:
+        routing:
+          enabled: 'true'
       bindings:
+        functionRouter-in-0:
+          group: "digiwf-message-scs-example"
+          destination: "dwf-message-example"
         logMessage-in-0:
           group: "digiwf-message-scs-example"
           destination: "dwf-message-example,dwf-message-example-bpmn-error,dwf-message-example-correlate-message,dwf-message-example-start-process,dwf-message-example-incident"
@@ -27,7 +33,8 @@ spring:
             security:
               protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
     function:
-      definition: logMessage;sendMessage;
+      definition: functionRouter;logMessage;sendMessage;
+      routing-expression: "headers['type']"
   kafka:
     consumer:
       properties:

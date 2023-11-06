@@ -15,6 +15,13 @@
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
+
+    <properties>
+        <ojdbc8.version>18.15.0.0</ojdbc8.version>
+        <postgresql.version>42.6.0</postgresql.version>
+    </properties>
+
+
     <modules>
         <module>digiwf-engine-service</module>
         <module>digiwf-engine-cockpit</module>
@@ -33,21 +40,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>camunda-ee</id>
-            <properties>
-                <camunda.version>${camunda.version.ee}</camunda.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>https://camunda.jfrog.io/artifactory/private/</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
 
 </project>
