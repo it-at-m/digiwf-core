@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -286,7 +287,7 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<Content> readContent(List<String> coos, String user) {
+    public List<Content> readContent(final List<String> coos, final String user) {
 
         final List<Content> files = new ArrayList<>();
 
@@ -312,7 +313,38 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<File> searchFile(String searchString, String user) {
-        return null;
+    public List<File> searchFile(final String searchString, final String user) {
+        val objects = this.searchObject(searchString, DMSObjectClass.Sachakte, user);
+        return objects.stream()
+                .map(obj -> new File(obj.getLHMBAI151700Objaddress(), obj.getLHMBAI151700Objname()))
+                .toList();
+    }
+
+
+    //------------------------------------- HELPER METHODS -------------------------------------------
+
+    public List<LHMBAI151700GIObjectType> searchObject(final String searchString, final DMSObjectClass dmsObjectClass, final String username) {
+        //logging for dms team
+        log.info("calling SearchObjNameGI"
+                + " Userlogin: " + username
+                + " SearchString: " + searchString
+                + " Objclass: " + dmsObjectClass.getName()
+        );
+
+        final SearchObjNameGI params = new SearchObjNameGI();
+        params.setUserlogin(username);
+        params.setBusinessapp(this.properties.getBusinessapp());
+        params.setObjclass(dmsObjectClass.getName());
+        params.setSearchstring(searchString);
+
+        final SearchObjNameGIResponse response = this.wsClient.searchObjNameGI(params);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
+        if (response.getGiobjecttype() == null || response.getGiobjecttype().getLHMBAI151700GIObjectType() == null) {
+            log.debug("No search results found");
+            return Collections.emptyList();
+        }
+        return response.getGiobjecttype().getLHMBAI151700GIObjectType();
     }
 }
