@@ -20,7 +20,7 @@ import java.io.IOException;
 public final class DefaultPropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     private static final String DEFAULT_PROPERTY_SOURCE_NAME = "defaultProperties";
-    private static final String DEFAULT_PROPERTY_SOURCE_LOCATION = "classpath:application-spring-security-starter.yaml";
+    private static final String DEFAULT_PROPERTY_SOURCE_LOCATION = "application-spring-security-starter.yaml";
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

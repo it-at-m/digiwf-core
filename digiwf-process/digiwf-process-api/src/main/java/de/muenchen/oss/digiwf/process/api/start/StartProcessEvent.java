@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.process.api.start;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Map;
 
 /**
