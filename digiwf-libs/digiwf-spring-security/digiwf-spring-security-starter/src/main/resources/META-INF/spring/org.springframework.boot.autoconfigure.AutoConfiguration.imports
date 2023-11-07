@@ -1,1 +1,2 @@
 de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration
+de.muenchen.oss.digiwf.spring.security.postprocessor.DefaultPropertiesEnvironmentPostProcessor
