@@ -30,9 +30,8 @@
         <module>digiwf-process</module>
         <module>digiwf-gateway</module>
         <module>digiwf-integrations</module>
-        <!--
+
         <module>digiwf-coverage</module>
-        -->
     </modules>
 
     <build>
