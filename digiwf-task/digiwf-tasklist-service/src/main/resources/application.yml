@@ -11,12 +11,6 @@ spring:
   security:
     oauth2:
       client:
-        provider:
-          keycloak:
-            issuer-uri: ${SSO_ISSUER_URL}
-            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: lhmObjectID
         registration:
           s3:
             provider: keycloak
