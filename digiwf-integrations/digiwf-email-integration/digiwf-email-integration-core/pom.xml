@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-message-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
         </dependency>
         <dependency>
