@@ -23,7 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.messaging.Message;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.util.Properties;
 import java.util.function.Consumer;
 

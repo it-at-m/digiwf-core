@@ -18,6 +18,10 @@
     </parent>
 
     <properties>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
+
         <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
@@ -30,5 +34,32 @@
         <module>digiwf-email-integration-example</module>
         <module>digiwf-email-integration-service</module>
     </modules>
+
+    <dependencies>
+        <!--        TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
