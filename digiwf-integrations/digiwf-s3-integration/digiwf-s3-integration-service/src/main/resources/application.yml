@@ -59,6 +59,7 @@ spring:
           enabled: 'true'
     function:
       definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
   kafka:
     consumer:
       properties:

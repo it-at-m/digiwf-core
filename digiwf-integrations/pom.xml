@@ -3,11 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-integrations</artifactId>
+
     <groupId>de.muenchen.oss.digiwf</groupId>
-    <name>${project.artifactId}</name>
+    <artifactId>digiwf-integrations</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
     <description>Integrations by DigiWF</description>
 
     <modules>
