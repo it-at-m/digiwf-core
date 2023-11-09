@@ -7,6 +7,8 @@ package de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -31,6 +33,7 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Convert(converter = UuidConverter.class)
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
 
     @CreatedDate
