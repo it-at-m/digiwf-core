@@ -34,7 +34,7 @@
     </modules>
 
     <dependencies>
-        <!--        TODO could be removed after migrate all migrations to spring 3-->
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
