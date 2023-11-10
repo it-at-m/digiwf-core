@@ -1,5 +1,5 @@
 {
-  "name": "Create Sachakte",
+  "name": "DMS: Sachakte erstellen",
   "id": "de.muenchen.digitalwf.templates.create-file",
   "appliesTo": [
     "bpmn:CallActivity"

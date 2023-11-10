@@ -44,7 +44,7 @@ public class MessageProcessor {
                 );
 
                 this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
-                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("apentryCOO", file));
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("fileCOO", file));
             });
         };
     }
