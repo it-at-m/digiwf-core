@@ -76,9 +76,8 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
         .build();
 
     final String expectedResponse = "{\"adresse\":\"Agnes-Pockels-Bogen 21, 80992 München\",\"adressId\":\"106548002103203220131218\",\"buchstabe\":null,\"hausnummer\":21,\"ortsname\":\"München\",\"strasseId\":\"6548\",\"strassenname\":\"Agnes-Pockels-Bogen\",\"strassennameKurz\":\"Agnes-Pockels-Bogen\",\"strassennameAbgekuerzt\":\"Agnes-Pockels-Bogen\",\"position\":{\"utm\":{\"north\":5338764.625783518,\"east\":688470.5810078823},\"wgs\":{\"lat\":48.1741495213055,\"lon\":11.5352020030272,\"geohash\":\"u284n3zdv8q5\",\"fragment\":true}},\"geozuordnungen\":{\"baublock\":\"10.1.2.34\",\"erhaltungssatzung\":null,\"gemarkung\":\"8691\",\"grundschule\":\"3242\",\"kaminkehrerbezirk\":\"12\",\"mittelschule\":\"2218\",\"parklizenzgebietId\":null,\"parklizenzgebietName\":null,\"polizeiinspektion\":\"44\",\"postleitzahl\":\"80992\",\"verwaltungszuteilung\":{\"gemeinde\":\"000\",\"landesschluessel\":\"09\",\"kreis\":\"62\",\"ortsteil\":null,\"regierungsbezirk\":\"1\",\"stadtbezirk\":\"10\",\"stadtbezirksteil\":\"10.1\",\"stadtbezirksviertel\":\"10.1.2\",\"gemeindeschluessel\":\"09162000\"},\"wahleinteilungen\":{\"stimmbezirk\":1010,\"stimmkreis\":105,\"wahlkreis\":217,\"wahlbezirk\":1061}},\"wirkung\":{\"vorgang\":\"NEUERTEILUNG\",\"wirkungsdatum\":\"2013-12-18\",\"status\":\"AKTIV\"}}";
-//%2C statt ,
-    //    http://localhost:8089 /v2/adresse/check?adresse=Agnes-Pockels-Bogen%2021,%2080992%20M%C3%BCnchen
-    this.setupWiremock("/v2/adresse/check?adresse=Agnes-Pockels-Bogen%2021,%2080992%20M%C3%BCnchen", expectedResponse);
+
+    this.setupWiremock("/v2/adresse/check?adresse=Agnes-Pockels-Bogen%2021%2C%2080992%20M%C3%BCnchen", expectedResponse);
 
     // send and receive messages
     final Map<String, Object> payload = super.runIntegration(checkAdresseMuenchenDto, processInstanceId, "checkAddressMunich");
