@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.s3.integration.client.service;
 
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
-import de.muenchen.oss.digiwf.s3.integration.gen.ApiClient;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FolderApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

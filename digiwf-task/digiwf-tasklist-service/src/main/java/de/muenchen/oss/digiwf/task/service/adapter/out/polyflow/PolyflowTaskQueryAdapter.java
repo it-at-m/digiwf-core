@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +32,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
                 true, // assigned to me only
                 pagingAndSorting.getPageIndex(),
                 pagingAndSorting.getPageSize(),
-                pagingAndSorting.getSanitizedSort(),
+                Collections.singletonList(pagingAndSorting.getSanitizedSort()),
                 filters
         )).join();
         return new PageOfTasks(
@@ -53,7 +50,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
                 includeAssigned,
                 pagingAndSorting.getPageIndex(),
                 pagingAndSorting.getPageSize(),
-                pagingAndSorting.getSanitizedSort(),
+                Collections.singletonList(pagingAndSorting.getSanitizedSort()),
                 filters
         )).join();
         return new PageOfTasks(

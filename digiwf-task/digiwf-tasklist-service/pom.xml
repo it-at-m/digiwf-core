@@ -13,35 +13,95 @@
     <packaging>jar</packaging>
     <properties>
         <rest.base-package-name>de.muenchen.oss.digiwf.task.service.application.port.in.rest</rest.base-package-name>
-        <camunda-platform-7-rest-client.version>7.19.1</camunda-platform-7-rest-client.version>
+
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+
+        <camunda.version>7.20.0</camunda.version>
+        <camunda-platform-7-mockito.version>7.20.0</camunda-platform-7-mockito.version>
+        <camunda-platform-7-rest-client.version>7.20.0</camunda-platform-7-rest-client.version>
+        <camunda-data.version>1.4.0</camunda-data.version>
+        <axon-framework.version>4.8.0</axon-framework.version>
+        <axon-extension-kafka.version>4.8.0</axon-extension-kafka.version>
+
+        <polyflow.version>4.0.0</polyflow.version>
+
         <spin.version>1.22.0</spin.version>
         <archunit.version>1.1.0</archunit.version>
         <wiremock.version>2.35.1</wiremock.version>
-        <camunda-platform-7-mockito.version>6.18.0</camunda-platform-7-mockito.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-taskpool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-datapool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- digiwf task api -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-task-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${digiwf.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-logging</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
-            <version>${digiwf.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
-            <version>${digiwf.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <!-- Polyflow View -->
         <dependency>
@@ -52,6 +112,16 @@
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-view-api-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.holunda.polyflow</groupId>
+            <artifactId>polyflow-bus-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.holunda.data</groupId>
+            <artifactId>camunda-bpm-data</artifactId>
+            <version>${camunda-data.version}</version>
+        </dependency>
+
 
         <!-- Camunda REST Client -->
         <dependency>
@@ -69,6 +139,7 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine-plugin-spin</artifactId>
+            <version>${camunda.version}</version>
         </dependency>
 
         <dependency>
@@ -87,27 +158,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
         <dependency>
             <groupId>org.axonframework</groupId>
@@ -166,16 +217,6 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
 
         <!-- Test -->
@@ -320,6 +361,7 @@
                                 <generateSupportingFiles>false</generateSupportingFiles>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useTags>true</useTags>
+                                <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
                         </configuration>
                     </execution>

@@ -20,6 +20,7 @@
         <module>digiwf-camunda-prometheus</module>
         <module>digiwf-message</module>
         <module>digiwf-spring-security</module>
+        <module>digiwf-logging-and-tracing</module>
     </modules>
 
     <properties>

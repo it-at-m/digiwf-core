@@ -14,8 +14,31 @@
     </parent>
 
     <properties>
-        <wiremock.version>2.35.1</wiremock.version>
+        <wiremock.version>3.0.1</wiremock.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring -->
@@ -28,11 +51,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Validation -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
 
         <!-- openApi -->
         <dependency>
@@ -77,11 +95,6 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
@@ -106,29 +119,28 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
-                            <library>webclient</library>
+                            <inputSpec>${project.basedir}/src/main/api/api-docs.json</inputSpec>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
                             <generatorName>java</generatorName>
-                            <output>${project.basedir}</output>
-
-                            <apiPackage>de.muenchen.oss.digiwf.s3.integration.gen.api</apiPackage>
-                            <modelPackage>de.muenchen.oss.digiwf.s3.integration.gen.model</modelPackage>
-                            <invokerPackage>de.muenchen.oss.digiwf.s3.integration.gen</invokerPackage>
+                            <library>webclient</library>
+                            <apiPackage>de.muenchen.oss.digiwf.s3.integration.client.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.s3.integration.client.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.s3.integration.client</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
                             <globalProperties>
                                 <supportingFiles>
                                     ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
                                 </supportingFiles>
                             </globalProperties>
-
                         </configuration>
                     </execution>
                 </executions>
