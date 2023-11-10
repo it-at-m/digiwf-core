@@ -1,5 +1,5 @@
 {
-  "name": "DMS: Create Vorgang",
+  "name": "DMS: Vorgang anlegen",
   "id": "de.muenchen.digitalwf.templates.create-procedure",
   "appliesTo": [
     "bpmn:CallActivity"

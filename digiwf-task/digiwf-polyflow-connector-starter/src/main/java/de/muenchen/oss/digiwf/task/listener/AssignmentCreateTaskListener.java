@@ -7,17 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.task.IdentityLink;
-import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;

@@ -17,11 +17,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -35,7 +36,7 @@ import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECUR
 @Configuration
 @Profile(SECURITY)
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -74,7 +75,12 @@ public class SecurityConfiguration {
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer(server -> server
-            .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+            .jwt(jwt -> jwt
+                .jwtAuthenticationConverter(jwtAuthenticationConverter)
+                .decoder(
+                    NimbusJwtDecoder.withIssuerLocation(clientParameters.getProviderIssuerUrl()).build()
+                )
+            )
         );
     return http.build();
   }

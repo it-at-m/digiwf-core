@@ -5,9 +5,9 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageExc
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
-import de.muenchen.oss.digiwf.s3.integration.gen.model.FileDataDto;
-import de.muenchen.oss.digiwf.s3.integration.gen.model.PresignedUrlDto;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.model.FileDataDto;
+import de.muenchen.oss.digiwf.s3.integration.client.model.PresignedUrlDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

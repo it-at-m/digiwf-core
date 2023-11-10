@@ -11,6 +11,11 @@
 
     <artifactId>digiwf-task-api</artifactId>
 
+    <properties>
+        <polyflow.version>4.0.0</polyflow.version>
+        <camunda-data.version>1.4.0</camunda-data.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
@@ -23,10 +28,14 @@
         <dependency>
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-bus-jackson</artifactId>
+            <version>${polyflow.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.holunda.data</groupId>
             <artifactId>camunda-bpm-data</artifactId>
+            <version>${camunda-data.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

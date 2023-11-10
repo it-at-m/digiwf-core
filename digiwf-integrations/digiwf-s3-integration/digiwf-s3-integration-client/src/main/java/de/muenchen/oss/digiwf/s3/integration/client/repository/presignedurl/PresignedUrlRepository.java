@@ -4,10 +4,10 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
-import de.muenchen.oss.digiwf.s3.integration.gen.model.FileDataDto;
-import de.muenchen.oss.digiwf.s3.integration.gen.model.PresignedUrlDto;
+import de.muenchen.oss.digiwf.s3.integration.client.model.FileDataDto;
+import de.muenchen.oss.digiwf.s3.integration.client.model.PresignedUrlDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
