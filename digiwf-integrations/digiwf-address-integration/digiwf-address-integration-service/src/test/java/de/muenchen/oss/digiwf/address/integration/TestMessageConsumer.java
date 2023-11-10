@@ -17,7 +17,7 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROC
 public class TestMessageConsumer {
 
     private final Map<String, Map<String, Object>> receivedMessages = new HashMap<>();
- // FIXME move to message Consumer config
+
     @Bean
     public Consumer<Message<Map<String, Object>>> integrationTestConsumer() {
         return message -> {
