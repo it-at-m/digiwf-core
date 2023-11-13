@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Send mail process" processRef="email-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="email-integration-example" name="Example Email Integration" isExecutable="true">
+  <bpmn:process id="email-integration-example" name="Example Email Integration" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="email-integration_start">

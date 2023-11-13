@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_04yu2l2">
     <bpmn:participant id="Participant_09dsqc6" name="S3 test process" processRef="feature-s3-integration" />
   </bpmn:collaboration>
-  <bpmn:process id="feature-s3-integration" name="Feature S3 Integration" isExecutable="true">
+  <bpmn:process id="feature-s3-integration" name="Feature S3 Integration" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
       <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
         <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>

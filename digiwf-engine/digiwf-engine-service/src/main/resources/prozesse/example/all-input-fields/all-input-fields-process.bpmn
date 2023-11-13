@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0gd8qpu">
     <bpmn:participant id="Participant_15gffdu" name="all inputs fields process" processRef="example-all-input-fields" />
   </bpmn:collaboration>
-  <bpmn:process id="example-all-input-fields" name="Example All Input Fields" isExecutable="true">
+  <bpmn:process id="example-all-input-fields" name="Example All Input Fields" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:userTask id="Task_UserTask" name="User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${FormField_User}">
       <bpmn:extensionElements>
         <camunda:inputOutput>

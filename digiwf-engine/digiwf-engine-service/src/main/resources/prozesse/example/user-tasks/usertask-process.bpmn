@@ -4,7 +4,7 @@
     <bpmn:extensionElements />
     <bpmn:participant id="Participant_1nz00x0" name="User Task process" processRef="Usertask-Example" />
   </bpmn:collaboration>
-  <bpmn:process id="Usertask-Example" name="Example Usertask" isExecutable="true">
+  <bpmn:process id="Usertask-Example" name="Example Usertask" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:userTask id="Task_UserTask" name="User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${FORMFIELD_User}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
