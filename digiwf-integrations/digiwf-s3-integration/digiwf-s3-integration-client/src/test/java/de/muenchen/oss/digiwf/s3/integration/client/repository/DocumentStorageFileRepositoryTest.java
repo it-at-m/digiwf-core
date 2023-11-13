@@ -4,7 +4,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;

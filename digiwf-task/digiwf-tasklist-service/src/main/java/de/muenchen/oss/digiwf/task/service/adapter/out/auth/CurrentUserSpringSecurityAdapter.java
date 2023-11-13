@@ -37,8 +37,7 @@ public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
   @Override
   public String getCurrentUserToken() {
     var authentication = getCurrentAuth();
-    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
-      var jwt = (Jwt) authentication.getPrincipal();
+    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt jwt) {
       return jwt.getTokenValue();
     } else {
       throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
@@ -48,8 +47,7 @@ public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
   @Override
   public User getCurrentUser() {
     var authentication = getCurrentAuth();
-    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
-      var jwt = (Jwt) authentication.getPrincipal();
+    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt jwt) {
       var username = Objects.requireNonNull((String) jwt.getClaims().get(userNameAttribute));
       var groups = userGroupResolver.resolveGroups(username).stream().map(String::toLowerCase).collect(Collectors.toSet());
       val roles = PrincipalUtil.extractRoles(authentication);
@@ -67,8 +65,7 @@ public class CurrentUserSpringSecurityAdapter implements CurrentUserPort {
   @Override
   public String getCurrentUserUsername() {
     var authentication = getCurrentAuth();
-    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt) {
-      var jwt = (Jwt) authentication.getPrincipal();
+    if (authentication instanceof JwtAuthenticationToken && authentication.getPrincipal() instanceof Jwt jwt) {
       return Objects.requireNonNull((String) jwt.getClaims().get(userNameAttribute));
     } else {
       throw new AuthenticationCredentialsNotFoundException("Could not detect current authorized user");
