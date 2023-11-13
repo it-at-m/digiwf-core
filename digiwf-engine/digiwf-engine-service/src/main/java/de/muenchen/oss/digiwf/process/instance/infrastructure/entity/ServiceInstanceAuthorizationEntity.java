@@ -7,7 +7,7 @@ package de.muenchen.oss.digiwf.process.instance.infrastructure.entity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 /**
  * Entity representation of a form.

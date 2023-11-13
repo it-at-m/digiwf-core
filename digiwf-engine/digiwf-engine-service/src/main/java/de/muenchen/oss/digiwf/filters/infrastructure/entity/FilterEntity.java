@@ -7,7 +7,7 @@ package de.muenchen.oss.digiwf.filters.infrastructure.entity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 /**
  * Entity representation of a persistent filter.

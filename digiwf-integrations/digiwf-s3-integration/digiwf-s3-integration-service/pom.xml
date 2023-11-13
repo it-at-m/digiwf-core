@@ -38,7 +38,7 @@
         <!-- Logging -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <artifactId>digiwf-logging</artifactId>
             <version>${project.version}</version>
         </dependency>
 

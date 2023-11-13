@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.IdentityService;
 
-import jakarta.servlet.*;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.ArrayList;
 

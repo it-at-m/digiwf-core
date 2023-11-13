@@ -2,10 +2,12 @@ package de.muenchen.oss.digiwf.task.polyflow.kafka;
 
 import lombok.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
 import java.util.List;
 
 @ConfigurationProperties(prefix = "polyflow.axon.kafka")
+@ConstructorBinding
 @Value
 public class PolyflowAxonKafkaProperties {
     /**
@@ -13,6 +15,7 @@ public class PolyflowAxonKafkaProperties {
      */
     List<PayloadTypeToTopic> topics;
 
+    @ConstructorBinding
     @Value
     public static class PayloadTypeToTopic {
         Class<?> payloadType;

@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.task.polyflow.axon;
 
-import de.muenchen.oss.digiwf.task.autoconfig.DisableAxonKafkaPropertiesEnvironmentConfiguration;
+import de.muenchen.oss.digiwf.task.envprocessor.AxonKafkaPropertiesEnvironmentPostProcessor;
 import io.holunda.polyflow.taskpool.collector.CamundaTaskpoolCollectorProperties;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Profile;
 
 import static de.muenchen.oss.digiwf.task.metrics.MetricsHelper.POLYFLOW_AXON_KAFKA_EVENTS_SENT;
 
-@Profile("!" + DisableAxonKafkaPropertiesEnvironmentConfiguration.PROFILE_DISABLED)
+@Profile("!" + AxonKafkaPropertiesEnvironmentPostProcessor.PROFILE_DISABLED)
 @Configuration
 public class PolyflowAxonMetricsConfiguration {
 

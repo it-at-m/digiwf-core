@@ -17,15 +17,16 @@
         <java.version>17</java.version>
         <maven.version>3.6.0</maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <spring-boot.version>2.7.17</spring-boot.version>
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <okhttp.version>4.12.0</okhttp.version>
         <lombok.version>1.18.30</lombok.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-
-
+        <camunda.version.ce>7.18.0</camunda.version.ce>
+        <camunda.version>${camunda.version.ce}</camunda.version>
+        <camunda.version.ee>7.18.0-ee</camunda.version.ee>
+        <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <tika.version>2.9.1</tika.version>
         <logstash.encoder.version>7.4</logstash.encoder.version>
@@ -49,6 +50,13 @@
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
 
             <!-- Open API -->
@@ -77,6 +85,16 @@
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>0.2.6</version>
             </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
 
             <!-- Logging -->
             <dependency>
@@ -87,7 +105,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- FIXME: push this to the root -->
     <build>
         <pluginManagement>
             <plugins>
@@ -275,6 +292,7 @@
     <profiles>
 
         <!-- Release profile (required so these plugins are only used when deploying) -->
+
         <profile>
             <id>release</id>
             <build>

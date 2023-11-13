@@ -3,6 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>digiwf-engine</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <description>Workflow Engine used by DigiWF</description>
+
     <parent>
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
@@ -11,60 +16,10 @@
     </parent>
 
 
-    <artifactId>digiwf-engine</artifactId>
-    <name>${project.artifactId}</name>
-    <packaging>pom</packaging>
-    <description>Workflow Engine used by DigiWF</description>
-
     <properties>
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring.cloud.version>2022.0.4</spring.cloud.version>
-
-        <camunda.version.ce>7.20.0</camunda.version.ce>
-        <camunda.version>${camunda.version.ce}</camunda.version>
-        <camunda.version.ee>7.20.0-ee</camunda.version.ee>
-        <camunda-engine-rest-client-openapi-java.version>7.20.0</camunda-engine-rest-client-openapi-java.version>
+        <ojdbc8.version>18.15.0.0</ojdbc8.version>
+        <postgresql.version>42.6.0</postgresql.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Cloud -->
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-bom</artifactId>
-                <version>${camunda.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 
     <modules>
@@ -86,20 +41,4 @@
         </dependency>
     </dependencies>
 
-
-    <profiles>
-        <profile>
-            <id>camunda-ee</id>
-            <properties>
-                <camunda.version>${camunda.version.ee}</camunda.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>https://camunda.jfrog.io/artifactory/private/</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
 </project>

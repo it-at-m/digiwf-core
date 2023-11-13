@@ -4,13 +4,15 @@
 
 package de.muenchen.oss.digiwf.cockpit.security.authorization;
 
-import jakarta.annotation.PostConstruct;
+import de.muenchen.oss.digiwf.cockpit.CamundaWebappsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 import java.util.stream.Stream;
 
