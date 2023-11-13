@@ -2,10 +2,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
-import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
+import de.muenchen.oss.digiwf.dms.integration.domain.*;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +14,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class FabasoftAdapter implements
+        CreateFilePort,
         CreateProcedurePort,
         CreateDocumentPort,
         UpdateDocumentPort,
@@ -28,6 +26,32 @@ public class FabasoftAdapter implements
     private final LHMBAI151700GIWSDSoap wsClient;
 
     private final DMSErrorHandler dmsErrorHandler = new DMSErrorHandler();
+
+    @Override
+    public String createFile(File file, String user) {
+        //logging for dms team
+        log.info("calling CreateFileGI"
+                + " Userlogin: " + user
+                + " Apentry: " + file.getApentryCOO()
+                + " Filesubj: " + file.getTitle()
+                + " Shortname: " + file.getTitle()
+                + " Apentrysearch: true"
+        );
+
+        final CreateFileGI request = new CreateFileGI();
+        request.setUserlogin(user);
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setApentry(file.getApentryCOO());
+        request.setFilesubj(file.getTitle());
+        request.setShortname(file.getTitle());
+        request.setApentrysearch(true); // looks for free parent entry
+
+        final CreateFileGIResponse response = this.wsClient.createFileGI(request);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
+        return response.getObjid();
+    }
 
     @Override
     public Procedure createProcedure(Procedure procedure, String user) {
@@ -43,10 +67,7 @@ public class FabasoftAdapter implements
 
         final CreateProcedureGIResponse response = this.wsClient.createProcedureGI(request);
 
-        final DMSStatusCode statusCode = DMSStatusCode.byCode(response.getStatus());
-        if (statusCode != DMSStatusCode.UEBERTRAGUNG_ERFORLGREICH) {
-            throw new IncidentError(response.getErrormessage());
-        }
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
     }
@@ -122,8 +143,6 @@ public class FabasoftAdapter implements
         }
 
         request.setGiattachmenttype(attachmentType);
-        //request.setSubfiletype("Dokumenttyp für Ausgangsdokumente");
-        //request.setSubfiletype("BeZweck-Ausgang");
 
         final CreateOutgoingGIResponse response = this.wsClient.createOutgoingGI(request);
 
