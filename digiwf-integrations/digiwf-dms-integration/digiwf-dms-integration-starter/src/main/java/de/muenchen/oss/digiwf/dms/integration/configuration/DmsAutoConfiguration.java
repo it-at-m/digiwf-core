@@ -45,6 +45,12 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public CreateFileUseCase createFileUseCase(final CreateFilePort createFilePort) {
+        return new CreateFileService(createFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public CreateProcedureUseCase createProcedureUseCase(final CreateProcedurePort createProcedurePort) {
         return new CreateProcedureService(createProcedurePort);
     }
@@ -71,6 +77,11 @@ public class DmsAutoConfiguration {
     @ConditionalOnMissingBean
     public CancelObjectUseCase cancelObjectUseCase(CancelObjectPort cancelObjectPort) {
         return new CancelObjectService(cancelObjectPort);
+    }
+
+    @Bean
+    public Consumer<Message<CreateFileDto>> createFileMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.createFile();
     }
 
     @Bean
@@ -108,6 +119,7 @@ public class DmsAutoConfiguration {
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
             final ErrorApi errorApi,
+            final CreateFileUseCase createFileUseCase,
             final CreateProcedureUseCase createProcedureUseCase,
             final CreateDocumentUseCase createDocumentUseCase,
             final UpdateDocumentUseCase updateDocumentUseCase,
@@ -117,6 +129,7 @@ public class DmsAutoConfiguration {
         return new MessageProcessor(
                 processApi,
                 errorApi,
+                createFileUseCase,
                 createProcedureUseCase,
                 createDocumentUseCase,
                 updateDocumentUseCase,

@@ -16,13 +16,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -159,10 +159,8 @@ public class NfcConverterTest {
     private Cookie[] mockCookies() {
         final Cookie[] cookies = new Cookie[1];
         cookies[0] = new Cookie(TOKEN, VALUE_NFD);
-        cookies[0].setComment(VALUE_NFD);
         cookies[0].setDomain(VALUE_NFD);
         cookies[0].setPath(VALUE_NFD);
-        cookies[0].setVersion(1);
         return cookies;
     }
 

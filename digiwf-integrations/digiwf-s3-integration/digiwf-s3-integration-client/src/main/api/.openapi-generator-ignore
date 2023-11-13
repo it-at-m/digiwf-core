@@ -1,1 +1,4 @@
 # Ignore the following resources
+gradle/
+api/
+.github/
