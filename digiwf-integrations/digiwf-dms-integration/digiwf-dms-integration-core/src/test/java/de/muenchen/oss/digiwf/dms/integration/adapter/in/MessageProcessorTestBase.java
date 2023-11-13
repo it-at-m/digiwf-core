@@ -14,6 +14,7 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROC
 class MessageProcessorTestBase {
     protected final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
     protected final ProcessApi processApi = Mockito.mock(ProcessApi.class);
+    protected final CreateFileUseCase createFileUseCaseMock = Mockito.mock(CreateFileUseCase.class);
     protected final CreateProcedureUseCase createProcedureMock = Mockito.mock(CreateProcedureUseCase.class);
     protected final CreateDocumentUseCase createDocumentUseCaseMock = Mockito.mock(CreateDocumentUseCase.class);
     protected final UpdateDocumentUseCase updateDocumentUseCaseMock = Mockito.mock(UpdateDocumentUseCase.class);
@@ -25,7 +26,7 @@ class MessageProcessorTestBase {
     protected MessageProcessor messageProcessor;
 
     protected void setupBase() {
-        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createProcedureMock, createDocumentUseCaseMock, updateDocumentUseCaseMock, depositObjectUseCaseMock, cancelObjectUseCaseMock, readContentUseCase);
+        this.messageProcessor = new MessageProcessor(processApi, errorApiMock, createFileUseCaseMock, createProcedureMock, createDocumentUseCaseMock, updateDocumentUseCaseMock, depositObjectUseCaseMock, cancelObjectUseCaseMock, readContentUseCase);
     }
 }
 
