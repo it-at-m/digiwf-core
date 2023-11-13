@@ -17,6 +17,10 @@
 
     <properties>
         <kotlin.version>1.9.20</kotlin.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <camunda.version>7.20.0</camunda.version>
+        <polyflow.version>4.0.0</polyflow.version>
+        <camunda-bpm-data.version>1.4.1-SNAPSHOT</camunda-bpm-data.version>
     </properties>
 
     <modules>
@@ -36,10 +40,59 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-taskpool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-datapool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
                 <artifactId>digiwf-task-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.holunda.data</groupId>
+                <artifactId>camunda-bpm-data</artifactId>
+                <version>${camunda-bpm-data.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-bus-jackson</artifactId>
+                <version>${polyflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.community.mockito</groupId>
+                <artifactId>camunda-platform-7-mockito</artifactId>
+                <version>7.20.0</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

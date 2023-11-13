@@ -11,38 +11,6 @@
 
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
 
-    <properties>
-        <polyflow.version>4.0.0</polyflow.version>
-        <camunda.version>7.20.0</camunda.version>
-        <camunda-bpm-data.version>1.4.1-SNAPSHOT</camunda-bpm-data.version>
-    </properties>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.holunda.polyflow</groupId>
-                <artifactId>polyflow-taskpool-dependencies</artifactId>
-                <version>${polyflow.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.holunda.polyflow</groupId>
-                <artifactId>polyflow-datapool-dependencies</artifactId>
-                <version>${polyflow.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-bom</artifactId>
-                <version>${camunda.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <!-- digiwf task api -->
         <dependency>
@@ -162,17 +130,11 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>6.18.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
