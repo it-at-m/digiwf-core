@@ -25,9 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -227,7 +225,7 @@ class FileOperationsUseCaseTest {
 
     final PresignedUrl expected = new PresignedUrl(presignedUrl, pathToFile, "GET");
 
-    assertThat(result, is(expected));
+    assertThat(result).isEqualTo(expected);
   }
 
   @Test
@@ -346,10 +344,10 @@ class FileOperationsUseCaseTest {
 
   @Test
   void getPathToFolder() {
-    assertThat(FileOperationsUseCase.getPathToFolder("folder/file.txt"), is("folder"));
-    assertThat(FileOperationsUseCase.getPathToFolder("folder/subfolder/file.txt"), is("folder/subfolder"));
-    assertThat(FileOperationsUseCase.getPathToFolder("file.txt"), is(""));
-    assertThat(FileOperationsUseCase.getPathToFolder(""), is(""));
+    assertThat(FileOperationsUseCase.getPathToFolder("folder/file.txt")).isEqualTo("folder");
+    assertThat(FileOperationsUseCase.getPathToFolder("folder/subfolder/file.txt")).isEqualTo("folder/subfolder");
+    assertThat(FileOperationsUseCase.getPathToFolder("file.txt")).isEqualTo("");
+    assertThat(FileOperationsUseCase.getPathToFolder("")).isEqualTo("");
   }
 
 }

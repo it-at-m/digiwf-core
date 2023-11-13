@@ -4,22 +4,14 @@
  */
 package de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -36,11 +28,12 @@ public abstract class BaseEntity implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "id", length = 36)
+    @Column(name = "id", length = 36, columnDefinition="CHAR(36)")
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Type(type = "uuid-char")
+    @Convert(converter = UuidConverter.class)
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
 
     @CreatedDate

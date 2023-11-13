@@ -6,7 +6,7 @@ package de.muenchen.oss.digiwf.s3.integration.configuration.nfcconverter;
 
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,7 +83,6 @@ public class NfcHelperTest {
 
         assertEquals(NfcConverterTest.TOKEN, nfcCookie.getName());
         assertEquals(Arrays.toString(NFC_OUTPUT_EXPECTED), nfcCookie.getValue());
-        assertEquals(SECOND_NFC, nfcCookie.getComment());
         assertEquals(THIRD_NFC, nfcCookie.getDomain());
         assertEquals(THIRD_NFC, nfcCookie.getPath());
     }
@@ -95,7 +94,6 @@ public class NfcHelperTest {
         Arrays.asList(nfcCookies).forEach(nfcCookie -> {
             assertEquals(NfcConverterTest.TOKEN, nfcCookie.getName());
             assertEquals(Arrays.toString(NFC_OUTPUT_EXPECTED), nfcCookie.getValue());
-            assertEquals(SECOND_NFC, nfcCookie.getComment());
             assertEquals(THIRD_NFC, nfcCookie.getDomain());
             assertEquals(THIRD_NFC, nfcCookie.getPath());
         });
@@ -103,7 +101,6 @@ public class NfcHelperTest {
 
     private static Cookie createNfdCookie() {
         final Cookie nfdCookie = new Cookie(NfcConverterTest.TOKEN, Arrays.toString(NFD_INPUT));
-        nfdCookie.setComment(SECOND_NFD);
         nfdCookie.setDomain(THIRD_NFD);
         nfdCookie.setPath(THIRD_NFD);
         return nfdCookie;
