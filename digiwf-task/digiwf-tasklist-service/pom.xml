@@ -27,7 +27,7 @@
         <polyflow.version>4.0.0</polyflow.version>
 
         <spin.version>1.22.0</spin.version>
-        <archunit.version>1.1.0</archunit.version>
+        <archunit.version>1.2.0</archunit.version>
         <wiremock.version>2.35.1</wiremock.version>
     </properties>
 
