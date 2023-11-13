@@ -16,9 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camunda.version.ce>7.18.0</camunda.version.ce>
-        <camunda.version>${camunda.version.ce}</camunda.version>
-        <camunda.version.ee>7.18.0-ee</camunda.version.ee>
+
     </properties>
 
     <modules>
@@ -199,21 +197,6 @@
                 <module>docs</module>
             </modules>
         </profile>
-
-        <profile>
-            <id>camunda-ee</id>
-            <properties>
-                <camunda.version>${camunda.version.ee}</camunda.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>https://camunda.jfrog.io/artifactory/private/</url>
-                </repository>
-            </repositories>
-        </profile>
-
 
         <!-- Release profile (required so these plugins are only used when deploying) -->
 

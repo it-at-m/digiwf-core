@@ -18,8 +18,8 @@ import lombok.val;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
-import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

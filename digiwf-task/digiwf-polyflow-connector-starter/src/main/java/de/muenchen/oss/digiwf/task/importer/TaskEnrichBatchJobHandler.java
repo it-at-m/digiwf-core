@@ -11,13 +11,13 @@ import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.community.batch.CustomBatchJobHandler;
+import org.camunda.community.batch.core.CustomBatchConfiguration;
 import org.camunda.community.batch.plugin.CustomBatchHandlerPlugin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -49,7 +49,7 @@ public class TaskEnrichBatchJobHandler extends CustomBatchJobHandler<String> {
         val tasks = taskService.createTaskQuery()
                 .taskIdIn(taskIds.toArray(new String[0]))
                 .list().stream()
-                .map(task -> ((TaskEntity) task)).collect(Collectors.toList());
+                .map(task -> ((TaskEntity) task)).toList();
         tasks.forEach((task) -> {
             assignmentCreateTaskListener.taskCreated(task);
             cancelableTaskStatusCreateTaskListener.taskCreated(task);
@@ -68,5 +68,10 @@ public class TaskEnrichBatchJobHandler extends CustomBatchJobHandler<String> {
     @Bean
     public ProcessEnginePlugin customBatchHandlerPlugin(TaskEnrichBatchJobHandler taskEnrichBatchJobHandler) {
         return CustomBatchHandlerPlugin.of(taskEnrichBatchJobHandler);
+    }
+
+    @Override
+    public int calculateInvocationsPerBatchJob(String batchType, CustomBatchConfiguration customBatchConfiguration) {
+        return 100;
     }
 }

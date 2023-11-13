@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.message.api.streaming;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data

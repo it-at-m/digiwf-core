@@ -12,26 +12,34 @@
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
 
     <properties>
-        <polyflow.version>3.15.0</polyflow.version>
+        <polyflow.version>4.0.0</polyflow.version>
+        <camunda.version>7.20.0</camunda.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
-        <dependency>
-            <groupId>io.holunda.polyflow</groupId>
-            <artifactId>polyflow-taskpool-dependencies</artifactId>
-            <version>${polyflow.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.holunda.polyflow</groupId>
-            <artifactId>polyflow-datapool-dependencies</artifactId>
-            <version>${polyflow.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-taskpool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-datapool-dependencies</artifactId>
+                <version>${polyflow.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -63,20 +71,23 @@
         <dependency>
             <groupId>io.holunda.data</groupId>
             <artifactId>camunda-bpm-data</artifactId>
-            <version>1.2.8</version>
+            <version>1.4.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine-plugin-spin</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.community.batch</groupId>

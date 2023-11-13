@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.shared.file;
 
-import de.muenchen.oss.digiwf.s3.integration.gen.ApiClient;
+import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
