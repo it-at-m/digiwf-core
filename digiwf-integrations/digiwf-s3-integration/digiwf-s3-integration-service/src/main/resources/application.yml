@@ -90,8 +90,6 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
-        typeMappings:
-          createPresignedUrl: "createPresignedUrl"
 
 server:
   port: "${S3_INTEGRATION_SERVER_PORT:8086}"

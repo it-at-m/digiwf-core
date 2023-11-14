@@ -22,7 +22,6 @@
         <spring-boot.version>3.1.5</spring-boot.version>
         <spring.cloud.version>2022.0.4</spring.cloud.version>
 
-        <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
         <jai-imageio-jpeg2000.version>1.4.0</jai-imageio-jpeg2000.version>
@@ -34,6 +33,19 @@
         <module>digiwf-email-integration-example</module>
         <module>digiwf-email-integration-service</module>
     </modules>
+
+    <!--        TODO could be removed after migrate all migrations to spring 3-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-s3-integration-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
         <!--        TODO could be removed after migrate all migrations to spring 3-->
