@@ -12,7 +12,7 @@
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
 
     <properties>
-        <polyflow.version>3.15.0</polyflow.version>
+        <polyflow.version>4.0.0</polyflow.version>
     </properties>
 
 
