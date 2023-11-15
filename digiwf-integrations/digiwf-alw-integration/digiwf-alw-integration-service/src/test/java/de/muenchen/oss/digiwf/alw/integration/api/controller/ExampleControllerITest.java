@@ -40,7 +40,7 @@ class ExampleControllerITest {
   @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    ;
+
   }
 
   @Test
