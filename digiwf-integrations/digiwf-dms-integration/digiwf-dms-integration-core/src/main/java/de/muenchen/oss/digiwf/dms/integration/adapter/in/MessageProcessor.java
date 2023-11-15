@@ -25,12 +25,29 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
+    private final CreateFileUseCase createFileUseCase;
     private final CreateProcedureUseCase createProcedureUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
     private final UpdateDocumentUseCase updateDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
     private final ReadContentUseCase readContentUseCase;
+
+    public Consumer<Message<CreateFileDto>> createFile() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final CreateFileDto createFileDto = message.getPayload();
+                final String file = this.createFileUseCase.createFile(
+                        createFileDto.getTitle(),
+                        createFileDto.getApentryCOO(),
+                        createFileDto.getUser()
+                );
+
+                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("fileCOO", file));
+            });
+        };
+    }
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
