@@ -374,6 +374,41 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- camuna -->
+        <profile>
+            <id>camunda-ce</id>
+            <activation>
+                <property>
+                    <name>!camunda-ee</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>camunda-ee</id>
+            <properties>
+                <camunda.version>${camunda.version.ee}</camunda.version>
+            </properties>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>https://camunda.jfrog.io/artifactory/private/</url>
+                </repository>
+            </repositories>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
     <distributionManagement>
