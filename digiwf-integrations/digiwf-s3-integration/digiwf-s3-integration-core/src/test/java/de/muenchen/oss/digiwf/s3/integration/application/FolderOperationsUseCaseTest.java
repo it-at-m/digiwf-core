@@ -18,9 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -79,13 +77,13 @@ class FolderOperationsUseCaseTest {
 
   @Test
   void addPathSeparatorToTheEnd() {
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/subfolder"), is("folder/subfolder/"));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/subfolder/"), is("folder/subfolder/"));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder"), is("folder/"));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/"), is("folder/"));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder//"), is("folder//"));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd(""), is(""));
-    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd(null), is(nullValue()));
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/subfolder")).isEqualTo("folder/subfolder/");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/subfolder/")).isEqualTo("folder/subfolder/");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder")).isEqualTo("folder/");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder/")).isEqualTo("folder/");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("folder//")).isEqualTo("folder//");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd("")).isEqualTo("");
+    assertThat(FolderOperationsUseCase.addPathSeparatorToTheEnd(null)).isNull();
   }
 
 }

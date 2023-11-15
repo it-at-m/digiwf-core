@@ -32,9 +32,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 )
 @EmbeddedKafka(
     partitions = 1,
-    topics = {"${spring.cloud.stream.bindings.functionRouter-in-0.destination}", "${spring.cloud.stream.bindings.sendMessage-out-0.destination}"}
+    topics = {
+        "${spring.cloud.stream.bindings.functionRouter-in-0.destination}",
+        "${spring.cloud.stream.bindings.sendMessage-out-0.destination}"
+    }
 )
-public class ServiceIntegrationTest {
+public class ServiceIntegrationITest {
 
   @MockBean
   private UserAuthenticationProvider provider;

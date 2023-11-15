@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -46,20 +45,20 @@ class CleanUpDatabaseFilesWithoutCorrespondingS3FolderUseCaseTest {
     file.setCreatedTime(LocalDateTime.now().minusMonths(1).minusDays(1));
     Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
         .thenReturn(new HashSet<>(List.of(file.getPathToFile())));
-    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file), is(false));
+    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
     Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
         .thenReturn(new HashSet<>(List.of()));
-    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file), is(true));
+    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isTrue();
 
     // Creation date is exactly one month or less ago.
     file.setCreatedTime(LocalDateTime.now().minusMonths(1));
     Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
         .thenReturn(new HashSet<>(List.of(file.getPathToFile())));
-    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file), is(false));
+    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
 
     Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
         .thenReturn(new HashSet<>(List.of()));
-    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file), is(false));
+    assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
   }
 
 
