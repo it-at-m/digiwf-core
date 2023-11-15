@@ -31,6 +31,18 @@
         <module>digiwf-cosys-integration-service</module>
     </modules>
 
+    <!--        TODO could be removed after migrate all migrations to spring 3-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-s3-integration-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!--        TODO could be removed after migrate all migrations to spring 3-->
         <dependency>
