@@ -9,7 +9,7 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -53,9 +53,9 @@ public class CosysAdapter implements GenerateDocumentPort {
                     null,
                     null
             )
-            .onStatus(HttpStatus::is5xxServerError,
+            .onStatus(HttpStatusCode::is5xxServerError,
                     response -> response.bodyToMono(byte[].class).flatMap(body -> Mono.error(new IncidentError("Document could not be created."))))
-            .onStatus(HttpStatus::is4xxClientError,
+            .onStatus(HttpStatusCode::is4xxClientError,
                     response -> response.bodyToMono(byte[].class).flatMap(body -> Mono.error(new BpmnError("COSYS_DOCUMENT_CREATION_FAILED", "Document could not be created."))))
             .bodyToMono(byte[].class);
 
