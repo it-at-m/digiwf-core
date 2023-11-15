@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Generator.JSON_PROPERTY_TYPE,
   Generator.JSON_PROPERTY_HEAD_INCLUDES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Generator {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;
@@ -54,7 +54,7 @@ public class Generator {
    * The type of the form generator.
    * @return type
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -88,7 +88,7 @@ public class Generator {
    * Includes for head of generated html.
    * @return headIncludes
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_HEAD_INCLUDES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataProviderInput.JSON_PROPERTY_ORG,
   DataProviderInput.JSON_PROPERTY_DATA_POOL_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataProviderInput {
   public static final String JSON_PROPERTY_UID = "uid";
   private String uid;
@@ -63,7 +63,7 @@ public class DataProviderInput {
    * User id (lhmObjectId) of the receiver.
    * @return uid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -89,7 +89,7 @@ public class DataProviderInput {
    * The name of receiver or a part part of it.
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -115,7 +115,7 @@ public class DataProviderInput {
    * Email of the receiver.
    * @return mail
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -141,7 +141,7 @@ public class DataProviderInput {
    * Office of the receiver.
    * @return org
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORG)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -167,7 +167,7 @@ public class DataProviderInput {
    * The data pool id.
    * @return dataPoolId
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATA_POOL_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

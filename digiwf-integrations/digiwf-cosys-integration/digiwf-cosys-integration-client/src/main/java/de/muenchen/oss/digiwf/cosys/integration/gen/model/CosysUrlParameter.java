@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CosysUrlParameter.JSON_PROPERTY_FIRST_TAB_SELECTOR,
   CosysUrlParameter.JSON_PROPERTY_FIRST_TAB
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CosysUrlParameter {
   public static final String JSON_PROPERTY_GUID = "guid";
   private String guid;
@@ -220,7 +220,7 @@ public class CosysUrlParameter {
    * The guid of the template.
    * @return guid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_GUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -246,7 +246,7 @@ public class CosysUrlParameter {
    * The number of the client the template is located in.
    * @return client
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -272,7 +272,7 @@ public class CosysUrlParameter {
    * The role that should be used for the document generation. With the role \&quot;SB\&quot; only released template versions can be used.
    * @return role
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ROLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -298,7 +298,7 @@ public class CosysUrlParameter {
    * The name of the template.
    * @return templateName
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEMPLATE_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -324,7 +324,7 @@ public class CosysUrlParameter {
    * The identifier(form number) of the template.
    * @return templateId
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEMPLATE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -350,7 +350,7 @@ public class CosysUrlParameter {
    * The type of the template.
    * @return templateType
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEMPLATE_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -376,7 +376,7 @@ public class CosysUrlParameter {
    * The template search parameter.
    * @return templateSearchparameter
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEMPLATE_SEARCHPARAMETER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -402,7 +402,7 @@ public class CosysUrlParameter {
    * The data pool id.
    * @return datapoolid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATAPOOLID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -428,7 +428,7 @@ public class CosysUrlParameter {
    * Hides the template tree.
    * @return hideTree
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_HIDE_TREE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -454,7 +454,7 @@ public class CosysUrlParameter {
    * Hides the template search.
    * @return hideTemplateSearch
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_HIDE_TEMPLATE_SEARCH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -480,7 +480,7 @@ public class CosysUrlParameter {
    * Hides the draft tab.
    * @return hideDraftTab
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_HIDE_DRAFT_TAB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -506,7 +506,7 @@ public class CosysUrlParameter {
    * Locks the data context.
    * @return lockDatacontext
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LOCK_DATACONTEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -532,7 +532,7 @@ public class CosysUrlParameter {
    * The receiver name.
    * @return receiverName
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RECEIVER_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -558,7 +558,7 @@ public class CosysUrlParameter {
    * The receiver mail.
    * @return receiverMail
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RECEIVER_MAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -584,7 +584,7 @@ public class CosysUrlParameter {
    * The receiver org.
    * @return receiverOrg
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RECEIVER_ORG)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -610,7 +610,7 @@ public class CosysUrlParameter {
    * The tab selector.
    * @return firstTabSelector
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_TAB_SELECTOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -636,7 +636,7 @@ public class CosysUrlParameter {
    * The first tab.
    * @return firstTab
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_TAB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

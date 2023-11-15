@@ -109,6 +109,7 @@
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
 
                             <globalProperties>

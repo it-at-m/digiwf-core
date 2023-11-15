@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   WebformResponse.JSON_PROPERTY_FIELDS,
   WebformResponse.JSON_PROPERTY_EVENTS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class WebformResponse {
   public static final String JSON_PROPERTY_FORM_ID = "formId";
   private String formId;
@@ -58,7 +58,7 @@ public class WebformResponse {
    * The formId of the prepared webform.
    * @return formId
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FORM_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -92,7 +92,7 @@ public class WebformResponse {
    * Fields in the webform template.
    * @return fields
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIELDS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -126,7 +126,7 @@ public class WebformResponse {
    * Events in the webform template.
    * @return events
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EVENTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
