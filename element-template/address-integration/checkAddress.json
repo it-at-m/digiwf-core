@@ -1,0 +1,156 @@
+{
+  "name": "Address: Check Address",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.checkAddress",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "checkAddressMunich",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Adresse",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "adresse",
+        "target": "adresse"
+      }
+    },
+    {
+      "label": "Strassenname",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "strassenname",
+        "target": "strassenname"
+      }
+    },
+    {
+      "label": "StrasseId",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "strasseId",
+        "target": "strasseId"
+      }
+    },
+    {
+      "label": "Hausnummer",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "hausnummer",
+        "target": "hausnummer"
+      }
+    },
+    {
+      "label": "Zusatz",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "zusatz",
+        "target": "zusatz"
+      }
+    },
+    {
+      "label": "PLZ",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "plz",
+        "target": "plz"
+      }
+    },
+    {
+      "label": "Ortsname",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "ortsname",
+        "target": "ortsname"
+      }
+    },
+    {
+      "label": "Gemeindeschluessel",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "gemeindeschluessel",
+        "target": "gemeindeschluessel"
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}
