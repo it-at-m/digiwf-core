@@ -11,6 +11,7 @@
 
     <name>${project.artifactId}</name>
     <description>Integrations by DigiWF</description>
+    <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
