@@ -96,7 +96,6 @@
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
                             <library>webclient</library>
                             <generatorName>java</generatorName>
-                            <output>${project.basedir}</output>
 
                             <apiPackage>de.muenchen.oss.digiwf.cosys.integration.gen.api</apiPackage>
                             <modelPackage>de.muenchen.oss.digiwf.cosys.integration.gen.model</modelPackage>
@@ -106,7 +105,7 @@
                             <generateModelTests>false</generateModelTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useJakartaEe>true</useJakartaEe>
