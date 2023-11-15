@@ -58,6 +58,16 @@
         </profile>
         <profile>
             <id>camunda-ee</id>
+            <properties>
+                <camunda.version>${camunda.version.ee}</camunda.version>
+            </properties>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>https://camunda.jfrog.io/artifactory/private/</url>
+                </repository>
+            </repositories>
             <dependencies>
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>
