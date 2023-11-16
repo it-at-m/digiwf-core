@@ -9,19 +9,19 @@ updates:
     schedule:
       interval: "daily"
     labels:
-      - "Technical Dept"
+      - "Technical Debt"
   - package-ecosystem: "maven"
     directory: "/"
     open-pull-requests-limit: 20
     schedule:
       interval: "daily"
     labels:
-      - "Technical Dept"
+      - "Technical Debt"
   - package-ecosystem: npm
     directory: "/docs"
     open-pull-requests-limit: 20
     target-branch: "dev"
     labels:
-      - "Technical Dept"
+      - "Technical Debt"
     schedule:
       interval: weekly

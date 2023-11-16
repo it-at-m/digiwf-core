@@ -105,7 +105,7 @@ jobs:
           git checkout -b chore/bump-release-version
           git push --force origin chore/bump-release-version
       - name: Create pull request
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { repo, owner } = context.repo;
