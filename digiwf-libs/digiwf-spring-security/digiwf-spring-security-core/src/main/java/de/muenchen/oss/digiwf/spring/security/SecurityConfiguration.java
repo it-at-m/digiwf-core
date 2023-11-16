@@ -20,15 +20,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 /**
  * The central class for configuration of all security aspects.
@@ -65,15 +68,15 @@ public class SecurityConfiguration {
       final JwtAuthenticationConverter jwtAuthenticationConverter
   ) throws Exception {
     http
-        .csrf(csrf -> csrf
-            .ignoringRequestMatchers(springSecurityProperties.getPermittedUrls())
-            .disable()
+        .authorizeHttpRequests((authorize) -> {
+              authorize.requestMatchers(antMatcher(HttpMethod.OPTIONS, "/**")).permitAll();
+              Arrays.stream(springSecurityProperties.getPermittedUrls()).forEach(url ->
+                  authorize.requestMatchers(antMatcher(url)).permitAll()
+              );
+              authorize.anyRequest().authenticated();
+            }
         )
-        .authorizeHttpRequests(requests -> requests
-            .requestMatchers(HttpMethod.OPTIONS).permitAll()
-            .requestMatchers(springSecurityProperties.getPermittedUrls()).permitAll()
-            .anyRequest().authenticated()
-        )
+        .csrf(AbstractHttpConfigurer::disable)
         .oauth2ResourceServer(server -> server
             .jwt(jwt -> jwt
                 .jwtAuthenticationConverter(jwtAuthenticationConverter)

@@ -40,12 +40,12 @@ public class CamundaWebAppsSecurityConfiguration {
     // @formatter:off
     http
         .securityMatcher(CAMUNDA_APP_PATHS)
+        // Any requests on these paths require the configured role
+        .authorizeHttpRequests(authorize -> authorize
+            .anyRequest().hasRole(camundaWebappsProperties.getWebAppRole())
+        )
         // Disable CSRF for these paths
         .csrf(AbstractHttpConfigurer::disable)
-        // Any requests on these paths require the configured role
-        .authorizeHttpRequests(requests -> requests
-          .anyRequest().hasRole(camundaWebappsProperties.getWebAppRole())
-        )
         // oath2 resource server config
         .oauth2ResourceServer( server -> server
           .jwt( jwt -> jwt
