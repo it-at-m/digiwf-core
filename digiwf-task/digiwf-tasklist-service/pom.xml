@@ -21,7 +21,7 @@
         <camunda-platform-7-mockito.version>7.20.0</camunda-platform-7-mockito.version>
         <camunda-platform-7-rest-client.version>7.20.0</camunda-platform-7-rest-client.version>
         <camunda-data.version>1.4.0</camunda-data.version>
-        <axon-framework.version>4.8.0</axon-framework.version>
+        <axon-framework.version>4.9.0</axon-framework.version>
         <axon-extension-kafka.version>4.8.0</axon-extension-kafka.version>
 
         <polyflow.version>4.0.0</polyflow.version>
