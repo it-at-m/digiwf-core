@@ -41,4 +41,33 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>camunda-ce</id>
+            <activation>
+                <property>
+                    <name>!camunda-ee</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>camunda-ee</id>
+            <properties>
+                <camunda.version>${camunda.version.ee}</camunda.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.camunda.bpm.springboot</groupId>
+                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
 </project>

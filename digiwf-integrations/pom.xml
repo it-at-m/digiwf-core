@@ -11,6 +11,7 @@
 
     <name>${project.artifactId}</name>
     <description>Integrations by DigiWF</description>
+    <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
@@ -328,5 +329,103 @@
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <developers>
+        <developer>
+            <name>Alexander Boxhorn</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/boal</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>axd4</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/axd4</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Dominik Horn</name>
+            <organization>Miragon GmbH</organization>
+            <url>https://github.com/dominikhorn93</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>martind260</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/martind260</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Lukas Mösle</name>
+            <organization>Miragon GmbH</organization>
+            <url>https://github.com/lmoesle</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Simon Zambrovski</name>
+            <email>simon.zambrovski@holisticon.de</email>
+            <organization>Holisticon AG</organization>
+            <organizationUrl>https://holisticon.de/</organizationUrl>
+            <url>https://github.com/zambrovski</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>StephanStrehlerCGI</name>
+            <organization>CGI Deutschland</organization>
+            <url>https://github.com/StephanStrehlerCGI</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Simon Hirtreiter</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/simonhir</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>lehju</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/lehju</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>darenegade</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/darenegade</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/it-at-m/digiwf-core</url>
+        <connection>scm:git:git@github.com:it-at-m/digiwf-core.git</connection>
+        <developerConnection>scm:git:git@github.com:it-at-m/digiwf-core.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>

@@ -28,47 +28,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>camunda-ce</id>
-            <activation>
-                <property>
-                    <name>!camunda-ee</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>camunda-ee</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>
