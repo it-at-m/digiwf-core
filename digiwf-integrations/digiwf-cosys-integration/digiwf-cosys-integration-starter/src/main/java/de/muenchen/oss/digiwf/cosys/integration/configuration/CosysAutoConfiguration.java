@@ -124,7 +124,6 @@ public class CosysAutoConfiguration {
     }
 
     // Function call had to be renamed for message routing
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<GenerateDocument>> createCosysDocument(final CreateDocument documentUseCase, final ErrorApi errorApi) {
         final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
