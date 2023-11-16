@@ -5,8 +5,6 @@ import de.muenchen.oss.digiwf.alw.integration.domain.model.Responsibility;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
 import org.springframework.lang.NonNull;
 
-import java.util.Optional;
-
 /**
  * Retrieves the responsibility in Ausländerwesen (ALW).
  */

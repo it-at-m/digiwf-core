@@ -2,6 +2,7 @@ spring:
     cloud:
         function:
             definition: functionRouter;sendMessage;integrationTestConsumer;
+            routing-expression: "headers['type']"
         stream:
             bindings:
                 functionRouter-in-0:
@@ -12,9 +13,7 @@ spring:
                 integrationTestConsumer-in-0:
                     destination: "dwf-connector-e2e-test"
                     group: dwf-address-service-e2e
-            function:
-                routing:
-                    enabled: true
+
             kafka:
                 binder:
                     configuration:
@@ -48,15 +47,7 @@ io:
                 incidentDestination: "dwf-connector-incident-e2e-test"
                 bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
                 correlateMessageDestination: "dwf-connector-e2e-test"
-                typeMappings:
-                    searchAddressesGermany: searchAddressesGermany
-                    checkAddressMunich: checkAddressMunich
-                    listAddressesMunich: listAddressesMunich
-                    listChangesMunich: listChangesMunich
-                    searchAddressesMunich: searchAddressesMunich
-                    searchAddressesGeoMunich: searchAddressesGeoMunich
-                    findStreetByIdMunich: findStreetByIdMunich
-                    listStreetMunich: listStreetMunich
+
 de:
     muenchen:
         oss:
