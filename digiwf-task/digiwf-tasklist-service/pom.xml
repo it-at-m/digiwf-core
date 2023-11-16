@@ -128,6 +128,12 @@
             <groupId>org.camunda.community.rest</groupId>
             <artifactId>camunda-platform-7-rest-client-spring-boot-starter</artifactId>
             <version>${camunda-platform-7-rest-client.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-jaxb-annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- SPIN -->
