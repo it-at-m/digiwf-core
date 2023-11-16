@@ -4,6 +4,7 @@ spring:
       function:
         routing:
           enabled: 'true'
+        routing-expression: "headers['type']"
       bindings:
         functionRouter-in-0:
           group: "dwf-example-integration-local-01"
@@ -45,7 +46,6 @@ io:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
         correlateMessageDestination: "dwf-connector-local-01"
-        typeMappings:
-          exampleIntegration: "exampleIntegration"
+
 server:
   port: 8088
