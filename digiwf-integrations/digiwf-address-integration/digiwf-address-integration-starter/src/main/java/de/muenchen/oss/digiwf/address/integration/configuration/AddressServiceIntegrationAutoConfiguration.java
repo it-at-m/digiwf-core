@@ -26,144 +26,136 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(
-        basePackages = "de.muenchen.oss.digiwf.address.integration",
-        excludeFilters = {
-                @ComponentScan.Filter(
-                        type = FilterType.ASSIGNABLE_TYPE,
-                        classes = {
-                                /**
-                                 * Exclude to avoid multiple instantiation of beans with same name.
-                                 * This class is instantiated in {@link AddressServiceIntegrationAutoConfiguration}
-                                 * to give the bean another name.
-                                 */
-                                ApiClient.class,
-                                AdressenBundesweitApi.class,
-                                AdressenMnchenApi.class,
-                                StraenMnchenApi.class
-                        }
-                )
-        }
+    basePackages = "de.muenchen.oss.digiwf.address.integration",
+    excludeFilters = {
+        @ComponentScan.Filter(
+            type = FilterType.ASSIGNABLE_TYPE,
+            classes = {
+                /**
+                 * Exclude to avoid multiple instantiation of beans with same name.
+                 * This class is instantiated in {@link AddressServiceIntegrationAutoConfiguration}
+                 * to give the bean another name.
+                 */
+                ApiClient.class,
+                AdressenBundesweitApi.class,
+                AdressenMnchenApi.class,
+                StraenMnchenApi.class
+            }
+        )
+    }
 )
 @EnableConfigurationProperties(AddressServiceIntegrationProperties.class)
 public class AddressServiceIntegrationAutoConfiguration {
 
-    public final AddressServiceIntegrationProperties addressServiceIntegrationProperties;
+  public final AddressServiceIntegrationProperties addressServiceIntegrationProperties;
 
-    /**
-     * Provides a correct configured {@link ApiClient}.
-     *
-     * @param restTemplateBuilder to create a {@link RestTemplate}.
-     * @return a configured {@link ApiClient}.
-     */
-    public ApiClient addressServiceApiClient(final RestTemplateBuilder restTemplateBuilder) {
+  /**
+   * Provides a correct configured {@link ApiClient}.
+   *
+   * @return a configured {@link ApiClient}.
+   */
+  public ApiClient addressServiceApiClient() {
+    ApiClient client = new ApiClient(WebClient.create(addressServiceIntegrationProperties.getUrl()));
+    client.setBasePath(addressServiceIntegrationProperties.getUrl());
+    return client;
+  }
 
-        final RestTemplate restTemplate = restTemplateBuilder
-                .build();
+  /**
+   * Create the bean manually to use the correct configured {@link ApiClient}.
+   *
+   * @return a bean of type {@link AdressenBundesweitApi} named by method name.
+   */
+  @Bean
+  public AdressenBundesweitApi addressServiceAdressenBundesweitApi() {
+    final ApiClient apiClient = this.addressServiceApiClient();
+    return new AdressenBundesweitApi(apiClient);
+  }
 
-        final ApiClient apiClient = new ApiClient(restTemplate);
-        apiClient.setBasePath(this.addressServiceIntegrationProperties.getUrl());
-        return apiClient;
-    }
+  /**
+   * Create the bean manually to use the correct configured {@link ApiClient}.
+   *
+   * @return a bean of type {@link AdressenMnchenApi} named by method name.
+   */
+  @Bean
+  public AdressenMnchenApi addressServiceAdressenMnchenApi() {
+    final ApiClient apiClient = this.addressServiceApiClient();
+    return new AdressenMnchenApi(apiClient);
+  }
 
-    /**
-     * Create the bean manually to use the correct configured {@link ApiClient}.
-     *
-     * @param restTemplateBuilder to create a {@link RestTemplate}.
-     * @return a bean of type {@link AdressenBundesweitApi} named by method name.
-     */
-    @Bean
-    public AdressenBundesweitApi addressServiceAdressenBundesweitApi(final RestTemplateBuilder restTemplateBuilder) {
-        final ApiClient apiClient = this.addressServiceApiClient(restTemplateBuilder);
-        return new AdressenBundesweitApi(apiClient);
-    }
+  /**
+   * Create the bean manually to use the correct configured {@link ApiClient}.
+   *
+   * @return a bean of type {@link StraenMnchenApi} named by method name.
+   */
+  @Bean
+  public StraenMnchenApi addressServiceStraenMnchenApi() {
+    final ApiClient apiClient = this.addressServiceApiClient();
+    return new StraenMnchenApi(apiClient);
+  }
 
-    /**
-     * Create the bean manually to use the correct configured {@link ApiClient}.
-     *
-     * @param restTemplateBuilder to create a {@link RestTemplate}.
-     * @return a bean of type {@link AdressenMnchenApi} named by method name.
-     */
-    @Bean
-    public AdressenMnchenApi addressServiceAdressenMnchenApi(final RestTemplateBuilder restTemplateBuilder) {
-        final ApiClient apiClient = this.addressServiceApiClient(restTemplateBuilder);
-        return new AdressenMnchenApi(apiClient);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public AddressClientOutPort addressClientOutPort(
+      final AddressGermanyApi addressGermanyApi,
+      final AddressMunichApi addressMunichApi,
+      final StreetsMunichApi streetsMunichApi
+  ) {
+    return new AddressClientOutAdapter(addressGermanyApi, addressMunichApi, streetsMunichApi);
+  }
 
-    /**
-     * Create the bean manually to use the correct configured {@link ApiClient}.
-     *
-     * @param restTemplateBuilder to create a {@link RestTemplate}.
-     * @return a bean of type {@link StraenMnchenApi} named by method name.
-     */
-    @Bean
-    public StraenMnchenApi addressServiceStraenMnchenApi(final RestTemplateBuilder restTemplateBuilder) {
-        final ApiClient apiClient = this.addressServiceApiClient(restTemplateBuilder);
-        return new StraenMnchenApi(apiClient);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
+    return new IntegrationOutAdapter(processApi, errorApi);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AddressClientOutPort addressClientOutPort(
-            final AddressGermanyApi addressGermanyApi,
-            final AddressMunichApi addressMunichApi,
-            final StreetsMunichApi streetsMunichApi
-    ) {
-        return new AddressClientOutAdapter(addressGermanyApi, addressMunichApi, streetsMunichApi);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public AddressGermanyInPort addressGermanyInPort(final AddressClientOutPort addressClientOutPort) {
+    return new AddressesGermanyUseCase(addressClientOutPort);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public AddressMunichInPort addressMunichInPort(final AddressClientOutPort addressClientOutPort) {
+    return new AddressesMunichUseCase(addressClientOutPort);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AddressGermanyInPort addressGermanyInPort(final AddressClientOutPort addressClientOutPort) {
-        return new AddressesGermanyUseCase(addressClientOutPort);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public StreetsMunichInPort streetsMunichInPort(final AddressClientOutPort addressClientOutPort) {
+    return new StreetsMunichUseCase(addressClientOutPort);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AddressMunichInPort addressMunichInPort(final AddressClientOutPort addressClientOutPort) {
-        return new AddressesMunichUseCase(addressClientOutPort);
-    }
+  // client api
 
-    @Bean
-    @ConditionalOnMissingBean
-    public StreetsMunichInPort streetsMunichInPort(final AddressClientOutPort addressClientOutPort) {
-        return new StreetsMunichUseCase(addressClientOutPort);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public AddressGermanyApi addressGermanyApi(final AdressenBundesweitApi apiClient) {
+    return new AddressGermanyImpl(apiClient);
+  }
 
-    // client api
+  @ConditionalOnMissingBean
+  @Bean
+  public AddressMunichApi addressMunichApi(final AdressenMnchenApi apiClient) {
+    return new AddressesMunichImpl(apiClient);
+  }
 
-    @ConditionalOnMissingBean
-    @Bean
-    public AddressGermanyApi addressGermanyApi(final AdressenBundesweitApi apiClient) {
-        return new AddressGermanyImpl(apiClient);
-    }
-
-    @ConditionalOnMissingBean
-    @Bean
-    public AddressMunichApi addressMunichApi(final AdressenMnchenApi apiClient) {
-        return new AddressesMunichImpl(apiClient);
-    }
-
-    @ConditionalOnMissingBean
-    @Bean
-    public StreetsMunichApi munichStreetApi(final StraenMnchenApi apiClient) {
-        return new StreetsMunichImpl(apiClient);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public StreetsMunichApi munichStreetApi(final StraenMnchenApi apiClient) {
+    return new StreetsMunichImpl(apiClient);
+  }
 
 }

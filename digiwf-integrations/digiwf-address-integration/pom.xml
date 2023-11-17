@@ -17,7 +17,9 @@
     </parent>
 
     <properties>
-        <spring.cloud.version>2021.0.3</spring.cloud.version>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
         <digiwf.spring.cloudstream.utils.version>1.0.0</digiwf.spring.cloudstream.utils.version>
         <httpclient.version>4.5.14</httpclient.version>
         <apache.commons.version>4.4</apache.commons.version>
@@ -30,5 +32,21 @@
         <module>digiwf-address-integration-starter</module>
         <module>digiwf-address-integration-service</module>
     </modules>
+
+    <dependencies>
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-logging</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

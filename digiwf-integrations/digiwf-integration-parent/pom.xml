@@ -19,11 +19,16 @@
     <properties>
         <spring-boot.version>2.7.17</spring-boot.version>
         <spring.cloud.version>2021.0.8</spring.cloud.version>
+<!--        TODO after migrate all integrations, we can set the spring boot version here: -->
+<!--        <spring-boot.version>3.1.5</spring-boot.version>-->
+<!--        <spring.cloud.version>2022.0.4</spring.cloud.version>-->
         <okhttp.version>4.12.0</okhttp.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <tika.version>2.9.1</tika.version>
         <logstash.encoder.version>7.4</logstash.encoder.version>
         <digiwf.version>1.1.1</digiwf.version>
+
+        <mockito.inline.version>5.2.0</mockito.inline.version>
     </properties>
 
     <dependencyManagement>
