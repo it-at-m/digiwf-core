@@ -16,6 +16,7 @@ import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.HttpStatusReturningServerLogoutSuccessHandler;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.security.web.server.csrf.ServerCsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import reactor.core.publisher.Mono;
 
@@ -26,58 +27,65 @@ import java.time.Duration;
 @Profile("!no-security")
 public class SecurityConfiguration {
 
-    private static final String LOGOUT_URL = "/logout";
+  private static final String LOGOUT_URL = "/logout";
 
-    private static final String LOGOUT_SUCCESS_URL = "/loggedout.html";
+  private static final String LOGOUT_SUCCESS_URL = "/loggedout.html";
 
-    /**
-     * Same lifetime as SSO Session (e.g. 10 hours).
-     */
-    @Value("${spring.session.timeout:36000}")
-    private long springSessionTimeoutSeconds;
+  /**
+   * Same lifetime as SSO Session (e.g. 10 hours).
+   */
+  @Value("${spring.session.timeout:36000}")
+  private long springSessionTimeoutSeconds;
 
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        http
-                .logout(logoutSpec -> {
-                    //.logoutSuccessHandler(GatewayUtils.createLogoutSuccessHandler(LOGOUT_SUCCESS_URL))
-                    logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
-                            .logoutUrl(LOGOUT_URL)
-                            .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL));
-                })
+  @Bean
+  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    http
+        .logout(logoutSpec -> {
+          //.logoutSuccessHandler(GatewayUtils.createLogoutSuccessHandler(LOGOUT_SUCCESS_URL))
+          logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
+              .logoutUrl(LOGOUT_URL)
+              .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL));
+        })
 
-                    .authorizeExchange(authorizeExchangeSpec -> {
-                        // permitAll
-                        authorizeExchangeSpec.pathMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                                .pathMatchers(LOGOUT_SUCCESS_URL).permitAll()
-                                .pathMatchers("/api/*/info",
-                                        "/actuator/health",
-                                        "/actuator/info",
-                                        "/actuator/metrics").permitAll()
-                                // only authenticated
-                                .anyExchange().authenticated();
-                    })
-                .cors(corsSpec -> {})
-                .csrf(csrfSpec -> {
-                    /*
-                     * The necessary subscription for csrf token attachment to {@link ServerHttpResponse}
-                     * is done in class {@link CsrfTokenAppendingHelperFilter}.
-                     */
-                    csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse());
-                })
-                .oauth2Login(oAuth2LoginSpec -> {
-                    oAuth2LoginSpec.authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler() {
-                        @Override
-                        public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
-                            webFilterExchange.getExchange().getSession().subscribe(
-                                    webSession -> webSession.setMaxIdleTime(Duration.ofSeconds(springSessionTimeoutSeconds))
-                            );
-                            return super.onAuthenticationSuccess(webFilterExchange, authentication);
-                        }
-                    });
-                });
+        .authorizeExchange(authorizeExchangeSpec -> {
+          // permitAll
+          authorizeExchangeSpec.pathMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+              .pathMatchers(LOGOUT_SUCCESS_URL).permitAll()
+              .pathMatchers("/api/*/info",
+                  "/actuator/health",
+                  "/actuator/info",
+                  "/actuator/metrics").permitAll()
+              // only authenticated
+              .anyExchange().authenticated();
+        })
+        .cors(corsSpec -> {
+        })
+        .csrf(csrfSpec -> {
+          /*
+           * Default config before spring security 6.0.
+           * Is vulnerable to BREACH attack.
+           * https://docs.spring.io/spring-security/reference/reactive/exploits/csrf.html#webflux-csrf-configure-request-handler
+           */
+          csrfSpec.csrfTokenRequestHandler(new ServerCsrfTokenRequestAttributeHandler());
+          /*
+           * The necessary subscription for csrf token attachment to {@link ServerHttpResponse}
+           * is done in class {@link CsrfTokenAppendingHelperFilter}.
+           */
+          csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse());
+        })
+        .oauth2Login(oAuth2LoginSpec -> {
+          oAuth2LoginSpec.authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler() {
+            @Override
+            public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
+              webFilterExchange.getExchange().getSession().subscribe(
+                  webSession -> webSession.setMaxIdleTime(Duration.ofSeconds(springSessionTimeoutSeconds))
+              );
+              return super.onAuthenticationSuccess(webFilterExchange, authentication);
+            }
+          });
+        });
 
-        return http.build();
-    }
+    return http.build();
+  }
 
 }

@@ -28,11 +28,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+        </dependency>
 
         <!-- Validation -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
         <!-- openApi -->
@@ -67,19 +71,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -99,7 +92,6 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.0.1</version>
                 <executions>
                     <execution>
                         <id>address-integration</id>
@@ -109,7 +101,7 @@
                         <configuration>
                             <generatorName>java</generatorName>
                             <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
-                            <library>resttemplate</library>
+                            <library>webclient</library>
 
                             <apiPackage>de.muenchen.oss.digiwf.address.integration.client.gen.api</apiPackage>
                             <modelPackage>de.muenchen.oss.digiwf.address.integration.client.gen.model</modelPackage>
@@ -123,7 +115,7 @@
 
                             <environmentVariables>
                                 <supportingFiles>
-                                    ApiClient.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,RFC3339DateFormat.java
+                                    ApiClient.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
                                 </supportingFiles>
                             </environmentVariables>
 
@@ -138,6 +130,8 @@
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <performBeanValidation>true</performBeanValidation>
                                 <additionalProperty>true</additionalProperty>
+                                <useJakartaEe>true</useJakartaEe>
+
                             </configOptions>
                         </configuration>
                     </execution>
