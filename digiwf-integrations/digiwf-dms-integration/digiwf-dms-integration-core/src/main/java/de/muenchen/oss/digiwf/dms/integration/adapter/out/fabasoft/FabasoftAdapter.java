@@ -3,7 +3,6 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.domain.*;
-import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -22,7 +21,8 @@ public class FabasoftAdapter implements
         DepositObjectPort,
         CancelObjectPort,
         ReadContentPort,
-        SearchFilePort {
+        SearchFilePort,
+        SearchSubjectAreaPort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -335,13 +335,18 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<File> searchFile(final String searchString, final String user) {
-        val objects = this.searchObject(searchString, DMSObjectClass.Sachakte, user);
-        return objects.stream()
-                .map(obj -> new File(obj.getLHMBAI151700Objaddress(), obj.getLHMBAI151700Objname()))
+    public List<String> searchFile(final String searchString, final String user) {
+        return this.searchObject(searchString, DMSObjectClass.Sachakte, user).stream()
+                .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
                 .toList();
     }
 
+    @Override
+    public List<String> searchSubjectArea(String searchString, String user) {
+        return this.searchObject(searchString, DMSObjectClass.Aktenplaneintrag, user).stream()
+                .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
+                .toList();
+    }
 
     //------------------------------------- HELPER METHODS -------------------------------------------
 
@@ -369,4 +374,6 @@ public class FabasoftAdapter implements
         }
         return response.getGiobjecttype().getLHMBAI151700GIObjectType();
     }
+
+
 }

@@ -33,6 +33,7 @@ public class MessageProcessor {
     private final CancelObjectUseCase cancelObjectUseCase;
     private final ReadContentUseCase readContentUseCase;
     private final SearchFileUseCase searchFileUseCase;
+    private final SearchSubjectAreaUseCase searchSubjectAreaUseCase;
 
     public Consumer<Message<CreateFileDto>> createFile() {
         return message -> {
@@ -149,16 +150,30 @@ public class MessageProcessor {
         };
     }
 
-    public Consumer<Message<SearchFileDto>> searchFile() {
+    public Consumer<Message<SearchObjectDto>> searchFile() {
         return message -> {
             withErrorHandling(message, () -> {
-                final SearchFileDto readContentDto = message.getPayload();
-                this.searchFileUseCase.searchFile(
+                final SearchObjectDto readContentDto = message.getPayload();
+                final String file = this.searchFileUseCase.searchFile(
                         readContentDto.getSearchString(),
                         readContentDto.getUser()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));
+            });
+        };
+    }
+
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchObjectDto readContentDto = message.getPayload();
+                final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
+                        readContentDto.getSearchString(),
+                        readContentDto.getUser()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));
             });
         };
     }

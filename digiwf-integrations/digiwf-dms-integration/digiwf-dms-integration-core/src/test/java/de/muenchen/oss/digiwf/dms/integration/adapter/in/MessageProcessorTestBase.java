@@ -22,6 +22,7 @@ class MessageProcessorTestBase {
     protected final CancelObjectUseCase cancelObjectUseCaseMock = Mockito.mock(CancelObjectUseCase.class);
     protected final ReadContentUseCase readContentUseCase = Mockito.mock(ReadContentUseCase.class);
     protected final SearchFileUseCase searchFileUseCase = Mockito.mock(SearchFileUseCase.class);
+    protected final SearchSubjectAreaUseCase searchSubjectAreaUseCase = Mockito.mock(SearchSubjectAreaUseCase.class);
     protected final String processInstanceId = "exampleProcessInstanceId";
     protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
     protected MessageProcessor messageProcessor;
@@ -37,7 +38,8 @@ class MessageProcessorTestBase {
                 depositObjectUseCaseMock,
                 cancelObjectUseCaseMock,
                 readContentUseCase,
-                searchFileUseCase);
+                searchFileUseCase,
+                searchSubjectAreaUseCase);
     }
 }
 

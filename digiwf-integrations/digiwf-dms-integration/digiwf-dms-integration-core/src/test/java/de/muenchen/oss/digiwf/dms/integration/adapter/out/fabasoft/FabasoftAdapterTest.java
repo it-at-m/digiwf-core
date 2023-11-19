@@ -3,11 +3,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.*;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import de.muenchen.oss.digiwf.dms.integration.domain.Content;
-import de.muenchen.oss.digiwf.dms.integration.domain.Document;
-import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
-import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
+import de.muenchen.oss.digiwf.dms.integration.domain.*;
 import de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.FabasoftClienFactory;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -232,10 +228,33 @@ public class FabasoftAdapterTest {
 
         stubOperation(
                 "SearchObjNameGI",
-                SearchObjNameGI.class, (u) -> true,
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
                 response);
 
         val files = fabasoftAdapter.searchFile("searchString", "user");
+
+        assertThat(files.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void execute_searchSubjectArea_request() {
+        val file = new LHMBAI151700GIObjectType();
+        file.setLHMBAI151700Objaddress("testCoo");
+        file.setLHMBAI151700Objname("testName");
+
+        val array = new ArrayOfLHMBAI151700GIObjectType();
+        array.getLHMBAI151700GIObjectType().add(file);
+
+        val response = new SearchObjNameGIResponse();
+        response.setStatus(0);
+        response.setGiobjecttype(array);
+
+        stubOperation(
+                "SearchObjNameGI",
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Aktenplaneintrag.getName()),
+                response);
+
+        val files = fabasoftAdapter.searchSubjectArea("searchString", "user");
 
         assertThat(files.size()).isEqualTo(1);
 

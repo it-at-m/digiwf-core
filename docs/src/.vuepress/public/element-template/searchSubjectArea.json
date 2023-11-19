@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Sachakte suchen",
-  "id": "de.muenchen.digitalwf.templates.search-file",
+  "name": "DMS: Aktenplaneintrag suchen",
+  "id": "de.muenchen.digitalwf.templates.search-subject-area",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -48,7 +48,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "searchFile",
+      "value": "searchSubjectArea",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -89,13 +89,13 @@
       }
     },
     {
-      "label": "Sachakte (Coo)",
+      "label": "Aktenplaneintrag (Coo)",
       "description": "Out Mapping",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:out",
-        "source": "fileCoo"
+        "source": "subjectAreaCoo"
       },
       "constraints": {
         "notEmpty": true

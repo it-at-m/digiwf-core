@@ -5,10 +5,8 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.SearchFilePor
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Component
 @Validated
 @RequiredArgsConstructor
 public class SearchFileService implements SearchFileUseCase {
@@ -21,10 +19,10 @@ public class SearchFileService implements SearchFileUseCase {
         val files = searchFilePort.searchFile(searchString, user);
 
         if (files.isEmpty()) {
-            throw new BpmnError("FILE_NOT_FOUND", String.format("File not found with searchString %s and user %s", searchString, user));
+            throw new BpmnError("OBJECT_NOT_FOUND", String.format("File not found with searchString %s and user %s", searchString, user));
         }
 
         // return first result
-        return files.get(0).getCoo();
+        return files.get(0);
     }
 }

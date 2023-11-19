@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.application.service;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.SearchFilePort;
-import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,7 +17,7 @@ class SearchFileServiceTest {
     @Test
     void searchFile() {
 
-        when(searchFilePort.searchFile(any(), any())).thenReturn(List.of(new File("coo", "title")));
+        when(searchFilePort.searchFile(any(), any())).thenReturn(List.of("coo"));
 
         searchFileService.searchFile("searchString", "user");
 

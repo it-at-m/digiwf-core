@@ -86,7 +86,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ReadContentUseCase cancelObjectUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
+    public ReadContentUseCase readContentUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
         return new ReadContentService(transferContentPort, readContentPort);
     }
 
@@ -94,6 +94,12 @@ public class DmsAutoConfiguration {
     @ConditionalOnMissingBean
     public SearchFileUseCase searchFileUseCase(SearchFilePort searchFilePort) {
         return new SearchFileService(searchFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchSubjectAreaUseCase searchSubjectAreaUseCase(SearchSubjectAreaPort searchSubjectAreaPort) {
+        return new SearchSubjectAreaService(searchSubjectAreaPort);
     }
 
     @Bean
@@ -127,6 +133,16 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<SearchObjectDto>> searchFileMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchFile();
+    }
+
+    @Bean
+    public Consumer<Message<SearchObjectDto>> searchSubjectAreaMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchSubjectArea();
+    }
+
+    @Bean
     @ConditionalOnMissingBean
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
@@ -138,7 +154,9 @@ public class DmsAutoConfiguration {
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase,
             final ReadContentUseCase readContentUseCase,
-            final SearchFileUseCase searchFileUseCase) {
+            final SearchFileUseCase searchFileUseCase,
+            final SearchSubjectAreaUseCase searchSubjectAreaUseCase
+    ) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
@@ -149,7 +167,8 @@ public class DmsAutoConfiguration {
                 depositObjectUseCase,
                 cancelObjectUseCase,
                 readContentUseCase,
-                searchFileUseCase);
+                searchFileUseCase,
+                searchSubjectAreaUseCase);
     }
 
 }

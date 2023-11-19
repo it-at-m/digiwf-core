@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class SearchFileDto {
+public class SearchObjectDto {
 
     private String searchString;
 

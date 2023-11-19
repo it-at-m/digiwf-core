@@ -9,10 +9,10 @@ import org.springframework.messaging.MessageHeaders;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
+class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
 
-    private final SearchObjectDto searchFileDto = new SearchObjectDto(
-            "group.*-file-*",
+    private final SearchObjectDto searchSubjectAreaDto = new SearchObjectDto(
+            "aktenplan",
             "user"
     );
     private Message<SearchObjectDto> message;
@@ -20,15 +20,15 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.when(searchFileUseCase.searchFile(
-                searchFileDto.getSearchString(),
-                searchFileDto.getUser()
+        Mockito.when(searchSubjectAreaUseCase.searchSubjectArea(
+                searchSubjectAreaDto.getSearchString(),
+                searchSubjectAreaDto.getUser()
         )).thenReturn("coo");
 
         this.message = new Message<>() {
             @Override
             public SearchObjectDto getPayload() {
-                return searchFileDto;
+                return searchSubjectAreaDto;
             }
 
             @Override
@@ -40,10 +40,10 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testReadFileSuccessfully() {
-        messageProcessor.searchFile().accept(this.message);
-        verify(searchFileUseCase, times(1)).searchFile(
-                searchFileDto.getSearchString(),
-                searchFileDto.getUser());
+        messageProcessor.searchSubjectArea().accept(this.message);
+        verify(searchSubjectAreaUseCase, times(1)).searchSubjectArea(
+                searchSubjectAreaDto.getSearchString(),
+                searchSubjectAreaDto.getUser());
     }
 
 }
