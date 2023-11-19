@@ -13,6 +13,35 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 
+### Sachakte anlegen
+
+Zur asynchronen Erstellung einer Sachakte im Dms, erzeugen Sie zuerst ein `CreateFileDto`-Objekt und setzen den
+TYPE-Header auf `createFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `CreateFileDto`-Objekt aufgeführt:
+
+```json
+{
+  "apentryCOO": "",
+  "title": "",
+  "user": ""
+}
+```
+
+Die Dms Integration erzeugt eine Sachakte mit den angegebenen Variablen.
+Dafür muss vorab die ID des Aktenplans gesucht und über das Feld `apentryCOO` übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Sachakte anlegen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createFile.json)
+
+
 ### Vorgang anlegen
 
 Zur asynchronen Erstellung eines Vorgangs im Dms, erzeugen Sie zuerst ein `CreateProcedureDto`-Objekt und setzen den

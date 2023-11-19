@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class File {
     private String coo;
+    private String apentryCOO;
     private String title;
 }

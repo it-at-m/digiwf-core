@@ -5,19 +5,20 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAu
 import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.function.Supplier;
 
 @Profile("itest")
 @Configuration
@@ -48,6 +49,7 @@ public class SecurityTestConfiguration {
 
   /**
    * Sets test security. 1:1 copy of {@link TaskServiceSecurityConfiguration}, but without OAuth configured.
+   *
    * @param http http security fluent builder.
    * @return filter chain
    * @throws Exception on any error.
@@ -56,18 +58,21 @@ public class SecurityTestConfiguration {
   public SecurityFilterChain configure(HttpSecurity http) throws Exception {
     // @formatter:off
     return http
-        .logout().disable()
-        .formLogin().disable()
-        .csrf().disable()
-        // authorization block
-        .authorizeRequests()
-        .antMatchers(HttpMethod.OPTIONS).permitAll()
-        .antMatchers("/actuator/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        // end of authorization block
-        .build()
-        ;
+        .logout(
+            AbstractHttpConfigurer::disable
+        )
+        .formLogin(
+            AbstractHttpConfigurer::disable
+        )
+        .csrf(
+            AbstractHttpConfigurer::disable
+        )
+        .authorizeHttpRequests(requests -> requests
+            .requestMatchers(HttpMethod.OPTIONS).permitAll()
+            .requestMatchers("/actuator/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .build();
     // @formatter:on
   }
 

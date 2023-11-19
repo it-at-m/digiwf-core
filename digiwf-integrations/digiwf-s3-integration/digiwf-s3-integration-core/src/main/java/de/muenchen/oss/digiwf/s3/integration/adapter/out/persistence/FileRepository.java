@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDate;
@@ -7,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public interface FileRepository extends PagingAndSortingRepository<File, UUID> {
+public interface FileRepository extends PagingAndSortingRepository<File, UUID>, CrudRepository<File, UUID> {
 
   void deleteByPathToFile(final String pathToFile);
 

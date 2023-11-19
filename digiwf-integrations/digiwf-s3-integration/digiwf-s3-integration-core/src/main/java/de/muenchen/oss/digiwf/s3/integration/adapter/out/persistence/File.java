@@ -3,10 +3,10 @@ package de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FileData;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Getter

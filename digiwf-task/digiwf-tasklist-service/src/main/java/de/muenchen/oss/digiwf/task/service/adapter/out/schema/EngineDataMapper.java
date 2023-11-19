@@ -37,8 +37,7 @@ public class EngineDataMapper {
     public Map<String, Object> mapToData(final Map<String, Object> variables) {
         final Map<String, Object> data = Variables.createVariables();
         variables.forEach((key, value) -> {
-            if (value instanceof Map) {
-                Map<?, ?> mValue = (Map<?, ?>) value;
+            if (value instanceof Map<?, ?> mValue) {
                 if (mValue.containsKey("type") && mValue.get("type").equals("json")) {
                     data.put(key, mapToData(mValue.get("value").toString()));
                 } else {

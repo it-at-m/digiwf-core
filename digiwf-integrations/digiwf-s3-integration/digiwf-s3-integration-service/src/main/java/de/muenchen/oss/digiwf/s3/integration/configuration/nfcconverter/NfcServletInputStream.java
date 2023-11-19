@@ -6,8 +6,8 @@ package de.muenchen.oss.digiwf.s3.integration.configuration.nfcconverter;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 

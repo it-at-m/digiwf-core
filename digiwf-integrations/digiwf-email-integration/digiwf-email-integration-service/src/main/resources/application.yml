@@ -6,6 +6,7 @@ spring:
   cloud:
     function:
       definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
     stream:
       function:
         routing:
@@ -83,5 +84,3 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
-        typeMappings:
-          sendMailFromEventBus: "emailMessageProcessor"

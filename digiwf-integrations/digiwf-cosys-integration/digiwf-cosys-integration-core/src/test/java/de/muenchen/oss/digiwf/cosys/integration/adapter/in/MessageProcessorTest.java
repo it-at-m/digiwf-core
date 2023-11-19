@@ -12,7 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 import java.util.List;
 import java.util.Map;
 

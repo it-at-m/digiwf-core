@@ -23,7 +23,7 @@ public class StreetsMunichImpl implements StreetsMunichApi {
     @Override
     public Strasse findStreetsById(final long streetId) throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         try {
-            return this.straessenMuenchenApi.findStrasseByNummer(streetId);
+            return this.straessenMuenchenApi.findStrasseByNummer(streetId).block();
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
             log.debug(message);
@@ -49,7 +49,7 @@ public class StreetsMunichImpl implements StreetsMunichApi {
                     listStreetsModel.getSortdir(),
                     listStreetsModel.getPage(),
                     listStreetsModel.getPagesize()
-            );
+            ).block();
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get street failed with %s. %s", exception.getStatusCode(), exception.getMessage());
             log.debug(message);

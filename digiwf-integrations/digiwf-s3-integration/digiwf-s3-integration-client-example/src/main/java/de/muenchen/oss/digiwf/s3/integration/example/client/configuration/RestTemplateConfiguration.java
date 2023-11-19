@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.s3.integration.example.client.configuration;
 
-import de.muenchen.oss.digiwf.s3.integration.gen.ApiClient;
+import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;

@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
+import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.FabasoftClienFactory;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,23 @@ public class FabasoftAdapterTest {
         this.properties.setBusinessapp("businessapp");
         soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:" + wmRuntimeInfo.getHttpPort() + "/");
         fabasoftAdapter = new FabasoftAdapter(properties, this.soapClient);
+    }
+
+    @Test
+    public void execute_createFile_request() {
+        val response = new CreateFileGIResponse();
+        response.setObjid("1234567890");
+
+        stubOperation(
+                "CreateFileGI",
+                CreateFileGI.class, (u) -> "new file".equals(u.getShortname()),
+                response);
+
+        val file = new File("apentryCOO", "new file");
+
+        val procedureResponse = fabasoftAdapter.createFile(file, "user");
+
+        assertEquals(procedureResponse, "1234567890");
     }
 
     @Test

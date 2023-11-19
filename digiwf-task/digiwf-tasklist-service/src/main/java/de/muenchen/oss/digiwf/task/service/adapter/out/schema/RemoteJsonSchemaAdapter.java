@@ -15,6 +15,7 @@ public class RemoteJsonSchemaAdapter implements JsonSchemaPort {
   private final JsonSchemaClient jsonSchemaClient;
   @Override
   public JsonSchema getSchemaById(String schemaId) throws JsonSchemaNotFoundException {
+    //noinspection unchecked
     return JsonSchema.of(schemaId, (Map<String, Object>) jsonSchemaClient.getSchemaById(schemaId).get("schema"));
   }
 }
