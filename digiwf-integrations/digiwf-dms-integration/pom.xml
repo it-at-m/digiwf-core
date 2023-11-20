@@ -18,7 +18,10 @@
     </parent>
 
     <properties>
-        <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
+
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
         <jai-imageio-jpeg2000.version>1.4.0</jai-imageio-jpeg2000.version>
@@ -30,5 +33,33 @@
         <module>digiwf-dms-integration-service</module>
         <module>digiwf-dms-integration-fabasoft</module>
     </modules>
+
+    <!--        TODO could be removed after migrate all migrations to spring 3-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-s3-integration-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--        TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-logging</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

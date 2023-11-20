@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.DepositObject
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Validated
 @RequiredArgsConstructor

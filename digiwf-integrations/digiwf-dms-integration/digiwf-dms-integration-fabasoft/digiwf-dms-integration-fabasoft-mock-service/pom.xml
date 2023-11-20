@@ -14,7 +14,7 @@
     <properties>
         <cxf.version>3.3.6</cxf.version>
         <javax.xml.version>2.3.0</javax.xml.version>
-        <wiremock.version>2.35.1</wiremock.version>
+        <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
     <dependencies>
