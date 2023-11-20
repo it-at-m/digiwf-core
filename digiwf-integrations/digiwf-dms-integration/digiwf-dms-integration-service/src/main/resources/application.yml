@@ -85,6 +85,9 @@ digiwf:
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
         enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
+  security:
+    client-id: ${SSO_DMS_CLIENT_ID}
+    client-secret: ${SSO_DMS_CLIENT_SECRET}
 
 io:
   muenchendigital:
@@ -105,6 +108,8 @@ io:
           depositObject: "depositObjectMessageProcessor"
           cancelObject: "cancelObjectMessageProcessor"
           readContent: "readContentMessageProcessor"
+          searchFile: "searchFileMessageProcessor"
+          searchSubjectArea: "searchSubjectAreaMessageProcessor"
 
 de:
   muenchen:
