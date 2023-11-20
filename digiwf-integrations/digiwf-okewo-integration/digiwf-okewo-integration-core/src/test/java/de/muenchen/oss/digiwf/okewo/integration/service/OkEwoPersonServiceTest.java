@@ -10,8 +10,7 @@ import de.muenchen.oss.digiwf.okewo.integration.repository.OkEwoPersonRepository
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 class OkEwoPersonServiceTest {
@@ -30,7 +29,7 @@ class OkEwoPersonServiceTest {
         Mockito.when(this.okEwoPersonRepository.getPerson(om, benutzerId)).thenReturn(new Person());
 
         final Person result = this.okEwoPersonService.getPerson(om);
-        assertThat(result, is(new Person()));
+        assertEquals(new Person(), result);
 
         Mockito.verify(this.okEwoPersonRepository, Mockito.times(1)).getPerson(om, benutzerId);
     }
@@ -43,7 +42,7 @@ class OkEwoPersonServiceTest {
         Mockito.when(this.okEwoPersonRepository.searchPerson(suchePersonAnfrage)).thenReturn(new SuchePersonAntwort());
 
         final SuchePersonAntwort result = this.okEwoPersonService.searchPerson(new SuchePersonAnfrage());
-        assertThat(result, is(new SuchePersonAntwort()));
+        assertEquals(new SuchePersonAntwort(), result);
 
         Mockito.verify(this.okEwoPersonRepository, Mockito.times(1)).searchPerson(suchePersonAnfrage);
     }

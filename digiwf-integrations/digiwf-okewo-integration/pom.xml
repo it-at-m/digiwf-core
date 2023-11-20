@@ -18,6 +18,10 @@
     </parent>
 
     <properties>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
+
         <maven.surefire.plugin.version>3.2.2</maven.surefire.plugin.version>
     </properties>
 
@@ -50,6 +54,7 @@
     </dependencyManagement>
 
     <dependencies>
+<!--        FIXME: check if required-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -60,6 +65,20 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-logging</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

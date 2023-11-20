@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.okewo.integration.api.dto.response;
+package de.muenchen.oss.digiwf.okewo.integration.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

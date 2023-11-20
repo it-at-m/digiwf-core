@@ -21,8 +21,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -47,7 +46,7 @@ class OkEwoPersonErweitertRepositoryTest {
         Mockito.when(this.personErweitertApi.deMuenchenEaiEwoRouteROUTEPROCESSGETPERSONERWEITERT(om, benutzerId)).thenReturn(new PersonErweitert());
 
         final PersonErweitert result = this.okEwoPersonErweitertRepository.getPerson(om, benutzerId);
-        assertThat(result, is(new PersonErweitert()));
+        assertEquals(new PersonErweitert(), result);
 
         Mockito.verify(this.personErweitertApi, Mockito.times(1)).deMuenchenEaiEwoRouteROUTEPROCESSGETPERSONERWEITERT(om, benutzerId);
     }
@@ -80,7 +79,7 @@ class OkEwoPersonErweitertRepositoryTest {
         Mockito.when(this.personErweitertApi.deMuenchenEaiEwoRouteROUTEPROCESSSEARCHPERSONERWEITERT(suchePersonerweitertAnfrage)).thenReturn(new SuchePersonerweitertAntwort());
 
         final SuchePersonerweitertAntwort result = this.okEwoPersonErweitertRepository.searchPerson(suchePersonerweitertAnfrage);
-        assertThat(result, is(new SuchePersonerweitertAntwort()));
+        assertEquals(new SuchePersonerweitertAntwort(), result);
 
         Mockito.verify(this.personErweitertApi, Mockito.times(1)).deMuenchenEaiEwoRouteROUTEPROCESSSEARCHPERSONERWEITERT(suchePersonerweitertAnfrage);
     }

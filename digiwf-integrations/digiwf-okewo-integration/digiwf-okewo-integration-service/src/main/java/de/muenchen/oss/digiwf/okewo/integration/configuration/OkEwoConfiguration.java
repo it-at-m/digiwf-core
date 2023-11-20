@@ -1,6 +1,6 @@
-package de.muenchen.oss.digiwf.okewo.integration.api.configuration;
+package de.muenchen.oss.digiwf.okewo.integration.configuration;
 
-import de.muenchen.oss.digiwf.okewo.integration.api.streaming.OkEwoStreamingEventListener;
+import de.muenchen.oss.digiwf.okewo.integration.streaming.OkEwoStreamingEventListener;
 import de.muenchen.oss.digiwf.spring.cloudstream.utils.api.streaming.infrastructure.RoutingCallback;
 import de.muenchen.oss.digiwf.spring.cloudstream.utils.configuration.StreamingConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;

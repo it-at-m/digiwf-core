@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.okewo.integration.api;
+package de.muenchen.oss.digiwf.okewo.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -21,8 +21,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -47,7 +46,7 @@ class OkEwoPersonRepositoryTest {
         Mockito.when(this.personApi.deMuenchenEaiEwoRouteROUTEPROCESSGETPERSON(om, benutzerId)).thenReturn(new Person());
 
         final Person result = this.okEwoPersonRepository.getPerson(om, benutzerId);
-        assertThat(result, is(new Person()));
+        assertEquals(new Person(), result);
 
         Mockito.verify(this.personApi, Mockito.times(1)).deMuenchenEaiEwoRouteROUTEPROCESSGETPERSON(om, benutzerId);
     }
@@ -80,7 +79,7 @@ class OkEwoPersonRepositoryTest {
         Mockito.when(this.personApi.deMuenchenEaiEwoRouteROUTEPROCESSSEARCHPERSON(suchePersonAnfrage)).thenReturn(new SuchePersonAntwort());
 
         final SuchePersonAntwort result = this.okEwoPersonRepository.searchPerson(suchePersonAnfrage);
-        assertThat(result, is(new SuchePersonAntwort()));
+        assertEquals(new SuchePersonAntwort(), result);
 
         Mockito.verify(this.personApi, Mockito.times(1)).deMuenchenEaiEwoRouteROUTEPROCESSSEARCHPERSON(suchePersonAnfrage);
     }
