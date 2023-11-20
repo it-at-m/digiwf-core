@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.camunda.bpm.client.interceptor.ClientRequestInterceptor;
 import org.camunda.community.rest.client.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +34,11 @@ public class CamundaSecurityConfig {
 
     @Autowired
     public void addOAuthInterceptor(final ApiClient apiClient) {
-        apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addInterceptor(this::intercept).build());
+        apiClient.setHttpClient(HttpClientBuilder.create().addRequestInterceptorFirst(this::intercept).build());
+    }
+
+    private void intercept(HttpRequest httpRequest, EntityDetails entityDetails, HttpContext httpContext) {
+        httpRequest.addHeader("Authorization", this.getAccessToken());
     }
 
     public Response intercept(final Interceptor.Chain chain) throws IOException {
@@ -42,6 +50,6 @@ public class CamundaSecurityConfig {
     }
 
     public String getAccessToken() {
-        return "Bearer "+ this.tokenSupplier.get().getTokenValue();
+        return "Bearer " + this.tokenSupplier.get().getTokenValue();
     }
 }
