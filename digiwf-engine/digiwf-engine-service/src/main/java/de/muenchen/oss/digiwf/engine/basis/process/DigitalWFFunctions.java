@@ -39,7 +39,7 @@ public class DigitalWFFunctions {
         return this.getFrontendUrl() + "#/opengrouptask";
     }
 
-    private String getFrontendUrl() {
+    public String getFrontendUrl() {
         return this.properties.getFrontendUrl().endsWith("/") ? this.properties.getFrontendUrl() : this.properties.getFrontendUrl() + "/";
     }
 
