@@ -31,3 +31,9 @@ logging:
     org.springframework.boot.web: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
 
+digiwf:
+  streaming:
+    cocreation:
+      deploy:
+        # all deployments are reported back to cocreation local
+        topic: 'dwf-cocreation-deploy-local-01'
