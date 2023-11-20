@@ -46,18 +46,38 @@
         <module>digiwf-connector-api</module>
     </modules>
 
+
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+
             <!-- DigiWF -->
             <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
                 <artifactId>digiwf-json-serialization-core</artifactId>
-                <version>${digiwf.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
                 <artifactId>digiwf-json-serialization-starter</artifactId>
-                <version>${digiwf.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
