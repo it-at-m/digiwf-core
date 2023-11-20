@@ -16,13 +16,13 @@ public class SearchSubjectAreaService implements SearchSubjectAreaUseCase {
     @Override
     public String searchSubjectArea(String searchString, String user) {
 
-        val files = searchSubjectAreaPort.searchSubjectArea(searchString, user);
+        val subjectAreas = searchSubjectAreaPort.searchSubjectArea(searchString, user);
 
-        if (files.isEmpty()) {
+        if (subjectAreas.isEmpty()) {
             throw new BpmnError("OBJECT_NOT_FOUND", String.format("Subject Area not found with searchString %s and user %s", searchString, user));
         }
 
         // return first result
-        return files.get(0);
+        return subjectAreas.get(0);
     }
 }

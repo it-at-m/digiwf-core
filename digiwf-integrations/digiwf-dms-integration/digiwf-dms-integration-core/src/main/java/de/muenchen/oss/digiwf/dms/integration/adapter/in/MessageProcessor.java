@@ -153,10 +153,10 @@ public class MessageProcessor {
     public Consumer<Message<SearchObjectDto>> searchFile() {
         return message -> {
             withErrorHandling(message, () -> {
-                final SearchObjectDto readContentDto = message.getPayload();
+                final SearchObjectDto searchObjectDto = message.getPayload();
                 final String file = this.searchFileUseCase.searchFile(
-                        readContentDto.getSearchString(),
-                        readContentDto.getUser()
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));
@@ -167,10 +167,10 @@ public class MessageProcessor {
     public Consumer<Message<SearchObjectDto>> searchSubjectArea() {
         return message -> {
             withErrorHandling(message, () -> {
-                final SearchObjectDto readContentDto = message.getPayload();
+                final SearchObjectDto searchObjectDto = message.getPayload();
                 final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
-                        readContentDto.getSearchString(),
-                        readContentDto.getUser()
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));
