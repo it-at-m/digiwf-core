@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - '**'
-    paths:
-      - 'docs/**'
   pull_request:
     types: [ opened, reopened ]
     paths:
