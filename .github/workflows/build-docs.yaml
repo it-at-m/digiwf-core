@@ -11,6 +11,9 @@ on:
     paths:
       - 'docs/**'
 
+env:
+  NODE_OPTIONS: '--openssl-legacy-provider'
+
 jobs:
   build:
     runs-on: ubuntu-latest
