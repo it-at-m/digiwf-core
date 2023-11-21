@@ -239,7 +239,6 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
                     }
                     return null;
                 });
-                ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList());
             } catch (final NameNotFoundException ex) {
                 log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, parentUserBase, ex.getClass().getName());
             }
@@ -262,13 +261,12 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
                         }
                         return null;
                     });
-                    ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList());
                 }
             } catch (final NameNotFoundException ex) {
                 log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, parentOuBase, ex.getClass().getName());
             }
 
-            ouTree.addAll(ouShortnames);
+            ouTree.addAll(ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList()););
 
             // update parent base by adding the current ou to the base path
             parentUserBase = ldapName.get(i) + "," + parentUserBase;
