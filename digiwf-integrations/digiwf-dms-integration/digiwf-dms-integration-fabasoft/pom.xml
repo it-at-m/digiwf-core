@@ -12,21 +12,10 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
     <properties>
-        <cxf.version>3.3.6</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
+        <cxf.version>4.0.3</cxf.version>
     </properties>
 
     <dependencies>
-        <dependency> <!-- javax.jws.WebMethod -->
-            <groupId>javax.jws</groupId>
-            <artifactId>javax.jws-api</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency> <!-- javax.xml.ws.WebEndpoint -->
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
         <dependency> <!-- com.sun.xml.internal.ws.spi.ProviderImpl -->
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>

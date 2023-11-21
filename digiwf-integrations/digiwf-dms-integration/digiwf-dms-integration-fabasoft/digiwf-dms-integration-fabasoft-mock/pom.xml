@@ -12,9 +12,8 @@
     <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
 
     <properties>
-        <cxf.version>3.3.6</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
-        <wiremock.version>2.35.1</wiremock.version>
+        <cxf.version>4.0.3</cxf.version>
+        <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
     <dependencies>
@@ -36,6 +35,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
         </dependency>
     </dependencies>
 

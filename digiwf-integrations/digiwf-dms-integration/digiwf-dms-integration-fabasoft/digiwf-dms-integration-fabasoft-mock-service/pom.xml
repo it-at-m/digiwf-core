@@ -12,8 +12,7 @@
     <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
 
     <properties>
-        <cxf.version>3.3.6</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
+        <cxf.version>4.0.3</cxf.version>
         <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
