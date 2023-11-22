@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.1.5</spring-boot.version>
         <spring.cloud.version>2022.0.4</spring.cloud.version>
-        <apache.commons.lang.version>3.13.0</apache.commons.lang.version>
+        <apache.commons.lang.version>3.14.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
         <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
