@@ -53,7 +53,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
         final var helper = new MimeMessageHelper(mimeMessage, true);
 
         helper.setSubject(subject);
-        helper.setText(subject);
+        helper.setText(body);
         helper.setFrom(this.fromAddress);
 
         if (StringUtils.isNotBlank(replyTo)) {
