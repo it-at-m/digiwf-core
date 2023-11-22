@@ -1,75 +1,50 @@
 package de.muenchen.oss.digiwf.email.integration.configuration;
 
+import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
-import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import io.micrometer.core.instrument.MeterRegistry;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.MailAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.S3Adapter;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
+import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.messaging.Message;
 
-import jakarta.mail.MessagingException;
-import java.util.Properties;
 import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({MailProperties.class, CustomMailProperties.class, MetricsProperties.class})
+@EnableConfigurationProperties({MailProperties.class, MetricsProperties.class})
 public class MailAutoConfiguration {
 
-    private final MailProperties mailProperties;
-    private final CustomMailProperties customMailProperties;
     private final MetricsProperties metricsProperties;
-
-    /**
-     * Configures the {@link JavaMailSender}
-     *
-     * @return configured JavaMailSender
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public JavaMailSender getJavaMailSender() throws MessagingException {
-        final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(this.mailProperties.getHost());
-        mailSender.setPort(this.mailProperties.getPort());
-        mailSender.setProtocol(this.mailProperties.getProtocol());
-        mailSender.setUsername(this.mailProperties.getUsername());
-        mailSender.setPassword(this.mailProperties.getPassword());
-
-        final Properties props = mailSender.getJavaMailProperties();
-        props.putAll(this.mailProperties.getProperties());
-        mailSender.setJavaMailProperties(props);
-        mailSender.testConnection();
-        return mailSender;
-    }
 
     /**
      * Configures the {@link SendMail} use case.
      *
-     * @param javaMailSender       JavaMailSender
      * @param loadAttachmentPort   LoadMailAttachmentPort
      * @param correlateMessagePort CorrelateMessagePort
+     * @param mailPort             MailPort
      * @return configured SendMail use case
      */
     @Bean
     @ConditionalOnMissingBean
-    public SendMail getSendMailUseCase(final JavaMailSender javaMailSender, final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort) {
-        return new SendMailUseCase(javaMailSender, loadAttachmentPort, correlateMessagePort, this.customMailProperties.getFromAddress());
+    public SendMail getSendMailUseCase(final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort, final MailPort mailPort) {
+        return new SendMailUseCase(loadAttachmentPort, correlateMessagePort, mailPort);
     }
 
     @Bean
@@ -88,6 +63,12 @@ public class MailAutoConfiguration {
     @ConditionalOnMissingBean
     public LoadMailAttachmentPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository) {
         return new S3Adapter(s3FileTransferRepository);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MailPort getMailPort(final DigiwfEmailApi digiwfEmailApi) {
+        return new MailAdapter(digiwfEmailApi);
     }
 
     // Function call had to be renamed for message routing

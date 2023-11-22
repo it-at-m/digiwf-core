@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.email.integration.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
+import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
