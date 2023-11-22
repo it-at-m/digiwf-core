@@ -14,17 +14,6 @@
     <properties>
         <cxf.version>4.0.3</cxf.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-        </dependency>
-    </dependencies>
-
 
     <build>
         <plugins>
