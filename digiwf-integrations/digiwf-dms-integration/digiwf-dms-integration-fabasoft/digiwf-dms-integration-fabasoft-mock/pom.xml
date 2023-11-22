@@ -12,7 +12,6 @@
     <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
 
     <properties>
-        <cxf.version>4.0.3</cxf.version>
         <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
@@ -29,7 +28,7 @@
         <dependency>
             <groupId>org.wiremock</groupId>
             <artifactId>wiremock-standalone</artifactId>
-            <version>3.3.1</version>
+            <version>${wiremock.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

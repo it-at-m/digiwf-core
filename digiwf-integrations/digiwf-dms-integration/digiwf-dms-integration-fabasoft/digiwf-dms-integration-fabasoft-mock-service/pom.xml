@@ -11,11 +11,6 @@
 
     <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
 
-    <properties>
-        <cxf.version>4.0.3</cxf.version>
-        <wiremock.version>3.3.1</wiremock.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
