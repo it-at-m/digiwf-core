@@ -8,7 +8,7 @@ import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToS
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.HashMap;
 import java.util.Map;

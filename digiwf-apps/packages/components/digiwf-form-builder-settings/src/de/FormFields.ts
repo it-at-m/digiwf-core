@@ -136,39 +136,39 @@ const basicOptions = {
                     "sm": 6
                   }
                 }
-              },
-              "messages": {
-                "type": "object",
-                "description": "Messages",
-                "properties": {
-                  "pattern": {
-                    "type": "string",
-                    "title": "Pattern (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  },
-                  "minimum": {
-                    "type": "string",
-                    "title": "Minimum (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  },
-                  "maximum": {
-                    "type": "string",
-                    "title": "Maximum (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  }
-                }
               }
             }
         },
+        "messages": {
+          "type": "object",
+          "description": "Messages",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "title": "Pattern (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "minLength": {
+              "type": "string",
+              "title": "Mindestens {minLength} Zeichen (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "maxLength": {
+              "type": "string",
+              "title": "Maximal {maxLength} Zeichen (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            }
+          }
+        }
       }
     }
 

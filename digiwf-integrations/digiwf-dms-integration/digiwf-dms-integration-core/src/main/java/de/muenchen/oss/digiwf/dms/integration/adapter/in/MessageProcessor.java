@@ -32,6 +32,8 @@ public class MessageProcessor {
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
     private final ReadContentUseCase readContentUseCase;
+    private final SearchFileUseCase searchFileUseCase;
+    private final SearchSubjectAreaUseCase searchSubjectAreaUseCase;
 
     public Consumer<Message<CreateFileDto>> createFile() {
         return message -> {
@@ -144,6 +146,34 @@ public class MessageProcessor {
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
+            });
+        };
+    }
+
+    public Consumer<Message<SearchObjectDto>> searchFile() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchObjectDto searchObjectDto = message.getPayload();
+                final String file = this.searchFileUseCase.searchFile(
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));
+            });
+        };
+    }
+
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchObjectDto searchObjectDto = message.getPayload();
+                final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));
             });
         };
     }

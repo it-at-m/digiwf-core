@@ -85,6 +85,24 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public ReadContentUseCase readContentUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
+        return new ReadContentService(transferContentPort, readContentPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchFileUseCase searchFileUseCase(SearchFilePort searchFilePort) {
+        return new SearchFileService(searchFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchSubjectAreaUseCase searchSubjectAreaUseCase(SearchSubjectAreaPort searchSubjectAreaPort) {
+        return new SearchSubjectAreaService(searchSubjectAreaPort);
+    }
+
+    @Bean
     public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
@@ -115,6 +133,16 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    public Consumer<Message<SearchObjectDto>> searchFileMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchFile();
+    }
+
+    @Bean
+    public Consumer<Message<SearchObjectDto>> searchSubjectAreaMessageProcessor(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchSubjectArea();
+    }
+
+    @Bean
     @ConditionalOnMissingBean
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
@@ -125,7 +153,10 @@ public class DmsAutoConfiguration {
             final UpdateDocumentUseCase updateDocumentUseCase,
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase,
-            final ReadContentUseCase readContentUseCase) {
+            final ReadContentUseCase readContentUseCase,
+            final SearchFileUseCase searchFileUseCase,
+            final SearchSubjectAreaUseCase searchSubjectAreaUseCase
+    ) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
@@ -135,7 +166,9 @@ public class DmsAutoConfiguration {
                 updateDocumentUseCase,
                 depositObjectUseCase,
                 cancelObjectUseCase,
-                readContentUseCase);
+                readContentUseCase,
+                searchFileUseCase,
+                searchSubjectAreaUseCase);
     }
 
 }

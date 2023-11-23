@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <wiremock.version>2.35.1</wiremock.version>
+        <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
     <dependencies>
@@ -34,8 +34,8 @@
 
         <!-- Validation -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
         <!-- openApi -->
@@ -64,19 +64,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -85,8 +74,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-standalone</artifactId>
             <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
@@ -104,22 +93,22 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/apidoc/api-docs.json</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/api/api-docs.json</inputSpec>
                             <library>webclient</library>
                             <generatorName>java</generatorName>
-                            <output>${project.basedir}</output>
 
-                            <apiPackage>de.muenchen.oss.digiwf.cosys.integration.gen.api</apiPackage>
-                            <modelPackage>de.muenchen.oss.digiwf.cosys.integration.gen.model</modelPackage>
-                            <invokerPackage>de.muenchen.oss.digiwf.cosys.integration.gen</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.cosys.integration.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.cosys.integration.model</modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.cosys.integration</invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
 
                             <globalProperties>
