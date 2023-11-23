@@ -7,7 +7,7 @@ package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSD;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 
 /**
  * Configuration of the Webservice Client.

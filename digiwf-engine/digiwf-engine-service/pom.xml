@@ -23,7 +23,7 @@
         <javafaker.version>1.0.2</javafaker.version>
         <ojdbc8.version>18.15.0.0</ojdbc8.version>
         <cxf.version>3.6.2</cxf.version>
-        <postgresql.version>42.6.0</postgresql.version>
+        <postgresql.version>42.7.0</postgresql.version>
         <jaxws.version>2.3.0</jaxws.version>
     </properties>
 

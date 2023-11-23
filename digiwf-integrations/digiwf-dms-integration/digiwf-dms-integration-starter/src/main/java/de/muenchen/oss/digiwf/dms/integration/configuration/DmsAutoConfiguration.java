@@ -80,11 +80,6 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<CreateFileDto>> createFileMessageProcessor(final MessageProcessor messageProcessor) {
-        return messageProcessor.createFile();
-    }
-
-    @Bean
     @ConditionalOnMissingBean
     public ReadContentUseCase readContentUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
         return new ReadContentService(transferContentPort, readContentPort);
@@ -103,42 +98,47 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<CreateFileDto>> createFile(final MessageProcessor messageProcessor) {
+        return messageProcessor.createFile();
+    }
+
+    @Bean
+    public Consumer<Message<CreateProcedureDto>> createProcedure(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
 
     @Bean
-    public Consumer<Message<CreateDocumentDto>> createDocumentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<CreateDocumentDto>> createDocument(final MessageProcessor messageProcessor) {
         return messageProcessor.createDocument();
     }
 
     @Bean
-    public Consumer<Message<UpdateDocumentDto>> updateDocumentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<UpdateDocumentDto>> updateDocument(final MessageProcessor messageProcessor) {
         return messageProcessor.updateDocument();
     }
 
     @Bean
-    public Consumer<Message<DepositObjectDto>> depositObjectMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<DepositObjectDto>> depositObject(final MessageProcessor messageProcessor) {
         return messageProcessor.depositObject();
     }
 
     @Bean
-    public Consumer<Message<CancelObjectDto>> cancelObjectMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<CancelObjectDto>> cancelObject(final MessageProcessor messageProcessor) {
         return messageProcessor.cancelObject();
     }
 
     @Bean
-    public Consumer<Message<ReadContentDto>> readContentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<ReadContentDto>> readContent(final MessageProcessor messageProcessor) {
         return messageProcessor.readContent();
     }
 
     @Bean
-    public Consumer<Message<SearchObjectDto>> searchFileMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<SearchObjectDto>> searchFile(final MessageProcessor messageProcessor) {
         return messageProcessor.searchFile();
     }
 
     @Bean
-    public Consumer<Message<SearchObjectDto>> searchSubjectAreaMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea(final MessageProcessor messageProcessor) {
         return messageProcessor.searchSubjectArea();
     }
 

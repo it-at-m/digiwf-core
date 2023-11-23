@@ -6,7 +6,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Validated
 @RequiredArgsConstructor

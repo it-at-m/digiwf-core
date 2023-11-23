@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -38,6 +40,21 @@ public class SecurityConfiguration {
   private long springSessionTimeoutSeconds;
 
   @Bean
+  @Order(0)
+  public SecurityWebFilterChain clientAccessFilterChain(ServerHttpSecurity http) {
+    http
+        .securityMatcher(ServerWebExchangeMatchers.pathMatchers("/clients/**"))
+        .authorizeExchange(authorizeExchangeSpec -> {
+          authorizeExchangeSpec.anyExchange().authenticated();
+        })
+        .oauth2ResourceServer(oauth2 ->
+          oauth2.jwt(Customizer.withDefaults())
+        );
+    return http.build();
+  }
+
+  @Bean
+  @Order(1)
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http
         .logout(logoutSpec -> {

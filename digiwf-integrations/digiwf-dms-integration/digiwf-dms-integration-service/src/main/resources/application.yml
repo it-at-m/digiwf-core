@@ -6,6 +6,7 @@ spring:
   cloud:
     function:
       definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
     stream:
       function:
         routing:
@@ -100,16 +101,6 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
-        typeMappings:
-          createFile: "createFileMessageProcessor"
-          createProcedure: "createProcedureMessageProcessor"
-          createDocument: "createDocumentMessageProcessor"
-          updateDocument: "updateDocumentMessageProcessor"
-          depositObject: "depositObjectMessageProcessor"
-          cancelObject: "cancelObjectMessageProcessor"
-          readContent: "readContentMessageProcessor"
-          searchFile: "searchFileMessageProcessor"
-          searchSubjectArea: "searchSubjectAreaMessageProcessor"
 
 de:
   muenchen:

@@ -31,7 +31,6 @@
         <module>digiwf-s3-integration</module>
         <module>digiwf-okewo-integration</module>
         <module>digiwf-alw-integration</module>
-        <module>digiwf-verification-integration</module>
         <module>digiwf-example-integration</module>
         <module>digiwf-dms-integration</module>
         <module>digiwf-address-integration</module>

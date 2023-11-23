@@ -9,8 +9,8 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 /**
  * Configuration of the Webservice Client.

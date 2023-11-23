@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
