@@ -78,6 +78,11 @@
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <!-- Streaming -->

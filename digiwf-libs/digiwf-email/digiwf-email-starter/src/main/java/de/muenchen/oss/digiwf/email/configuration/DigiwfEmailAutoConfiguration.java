@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -45,8 +46,8 @@ public class DigiwfEmailAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public DigiwfEmailApi digiwfEmailApi(final JavaMailSender javaMailSender) {
-        return new DigiwfEmailApiImpl(javaMailSender, this.customMailProperties.getFromAddress());
+    public DigiwfEmailApi digiwfEmailApi(final ResourceLoader resourceLoader, final JavaMailSender javaMailSender) {
+        return new DigiwfEmailApiImpl(javaMailSender, resourceLoader, this.customMailProperties.getFromAddress());
     }
 
 }

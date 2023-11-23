@@ -1,19 +1,18 @@
 package de.muenchen.oss.digiwf.email.api;
 
-import de.muenchen.oss.digiwf.email.model.FileAttachment;
+import de.muenchen.oss.digiwf.email.model.Mail;
 import jakarta.mail.MessagingException;
 
-import java.util.List;
+import java.util.Map;
 
 public interface DigiwfEmailApi {
 
+    void sendMail(Mail mail) throws MessagingException;
 
-    void sendMail(String receivers, String subject, String body, String replyTo) throws MessagingException;
+    void sendMailWithDefaultLogo(Mail mail) throws MessagingException;
 
-    void sendMail(String receivers, String subject, String body, String replyTo, String receiversCc, String receiversBcc) throws MessagingException;
+    void sendMail(Mail mail, String logoPath) throws MessagingException;
 
-    void sendMailWithAttachments(String receivers, String subject, String body, String replyTo, List<FileAttachment> attachments) throws MessagingException;
-
-    void sendMailWithAttachments(String receivers, String subject, String body, String replyTo, String receiversCc, String receiversBcc, List<FileAttachment> attachments) throws MessagingException;
+    String getEmailBodyFromTemplate(String templatePath, Map<String, String> content);
 
 }

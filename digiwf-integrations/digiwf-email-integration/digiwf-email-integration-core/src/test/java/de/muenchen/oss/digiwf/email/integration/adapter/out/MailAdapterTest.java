@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.model.Mail;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +15,16 @@ class MailAdapterTest {
     @Test
     void sendMail() throws MessagingException {
         final MailAdapter mailAdapter = new MailAdapter(digiwfEmailApi);
-        mailAdapter.sendMail("receivers", "subject", "body", "replyTo", "receiversCc", "receiversBcc", null);
-        verify(digiwfEmailApi).sendMailWithAttachments("receivers", "subject", "body", "replyTo", "receiversCc", "receiversBcc", null);
+        final Mail mail = Mail.builder()
+                .receivers("receivers")
+                .subject("subject")
+                .body("body")
+                .replyTo("replyTo")
+                .receiversCc("receiversCc")
+                .receiversBcc("receiversBcc")
+                .build();
+        mailAdapter.sendMail(mail);
+        verify(digiwfEmailApi).sendMail(mail);
     }
 
 }

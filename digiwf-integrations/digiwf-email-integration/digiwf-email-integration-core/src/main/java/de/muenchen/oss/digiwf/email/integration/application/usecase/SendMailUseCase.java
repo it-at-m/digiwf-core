@@ -45,7 +45,17 @@ public class SendMailUseCase implements SendMail {
                 }
             }
             // send mail
-            this.mailPort.sendMail(mail.getReceivers(), mail.getSubject(), mail.getBody(), mail.getReplyTo(), mail.getReceiversCc(), mail.getReceiversBcc(), attachments);
+            final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                    .receivers(mail.getReceivers())
+                    .subject(mail.getSubject())
+                    .body(mail.getBody())
+                    .replyTo(mail.getReplyTo())
+                    .receiversCc(mail.getReceiversCc())
+                    .receiversBcc(mail.getReceiversBcc())
+                    .attachments(attachments)
+                    .build();
+
+            this.mailPort.sendMail(mailModel);
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);

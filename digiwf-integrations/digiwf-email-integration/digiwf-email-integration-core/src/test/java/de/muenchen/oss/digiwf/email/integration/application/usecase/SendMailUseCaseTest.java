@@ -47,14 +47,16 @@ class SendMailUseCaseTest {
     @Test
     void sendMail() throws MessagingException {
         sendMail.sendMail(processInstanceId, messageName, mail);
-        verify(mailPort).sendMail(
-                mail.getReceivers(),
-                mail.getSubject(),
-                mail.getBody(),
-                mail.getReplyTo(),
-                mail.getReceiversCc(),
-                mail.getReceiversBcc(),
-                List.of());
+        final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(List.of())
+                .build();
+        verify(mailPort).sendMail(mailOutModel);
         verify(correlateMessagePort).correlateMessage(processInstanceId, messageName, Map.of("mailSentStatus", true));
     }
 
@@ -67,20 +69,22 @@ class SendMailUseCaseTest {
         when(loadMailAttachmentPort.loadAttachment(presignedUrl)).thenReturn(fileAttachment);
 
         sendMail.sendMail(processInstanceId, messageName, mail);
-        verify(mailPort).sendMail(
-                mail.getReceivers(),
-                mail.getSubject(),
-                mail.getBody(),
-                mail.getReplyTo(),
-                mail.getReceiversCc(),
-                mail.getReceiversBcc(),
-                List.of(fileAttachment));
+        final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(List.of(fileAttachment))
+                .build();
+        verify(mailPort).sendMail(mailOutModel);
         verify(correlateMessagePort).correlateMessage(processInstanceId, messageName, Map.of("mailSentStatus", true));
     }
 
     @Test
     void sendMailThrowsBpmnError() throws MessagingException {
-        doThrow(new MessagingException("Test Exception")).when(mailPort).sendMail(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), any());
+        doThrow(new MessagingException("Test Exception")).when(mailPort).sendMail(any());
         assertThrows(BpmnError.class, () -> sendMail.sendMail(processInstanceId, messageName, mail));
     }
 }

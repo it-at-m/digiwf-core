@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.email.impl;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
-import de.muenchen.oss.digiwf.email.model.FileAttachment;
+import de.muenchen.oss.digiwf.email.model.Mail;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -9,66 +9,96 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.FileCopyUtils;
 
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 public class DigiwfEmailApiImpl implements DigiwfEmailApi {
 
     private final JavaMailSender mailSender;
+    private final ResourceLoader resourceLoader;
     private final String fromAddress;
 
     @Override
-    public void sendMail(String receivers, String subject, String body, String replyTo) throws MessagingException {
-        this.sendMailWithAttachments(receivers, subject, body, replyTo, null, null, List.of());
+    public void sendMail(Mail mail) throws MessagingException {
+        this.sendMail(mail, null);
     }
 
     @Override
-    public void sendMail(String receivers, String subject, String body, String replyTo, String receiversCc, String receiversBcc) throws MessagingException {
-        this.sendMailWithAttachments(receivers, subject, body, replyTo, receiversCc, receiversBcc, List.of());
+    public void sendMailWithDefaultLogo(Mail mail) throws MessagingException {
+        this.sendMail(mail, "bausteine/mail/email-logo.png");
     }
 
     @Override
-    public void sendMailWithAttachments(String receivers, String subject, String body, String replyTo, List<FileAttachment> attachments) throws MessagingException {
-        this.sendMailWithAttachments(receivers, subject, body, replyTo, null, null, attachments);
-    }
-
-    @Override
-    public void sendMailWithAttachments(String receivers, String subject, String body, String replyTo, String receiversCc, String receiversBcc, List<FileAttachment> attachments) throws MessagingException {
+    public void sendMail(Mail mail, String logoPath) throws MessagingException {
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
 
-        mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receivers));
+        mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getReceivers()));
 
-        if (StringUtils.isNotEmpty(receiversCc)) {
-            mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(receiversCc));
+        if (mail.hasReceiversCc()) {
+            mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getReceiversCc()));
         }
-        if (StringUtils.isNotEmpty(receiversCc)) {
-            mimeMessage.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(receiversBcc));
+        if (mail.hasReceiversBcc()) {
+            mimeMessage.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(mail.getReceiversBcc()));
         }
 
         final var helper = new MimeMessageHelper(mimeMessage, true);
 
-        helper.setSubject(subject);
-        helper.setText(body);
-        helper.setFrom(this.fromAddress);
+        helper.setSubject(mail.getSubject());
+        helper.setText(mail.getBody());
+        // use custom sender
+        helper.setFrom(mail.hasSender() ? mail.getSender() : this.fromAddress);
 
-        if (StringUtils.isNotBlank(replyTo)) {
-            helper.setReplyTo(replyTo);
+        if (mail.hasReplyTo()) {
+            helper.setReplyTo(mail.getReplyTo());
         }
 
         // mail attachments
-        if (attachments != null) {
-            for (val attachment : attachments) {
+        if (mail.hasAttachement()) {
+            for (val attachment : mail.getAttachments()) {
                 helper.addAttachment(attachment.getFileName(), attachment.getFile());
             }
         }
 
+        // logo
+        if (logoPath != null) {
+            final Resource logo = this.getRessourceFromClassPath(logoPath);
+            helper.addInline("logo", logo);
+        }
+
         this.mailSender.send(mimeMessage);
-        log.info("Mail {} sent to {}.", subject, receivers);
+        log.info("Mail {} sent to {}.", mail.getSubject(), mail.getReceivers());
     }
 
+    @Override
+    public String getEmailBodyFromTemplate(String templatePath, Map<String, String> content) {
+        final String mailTemplate = this.getTemplate(templatePath);
+        for (val entry : content.entrySet()) {
+            mailTemplate.replaceAll("%%" + entry.getKey() + "%%", entry.getValue());
+        }
+        // Make sure new lines are converted to <br> tags
+        return mailTemplate.replaceAll("(\r\n|\n\r|\r|\n)", "<br/>");
+    }
+
+    private String getTemplate(String templatePath) {
+        try {
+            final Resource resource = this.getRessourceFromClassPath(templatePath);
+            byte[] byteArray = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            return new String(byteArray, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            log.warn("Failed to load file: {}", templatePath);
+            throw new RuntimeException("Failed to load file: " + templatePath, e);
+        }
+    }
+
+    private Resource getRessourceFromClassPath(String path) {
+        return resourceLoader.getResource("classpath:" + path);
+    }
 }
