@@ -28,11 +28,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>${okhttp.version}</version>
@@ -51,8 +46,7 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-logging</artifactId>
-            <version>${project.version}</version>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
         </dependency>
 
         <!-- Security -->
@@ -79,10 +73,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
             <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>com.vaadin.external.google</groupId>
                     <artifactId>android-json</artifactId>

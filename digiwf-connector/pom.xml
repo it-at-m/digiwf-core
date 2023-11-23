@@ -32,7 +32,6 @@
         <camunda.version>7.20.0</camunda.version>
         <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
 
     <modules>
@@ -70,12 +69,18 @@
             <!-- DigiWF -->
             <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-json-serialization-core</artifactId>
+                <artifactId>digiwf-json-serialization-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-json-serialization-starter</artifactId>
+                <artifactId>digiwf-json-serialization-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-spring-logging-and-tracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
