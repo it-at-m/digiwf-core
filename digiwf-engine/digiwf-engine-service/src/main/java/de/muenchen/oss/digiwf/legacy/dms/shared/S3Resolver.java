@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.legacy.dms.shared;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

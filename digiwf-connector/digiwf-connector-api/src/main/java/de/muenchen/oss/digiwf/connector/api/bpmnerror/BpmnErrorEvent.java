@@ -1,8 +1,7 @@
 package de.muenchen.oss.digiwf.connector.api.bpmnerror;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
-import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter

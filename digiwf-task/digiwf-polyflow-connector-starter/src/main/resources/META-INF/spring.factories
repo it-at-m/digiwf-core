@@ -1,7 +1,0 @@
-# Auto-configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  de.muenchen.oss.digiwf.task.PolyflowConnectorAutoConfiguration
-# Environment post processors responsible for scanning additional properties files
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  de.muenchen.oss.digiwf.task.envprocessor.AxonKafkaPropertiesEnvironmentPostProcessor,\
-  de.muenchen.oss.digiwf.task.envprocessor.DefaultPropertiesEnvironmentPostProcessor

@@ -45,6 +45,12 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public CreateFileUseCase createFileUseCase(final CreateFilePort createFilePort) {
+        return new CreateFileService(createFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public CreateProcedureUseCase createProcedureUseCase(final CreateProcedurePort createProcedurePort) {
         return new CreateProcedureService(createProcedurePort);
     }
@@ -74,33 +80,66 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<CreateProcedureDto>> createProcedureMessageProcessor(final MessageProcessor messageProcessor) {
+    @ConditionalOnMissingBean
+    public ReadContentUseCase readContentUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
+        return new ReadContentService(transferContentPort, readContentPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchFileUseCase searchFileUseCase(SearchFilePort searchFilePort) {
+        return new SearchFileService(searchFilePort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SearchSubjectAreaUseCase searchSubjectAreaUseCase(SearchSubjectAreaPort searchSubjectAreaPort) {
+        return new SearchSubjectAreaService(searchSubjectAreaPort);
+    }
+
+    @Bean
+    public Consumer<Message<CreateFileDto>> createFile(final MessageProcessor messageProcessor) {
+        return messageProcessor.createFile();
+    }
+
+    @Bean
+    public Consumer<Message<CreateProcedureDto>> createProcedure(final MessageProcessor messageProcessor) {
         return messageProcessor.createProcedure();
     }
 
     @Bean
-    public Consumer<Message<CreateDocumentDto>> createDocumentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<CreateDocumentDto>> createDocument(final MessageProcessor messageProcessor) {
         return messageProcessor.createDocument();
     }
 
     @Bean
-    public Consumer<Message<UpdateDocumentDto>> updateDocumentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<UpdateDocumentDto>> updateDocument(final MessageProcessor messageProcessor) {
         return messageProcessor.updateDocument();
     }
 
     @Bean
-    public Consumer<Message<DepositObjectDto>> depositObjectMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<DepositObjectDto>> depositObject(final MessageProcessor messageProcessor) {
         return messageProcessor.depositObject();
     }
 
     @Bean
-    public Consumer<Message<CancelObjectDto>> cancelObjectMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<CancelObjectDto>> cancelObject(final MessageProcessor messageProcessor) {
         return messageProcessor.cancelObject();
     }
 
     @Bean
-    public Consumer<Message<ReadContentDto>> readContentMessageProcessor(final MessageProcessor messageProcessor) {
+    public Consumer<Message<ReadContentDto>> readContent(final MessageProcessor messageProcessor) {
         return messageProcessor.readContent();
+    }
+
+    @Bean
+    public Consumer<Message<SearchObjectDto>> searchFile(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchFile();
+    }
+
+    @Bean
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea(final MessageProcessor messageProcessor) {
+        return messageProcessor.searchSubjectArea();
     }
 
     @Bean
@@ -108,21 +147,28 @@ public class DmsAutoConfiguration {
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
             final ErrorApi errorApi,
+            final CreateFileUseCase createFileUseCase,
             final CreateProcedureUseCase createProcedureUseCase,
             final CreateDocumentUseCase createDocumentUseCase,
             final UpdateDocumentUseCase updateDocumentUseCase,
             final DepositObjectUseCase depositObjectUseCase,
             final CancelObjectUseCase cancelObjectUseCase,
-            final ReadContentUseCase readContentUseCase) {
+            final ReadContentUseCase readContentUseCase,
+            final SearchFileUseCase searchFileUseCase,
+            final SearchSubjectAreaUseCase searchSubjectAreaUseCase
+    ) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
+                createFileUseCase,
                 createProcedureUseCase,
                 createDocumentUseCase,
                 updateDocumentUseCase,
                 depositObjectUseCase,
                 cancelObjectUseCase,
-                readContentUseCase);
+                readContentUseCase,
+                searchFileUseCase,
+                searchSubjectAreaUseCase);
     }
 
 }

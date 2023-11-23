@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Collections;
@@ -103,7 +103,6 @@ public class NfcHelper {
      */
     public static Cookie nfcConverter(Cookie original) {
         final Cookie nfcCookie = new Cookie(NfcHelper.nfcConverter(original.getName()), NfcHelper.nfcConverter(original.getValue()));
-        nfcCookie.setComment(NfcHelper.nfcConverter(original.getComment()));
         if (original.getDomain() != null) {
             nfcCookie.setDomain(NfcHelper.nfcConverter(original.getDomain()));
         }

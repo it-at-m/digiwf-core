@@ -87,7 +87,7 @@ class AssignmentCreateTaskListenerTest {
   }
 
   @Test
-  public void sets_empty_assigne_to_null_with_empty_assignee() {
+  public void sets_empty_assignee_to_null_with_empty_assignee() {
     when(properties.isShadow()).thenReturn(true);
     when(properties.isLocal()).thenReturn(true);
     delegateTask.setAssignee("");

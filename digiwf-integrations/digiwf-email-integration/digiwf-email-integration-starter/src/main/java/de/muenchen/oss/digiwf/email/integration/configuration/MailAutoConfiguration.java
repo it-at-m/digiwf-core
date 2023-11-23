@@ -23,7 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.messaging.Message;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.util.Properties;
 import java.util.function.Consumer;
 
@@ -90,9 +90,10 @@ public class MailAutoConfiguration {
         return new S3Adapter(s3FileTransferRepository);
     }
 
+    // Function call had to be renamed for message routing
     @ConditionalOnMissingBean
     @Bean
-    public Consumer<Message<Mail>> emailMessageProcessor(final ErrorApi errorApi, final SendMail mailUseCase, final MonitoringService monitoringService) {
+    public Consumer<Message<Mail>> sendMailFromEventBus(final ErrorApi errorApi, final SendMail mailUseCase, final MonitoringService monitoringService) {
         final MessageProcessor messageProcessor = new MessageProcessor(errorApi, mailUseCase, monitoringService);
         return messageProcessor.emailIntegration();
     }

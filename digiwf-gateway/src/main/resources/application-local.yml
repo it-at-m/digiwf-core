@@ -25,12 +25,28 @@ spring:
           predicates:
             - Path=/camunda/**
 
+        - id: backend-client
+          uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}/
+          predicates:
+            - Path=/clients/digitalwf-backend-service/**
+          filters:
+            - RewritePath=/clients/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
         - id: tasklist
           uri: http://${TASKSERVICE_SERVER_HOST:localhost}:${TASKSERVICE_SERVER_PORT}/
           predicates:
             - Path=/api/digitalwf-tasklist-service/rest/**
           filters:
             - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: tasklist-client
+          uri: http://${TASKSERVICE_SERVER_HOST:localhost}:${TASKSERVICE_SERVER_PORT}/
+          predicates:
+            - Path=/clients/digitalwf-tasklist-service/**
+          filters:
+            - RewritePath=/clients/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
         - id: frontend

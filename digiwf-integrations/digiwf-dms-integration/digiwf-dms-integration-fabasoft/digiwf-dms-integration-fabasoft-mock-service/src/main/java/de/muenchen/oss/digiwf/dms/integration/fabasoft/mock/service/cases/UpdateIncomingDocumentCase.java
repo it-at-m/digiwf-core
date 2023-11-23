@@ -4,9 +4,11 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.UpdateIncomingGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.UpdateIncomingGIResponse;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.val;
+import org.springframework.stereotype.Component;
 
 import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
 
+@Component
 public class UpdateIncomingDocumentCase implements MockCase {
 
     @Override

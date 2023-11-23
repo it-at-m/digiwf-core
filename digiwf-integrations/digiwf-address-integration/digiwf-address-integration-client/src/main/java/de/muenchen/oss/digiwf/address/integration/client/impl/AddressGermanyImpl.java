@@ -33,7 +33,7 @@ public class AddressGermanyImpl implements AddressGermanyApi {
                     searchAddressesGermanyModel.getSortdir(),
                     searchAddressesGermanyModel.getPage(),
                     searchAddressesGermanyModel.getPagesize()
-            );
+            ).block();
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get address bundesweit failed with %s.", exception.getStatusCode());
             log.debug(message);

@@ -216,8 +216,9 @@
                 },
                 "fieldType": "file",
                 "title": "Files",
-                "x-display": "file",
+                "x-display": "custom-multi-file-input",
                 "type": "object",
+                "filePath": "test",
                 "properties": {
                   "key": {
                     "type": "string"
@@ -542,8 +543,9 @@
                 },
                 "fieldType": "file",
                 "title": "Files",
-                "x-display": "file",
+                "x-display": "custom-multi-file-input",
                 "type": "object",
+                "filePath": "test2",
                 "properties": {
                   "key": {
                     "type": "string"

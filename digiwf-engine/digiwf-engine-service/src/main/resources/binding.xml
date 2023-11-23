@@ -1,6 +1,7 @@
 <jaxws:bindings
         wsdlLocation="dms.wsdl"
-        xmlns="http://java.sun.com/xml/ns/jaxws"
-        xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+        xmlns="https://jakarta.ee/xml/ns/jaxws"
+        xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws">
+    <!-- Makes sure that the WebPort methods receive one object instead of a list of individual properties -->
     <enableWrapperStyle>false</enableWrapperStyle>
 </jaxws:bindings>

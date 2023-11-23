@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 import java.util.function.Consumer;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ class StreetsMunichImplTest {
     void testFindStreetsById_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         final Strasse expectedStrasse = this.strasse;
         expectedStrasse.setStrasseId(this.streetId);
-        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenReturn(strasse);
+        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenReturn(Mono.just(strasse));
         final Strasse result = streetsMunich.findStreetsById(streetId);
         Assertions.assertEquals(expectedStrasse, result);
     }
@@ -95,7 +96,7 @@ class StreetsMunichImplTest {
                 listStreetsModel.getSortdir(),
                 listStreetsModel.getPage(),
                 listStreetsModel.getPagesize()
-        )).thenReturn(expectedResponse);
+        )).thenReturn(Mono.just(expectedResponse));
 
         final StrasseResponse result = streetsMunich.listStreets(listStreetsModel);
 

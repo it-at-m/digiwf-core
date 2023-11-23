@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -25,12 +25,31 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
+    private final CreateFileUseCase createFileUseCase;
     private final CreateProcedureUseCase createProcedureUseCase;
     private final CreateDocumentUseCase createDocumentUseCase;
     private final UpdateDocumentUseCase updateDocumentUseCase;
     private final DepositObjectUseCase depositObjectUseCase;
     private final CancelObjectUseCase cancelObjectUseCase;
     private final ReadContentUseCase readContentUseCase;
+    private final SearchFileUseCase searchFileUseCase;
+    private final SearchSubjectAreaUseCase searchSubjectAreaUseCase;
+
+    public Consumer<Message<CreateFileDto>> createFile() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final CreateFileDto createFileDto = message.getPayload();
+                final String file = this.createFileUseCase.createFile(
+                        createFileDto.getTitle(),
+                        createFileDto.getApentryCOO(),
+                        createFileDto.getUser()
+                );
+
+                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("fileCOO", file));
+            });
+        };
+    }
 
     public Consumer<Message<CreateProcedureDto>> createProcedure() {
         return message -> {
@@ -127,6 +146,34 @@ public class MessageProcessor {
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
+            });
+        };
+    }
+
+    public Consumer<Message<SearchObjectDto>> searchFile() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchObjectDto searchObjectDto = message.getPayload();
+                final String file = this.searchFileUseCase.searchFile(
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));
+            });
+        };
+    }
+
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea() {
+        return message -> {
+            withErrorHandling(message, () -> {
+                final SearchObjectDto searchObjectDto = message.getPayload();
+                final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
+                        searchObjectDto.getSearchString(),
+                        searchObjectDto.getUser()
+                );
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));
             });
         };
     }

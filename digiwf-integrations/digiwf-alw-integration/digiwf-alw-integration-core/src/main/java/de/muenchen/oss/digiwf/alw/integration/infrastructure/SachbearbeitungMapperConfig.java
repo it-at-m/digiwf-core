@@ -9,7 +9,7 @@ import de.muenchen.oss.digiwf.alw.integration.application.port.out.OrgStructureM
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

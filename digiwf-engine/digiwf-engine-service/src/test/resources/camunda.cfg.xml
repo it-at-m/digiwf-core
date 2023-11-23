@@ -16,6 +16,7 @@
                 <bean class="org.camunda.spin.plugin.impl.SpinProcessEnginePlugin"/>
             </list>
         </property>
+        <property name="historyTimeToLive" value="P1D" />
 
     </bean>
 </beans>

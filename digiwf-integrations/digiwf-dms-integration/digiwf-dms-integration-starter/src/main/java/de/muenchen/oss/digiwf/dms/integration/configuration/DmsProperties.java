@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.dms.integration.configuration;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Data
