@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class SendMailUseCaseTest {
@@ -85,6 +85,6 @@ class SendMailUseCaseTest {
     @Test
     void sendMailThrowsBpmnError() throws MessagingException {
         doThrow(new MessagingException("Test Exception")).when(mailPort).sendMail(any());
-        assertThrows(BpmnError.class, () -> sendMail.sendMail(processInstanceId, messageName, mail));
+        assertThatThrownBy(() -> sendMail.sendMail(processInstanceId, messageName, mail)).isInstanceOf(BpmnError.class);
     }
 }
