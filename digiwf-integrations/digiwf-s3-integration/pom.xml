@@ -19,7 +19,7 @@
     <description>S3 integration used by DigiWF</description>
 
     <properties>
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
     </properties>
 
