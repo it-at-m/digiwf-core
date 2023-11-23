@@ -26,10 +26,6 @@
         <module>digiwf-spring-logging-and-tracing</module>
     </modules>
 
-    <properties>
-        <spring-boot.version>3.1.5</spring-boot.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

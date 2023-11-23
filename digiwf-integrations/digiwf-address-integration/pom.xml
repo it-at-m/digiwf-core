@@ -17,9 +17,6 @@
     </parent>
 
     <properties>
-        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring.cloud.version>2022.0.4</spring.cloud.version>
         <digiwf.spring.cloudstream.utils.version>1.0.0</digiwf.spring.cloudstream.utils.version>
         <httpclient.version>4.5.14</httpclient.version>
         <apache.commons.version>4.4</apache.commons.version>
