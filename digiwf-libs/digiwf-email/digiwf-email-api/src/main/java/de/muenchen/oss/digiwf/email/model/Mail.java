@@ -28,7 +28,7 @@ public class Mail {
         private List<FileAttachment> attachments;
 
         public boolean hasAttachement() {
-            return attachments.isEmpty();
+            return attachments != null && !attachments.isEmpty();
         }
 
         public boolean hasReplyTo() {
