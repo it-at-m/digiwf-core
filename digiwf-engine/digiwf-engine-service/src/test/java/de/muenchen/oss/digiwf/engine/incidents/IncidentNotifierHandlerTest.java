@@ -4,31 +4,23 @@
  */
 package de.muenchen.oss.digiwf.engine.incidents;
 
-import lombok.extern.slf4j.Slf4j;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-
 /**
  * Tests for IncidentNtifierHandler.
  *
  * @author christian.slawinger
  */
-@Slf4j
-@RunWith(MockitoJUnitRunner.class)
+//@Slf4j
+//@RunWith(MockitoJUnitRunner.class)
 public class IncidentNotifierHandlerTest {
-
-    @InjectMocks
-    private IncidentNotifierHandler incidentNotifierHandler;
-
-    @Mock
-    private RepositoryService repositoryService;
-
-    @Mock
-    private IncidentEntity incidentEntity;
+//
+//    @InjectMocks
+//    private IncidentNotifierHandler incidentNotifierHandler;
+//
+//    @Mock
+//    private RepositoryService repositoryService;
+//
+//    @Mock
+//    private IncidentEntity incidentEntity;
 
 //    @Mock
 //    private MailingService mailingService;

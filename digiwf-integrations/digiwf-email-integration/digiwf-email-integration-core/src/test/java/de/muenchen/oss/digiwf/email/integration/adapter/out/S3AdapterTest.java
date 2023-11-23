@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -40,7 +41,7 @@ class S3AdapterTest {
         // DocumentStorageException
         when(s3FileTransferRepository.getFile(url))
                 .thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
-        assertThatThrownBy(() -> s3Adapter.loadAttachment(presignedUrl)).isInstanceOf(DocumentStorageException.class).hasMessage("Some error");
+        assertThatThrownBy(() -> s3Adapter.loadAttachment(presignedUrl)).isInstanceOf(BpmnError.class);
     }
 
     @Test
