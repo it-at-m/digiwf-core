@@ -3,17 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <artifactId>digiwf-parent</artifactId>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.3.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>digiwf-gateway</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <description>Apigateway used by DigiWF</description>
 
-    <parent>
-        <artifactId>digiwf-parent</artifactId>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <relativePath>../digiwf-parent</relativePath>
-        <version>1.3.0-SNAPSHOT</version>
-    </parent>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
@@ -25,7 +26,6 @@
         <spring.cloud.version>2022.0.4</spring.cloud.version>
         <apache.commons.lang.version>3.14.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
-        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
 
     <dependencies>
@@ -117,20 +117,9 @@
 
         <!-- Logging -->
         <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
