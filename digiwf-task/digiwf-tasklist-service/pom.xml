@@ -24,7 +24,7 @@
         <axon-framework.version>4.9.0</axon-framework.version>
         <axon-extension-kafka.version>4.8.0</axon-extension-kafka.version>
 
-        <polyflow.version>4.0.0</polyflow.version>
+        <polyflow.version>4.1.0</polyflow.version>
 
         <spin.version>1.22.0</spin.version>
         <archunit.version>1.2.0</archunit.version>
