@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.application.port.in;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public interface CreateFileUseCase {
 

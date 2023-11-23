@@ -12,10 +12,8 @@
     <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
 
     <properties>
-        <cxf.version>3.6.2</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
+        <cxf.version>4.0.3</cxf.version>
     </properties>
-
 
     <build>
         <plugins>
