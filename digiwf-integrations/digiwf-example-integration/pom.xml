@@ -13,6 +13,12 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
+    </properties>
+
 
     <modules>
         <module>digiwf-example-integration-core</module>
@@ -20,5 +26,21 @@
         <module>digiwf-example-integration-example</module>
         <module>digiwf-example-integration-service</module>
     </modules>
+
+    <dependencies>
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-logging</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
