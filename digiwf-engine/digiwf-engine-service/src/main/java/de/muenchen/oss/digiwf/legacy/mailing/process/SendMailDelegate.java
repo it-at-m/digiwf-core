@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.model.Mail;
 import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
+import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -43,8 +44,7 @@ public class SendMailDelegate implements JavaDelegate {
         final List<FileAttachment> fileAttachments = new ArrayList<>();
         if (attachmentGuid.isPresent()) {
             val document = this.documentService.createDocument(attachmentGuid.get(), delegateExecution.getProcessInstance().getVariables());
-            // TODO fixme after Spring Boot 3 migration
-//            fileAttachments.add(new FileAttachment(attachmentName.orElse("anhang.pdf"), new ByteArrayDataSource(document, "application/pdf")));
+            fileAttachments.add(new FileAttachment(attachmentName.orElse("anhang.pdf"), new ByteArrayDataSource(document, "application/pdf")));
         }
 
         final Mail mail = Mail.builder()

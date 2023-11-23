@@ -12,6 +12,7 @@ import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
 import de.muenchen.oss.digiwf.shared.properties.DigitalWFProperties;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -125,8 +126,7 @@ public class UserTaskNotificationListener {
                     .body(emailBody)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
-        } catch (final Exception ex) {
-            // TODO fixme after Spring Boot 3 migration - use MessagingException
+        } catch (final MessagingException ex) {
             log.warn("Notification failed: {}", ex.getMessage());
             throw ex;
         }
@@ -225,8 +225,7 @@ public class UserTaskNotificationListener {
                     .body(emailBody)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
-        } catch (final Exception ex) {
-            // TODO fixme after Spring Boot 3 migration - use MessagingException
+        } catch (final MessagingException ex) {
             log.warn("Notification failed: {}", ex.getMessage());
         }
 

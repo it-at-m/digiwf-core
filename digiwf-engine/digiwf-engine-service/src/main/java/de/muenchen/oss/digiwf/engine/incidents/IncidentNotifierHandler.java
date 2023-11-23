@@ -6,6 +6,7 @@ package de.muenchen.oss.digiwf.engine.incidents;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.model.Mail;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
@@ -92,8 +93,7 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
                     .replyTo(this.fromAddress)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
-        } catch (final Exception error) {
-            // TODO fixme after Spring Boot 3 migration - use MessagingException
+        } catch (final MessagingException error) {
             log.error("Die Mail für den Incident konnte nicht gesendet werden.", error);
         }
 
