@@ -12,7 +12,7 @@
     <artifactId>digiwf-task-api</artifactId>
 
     <properties>
-        <polyflow.version>4.0.0</polyflow.version>
+        <polyflow.version>4.1.0</polyflow.version>
         <camunda-data.version>1.4.0</camunda-data.version>
     </properties>
 
