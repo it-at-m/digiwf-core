@@ -17,5 +17,11 @@
       "position": 3
     }
   ],
-  "statusDokument" : "example-all-input-fields-status-document"
+  "statusDokument" : "example-all-input-fields-status-document",
+  "configs": [
+    {
+      "key": "app_file_paths",
+      "value": "test;test2"
+    }
+  ]
 }
