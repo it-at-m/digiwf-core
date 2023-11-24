@@ -27,6 +27,7 @@
 
 
     <modules>
+        <module>digiwf-okewo-integration-client</module>
         <module>digiwf-okewo-integration-core</module>
         <module>digiwf-okewo-integration-starter</module>
         <module>digiwf-okewo-integration-service</module>
