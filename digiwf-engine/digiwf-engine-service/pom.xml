@@ -251,7 +251,7 @@
         <dependency> <!-- com.sun.xml.internal.ws.spi.ProviderImpl -->
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
             <scope>runtime</scope>
         </dependency>
 
