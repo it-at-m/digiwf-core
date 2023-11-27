@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class DigiwfEmailApiImplTest {
@@ -120,7 +121,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void sendMailWithDefaultLogo() throws MessagingException, IOException {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("Default Logo"));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("Default Logo", true));
 
         final Mail mail = Mail.builder()
                 .receivers(this.receiver)
@@ -141,7 +142,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void sendMailWithCustomLogo() throws MessagingException, IOException {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("Custom Logo"));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("Custom Logo", true));
 
         final Mail mail = Mail.builder()
                 .receivers(this.receiver)
@@ -162,7 +163,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void testGetEmailBodyFromTemplate() {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail"));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail", true));
 
         final String templatePath = "bausteine/mail/email-logo.png";
         final String result = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of());
@@ -172,7 +173,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void testGetEmailBodyFromTemplateWithContent() {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%"));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%", true));
 
         final String templatePath = "bausteine/mail/email-logo.png";
         final String result = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content"));
@@ -182,7 +183,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void testGetEmailBodyFromTemplateWithContentAndNewLines() {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%"));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%", true));
 
         final String templatePath = "bausteine/mail/email-logo.png";
         final String result = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content \n with new line"));
@@ -190,11 +191,23 @@ class DigiwfEmailApiImplTest {
         assertThat(result).isEqualTo("This is a test mail with some content <br/> with new line");
     }
 
-    private Resource getResourceForText(final String text) {
+    @Test
+    void testGetEmailBodyFromTemplateWithContentFailsIfTemplateDoesNotExist() {
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("foo bar", false));
+
+        final String templatePath = "some/temlate/that/does/not/exist";
+        assertThatThrownBy(() -> {
+            this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content"));
+        })
+            .isInstanceOf(RuntimeException.class)
+            .hasMessageContaining("Email Template not found: " + templatePath);
+    }
+
+    private Resource getResourceForText(final String text, final boolean resourceExists) {
         return new Resource() {
             @Override
             public boolean exists() {
-                return false;
+                return resourceExists;
             }
 
             @Override

@@ -88,8 +88,13 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     }
 
     private String getTemplate(String templatePath) {
+        final Resource resource = this.getRessourceFromClassPath(templatePath);
+        if (!resource.exists()) {
+            log.error("Email Template not found: {}", templatePath);
+            throw new RuntimeException("Email Template not found: " + templatePath);
+        }
+
         try {
-            final Resource resource = this.getRessourceFromClassPath(templatePath);
             byte[] byteArray = FileCopyUtils.copyToByteArray(resource.getInputStream());
             return new String(byteArray, StandardCharsets.UTF_8);
         } catch (Exception e) {
