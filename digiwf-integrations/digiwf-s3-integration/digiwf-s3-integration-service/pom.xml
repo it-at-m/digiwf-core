@@ -32,14 +32,12 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- Logging -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- Spring Boot -->

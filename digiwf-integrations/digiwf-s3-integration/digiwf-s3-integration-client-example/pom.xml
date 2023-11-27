@@ -43,7 +43,6 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- Spring Cloud Stream -->

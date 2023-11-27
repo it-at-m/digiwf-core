@@ -10,11 +10,7 @@
     </parent>
 
     <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
-
-    <properties>
-        <wiremock.version>3.3.1</wiremock.version>
-    </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
@@ -28,7 +24,7 @@
         <dependency>
             <groupId>org.wiremock</groupId>
             <artifactId>wiremock-standalone</artifactId>
-            <version>${wiremock.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
