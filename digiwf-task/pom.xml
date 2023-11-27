@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <kotlin.version>1.9.20</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
         <spring-boot.version>3.1.5</spring-boot.version>
         <camunda.version>7.20.0</camunda.version>
         <polyflow.version>4.1.0</polyflow.version>
