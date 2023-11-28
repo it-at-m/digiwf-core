@@ -4,6 +4,6 @@ de:
       digiwf:
         okewo:
           password: 'password'
-          url: 'url'
+          url: 'http://localhost:8089'
           username: 'username'
           benutzerId: 'benutzerId'

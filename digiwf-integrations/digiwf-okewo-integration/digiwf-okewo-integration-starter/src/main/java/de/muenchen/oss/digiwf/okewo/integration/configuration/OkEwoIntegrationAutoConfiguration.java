@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonErweitertApi;
 import de.muenchen.oss.digiwf.okewo.integration.properties.OkEwoIntegrationProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +14,10 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(
@@ -46,12 +50,18 @@ public class OkEwoIntegrationAutoConfiguration {
    */
   public ApiClient okEwoApiClient() {
     final WebClient webClient = WebClient.builder()
-        .baseUrl(okEwoIntegrationProperties.getUrl())
+        .baseUrl(okEwoIntegrationProperties.getUrl().toString())
         .filter(ExchangeFilterFunctions
             .basicAuthentication(okEwoIntegrationProperties.getUsername(), okEwoIntegrationProperties.getPassword()))
         .build();
     final ApiClient apiClient = new ApiClient(webClient);
-    apiClient.setBasePath(this.okEwoIntegrationProperties.getUrl());
+    try {
+      final String newBasePath = updateHostOfBasePath(apiClient.getBasePath(), new URL(okEwoIntegrationProperties.getUrl()));
+      apiClient.setBasePath(newBasePath);
+    } catch (MalformedURLException exception) {
+      log.error("could not update base path of ApiClient because given url is malformed", exception);
+    }
+    //    apiClient.setBasePath(this.okEwoIntegrationProperties.getUrl());
     return apiClient;
   }
 
@@ -85,4 +95,15 @@ public class OkEwoIntegrationAutoConfiguration {
 //        return new PropertiesServiceTemplate(this.okEwoIntegrationProperties.getBenutzerId());
 //    }
 
+  /**
+   * solution copied from https://github.com/swagger-api/swagger-codegen/issues/2916#issuecomment-220466457
+   * @param apiClientBasePath generated api base path of ApiClient
+   * @param hostUrl new host or domain of the system
+   * @return api base path with given host and base path of ApiClient
+   * @throws MalformedURLException
+   */
+  private String updateHostOfBasePath(String apiClientBasePath, URL hostUrl) throws MalformedURLException {
+    URL url = new URL(apiClientBasePath);
+    return new URL(hostUrl.getProtocol(), hostUrl.getHost(), hostUrl.getPort(), url.getFile()).toString();
+  }
 }

@@ -5,12 +5,12 @@ import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonErweitertApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.*;
 import de.muenchen.oss.digiwf.okewo.integration.domain.exception.OkEwoIntegrationClientErrorException;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OkEwoAdapter implements OkEwoClientOutPort {
 
   private PersonErweitertApi personErweitertApi;

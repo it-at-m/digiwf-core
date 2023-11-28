@@ -7,6 +7,8 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.net.URL;
+
 @Getter
 @Setter
 @Validated

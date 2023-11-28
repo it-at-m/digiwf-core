@@ -4,6 +4,103 @@ de:
       digiwf:
         okewo:
           password: 'password'
-          url: 'url'
+          url: 'http://localhost:8089'
           username: 'username'
           benutzerId: 'benutzerId'
+
+
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: 8080
+  shutdown: graceful
+spring:
+  application:
+    name: DigiWF OK.EWO Integration
+  banner:
+    location: banner.txt
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  cloud:
+    stream:
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-okewo-service"
+          destination: dwf-okewo-e2e-test
+        sendMessage-out-0:
+          destination: dwf-connector-e2e-test
+        integrationTestConsumer-in-0:
+          destination: "dwf-connector-e2e-test"
+          group: dwf-okewo-service-e2e
+      default:
+        consumer:
+          maxAttempts: '1'
+      default-binder: kafka
+      function:
+        routing:
+          enabled: true
+
+    function:
+      definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
+
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+# DigiWF config
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-e2e-test"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
+        correlateMessageDestination: "dwf-connector-e2e-test"
+        typeMappings:
+          getPerson: "getPerson"
+          searchPerson: "searchPerson"
+          getPersonErweitert: "getPersonErweitert"
+          searchPersonErweitert: "searchPersonErweitert"
+

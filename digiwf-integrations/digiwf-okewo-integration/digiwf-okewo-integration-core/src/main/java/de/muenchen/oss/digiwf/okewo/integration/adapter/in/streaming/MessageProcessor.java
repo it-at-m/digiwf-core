@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -27,14 +28,12 @@ public class MessageProcessor {
 
   private static final String RESPONSE = "response";
 
-
   private final IntegrationOutPort integration;
 
   private final GetPersonInPort getPersonInPort;
   private final GetPersonErweitertInPort getPersonErweitertInPort;
   private final SearchPersonInPort searchPersonInPort;
   private final SearchPersonErweitertInPort searchPersonErweitertInPort;
-
 
   /**
    * The Consumer expects an {@link OkEwoEventRequest} which represents an {@link OrdnungsmerkmalDto} for OK.EWO.
@@ -44,14 +43,15 @@ public class MessageProcessor {
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<OrdnungsmerkmalDto>>> getPerson() {
+  public Consumer<Message<OkEwoEventRequest<HashMap<String, String>>>> getPerson() {
     return message -> {
       log.debug("Processing new request \"getPerson\" from eventbus: {}", message);
       val payload = message.getPayload();
       val headers = message.getHeaders();
-
+      val request = payload.getRequest();
+      val om = request.get("ordnungsmerkmal");
       try {
-        val response = getPersonInPort.getPerson(payload.getRequest().getOrdnungsmerkmal());
+        val response = getPersonInPort.getPerson(om);
         Map<String, Object> result = Map.of(RESPONSE, response);
         integration.correlateProcessMessage(headers, result);
       } catch (Exception e) {
