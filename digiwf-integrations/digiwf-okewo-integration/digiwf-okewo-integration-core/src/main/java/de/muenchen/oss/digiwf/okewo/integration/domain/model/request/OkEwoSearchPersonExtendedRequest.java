@@ -4,7 +4,11 @@ import de.muenchen.oss.digiwf.okewo.integration.client.model.SuchePersonerweiter
 import lombok.Data;
 
 @Data
-public class SearchPersonErweitertRequestDto {
-    private SuchePersonerweitertAnfrage searchPersonErweitert;
+public class OkEwoSearchPersonExtendedRequest {
+
+    /**
+     * The payload to request OK.EWO.
+     */
+    private SuchePersonerweitertAnfrage request;
 
 }

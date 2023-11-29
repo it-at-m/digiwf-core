@@ -8,6 +8,8 @@ import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonInPor
 import de.muenchen.oss.digiwf.okewo.integration.application.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.*;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoEventRequest;
+import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearchPersonExtendedRequest;
+import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearchPersonRequest;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OrdnungsmerkmalDto;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.response.OkEwoErrorDto;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -43,7 +44,7 @@ public class MessageProcessor {
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<HashMap<String, String>>>> getPerson() {
+  public Consumer<Message<OkEwoEventRequest<Map<String, String>>>> getPerson() {
     return message -> {
       log.debug("Processing new request \"getPerson\" from eventbus: {}", message);
       val payload = message.getPayload();
@@ -69,7 +70,7 @@ public class MessageProcessor {
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<SuchePersonAnfrage>>> searchPerson() {
+  public Consumer<Message<OkEwoSearchPersonRequest>> searchPerson() {
     return message -> {
       log.debug("Processing new request \"searchPerson\" from eventbus: {}", message);
       val payload = message.getPayload();
@@ -94,20 +95,21 @@ public class MessageProcessor {
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<OrdnungsmerkmalDto>>> getPersonErweitert() {
+  public Consumer<Message<OkEwoEventRequest<Map<String, String>>>> getPersonErweitert() {
     return message -> {
       log.debug("Processing new request \"getPersonErweitert\" from eventbus: {}", message);
       val payload = message.getPayload();
       val headers = message.getHeaders();
 
+      val request = payload.getRequest();
+      val om = request.get("ordnungsmerkmal");
       try {
-        val response = getPersonErweitertInPort.getPerson(payload.getRequest().getOrdnungsmerkmal());
+        val response = getPersonErweitertInPort.getPerson(om);
         Map<String, Object> result = Map.of(RESPONSE, response);
         integration.correlateProcessMessage(headers, result);
       } catch (Exception e) {
         integration.handleIncident(headers, new IncidentError(e.getMessage()));
       }
-
     };
   }
 
@@ -120,7 +122,7 @@ public class MessageProcessor {
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<SuchePersonerweitertAnfrage>>> searchPersonErweitert() {
+  public Consumer<Message<OkEwoSearchPersonExtendedRequest>> searchPersonErweitert() {
     return message -> {
       log.debug("Processing new request \"searchPersonErweitert\" from eventbus: {}", message);
       val payload = message.getPayload();
