@@ -22,7 +22,7 @@ Content-Type: application/json
 {
   "receivers": "itm.digiwf@muenchen.de",
   "subject": "Testing Email Integration",
-  "body": "<p>This is a test email. You can delete it safely</p><script>This should get removed!</script>",
+  "body": "<p>This is a test email. You can delete it safely</p><script>This should get removed!</script><a href=\"http://www.google.com\">Google</a>",
   "attachments": []
 }
 
