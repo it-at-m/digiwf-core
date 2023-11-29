@@ -120,6 +120,26 @@ class DigiwfEmailApiImplTest {
     }
 
     @Test
+    void sendMailWithMultipleReplyToAddresses() throws MessagingException, IOException {
+        final Mail mail = Mail.builder()
+                .receivers(this.receiver)
+                .subject(this.subject)
+                .body(this.body)
+                .replyTo("address1@muenchen.de, address2@muenchen.de")
+                .build();
+        this.digiwfEmailApi.sendMail(mail);
+
+        final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
+        verify(this.javaMailSender).send(messageArgumentCaptor.capture());
+
+        assertThat(messageArgumentCaptor.getValue().getAllRecipients()).hasSize(2);
+        assertThat(messageArgumentCaptor.getValue().getSubject()).isEqualTo(this.subject);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).hasSize(2);
+        final MimeMultipart content = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
+        assertThat(content.getContentType()).contains("multipart/mixed");
+    }
+
+    @Test
     void sendMailWithDefaultLogo() throws MessagingException, IOException {
         when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("Default Logo", true));
 

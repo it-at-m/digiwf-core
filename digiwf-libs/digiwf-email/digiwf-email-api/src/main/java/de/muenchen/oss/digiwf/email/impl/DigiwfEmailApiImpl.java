@@ -49,16 +49,16 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
             mimeMessage.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(mail.getReceiversBcc()));
         }
 
+        if (mail.hasReplyTo()) {
+            mimeMessage.setReplyTo(InternetAddress.parse(mail.getReplyTo()));
+        }
+
         final var helper = new MimeMessageHelper(mimeMessage, true);
 
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getBody());
         // use custom sender
         helper.setFrom(mail.hasSender() ? mail.getSender() : this.fromAddress);
-
-        if (mail.hasReplyTo()) {
-            helper.setReplyTo(mail.getReplyTo());
-        }
 
         // mail attachments
         if (mail.hasAttachement()) {
