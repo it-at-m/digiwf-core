@@ -7,7 +7,7 @@ import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonErwei
 import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonInPort;
 import de.muenchen.oss.digiwf.okewo.integration.application.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.*;
-import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoEventRequest;
+import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoOmBasedRequest;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearchPersonExtendedRequest;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearchPersonRequest;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OrdnungsmerkmalDto;
@@ -37,22 +37,21 @@ public class MessageProcessor {
   private final SearchPersonErweitertInPort searchPersonErweitertInPort;
 
   /**
-   * The Consumer expects an {@link OkEwoEventRequest} which represents an {@link OrdnungsmerkmalDto} for OK.EWO.
+   * The Consumer expects an {@link OkEwoOmBasedRequest} which represents an {@link OrdnungsmerkmalDto} for OK.EWO.
    * <p>
    * After successfully requesting OK.EWO a JSON representing a {@link Person} is returned.
    * <p>
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<Map<String, String>>>> getPerson() {
+  public Consumer<Message<OkEwoOmBasedRequest>> getPerson() {
     return message -> {
       log.debug("Processing new request \"getPerson\" from eventbus: {}", message);
       val payload = message.getPayload();
       val headers = message.getHeaders();
       val request = payload.getRequest();
-      val om = request.get("ordnungsmerkmal");
       try {
-        val response = getPersonInPort.getPerson(om);
+        val response = getPersonInPort.getPerson(request.getOrdnungsmerkmal());
         Map<String, Object> result = Map.of(RESPONSE, response);
         integration.correlateProcessMessage(headers, result);
       } catch (Exception e) {
@@ -63,7 +62,7 @@ public class MessageProcessor {
   }
 
   /**
-   * The Consumer expects a {@link OkEwoEventRequest} which represents the {@link SuchePersonAnfrage} for OK.EWO.
+   * The Consumer expects a {@link OkEwoOmBasedRequest} which represents the {@link SuchePersonAnfrage} for OK.EWO.
    * <p>
    * After successfully requesting OK.EWO a JSON representing a {@link SuchePersonAntwort} is returned.
    * <p>
@@ -88,23 +87,22 @@ public class MessageProcessor {
 
 
   /**
-   * The Consumer expects an {@link OkEwoEventRequest} which represents an {@link OrdnungsmerkmalDto} for OK.EWO.
+   * The Consumer expects an {@link OkEwoOmBasedRequest} which represents an {@link OrdnungsmerkmalDto} for OK.EWO.
    * <p>
    * After successfully requesting OK.EWO a JSON representing a {@link de.muenchen.oss.digiwf.okewo.integration.client.model.PersonErweitert} is returned.
    * <p>
    * In case of an error the error message is returned as a JSON representing {@link OkEwoErrorDto}.
    */
   @Bean
-  public Consumer<Message<OkEwoEventRequest<Map<String, String>>>> getPersonErweitert() {
+  public Consumer<Message<OkEwoOmBasedRequest>> getPersonErweitert() {
     return message -> {
       log.debug("Processing new request \"getPersonErweitert\" from eventbus: {}", message);
       val payload = message.getPayload();
       val headers = message.getHeaders();
 
       val request = payload.getRequest();
-      val om = request.get("ordnungsmerkmal");
       try {
-        val response = getPersonErweitertInPort.getPerson(om);
+        val response = getPersonErweitertInPort.getPerson(request.getOrdnungsmerkmal());
         Map<String, Object> result = Map.of(RESPONSE, response);
         integration.correlateProcessMessage(headers, result);
       } catch (Exception e) {
@@ -115,7 +113,7 @@ public class MessageProcessor {
 
 
   /**
-   * The Consumer expects a {@link OkEwoEventRequest} which represents the {@link SuchePersonerweitertAnfrage} for OK.EWO.
+   * The Consumer expects a {@link OkEwoOmBasedRequest} which represents the {@link SuchePersonerweitertAnfrage} for OK.EWO.
    * <p>
    * After successfully requesting OK.EWO a JSON representing a {@link SuchePersonerweitertAntwort} is returned.
    * <p>
