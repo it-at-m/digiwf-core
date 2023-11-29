@@ -18,6 +18,9 @@ spring:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SSO_ISSUER_URL:sso.muenchen.de}
       client:
         provider:
           keycloak:

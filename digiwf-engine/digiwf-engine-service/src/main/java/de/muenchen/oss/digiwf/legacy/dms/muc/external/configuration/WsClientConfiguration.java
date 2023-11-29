@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 /**
  * Configuration of the Webservice Client.

@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  de.muenchen.oss.digiwf.cockpit.CamundaWebappsAutoConfiguration
-# Environment post processors responsible for scanning additional properties files
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  de.muenchen.oss.digiwf.cockpit.envprocessor.CamundaWebAppsEnvironmentPostProcessor

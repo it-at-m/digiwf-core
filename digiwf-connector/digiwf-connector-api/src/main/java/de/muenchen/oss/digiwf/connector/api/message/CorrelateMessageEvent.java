@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.connector.api.message;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Setter

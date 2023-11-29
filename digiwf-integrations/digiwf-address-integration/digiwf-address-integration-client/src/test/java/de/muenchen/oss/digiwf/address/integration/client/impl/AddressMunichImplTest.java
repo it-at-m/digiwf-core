@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -72,7 +74,7 @@ class AddressMunichImplTest {
 
     @Test
     void testCheckAddress_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException, AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
-        when(adressenMuenchenApi.checkAdresse(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(muenchenAdresse);
+        when(adressenMuenchenApi.checkAdresse(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(Mono.just(muenchenAdresse));
         final MuenchenAdresse result = addressMunich.checkAddress(checkAddressesModel);
         assertEquals(muenchenAdresse, result);
     }
@@ -98,7 +100,7 @@ class AddressMunichImplTest {
     @Test
     void testListAddresses_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         when(adressenMuenchenApi.listAdressen(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(muenchenAdresseResponse);
+                .thenReturn(Mono.just(muenchenAdresseResponse));
         final MuenchenAdresseResponse result = addressMunich.listAddresses(listAddressesModel);
         assertEquals(muenchenAdresseResponse, result);
     }
@@ -127,7 +129,7 @@ class AddressMunichImplTest {
     @Test
     void testListChanges_Success() throws Exception {
         when(adressenMuenchenApi.listAenderungen(any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(aenderungResponse);
+                .thenReturn(Mono.just(aenderungResponse));
         final AenderungResponse result = addressMunich.listChanges(listAddressChangesModel);
         assertEquals(aenderungResponse, result);
     }
@@ -156,7 +158,7 @@ class AddressMunichImplTest {
     @Test
     void testSearchAddresses_Success() throws Exception {
         when(adressenMuenchenApi.searchAdressen1(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(muenchenAdresseResponse);
+                .thenReturn(Mono.just(muenchenAdresseResponse));
         MuenchenAdresseResponse result = addressMunich.searchAddresses(searchAddressesModel);
         assertEquals(muenchenAdresseResponse, result);
     }
@@ -190,7 +192,7 @@ class AddressMunichImplTest {
                 .addressDistances(List.of(addressDistance))
                 .build();
         when(adressenMuenchenApi.searchAdressenGeo(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(List.of(addressDistance));
+                .thenReturn(Flux.just(addressDistance));
         AddressDistancesModel result = addressMunich.searchAddressesGeo(searchAddressesGeoModel);
 
         assertEquals(expectedResponse, result);

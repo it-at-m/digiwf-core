@@ -8,8 +8,8 @@ import de.muenchen.oss.digiwf.legacy.form.domain.validator.ValidationHandler;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.application.service;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.ReadContent;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.ReadContentPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.TransferContentPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class ReadContentServiceTest {
 
     private final TransferContentPort transferContentPort = mock(TransferContentPort.class);
 
-    private final ReadContent readContent = mock(ReadContent.class);
+    private final ReadContentPort readContent = mock(ReadContentPort.class);
 
     private final ReadContentService readContentService = new ReadContentService(transferContentPort, readContent);
 

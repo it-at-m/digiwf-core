@@ -8,7 +8,7 @@
     </bpmn:extensionElements>
     <bpmn:participant id="Participant_0sc4hu1" name="Group task process" processRef="Grouptask-Example" />
   </bpmn:collaboration>
-  <bpmn:process id="Grouptask-Example" name="Example Grouptask" isExecutable="true">
+  <bpmn:process id="Grouptask-Example" name="Example Grouptask" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:userTask id="Task_GroupUserTask" name="Group User Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:candidateGroups="${FORMFIELD_group}">
       <bpmn:extensionElements>
         <camunda:inputOutput>

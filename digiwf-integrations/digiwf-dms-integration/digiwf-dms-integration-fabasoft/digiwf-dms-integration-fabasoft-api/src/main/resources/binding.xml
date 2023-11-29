@@ -1,6 +1,6 @@
 <jaxws:bindings
-        xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+        xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws"
         wsdlLocation="fabasoft.wsdl"
-        xmlns="http://java.sun.com/xml/ns/jaxws">
+        xmlns="https://jakarta.ee/xml/ns/jaxws">
     <enableWrapperStyle>false</enableWrapperStyle>
 </jaxws:bindings>

@@ -67,6 +67,11 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/textarea-form.png)
 
+#### Hinweise
+Für längere Inhalte, die readonly angezeigt werden sollen, ist dieses Feld zu empfehlen. Bei einem Text Input ist die Höhe des Felds häufig nicht ausreichend, um die komplette Eingabe anzuzeigen. 
+
+Es ist sinnvoll bei einer textarea die Regel maxLength zu konfigurieren, da die Datenbank eine Limitierung von 2000 Zeichen pro Feld hat. 
+
 ## Zahl
 
 Ein Zahl ist ein Feld, in das eine Ganzzahl eingegeben werden kann.
