@@ -6,9 +6,12 @@ import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,19 +28,21 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     private final JavaMailSender mailSender;
     private final ResourceLoader resourceLoader;
     private final String fromAddress;
+    // use a prepackaged sanitizer to prevent XSS
+    private final PolicyFactory policy = Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS);
 
     @Override
-    public void sendMail(Mail mail) throws MessagingException {
+    public void sendMail(@Valid Mail mail) throws MessagingException {
         this.sendMail(mail, null);
     }
 
     @Override
-    public void sendMailWithDefaultLogo(Mail mail) throws MessagingException {
+    public void sendMailWithDefaultLogo(@Valid Mail mail) throws MessagingException {
         this.sendMail(mail, "bausteine/mail/email-logo.png");
     }
 
     @Override
-    public void sendMail(Mail mail, String logoPath) throws MessagingException {
+    public void sendMail(@Valid Mail mail, String logoPath) throws MessagingException {
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
 
         mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getReceivers()));
@@ -56,7 +61,8 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
         final var helper = new MimeMessageHelper(mimeMessage, true);
 
         helper.setSubject(mail.getSubject());
-        helper.setText(mail.getBody());
+        // sanitize mail body to prevent XSS
+        helper.setText(policy.sanitize(mail.getBody()));
         // use custom sender
         helper.setFrom(mail.hasSender() ? mail.getSender() : this.fromAddress);
 
