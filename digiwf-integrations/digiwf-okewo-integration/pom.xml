@@ -76,7 +76,7 @@
         <!-- Logging -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-logging</artifactId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -104,5 +104,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>
