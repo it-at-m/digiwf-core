@@ -99,13 +99,6 @@ jobs:
           push: true
           tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-integration-service:dev
 
-      - name: Build and push verification-integration
-        uses: docker/build-push-action@v5
-        with:
-          context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
-          push: true
-          tags: itatm/digiwf-verification-integration-service:${{ inputs.release-version }},itatm/digiwf-verification-integration-service:dev
-
       - name: Build and push s3-integration
         uses: docker/build-push-action@v5
         with:
