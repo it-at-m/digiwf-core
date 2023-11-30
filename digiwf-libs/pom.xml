@@ -7,8 +7,8 @@
     <parent>
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <relativePath>../digiwf-parent/pom.xml</relativePath>
         <version>1.3.0-SNAPSHOT</version>
+        <relativePath>../digiwf-parent/pom.xml</relativePath>
     </parent>
 
 
@@ -17,35 +17,13 @@
     <packaging>pom</packaging>
     <description>Libs by DigiWF</description>
 
-
     <modules>
         <module>digiwf-json-serialization</module>
         <module>digiwf-camunda-prometheus</module>
         <module>digiwf-message</module>
         <module>digiwf-spring-security</module>
         <module>digiwf-spring-logging-and-tracing</module>
+        <module>digiwf-process</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>

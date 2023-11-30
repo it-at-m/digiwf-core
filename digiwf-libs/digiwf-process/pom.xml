@@ -3,31 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-process</artifactId>
-    <name>${project.artifactId}</name>
-    <packaging>pom</packaging>
-    <description>Process management used by DigiWF</description>
-
     <parent>
-        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <relativePath>../digiwf-parent</relativePath>
+        <artifactId>digiwf-libs</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
+
+    <artifactId>digiwf-process</artifactId>
+    <packaging>pom</packaging>
+    <description>Process management used by DigiWF</description>
 
     <modules>
         <module>digiwf-process-api</module>
         <module>digiwf-process-starter</module>
         <module>digiwf-process-example</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>

@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-    <name>logging-and-tracing</name>
     <description>Logging and Tracing configuration and libraries used for DigiWF</description>
 
 

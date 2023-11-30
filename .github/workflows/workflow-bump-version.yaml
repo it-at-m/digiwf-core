@@ -62,13 +62,13 @@ jobs:
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version != ''
         run: |
-          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT -DprocessAllModules
-          mvn versions:commit -DprocessAllModules
+          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT -DprocessAllModules -Pdocs -Pfrontend
+          mvn versions:commit -DprocessAllModules -Pdocs -Pfrontend
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version == ''
         run: |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT -DprocessAllModules
-          mvn versions:commit -DprocessAllModules
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT -DprocessAllModules -Pdocs -Pfrontend
+          mvn versions:commit -DprocessAllModules -Pdocs -Pfrontend
       - name: Git commit
         if: github.event.inputs.bump-services-version == true || inputs.bump-services-version == true
         run: |
