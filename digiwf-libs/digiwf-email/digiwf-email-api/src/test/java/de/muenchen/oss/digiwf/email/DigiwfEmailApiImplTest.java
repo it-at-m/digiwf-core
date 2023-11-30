@@ -193,7 +193,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void testGetEmailBodyFromTemplateWithContent() {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%", true));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with content", true));
 
         final String templatePath = "bausteine/mail/email-logo.png";
         final String result = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content"));
@@ -203,7 +203,7 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void testGetEmailBodyFromTemplateWithContentAndNewLines() {
-        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with %%content%%", true));
+        when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail with content", true));
 
         final String templatePath = "bausteine/mail/email-logo.png";
         final String result = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content \n with new line"));

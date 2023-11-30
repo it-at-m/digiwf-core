@@ -87,10 +87,11 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     public String getEmailBodyFromTemplate(String templatePath, Map<String, String> content) {
         String mailTemplate = this.getTemplate(templatePath);
         for (val entry : content.entrySet()) {
-            mailTemplate = mailTemplate.replaceAll("%%" + entry.getKey() + "%%", entry.getValue());
+            // Make sure new lines are converted to <br> tags
+            final String value = entry.getValue().replaceAll("(\r\n|\n\r|\r|\n)", "<br/>");
+            mailTemplate = mailTemplate.replaceAll(entry.getKey(), value);
         }
-        // Make sure new lines are converted to <br> tags
-        return mailTemplate.replaceAll("(\r\n|\n\r|\r|\n)", "<br/>");
+        return mailTemplate;
     }
 
     private String getTemplate(String templatePath) {
