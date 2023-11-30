@@ -21,22 +21,7 @@ import java.net.URL;
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(
-    basePackages = "de.muenchen.oss.digiwf.okewo.integration",
-    excludeFilters = {
-        @ComponentScan.Filter(
-            type = FilterType.ASSIGNABLE_TYPE,
-            classes = {
-                /**
-                 * Exclude to avoid multiple instantiation of beans with same name.
-                 * This class is instantiated in {@link OkEwoIntegrationAutoConfiguration}
-                 * to give the bean another name.
-                 */
-                ApiClient.class,
-                PersonApi.class,
-                PersonErweitertApi.class
-            }
-        )
-    }
+    basePackages = "de.muenchen.oss.digiwf.okewo.integration"
 )
 @EnableConfigurationProperties(OkEwoIntegrationProperties.class)
 public class OkEwoIntegrationAutoConfiguration {
@@ -50,7 +35,7 @@ public class OkEwoIntegrationAutoConfiguration {
    */
   public ApiClient okEwoApiClient() {
     final WebClient webClient = WebClient.builder()
-        .baseUrl(okEwoIntegrationProperties.getUrl().toString())
+        .baseUrl(okEwoIntegrationProperties.getUrl())
         .filter(ExchangeFilterFunctions
             .basicAuthentication(okEwoIntegrationProperties.getUsername(), okEwoIntegrationProperties.getPassword()))
         .build();
@@ -61,7 +46,6 @@ public class OkEwoIntegrationAutoConfiguration {
     } catch (MalformedURLException exception) {
       log.error("could not update base path of ApiClient because given url is malformed", exception);
     }
-    //    apiClient.setBasePath(this.okEwoIntegrationProperties.getUrl());
     return apiClient;
   }
 
@@ -86,14 +70,6 @@ public class OkEwoIntegrationAutoConfiguration {
     final ApiClient apiClient = this.okEwoApiClient();
     return new PersonErweitertApi(apiClient);
   }
-
-//    /**
-//     * @return a bean of type {@link PropertiesServiceTemplate} named by method name.
-//     */
-//    @Bean
-//    public PropertiesServiceTemplate propertiesService() {
-//        return new PropertiesServiceTemplate(this.okEwoIntegrationProperties.getBenutzerId());
-//    }
 
   /**
    * solution copied from https://github.com/swagger-api/swagger-codegen/issues/2916#issuecomment-220466457
