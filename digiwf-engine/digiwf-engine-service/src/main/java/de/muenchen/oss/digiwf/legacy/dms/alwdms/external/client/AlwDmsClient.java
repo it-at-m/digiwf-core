@@ -19,7 +19,7 @@ import lombok.val;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Rest-Client for Alw-Dms-EAI.

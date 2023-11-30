@@ -7,7 +7,7 @@ package de.muenchen.oss.digiwf.jsonschema.domain.model;
 import de.muenchen.oss.digiwf.json.factory.JsonSchemaFactory;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Map;
 
 /**

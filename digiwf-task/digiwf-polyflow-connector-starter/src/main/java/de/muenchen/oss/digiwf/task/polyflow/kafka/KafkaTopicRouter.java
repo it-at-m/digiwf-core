@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.task.polyflow.kafka;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Router to decide where to publish events to.

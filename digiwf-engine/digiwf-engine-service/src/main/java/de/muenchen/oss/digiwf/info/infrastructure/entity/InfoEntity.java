@@ -6,7 +6,7 @@ package de.muenchen.oss.digiwf.info.infrastructure.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * Entity representation of an info.

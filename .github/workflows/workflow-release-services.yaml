@@ -190,3 +190,10 @@ jobs:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
           tags: itatm/digiwf-engine-service:${{ inputs.release-version }},itatm/digiwf-engine-service:dev
+
+      - name: Build and push engine rest
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-engine/digiwf-engine-rest-service
+          push: true
+          tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }},itatm/digiwf-engine-rest-service:dev

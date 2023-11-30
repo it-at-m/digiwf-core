@@ -6,7 +6,7 @@
 
     <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-integrations</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -31,7 +31,6 @@
         <module>digiwf-s3-integration</module>
         <module>digiwf-okewo-integration</module>
         <module>digiwf-alw-integration</module>
-        <module>digiwf-verification-integration</module>
         <module>digiwf-example-integration</module>
         <module>digiwf-dms-integration</module>
         <module>digiwf-address-integration</module>
