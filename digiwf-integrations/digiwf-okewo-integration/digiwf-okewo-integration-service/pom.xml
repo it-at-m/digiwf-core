@@ -25,15 +25,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
         <!-- Cloud Stream -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
@@ -99,8 +90,9 @@
         <dependency>
             <groupId>org.wiremock</groupId>
             <artifactId>wiremock-standalone</artifactId>
+<!--            TODO remove version after merge of https://github.com/it-at-m/digiwf-core/pull/1046 -->
             <version>3.3.1</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
