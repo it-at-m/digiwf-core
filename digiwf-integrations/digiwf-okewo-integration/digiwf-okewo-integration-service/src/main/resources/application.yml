@@ -26,8 +26,6 @@ server:
 spring:
   application:
     name: DigiWF OK.EWO Integration
-  banner:
-    location: banner.txt
   lifecycle:
     timeout-per-shutdown-phase: 1m
   cloud:
@@ -89,7 +87,7 @@ io:
           searchPerson: "searchPerson"
           getPersonErweitert: "getPersonErweitert"
           searchPersonErweitert: "searchPersonErweitert"
-# FIXME: move to io.muenchendigital
+# TODO: move to io.muenchendigital
 de:
   muenchen:
     oss:

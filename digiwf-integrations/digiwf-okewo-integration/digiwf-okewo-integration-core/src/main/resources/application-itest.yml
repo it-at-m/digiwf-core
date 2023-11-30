@@ -1,9 +1,0 @@
-de:
-  muenchen:
-    oss:
-      digiwf:
-        okewo:
-          password: 'password'
-          url: 'http://localhost:8089'
-          username: 'username'
-          benutzerId: 'benutzerId'
