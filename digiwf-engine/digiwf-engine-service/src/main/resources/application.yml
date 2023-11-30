@@ -112,6 +112,8 @@ spring:
             client-id: ${SSO_S3_CLIENT_ID}
             client-secret: ${SSO_S3_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
+  profiles:
+    include: polyflow-kafka
 
 springdoc:
   packagesToScan: de.muenchen.oss.digiwf
