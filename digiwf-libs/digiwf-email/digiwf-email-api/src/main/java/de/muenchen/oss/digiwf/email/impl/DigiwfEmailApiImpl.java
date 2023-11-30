@@ -29,7 +29,10 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     private final ResourceLoader resourceLoader;
     private final String fromAddress;
     // use a prepackaged sanitizer to prevent XSS
-    private final PolicyFactory policy = Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS);
+    private final PolicyFactory policy = Sanitizers.BLOCKS
+            .and(Sanitizers.FORMATTING)
+            .and(Sanitizers.LINKS)
+            .and(Sanitizers.TABLES);
 
     @Override
     public void sendMail(@Valid Mail mail) throws MessagingException {
@@ -61,8 +64,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
         final var helper = new MimeMessageHelper(mimeMessage, true);
 
         helper.setSubject(mail.getSubject());
-        // sanitize mail body to prevent XSS
-        helper.setText(policy.sanitize(mail.getBody()));
+        helper.setText(mail.getBody(), mail.isHtmlBody());
         // use custom sender
         helper.setFrom(mail.hasSender() ? mail.getSender() : this.fromAddress);
 
@@ -87,9 +89,10 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     public String getEmailBodyFromTemplate(String templatePath, Map<String, String> content) {
         String mailTemplate = this.getTemplate(templatePath);
         for (val entry : content.entrySet()) {
+            // make sure inputs are sanitized to prevent XSS
+            final String value = policy.sanitize(entry.getValue());
             // Make sure new lines are converted to <br> tags
-            final String value = entry.getValue().replaceAll("(\r\n|\n\r|\r|\n)", "<br/>");
-            mailTemplate = mailTemplate.replaceAll(entry.getKey(), value);
+            mailTemplate = mailTemplate.replaceAll(entry.getKey(), value.replaceAll("(\r\n|\n\r|\r|\n)", "<br/>"));
         }
         return mailTemplate;
     }

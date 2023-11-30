@@ -124,6 +124,7 @@ public class UserTaskNotificationListener {
                     .receivers(address)
                     .subject(subject)
                     .body(emailBody)
+                    .htmlBody(true)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
         } catch (final MessagingException ex) {
@@ -223,6 +224,7 @@ public class UserTaskNotificationListener {
                     .receivers(addressList)
                     .subject(subject)
                     .body(emailBody)
+                    .htmlBody(true)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
         } catch (final MessagingException ex) {

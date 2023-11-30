@@ -90,6 +90,7 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
                     .receivers(this.toAddress)
                     .subject(this.environment + ": Incident aufgetreten")
                     .body(emailBody)
+                    .htmlBody(true)
                     .replyTo(this.fromAddress)
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
