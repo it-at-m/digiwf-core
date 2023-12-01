@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.AuthorizationService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import static de.muenchen.oss.digiwf.cockpit.security.authorization.AuthorizationHelper.*;
 import static de.muenchen.oss.digiwf.spring.security.SecurityConfiguration.SECURITY;
@@ -34,6 +34,9 @@ public class DefaultAuthorizationInitializer {
     // SSO role
     setupGroupAppPermissions(authorizationService, camundaWebappsProperties.getWebAppRole());
     setupGroupAuthorizationPermissions(authorizationService, camundaWebappsProperties.getWebAppRole());
+     setupGroupGroupPermissions(authorizationService, camundaWebappsProperties.getWebAppRole());
+    setupGroupGroupMembershipPermissions(authorizationService, camundaWebappsProperties.getWebAppRole());
+    setupGroupUserPermissions(authorizationService, camundaWebappsProperties.getWebAppRole());
 
     // admin user
     setupUserAppPermissions(authorizationService, LEGACY_ADMIN_USER);

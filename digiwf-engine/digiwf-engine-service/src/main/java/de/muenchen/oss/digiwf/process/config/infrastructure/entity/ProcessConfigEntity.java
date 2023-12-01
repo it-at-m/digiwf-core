@@ -8,7 +8,7 @@ import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * Entity object of the {@link ProcessConfig}

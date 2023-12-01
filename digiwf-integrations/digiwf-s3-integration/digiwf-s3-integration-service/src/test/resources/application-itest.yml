@@ -1,4 +1,5 @@
 refarch.gracefulshutdown.pre-wait-seconds: 0
+
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;mode=postgresql
@@ -7,13 +8,23 @@ spring:
     driver-class-name: org.h2.Driver
   flyway:
     locations: "classpath:db/migration/postgresql"
-  h2.console.enabled: true
   jpa:
     database: H2
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${spring.embedded.kafka.brokers}
+      bindings:
+        functionRouter-in-0:
+          destination: dwf-s3-itest
+        sendMessage-out-0:
+          destination: dwf-connector-itest
+
 
 io.muenchendigital.digiwf.s3:
   cleanupcronjob: "0 15 10 15 * ?"

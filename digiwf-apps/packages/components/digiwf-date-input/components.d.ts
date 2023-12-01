@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DwfDateInput: typeof import('./src/components/DwfDateInput.vue')['default']
+    DwfTimeInput: typeof import('./src/components/DwfTimeInput.vue')['default']
     VBtn: typeof import('vuetify/lib')['VBtn']
     VIcon: typeof import('vuetify/lib')['VIcon']
     VTextField: typeof import('vuetify/lib')['VTextField']

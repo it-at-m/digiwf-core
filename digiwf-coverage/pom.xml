@@ -8,14 +8,11 @@
     <description>Jacoco Code Coverage</description>
 
     <parent>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
 
     <dependencies>
         <!-- digiwf-connector -->
@@ -122,12 +119,44 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-verification-integration-core</artifactId>
+            <artifactId>digiwf-address-integration-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-verification-integration-service</artifactId>
+            <artifactId>digiwf-address-integration-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-address-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- digiwf-libs -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-dms-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -140,16 +169,6 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>example-json-serialization</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-cloudstream-utils-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>example-spring-cloudstream-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -175,23 +194,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Digiwf-schema-registry -->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-schema-registry-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-schema-registry-client-example</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-schema-registry-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- DigiWF task -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
@@ -208,8 +210,6 @@
             <artifactId>digiwf-tasklist-service</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -217,7 +217,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

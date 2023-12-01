@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.alw.integration.domain.model;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Describes responsibility.

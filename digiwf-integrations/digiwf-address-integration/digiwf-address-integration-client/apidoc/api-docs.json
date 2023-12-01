@@ -1,0 +1,3019 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Address-Service API",
+    "description": "## Zentraler Service für Adressen. \nWeitere Informationen zu diesem Service erhalten Sie hier:  [Geodatenpool / Geodateninfrastruktur in Wilma](https://wilma.muenchen.de/workspaces/geodatenpool-gdp-geodateninfrastruktur-gdi)\n\nÜber die \"Try it out\" Funktion können direkt aus dieser Dokumentation Test-Anfragen gesendet werden. \n\n### Allgemeine Informationen \n* Die maximale Ergebnismenge beträgt 10.000 Elemente \n* Sortierung standardmäßig über Scoring (Empfohlen) \n* Für die Anbindung einer EAI aus dem Datacenter muss die EAI-URL genutzt werden (Siehe unten Servers) \n\n### DEPRECATED - Bitte auf Version 2 migrieren \n",
+    "version": "V1"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Aktuelle URL"
+    },
+    {
+      "url": "https://address-service-test.muenchen.de/",
+      "description": "Lokal Test (Erreichbar aus Verwaltungsnetz)"
+    },
+    {
+      "url": "https://address-service-eai-test.muenchen.de/",
+      "description": "EAI-Route Test (Erreichbar aus Datacenter)"
+    },
+    {
+      "url": "https://address-service.muenchen.de/",
+      "description": "EAI-Route Prod (Erreichbar aus Datacenter)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Adressen München",
+      "description": "Endpunkte für alle Arten von Suchen/Checks zu Adressen in München"
+    },
+    {
+      "name": "Adressen bundesweit",
+      "description": "Endpunkte für alle Arten von Suchen/Checks zu bundesweiten Adressen",
+      "externalDocs": {
+        "description": "Länderspezifische Besonderheiten",
+        "url": "https://git.muenchen.de/master/address-service/-/wikis/Besonderheiten"
+      }
+    },
+    {
+      "name": "Straßen München",
+      "description": "Endpunkt für alle Arten von Suchen/Checks zu Strassen in München"
+    }
+  ],
+  "paths": {
+    "/v2/strasse/{strasseId}": {
+      "get": {
+        "tags": [
+          "Straßen München"
+        ],
+        "summary": "Liefert die Straße zu der Straßen-Id.",
+        "operationId": "findStrasseByNummer",
+        "parameters": [
+          {
+            "name": "strasseId",
+            "in": "path",
+            "description": "Straßennummer/Straßenschlüssel  <br /> <i>Beispiel</i>: 3013",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Keine Straße zu der Straßennummer gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/strasse/search": {
+      "get": {
+        "tags": [
+          "Straßen München"
+        ],
+        "summary": "Liefert alle Straßen, die mit den Suchparametern übereinstimmen.",
+        "operationId": "listStrassen",
+        "parameters": [
+          {
+            "name": "stadtbezirksnamen",
+            "in": "query",
+            "description": "Stadtbezirksnamen <br /> <i>Beispiel</i>: 'Maxvorstadt'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksnummern",
+            "in": "query",
+            "description": "Stadtbezirksnummern  <br /> <i>Beispiel</i>: 3",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Straßenname  <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StrasseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StrasseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse_bundesweit/search": {
+      "get": {
+        "tags": [
+          "Adressen bundesweit"
+        ],
+        "summary": "Sucht bundesweit Adressen für angegebene Query",
+        "operationId": "searchAdressen",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Suchtext mit Adressteilen. Erwartet wird ein Straßenname mit Hausnummer, ggf. Buchstabe und optional Plz/Ort  <br /> <i>Beispiele</i>: 'Wippenhauser Straße 54a', 'Wippenhauser Straße 54a, 85354 Freising'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Optional: Postleitzahl <br /> <i>Beispiel</i>: '85354'",
+            "required": false,
+            "schema": {
+              "maxLength": 5,
+              "minLength": 5,
+              "type": "string"
+            }
+          },
+          {
+            "name": "ortsname",
+            "in": "query",
+            "description": "Optional: Ortsname <br /> <i>Beispiel</i>: 'Freising'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gemeindeschluessel",
+            "in": "query",
+            "description": "Optional: Verwaltungszugehörigkeit - Land + Regierung + Kreis + Gemeinde  <br /> <i>Beispiel</i>: '09178124'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hausnummerfilter",
+            "in": "query",
+            "description": "Hausnummer Filterobjekt. Rangefilter (von...bis) für Hausnummer<br /> <i>Beispiel</i>: Einfache Eingabe von '90'. Nur Adressen mit Hausnummer '90' oder höher werden ausgegeben.<br /> <i>Beispiel</i>: Eingabe von '90' und '100'. Nur Adressen mit einer Hausnummer von '90' - '100' werden ausgegeben",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "buchstabefilter",
+            "in": "query",
+            "description": "Hausnummer Buchstabe Filterobjekt. Rangefilter (von...bis) für Buchstabe der Hausnummer<br /> <i>Beispiel</i>: Einfache Eingabe von 'a'. Nur Adressen mit Hausnummerzusatz 'a' oder höher werden ausgegeben.<br /> <i>Beispiel</i>: Eingabe von 'a' und 'c'. Nur Adressen mit einem Hausnummerzusatz von 'a', 'b' oder 'c' werden ausgegeben",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BundesweiteAdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BundesweiteAdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse/search": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Sucht Münchner Adressen für angegebene Query",
+        "operationId": "searchAdressen_1",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Suchtext mit Adressteilen. Erwartet wird ein Straßenname mit Hausnummer, ggf. Buchstabe und optional Plz/Ort  <br /> <i>Beispiele</i>: 'Marsstraße 4a', 'Marsstraße 4a, 80638 München'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plzfilter",
+            "in": "query",
+            "description": "PLZ Filterobjekt. Rangefilter (von...bis) für PLZ.<br /> <i>Beispiel</i>: Einfache Eingabe von '80000'. Nur Adressen mit Postleitzahl '80000' oder höher werden ausgegeben.<br /> <i>Beispiel</i>: Eingabe von '80000' und '80002'. Nur Adressen mit einer Postleitzahl von '80000','80001' oder '80002' werden ausgegeben",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "hausnummerfilter",
+            "in": "query",
+            "description": "Hausnummer Filterobjekt. Rangefilter (von...bis) für Hausnummer.<br /> <i>Beispiel</i>: Einfache Eingabe von '90'. Nur Adressen mit Hausnummer '90' oder höher werden ausgegeben.<br /> <i>Beispiel</i>: Eingabe von '90' und '100'. Nur Adressen mit einer Hausnummer von '90' - '100' werden ausgegeben",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "buchstabefilter",
+            "in": "query",
+            "description": "Hausnummer Buchstabe Filterobjekt. Rangefilter (von...bis) für Buchstabe der Hausnummer.<br /> <i>Beispiel</i>: Einfache Eingabe von 'a'. Nur Adressen mit Hausnummerzusatz a' oder höher werden ausgegeben.<br /> <i>Beispiel</i>: Eingabe von 'a' und 'c'. Nur Adressen mit einem Hausnummerzusatz von 'a', 'b' oder 'c' werden ausgegeben",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchtype",
+            "in": "query",
+            "description": "SearchType <br /> <i>Mögliche Werte</i>:<br />'AKTIV' – Default. Nur aktive Adressen werden durchsucht. <br />'HISTORISCH' – Historische Adressen werden zusätzlich durchsucht. Falls ein Treffer mit aktiver Nachfolgeradresse gefunden wird, wird die aktive Adresse in die Ergebnisliste mit aufgenommen (mit dem zusätzlichen Attribut 'ehemaligeAdresse'). Achtung: Es können Duplikate auftreten, z.B. wenn eine aktive Nachfolgeradresse viele historische Vorgänger hat.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "AKTIV"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse/search/geo": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Sucht Münchner Adressen in angegebener Fläche",
+        "operationId": "searchAdressenGeo",
+        "parameters": [
+          {
+            "name": "geometrie",
+            "in": "query",
+            "description": "Geometrie, in der gesucht werden soll <br /> <i>Mögliche Werte</i>: 'Punkt' mit Entfernung für die Suche innerhalb eines Kreises oder 'BoundingBox'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude. Geographische Breite des Bezugspunktes. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude. Geographische Länge des Bezugspunktes. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "distanz",
+            "in": "query",
+            "description": "Kreisradius. Suchdistanz zum Bezugspunkt in Metern. Wenn kein Wert gesetzt ist, wird ein Defaultwert von 50 Metern bei der Kreissuche verwendet. <br /> <i>Beispiel</i>: 125.50",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "topleftlat",
+            "in": "query",
+            "description": "Latitude des linken oberen Punktes der BoundingBox. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "topleftlng",
+            "in": "query",
+            "description": "Longitude des linken oberen Punktes der BoundingBox. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "bottomrightlat",
+            "in": "query",
+            "description": "Latitude des rechten unteren Punktes der BoundingBox. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "bottomrightlng",
+            "in": "query",
+            "description": "Longitude des rechten unteren Punktes der BoundingBox. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Koordinatenformat des Bezugspunktes. Wenn der Parameter fehlt, wird von UTM ausgegangen. <br /> <i>Mögliche Werte</i>: 'UTM', 'WGS'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdresseDistanz"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Geo-Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdresseDistanz"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse/list": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Liefert alle Adressen, die mit den angegebenen Gebietszuordnungen übereinstimmen.",
+        "operationId": "listAdressen",
+        "parameters": [
+          {
+            "name": "baublock",
+            "in": "query",
+            "description": "Baublock <br /> <i>Beispiel</i>: '11.3.3.22'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "erhaltungssatzung",
+            "in": "query",
+            "description": "Erhaltungssatzung <br /> <i>Beispiel</i>: 'nein'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "gemarkung",
+            "in": "query",
+            "description": "Gemarkung <br /> <i>Beispiel</i>: '8687'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "kaminkehrerbezirk",
+            "in": "query",
+            "description": "Kaminkehrerbezirk <br /> <i>Beispiel</i>: '26'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Postleitzahl <br /> <i>Beispiel</i>: '80807'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "mittelschule",
+            "in": "query",
+            "description": "Mittelschule <br /> <i>Beispiel</i>: '2274'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "grundschule",
+            "in": "query",
+            "description": "Grundschule <br /> <i>Beispiel</i>: '2273'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "polizeiinspektion",
+            "in": "query",
+            "description": "Polizeiinspektion <br /> <i>Beispiel</i>: '47'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stimmbezirk",
+            "in": "query",
+            "description": "Stimmbezirk <br /> <i>Beispiel</i>: 1",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "stimmkreis",
+            "in": "query",
+            "description": "Stimmkreis <br /> <i>Beispiel</i>: 104",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "wahlbezirk",
+            "in": "query",
+            "description": "Wahlbezirk <br /> <i>Beispiel</i>: 1171",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "wahlkreis",
+            "in": "query",
+            "description": "Wahlkreis <br /> <i>Beispiel</i>: 217",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirk",
+            "in": "query",
+            "description": "Stadtbezirk <br /> <i>Beispiel</i>: '11'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksteil",
+            "in": "query",
+            "description": "Stadtbezirksteil <br /> <i>Beispiel</i>: '11.3'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksviertel",
+            "in": "query",
+            "description": "Stadtbezirksviertel <br /> <i>Beispiel</i>: '11.3.3'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse/check": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Prüft, ob die angegebene Adresse existiert. Die Pflichtwerte können entweder: 1. komplett mittels adresse-Parameter, Hausnummer und Buchstabe ohne Leerzeichen dazwischen, angegeben werden oder 2. als Einzelwerte über die Parameter strassenname/strassenschluessel, hausnummer, zusatz angegeben werden ",
+        "operationId": "checkAdresse",
+        "parameters": [
+          {
+            "name": "adresse",
+            "in": "query",
+            "description": "Amtliche Schreibweise des Straßennamens mit Hausnummer und ggf. Zusatz (Pflichtfeld, wenn Straßenname/Straßenschluessel + Hausnummer nicht gesetzt sind). Optional Postleitzahl und Ort  <br /> <i>Beispiel</i>: entweder 'Marsstraße 4a' oder 'Marsstraße 4a, 80638 München'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Amtliche Schreibweise des Straßennamens <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "strasseId",
+            "in": "query",
+            "description": "StrasseId <br /> <i>Beispiel</i>: 3013",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "hausnummer",
+            "in": "query",
+            "description": "Hausnummer der Straße <br /> <i>Beispiel</i>: '4'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zusatz",
+            "in": "query",
+            "description": "Hausnummerzusatz <br /> <i>Beispiel</i>: 'a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Optional: Postleitzahl <br /> <i>Beispiel</i>: '80638'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ortsname",
+            "in": "query",
+            "description": "Optional: Ortsname <br /> <i>Beispiel</i>: 'München'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gemeindeschluessel",
+            "in": "query",
+            "description": "Optional: Gemeindeschlüssel <br /> <i>Beispiel</i>: '09162000'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "200": {
+            "description": "Adresse ist vorhanden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Adresse konnte nicht gefunden werden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MuenchenAdresse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/adresse/aenderung": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Liefert alle Änderungen, die mit den angegebenen Datum übereinstimmen.",
+        "operationId": "listAenderungen",
+        "parameters": [
+          {
+            "name": "wirkungsdatumvon",
+            "in": "query",
+            "description": "Von-Datum im Format YYYY-MM-DD <br /> <i>Beispiel</i>: '2022-01-01'",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "wirkungsdatumbis",
+            "in": "query",
+            "description": "Bis-Datum im Format YYYY-MM-DD <br /> <i>Beispiel</i>: '2022-01-14'",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Straßenname <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hausnummer",
+            "in": "query",
+            "description": "Hausnummer  <br /> <i>Beispiel</i>: '4'",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Postleitzahl <br /> <i>Beispiel</i>: '80638'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zusatz",
+            "in": "query",
+            "description": "Zusatz <br /> <i>Beispiel</i>: 'a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AenderungResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AenderungResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/strasse/{strassennummer}": {
+      "get": {
+        "tags": [
+          "Straßen München"
+        ],
+        "summary": "Liefert die Straße zu der Straßennummer.",
+        "operationId": "findStrasseByNummer_1",
+        "parameters": [
+          {
+            "name": "strassennummer",
+            "in": "path",
+            "description": "Straßennummer  <br /> <i>Beispiel</i>: 3013",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Keine Straße zu der Straßennummer gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Strasse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/strasse/search": {
+      "get": {
+        "tags": [
+          "Straßen München"
+        ],
+        "summary": "Liefert alle Straßen, die mit den Suchparametern übereinstimmen.",
+        "operationId": "listStrassen_1",
+        "parameters": [
+          {
+            "name": "stadtbezirksnamen",
+            "in": "query",
+            "description": "Stadtbezirksnamen <br /> <i>Beispiel</i>: 'Maxvorstadt'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksnummern",
+            "in": "query",
+            "description": "Stadtbezirksnummern  <br /> <i>Beispiel</i>: 3",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Straßenname  <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StrasseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StrasseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/externe_adresse/search": {
+      "get": {
+        "tags": [
+          "Adressen bundesweit"
+        ],
+        "summary": "Sucht bundesweit Adressen für angegebene Query",
+        "operationId": "searchAdressen_2",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Suchtext mit Adressteilen. Erwartet wird ein Straßenname mit Hausnummer und ggf. Buchstabe  <br /> <i>Beispiel</i>: 'Marsstraße 4a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Optional: Postleitzahl <br /> <i>Beispiel</i>: '85354'",
+            "required": false,
+            "schema": {
+              "maxLength": 5,
+              "minLength": 5,
+              "type": "string"
+            }
+          },
+          {
+            "name": "ortsname",
+            "in": "query",
+            "description": "Optional: Ortsname <br /> <i>Beispiel</i>: 'Freising'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gemeindeschluessel",
+            "in": "query",
+            "description": "Optional: Verwaltungszugehörigkeit - Land + Regierung + Kreis + Gemeinde  <br /> <i>Beispiel</i>: '09178124'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hausnummerfilter",
+            "in": "query",
+            "description": "Hausnummer Filterobjekt. Rangefilter (von...bis) für Hausnummer",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "buchstabefilter",
+            "in": "query",
+            "description": "Hausnummer Buchstabe Filterobjekt. Rangefilter (von...bis) für Buchstabe der Hausnummer",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExterneAdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExterneAdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adresse/search": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Sucht Münchner Adressen für angegebene Query",
+        "operationId": "searchAdressen_3",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Suchtext mit Adressteilen. Erwartet wird ein Straßenname mit Hausnummer und ggf. Buchstabe  <br /> <i>Beispiel</i>: 'Marsstraße 4a'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plzfilter",
+            "in": "query",
+            "description": "PLZ Filterobjekt. Rangefilter (von...bis) für PLZ",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "hausnummerfilter",
+            "in": "query",
+            "description": "Hausnummer Filterobjekt. Rangefilter (von...bis) für Hausnummer",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "buchstabefilter",
+            "in": "query",
+            "description": "Hausnummer Buchstabe Filterobjekt. Rangefilter (von...bis) für Buchstabe der Hausnummer",
+            "required": false,
+            "schema": {
+              "maxItems": 2,
+              "minItems": 0,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchtype",
+            "in": "query",
+            "description": "SearchType <br /> <i>Mögliche Werte</i>:<br />'AKTIV' – Default. Nur aktive Adressen werden durchsucht. <br />'HISTORISCH' – Historische Adressen werden zusätzlich durchsucht. Falls ein Treffer mit aktiver Nachfolgeradresse gefunden wird, wird die aktive Adresse in die Ergebnisliste mit aufgenommen (mit dem zusätzlichen Attribut 'ehemaligeAdresse'). Achtung: Es können Duplikate auftreten, z.B. wenn eine aktive Nachfolgeradresse viele historische Vorgänger hat.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "AKTIV"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adresse/search/geo": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Sucht Münchner Adressen in angegebener Fläche",
+        "operationId": "searchAdressenGeo_1",
+        "parameters": [
+          {
+            "name": "geometrie",
+            "in": "query",
+            "description": "Geometrie, in der gesucht werden soll <br /> <i>Mögliche Werte</i>: 'Punkt' mit Entfernung für die Suche innerhalb eines Kreises oder 'BoundingBox'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude. Geographische Breite des Bezugspunktes. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude. Geographische Länge des Bezugspunktes. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "distanz",
+            "in": "query",
+            "description": "Kreisradius. Suchdistanz zum Bezugspunkt in Metern. Wenn kein Wert gesetzt ist, wird ein Defaultwert von 50 Metern bei der Kreissuche verwendet. <br /> <i>Beispiel</i>: 125.50",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "topleftlat",
+            "in": "query",
+            "description": "Latitude des linken oberen Punktes der BoundingBox. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "topleftlng",
+            "in": "query",
+            "description": "Longitude des linken oberen Punktes der BoundingBox. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "bottomrightlat",
+            "in": "query",
+            "description": "Latitude des rechten unteren Punktes der BoundingBox. Entspricht dem Nordwert im UTM-Format. <br /> <i>Beispiel</i>: 5334745.607",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "bottomrightlng",
+            "in": "query",
+            "description": "Longitude des rechten unteren Punktes der BoundingBox. Entspricht dem Ostwert im UTM-Format. <br /> <i>Beispiel</i>: 691641.878",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Koordinatenformat des Bezugspunktes. Wenn der Parameter fehlt, wird von UTM ausgegangen. <br /> <i>Mögliche Werte</i>: 'UTM', 'WGS'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request-Objekt enthält fehlerhafte Werte"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdresseDistanz"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Geo-Adresssuche wurde erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdresseDistanz"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adresse/list": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Liefert alle Adressen, die mit den angegebenen Gebietszuordnungen übereinstimmen.",
+        "operationId": "listAdressen_1",
+        "parameters": [
+          {
+            "name": "baublock",
+            "in": "query",
+            "description": "Baublock <br /> <i>Beispiel</i>: '11.3.3.22'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "erhaltungssatzung",
+            "in": "query",
+            "description": "Erhaltungssatzung <br /> <i>Beispiel</i>: 'nein'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "gemarkung",
+            "in": "query",
+            "description": "Gemarkung <br /> <i>Beispiel</i>: '8687'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "kaminkehrerbezirk",
+            "in": "query",
+            "description": "Kaminkehrerbezirk <br /> <i>Beispiel</i>: '26'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Postleitzahl <br /> <i>Beispiel</i>: '80807'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "mittelschule",
+            "in": "query",
+            "description": "Mittelschule <br /> <i>Beispiel</i>: '2274'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "grundschule",
+            "in": "query",
+            "description": "Grundschule <br /> <i>Beispiel</i>: '2273'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "polizeiinspektion",
+            "in": "query",
+            "description": "Polizeiinspektion <br /> <i>Beispiel</i>: '47'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stimmbezirk",
+            "in": "query",
+            "description": "Stimmbezirk <br /> <i>Beispiel</i>: 1",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "stimmkreis",
+            "in": "query",
+            "description": "Stimmkreis <br /> <i>Beispiel</i>: 104",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "wahlbezirk",
+            "in": "query",
+            "description": "Wahlbezirk <br /> <i>Beispiel</i>: 1171",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "wahlkreis",
+            "in": "query",
+            "description": "Wahlkreis <br /> <i>Beispiel</i>: 217",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirk",
+            "in": "query",
+            "description": "Stadtbezirk <br /> <i>Beispiel</i>: '11'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksteil",
+            "in": "query",
+            "description": "Stadtbezirksteil <br /> <i>Beispiel</i>: '11.3'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "stadtbezirksviertel",
+            "in": "query",
+            "description": "Stadtbezirksviertel <br /> <i>Beispiel</i>: '11.3.3'",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdresseResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdresseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adresse/check": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Prüft, ob die angegebene Adresse existiert. Die Pflichtwerte können entweder: 1. komplett mittels adresse-Parameter, Hausnummer und Buchstabe ohne Leerzeichen dazwischen angegeben werden oder 2. als Einzelwerte über die Parameter strassenname/strassenschluessel, hausnummer, zusatz angegeben werden ",
+        "operationId": "checkAdresse_1",
+        "parameters": [
+          {
+            "name": "adresse",
+            "in": "query",
+            "description": "Amtliche Schreibweise des Straßennamens mit Hausnummer und ggf. Zusatz (Pflichtfeld, wenn Straßenname/Straßenschluessel + Hausnummer nicht gesetzt sind). <br /> <i>Beispiel</i>: 'Marsstraße 4a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Amtliche Schreibweise des Straßennamens <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "strassenschluessel",
+            "in": "query",
+            "description": "Straßenschlüssel <br /> <i>Beispiel</i>: 3013",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "hausnummer",
+            "in": "query",
+            "description": "Hausnummer der Straße <br /> <i>Beispiel</i>: '4'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zusatz",
+            "in": "query",
+            "description": "Hausnummerzusatz <br /> <i>Beispiel</i>: 'a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Optional: Postleitzahl <br /> <i>Beispiel</i>: '80638'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ortsname",
+            "in": "query",
+            "description": "Optional: Ortsname <br /> <i>Beispiel</i>: 'München'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gemeindeschluessel",
+            "in": "query",
+            "description": "Optional: Gemeindeschlüssel <br /> <i>Beispiel</i>: '09162000'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "200": {
+            "description": "Adresse ist vorhanden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Adresse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Adresse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Adresse konnte nicht gefunden werden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Adresse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adresse/aenderung": {
+      "get": {
+        "tags": [
+          "Adressen München"
+        ],
+        "summary": "Liefert alle Änderungen, die mit den angegebenen Datum übereinstimmen.",
+        "operationId": "listAenderungen_1",
+        "parameters": [
+          {
+            "name": "wirkungsdatumvon",
+            "in": "query",
+            "description": "Von-Datum im Format YYYY-MM-DD <br /> <i>Beispiel</i>: '2022-01-01'",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "wirkungsdatumbis",
+            "in": "query",
+            "description": "Bis-Datum im Format YYYY-MM-DD <br /> <i>Beispiel</i>: '2022-01-14'",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "strassenname",
+            "in": "query",
+            "description": "Straßenname <br /> <i>Beispiel</i>: 'Marsstraße'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hausnummer",
+            "in": "query",
+            "description": "Hausnummer  <br /> <i>Beispiel</i>: '4'",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "plz",
+            "in": "query",
+            "description": "Postleitzahl <br /> <i>Beispiel</i>: '80638'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zusatz",
+            "in": "query",
+            "description": "Zusatz <br /> <i>Beispiel</i>: 'a'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortierung. Wird keine Sortierung angegeben, wird nach den Score-Wert sortiert (empfohlen) <br /> <i>Mögliche Werte</i>: 'HAUSNUMMER', 'BUCHSTABE', 'STRASSE'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortdir",
+            "in": "query",
+            "description": "Sortierungsrichtung  <br /> <i>Mögliche Werte</i>: 'ASC', 'DESC'",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Seitennummer",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation Fehler"
+          },
+          "500": {
+            "description": "Unerwartetes Fehlverhalten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AenderungResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Abfrage erfolgreich durchgeführt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AenderungResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Stadtbezirk": {
+        "required": [
+          "name",
+          "nummer"
+        ],
+        "type": "object",
+        "properties": {
+          "nummer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "Stadtbezirk aus Nummer und Name"
+      },
+      "Strasse": {
+        "required": [
+          "strasseId",
+          "strassenname",
+          "strassennameAbgekuerzt",
+          "strassennameKurz"
+        ],
+        "type": "object",
+        "properties": {
+          "strasseId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "strassenname": {
+            "type": "string"
+          },
+          "strassennameKurz": {
+            "type": "string"
+          },
+          "strassennameAbgekuerzt": {
+            "type": "string"
+          },
+          "geozuordnungen": {
+            "$ref": "#/components/schemas/StrasseGeozuordnungen"
+          }
+        },
+        "description": "Strasse mit Id und Schreibweise"
+      },
+      "StrasseGeozuordnungen": {
+        "type": "object",
+        "properties": {
+          "verwaltungszuteilung": {
+            "$ref": "#/components/schemas/StrasseVerwaltungszuteilung"
+          }
+        },
+        "description": "Verwaltungszuteilung als Geozuordnungen einer Strasse"
+      },
+      "StrasseVerwaltungszuteilung": {
+        "type": "object",
+        "properties": {
+          "stadtbezirke": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Stadtbezirk"
+            }
+          }
+        },
+        "description": "Liste der Stadtbezirke"
+      },
+      "AddressServicePage": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Seitengröße. Anzahl maximal angezeigter Ergebnisse pro Seite",
+            "format": "int32",
+            "example": 20
+          },
+          "number": {
+            "type": "integer",
+            "description": "Seitennummer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "description": "Gesamtanzahl aller verfügbaren Ergebnisse",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Gesamtanzahl der Seiten",
+            "format": "int64"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "description": "Anzahl der Ergebnisse auf dieser Seite",
+            "format": "int64"
+          }
+        },
+        "description": "Page-Objekt für Informationen zur Pagination"
+      },
+      "StrasseResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StrasseResponseItem"
+            }
+          }
+        },
+        "description": "StrasseResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "StrasseResponseItem": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Score-Wert. Je höher desto besser passt das Ergebnis auf den gesuchten Begriff",
+            "format": "float"
+          },
+          "strasse": {
+            "$ref": "#/components/schemas/Strasse"
+          }
+        },
+        "description": "StrasseResponseItem mit Score-Wert und Strasse-Objekt"
+      },
+      "BundesweiteAdresse": {
+        "required": [
+          "adresse",
+          "hausnummer",
+          "ortsname",
+          "position",
+          "strasseId",
+          "strassenname"
+        ],
+        "type": "object",
+        "properties": {
+          "buchstabe": {
+            "type": "string"
+          },
+          "hausnummer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ortsname": {
+            "type": "string"
+          },
+          "strasseId": {
+            "type": "string"
+          },
+          "strassenname": {
+            "type": "string"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "geozuordnungen": {
+            "$ref": "#/components/schemas/BundesweiteAdresseGeozuordnungen"
+          }
+        },
+        "description": "Externe Adresse aus Strasse, Hausnummer, Buchstabe usw."
+      },
+      "BundesweiteAdresseGeozuordnungen": {
+        "type": "object",
+        "properties": {
+          "postleitzahl": {
+            "type": "string"
+          },
+          "gemeinde": {
+            "type": "string"
+          },
+          "landesschluessel": {
+            "type": "string"
+          },
+          "kreis": {
+            "type": "string"
+          },
+          "ortsteil": {
+            "type": "string"
+          },
+          "ortsteilname": {
+            "type": "string"
+          },
+          "regierungsbezirk": {
+            "type": "string"
+          },
+          "gemeindeschluessel": {
+            "type": "string"
+          }
+        },
+        "description": "Geozuordnungen einer externen Adresse"
+      },
+      "BundesweiteAdresseResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BundesweiteAdresseResponseItem"
+            }
+          }
+        },
+        "description": "ExterneAdresseResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "BundesweiteAdresseResponseItem": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Score-Wert. Je höher desto besser passt das Ergebnis auf den gesuchten Begriff",
+            "format": "float"
+          },
+          "adresse": {
+            "$ref": "#/components/schemas/BundesweiteAdresse"
+          }
+        },
+        "description": "ExterneAdresseResponseItem mit Score-Wert und Adress-Objekt"
+      },
+      "GeoPoint": {
+        "type": "object",
+        "properties": {
+          "lat": {
+            "type": "number",
+            "format": "double"
+          },
+          "lon": {
+            "type": "number",
+            "format": "double"
+          },
+          "geohash": {
+            "type": "string"
+          },
+          "fragment": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Position": {
+        "type": "object",
+        "properties": {
+          "utm": {
+            "$ref": "#/components/schemas/UtmGeoPoint"
+          },
+          "wgs": {
+            "$ref": "#/components/schemas/GeoPoint"
+          }
+        },
+        "description": "Position aus UTM- und WGS-Koordinaten"
+      },
+      "UtmGeoPoint": {
+        "type": "object",
+        "properties": {
+          "north": {
+            "type": "number",
+            "format": "double"
+          },
+          "east": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MuenchenAdresse": {
+        "required": [
+          "adressId",
+          "adresse",
+          "hausnummer",
+          "ortsname",
+          "position",
+          "strasseId",
+          "strassenname",
+          "strassennameAbgekuerzt",
+          "strassennameKurz",
+          "wirkung"
+        ],
+        "type": "object",
+        "properties": {
+          "adresse": {
+            "type": "string"
+          },
+          "adressId": {
+            "type": "string"
+          },
+          "buchstabe": {
+            "type": "string"
+          },
+          "ehemaligeAdresse": {
+            "type": "string"
+          },
+          "hausnummer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ortsname": {
+            "type": "string"
+          },
+          "strasseId": {
+            "type": "string"
+          },
+          "strassenname": {
+            "type": "string"
+          },
+          "strassennameKurz": {
+            "type": "string"
+          },
+          "strassennameAbgekuerzt": {
+            "type": "string"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "geozuordnungen": {
+            "$ref": "#/components/schemas/MuenchenAdresseGeozuordnungen"
+          },
+          "wirkung": {
+            "$ref": "#/components/schemas/Wirkung"
+          }
+        },
+        "description": "Adresse aus Strasse, Hausnummer, Buchstabe usw."
+      },
+      "MuenchenAdresseGeozuordnungen": {
+        "type": "object",
+        "properties": {
+          "baublock": {
+            "type": "string"
+          },
+          "erhaltungssatzung": {
+            "type": "string"
+          },
+          "gemarkung": {
+            "type": "string"
+          },
+          "grundschule": {
+            "type": "string"
+          },
+          "kaminkehrerbezirk": {
+            "type": "string"
+          },
+          "mittelschule": {
+            "type": "string"
+          },
+          "parklizenzgebietId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parklizenzgebietName": {
+            "type": "string"
+          },
+          "polizeiinspektion": {
+            "type": "string"
+          },
+          "postleitzahl": {
+            "type": "string"
+          },
+          "verwaltungszuteilung": {
+            "$ref": "#/components/schemas/MuenchenAdresseVerwaltungszuteilung"
+          },
+          "wahleinteilungen": {
+            "$ref": "#/components/schemas/Wahleinteilungen"
+          }
+        },
+        "description": "Geozuordnungen einer Adresse"
+      },
+      "MuenchenAdresseResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MuenchenAdresseResponseItem"
+            }
+          }
+        },
+        "description": "AdresseResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "MuenchenAdresseResponseItem": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Score-Wert. Je höher desto besser passt das Ergebnis auf den gesuchten Begriff",
+            "format": "float"
+          },
+          "adresse": {
+            "$ref": "#/components/schemas/MuenchenAdresse"
+          }
+        },
+        "description": "AdresseResponseItem mit Score-Wert und Adress-Objekt"
+      },
+      "MuenchenAdresseVerwaltungszuteilung": {
+        "type": "object",
+        "properties": {
+          "gemeinde": {
+            "type": "string"
+          },
+          "landesschluessel": {
+            "type": "string"
+          },
+          "kreis": {
+            "type": "string"
+          },
+          "ortsteil": {
+            "type": "string"
+          },
+          "regierungsbezirk": {
+            "type": "string"
+          },
+          "stadtbezirk": {
+            "type": "string"
+          },
+          "stadtbezirksteil": {
+            "type": "string"
+          },
+          "stadtbezirksviertel": {
+            "type": "string"
+          },
+          "gemeindeschluessel": {
+            "type": "string"
+          }
+        },
+        "description": "Verwaltungszuteilung einer Adresse"
+      },
+      "Wahleinteilungen": {
+        "type": "object",
+        "properties": {
+          "stimmbezirk": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "stimmkreis": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wahlkreis": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wahlbezirk": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Wahleinteilungen mit Stimm- und Wahlgebieten"
+      },
+      "Wirkung": {
+        "required": [
+          "status",
+          "vorgang",
+          "wirkungsdatum"
+        ],
+        "type": "object",
+        "properties": {
+          "vorgang": {
+            "type": "string",
+            "enum": [
+              "EINZIEHUNG",
+              "NEUERTEILUNG",
+              "UMNUMMERIERUNG",
+              "WIEDERERTEILUNG"
+            ]
+          },
+          "wirkungsdatum": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AKTIV",
+              "HISTORISCH"
+            ]
+          }
+        },
+        "description": "Wirkung mit Datum, Status und Vorgang"
+      },
+      "AdresseDistanz": {
+        "required": [
+          "adresse",
+          "distanz"
+        ],
+        "type": "object",
+        "properties": {
+          "adresse": {
+            "$ref": "#/components/schemas/MuenchenAdresse"
+          },
+          "distanz": {
+            "type": "number",
+            "description": "Distanz der Adresse zum Bezugspunkt",
+            "format": "double"
+          }
+        },
+        "description": "Adresse mit Distanz"
+      },
+      "AenderungResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AenderungsResponseItem"
+            }
+          }
+        },
+        "description": "AenderungResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "AenderungsResponseItem": {
+        "type": "object",
+        "properties": {
+          "adresse": {
+            "$ref": "#/components/schemas/MuenchenAdresse"
+          },
+          "adresseVorgaenger": {
+            "$ref": "#/components/schemas/MuenchenAdresse"
+          }
+        },
+        "description": "AenderungsResponseItem mit Adresse und Vorgängeradresse"
+      },
+      "ExterneAdresse": {
+        "required": [
+          "adresse",
+          "hausnummer",
+          "ortsname",
+          "position",
+          "strassenname",
+          "strassenschluessel"
+        ],
+        "type": "object",
+        "properties": {
+          "buchstabe": {
+            "type": "string"
+          },
+          "hausnummer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ortsname": {
+            "type": "string"
+          },
+          "strassenschluessel": {
+            "type": "string"
+          },
+          "strassenname": {
+            "type": "string"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "geozuordnungen": {
+            "$ref": "#/components/schemas/ExterneAdresseGeozuordnungen"
+          }
+        },
+        "description": "Externe Adresse aus Strasse, Hausnummer, Buchstabe usw."
+      },
+      "ExterneAdresseGeozuordnungen": {
+        "type": "object",
+        "properties": {
+          "postleitzahl": {
+            "type": "string"
+          },
+          "gemeinde": {
+            "type": "string"
+          },
+          "landesschluessel": {
+            "type": "string"
+          },
+          "kreis": {
+            "type": "string"
+          },
+          "ortsteil": {
+            "type": "string"
+          },
+          "regierungsbezirk": {
+            "type": "string"
+          },
+          "gemeindeschluessel": {
+            "type": "string"
+          }
+        },
+        "description": "Geozuordnungen einer externen Adresse"
+      },
+      "ExterneAdresseResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExterneAdresseResponseItem"
+            }
+          }
+        },
+        "description": "ExterneAdresseResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "ExterneAdresseResponseItem": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Score-Wert. Je höher desto besser passt das Ergebnis auf den gesuchten Begriff",
+            "format": "float"
+          },
+          "adresse": {
+            "$ref": "#/components/schemas/ExterneAdresse"
+          }
+        },
+        "description": "ExterneAdresseResponseItem mit Score-Wert und Adress-Objekt"
+      },
+      "Adresse": {
+        "required": [
+          "adressId",
+          "hausnummer",
+          "ortsname",
+          "position",
+          "strasseId",
+          "strassenname",
+          "strassennameKurz",
+          "wirkung"
+        ],
+        "type": "object",
+        "properties": {
+          "adressId": {
+            "type": "string"
+          },
+          "buchstabe": {
+            "type": "string"
+          },
+          "ehemaligeAdresse": {
+            "type": "string"
+          },
+          "hausnummer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ortsname": {
+            "type": "string"
+          },
+          "strasseId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "strassenname": {
+            "type": "string"
+          },
+          "strassennameKurz": {
+            "type": "string"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "geozuordnungen": {
+            "$ref": "#/components/schemas/AdresseGeozuordnungen"
+          },
+          "wirkung": {
+            "$ref": "#/components/schemas/Wirkung"
+          }
+        },
+        "description": "Adresse aus Strasse, Hausnummer, Buchstabe usw."
+      },
+      "AdresseGeozuordnungen": {
+        "type": "object",
+        "properties": {
+          "baublock": {
+            "type": "string"
+          },
+          "erhaltungssatzung": {
+            "type": "string"
+          },
+          "gemarkung": {
+            "type": "string"
+          },
+          "grundschule": {
+            "type": "string"
+          },
+          "kaminkehrerbezirk": {
+            "type": "string"
+          },
+          "mittelschule": {
+            "type": "string"
+          },
+          "parklizenzgebietId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parklizenzgebietName": {
+            "type": "string"
+          },
+          "polizeiinspektion": {
+            "type": "string"
+          },
+          "postleitzahlbezirk": {
+            "type": "string"
+          },
+          "verwaltungszuteilung": {
+            "$ref": "#/components/schemas/AdresseVerwaltungszuteilung"
+          },
+          "wahleinteilungen": {
+            "$ref": "#/components/schemas/Wahleinteilungen"
+          }
+        },
+        "description": "Geozuordnungen einer Adresse"
+      },
+      "AdresseResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/AddressServicePage"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdresseResponseItem"
+            }
+          }
+        },
+        "description": "AdresseResponse mit Page-Informationen und Ergebnisliste"
+      },
+      "AdresseResponseItem": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Score-Wert. Je höher desto besser passt das Ergebnis auf den gesuchten Begriff",
+            "format": "float"
+          },
+          "adresse": {
+            "$ref": "#/components/schemas/Adresse"
+          }
+        },
+        "description": "AdresseResponseItem mit Score-Wert und Adress-Objekt"
+      },
+      "AdresseVerwaltungszuteilung": {
+        "type": "object",
+        "properties": {
+          "gemeinde": {
+            "type": "string"
+          },
+          "landesschluessel": {
+            "type": "string"
+          },
+          "kreis": {
+            "type": "string"
+          },
+          "ortsteil": {
+            "type": "string"
+          },
+          "regierungsbezirk": {
+            "type": "string"
+          },
+          "stadtbezirk": {
+            "type": "string"
+          },
+          "stadtbezirksteil": {
+            "type": "string"
+          },
+          "stadtbezirksviertel": {
+            "type": "string"
+          },
+          "gemeindeschluessel": {
+            "type": "string"
+          }
+        },
+        "description": "Verwaltungszuteilung einer Adresse"
+      }
+    }
+  }
+}

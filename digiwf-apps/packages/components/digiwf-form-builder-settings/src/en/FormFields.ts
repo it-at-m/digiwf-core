@@ -137,38 +137,38 @@ const basicOptions = {
                   }
                 }
               },
-              "messages": {
-                "type": "object",
-                "description": "Messages",
-                "properties": {
-                  "pattern": {
-                    "type": "string",
-                    "title": "Pattern (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  },
-                  "minimum": {
-                    "type": "string",
-                    "title": "Minimum (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  },
-                  "maximum": {
-                    "type": "string",
-                    "title": "Maximum (Error Message)",
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    }
-                  }
-                }
-              }
             }
         },
+        "messages": {
+          "type": "object",
+          "description": "Messages",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "title": "Pattern (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "minLength": {
+              "type": "string",
+              "title": " {minLength} characters minimum",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "maxLength": {
+              "type": "string",
+              "title": "{maxLength} characters maximum",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            }
+          }
+        }
       }
     }
 
@@ -562,6 +562,9 @@ const timeSchema = {
         ...basicAttributes,
         properties: {
           ...basicAttributes.properties,
+          "x-display": {
+            "const": "custom-time-input"
+          },
           "format": {
             "const": "time"
           },

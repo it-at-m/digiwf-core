@@ -11,6 +11,7 @@
     outlined
     hide-details
     :items="persistentFilters?.map((f) => f.filterString) || []"
+    aria-label="Aufgaben durchsuchen"
     label="Aufgaben durchsuchen"
     clearable
     style="max-width: 500px"
@@ -26,7 +27,7 @@
           class="v-icon"
           @click="deletePersistentFilter()"
         >
-          <v-icon color="primary">
+          <v-icon color="primary" aria-label="Filter löschen" role="img" aria-hidden="false">
             mdi-star
           </v-icon>
         </v-btn>
@@ -37,12 +38,12 @@
           class="v-icon"
           @click="savePersistentFilter()"
         >
-          <v-icon color="primary">
+          <v-icon color="primary" aria-label="Filter speichern" role="img" aria-hidden="false">
             mdi-star-outline
           </v-icon>
         </v-btn>
       </div>
-      <v-icon class="ml-2">
+      <v-icon class="ml-2" aria-label="Aufgaben durchsuchen" role="img" aria-hidden="false">
         mdi-magnify
       </v-icon>
     </template>
@@ -51,6 +52,7 @@
 
 <script lang="ts">
 import {defineComponent, ref} from "vue";
+import debounce from "debounce";
 import {FilterTO, SaveFilterTO} from "@muenchen/digiwf-engine-api-internal";
 import {usePageId} from "../../middleware/pageId";
 import {useGetPaginationData} from "../../middleware/paginationData";
@@ -59,6 +61,7 @@ import {
   useGetPersistentFilters,
   useSavePersistentFilters
 } from "../../middleware/persistentFilter/persistentFilters";
+import {SEARCH_DEBOUNCE_INTERVAL} from "../../constants";
 
 export default defineComponent({
   props:{
@@ -106,6 +109,9 @@ export default defineComponent({
       const isSaved = persistentFilters.value?.some(f => f.filterString === currentValue && f.pageId === pageId.id) || false;
       return isNotBlank && isSaved;
     };
+
+    const debouncedCallback = props.onFilterChange && debounce(props.onFilterChange, SEARCH_DEBOUNCE_INTERVAL);
+
     return {
       isLoading,
       syncedFilter: searchQuery,
@@ -120,8 +126,8 @@ export default defineComponent({
       savePersistentFilter,
       changeFilter: (newFilter: string) => {
         searchQuery.value = newFilter;
-        if(props.onFilterChange) {
-          props.onFilterChange(newFilter);
+        if(debouncedCallback) {
+          debouncedCallback(newFilter);
         }
       },
     };

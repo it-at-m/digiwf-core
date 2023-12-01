@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
 
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.mail.util.ByteArrayDataSource;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class S3Adapter implements LoadMailAttachmentPort {
             file.setName(fileName);
             return new FileAttachment(fileName, file);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
-            log.error("An attachment could not be loaded from presigned url: {}", attachment);
+            log.debug("An attachment could not be loaded from presigned url: {}", attachment);
             throw new BpmnError("LOAD_FILE_FAILED", "An attachment could not be loaded from presigned url: " + attachment);
         }
     }

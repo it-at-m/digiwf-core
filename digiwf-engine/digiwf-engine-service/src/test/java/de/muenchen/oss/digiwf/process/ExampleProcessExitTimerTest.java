@@ -16,10 +16,14 @@ import static org.junit.Assert.assertEquals;
  * Test to demonstrate correct exit timer usage.
  */
 public class ExampleProcessExitTimerTest {
+
+
+
     @Rule
     public ProcessEngineRule rule = new StandaloneInMemoryTestConfiguration().rule();
 
     private UserMock userMock = new UserMock("firstname", "lastname");
+
 
     @Test
     @Deployment(resources = "prozesse/example/all-input-fields/all-input-fields-process.bpmn")

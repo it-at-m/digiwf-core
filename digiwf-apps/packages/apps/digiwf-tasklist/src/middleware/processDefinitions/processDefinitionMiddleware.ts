@@ -2,6 +2,7 @@ import {Ref} from "vue";
 import {useQuery} from "@tanstack/vue-query";
 import {callGetProcessDefinitionsFromEngine} from "../../api/processDefinitions/processDefinitionApiCalls";
 import {Page} from "../commonModels";
+import {nullToUndefined} from "../../utils/dataTransformations";
 
 export interface ProcessDefinition {
   readonly key: string;
@@ -12,9 +13,10 @@ export interface ProcessDefinition {
 
 export const useGetProcessDefinitions = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) =>
   useQuery({
-    queryKey: ["process-definitions", page.value, size.value, query.value], //.filter(it => !!it), // remove query key if not set
+    queryKey: ["process-definitions", page.value, size.value, query.value || "no-query"], //.filter(it => !!it), // remove query key if not set
     queryFn: () => {
-      return callGetProcessDefinitionsFromEngine(page.value, size.value, query.value)
+      console.log("qzeryFunction with", {page: page.value, size: size.value, query: query.value});
+      return callGetProcessDefinitionsFromEngine(page.value, size.value, nullToUndefined(query.value)) // remove null
         .then(data => {
 
           const content = data.content?.map<ProcessDefinition>(it => ({

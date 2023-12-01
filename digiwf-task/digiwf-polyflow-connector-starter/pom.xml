@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
@@ -38,28 +38,37 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.holunda.data</groupId>
+            <artifactId>camunda-bpm-data</artifactId>
+            <version>${camunda-bpm-data.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine-plugin-spin</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.community.batch</groupId>
             <artifactId>camunda-platform-7-custom-batch-core</artifactId>
-            <version>1.18.1</version>
+            <version>1.20.1</version>
         </dependency>
 
         <!-- json etc. -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20230227</version>
+            <version>20231013</version>
         </dependency>
 
         <!-- Axon Framework -->
@@ -121,17 +130,11 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>6.18.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

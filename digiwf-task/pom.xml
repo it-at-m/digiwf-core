@@ -3,24 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
-
     <artifactId>digiwf-task</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>Task management used by DigiWF</description>
 
+    <parent>
+        <artifactId>digiwf-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.4.0-SNAPSHOT</version>
+    </parent>
+
     <properties>
-        <polyflow.version>3.14.0</polyflow.version>
-        <axon-framework.version>4.6.8</axon-framework.version>
-        <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <kotlin.version>1.9.10</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <camunda.version>7.20.0</camunda.version>
+        <polyflow.version>4.1.0</polyflow.version>
+        <camunda-bpm-data.version>1.5.0</camunda-bpm-data.version>
     </properties>
+
+    <modules>
+        <module>digiwf-task-api</module>
+        <module>digiwf-tasklist-service</module>
+        <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -32,12 +40,21 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
             <dependency>
                 <groupId>io.holunda.polyflow</groupId>
                 <artifactId>polyflow-taskpool-dependencies</artifactId>
@@ -58,20 +75,39 @@
                 <artifactId>digiwf-task-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>io.holunda.data</groupId>
                 <artifactId>camunda-bpm-data</artifactId>
-                <version>1.2.8</version>
+                <version>${camunda-bpm-data.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-bus-jackson</artifactId>
+                <version>${polyflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.community.mockito</groupId>
+                <artifactId>camunda-platform-7-mockito</artifactId>
+                <version>7.20.0</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>digiwf-task-api</module>
-        <module>digiwf-tasklist-service</module>
-        <module>digiwf-polyflow-connector-starter</module>
-        <module>digiwf-task-itest</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

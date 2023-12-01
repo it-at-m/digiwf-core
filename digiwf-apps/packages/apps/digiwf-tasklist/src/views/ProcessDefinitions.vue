@@ -11,17 +11,13 @@
           :on-filter-change="onFilterChanged"
         />
         <div class="d-flex align-center">
-          <v-btn
+          <dwf-button
             aria-label="Vorgänge aktualisieren"
-            text
-            style="padding-left: 13px;"
-            large
-            color="primary"
             @click="refetch"
           >
             <div style="min-width: 30px">
               <v-progress-circular
-                v-if="isLoading"
+                v-if="isLoading || isRefetching"
                 :size="25"
                 width="2"
                 color="primary"
@@ -34,7 +30,7 @@
               </v-icon>
             </div>
             Aktualisieren
-          </v-btn>
+          </dwf-button>
         </div>
       </v-flex>
       <v-flex v-if="errorMessage">
@@ -80,9 +76,11 @@ import {useGetPaginationData} from "../middleware/paginationData";
 import SearchField from "../components/common/SearchField.vue";
 import {useGetProcessDefinitions} from "../middleware/processDefinitions/processDefinitionMiddleware";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import DwfButton from "../components/common/DwfButton.vue";
 
 export default defineComponent({
   components: {
+    DwfButton,
     AppPaginationFooter,
     SearchField, ProcessDefinitionItem, AppToast, AppViewLayout
   },
@@ -91,7 +89,7 @@ export default defineComponent({
 
     const {searchQuery, setSearchQuery, page, size, setSize, setPage} = useGetPaginationData();
 
-    const {isLoading, data, error: errorMessage, refetch} = useGetProcessDefinitions(page, size, searchQuery);
+    const {isLoading, data, error: errorMessage, refetch, isRefetching} = useGetProcessDefinitions(page, size, searchQuery);
 
     watch(page, (newPage) => {
       setPage(newPage);
@@ -110,6 +108,7 @@ export default defineComponent({
     return {
       data,
       isLoading,
+      isRefetching,
       searchQuery,
       errorMessage,
       onFilterChanged,

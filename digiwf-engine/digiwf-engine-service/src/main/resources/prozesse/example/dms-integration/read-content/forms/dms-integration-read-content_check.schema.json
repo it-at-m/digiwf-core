@@ -1,0 +1,62 @@
+{
+  "key": "dms-integration-read-content_check",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "files": {
+                "fieldType": "file",
+                "title": "Files",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "files",
+                "uuidEnabled": false,
+                "filePath": "path",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"
+          }
+        ],
+        "key": "74924cdc-184a-4319-9f62-cf7f256f9282"
+      }
+    ]
+  }
+}

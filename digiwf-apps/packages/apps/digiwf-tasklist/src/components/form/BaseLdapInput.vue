@@ -15,6 +15,7 @@
     item-value="lhmObjectId"
     item-text="lhmObjectId"
     placeholder="Benutzer suchen..."
+    aria-label="Benutzer suchen"
     @input="input"
   >
     <template #selection="data">

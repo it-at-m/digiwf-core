@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - '**'
-    paths:
-      - 'digiwf-apps/**'
   pull_request:
     types: [ opened, reopened ]
 
@@ -17,11 +15,12 @@ jobs:
         working-directory: ./digiwf-apps
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: '16'
           cache: 'npm'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
+          registry-url: 'https://registry.npmjs.org'
       - run: npm run init
       - run: npm run test
       - run: npm run build

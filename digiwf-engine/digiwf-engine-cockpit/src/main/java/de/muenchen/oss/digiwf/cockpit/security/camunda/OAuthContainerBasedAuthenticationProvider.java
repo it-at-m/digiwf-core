@@ -5,8 +5,8 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationProvider;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 import static java.util.Collections.emptyList;
@@ -14,7 +14,6 @@ import static java.util.Collections.emptyList;
 /**
  * Similar to camunda's {@link org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider}
  * but also adds SSO roles to the authentication result.
- *
  * This filter is installed after the Spring Security filter which uses passed JWT token to extract the identity
  * of the user and write SSO roles into the corresponding token claim.
  */

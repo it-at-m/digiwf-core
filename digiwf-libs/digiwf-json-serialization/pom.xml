@@ -11,7 +11,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -19,6 +19,5 @@
         <module>digiwf-json-serialization-starter</module>
         <module>example-json-serialization</module>
     </modules>
-
 
 </project>

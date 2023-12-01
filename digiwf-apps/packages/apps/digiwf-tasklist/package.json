@@ -1,6 +1,6 @@
 {
   "name": "@muenchen/digiwf-tasklist",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -8,14 +8,17 @@
     "test": "jest src --coverage"
   },
   "dependencies": {
-    "@muenchen/digiwf-date-input": "^1.0.0",
-    "@muenchen/digiwf-engine-api-internal": "^1.0.0",
-    "@muenchen/digiwf-form-renderer": "^1.0.0",
-    "@muenchen/digiwf-multi-file-input": "^1.0.0",
-    "@muenchen/digiwf-task-api-internal": "^1.0.0",
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.3.67",
+    "@muenchen/digiwf-date-input": "^1.4.0",
+    "@muenchen/digiwf-engine-api-internal": "^1.4.0",
+    "@muenchen/digiwf-form-renderer": "^1.4.0",
+    "@muenchen/digiwf-multi-file-input": "^1.4.0",
+    "@muenchen/digiwf-task-api-internal": "^1.4.0",
     "@muenchen/vjsf": "^2.21.7",
     "@tanstack/vue-query": "^4.19.1",
     "core-js": "^3.8.3",
+    "debounce": "^1.2.1",
     "easymde": "^2.15.0",
     "luxon": "^1.25.0",
     "marked": "^4.1.1",
@@ -35,6 +38,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.9.55",
+    "@types/debounce": "^1.2.2",
     "@types/jest": "^27.5.2",
     "@types/luxon": "^1.25.0",
     "@types/node": "^16.9.1",

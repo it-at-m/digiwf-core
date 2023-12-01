@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - '**'
-    paths:
-      - 'docs/**'
   pull_request:
     types: [ opened, reopened ]
     paths:
       - 'docs/**'
+
+env:
+  NODE_OPTIONS: '--openssl-legacy-provider'
 
 jobs:
   build:
@@ -19,9 +20,9 @@ jobs:
         working-directory: ./docs
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
       - run: npm install

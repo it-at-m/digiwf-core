@@ -75,8 +75,10 @@
             v-bind="attrs"
             @click="(event) => { event.preventDefault()}"
             v-on.prevent="on"
+            aria-label="Aktionen für die Aufgabe"
+            aria-hidden="false"
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon aria-label="Aktionen für die Aufgabe" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
         <v-list>

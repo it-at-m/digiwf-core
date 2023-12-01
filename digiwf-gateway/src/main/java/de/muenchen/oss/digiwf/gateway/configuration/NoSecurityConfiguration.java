@@ -18,12 +18,9 @@ public class NoSecurityConfiguration {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         return http
-                .authorizeExchange()
-                        .anyExchange().permitAll()
-                .and()
-                    .cors()
-                .and()
-                    .csrf().disable()
+                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec.anyExchange().permitAll())
+                .cors(corsSpec -> {})
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .build();
     }
 

@@ -4,7 +4,7 @@ import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresigne
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import org.springframework.lang.NonNull;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 public interface CreatePresignedUrlsInPort {

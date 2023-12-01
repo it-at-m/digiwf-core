@@ -1,0 +1,1350 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "Schema 2.0.2 Service 2.3.0-SNAPSHOT",
+    "title": "Camel REST API"
+  },
+  "host": "localhost:8080",
+  "basePath": "/personen/2.0/rest",
+  "tags": [
+    {
+      "name": "person",
+      "description": "Basisinformationen zu einer Person"
+    },
+    {
+      "name": "personErweitert",
+      "description": "Umfangreiche Informationen zu einer Person"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "person/{om}": {
+      "get": {
+        "tags": [
+          "person"
+        ],
+        "summary": "Lesen von Daten auf Basis des Ordnungsmerkmales",
+        "operationId": "de.muenchen.eai.ewo.route.ROUTE_PROCESSGETPERSON",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "parameters": [
+          {
+            "name": "om",
+            "in": "path",
+            "description": "Ordnungsmerkmal der gesuchten Person",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "benutzerId",
+            "in": "query",
+            "description": "BenutzerId des Anfragenden Service",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Output type",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        }
+      }
+    },
+    "person/search": {
+      "post": {
+        "tags": [
+          "person"
+        ],
+        "summary": "Suchparameter für zu den gesuchten Personen",
+        "operationId": "de.muenchen.eai.ewo.route.ROUTE_PROCESSSEARCHPERSON",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SuchePersonAnfrage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Output type",
+            "schema": {
+              "$ref": "#/definitions/SuchePersonAntwort"
+            }
+          }
+        }
+      }
+    },
+    "personErweitert/{om}": {
+      "get": {
+        "tags": [
+          "personErweitert"
+        ],
+        "summary": "Lesen von Daten auf Basis des Ordnungsmerkmales",
+        "operationId": "de.muenchen.eai.ewo.route.ROUTE_PROCESSGETPERSONERWEITERT",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "parameters": [
+          {
+            "name": "om",
+            "in": "path",
+            "description": "Ordnungsmerkmal der gesuchten Person",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "benutzerId",
+            "in": "query",
+            "description": "BenutzerId des Anfragenden Service",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Output type",
+            "schema": {
+              "$ref": "#/definitions/PersonErweitert"
+            }
+          }
+        }
+      }
+    },
+    "personErweitert/search": {
+      "post": {
+        "tags": [
+          "personErweitert"
+        ],
+        "summary": "Suchparameter für zu den gesuchten Personen",
+        "operationId": "de.muenchen.eai.ewo.route.ROUTE_PROCESSSEARCHPERSONERWEITERT",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SuchePersonerweitertAnfrage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Output type",
+            "schema": {
+              "$ref": "#/definitions/SuchePersonerweitertAntwort"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FamilienstanddatenType": {
+      "type": "object",
+      "properties": {
+        "familienstand": {
+          "type": "string"
+        },
+        "datum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "GeburtsdatumType": {
+      "type": "object",
+      "properties": {
+        "datum": {
+          "type": "string"
+        }
+      }
+    },
+    "GeburtsdatenType": {
+      "type": "object",
+      "properties": {
+        "datum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "ort": {
+          "type": "string"
+        },
+        "staat": {
+          "type": "string"
+        }
+      }
+    },
+    "VornameType": {
+      "type": "object",
+      "properties": {
+        "vorname": {
+          "type": "string"
+        },
+        "rufname": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WaffenUndSprengstoffrechtlicheErlaubnisType": {
+      "type": "object",
+      "properties": {
+        "angelegtAm": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StaatsangehoerigkeitType": {
+      "type": "object",
+      "properties": {
+        "schluessel": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "NachnameType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "namensbestandteil": {
+          "type": "string"
+        },
+        "unstrukturierteSchreibweise": {
+          "type": "string"
+        }
+      }
+    },
+    "SterbedatenType": {
+      "type": "object",
+      "properties": {
+        "datum": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ort": {
+          "type": "string"
+        }
+      }
+    },
+    "Person": {
+      "type": "object",
+      "properties": {
+        "auskunftssperre": {
+          "type": "string"
+        },
+        "ordnungsmerkmal": {
+          "type": "string"
+        },
+        "personstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELLER_FESTER_EINWOHNER",
+            "AKTUELLER_SEEMANN",
+            "AKTUELLER_OFW",
+            "AKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "INAKTUELLER_FESTER_EINWOHNER",
+            "INAKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "EXTERNE_PERSON",
+            "JURISTISCHE_PERSON",
+            "KEIN_STATUS"
+          ]
+        },
+        "geburtsdaten": {
+          "$ref": "#/definitions/GeburtsdatenType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "sterbedaten": {
+          "$ref": "#/definitions/SterbedatenType"
+        },
+        "familienstanddaten": {
+          "$ref": "#/definitions/FamilienstanddatenType"
+        },
+        "namen": {
+          "$ref": "#/definitions/NamenType"
+        },
+        "melderegisterAnschrift": {
+          "$ref": "#/definitions/AnschriftType"
+        },
+        "sprengstoffrechtlicheErlaubnis": {
+          "$ref": "#/definitions/WaffenUndSprengstoffrechtlicheErlaubnisType"
+        },
+        "waffenrechtlicheErlaubnis": {
+          "$ref": "#/definitions/WaffenUndSprengstoffrechtlicheErlaubnisType"
+        },
+        "waffenbesitzVerbot": {
+          "$ref": "#/definitions/WaffenbesitzVerbotType"
+        },
+        "staatsangehoerigkeiten": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StaatsangehoerigkeitType"
+          }
+        }
+      },
+      "xml": {
+        "name": "Person",
+        "namespace": "http://localhost:8080/v2"
+      }
+    },
+    "AnschriftType": {
+      "type": "object",
+      "properties": {
+        "gemeindeschluessel": {
+          "type": "string"
+        },
+        "hausnummer": {
+          "type": "string"
+        },
+        "buchstabeHausnummer": {
+          "type": "string"
+        },
+        "teilnummerHausnummer": {
+          "type": "string"
+        },
+        "ort": {
+          "type": "string"
+        },
+        "ortsteil": {
+          "type": "string"
+        },
+        "postleitzahl": {
+          "type": "string"
+        },
+        "stockwerk": {
+          "type": "string"
+        },
+        "appartmentnummer": {
+          "type": "string"
+        },
+        "strasse": {
+          "type": "string"
+        },
+        "wohnungsgeber": {
+          "type": "string"
+        },
+        "zusatz": {
+          "type": "string"
+        },
+        "staat": {
+          "type": "string"
+        },
+        "anschriftUnbekannt": {
+          "type": "boolean"
+        },
+        "sperrvermerk": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WaffenbesitzVerbotType": {
+      "type": "object",
+      "properties": {
+        "angelegtAm": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "behoerde": {
+          "type": "string"
+        },
+        "aktenzeichen": {
+          "type": "string"
+        }
+      }
+    },
+    "NamenType": {
+      "type": "object",
+      "properties": {
+        "vornamen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VornameType"
+          }
+        },
+        "familienname": {
+          "$ref": "#/definitions/NachnameType"
+        },
+        "geburtsname": {
+          "$ref": "#/definitions/NachnameType"
+        },
+        "ehename": {
+          "$ref": "#/definitions/NachnameType"
+        },
+        "familiennameNachPass": {
+          "$ref": "#/definitions/NachnameType"
+        },
+        "ordensname": {
+          "type": "string"
+        },
+        "kuenstlername": {
+          "type": "string"
+        },
+        "doktorgrad": {
+          "type": "string"
+        }
+      }
+    },
+    "SuchePersonAnfrage": {
+      "type": "object",
+      "required": [
+        "benutzer",
+        "suchkriterien"
+      ],
+      "properties": {
+        "benutzer": {
+          "$ref": "#/definitions/BenutzerType"
+        },
+        "suchkriterien": {
+          "$ref": "#/definitions/PersonenSuchkriterienType"
+        }
+      },
+      "xml": {
+        "name": "suche.person.anfrage",
+        "namespace": "http://localhost:8080/v2"
+      }
+    },
+    "BenutzerType": {
+      "type": "object",
+      "required": [
+        "benutzerId"
+      ],
+      "properties": {
+        "benutzerId": {
+          "type": "string"
+        }
+      }
+    },
+    "PersonenSuchkriterienType": {
+      "type": "object",
+      "required": [
+        "datensatzstatus"
+      ],
+      "properties": {
+        "datensatzstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELL",
+            "INAKTUELL",
+            "OHNE_EINSCHRAENKUNG"
+          ]
+        },
+        "familienname": {
+          "type": "string"
+        },
+        "geburtsdatum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "vorname": {
+          "type": "string"
+        },
+        "buchstabeVon": {
+          "type": "string"
+        },
+        "buchstabeBis": {
+          "type": "string"
+        },
+        "hausnummerVon": {
+          "type": "string"
+        },
+        "hausnummerBis": {
+          "type": "string"
+        },
+        "strassenschluessel": {
+          "type": "string"
+        },
+        "teilnummerVon": {
+          "type": "string"
+        },
+        "teilnummerBis": {
+          "type": "string"
+        },
+        "wohnort": {
+          "type": "string"
+        },
+        "postleitzahl": {
+          "type": "string"
+        }
+      }
+    },
+    "SuchePersonAntwort": {
+      "type": "object",
+      "properties": {
+        "personen": {
+          "type": "array",
+          "xml": {
+            "name": "Person",
+            "namespace": "http://localhost:8080/v2"
+          },
+          "items": {
+            "xml": {
+              "name": "Person"
+            },
+            "$ref": "#/definitions/Person"
+          }
+        }
+      },
+      "xml": {
+        "name": "suche.person.antwort",
+        "namespace": "http://localhost:8080/v2"
+      }
+    },
+    "AktuelleWohnungType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractWohnungType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "nutzungszustand": {
+              "type": "string",
+              "enum": [
+                "EINZIGE_WOHNUNG",
+                "HAUPTWOHNUNG",
+                "NEBENWOHNUNG"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PartnerType": {
+      "type": "object",
+      "properties": {
+        "namen": {
+          "$ref": "#/definitions/NamenType"
+        },
+        "art": {
+          "type": "string",
+          "enum": [
+            "VH",
+            "LP"
+          ]
+        },
+        "ordnungsmerkmal": {
+          "type": "string"
+        },
+        "sperren": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SperreType"
+          }
+        },
+        "personstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELLER_FESTER_EINWOHNER",
+            "AKTUELLER_SEEMANN",
+            "AKTUELLER_OFW",
+            "AKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "INAKTUELLER_FESTER_EINWOHNER",
+            "INAKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "EXTERNE_PERSON",
+            "JURISTISCHE_PERSON",
+            "KEIN_STATUS"
+          ]
+        },
+        "geburtsdatum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "anschrift": {
+          "$ref": "#/definitions/AnschriftErweitertType"
+        },
+        "sterbedaten": {
+          "$ref": "#/definitions/SterbedatenType"
+        }
+      }
+    },
+    "MeldungType": {
+      "type": "object",
+      "properties": {
+        "art": {
+          "type": "string",
+          "enum": [
+            "PERSOENLICHE_MELDUNG",
+            "MELDUNG_VON_AMTS_WEGEN"
+          ]
+        },
+        "datum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AbstractWohnungType": {
+      "type": "object",
+      "discriminator": "_type",
+      "properties": {
+        "melderegisterAnschrift": {
+          "$ref": "#/definitions/AnschriftErweitertType"
+        },
+        "einzug": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "auszug": {
+          "$ref": "#/definitions/TeilbekanntesDatumType"
+        },
+        "statuswechsel": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "meldungStatuswechsel": {
+          "$ref": "#/definitions/MeldungType"
+        },
+        "meldungEinzug": {
+          "$ref": "#/definitions/MeldungType"
+        },
+        "meldungAuszug": {
+          "$ref": "#/definitions/MeldungType"
+        },
+        "innerhalb": {
+          "type": "boolean"
+        },
+        "belegGebunden": {
+          "type": "boolean"
+        },
+        "gefoerdert": {
+          "type": "boolean"
+        },
+        "scheinadresse": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FruehereNamenType": {
+      "type": "object",
+      "properties": {
+        "fruehererFamilienname": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FruehererFamiliennameType"
+          }
+        },
+        "fruehererVorname": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FruehereVornamenType"
+          }
+        }
+      }
+    },
+    "FruehereVornamenType": {
+      "type": "object",
+      "properties": {
+        "vorname": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VornameType"
+          }
+        },
+        "aenderungsdatum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "WahldatenType": {
+      "type": "object",
+      "properties": {
+        "wvzEintrag": {
+          "$ref": "#/definitions/WvzEintragType"
+        },
+        "ausschluesse": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WahlrechtAusschlussType"
+          }
+        }
+      }
+    },
+    "PersonErweitert": {
+      "type": "object",
+      "properties": {
+        "auskunftssperre": {
+          "type": "string"
+        },
+        "ordnungsmerkmal": {
+          "type": "string"
+        },
+        "personstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELLER_FESTER_EINWOHNER",
+            "AKTUELLER_SEEMANN",
+            "AKTUELLER_OFW",
+            "AKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "INAKTUELLER_FESTER_EINWOHNER",
+            "INAKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "EXTERNE_PERSON",
+            "JURISTISCHE_PERSON",
+            "KEIN_STATUS"
+          ]
+        },
+        "geburtsdaten": {
+          "$ref": "#/definitions/GeburtsdatenType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "sterbedaten": {
+          "$ref": "#/definitions/SterbedatenType"
+        },
+        "familienstanddaten": {
+          "$ref": "#/definitions/FamilienstanddatenType"
+        },
+        "namen": {
+          "$ref": "#/definitions/NamenType"
+        },
+        "doktorgradNachweis": {
+          "type": "string"
+        },
+        "sperren": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SperreType"
+          }
+        },
+        "religion": {
+          "type": "string"
+        },
+        "wahldaten": {
+          "$ref": "#/definitions/WahldatenType"
+        },
+        "zuzugsdaten": {
+          "$ref": "#/definitions/ZuzugdatenType"
+        },
+        "wohnungen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AbstractWohnungType"
+          }
+        },
+        "passdaten": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PassType"
+          }
+        },
+        "partner": {
+          "$ref": "#/definitions/PartnerType"
+        },
+        "kinder": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KindType"
+          }
+        },
+        "vertreter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VertreterType"
+          }
+        },
+        "fruehereNamen": {
+          "$ref": "#/definitions/FruehereNamenType"
+        },
+        "waffenrechtlicheErlaubnisErweitert": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WaffenUndSprengstoffrechtlicheErlaubnisErweitertType"
+          }
+        },
+        "sprengstoffrechtlicheErlaubnisErweitert": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WaffenUndSprengstoffrechtlicheErlaubnisErweitertType"
+          }
+        },
+        "waffenbesitzVerbot": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WaffenbesitzVerbotType"
+          }
+        },
+        "verlustDeutscheStaatsangehoerigkeit": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "optionsDeutscherDaten": {
+          "$ref": "#/definitions/OptionsDeutscherType"
+        },
+        "artStaatsangehoerigkeit": {
+          "type": "string"
+        },
+        "frueheresOm": {
+          "type": "string"
+        },
+        "zukuenftigesOm": {
+          "type": "string"
+        },
+        "staatsangehoerigkeiten": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StaatsangehoerigkeitErweitertType"
+          }
+        }
+      },
+      "xml": {
+        "name": "PersonErweitert",
+        "namespace": "http://localhost:8080/v2"
+      }
+    },
+    "InaktuelleWohnungType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractWohnungType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "nutzungszustand": {
+              "type": "string",
+              "enum": [
+                "EINZIGE_WOHNUNG",
+                "HAUPTWOHNUNG",
+                "NEBENWOHNUNG"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "KindType": {
+      "type": "object",
+      "properties": {
+        "namen": {
+          "$ref": "#/definitions/NamenType"
+        },
+        "ordnungsmerkmal": {
+          "type": "string"
+        },
+        "sperren": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SperreType"
+          }
+        },
+        "personstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELLER_FESTER_EINWOHNER",
+            "AKTUELLER_SEEMANN",
+            "AKTUELLER_OFW",
+            "AKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "INAKTUELLER_FESTER_EINWOHNER",
+            "INAKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "EXTERNE_PERSON",
+            "JURISTISCHE_PERSON",
+            "KEIN_STATUS"
+          ]
+        },
+        "geburtsdatum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "sterbedaten": {
+          "$ref": "#/definitions/SterbedatenType"
+        },
+        "geschlecht": {
+          "type": "string"
+        }
+      }
+    },
+    "WaffenUndSprengstoffrechtlicheErlaubnisErweitertType": {
+      "type": "object",
+      "properties": {
+        "angelegtAm": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "behoerde": {
+          "type": "string"
+        },
+        "aktenzeichen": {
+          "type": "string"
+        }
+      }
+    },
+    "VertreterType": {
+      "type": "object",
+      "properties": {
+        "ordnungsmerkmal": {
+          "type": "string"
+        },
+        "personstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELLER_FESTER_EINWOHNER",
+            "AKTUELLER_SEEMANN",
+            "AKTUELLER_OFW",
+            "AKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "INAKTUELLER_FESTER_EINWOHNER",
+            "INAKTUELLER_NICHTMELDEPFLICHTIGER_FESTER_EINWOHNER",
+            "EXTERNE_PERSON",
+            "JURISTISCHE_PERSON",
+            "KEIN_STATUS"
+          ]
+        },
+        "namen": {
+          "$ref": "#/definitions/NamenType"
+        },
+        "art": {
+          "type": "string"
+        },
+        "geburtsdatum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "sterbedaten": {
+          "$ref": "#/definitions/SterbedatenType"
+        },
+        "endeVertretung": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sperren": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SperreType"
+          }
+        },
+        "anschrift": {
+          "$ref": "#/definitions/AnschriftErweitertType"
+        },
+        "bezeichnungJuristischePerson": {
+          "type": "string"
+        },
+        "natuerlichePerson": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WahlrechtAusschlussType": {
+      "type": "object",
+      "properties": {
+        "grund": {
+          "type": "string"
+        },
+        "behoerde": {
+          "type": "string"
+        },
+        "aktenzeichen": {
+          "type": "string"
+        },
+        "wahlauschlussBis": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "NachweisdatenType": {
+      "type": "object",
+      "properties": {
+        "datum": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "aktenzeichen": {
+          "type": "string"
+        },
+        "behoerde": {
+          "type": "string"
+        }
+      }
+    },
+    "OptionsDeutscherType": {
+      "type": "object",
+      "properties": {
+        "befristungBis": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PassType": {
+      "type": "object",
+      "properties": {
+        "art": {
+          "type": "string"
+        },
+        "serienummer": {
+          "type": "string"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "ausstellendeBehoerde": {
+          "type": "string"
+        },
+        "ausstellungsdatum": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ablaufdatum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "FruehererFamiliennameType": {
+      "type": "object",
+      "properties": {
+        "familienname": {
+          "$ref": "#/definitions/NachnameType"
+        },
+        "aenderungsdatum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StaatsangehoerigkeitErweitertType": {
+      "type": "object",
+      "properties": {
+        "schluessel": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "art": {
+          "type": "string"
+        },
+        "nachweisdaten": {
+          "$ref": "#/definitions/NachweisdatenType"
+        },
+        "nichtEuBuerger": {
+          "type": "boolean"
+        },
+        "staatEuMitglied": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SperreType": {
+      "type": "object",
+      "properties": {
+        "frist": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "grund": {
+          "type": "string"
+        }
+      }
+    },
+    "ZuzugdatenType": {
+      "type": "object",
+      "properties": {
+        "zuzugEu": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugSamtgemeinde": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugOrtsteil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugBund": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugLand": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugRegierungsbezirk": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugKreis": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zuzugGemeinde": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "mitHauptwohnungGemeldetSeit": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "WvzEintragType": {
+      "type": "object",
+      "properties": {
+        "gebietskoerperschaft": {
+          "type": "string"
+        },
+        "staat": {
+          "type": "string"
+        }
+      }
+    },
+    "AnschriftErweitertType": {
+      "type": "object",
+      "properties": {
+        "gemeindeschluessel": {
+          "type": "string"
+        },
+        "hausnummer": {
+          "type": "string"
+        },
+        "buchstabeHausnummer": {
+          "type": "string"
+        },
+        "teilnummerHausnummer": {
+          "type": "string"
+        },
+        "ort": {
+          "type": "string"
+        },
+        "ortsteil": {
+          "type": "string"
+        },
+        "postleitzahl": {
+          "type": "string"
+        },
+        "stockwerk": {
+          "type": "string"
+        },
+        "appartmentnummer": {
+          "type": "string"
+        },
+        "strasse": {
+          "type": "string"
+        },
+        "wohnungsgeber": {
+          "type": "string"
+        },
+        "zusatz": {
+          "type": "string"
+        },
+        "staat": {
+          "type": "string"
+        },
+        "anschriftUnbekannt": {
+          "type": "boolean"
+        },
+        "sperrvermerk": {
+          "type": "boolean"
+        },
+        "strassenschluessel": {
+          "type": "string"
+        }
+      }
+    },
+    "TeilbekanntesDatumType": {
+      "type": "object",
+      "properties": {
+        "jahr": {
+          "type": "string"
+        },
+        "jahrMonat": {
+          "type": "string"
+        },
+        "datum": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "WegzugsWohnungType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractWohnungType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ausFrueherenMeldeverhaeltnissen": {
+              "type": "boolean"
+            },
+            "wegzugsWohnungsStatus": {
+              "type": "string",
+              "enum": [
+                "KUENFTIGE_WOHNUNG",
+                "RUECKMELDE_WOHNUNG",
+                "WIEDERZUZUGSWOHNUNG_NACH_AUSLAND"
+              ]
+            },
+            "kuenftigerStatus": {
+              "type": "string",
+              "enum": [
+                "EW",
+                "HW"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ZuzugsWohnungType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractWohnungType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ausFrueherenMeldeverhaeltnissen": {
+              "type": "boolean"
+            },
+            "zuzugsWohnungsStatus": {
+              "type": "string",
+              "enum": [
+                "DIREKTE_ZUZUGSWOHNUNG",
+                "LETZTE_WOHNUNG_IM_INLAND"
+              ]
+            },
+            "vorherigerStatus": {
+              "type": "string",
+              "enum": [
+                "EW",
+                "HW"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "SuchePersonerweitertAnfrage": {
+      "type": "object",
+      "required": [
+        "benutzer",
+        "suchkriterien"
+      ],
+      "properties": {
+        "benutzer": {
+          "$ref": "#/definitions/BenutzerType"
+        },
+        "suchkriterien": {
+          "$ref": "#/definitions/PersonenSuchkriterienErweitertType"
+        }
+      },
+      "xml": {
+        "name": "suche.personerweitert.anfrage",
+        "namespace": "http://localhost:8080/v2"
+      }
+    },
+    "PersonenSuchkriterienErweitertType": {
+      "type": "object",
+      "required": [
+        "datensatzstatus"
+      ],
+      "properties": {
+        "datensatzstatus": {
+          "type": "string",
+          "enum": [
+            "AKTUELL",
+            "INAKTUELL",
+            "OHNE_EINSCHRAENKUNG"
+          ]
+        },
+        "familienname": {
+          "type": "string"
+        },
+        "geburtsdatum": {
+          "$ref": "#/definitions/GeburtsdatumType"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "vorname": {
+          "type": "string"
+        },
+        "buchstabeVon": {
+          "type": "string"
+        },
+        "buchstabeBis": {
+          "type": "string"
+        },
+        "hausnummerVon": {
+          "type": "string"
+        },
+        "hausnummerBis": {
+          "type": "string"
+        },
+        "strassenschluessel": {
+          "type": "string"
+        },
+        "teilnummerVon": {
+          "type": "string"
+        },
+        "teilnummerBis": {
+          "type": "string"
+        },
+        "wohnort": {
+          "type": "string"
+        },
+        "postleitzahl": {
+          "type": "string"
+        },
+        "ordnungsmerkmal": {
+          "type": "string"
+        }
+      }
+    },
+    "SuchePersonerweitertAntwort": {
+      "type": "object",
+      "properties": {
+        "personen": {
+          "type": "array",
+          "xml": {
+            "name": "PersonErweitert",
+            "namespace": "http://localhost:8080/v2"
+          },
+          "items": {
+            "xml": {
+              "name": "PersonErweitert"
+            },
+            "$ref": "#/definitions/PersonErweitert"
+          }
+        }
+      },
+      "xml": {
+        "name": "suche.personerweitert.antwort",
+        "namespace": "http://localhost:8080/v2"
+      }
+    }
+  }
+}

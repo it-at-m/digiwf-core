@@ -40,13 +40,57 @@ public class AuthorizationHelper {
 
     val authorizationAuth = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
     authorizationAuth.setGroupId(groupId);
-    authorizationAuth.addPermission(Permissions.CREATE);
-    authorizationAuth.addPermission(Permissions.READ);
-    authorizationAuth.addPermission(Permissions.DELETE);
-    authorizationAuth.addPermission(Permissions.UPDATE);
+    authorizationAuth.addPermission(Permissions.ALL);
     authorizationAuth.setResource(Resources.AUTHORIZATION);
     authorizationAuth.setResourceId(ANY);
     authorizationService.saveAuthorization(authorizationAuth);
+  }
+
+  public static void setupGroupGroupPermissions(@NonNull AuthorizationService authorizationService, @NonNull String groupId) {
+    if (authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(Resources.GROUP).count() != 0) {
+      // there are permissions present, avoid initialization
+      return;
+    }
+
+    log.info("Setting up Group Permissions for group '{}'", groupId);
+
+    val groupAuth = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+    groupAuth.setGroupId(groupId);
+    groupAuth.addPermission(Permissions.ALL);
+    groupAuth.setResource(Resources.GROUP);
+    groupAuth.setResourceId(ANY);
+    authorizationService.saveAuthorization(groupAuth);
+  }
+
+  public static void setupGroupGroupMembershipPermissions(@NonNull AuthorizationService authorizationService, @NonNull String groupId) {
+    if (authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(Resources.GROUP_MEMBERSHIP).count() != 0) {
+      // there are permissions present, avoid initialization
+      return;
+    }
+
+    log.info("Setting up Group Membership Permissions for group '{}'", groupId);
+
+    val groupAuth = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+    groupAuth.setGroupId(groupId);
+    groupAuth.addPermission(Permissions.ALL);
+    groupAuth.setResource(Resources.GROUP_MEMBERSHIP);
+    groupAuth.setResourceId(ANY);
+    authorizationService.saveAuthorization(groupAuth);
+  }
+  public static void setupGroupUserPermissions(@NonNull AuthorizationService authorizationService, @NonNull String groupId) {
+    if (authorizationService.createAuthorizationQuery().groupIdIn(groupId).resourceType(Resources.USER).count() != 0) {
+      // there are permissions present, avoid initialization
+      return;
+    }
+
+    log.info("Setting up User Permissions for group '{}'", groupId);
+
+    val groupAuth = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+    groupAuth.setGroupId(groupId);
+    groupAuth.addPermission(Permissions.ALL);
+    groupAuth.setResource(Resources.USER);
+    groupAuth.setResourceId(ANY);
+    authorizationService.saveAuthorization(groupAuth);
   }
 
   public static void setupUserBatchPermissions(@NonNull AuthorizationService authorizationService, @NonNull String userId) {

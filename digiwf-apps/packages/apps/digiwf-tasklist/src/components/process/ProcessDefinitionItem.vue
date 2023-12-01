@@ -42,8 +42,10 @@
               data-cy="dropdown-menu-button"
               @click="(event) => { event.preventDefault()}"
               v-on.prevent="on"
+              aria-label="Aktionen für den Vorgang"
+              aria-hidden="false"
             >
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon aria-label="Aktionen für den Vorgang" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>

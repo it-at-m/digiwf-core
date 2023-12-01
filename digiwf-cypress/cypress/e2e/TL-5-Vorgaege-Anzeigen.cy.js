@@ -74,7 +74,8 @@ describe('Vorgaenge Anzeigen', () => {
         }
         meineAufgaben.getFoundTasks().then(numTasks => {
             if (numTasks != number) {
-                cy.wait(1000);
+                cy.wait(100);
+                cy.log('iteration');
                 meineAufgaben.clickAktualisieren();
                 reloadPageUntilTasksVisible(number, maxAttempts, attempts+1);
             }
@@ -93,10 +94,9 @@ describe('Vorgaenge Anzeigen', () => {
     function closeTasks(number){
         for (let i=1; i<= number; i++){
             meineAufgaben.clickElement(1);
-            cy.wait(3000);
             userTask.clickAbschliessen();
             //necessary to wait for the task to be deleted
-            cy.wait(5000);
+            cy.wait(2000);
             meineAufgaben.clickAktualisieren();
         }
     }

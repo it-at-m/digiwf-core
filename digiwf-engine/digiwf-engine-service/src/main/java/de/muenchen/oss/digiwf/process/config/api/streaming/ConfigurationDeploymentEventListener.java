@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.process.config.api.streaming;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import de.muenchen.oss.digiwf.deployment.api.enums.DeploymentStatus;
 import de.muenchen.oss.digiwf.deployment.api.streaming.event.DeploymentEvent;
 import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentStatusModel;
@@ -16,10 +15,10 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Sinks;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 import java.io.IOException;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -35,7 +34,6 @@ public class ConfigurationDeploymentEventListener {
     private final ProcessConfigApiMapper processConfigApiMapper;
     private final Sinks.Many<Message<DeploymentStatusModel>> statusEmitter;
 
-    @DocumentAsyncAPI(payload = DeploymentEvent.class, functionRouter = true, typeHeader = "deployConfiguration")
     @Bean
     public Consumer<Message<DeploymentEvent>> deployConfiguration() {
         return message -> {

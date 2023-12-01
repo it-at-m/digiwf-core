@@ -7,17 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.task.IdentityLink;
-import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Objects;
+import jakarta.annotation.PostConstruct;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 import static io.holunda.camunda.bpm.data.CamundaBpmData.writer;
@@ -42,9 +37,9 @@ public class AssignmentCreateTaskListener {
         val reader = reader(task);
         if (properties.isShadow()) {
             val assignee = Optional.ofNullable(task.getAssignee()).filter(s -> !s.isEmpty()).orElse(null);
-            val candidateUsers = task.getCandidates().stream().filter(link -> link.getUserId() != null && link.getType().equals(IdentityLinkType.CANDIDATE)).map(IdentityLink::getUserId).collect(Collectors.toList());
-            val candidateGroups = task.getCandidates().stream().map(IdentityLink::getGroupId).filter(Objects::nonNull).collect(Collectors.toList());
-            val lowerCaseCandidateGroups = toLowerCase(candidateGroups);
+            val candidateUsers = TaskUtil.getCandidateUsers(task.getCandidates());
+            val candidateGroups = TaskUtil.getCandidateGroups(task.getCandidates());
+            val lowerCaseCandidateGroups = TaskUtil.toLowerCase(candidateGroups);
             val writer = writer(task);
             if (properties.isLocal()) {
                 if (reader.getLocalOptional(TaskVariables.TASK_ASSIGNEE).isPresent() || reader.getLocalOptional(TaskVariables.TASK_CANDIDATE_USERS).isPresent() || reader.getLocalOptional(TaskVariables.TASK_CANDIDATE_GROUPS).isPresent()) {
@@ -74,7 +69,4 @@ public class AssignmentCreateTaskListener {
         }
     }
 
-    private List<String> toLowerCase(List<String> strings) {
-        return strings.stream().map(String::toLowerCase).collect(Collectors.toList());
-    }
 }

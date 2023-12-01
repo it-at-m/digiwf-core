@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 class ErrorApiImplTest {
@@ -96,7 +97,7 @@ class ErrorApiImplTest {
         final ArgumentCaptor<BpmnErrorDto> payloadCaptor = ArgumentCaptor.forClass(BpmnErrorDto.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
+        Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
         Assertions.assertEquals(payload.getErrorMessage(), payloadCaptor.getValue().getErrorMessage());
         Assertions.assertEquals(payload.getErrorCode(), payloadCaptor.getValue().getErrorCode());
@@ -110,7 +111,7 @@ class ErrorApiImplTest {
         final ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-        Mockito.verify(this.messageApi).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
+        Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
         Assertions.assertEquals(payload, payloadCaptor.getValue());
         Assertions.assertEquals(typeHeader, headersCaptor.getValue().get(TYPE));

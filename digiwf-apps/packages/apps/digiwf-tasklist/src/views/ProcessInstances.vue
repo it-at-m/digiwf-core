@@ -10,17 +10,13 @@
           :on-filter-change="onFilterChanged"
         />
         <div class="d-flex align-center">
-          <v-btn
+          <dwf-button
             aria-label="Vorgänge aktualisieren"
-            style="padding-left: 13px;"
-            large
-            text
-            color="primary"
             @click="refetch"
           >
             <div style="min-width: 30px">
               <v-progress-circular
-                v-if="isLoading"
+                v-if="isLoading || isRefetching"
                 :size="25"
                 width="2"
                 color="primary"
@@ -33,7 +29,7 @@
               </v-icon>
             </div>
             Aktualisieren
-          </v-btn>
+          </dwf-button>
         </div>
       </v-flex>
       <v-flex v-if="errorMessage">
@@ -98,9 +94,11 @@ import {useGetPaginationData} from "../middleware/paginationData";
 import {useGetProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 import SearchField from "../components/common/SearchField.vue";
+import DwfButton from "../components/common/DwfButton.vue";
 
 export default defineComponent({
     components: {
+      DwfButton,
       SearchField,
       AppPaginationFooter, ProcessInstanceItem, AppToast, AppViewLayout
     },
@@ -108,7 +106,7 @@ export default defineComponent({
     setup: () => {
       const {searchQuery, setSearchQuery, page, size, setSize, setPage} = useGetPaginationData();
 
-      const {isLoading, data, error: errorMessage, refetch} = useGetProcessInstances(page, size, searchQuery);
+      const {isLoading, data, error: errorMessage, refetch, isRefetching} = useGetProcessInstances(page, size, searchQuery);
 
       watch(page, (newPage) => {
         setPage(newPage);
@@ -127,6 +125,7 @@ export default defineComponent({
       return {
         data,
         isLoading,
+        isRefetching,
         searchQuery,
         errorMessage,
         onFilterChanged,

@@ -10,6 +10,9 @@
       <template #custom-date-input="context">
         <dwf-date-input v-bind="context"/>
       </template>
+      <template #custom-time-input="context">
+        <dwf-time-input v-bind="context"/>
+      </template>
       <template #custom-user-input="context">
         <v-user-input v-bind="context"/>
       </template>
@@ -26,7 +29,7 @@
     <v-flex class="d-flex" style="width: 100%">
       <v-spacer/>
       <v-btn
-        class="mt-5"
+        class="mt-5 form-submit-button"
         color="primary"
         :disabled="isCompleting || readonly"
         @click="complete">
@@ -82,3 +85,9 @@ export default class AppJsonForm extends Vue {
 
 }
 </script>
+
+<style scoped>
+.form-submit-button:focus, .form-submit-button:hover  {
+  opacity: 0.6; /* first fix for increasing contrast. User feedback is required */
+}
+</style>

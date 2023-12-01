@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.s3.integration.client.configuration;
 
-import de.muenchen.oss.digiwf.s3.integration.gen.ApiClient;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FileApiApi;
-import de.muenchen.oss.digiwf.s3.integration.gen.api.FolderApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;

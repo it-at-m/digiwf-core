@@ -4,6 +4,8 @@ import de.muenchen.oss.digiwf.task.TaskManagementProperties;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import lombok.val;
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.community.mockito.delegate.DelegateTaskFake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +14,14 @@ import org.mockito.Mockito;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class AssignmentAssignTaskListenerTest {
 
+  private final ProcessEngineConfigurationImpl processConfiguration = mock(ProcessEngineConfigurationImpl.class);
   private final TaskManagementProperties.AssignmentProperties properties = Mockito.mock(TaskManagementProperties.AssignmentProperties.class);
-  private final AssignmentAssignTaskListener assignmentAssignTaskListener = new AssignmentAssignTaskListener(properties);
+  private final AssignmentAssignTaskListener assignmentAssignTaskListener = new AssignmentAssignTaskListener(properties, processConfiguration);
 
   private DelegateTaskFake delegateTask;
 
@@ -86,7 +90,7 @@ class AssignmentAssignTaskListenerTest {
   }
 
   @Test
-  public void sets_empty_assigne_to_null_with_empty_assignee() {
+  public void sets_empty_assignee_to_null_with_empty_assignee() {
     when(properties.isShadow()).thenReturn(true);
     when(properties.isLocal()).thenReturn(true);
     delegateTask.setAssignee("");

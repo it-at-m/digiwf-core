@@ -117,6 +117,7 @@ module.exports = {
                             children: [
                                 'guides/topics',
                                 'guides/technical-setup/',
+                                'guides/custom-input-field/',
                                 'guides/feature-toggle-taskservice-integration/',
                             ]
                         },
@@ -125,6 +126,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 'libs/digiwf-message/',
+                                'libs/digiwf-spring-security/',
                             ]
                         },
                         {
@@ -198,7 +200,8 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/optional-content/'
+                                'forms/optional-content/',
+                                'forms/accessibility/'
                             ]
                         },
                         {
@@ -249,12 +252,14 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
+                                'digiwf-address-integration',
                                 'digiwf-alw-integration',
                                 'digiwf-cosys-integration',
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-verification-integration',
-                                'digiwf-formserver-integration'
+                                'digiwf-formserver-integration',
+                                'digiwf-dms-integration'
                             ]
                         },
                         {

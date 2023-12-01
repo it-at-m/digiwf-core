@@ -12,8 +12,8 @@ import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMe
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
 import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.cosys.integration.gen.ApiClient;
-import de.muenchen.oss.digiwf.cosys.integration.gen.api.GenerationApi;
+import de.muenchen.oss.digiwf.cosys.integration.ApiClient;
+import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
@@ -123,9 +123,9 @@ public class CosysAutoConfiguration {
         return new CosysAdapter(cosysConfiguration, generationApi);
     }
 
-    @ConditionalOnMissingBean
+    // Function call had to be renamed for message routing
     @Bean
-    public Consumer<Message<GenerateDocument>> documentMessageProcessor(final CreateDocument documentUseCase, final ErrorApi errorApi) {
+    public Consumer<Message<GenerateDocument>> createCosysDocument(final CreateDocument documentUseCase, final ErrorApi errorApi) {
         final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
         return messageProcessor.cosysIntegration();
     }

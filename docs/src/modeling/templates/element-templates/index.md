@@ -34,3 +34,39 @@
 <DownloadArtifact
     artifact="sendMailV01.json"
     type="element-template" />
+
+## OK.EWO Integration
+
+<DownloadArtifact
+artifact="okEwoIntegration.json"
+type="element-template" />
+
+## Address-Service Integration
+
+<DownloadArtifact
+    artifact="address-integration/checkAddress.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/findStreetById.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/listAenderungenMuenchen.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/listStreet.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/searchAddressesGermany.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/searchAdressenGeoMuenchen.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="address-integration/searchAdressenMuenchen.json"
+    type="element-template" />

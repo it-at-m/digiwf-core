@@ -30,7 +30,6 @@ Konfigurationen.
 | `phone(userId)`       | Liefert die Telefonnummer des Benutzers  | `${user.phone('260')}`       |
 | `ou(userId)`          | Liefert die OU des Benutzers             | `${user.ou('260')}`          |
 | `get(userId)`         | Liefert den gesamten Benutzer            | `${user.get('260')}`         |
-| `staffNumber(userId)` | Liefert die Personalnummer des Benutzers | `${user.staffNumber('260')}` |
 
 Als Parameter können auch Variablen übergeben werden. In dieser Variable muss sich jedoch eine `lhmObjectID` befinden.
 Beispiel: `${user.firstname(starterOfInstance)}`

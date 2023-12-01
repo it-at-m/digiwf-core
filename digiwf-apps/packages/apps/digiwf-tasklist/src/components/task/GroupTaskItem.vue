@@ -86,7 +86,7 @@
             @click="(event) => { event.preventDefault()}"
             v-on.prevent="on"
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon aria-label="Aktionen für die Aufgabe" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
         <v-list>
