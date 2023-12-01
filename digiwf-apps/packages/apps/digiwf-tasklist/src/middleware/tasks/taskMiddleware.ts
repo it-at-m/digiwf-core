@@ -14,12 +14,8 @@ import {
 import {computed, ref, Ref} from "vue";
 import {Page} from "../commonModels";
 import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
-import {
-  mapTaskDetailsFromTaskService,
-  mapTaskFromTaskService,
-} from "./taskMapper";
+import {mapTaskDetailsFromTaskService, mapTaskFromTaskService,} from "./taskMapper";
 import {useStore} from "../../hooks/store";
-import axios, {AxiosError} from "axios";
 import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import router from "../../router";
 import {queryClient} from "../queryClient";
@@ -33,6 +29,7 @@ import {
   isInFinishedProcesses
 } from "./mutatedTaskFilter";
 import {nullToUndefined} from "../../utils/dataTransformations";
+import {ApiCallError} from "../../api/defaultErrorHandler";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
   const currentValue = tag.value;
@@ -222,8 +219,8 @@ export const loadTask = (taskId: string): Promise<LoadTaskResult> =>  {
         });
       });
 
-    }).catch((error: Error | AxiosError) => {
-      if (axios.isAxiosError(error) && (error as AxiosError).status === 404) {
+    }).catch((error: ApiCallError) => {
+      if (error.status === 404) {
         return Promise.resolve({
           error: "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
         });
