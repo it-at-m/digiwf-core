@@ -10,13 +10,18 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.common.jpa.EntityManagerProvider;
 import org.axonframework.common.transaction.TransactionManager;
+import org.axonframework.eventhandling.deadletter.jpa.DeadLetterEntry;
+import org.axonframework.eventhandling.tokenstore.jpa.TokenEntry;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
+import org.axonframework.eventsourcing.eventstore.jpa.DomainEventEntry;
 import org.axonframework.eventsourcing.eventstore.jpa.JpaEventStorageEngine;
+import org.axonframework.modelling.saga.repository.jpa.SagaEntry;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.springboot.autoconfig.AxonAutoConfiguration;
 import org.axonframework.springboot.autoconfig.ObjectMapperAutoConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,6 +44,14 @@ import org.springframework.context.annotation.Configuration;
 })
 @EnableConfigurationProperties(
     TaskManagementProperties.class
+)
+@EntityScan(
+    basePackageClasses = {
+        DomainEventEntry.class,
+        SagaEntry.class,
+        TokenEntry.class,
+        DeadLetterEntry.class
+    }
 )
 @Slf4j
 public class PolyflowConnectorAutoConfiguration {
@@ -90,6 +103,7 @@ public class PolyflowConnectorAutoConfiguration {
                 .entityManagerProvider(entityManagerProvider)
                 .transactionManager(transactionManager)
                 .eventSerializer(eventSerializer)
+                .snapshotSerializer(eventSerializer)
                 .build();
     }
 }

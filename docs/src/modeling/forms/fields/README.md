@@ -67,11 +67,14 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/textarea-form.png)
 
-#### Hinweise
+::: tip
 Für längere Inhalte, die readonly angezeigt werden sollen, ist dieses Feld zu empfehlen. Bei einem Text Input ist die Höhe des Felds häufig nicht ausreichend, um die komplette Eingabe anzuzeigen. 
+ :::
 
-Es ist sinnvoll bei einer textarea die Regel maxLength zu konfigurieren, da die Datenbank eine Limitierung von 2000 Zeichen pro Feld hat. 
-
+::: tip
+Es ist sinnvoll bei einer textarea die Regel maxLength zu konfigurieren, da die Datenbank eine **Limitierung von 2000 Zeichen** pro Feld hat. 
+ :::
+ 
 ## Zahl
 
 Ein Zahl ist ein Feld, in das eine Ganzzahl eingegeben werden kann.
@@ -101,7 +104,12 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 Eine Checkbox ist ein Feld, das ein Ja/Nein Wert repräsentiert.
 
+::: tip
+Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschließen, dann ist es sinnvoll eine Checkbox in Kombination mit der required Regel zu verwenden. Die eigenet sich bspw. für AGBs oder Hinweisetexte die bestätigt werden müssen. 
+  :::
+
 ## Datum
+Über dieses Feld kann ein Datum eingegeben werden.
 
 ## Zeit
 

@@ -1,15 +1,15 @@
 {
   "name": "@muenchen/digiwf-form-builder",
   "description": "Form Builder",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "module": "dist/digiwf-form-builder.mjs",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "@muenchen/digiwf-form-builder-settings": "^1.3.0",
-    "@muenchen/digiwf-form-renderer": "^1.3.0"
+    "@muenchen/digiwf-form-builder-settings": "^1.4.0",
+    "@muenchen/digiwf-form-renderer": "^1.4.0"
   },
   "peerDependencies": {
     "vue": "^2.7.0",
