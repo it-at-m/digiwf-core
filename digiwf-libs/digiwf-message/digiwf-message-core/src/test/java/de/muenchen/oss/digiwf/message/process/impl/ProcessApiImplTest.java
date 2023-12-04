@@ -91,10 +91,8 @@ class ProcessApiImplTest {
         assertThat(payloadCaptor.getValue()).isEqualTo(payload);
 
         assertThat(headers)
-                .hasSize(3)
-                .containsEntry(TYPE, typeHeader)
-                .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, processInstanceId)
-                .containsEntry(DIGIWF_MESSAGE_NAME, "startProcessV01");
+                .hasSize(1)
+                .containsEntry(TYPE, "startProcessV01");
 
         assertThat(destinationCaptor.getValue()).isEqualTo(destination);
     }
