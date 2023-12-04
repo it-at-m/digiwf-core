@@ -26,7 +26,7 @@ spring:
         binder:
           configuration:
             security:
-              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+              protocol: PLAINTEXT
           producerProperties:
             value:
               serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -40,7 +40,7 @@ spring:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
             value:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+          brokers: localhost:19999
   kafka:
     consumer:
       properties:
