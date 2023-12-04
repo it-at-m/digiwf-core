@@ -1,0 +1,50 @@
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-e2e-test"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
+        correlateMessageDestination: "dwf-connector-e2e-test"
+
+spring:
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;integrationTestConsumer;
+      routing-expression: "headers['type']"
+
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: "digiwf-e2e-test-topic"
+          group: e2e-integration-test
+        sendMessage-out-0:
+          destination: ${io.muenchendigital.digiwf.message.correlateMessageDestination}
+        integrationTestConsumer-in-0:
+          destination: ${io.muenchendigital.digiwf.message.correlateMessageDestination}
+          group: e2e-integration-test
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'

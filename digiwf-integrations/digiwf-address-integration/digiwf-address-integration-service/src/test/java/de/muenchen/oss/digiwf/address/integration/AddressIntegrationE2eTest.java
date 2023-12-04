@@ -4,9 +4,10 @@ package de.muenchen.oss.digiwf.address.integration;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.dto.*;
-import de.muenchen.oss.digiwf.address.integration.utility.DigiWFIntegrationE2eTest;
+import de.muenchen.oss.digiwf.integration.e2e.test.DigiWFIntegrationE2eTestUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
@@ -22,19 +23,16 @@ import static org.junit.jupiter.api.Assertions.*;
  * E2e tests for address-integration-service using embedded kafka and wiremock to fake infrastructure components
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("itest")
 @DirtiesContext
-@EmbeddedKafka(partitions = 1,
-    brokerProperties = {"listeners=PLAINTEXT://localhost:29092"},
-    topics = {
-        "${spring.cloud.stream.bindings.functionRouter-in-0.destination}",
-        "${spring.cloud.stream.bindings.sendMessage-out-0.destination}",
-        "${spring.cloud.stream.bindings.integrationTestConsumer-in-0.destination}"
-    })
+@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:29092"})
 @WireMockTest(httpPort = 8089)
-class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
+class AddressIntegrationE2eTest {
 
   private String processInstanceId;
+
+  @Autowired
+  private DigiWFIntegrationE2eTestUtility digiWFIntegrationE2eTestUtility;
 
   @BeforeEach
   void setup() {
@@ -43,7 +41,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
 
 
   @Test
-  void testSearchAddressesGermany() throws InterruptedException {
+  void testSearchAddressesGermany() {
     final SearchAdressenDeutschlandDto searchAdressenDeutschlandDto = SearchAdressenDeutschlandDto.builder()
         .ortsname("Augsburg")
         .build();
@@ -52,7 +50,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse_bundesweit/search?ortsname=Augsburg", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "searchAddressesGermany");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "searchAddressesGermany");
 
     // assert
     assertNotNull(payload);
@@ -70,7 +68,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testCheckAddressMunich() throws InterruptedException {
+  void testCheckAddressMunich() {
     final CheckAdresseMuenchenDto checkAdresseMuenchenDto = CheckAdresseMuenchenDto.builder()
         .adresse("Agnes-Pockels-Bogen 21, 80992 München")
         .build();
@@ -80,7 +78,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse/check?adresse=Agnes-Pockels-Bogen%2021%2C%2080992%20M%C3%BCnchen", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(checkAdresseMuenchenDto, processInstanceId, "checkAddressMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(checkAdresseMuenchenDto, processInstanceId, "checkAddressMunich");
 
     assertNotNull(payload);
     assertTrue(payload.containsKey("response"));
@@ -89,7 +87,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testListAddressesMunich() throws InterruptedException {
+  void testListAddressesMunich() {
     final ListAdressenMuenchenDto listAdressenMuenchenDto = ListAdressenMuenchenDto.builder()
         .plz(List.of("80992"))
         .build();
@@ -98,7 +96,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse/list?plz=80992", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(listAdressenMuenchenDto, processInstanceId, "listAddressesMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAdressenMuenchenDto, processInstanceId, "listAddressesMunich");
 
     // assert
     assertNotNull(payload);
@@ -116,7 +114,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testListChangesMunich() throws InterruptedException {
+  void testListChangesMunich() {
     final ListAenderungenMuenchenDto listAenderungenMuenchenDto = ListAenderungenMuenchenDto.builder()
         .plz("80992")
         .build();
@@ -125,7 +123,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse/aenderung?plz=80992", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(listAenderungenMuenchenDto, processInstanceId, "listChangesMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAenderungenMuenchenDto, processInstanceId, "listChangesMunich");
 
     // assert
     assertNotNull(payload);
@@ -137,7 +135,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testSearchAddressesMunich() throws InterruptedException {
+  void testSearchAddressesMunich() {
     final SearchAdressenMuenchenDto searchAdressenMuenchenDto = SearchAdressenMuenchenDto.builder()
         .query("Agnes-Pockels-Bogen 21")
         .build();
@@ -146,7 +144,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse/search?query=Agnes-Pockels-Bogen%2021", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(searchAdressenMuenchenDto, processInstanceId, "searchAddressesMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenMuenchenDto, processInstanceId, "searchAddressesMunich");
 
     // assert
     assertNotNull(payload);
@@ -164,7 +162,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testSearchAddressesGeoMunich() throws InterruptedException {
+  void testSearchAddressesGeoMunich() {
     final SearchAdressenGeoMuenchenDto searchAdressenGeoMuenchenDto = SearchAdressenGeoMuenchenDto.builder()
         .geometrie("Punkt")
         .lat(5334745.607)
@@ -175,7 +173,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/adresse/search/geo?geometrie=Punkt&lat=5334745.607&lng=691641.878", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(searchAdressenGeoMuenchenDto, processInstanceId, "searchAddressesGeoMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenGeoMuenchenDto, processInstanceId, "searchAddressesGeoMunich");
 
     // assert
     assertNotNull(payload);
@@ -190,7 +188,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testFindStreetByIdMunich() throws InterruptedException {
+  void testFindStreetByIdMunich() {
     final StrassenIdDto strassenIdDto = StrassenIdDto.builder()
         .strasseId(2996L)
         .build();
@@ -199,7 +197,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/strasse/2996", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(strassenIdDto, processInstanceId, "findStreetByIdMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(strassenIdDto, processInstanceId, "findStreetByIdMunich");
 
     // assert
     assertNotNull(payload);
@@ -210,7 +208,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
   }
 
   @Test
-  void testListStreetMunich() throws InterruptedException {
+  void testListStreetMunich() {
     final ListStrassenDto listStrassenDto = ListStrassenDto.builder()
         .strassenname("Marienplatz")
         .build();
@@ -219,7 +217,7 @@ class AddressIntegrationE2eTest extends DigiWFIntegrationE2eTest {
     this.setupWiremock("/v2/strasse/search?strassenname=Marienplatz", expectedResponse);
 
     // send and receive messages
-    final Map<String, Object> payload = super.runIntegration(listStrassenDto, processInstanceId, "listStreetMunich");
+    final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listStrassenDto, processInstanceId, "listStreetMunich");
 
     // assert
     assertNotNull(payload);
