@@ -9,20 +9,14 @@ import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.CosysAdapter.DATA_FILE_NAME;
-import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.CosysAdapter.MERGE_FILE_NAME;
-import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.FileUtils.createFile;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,7 +45,10 @@ class CosysAdapterTest {
         val responseSpecMock = Mockito.mock(WebClient.ResponseSpec.class);
         when(responseSpecMock.onStatus(any(), any())).thenReturn(responseSpecMock);
         when(responseSpecMock.bodyToMono(byte[].class)).thenReturn(Mono.just(response));
-        when(generationApi.generatePdfWithResponseSpec(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+        final ArgumentCaptor<File> dataFileCaptor = ArgumentCaptor.forClass(File.class);
+        final ArgumentCaptor<File> mergeFileCaptor = ArgumentCaptor.forClass(File.class);
+
+        when(generationApi.generatePdfWithResponseSpec(any(), any(), any(), dataFileCaptor.capture(), any(), any(), any(), any(), any(), any(), mergeFileCaptor.capture(), any(), any()))
                 .thenReturn(responseSpecMock);
 
         when(configuration.getMergeOptions()).thenReturn("mergedata".getBytes());
@@ -59,23 +56,23 @@ class CosysAdapterTest {
         //when
         cosysAdapter.generateCosysDocument(generateDocument);
 
-        //then TODO verfiy
+        //then
 
-        verify(generationApi.generatePdfWithResponseSpec(
+        verify(generationApi).generatePdfWithResponseSpec(
                 generateDocument.getGuid(),
                 generateDocument.getClient(),
                 generateDocument.getRole(),
-                createFile(DATA_FILE_NAME, generateDocument.getVariables().toString().getBytes(StandardCharsets.UTF_8)),
+                dataFileCaptor.getValue(),
                 null,
                 null,
                 null,
                 null,
                 null,
                 false,
-                createFile(MERGE_FILE_NAME, this.configuration.getMergeOptions()),
+                mergeFileCaptor.getValue(),
                 null,
                 null
-        ));
+        );
     }
 
     private GenerateDocument generateDocument() {
