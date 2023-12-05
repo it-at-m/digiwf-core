@@ -15,7 +15,6 @@ export const useGetProcessDefinitions = (page: Ref<number>, size: Ref<number>, q
   useQuery({
     queryKey: ["process-definitions", page.value, size.value, query.value || "no-query"], //.filter(it => !!it), // remove query key if not set
     queryFn: () => {
-      console.log("qzeryFunction with", {page: page.value, size: size.value, query: query.value});
       return callGetProcessDefinitionsFromEngine(page.value, size.value, nullToUndefined(query.value)) // remove null
         .then(data => {
 

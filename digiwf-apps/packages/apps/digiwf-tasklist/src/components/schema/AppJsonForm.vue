@@ -62,6 +62,7 @@ export default class AppJsonForm extends Vue {
   @Prop()
   isCompleting: boolean | undefined;
 
+
   @Emit("complete-form")
   completeForm(value: any): any {
     return value;
@@ -70,6 +71,11 @@ export default class AppJsonForm extends Vue {
   @Emit("input")
   input(value: any): any {
     this.currentValue = value;
+    this.$router.replace({query: {
+      ...this.$router.currentRoute.query,
+      ...value
+    }});
+
     return value;
   }
 
