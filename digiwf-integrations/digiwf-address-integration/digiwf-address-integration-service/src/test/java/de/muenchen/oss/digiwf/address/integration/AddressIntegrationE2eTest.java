@@ -57,7 +57,7 @@ class AddressIntegrationE2eTest {
             assertThat(c).containsKey("adresse");
             final Map<String, Object> address = (Map<String, Object>) c.get("adresse");
             assertThat(address).containsKey("ortsname");
-            assertThat(address.get("ortsname")).isEqualTo("Augsburg");
+            assertThat(address).containsEntry("ortsname", "Augsburg");
         });
     }
 
