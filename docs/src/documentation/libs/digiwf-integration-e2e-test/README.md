@@ -1,7 +1,7 @@
 # DigiWF Integration E2e Test Library
 
 Mithilfe der DigiWF Integration E2e Test Library können Integrationen End-To-End getestet werden.
-Hierfür wird ein Embedded-Kafka (spring-kafka-test) gestartet und über Spring Cloud Stream eine Verbindung zu diesem hergestellt.
+Hierfür wird ein Embedded-Kafka gestartet und über Spring Cloud Stream eine Verbindung zu diesem hergestellt.
 Anschließend kann die Integration in End-To-End Tests getestet werden, in dem Nachrichten an den Embedded-Kafka gesendet werden und die Antworten überprüft werden.
 
 Externe Schnittstellen können zudem über Wiremock simuliert werden.
@@ -65,7 +65,7 @@ spring:
                     destination: "dwf-example-integration-test"
 ```
 
-In der `application-itest.yml` muss die Destination der Integration angegeben werden für den Function Router angegeben werden.
+In der `application-itest.yml` muss die Destination (Kafka Topic) für den Function Router angegeben werden.
 Weitere Konfiguration werden direkt über die Bibliothek bereitgestellt.
 
 ### Wiremock
