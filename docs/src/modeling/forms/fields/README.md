@@ -200,6 +200,12 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/files-form.png)
 
+::: warning
+Das Datei-Upload Feld (multi-file input) wird immer in voller Breite (12 Spalten) angezeigt.
+Auch wenn die Breite des Feldes konfiguriert werden kann wird es trotzdem in voller Breite angezeigt.
+Dieser Fehler ist bekannt und kann aktuell nicht behoben werden ([siehe](https://github.com/it-at-m/digiwf-core/issues/1001#issuecomment-1812056615)).
+:::
+
 ## Benutzerauswahl
 
 Über dieses Feld können Benutzer in der Benutzerverwaltung durchsucht und ausgewählt werden.
