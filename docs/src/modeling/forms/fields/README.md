@@ -186,13 +186,18 @@ Es gibt lediglich einen Unterschied bei der Auswahl and Anzeigemöglichkeiten.
 
 ![Formular Editor](~@source/modeling/forms/fields/files-context.png)
 
-::: tip
-Je nachdem ob es sich um ein Start- oder Benutzerformular handelt, muss der Zugriff zusätzlich konfiguriert werden.
-Dies kann in der jeweiligen Dokumentation nachgelesen werden
+#### Konfiguration
+
+Das Datei-Upload-Feld benötigt eine zusätzliche Konfiguration im Usertask des Prozesses, damit Dateien gespeichert und gelesen werden können.
+
+In den Inputparameter `app_file_paths_readonly` und `app_file_paths` müssen im Usertask der/die Ordner angegeben werden, auf die der User zugreifen darf.
+Wird ein Datei-Upload-Feld bei Prozessstart verwendet, müssen die beiden Parameter als Prozessconfig gesetzt werden.
+Ordnernamen können als Semicolon separierte Liste angegeben werden (z.B. `ordner1;ordner2`).
+
+Weitere Informationen zur Konfiguration von Prozessen finden Sie unter
 
 - [Benutzeraufgaben](/modeling/user-tasks/modeling/#template)
 - [Prozesskonfiguration](/modeling/processes/config/)
-  :::
 
 #### Anzeige
 
