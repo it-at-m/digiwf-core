@@ -24,42 +24,24 @@
       <v-spacer/>
       <span v-if="appInfo !== null">{{ appInfo.environment }}</span>
       <v-spacer/>
-      <v-btn
-        icon
-        aria-label="Tastaturbedienungsanleitung öffnen"
-        @click="openKeyBindingsDialoge"
-      >
-        <v-icon>mdi-keyboard</v-icon>
-      </v-btn>
+      <app-help-menu
+        @openKeyBindingsDialoge="openKeyBindingsDialoge"
+        @closeKeyBindingsDialoge="closeKeyBindingsDialoge"
+      />
 
       {{ username }}
 
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            aria-label="Avatar Icon Button"
-            text
-            fab
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon
-              aria-label="Avatar Icon"
-              class="white--text" >
-              mdi-account-circle
-            </v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item>
-            <v-list-item-title>
-              <contrast-mode-selection/>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-
+      <v-btn
+        aria-label="Avatar Icon"
+        text
+        fab
+      >
+        <v-icon
+          aria-label="Avatar Icon"
+          class="white--text">
+          mdi-account-circle
+        </v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -201,13 +183,11 @@ import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
-import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
+import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
-import ContrastModeSelection from "./components/UI/ContrastModeSelection.vue";
-
 @Component({
-  components: {AppKeyBindingsDialog, ContrastModeSelection, AppMenuList}
+  components: {AppHelpMenu, AppMenuList}
 })
 export default class App extends Vue {
   drawer = true;

@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AppHelpMenu: typeof import('./src/components/UI/help/AppHelpMenu.vue')['default']
     AppJsonForm: typeof import('./src/components/schema/AppJsonForm.vue')['default']
     AppJsonRenderer: typeof import('./src/components/schema/AppJsonRenderer.vue')['default']
     AppKeyBindingsDialog: typeof import('./src/components/UI/help/AppKeyBindingsDialog.vue')['default']
@@ -24,7 +25,6 @@ declare module '@vue/runtime-core' {
     BaseForm: typeof import('./src/components/form/BaseForm.vue')['default']
     BaseLdapInput: typeof import('./src/components/form/BaseLdapInput.vue')['default']
     BaseMarkdownOutput: typeof import('./src/components/form/BaseMarkdownOutput.vue')['default']
-    ContrastModeSelection: typeof import('./src/components/UI/ContrastModeSelection.vue')['default']
     CsvOutput: typeof import('./src/components/form/CsvOutput.vue')['default']
     DwfButton: typeof import('./src/components/common/DwfButton.vue')['default']
     FileOutput: typeof import('./src/components/form/FileOutput.vue')['default']
@@ -77,6 +77,7 @@ declare module '@vue/runtime-core' {
     VListItem: typeof import('vuetify/lib')['VListItem']
     VListItemAvatar: typeof import('vuetify/lib')['VListItemAvatar']
     VListItemContent: typeof import('vuetify/lib')['VListItemContent']
+    VListItemGroup: typeof import('vuetify/lib')['VListItemGroup']
     VListItemSubtitle: typeof import('vuetify/lib')['VListItemSubtitle']
     VListItemTitle: typeof import('vuetify/lib')['VListItemTitle']
     VMain: typeof import('vuetify/lib')['VMain']
