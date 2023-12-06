@@ -8,7 +8,6 @@ import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInst
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Repository to perform db operation on a {@link ServiceInstanceAuthorizationEntity}
@@ -19,5 +18,5 @@ public interface ProcessInstanceAuthorizationRepository extends JpaRepository<Se
 
     List<ServiceInstanceAuthorizationEntity> findAllByUserId(String userId);
 
-    Optional<ServiceInstanceAuthorizationEntity> findByUserIdAndProcessInstanceId(String userId, String processInstanceId);
+    boolean existsByUserIdAndProcessInstanceId(String userId, String processInstanceId);
 }
