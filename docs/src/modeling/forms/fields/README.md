@@ -190,7 +190,7 @@ Es gibt lediglich einen Unterschied bei der Auswahl and Anzeigemöglichkeiten.
 
 Das Datei-Upload-Feld benötigt eine zusätzliche Konfiguration im Usertask des Prozesses, damit Dateien gespeichert und gelesen werden können.
 
-In den Inputparameter `app_file_paths_readonly` und `app_file_paths` müssen im Usertask der/die Ordner angegeben werden, auf die der User zugreifen darf.
+In den Inputparameter *S3 Pfade für Schreibrechtigungen* (`app_file_paths`) und *S3 Pfade für Leseberechtigungen* (`app_file_paths_readonly`) müssen im Usertask der/die Ordner angegeben werden, auf die der User zugreifen darf.
 Wird ein Datei-Upload-Feld bei Prozessstart verwendet, müssen die beiden Parameter als Prozessconfig gesetzt werden.
 Ordnernamen können als Semicolon separierte Liste angegeben werden (z.B. `ordner1;ordner2`).
 
