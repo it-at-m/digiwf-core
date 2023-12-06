@@ -52,11 +52,11 @@ wie Notepad++ oder Visual Studio Code zurückzugreifen.
       "value": "myschemakey"
     },
     {
-      "key": "app_file_paths",
+      "key": "app_file_paths_readonly",
       "value": "docs"
     },
     {
-      "key": "app_file_paths_readonly",
+      "key": "app_file_paths",
       "value": "writabledocs"
     }
   ]
