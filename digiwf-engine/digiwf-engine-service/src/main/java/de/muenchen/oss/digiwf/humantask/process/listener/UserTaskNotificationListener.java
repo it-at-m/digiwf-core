@@ -4,14 +4,15 @@
 
 package de.muenchen.oss.digiwf.humantask.process.listener;
 
-import de.muenchen.oss.digiwf.legacy.mailing.domain.model.MailTemplate;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.service.MailingService;
+import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.model.Mail;
+import de.muenchen.oss.digiwf.humantask.process.ProcessTaskConstants;
 import de.muenchen.oss.digiwf.legacy.user.domain.model.User;
 import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
 import de.muenchen.oss.digiwf.shared.properties.DigitalWFProperties;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
-import de.muenchen.oss.digiwf.humantask.process.ProcessTaskConstants;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -27,10 +28,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
+import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 
 /**
  * Notifies the associated users during the creation of a user task.
@@ -43,9 +45,8 @@ import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 @Slf4j
 public class UserTaskNotificationListener {
 
-
     private final RepositoryService repositoryService;
-    private final MailingService mailingService;
+    private final DigiwfEmailApi digiwfEmailApi;
     private final UserService userService;
     private final DigitalWFProperties properties;
 
@@ -109,18 +110,24 @@ public class UserTaskNotificationListener {
             final String body = TaskVariables.MAIL_BODY.from(delegateTask).getOrDefault(this.getBodyAssignee(processName));
             final String bottomText = TaskVariables.MAIL_BOTTOM_TEXT.from(delegateTask).getOrDefault("");
 
-            final MailTemplate mail = MailTemplate.builder()
-                    .receivers(address)
-                    .body(body)
-                    .buttonText("Aufgabe öffnen")
-                    .link(this.properties.getFrontendUrl() + "/#/task/" + delegateTask.getId())
-                    .subject(subject)
-                    .bottomText(bottomText)
-                    .build();
+            final Map<String, String> emailContent = Map.of(
+                    "%%body_top%%", body,
+                    "%%body_bottom%%", bottomText,
+                    "%%button_link%%", this.properties.getFrontendUrl() + "/#/task/" + delegateTask.getId(),
+                    "%%button_text%%", "Aufgabe öffnen",
+                    "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
+            );
+            final String templatePath = "bausteine/mail/templatewithlink/mail-template.tpl";
+            final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
 
-            log.debug("Sending notification to {}", address);
-            this.mailingService.sendMailTemplateWithLink(mail);
-        } catch (final Exception ex) {
+            final Mail mail = Mail.builder()
+                    .receivers(address)
+                    .subject(subject)
+                    .body(emailBody)
+                    .htmlBody(true)
+                    .build();
+            this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
+        } catch (final MessagingException ex) {
             log.warn("Notification failed: {}", ex.getMessage());
             throw ex;
         }
@@ -196,26 +203,31 @@ public class UserTaskNotificationListener {
 
     private void sendGroupMail(final List<String> addresses, final DelegateTask delegateTask) {
         try {
-
             String processName = this.getProcessName(delegateTask.getProcessDefinitionId());
 
             final String subject = TaskVariables.MAIL_SUBJECT.from(delegateTask).getOrDefault("Es liegt eine neue Gruppenaufgabe für Sie bereit");
             final String body = TaskVariables.MAIL_BODY.from(delegateTask).getOrDefault(this.getBodyGroupMail(processName));
             final String bottomText = TaskVariables.MAIL_BOTTOM_TEXT.from(delegateTask).getOrDefault("");
+            final String addressList = String.join(",", addresses);
 
-            final String addresslist = String.join(",", addresses);
-            final MailTemplate mail = MailTemplate.builder()
-                    .receivers(addresslist)
-                    .body(body)
-                    .buttonText("Gruppenaufgabe öffnen")
-                    .link(this.properties.getFrontendUrl() + "/#/opengrouptask/" + delegateTask.getId())
+            final Map<String, String> emailContent = Map.of(
+                    "%%body_top%%", body,
+                    "%%body_bottom%%", bottomText,
+                    "%%button_link%%", this.properties.getFrontendUrl() + "/#/opengrouptask/" + delegateTask.getId(),
+                    "%%button_text%%", "Gruppenaufgabe öffnen",
+                    "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
+            );
+            final String templatePath = "bausteine/mail/templatewithlink/mail-template.tpl";
+            final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
+
+            final Mail mail = Mail.builder()
+                    .receivers(addressList)
                     .subject(subject)
-                    .bottomText(bottomText)
+                    .body(emailBody)
+                    .htmlBody(true)
                     .build();
-
-            log.debug("Sending notification to {}", addresslist);
-            this.mailingService.sendMailTemplateWithLink(mail);
-        } catch (final Exception ex) {
+            this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
+        } catch (final MessagingException ex) {
             log.warn("Notification failed: {}", ex.getMessage());
         }
 

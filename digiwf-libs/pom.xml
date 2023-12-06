@@ -24,6 +24,7 @@
         <module>digiwf-message</module>
         <module>digiwf-spring-security</module>
         <module>digiwf-spring-logging-and-tracing</module>
+        <module>digiwf-email</module>
     </modules>
 
     <properties>
