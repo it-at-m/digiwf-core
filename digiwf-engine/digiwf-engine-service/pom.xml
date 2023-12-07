@@ -333,6 +333,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/dms.wsdl</wsdl>
+                                    <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
                                     <extraargs>
                                         <extraarg>-quiet</extraarg>
                                         <!--
