@@ -11,6 +11,7 @@ import GroupTaskDetail from "@/views/GroupTaskDetail.vue";
 import ProcessInstanceDetailView from "@/views/ProcessInstanceDetailView.vue";
 import store from "./store";
 import {baseUrl} from "./utils/envVariables";
+import AccessibilityStatement from "@/views/AccessibilityStatement.vue";
 
 Vue.use(Router);
 
@@ -82,6 +83,11 @@ const router = new Router({
       path: '/assignedgrouptask/:id',
       component: GroupTaskDetail,
       props: true
+    },
+    {
+      path: "/accessibilitystatement",
+      name: "accessibilitystatement",
+      component: AccessibilityStatement
     },
     {path: '*', redirect: '/mytask'} //Fallback 2
   ]

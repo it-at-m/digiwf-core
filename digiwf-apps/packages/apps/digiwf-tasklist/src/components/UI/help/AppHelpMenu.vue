@@ -31,7 +31,7 @@
       </v-list-item>
       <v-list-item
         aria-label="Tastaturbedienungsanleitung öffnen"
-        @click.stop="$emit('openKeyBindingsDialoge')"
+        @click="$emit('openKeyBindingsDialoge')"
       >
         <v-list-item-title>
           <v-icon>mdi-keyboard</v-icon>
@@ -39,8 +39,8 @@
         </v-list-item-title>
       </v-list-item>
       <v-list-item
-        aria-label="Tastaturbedienungsanleitung öffnen"
-        @click.stop="$emit('openKeyBindingsDialoge')"
+        aria-label="Barrierefreiheitserklärung öffnen"
+        to="/accessibilitystatement"
       >
         <v-list-item-title>
           <v-icon>mdi-file-document</v-icon>
