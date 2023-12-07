@@ -72,6 +72,5 @@ Hier ist ein Beispiel wie die Package Struktur aussehen kann:
 
 ```
 
-## Consequences
 
 
