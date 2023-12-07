@@ -8,19 +8,16 @@
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon
-          aria-label="Help Icon"
-          class="white--text">
-          mdi-help-circle
-        </v-icon>
+        <HelpIcon/>
       </v-btn>
     </template>
     <v-list>
-      <v-list-item @click.stop="changeMode">
-        <v-list-item-title>
-          <v-icon>mdi-contrast-box</v-icon>
-          Hoher Kontrast
-        </v-list-item-title>
+      <v-list-item
+        class="max-v-list-item-height"
+        @click.stop="changeMode"
+      >
+        <HighContrastIcon class="mr-2"/>
+        Hoher Kontrast
         <v-switch
           class="ml-2"
           dense
@@ -31,21 +28,21 @@
       </v-list-item>
       <v-list-item
         aria-label="Tastaturbedienungsanleitung öffnen"
+        class="max-v-list-item-height"
         @click="$emit('openKeyBindingsDialoge')"
       >
-        <v-list-item-title>
-          <v-icon>mdi-keyboard</v-icon>
-          Anleitung öffnen
-        </v-list-item-title>
+
+        <KeyboardAccessibilityIcon class="mr-2"/>
+        Anleitung öffnen
       </v-list-item>
       <v-list-item
         aria-label="Barrierefreiheitserklärung öffnen"
+        class="max-v-list-item-height"
         to="/accessibilitystatement"
       >
-        <v-list-item-title>
-          <v-icon>mdi-file-document</v-icon>
-          Barrierefreiheitserklärung
-        </v-list-item-title>
+        <StatementIcon class="mr-2"/>
+        Barrierefreiheitserklärung
+
       </v-list-item>
     </v-list>
   </v-menu>
@@ -57,9 +54,12 @@ import {defineComponent} from "vue";
 import {useTheme} from "../../../plugins/vuetify";
 import {useAccessibility} from "../../../store/modules/accessibility";
 import HighContrastIcon from "../icons/HighContrastIcon.vue";
+import HelpIcon from "@/components/UI/icons/HelpIcon.vue";
+import KeyboardAccessibilityIcon from "@/components/UI/icons/KeyboardAccessibilityIcon.vue";
+import StatementIcon from "@/components/UI/icons/StatementIcon.vue";
 
 export default defineComponent({
-  components: {HighContrastIcon},
+  components: {StatementIcon, KeyboardAccessibilityIcon, HelpIcon, HighContrastIcon},
   emits: ['openKeyBindingsDialoge', 'closeKeyBindingsDialoge'],
   setup: (components, {emit}) => {
     const theme = useTheme();
@@ -86,5 +86,7 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-
+.max-v-list-item-height {
+  max-height: 10px !important;
+}
 </style>
