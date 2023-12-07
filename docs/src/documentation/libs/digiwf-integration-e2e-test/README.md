@@ -70,11 +70,29 @@ Weitere Konfiguration werden direkt über die Bibliothek bereitgestellt.
 
 ### Wiremock
 
-Um externe Schnittstellen zu simulieren, kann Wiremock verwendet werden.
-Hierfür wird die Methode `setupWiremock` der Klasse `DigiWFIntegrationE2eTestUtility` bereitgestellt.
-Diese Methode erwartet als Parameter den Pfad der Schnittstelle und die Antwort, die Wiremock zurückgeben soll.
+Um externe (REST) Schnittstellen zu simulieren, kann Wiremock verwendet werden.
+Für das Wiremock Setup stellt die Bibliothek ebenfalls eine Hilfsklasse `DigiWFWiremockUtility` bereit.
 
-> **Hinweis:** Aktuell werden nur GET-Requests unterstützt.
+::: warning
+Zusätzlich muss die Annotation `@WireMockTest(httpPort = 8089)` verwendet werden, um Wiremock zu starten.
+Die `DigiWFWiremockUtility` kann erst nach dem Start von Wiremock verwendet werden.
+:::
+
+```java
+// GET Requests without Basic Auth
+DigiWFWiremockUtility.setupGET("/some/url", expectedResponse);
+
+// GET Requests with Basic Auth
+DigiWFWiremockUtility.setupGETWithBasicAuth("/some/url", "johndoe", "password", expectedResponse);
+
+// POST Requests without Basic Auth
+DigiWFWiremockUtility.setupPOST("/some/url", requestBody, expectedResponse);
+
+// POST Requests with Basic Auth
+DigiWFWiremockUtility.setupPOSTWithBasicAuth("/some/url", requestBody, "johndoe", "password", expectedResponse);
+```
+
+Nachfolgend ist ein vollständiges Beispiel für einen End-To-End Test mit Wiremock aufgeführt:
 
 ```java
 @DigiwfE2eTest
@@ -97,7 +115,7 @@ class ExampleIntegrationE2eTestWithWiremock {
         final String type = "integrationType";
         
         // setup wiremock
-        this.digiWFIntegrationE2eTestUtility.setupWiremock("/url/", "{\"foo\": \"bar\"}");
+        DigiWFWiremockUtility.setupGET("/url/", "{\"foo\": \"bar\"}");
         
         // run the integration
         final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(testData, processInstanceId, type);

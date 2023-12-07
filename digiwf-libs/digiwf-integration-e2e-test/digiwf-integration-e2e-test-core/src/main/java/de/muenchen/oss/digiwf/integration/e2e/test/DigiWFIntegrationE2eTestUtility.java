@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.integration.e2e.test;
 
-import com.github.tomakehurst.wiremock.client.WireMock;
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,17 +19,6 @@ public class DigiWFIntegrationE2eTestUtility {
     private final TestMessageConsumer testMessageConsumer;
     @Value("${spring.cloud.stream.bindings.functionRouter-in-0.destination}")
     private String messageTopic;
-
-
-    public void setupWiremock(final String url, final String expectedResponse) {
-        WireMock.stubFor(WireMock
-                .get(url)
-                .willReturn(WireMock
-                        .aResponse()
-                        .withBody(expectedResponse)
-                        .withHeader("Content-Type", "application/json")
-                        .withStatus(200)));
-    }
 
     public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType) {
         this.sendMessage(payload, processInstanceId, messageType);
