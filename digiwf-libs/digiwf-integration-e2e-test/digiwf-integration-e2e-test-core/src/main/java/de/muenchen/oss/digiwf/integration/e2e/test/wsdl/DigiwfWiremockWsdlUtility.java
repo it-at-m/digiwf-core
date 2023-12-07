@@ -1,18 +1,18 @@
-package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
+package de.muenchen.oss.digiwf.integration.e2e.test.wsdl;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPBody;
 import jakarta.xml.soap.SOAPMessage;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayOutputStream;
@@ -21,13 +21,13 @@ import java.util.function.Predicate;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class MockUtils {
+public class DigiwfWiremockWsdlUtility {
 
     /**
      * Accepts a WebService response object (as defined in the WSDL) and marshals
      * to a SOAP envelope String.
      */
-    public static <T> String serializeObject(T object) {
+    static <T> String serializeObject(T object) {
         ByteArrayOutputStream byteArrayOutputStream;
         Class clazz = object.getClass();
         String responseRootTag = StringUtils.uncapitalize(clazz.getSimpleName());
@@ -59,7 +59,7 @@ public class MockUtils {
      * Accepts a WebService request object (as defined in the WSDL) and unmarshals
      * to the supplied type.
      */
-    public static <T> T deserializeSoapRequest(String soapRequest, Class<T> clazz) {
+    static <T> T deserializeSoapRequest(String soapRequest, Class<T> clazz) {
 
         XMLInputFactory xif = XMLInputFactory.newFactory();
         JAXBElement<T> jb;

@@ -4,9 +4,9 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 
-public class DigiWFWiremockUtility {
+public class DigiwfWiremockUtility {
 
-    private DigiWFWiremockUtility() {
+    private DigiwfWiremockUtility() {
         // Utility class
     }
 

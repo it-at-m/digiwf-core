@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.dms.integration.fabasoft.mock;
+package de.muenchen.oss.digiwf.integration.e2e.test.wsdl;
 
 import com.github.tomakehurst.wiremock.extension.Parameters;
 import com.github.tomakehurst.wiremock.http.Request;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.function.Predicate;
 
-import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.deserializeSoapRequest;
+import static de.muenchen.oss.digiwf.integration.e2e.test.wsdl.DigiwfWiremockWsdlUtility.deserializeSoapRequest;
 
 @RequiredArgsConstructor
 public class SoapObjectMatcher<T> extends RequestMatcherExtension {

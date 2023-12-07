@@ -13,7 +13,7 @@ import static org.awaitility.Awaitility.await;
 
 @Component
 @RequiredArgsConstructor
-public class DigiWFIntegrationE2eTestUtility {
+public class DigiwfIntegrationE2eTestUtility {
 
     private final MessageApi messageApi;
     private final TestMessageConsumer testMessageConsumer;
