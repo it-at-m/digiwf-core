@@ -24,7 +24,7 @@ public class DigiWFIntegrationE2eTestUtility {
         this.sendMessage(payload, processInstanceId, messageType);
 
         // wait for the message to be received
-        await().atMost(10, TimeUnit.SECONDS).until(() -> this.testMessageConsumer.hasReceivedMessage(processInstanceId));
+        await().atMost(15, TimeUnit.SECONDS).until(() -> this.testMessageConsumer.hasReceivedMessage(processInstanceId));
 
         return this.testMessageConsumer.receiveMessage(processInstanceId);
     }

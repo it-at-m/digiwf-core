@@ -33,6 +33,10 @@ class AddressIntegrationE2eTest {
         this.processInstanceId = UUID.randomUUID().toString();
     }
 
+    @Test
+    void shouldStart() {
+        // test fails if application context can not start
+    }
 
     @Test
     void testSearchAddressesGermany() {
