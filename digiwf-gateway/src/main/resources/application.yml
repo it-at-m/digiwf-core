@@ -2,7 +2,7 @@ info:
   application:
     name: ${spring.application.name}
     stage:
-      color: ${STAGE_COLOR:#FF0000}
+      color: ${STAGE_COLOR:#FFCC00}
       displayName: ${STAGE_DISPLAY_NAME:${DIGIWF_ENV}}
 spring:
   application:
