@@ -6,7 +6,7 @@
 
     <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-parent</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Todo remove this -->
