@@ -20,7 +20,7 @@
         <apache.commons.text>1.11.0</apache.commons.text>
         <apache.commons.validator>1.7</apache.commons.validator>
 
-        <ojdbc8.version>18.15.0.0</ojdbc8.version>
+        <ojdbc10.version>19.21.0.0</ojdbc10.version>
         <javafaker.version>1.0.2</javafaker.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <cxf.version>3.6.2</cxf.version>
@@ -167,9 +167,11 @@
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>${ojdbc8.version}</version>
+            <artifactId>ojdbc10</artifactId>
+            <version>${ojdbc10.version}</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
