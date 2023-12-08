@@ -205,7 +205,7 @@ import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue"
 import { apiGatewayUrl } from "./utils/envVariables";
 import { queryClient } from "./middleware/queryClient";
 import ContrastModeSelection from "./components/UI/ContrastModeSelection.vue";
-import StageInfoService, { StageInfo } from "./api/StageInfoService";
+import StageInfoService, { StageInfo} from "./api/StageInfoService";
 
 @Component({
   components: {AppKeyBindingsDialog, ContrastModeSelection, AppMenuList}
