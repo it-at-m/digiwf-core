@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.connector.incident.internal.streaming;
 
-import de.muenchen.oss.digiwf.connector.api.incident.IncidentService;
+import de.muenchen.oss.digiwf.connector.adapter.in.streaming.IncidentConsumer;
+import de.muenchen.oss.digiwf.connector.application.port.in.CreateIncidentInPort;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,9 @@ import static org.mockito.Mockito.*;
 class IncidentConsumerTest {
     private static final String HEADER_PROCESS_INSTANCE_ID = "digiwf.processinstanceid";
     private static final String HEADER_MESSAGE_NAME = "digiwf.messagename";
-    private final IncidentService incidentService = mock(IncidentService.class);
+    private final CreateIncidentInPort inPort = mock(CreateIncidentInPort.class);
 
-    private final IncidentConsumer incidentConsumer = new IncidentConsumer(incidentService);
+    private final IncidentConsumer incidentConsumer = new IncidentConsumer(inPort);
 
     @Test
     @DisplayName("should do noting if headers are empty")
@@ -37,7 +38,7 @@ class IncidentConsumerTest {
             }
         });
 
-        verifyNoInteractions(incidentService); //.createIncident(anyString(), anyString(), anyString()));
+        verifyNoInteractions(inPort); //.createIncident(anyString(), anyString(), anyString()));
     }
 
     @Test
@@ -61,7 +62,7 @@ class IncidentConsumerTest {
             }
         });
 
-        verify(incidentService).createIncident("process-instance-id", "message-name", "payload");
+        verify(inPort).createIncident("process-instance-id", "message-name", "payload");
     }
 
     @Test
@@ -85,6 +86,6 @@ class IncidentConsumerTest {
             }
         });
 
-        verify(incidentService).createIncident("process-instance-id", "message-name", null);
+        verify(inPort).createIncident("process-instance-id", "message-name", null);
     }
 }

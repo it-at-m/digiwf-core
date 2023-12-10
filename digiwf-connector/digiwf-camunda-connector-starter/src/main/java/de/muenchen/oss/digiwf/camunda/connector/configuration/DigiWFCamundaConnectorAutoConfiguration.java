@@ -1,10 +1,10 @@
 package de.muenchen.oss.digiwf.camunda.connector.configuration;
 
-import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputClient;
-import de.muenchen.oss.digiwf.camunda.connector.data.EngineDataSerializer;
-import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputConfiguration;
-import de.muenchen.oss.digiwf.connector.api.output.OutputService;
-import de.muenchen.oss.digiwf.connector.output.internal.OutputServiceImpl;
+import de.muenchen.oss.digiwf.camunda.connector.adapter.EngineDataSerializer;
+import de.muenchen.oss.digiwf.camunda.connector.adapter.in.CamundaClient;
+import de.muenchen.oss.digiwf.camunda.connector.adapter.in.CamundaClientConfiguration;
+import de.muenchen.oss.digiwf.connector.adapter.out.EventEmitterAdapter;
+import de.muenchen.oss.digiwf.connector.application.port.out.EmitEventOutPort;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,20 +29,20 @@ public class DigiWFCamundaConnectorAutoConfiguration {
     private List<String> filtervariables;
 
     @Bean
-    public CamundaOutputConfiguration camundaOutputConfiguration() {
-        return new CamundaOutputConfiguration(this.filtervariables);
+    public CamundaClientConfiguration camundaOutputConfiguration() {
+        return new CamundaClientConfiguration(this.filtervariables);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public OutputService outputService(final Sinks.Many<Message<Map<String, Object>>> dynamicSink) {
-        return new OutputServiceImpl(dynamicSink);
+    public EmitEventOutPort outputService(final Sinks.Many<Message<Map<String, Object>>> dynamicSink) {
+        return new EventEmitterAdapter(dynamicSink);
     }
 
     @Bean
     @ExternalTaskSubscription("generic-output")
-    public CamundaOutputClient camundaOutputClient(final OutputService outputService, final CamundaOutputConfiguration camundaOutputConfiguration, final EngineDataSerializer engineDataSerializer) {
-        return new CamundaOutputClient(outputService, camundaOutputConfiguration, engineDataSerializer);
+    public CamundaClient camundaOutputClient(final EmitEventOutPort outputService, final CamundaClientConfiguration camundaOutputConfiguration, final EngineDataSerializer engineDataSerializer) {
+        return new CamundaClient(outputService, camundaOutputConfiguration, engineDataSerializer);
     }
 
 }
