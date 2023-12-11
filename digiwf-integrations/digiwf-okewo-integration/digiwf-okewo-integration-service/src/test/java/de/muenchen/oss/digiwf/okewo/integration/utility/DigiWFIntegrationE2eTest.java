@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.okewo.integration.utility;
 
+import de.muenchen.oss.digiwf.integration.e2e.test.TestMessageConsumer;
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
-import de.muenchen.oss.digiwf.okewo.integration.TestMessageConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 

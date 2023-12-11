@@ -32,3 +32,8 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
         correlateMessageDestination: "dwf-connector-e2e-test"
 
+logging:
+  level:
+    org.apache.kafka.clients.admin: WARN
+    org.apache.kafka.clients.consumer: WARN
+    org.apache.kafka.clients.producer: WARN
