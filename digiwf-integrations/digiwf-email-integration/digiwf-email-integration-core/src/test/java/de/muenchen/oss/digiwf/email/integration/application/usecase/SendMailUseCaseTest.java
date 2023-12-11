@@ -1,47 +1,31 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.email.integration.model.FileAttachment;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
-import de.muenchen.oss.digiwf.message.core.api.MessageApi;
-import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
-import de.muenchen.oss.digiwf.message.process.impl.ProcessApiImpl;
-import org.junit.jupiter.api.Assertions;
+import jakarta.mail.MessagingException;
+import jakarta.mail.util.ByteArrayDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.util.ByteArrayDataSource;
 import java.util.List;
+import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class SendMailUseCaseTest {
 
-    private final MessageApi messageApi = Mockito.spy(Mockito.mock(MessageApi.class));
-
-    private final JavaMailSender javaMailSender = mock(JavaMailSender.class);
     private final LoadMailAttachmentPort loadMailAttachmentPort = mock(LoadMailAttachmentPort.class);
+    private final CorrelateMessagePort correlateMessagePort = mock(CorrelateMessagePort.class);
+    private final MailPort mailPort = mock(MailPort.class);
 
-    private final ProcessApi processApi = new ProcessApiImpl(
-            this.messageApi,
-            "correlateMessageDestination",
-            "startProcessDestination"
-    );
-
-    private final CorrelateMessagePort correlateMessagePort = new ProcessAdapter(processApi);
-    private final String fromAddress = "digiwf@muenchen.de";
+    private SendMail sendMail;
 
     private final Mail mail = new Mail(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
@@ -52,57 +36,55 @@ class SendMailUseCaseTest {
             "digiwf@muenchen.de",
             null
     );
+    private final String processInstanceId = "processInstanceId";
+    private final String messageName = "messageName";
 
     @BeforeEach
     void setUp() {
-        String anhangInhalt = "Anhang Inhalt";
-        byte[] anhangByt = anhangInhalt.getBytes();
-        when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
-        when(this.loadMailAttachmentPort.loadAttachment(any())).thenReturn(new FileAttachment("Testanhang", new ByteArrayDataSource(anhangByt, "AttName")));
+        this.sendMail = new SendMailUseCase(loadMailAttachmentPort, correlateMessagePort, mailPort);
     }
 
     @Test
     void sendMail() throws MessagingException {
-
-        final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, fromAddress);
-
-        sendMailUseCase.sendMail("processInstanceIde", "messageName", this.mail);
-
-        final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
-
-        verify(this.javaMailSender).send(messageArgumentCaptor.capture());
-        Assertions.assertEquals(4, messageArgumentCaptor.getValue().getAllRecipients().length);
-        Assertions.assertEquals(1, messageArgumentCaptor.getValue().getReplyTo().length);
-        Assertions.assertEquals("Test Mail", messageArgumentCaptor.getValue().getSubject());
+        sendMail.sendMail(processInstanceId, messageName, mail);
+        final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(List.of())
+                .build();
+        verify(mailPort).sendMail(mailOutModel);
+        verify(correlateMessagePort).correlateMessage(processInstanceId, messageName, Map.of("mailSentStatus", true));
     }
 
     @Test
     void sendMailWithAttachments() throws MessagingException {
-        final Mail mailWithAttachments = this.mail;
-        mailWithAttachments.setAttachments(List.of(new PresignedUrl("http://localhost:9000/some-url", "test.txt", "GET")));
-        final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, this.fromAddress);
-        sendMailUseCase.sendMail("processInstanceIde", "messageName", mailWithAttachments);
+        final PresignedUrl presignedUrl = new PresignedUrl("http://localhost:9000/some-url", "test.txt", "GET");
+        mail.setAttachments(List.of(presignedUrl));
 
-        final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
-        verify(this.javaMailSender).send(messageArgumentCaptor.capture());
-        Assertions.assertEquals(4, messageArgumentCaptor.getValue().getAllRecipients().length);
-        Assertions.assertEquals(1, messageArgumentCaptor.getValue().getReplyTo().length);
-        Assertions.assertEquals("Test Mail", messageArgumentCaptor.getValue().getSubject());
-        // attachment
-        verify(this.loadMailAttachmentPort, times(1)).loadAttachment(any());
-        final FileAttachment result = this.loadMailAttachmentPort.loadAttachment(any());
-        Assertions.assertEquals("Testanhang", result.getFileName());
+        final FileAttachment fileAttachment = new FileAttachment("test.txt", new ByteArrayDataSource("Anhang Inhalt".getBytes(), "text/plain"));
+        when(loadMailAttachmentPort.loadAttachment(presignedUrl)).thenReturn(fileAttachment);
+
+        sendMail.sendMail(processInstanceId, messageName, mail);
+        final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(List.of(fileAttachment))
+                .build();
+        verify(mailPort).sendMail(mailOutModel);
+        verify(correlateMessagePort).correlateMessage(processInstanceId, messageName, Map.of("mailSentStatus", true));
     }
 
     @Test
-    void testThatABpmnErrorIsThrowIfSendMailFailsWithAMailException() {
-        doThrow(mock(MailException.class)).when(this.javaMailSender).send(any(MimeMessage.class));
-        final SendMailUseCase sendMailUseCase = new SendMailUseCase(this.javaMailSender, this.loadMailAttachmentPort, this.correlateMessagePort, this.fromAddress);
-
-        Assertions.assertThrows(BpmnError.class, () -> {
-            sendMailUseCase.sendMail("processInstanceIde", "messageName", this.mail);
-        });
+    void sendMailThrowsBpmnError() throws MessagingException {
+        doThrow(new MessagingException("Test Exception")).when(mailPort).sendMail(any());
+        assertThatThrownBy(() -> sendMail.sendMail(processInstanceId, messageName, mail)).isInstanceOf(BpmnError.class);
     }
-
-
 }

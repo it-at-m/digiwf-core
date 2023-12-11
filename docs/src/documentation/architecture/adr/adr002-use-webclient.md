@@ -14,8 +14,8 @@ werden. SpringBoot bringt einen WebClient (reactive oder auch nicht) mit, es exi
 ## Decision
 
 Statt eine konkrete Implementierung eines WebClients zu verwenden, verwenden wir ein deklaratives WebClient 
-Framework [**OpenFiegn**](https://github.com/OpenFeign/feign). Bei der Verwendung innerhalb von SpringBoot 
-nutzen wir den entsprechenden [SpringCloud Feign Starter](https://cloud.spring.io/spring-cloud-openfeign/reference/html/#netflix-feign-starter)
+Framework [**OpenFeign**](https://github.com/OpenFeign/feign). Bei der Verwendung innerhalb von SpringBoot 
+nutzen wir den entsprechenden [SpringCloud Feign Starter](https://cloud.spring.io/spring-cloud-openfeign/reference/html/#netflix-feign-starter).
 Liegt eine Open API Spezifikation einer Schnittstelle vor, sollte der `feign` Client mittels `openapi-generator` 
 generiert werden.
 

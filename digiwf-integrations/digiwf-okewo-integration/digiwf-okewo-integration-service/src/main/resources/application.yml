@@ -26,7 +26,74 @@ server:
 spring:
   application:
     name: DigiWF OK.EWO Integration
-  banner:
-    location: banner.txt
   lifecycle:
     timeout-per-shutdown-phase: 1m
+  cloud:
+    stream:
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-okewo-service"
+          destination: dwf-okewo-${DIGIWF_ENV}
+        sendMessage-out-0:
+          destination: dwf-connector-${DIGIWF_ENV}
+      default:
+        consumer:
+          maxAttempts: '1'
+      default-binder: kafka
+      function:
+        routing:
+          enabled: true
+
+    function:
+      definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
+
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+# DigiWF config
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          getPerson: "getPerson"
+          searchPerson: "searchPerson"
+          getPersonErweitert: "getPersonErweitert"
+          searchPersonErweitert: "searchPersonErweitert"
+# TODO: move to io.muenchendigital
+de:
+  muenchen:
+    oss:
+      digiwf:
+        okewo:
+          url: "http://localhost:8080"
+          username: ""
+          password: ""
+          benutzerId: ""

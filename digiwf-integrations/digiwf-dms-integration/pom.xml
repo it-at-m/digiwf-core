@@ -18,10 +18,6 @@
     </parent>
 
     <properties>
-        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring.cloud.version>2022.0.4</spring.cloud.version>
-
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
         <jai-imageio-jpeg2000.version>1.4.0</jai-imageio-jpeg2000.version>
@@ -47,18 +43,14 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--        TODO could be removed after migrate all migrations to spring 3-->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
-            <version>${project.version}</version>
         </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -4,15 +4,19 @@
 
 package de.muenchen.oss.digiwf.legacy.mailing.process;
 
+import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.model.FileAttachment;
+import de.muenchen.oss.digiwf.email.model.Mail;
 import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.model.MailTemplate;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.service.MailingService;
-
+import jakarta.mail.util.ByteArrayDataSource;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Mail template delegate.
@@ -22,8 +26,8 @@ import java.util.Optional;
 @Component
 public class SendMailTemplateDelegate extends SendMailDelegate {
 
-    public SendMailTemplateDelegate(final MailingService mailingService, final DocumentService documentService) {
-        super(mailingService, documentService);
+    public SendMailTemplateDelegate(final DigiwfEmailApi digiwfEmailApi, final DocumentService documentService) {
+        super(digiwfEmailApi, documentService);
     }
 
     @Override
@@ -40,32 +44,31 @@ public class SendMailTemplateDelegate extends SendMailDelegate {
         val templateId = MailingVariables.TEMPLATE_ID.from(delegateExecution).getLocalOptional();
         val sender = MailingVariables.SENDER.from(delegateExecution).getLocalOptional();
 
-        //PROCESSING
-        final MailTemplate mail = MailTemplate.builder()
-                .body(body.replaceAll("(\r\n|\n\r|\r|\n)", "<br />"))
-                .bottomText(bottomText.replaceAll("(\r\n|\n\r|\r|\n)", "<br />"))
-                .subject(subject)
+        final String templatePath = "bausteine/mail/template/mail-template.tpl";
+        // default logo ist bausteine/mail/email-logo.png
+        final String logoPath = (templateId.isPresent() && templateId.get().equals("euro2020")) ? "bausteine/mail/euro2020-logo.png" : "bausteine/mail/email-logo.png";
+
+        final Map<String, String> emailContent = Map.of(
+                "%%body_top%%", body,
+                "%%body_bottom%%", StringUtils.isBlank(bottomText) ? "Mit freundlichen Grüßen<br>Ihr DigiWF-Team" : bottomText,
+                "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
+        );
+        final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
+
+        final List<FileAttachment> fileAttachments = new ArrayList<>();
+        if (attachmentGuid.isPresent()) {
+            val document = this.documentService.createDocument(attachmentGuid.get(), delegateExecution.getProcessInstance().getVariables());
+            fileAttachments.add(new FileAttachment(attachmentName.orElse("anhang.pdf"), new ByteArrayDataSource(document, "application/pdf")));
+        }
+
+        final Mail mail = Mail.builder()
                 .receivers(receivers)
+                .subject(subject)
+                .body(emailBody)
                 .replyTo(replyTo.orElse(null))
-                .sender(sender.orElse(""))
+                .sender(sender.orElse(null))
+                .attachments(fileAttachments)
                 .build();
-
-        this.addAttachment(delegateExecution, attachmentGuid, attachmentName, mail);
-
-        this.mailingService.sendMailTemplate(mail, this.getLogoPathByTemplateId(templateId));
-    }
-
-    //TODO refacotring
-    private String getLogoPathByTemplateId(final Optional<String> tempalteId) {
-
-        if (!tempalteId.isPresent()) {
-            return null;
-        }
-
-        if ("euro2020".equals(tempalteId.get())) {
-            return "bausteine/mail/euro2020-logo.png";
-        }
-
-        return null;
+        this.digiwfEmailApi.sendMail(mail, logoPath);
     }
 }

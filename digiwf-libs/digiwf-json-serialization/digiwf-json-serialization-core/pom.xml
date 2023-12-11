@@ -5,7 +5,6 @@
     <artifactId>digiwf-json-serialization-core</artifactId>
     <name>digiwf-json-serialization-core</name>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>

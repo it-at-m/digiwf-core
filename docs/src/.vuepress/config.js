@@ -127,6 +127,7 @@ module.exports = {
                             children: [
                                 'libs/digiwf-message/',
                                 'libs/digiwf-spring-security/',
+                                'libs/digiwf-email/',
                             ]
                         },
                         {

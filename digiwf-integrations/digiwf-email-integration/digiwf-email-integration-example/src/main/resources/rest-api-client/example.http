@@ -1,4 +1,4 @@
-### testEventBus withoud attachements
+### testEventBus with attachements
 POST http://localhost:10005/testEventBus
 Content-Type: application/json
 

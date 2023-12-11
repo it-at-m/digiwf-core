@@ -4,16 +4,19 @@
 
 package de.muenchen.oss.digiwf.legacy.mailing.process;
 
+import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.model.FileAttachment;
+import de.muenchen.oss.digiwf.email.model.Mail;
 import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.model.Attachment;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.model.Mail;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.service.MailingService;
+import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
-
 import lombok.val;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mail delegate.
@@ -24,7 +27,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SendMailDelegate implements JavaDelegate {
 
-    protected final MailingService mailingService;
+    protected final DigiwfEmailApi digiwfEmailApi;
     protected final DocumentService documentService;
 
     @Override
@@ -38,28 +41,19 @@ public class SendMailDelegate implements JavaDelegate {
         val attachmentGuid = MailingVariables.ATTACHMENT_GUID.from(delegateExecution).getLocalOptional();
         val attachmentName = MailingVariables.ATTACHMENT_NAME.from(delegateExecution).getLocalOptional();
 
-        //PROCESSING
-        final Mail mail = Mail.builder()
-                .body(body)
-                .subject(subject)
-                .receivers(receivers)
-                .replyTo(replyTo.orElse(null))
-                .build();
-
-        this.addAttachment(delegateExecution, attachmentGuid, attachmentName, mail);
-
-        this.mailingService.sendMail(mail);
-    }
-
-    protected void addAttachment(final DelegateExecution delegateExecution, final java.util.Optional<String> attachmentGuid,
-            final java.util.Optional<String> attachmentName, final Mail mail) {
+        final List<FileAttachment> fileAttachments = new ArrayList<>();
         if (attachmentGuid.isPresent()) {
             val document = this.documentService.createDocument(attachmentGuid.get(), delegateExecution.getProcessInstance().getVariables());
-            val attachement = Attachment.builder()
-                    .content(document)
-                    .name(attachmentName.orElse("anhang.pdf"))
-                    .build();
-            mail.setAttachment(attachement);
+            fileAttachments.add(new FileAttachment(attachmentName.orElse("anhang.pdf"), new ByteArrayDataSource(document, "application/pdf")));
         }
+
+        final Mail mail = Mail.builder()
+                .receivers(receivers)
+                .subject(subject)
+                .body(body)
+                .replyTo(replyTo.orElse(null))
+                .attachments(fileAttachments)
+                .build();
+        this.digiwfEmailApi.sendMail(mail);
     }
 }
