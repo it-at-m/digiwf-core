@@ -36,12 +36,12 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-core</artifactId>
+            <artifactId>digiwf-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-camunda-rest-connector</artifactId>
+            <artifactId>digiwf-camunda-rest-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
