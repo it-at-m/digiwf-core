@@ -17,7 +17,15 @@
         <version>1.4.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <!--todo: remove after the successfully spring boot version upgrade of all migrations-->
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring.cloud.version>2022.0.4</spring.cloud.version>
+    </properties>
+
+
     <modules>
+        <module>digiwf-okewo-integration-client</module>
         <module>digiwf-okewo-integration-core</module>
         <module>digiwf-okewo-integration-starter</module>
         <module>digiwf-okewo-integration-service</module>
@@ -45,6 +53,7 @@
     </dependencyManagement>
 
     <dependencies>
+<!--        FIXME: check if required-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -55,6 +64,20 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
@@ -81,5 +104,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

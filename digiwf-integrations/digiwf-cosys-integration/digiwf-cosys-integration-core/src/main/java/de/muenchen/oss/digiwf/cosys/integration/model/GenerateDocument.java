@@ -4,16 +4,16 @@
  */
 package de.muenchen.oss.digiwf.cosys.integration.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Dto for generating documents.
@@ -46,7 +46,7 @@ public class GenerateDocument {
     /**
      * All data to be filled into template
      */
-    private Map<String, String> variables;
+    private JsonNode variables;
 
     /**
      * A list of presigned urls that are used to save the cosys documents in a s3 storage

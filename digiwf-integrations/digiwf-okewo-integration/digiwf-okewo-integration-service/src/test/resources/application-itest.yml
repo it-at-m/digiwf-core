@@ -3,7 +3,32 @@ de:
     oss:
       digiwf:
         okewo:
-          password: 'password'
-          url: 'url'
-          username: 'username'
-          benutzerId: 'benutzerId'
+          password: "password"
+          url: "http://localhost:8089"
+          username: "username"
+          benutzerId: "benutzerId"
+spring:
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-okewo-service"
+          destination: dwf-okewo-e2e-test
+        sendMessage-out-0:
+          destination: dwf-connector-e2e-test
+        integrationTestConsumer-in-0:
+          destination: "dwf-connector-e2e-test"
+          group: dwf-okewo-service-e2e
+
+    function:
+      definition: functionRouter;sendMessage;integrationTestConsumer;
+
+# DigiWF config
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-e2e-test"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
+        correlateMessageDestination: "dwf-connector-e2e-test"
+

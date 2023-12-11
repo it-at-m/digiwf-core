@@ -162,7 +162,7 @@ jobs:
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        run: mvn --batch-mode -Pcamunda-ee install -DskipTests
+        run: mvn --batch-mode -P camunda-ee,!camunda-ce install -DskipTests
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}

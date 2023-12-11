@@ -38,11 +38,9 @@ spring:
         consumer:
           maxAttempts: '1'
       default-binder: kafka
-      function:
-        routing:
-          enabled: 'true'
     function:
-      definition: dynamicProducer;functionRouter;deploymentStatus;
+      definition: dynamicProducer;functionRouter;deploymentStatus;deployConfiguration;startProcessV01;correlateMessageV01;deploySchema;deploy
+      routing-expression: "headers['type']"
   kafka:
     consumer:
       properties:
@@ -54,12 +52,6 @@ spring:
       protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
 digiwf:
   streaming:
-    typeMappings:
-      deployConfiguration: deployConfiguration
-      startProcessV01: startProcessV01
-      correlatemessagev01: correlateMessageV01
-      deploySchema: deploySchema
-      deploy: deploy
     topics:
       cocreation:
         LOCAL: dwf-cocreation-local-01
