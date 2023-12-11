@@ -34,12 +34,6 @@
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
 
         <!-- Validation -->
         <dependency>
