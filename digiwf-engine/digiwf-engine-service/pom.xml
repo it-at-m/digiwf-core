@@ -18,7 +18,7 @@
         <apache.commons.io>2.15.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.11.0</apache.commons.text>
-        <apache.commons.validator>1.7</apache.commons.validator>
+        <apache.commons.validator>1.8.0</apache.commons.validator>
 
         <ojdbc10.version>19.21.0.0</ojdbc10.version>
         <javafaker.version>1.0.2</javafaker.version>
@@ -333,6 +333,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/dms.wsdl</wsdl>
+                                    <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
                                     <extraargs>
                                         <extraarg>-quiet</extraarg>
                                         <!--
