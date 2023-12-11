@@ -4,8 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/it-at-m/digiwf-core.git/digiwf",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev src",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress build src"
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress dev src",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build src"
   },
   "license": "MIT",
   "devDependencies": {

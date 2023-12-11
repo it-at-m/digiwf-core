@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Java and Maven
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'adopt'
@@ -99,13 +99,6 @@ jobs:
           push: true
           tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-integration-service:dev
 
-      - name: Build and push verification-integration
-        uses: docker/build-push-action@v5
-        with:
-          context: ./digiwf-integrations/digiwf-verification-integration/digiwf-verification-integration-service
-          push: true
-          tags: itatm/digiwf-verification-integration-service:${{ inputs.release-version }},itatm/digiwf-verification-integration-service:dev
-
       - name: Build and push s3-integration
         uses: docker/build-push-action@v5
         with:
@@ -155,7 +148,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Java and Maven
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'adopt'
@@ -169,7 +162,7 @@ jobs:
           mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
 
       - name: Build with Maven
-        run: mvn --batch-mode -Pcamunda-ee install -DskipTests
+        run: mvn --batch-mode -P camunda-ee,!camunda-ce install -DskipTests
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
@@ -190,3 +183,10 @@ jobs:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
           tags: itatm/digiwf-engine-service:${{ inputs.release-version }},itatm/digiwf-engine-service:dev
+
+      - name: Build and push engine rest
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-engine/digiwf-engine-rest-service
+          push: true
+          tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }},itatm/digiwf-engine-rest-service:dev

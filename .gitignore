@@ -395,3 +395,6 @@ gradle-app.setting
 **/pom.xml.versionsBackup
 **/application-internal.*
 /docs/node/
+
+# ignore direnv files
+.envrc

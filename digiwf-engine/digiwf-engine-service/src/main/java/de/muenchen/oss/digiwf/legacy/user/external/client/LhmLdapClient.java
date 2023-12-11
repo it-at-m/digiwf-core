@@ -17,18 +17,15 @@ import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.AndFilter;
-import org.springframework.ldap.filter.EqualsFilter;
-import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.SearchScope;
 
+import javax.naming.Name;
 import javax.naming.ldap.LdapName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
@@ -201,7 +198,7 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
             return null;
         });
         // clean ldapNames from null values
-        ldapNames = ldapNames.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        ldapNames = ldapNames.stream().filter(Objects::nonNull).toList();
         if (ldapNames.isEmpty()) {
             log.debug("Found no ou tree");
             return Optional.empty();
@@ -209,113 +206,31 @@ public class LhmLdapClient extends LdapTemplate implements UserRepository {
 
         final LdapName ldapName = ldapNames.get(0);
 
-        final List<String> ouTree = new ArrayList<>(List.of("LHM"));
+        final List<String> ouTree = new ArrayList<>();
 
-        // Query both the user ldap tree and ou ldap tree to find the ou by its longname
-        // Note: The ou longnames may differ between the lhmObjectPath, the user ldap tree and the ou ldap tree.
-        // Therefore, we have to check both trees for the ou to get the shortcode
-        String parentUserBase = this.serviceAuthLdapProperties.getPersonSearchBase();
-        String parentOuBase = this.serviceAuthLdapProperties.getOuSearchBase();
-        for (int i = 0; i < ldapName.getRdns().size(); i++) {
-            // ignore all rdn's except ou
-            if (!ldapName.getRdn(i).getType().equals(LDAP_TYPE_OU)) {
-                continue;
-            }
-            final String ouLongName = ldapName.getRdn(i).getValue().toString();
-            List<String> ouShortnames = new ArrayList<>();
+        for (int i = 1; i <= ldapName.getRdns().size(); i++) {
+            final Name partialDN = ldapName.getPrefix(i);
 
-            // try getting the ou shortcode from either the user ldap tree or the ou ldap tree
-            // 1. check the user ldap tree if the ou exists
             try {
-                log.debug("Searching for ou='{} & objectClass='{}' in subtree '{}' ...", ouLongName, LHM_ORGANIZATIONAL_UNIT, parentUserBase);
+                log.debug("Searching for dn='{} & objectClass='{}' ...", partialDN, LHM_ORGANIZATIONAL_UNIT);
                 final LdapQuery ouObjectReferenceQuery = query()
-                        .searchScope(SearchScope.SUBTREE)
-                        .base(parentUserBase)
+                        .searchScope(SearchScope.OBJECT)
+                        .base(partialDN)
                         .countLimit(1)
-                        .where(LHM_OU_LONGNAME).is(ouLongName);
-                ouShortnames = super.search(ouObjectReferenceQuery, (AttributesMapper<String>) attrs -> {
-                    if (null != attrs.get(LDAP_TYPE_OU)) {
-                        return (String) attrs.get(LDAP_TYPE_OU).get();
+                        .where(ATTRIBUTE_OBJECT_CLASS).is(LHM_ORGANIZATIONAL_UNIT);
+                List<String> ouShortnames = super.search(ouObjectReferenceQuery, (AttributesMapper<String>) attrs -> {
+                    if (null != attrs.get(LHM_OU_SHORTNAME)) {
+                        return (String) attrs.get(LHM_OU_SHORTNAME).get();
                     }
                     return null;
                 });
-                ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList());
+                ouTree.addAll(ouShortnames.stream().filter(Objects::nonNull).toList());
             } catch (final NameNotFoundException ex) {
-                log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, parentUserBase, ex.getClass().getName());
+                log.warn("No shortCode found for dn {}. Query failed with {} exception", partialDN, ex.getClass().getName());
             }
-            // 2. if the ou does not exist in user ldap tree check the ou ldap tree
-            try {
-                if (ouShortnames.isEmpty()) {
-                    final Filter createOuNameFilter = new AndFilter()
-                            .and(new EqualsFilter(LDAP_TYPE_OU, ouLongName))
-                            .and(new EqualsFilter(ATTRIBUTE_OBJECT_CLASS, LHM_ORGANIZATIONAL_UNIT));
-
-                    log.debug("Searching for ou='{} & objectClass='{}' in subtree '{}' ...", ouLongName, LHM_ORGANIZATIONAL_UNIT, parentOuBase);
-                    final LdapQuery ouObjectReferenceQuery = query()
-                            .searchScope(SearchScope.SUBTREE)
-                            .base(parentOuBase)
-                            .countLimit(1)
-                            .filter(createOuNameFilter);
-                    ouShortnames = super.search(ouObjectReferenceQuery, (AttributesMapper<String>) attrs -> {
-                        if (null != attrs.get(LHM_OU_SHORTNAME)) {
-                            return (String) attrs.get(LHM_OU_SHORTNAME).get();
-                        }
-                        return null;
-                    });
-                    ouShortnames.stream().filter(Objects::nonNull).collect(Collectors.toList());
-                }
-            } catch (final NameNotFoundException ex) {
-                log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, parentOuBase, ex.getClass().getName());
-            }
-
-            ouTree.addAll(ouShortnames);
-
-            // update parent base by adding the current ou to the base path
-            parentUserBase = ldapName.get(i) + "," + parentUserBase;
-            parentOuBase = ldapName.get(i) + "," + parentOuBase;
         }
-
+        ouTree.replaceAll(String::toUpperCase);
         return Optional.of(ouTree);
-    }
-
-    /**
-     * Copy & paste from https://git.muenchen.de/km23/ezLDAP/ezLDAP/-/blob/master/lib-core/src/main/java/de/muenchen/itm/km23/ezldap/core/LdapService.java
-     *
-     * Helper method to look up the ou short code for a given ou long name in a given base path.
-     *
-     * @param ouLongName OU long name to search for
-     * @param basePath Base path to search for the ou short code
-     * @return List of ou short codes
-     */
-    private List<String> findOUShortCodeForOULongName(final String ouLongName, final String basePath) {
-        final Filter createOuNameFilter = new AndFilter()
-                .and(new EqualsFilter(LDAP_TYPE_OU, ouLongName))
-                .and(new EqualsFilter(ATTRIBUTE_OBJECT_CLASS, LHM_ORGANIZATIONAL_UNIT));
-
-        final LdapQuery query = query()
-                .searchScope(SearchScope.SUBTREE)
-                .base(basePath)
-                .filter(createOuNameFilter);
-        log.debug("Searching for ou='{} & objectClass='{}' in subtree '{}' ...", ouLongName, LHM_ORGANIZATIONAL_UNIT, basePath);
-
-        final List<String> ouShortCodes = new ArrayList<>();
-        try {
-            ouShortCodes.addAll(super.search(query, (AttributesMapper<String>) attrs -> {
-                if (null != attrs.get(LHM_OU_SHORTNAME)) {
-                    return (String) attrs.get(LHM_OU_SHORTNAME).get();
-                }
-                return null;
-            }));
-        } catch (final NameNotFoundException ex) {
-            // Exception is caused by inconsistent ldap naming
-            // Note: This catch will prevent the application from failing, but the returned ou tree is missing entries
-            log.warn("No shortCode found for ou {} in basePath {}. Query failed with {} exception", ouLongName, basePath, ex.getClass().getName());
-        }
-
-        // clean ouShortCodes from null values
-        List<String> cleanedOuShortCodes = ouShortCodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        log.debug("Resolved ou shortcodes for ouLongName='{}': {}", ouLongName, cleanedOuShortCodes);
-        return cleanedOuShortCodes;
     }
 
 }

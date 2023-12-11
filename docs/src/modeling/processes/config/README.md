@@ -52,11 +52,11 @@ wie Notepad++ oder Visual Studio Code zurückzugreifen.
       "value": "myschemakey"
     },
     {
-      "key": "app_instance_file_paths_readonly",
+      "key": "app_file_paths_readonly",
       "value": "docs"
     },
     {
-      "key": "app_instance_file_paths",
+      "key": "app_file_paths",
       "value": "writabledocs"
     }
   ]
@@ -85,5 +85,5 @@ In den configs können zudem DigiWF-spezifische Einstellungen angegeben werden:
   autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
 - **app_instance_schema_key:** Das Schema, das in der Prozessinstanzübersicht verwendet werden soll, um Daten
   anzuzeigen.
-- **app_instance_file_paths_readonly:** Die Dateipfade,die in der Prozessinstanzübersicht gelesen werden können
-- **app_instance_file_paths:** Die Dateipfade, auf die in der Prozessinstanzübersicht geschrieben werden kann.
+- **app_file_paths_readonly:** Die Dateipfade, die in der Prozessinstanzübersicht gelesen werden können
+- **app_file_paths:** Die Dateipfade, auf die in der Prozessinstanzübersicht geschrieben werden kann.

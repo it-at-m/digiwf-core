@@ -19,6 +19,7 @@ spring:
   test:
     database:
       replace: NONE
+
 logging:
   level:
     root: info

@@ -1,0 +1,55 @@
+info:
+  application:
+    name: @project.artifactId@
+    version: 0.1.0
+
+camunda:
+  bpm:
+    authorization:
+      enabled: true
+    job-execution:
+      enabled: false
+    database:
+      schema-update: false
+
+management:
+  server:
+    port: '${ENGINE_SERVER_PORT:8080}'
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health, info, prometheus'
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+
+server:
+  port: '${ENGINE_REST_SERVER_PORT:8080}'
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+      
+spring:
+  application:
+    name: ${info.application.name}
+  datasource:
+    url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
+    username: '${ENGINE_DATASOURCE_USER:sa}'
+    password: '${ENGINE_DATASOURCE_PASSWORD:}'
+    driver-class-name: '${ENGINE_DATASOURCE_DRIVERCLASSNAME:org.h2.Driver}'
+
+digiwf:
+  security:
+    client-id: ${SSO_ENGINE_CLIENT_ID}
+    client-secret: ${SSO_ENGINE_CLIENT_SECRET}
+
+
