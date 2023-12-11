@@ -56,6 +56,11 @@
 
     <profiles>
         <profile>
+            <activation>
+                <property>
+                    <name>camunda-ee</name>
+                </property>
+            </activation>
             <id>camunda-ee</id>
             <properties>
                 <camunda.version>${camunda.version.ee}</camunda.version>
