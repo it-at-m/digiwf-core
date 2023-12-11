@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-dms-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.4.4-SNAPSHOT</version>
+        <version>1.4.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-dms-integration-starter</artifactId>
