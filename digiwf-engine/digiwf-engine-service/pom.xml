@@ -18,7 +18,7 @@
         <apache.commons.io>2.15.0</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.11.0</apache.commons.text>
-        <apache.commons.validator>1.7</apache.commons.validator>
+        <apache.commons.validator>1.8.0</apache.commons.validator>
 
         <ojdbc8.version>18.15.0.0</ojdbc8.version>
         <javafaker.version>1.0.2</javafaker.version>
