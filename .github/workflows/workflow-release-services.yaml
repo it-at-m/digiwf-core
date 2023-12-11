@@ -37,18 +37,20 @@ jobs:
           gpg-private-key: ${{ secrets.gpg_private_key }}
           gpg-passphrase: SIGN_KEY_PASS
 
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
 
       - name: Remove SNAPSHOT
         if: inputs.snapshot-release == false
         run: |
-          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+          ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
       - name: Build with Maven
-        run: mvn --batch-mode clean install -DskipTests
+        run: ./mvnw --batch-mode clean install -DskipTests
 
       - name: Perform maven release
         if: inputs.maven-release == true
-        run: mvn --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
+        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
@@ -156,13 +158,16 @@ jobs:
           server-username: CAMUNDA_USER_REF
           server-password: CAMUNDA_TOKEN_REF
 
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
+
       - name: Remove SNAPSHOT
         if: inputs.snapshot-build== false
         run: |
-          mvn versions:set --batch-mode -DremoveSnapshot -DprocessAllModules
+          ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
       - name: Build with Maven
-        run: mvn --batch-mode -P camunda-ee,!camunda-ce install -DskipTests
+        run: ./mvnw --batch-mode -P camunda-ee,!camunda-ce install -DskipTests -ntp
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}

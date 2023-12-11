@@ -17,7 +17,6 @@
     <packaging>pom</packaging>
     <description>Libs by DigiWF</description>
 
-
     <modules>
         <module>digiwf-json-serialization</module>
         <module>digiwf-camunda-prometheus</module>
@@ -25,32 +24,7 @@
         <module>digiwf-spring-security</module>
         <module>digiwf-spring-logging-and-tracing</module>
         <module>digiwf-email</module>
+        <module>digiwf-process</module>
     </modules>
-
-    <properties>
-        <spring-boot.version>3.1.5</spring-boot.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>

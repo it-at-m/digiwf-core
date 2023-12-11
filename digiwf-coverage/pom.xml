@@ -168,7 +168,7 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>example-json-serialization</artifactId>
+            <artifactId>digiwf-example-json-serialization</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -217,7 +217,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

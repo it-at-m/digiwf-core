@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-cosys-integration-core</artifactId>
     <name>digiwf-cosys-integration-core</name>
-    <packaging>jar</packaging>
+
     <parent>
         <artifactId>digiwf-cosys-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client</artifactId>
-            <version>${digiwf.version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

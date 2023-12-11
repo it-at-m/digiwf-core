@@ -3,16 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-json-serialization</artifactId>
-    <name>digiwf-json-serialization</name>
-    <packaging>pom</packaging>
-    <description>Json Schema Serialization used by DigiWF</description>
-
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
         <version>1.4.0-SNAPSHOT</version>
     </parent>
+
+    <artifactId>digiwf-json-serialization</artifactId>
+    <packaging>pom</packaging>
+    <description>Json Schema Serialization used by DigiWF</description>
+
 
     <modules>
         <module>digiwf-json-serialization-core</module>

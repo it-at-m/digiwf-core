@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         "${spring.cloud.stream.bindings.sendMessage-out-0.destination}",
         "${spring.cloud.stream.bindings.integrationTestConsumer-in-0.destination}"
     })
-@WireMockTest(httpPort = 8089)
+@WireMockTest(httpPort = 8189)
 class OkEwoIntegrationApplicationE2eTest extends DigiWFIntegrationE2eTest {
 
 

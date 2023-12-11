@@ -12,40 +12,46 @@
     </parent>
 
     <artifactId>digiwf-connector</artifactId>
-    <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>Workflow Engine Connector used by DigiWF</description>
 
     <properties>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.source>17</maven.compiler.source>
-        <java.version>17</java.version>
-        <maven.version>3.6.0</maven.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring.cloud.version>2022.0.4</spring.cloud.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <lombok.version>1.18.30</lombok.version>
-        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
-        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <camunda.version>7.20.0</camunda.version>
         <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
-        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
     </properties>
 
     <modules>
+        <module>digiwf-connector-api</module>
         <module>digiwf-connector-core</module>
-        <module>digiwf-camunda-connector-service</module>
         <module>digiwf-connector-starter</module>
         <module>digiwf-connector-starter-rest</module>
+
         <module>digiwf-camunda-connector</module>
+        <module>digiwf-camunda-connector-service</module>
         <module>digiwf-camunda-connector-starter</module>
-        <module>digiwf-connector-api</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-bom</artifactId>
@@ -65,38 +71,7 @@
                 <version>${camunda-engine-rest-client-openapi-java.version}</version>
             </dependency>
 
-            <!-- DigiWF -->
-            <dependency>
-                <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-json-serialization-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-json-serialization-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>

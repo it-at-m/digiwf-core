@@ -10,7 +10,7 @@
     <version>1.4.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>digiwf-apps</artifactId>
+  <artifactId>digiwf-docs</artifactId>
 
   <properties>
     <node.version>v16.19.0</node.version>
@@ -26,7 +26,6 @@
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>1.15.0</version>
           <configuration>
             <nodeVersion>${node.version}</nodeVersion>
             <npmVersion>${npm.version}</npmVersion>

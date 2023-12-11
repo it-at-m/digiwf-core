@@ -4,7 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-engine-rest-service</artifactId>
     <name>digiwf-engine-rest-service</name>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>

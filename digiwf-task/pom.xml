@@ -3,11 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-task</artifactId>
-    <name>${project.artifactId}</name>
-    <packaging>pom</packaging>
-    <description>Task management used by DigiWF</description>
-
     <parent>
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
@@ -15,9 +10,13 @@
         <version>1.4.0-SNAPSHOT</version>
     </parent>
 
+    <artifactId>digiwf-task</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <description>Task management used by DigiWF</description>
+
     <properties>
         <kotlin.version>1.9.21</kotlin.version>
-        <spring-boot.version>3.1.5</spring-boot.version>
         <camunda.version>7.20.0</camunda.version>
         <polyflow.version>4.1.0</polyflow.version>
         <camunda-bpm-data.version>1.5.0</camunda-bpm-data.version>
@@ -33,17 +32,15 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-bom</artifactId>
                 <version>${kotlin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -71,11 +68,6 @@
             </dependency>
 
             <dependency>
-                <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-task-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.holunda.data</groupId>
                 <artifactId>camunda-bpm-data</artifactId>
                 <version>${camunda-bpm-data.version}</version>
@@ -95,19 +87,5 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>
