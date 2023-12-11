@@ -3,10 +3,10 @@ de:
     oss:
       digiwf:
         okewo:
-          password: 'password'
-          url: 'http://localhost:8089'
-          username: 'username'
-          benutzerId: 'benutzerId'
+          password: "password"
+          url: "http://localhost:8089"
+          username: "username"
+          benutzerId: "benutzerId"
 spring:
   cloud:
     stream:
@@ -19,17 +19,9 @@ spring:
         integrationTestConsumer-in-0:
           destination: "dwf-connector-e2e-test"
           group: dwf-okewo-service-e2e
-      default:
-        consumer:
-          maxAttempts: '1'
-      default-binder: kafka
-      function:
-        routing:
-          enabled: true
 
     function:
       definition: functionRouter;sendMessage;integrationTestConsumer;
-      routing-expression: "headers['type']"
 
 # DigiWF config
 io:
@@ -39,9 +31,4 @@ io:
         incidentDestination: "dwf-connector-incident-e2e-test"
         bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
         correlateMessageDestination: "dwf-connector-e2e-test"
-        typeMappings:
-          getPerson: "getPerson"
-          searchPerson: "searchPerson"
-          getPersonErweitert: "getPersonErweitert"
-          searchPersonErweitert: "searchPersonErweitert"
 
