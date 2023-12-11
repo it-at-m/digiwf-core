@@ -12,7 +12,6 @@
 
     <artifactId>digiwf-gateway</artifactId>
     <name>${project.artifactId}</name>
-    <packaging>jar</packaging>
     <description>Apigateway used by DigiWF</description>
 
 

@@ -12,8 +12,6 @@
 
     <artifactId>digiwf-s3-integration-service</artifactId>
     <name>digiwf-s3-integration-service</name>
-    <packaging>jar</packaging>
-
 
     <properties>
         <apache.commons.io>2.15.1</apache.commons.io>

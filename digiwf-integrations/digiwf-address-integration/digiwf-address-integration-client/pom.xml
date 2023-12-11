@@ -12,7 +12,6 @@
 
     <artifactId>digiwf-address-integration-client</artifactId>
     <name>digiwf-address-integration-client</name>
-    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Spring -->

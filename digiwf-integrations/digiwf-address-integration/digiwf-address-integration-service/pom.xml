@@ -5,7 +5,6 @@
     <artifactId>digiwf-address-integration-service</artifactId>
     <name>digiwf-address-integration-service</name>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>

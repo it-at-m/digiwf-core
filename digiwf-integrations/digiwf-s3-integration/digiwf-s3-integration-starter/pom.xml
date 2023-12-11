@@ -13,7 +13,6 @@
 
     <artifactId>digiwf-s3-integration-starter</artifactId>
     <name>digiwf-s3-integration-starter</name>
-    <packaging>jar</packaging>
 
     <dependencies>
         <!-- internal dependencies -->

@@ -5,7 +5,6 @@
     <artifactId>digiwf-cosys-integration-client</artifactId>
     <name>digiwf-cosys-integration-client</name>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>

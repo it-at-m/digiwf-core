@@ -10,7 +10,6 @@
 
     <artifactId>digiwf-engine-cockpit</artifactId>
     <name>digiwf-engine-cockpit</name>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

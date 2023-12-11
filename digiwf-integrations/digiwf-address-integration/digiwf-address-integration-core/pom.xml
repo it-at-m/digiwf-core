@@ -12,7 +12,6 @@
 
     <artifactId>digiwf-address-integration-core</artifactId>
     <name>digiwf-address-integration-core</name>
-    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Spring -->

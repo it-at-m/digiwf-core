@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>digiwf-connector-starter</artifactId>
-    <packaging>jar</packaging>
 
     <dependencies>
         <!-- DigiWF -->

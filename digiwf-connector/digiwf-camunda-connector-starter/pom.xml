@@ -5,7 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-camunda-connector-starter</artifactId>
     <name>digiwf-camunda-connector-starter</name>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
