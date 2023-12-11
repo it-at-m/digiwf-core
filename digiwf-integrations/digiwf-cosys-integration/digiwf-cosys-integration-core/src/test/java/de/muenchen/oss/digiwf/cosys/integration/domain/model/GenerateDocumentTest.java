@@ -1,17 +1,21 @@
 package de.muenchen.oss.digiwf.cosys.integration.domain.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Verify bean validation of {@link GenerateDocument}
@@ -34,7 +38,7 @@ public class GenerateDocumentTest {
                     .client("client")
                     .role("role")
                     .guid("guid")
-                    .variables(new HashMap<>())
+                    .variables(jsonNode())
                     .documentStorageUrls(List.of(validDocumentStorageUrl))
                     .build();
             final Set<ConstraintViolation<GenerateDocument>> v = this.validator.validate(validDocument);
@@ -59,7 +63,7 @@ public class GenerateDocumentTest {
                 .client("client")
                 .role("role")
                 .guid("guid")
-                .variables(new HashMap<>());
+                .variables(jsonNode());
 
         // documentStorageUrls are missing
         violations = this.validator.validate(
@@ -78,5 +82,44 @@ public class GenerateDocumentTest {
         );
         Assertions.assertEquals(2, violations.size());
     }
+
+
+    @Test
+    void testJsonNodeVariableString() {
+
+        JsonNode jsonNode = jsonNode();
+
+        String variables = "{\n" +
+                "    \"name\" : \"John\",\n" +
+                "    \"age\" : 30,\n" +
+                "    \"address\" : {\n" +
+                "        \"street\" : \"MainSt\",\n" +
+                "        \"city\" : \"Anytown\",\n" +
+                "        \"zip\" : \"12345\"\n" +
+                "    }\n" +
+                "}";
+
+        assertThat(jsonNode.toString()).isEqualTo(variables.replace(" ", "").replace("\n", ""));
+    }
+
+
+    private JsonNode jsonNode() {
+        String jsonString = "{\n" +
+                "    \"name\": \"John\",\n" +
+                "    \"age\": 30,\n" +
+                "    \"address\": {\n" +
+                "        \"street\": \"MainSt\",\n" +
+                "        \"city\": \"Anytown\",\n" +
+                "        \"zip\": \"12345\"\n" +
+                "    }\n" +
+                "}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readTree(jsonString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

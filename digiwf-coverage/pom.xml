@@ -94,11 +94,6 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-email-integration-example</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-email-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -157,6 +152,11 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-dms-integration-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

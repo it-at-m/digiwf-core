@@ -1,10 +1,9 @@
-package de.muenchen.oss.digiwf.email.integration.model;
+package de.muenchen.oss.digiwf.email.model;
 
+import jakarta.mail.util.ByteArrayDataSource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import jakarta.mail.util.ByteArrayDataSource;
 
 @Data
 @RequiredArgsConstructor

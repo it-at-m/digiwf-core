@@ -1,9 +1,7 @@
-package de.muenchen.oss.digiwf.email.integration.configuration;
+package de.muenchen.oss.digiwf.email.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import jakarta.validation.constraints.NotBlank;
 
 @Data
 @ConfigurationProperties(prefix = "io.muenchendigital.digiwf.mail")
@@ -12,7 +10,6 @@ public class CustomMailProperties {
     /**
      * Sender mail address.
      */
-    @NotBlank
     private String fromAddress;
 
 }
