@@ -5,16 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-libs</artifactId>
+        <artifactId>digiwf-testing</artifactId>
         <version>1.4.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>digiwf-integration-e2e-test</artifactId>
+    <artifactId>digiwf-unit-test</artifactId>
     <packaging>pom</packaging>
+    <description>Unit test lib by DigiWF</description>
 
-    <modules>
-        <module>digiwf-integration-e2e-test-core</module>
-        <module>digiwf-integration-e2e-test-starter</module>
-    </modules>
+
 
 </project>

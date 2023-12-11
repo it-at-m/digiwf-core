@@ -52,7 +52,7 @@
         <!-- Testing -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-integration-e2e-test-starter</artifactId>
+            <artifactId>digiwf-e2e-test-starter</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

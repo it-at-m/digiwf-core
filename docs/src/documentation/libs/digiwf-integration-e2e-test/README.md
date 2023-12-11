@@ -15,7 +15,7 @@ Die Bibliothek muss in der Anwendung als Test Dependency deklariert werden:
 ```xml
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-integration-e2e-test-starter</artifactId>
+            <artifactId>digiwf-e2e-test-starter</artifactId>
             <version>${latest.digiwf.version}</version>
             <scope>test</scope>
         </dependency>

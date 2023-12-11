@@ -26,7 +26,7 @@
         <!-- This is usually a test dependency, but we need it for the mock service -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-integration-e2e-test-starter</artifactId>
+            <artifactId>digiwf-e2e-test-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

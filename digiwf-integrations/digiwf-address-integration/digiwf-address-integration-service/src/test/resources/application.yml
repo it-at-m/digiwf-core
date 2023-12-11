@@ -10,4 +10,4 @@ de:
             digiwf:
                 address:
                     service:
-                        url: http://localhost:8089
+                        url: http://localhost:8189

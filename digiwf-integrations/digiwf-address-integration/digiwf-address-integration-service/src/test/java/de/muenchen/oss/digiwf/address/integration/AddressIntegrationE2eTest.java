@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * E2e tests for address-integration-service using embedded kafka and wiremock to fake infrastructure components
  */
 @DigiwfE2eTest
-@WireMockTest(httpPort = 8089)
+@WireMockTest(httpPort = 8189)
 class AddressIntegrationE2eTest {
 
     private String processInstanceId;
