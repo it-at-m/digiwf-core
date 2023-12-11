@@ -48,7 +48,7 @@
         <!-- testing libraries-->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-e2e-test-starter</artifactId>
+            <artifactId>digiwf-e2e-test-core</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
