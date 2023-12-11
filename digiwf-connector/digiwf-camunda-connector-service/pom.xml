@@ -36,11 +36,6 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-starter-rest</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-camunda-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>

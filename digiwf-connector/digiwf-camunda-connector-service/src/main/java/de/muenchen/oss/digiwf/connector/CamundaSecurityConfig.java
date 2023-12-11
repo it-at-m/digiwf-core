@@ -2,9 +2,6 @@ package de.muenchen.oss.digiwf.connector;
 
 import de.muenchen.oss.digiwf.spring.security.client.OAuth2AccessTokenSupplier;
 import lombok.AllArgsConstructor;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.EntityDetails;
 import org.apache.hc.core5.http.HttpRequest;
@@ -15,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import java.io.IOException;
 
 @Configuration
 @Profile("!no-security")
@@ -39,14 +34,6 @@ public class CamundaSecurityConfig {
 
     private void intercept(HttpRequest httpRequest, EntityDetails entityDetails, HttpContext httpContext) {
         httpRequest.addHeader("Authorization", this.getAccessToken());
-    }
-
-    public Response intercept(final Interceptor.Chain chain) throws IOException {
-        final Request originalRequest = chain.request();
-        final Request requestWithToken = originalRequest.newBuilder()
-                .header("Authorization", this.getAccessToken())
-                .build();
-        return chain.proceed(requestWithToken);
     }
 
     public String getAccessToken() {

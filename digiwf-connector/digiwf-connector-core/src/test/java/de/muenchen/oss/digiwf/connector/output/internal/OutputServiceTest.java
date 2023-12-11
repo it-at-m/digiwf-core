@@ -2,8 +2,8 @@ package de.muenchen.oss.digiwf.connector.output.internal;
 
 
 import de.muenchen.oss.digiwf.connector.BaseSpringTest;
-import de.muenchen.oss.digiwf.connector.adapter.out.EventEmitterAdapter;
-import de.muenchen.oss.digiwf.connector.application.port.out.EmitEventOutPort;
+import de.muenchen.oss.digiwf.connector.core.adapter.out.EventEmitterAdapter;
+import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.messaging.Message;

@@ -18,7 +18,7 @@
         <!-- digiwf-connector -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-camunda-connector</artifactId>
+            <artifactId>digiwf-camunda-rest-connector</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
