@@ -46,7 +46,7 @@ class OkEwoIntegrationApplicationE2eTest {
   }
 
   @Test
-  void shouldProcessGetPersonEvent() throws InterruptedException, JsonProcessingException {
+  void shouldProcessGetPersonEvent() throws JsonProcessingException {
     val ordnungsmerkmal = new OrdnungsmerkmalDto();
     ordnungsmerkmal.setOrdnungsmerkmal("om");
     val request = new OkEwoOmBasedRequest();
@@ -65,7 +65,7 @@ class OkEwoIntegrationApplicationE2eTest {
   }
 
   @Test
-  void shouldProcessSearchPersonEvent() throws InterruptedException, JsonProcessingException {
+  void shouldProcessSearchPersonEvent() throws JsonProcessingException {
     val ordnungsmerkmal = new OrdnungsmerkmalDto();
     ordnungsmerkmal.setOrdnungsmerkmal("om");
     val request = new OkEwoSearchPersonRequest();
@@ -87,7 +87,7 @@ class OkEwoIntegrationApplicationE2eTest {
   }
 
   @Test
-  void shouldProcessGetPersonErweitertEvent() throws InterruptedException, JsonProcessingException {
+  void shouldProcessGetPersonErweitertEvent() throws JsonProcessingException {
     val ordnungsmerkmal = new OrdnungsmerkmalDto();
     ordnungsmerkmal.setOrdnungsmerkmal("om");
     val request = new OkEwoOmBasedRequest();
@@ -106,7 +106,7 @@ class OkEwoIntegrationApplicationE2eTest {
   }
 
   @Test
-  void shouldProcessSearchPersonErweitertEvent() throws InterruptedException, JsonProcessingException {
+  void shouldProcessSearchPersonErweitertEvent() throws JsonProcessingException {
     val ordnungsmerkmal = new OrdnungsmerkmalDto();
     ordnungsmerkmal.setOrdnungsmerkmal("om");
     val request = new OkEwoSearchPersonExtendedRequest();
