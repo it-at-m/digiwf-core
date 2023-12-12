@@ -65,6 +65,7 @@ public class SendMailTemplateDelegate extends SendMailDelegate {
                 .receivers(receivers)
                 .subject(subject)
                 .body(emailBody)
+                .htmlBody(true)
                 .replyTo(replyTo.orElse(null))
                 .sender(sender.orElse(null))
                 .attachments(fileAttachments)
