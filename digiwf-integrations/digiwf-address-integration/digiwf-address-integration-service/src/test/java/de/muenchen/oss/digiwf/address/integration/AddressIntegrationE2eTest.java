@@ -48,7 +48,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse_bundesweit/search?ortsname=Augsburg", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "searchAddressesGermany");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "searchAddressesGermany", 30);
 
         // assert
         assertThat(payload)

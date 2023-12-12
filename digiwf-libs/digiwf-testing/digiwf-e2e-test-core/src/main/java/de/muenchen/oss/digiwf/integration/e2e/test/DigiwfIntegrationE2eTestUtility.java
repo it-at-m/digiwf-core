@@ -20,11 +20,17 @@ public class DigiwfIntegrationE2eTestUtility {
     @Value("${spring.cloud.stream.bindings.functionRouter-in-0.destination}")
     private String messageTopic;
 
+    private final int DEFAULT_TIMEOUT = 15;
+
     public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType) {
+        return this.runIntegration(payload, processInstanceId, messageType, DEFAULT_TIMEOUT);
+    }
+
+    public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType, final int timeout) {
         this.sendMessage(payload, processInstanceId, messageType);
 
         // wait for the message to be received
-        await().atMost(15, TimeUnit.SECONDS).until(() -> this.testMessageConsumer.hasReceivedMessage(processInstanceId));
+        await().atMost(timeout, TimeUnit.SECONDS).until(() -> this.testMessageConsumer.hasReceivedMessage(processInstanceId));
 
         return this.testMessageConsumer.receiveMessage(processInstanceId);
     }
