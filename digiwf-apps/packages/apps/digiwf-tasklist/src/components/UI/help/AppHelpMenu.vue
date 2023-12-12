@@ -2,7 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        aria-label="Help Icon Button"
+        aria-label="Barrierefreiheit und Hilfe Menü mit Entertaste öffnen und mit den Pfeiltasten darin navigieren"
         text
         fab
         v-bind="attrs"
@@ -27,7 +27,7 @@
         </v-switch>
       </v-list-item>
       <v-list-item
-        aria-label="Tastaturbedienungsanleitung öffnen"
+        aria-label="Tastaturbedienungsanleitung öffnen und mit Tabulatortaste navigieren"
         class="max-v-list-item-height"
         @click="$emit('openKeyBindingsDialoge')"
       >
