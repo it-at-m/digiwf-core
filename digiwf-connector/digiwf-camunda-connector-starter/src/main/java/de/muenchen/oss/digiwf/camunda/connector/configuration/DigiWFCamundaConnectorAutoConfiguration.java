@@ -1,12 +1,16 @@
 package de.muenchen.oss.digiwf.camunda.connector.configuration;
 
-import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputClient;
 import de.muenchen.oss.digiwf.camunda.connector.data.EngineDataSerializer;
+import de.muenchen.oss.digiwf.camunda.connector.message.MessageServiceImpl;
+import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputClient;
 import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputConfiguration;
+import de.muenchen.oss.digiwf.connector.api.message.MessageService;
 import de.muenchen.oss.digiwf.connector.api.output.OutputService;
 import de.muenchen.oss.digiwf.connector.output.internal.OutputServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
+import org.camunda.bpm.engine.RuntimeService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -45,4 +49,8 @@ public class DigiWFCamundaConnectorAutoConfiguration {
         return new CamundaOutputClient(outputService, camundaOutputConfiguration, engineDataSerializer);
     }
 
+    @Bean
+    public MessageService messageService(@Qualifier("remote") final RuntimeService runtimeService) {
+        return new MessageServiceImpl(runtimeService);
+    }
 }

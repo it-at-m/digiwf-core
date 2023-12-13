@@ -8,10 +8,8 @@ import de.muenchen.oss.digiwf.connector.api.message.CorrelateMessage;
 import de.muenchen.oss.digiwf.connector.api.message.MessageService;
 import de.muenchen.oss.digiwf.connector.message.internal.impl.model.CorrelateMessageImpl;
 import org.camunda.community.rest.client.api.MessageApi;
-import org.camunda.community.rest.client.invoker.ApiException;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 import java.util.Map;
@@ -27,14 +25,11 @@ public class MessageServiceTest extends BaseSpringTest {
     @Mock
     private MessageApi messageApi;
 
-    @Autowired
-    private EngineDataSerializer engineDataSerializer;
-
     private MessageService messageService;
 
     @BeforeEach
     private void initTests() {
-        this.messageService = new MessageServiceImpl(this.messageApi, this.engineDataSerializer);
+        this.messageService = new MessageServiceImpl(this.messageApi);
     }
 
     @Order(1)

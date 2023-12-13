@@ -5,12 +5,9 @@ spring:
     name: @project.artifactId@
   cloud:
     function:
-      definition: functionRouter;sendMessage;
+      definition: functionRouter;sendMessage;sendMailFromEventBus;
       routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "dwf-email-service"
