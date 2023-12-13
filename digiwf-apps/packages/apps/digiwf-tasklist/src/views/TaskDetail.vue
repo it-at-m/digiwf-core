@@ -170,6 +170,7 @@ import {
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import router from "../router";
 import {mergeObjects} from "../utils/mergeObjects";
+import {validateSchema} from "../utils/validateSchema";
 
 @Component({
   components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
@@ -232,7 +233,11 @@ export default class TaskDetail extends SaveLeaveMixin {
         const urlQueryParameter = this.$router.currentRoute.query;
 
         // use potential value of query parameter if variable is undefined or empty
-        this.formFields = mergeObjects(this.task.variables, urlQueryParameter);
+        this.formFields =
+          validateSchema(
+            this.task.schema,
+            mergeObjects(this.task.variables, urlQueryParameter)
+          );
       }
       if (error) {
         this.errorMessage = error;
@@ -337,5 +342,4 @@ export default class TaskDetail extends SaveLeaveMixin {
     return this.hasChanges;
   }
 }
-
 </script>
