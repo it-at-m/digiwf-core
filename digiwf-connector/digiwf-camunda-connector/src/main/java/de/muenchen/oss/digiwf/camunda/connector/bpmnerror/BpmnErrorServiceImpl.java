@@ -1,53 +1,52 @@
 package de.muenchen.oss.digiwf.camunda.connector.bpmnerror;
 
 
-import de.muenchen.oss.digiwf.camunda.connector.data.EngineDataSerializer;
 import de.muenchen.oss.digiwf.connector.api.bpmnerror.BpmnError;
 import de.muenchen.oss.digiwf.connector.api.bpmnerror.BpmnErrorService;
-import lombok.RequiredArgsConstructor;
+import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.camunda.community.rest.client.api.MessageApi;
-import org.camunda.community.rest.client.dto.CorrelationMessageDto;
-import org.camunda.community.rest.client.invoker.ApiException;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class BpmnErrorServiceImpl implements BpmnErrorService {
 
     public static final String VARIABLEKEY_ERROR_CODE = "errorCode";
     public static final String VARIABLEKEY_ERROR_MESSAGE = "errorMessage";
 
-    private final MessageApi messageApi;
-    private final EngineDataSerializer serializer;
+    private final RuntimeService runtimeService;
+
+    public BpmnErrorServiceImpl(@Qualifier("remote") final RuntimeService runtimeService) {
+        this.runtimeService = runtimeService;
+    }
 
     @Override
     public void createBpmnError(final BpmnError bpmnError) {
         log.debug("createBpmnError {}", bpmnError);
 
-        final CorrelationMessageDto correlationMessageDto = new CorrelationMessageDto();
-        correlationMessageDto.setMessageName(bpmnError.getMessageName());
+        MessageCorrelationBuilder messageBuilder = runtimeService.createMessageCorrelation(bpmnError.getMessageName());
 
         if (StringUtils.isNotBlank(bpmnError.getProcessInstanceId())) {
-            correlationMessageDto.setProcessInstanceId(bpmnError.getProcessInstanceId());
+            messageBuilder = messageBuilder.processInstanceId(bpmnError.getProcessInstanceId());
         }
 
+        // process vars
+        final Map<String, Object> processVariables = new HashMap<>();
         if (StringUtils.isNotBlank(bpmnError.getErrorCode())) {
-            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_CODE, this.serializer.toEngineData(bpmnError.getErrorCode()));
+            processVariables.put(VARIABLEKEY_ERROR_CODE, bpmnError.getErrorCode());
         }
-
         if (StringUtils.isNotBlank(bpmnError.getErrorMessage())) {
-            correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_MESSAGE, this.serializer.toEngineData(bpmnError.getErrorMessage()));
+            processVariables.put(VARIABLEKEY_ERROR_MESSAGE, bpmnError.getErrorMessage());
         }
-
-        try {
-            this.messageApi.deliverMessage(correlationMessageDto);
-        } catch (final ApiException apiException) {
-            log.error("Bpmn error could not be sent.", apiException);
-            throw new RuntimeException(apiException);
-        }
+        messageBuilder
+                .setVariables(processVariables)
+                .correlate();
     }
 
 }

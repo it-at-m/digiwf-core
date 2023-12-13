@@ -61,17 +61,16 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Camunda -->
-        <dependency>
-            <groupId>org.camunda.community</groupId>
-            <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
-            <version>${camunda-engine-rest-client-openapi-java.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
             <version>${camunda.version}</version>
+        </dependency>
+        <!-- Old Dependency - We should use https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api but camunda-bpm-spring-boot-starter-external-task-client requires it -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.4.0-b180830.0359</version>
         </dependency>
     </dependencies>
 
