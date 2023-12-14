@@ -7,11 +7,7 @@ Content-Type: application/json
   "subject": "Testing Email Integration",
   "body": "This is a test email. You can delete it safely",
   "attachments": [
-    {
-      "url": "http://127.0.0.1:9000/test/email-attachment-test/Workshop-LHM-%28MPDZ%29-20-07-2023.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=JCXDR004T558IUPC9VIX%2F20230828%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230828T070615Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJKQ1hEUjAwNFQ1NThJVVBDOVZJWCIsImV4cCI6MTY5MzI0OTM3OSwicGFyZW50IjoibWluaW8ifQ.JMuUDc84vfXQOd191fcixiqeNApyMGsY2H3kBG-DGxu63HUFthwHTX7z6u1Esm0wyAjLodrNJvVQhE3rjPCVlw&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=4aaeab93df6fa39589752e4e691e06750c432610babc3e1edbfd7a49b3f34262",
-      "path": "/test/email-attachment-test/Workshop-LHM-%28MPDZ%29-20-07-2023.pdf",
-      "action": "GET"
-    }
+
   ]
 }
 
