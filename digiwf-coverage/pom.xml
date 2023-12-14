@@ -6,6 +6,7 @@
     <artifactId>digiwf-coverage</artifactId>
     <name>digiwf-coverage</name>
     <description>Jacoco Code Coverage</description>
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>digiwf-parent</artifactId>
