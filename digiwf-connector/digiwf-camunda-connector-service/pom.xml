@@ -27,12 +27,6 @@
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
-        </dependency>
-
         <!-- DigiWF -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
