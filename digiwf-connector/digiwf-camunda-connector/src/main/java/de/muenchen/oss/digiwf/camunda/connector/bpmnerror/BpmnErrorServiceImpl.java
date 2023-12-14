@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.community.rest.client.api.MessageApi;
-import org.camunda.community.rest.client.dto.CorrelationMessageDto;
-import org.camunda.community.rest.client.invoker.ApiException;
+import org.camunda.community.rest.client.model.CorrelationMessageDto;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -42,12 +41,7 @@ public class BpmnErrorServiceImpl implements BpmnErrorService {
             correlationMessageDto.putProcessVariablesItem(VARIABLEKEY_ERROR_MESSAGE, this.serializer.toEngineData(bpmnError.getErrorMessage()));
         }
 
-        try {
-            this.messageApi.deliverMessage(correlationMessageDto);
-        } catch (final ApiException apiException) {
-            log.error("Bpmn error could not be sent.", apiException);
-            throw new RuntimeException(apiException);
-        }
+        this.messageApi.deliverMessage(correlationMessageDto);
     }
 
 }

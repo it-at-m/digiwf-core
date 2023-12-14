@@ -2,22 +2,22 @@ package de.muenchen.oss.digiwf.connector.incident;
 
 
 import de.muenchen.oss.digiwf.camunda.connector.incident.IncidentServiceImpl;
-import de.muenchen.oss.digiwf.connector.BaseSpringTest;
 import de.muenchen.oss.digiwf.connector.api.incident.IncidentService;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
 import org.camunda.community.rest.client.api.ExecutionApi;
-import org.camunda.community.rest.client.dto.CreateIncidentDto;
-import org.camunda.community.rest.client.dto.EventSubscriptionDto;
-import org.camunda.community.rest.client.invoker.ApiException;
-import org.junit.jupiter.api.*;
+import org.camunda.community.rest.client.model.CreateIncidentDto;
+import org.camunda.community.rest.client.model.EventSubscriptionDto;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 @DisplayName("Incident Service Test")
-public class IncidentServiceTest {
-
+class IncidentServiceTest {
     private final ExecutionApi executionApi = mock(ExecutionApi.class);
 
     private final EventSubscriptionApi eventSubscriptionApi = mock(EventSubscriptionApi.class);
@@ -26,7 +26,7 @@ public class IncidentServiceTest {
 
     @Test
     @DisplayName("should create incident with default error message")
-    public void shouldCreateIncidentWithDefaultErrorMessage() throws ApiException {
+    void shouldCreateIncidentWithDefaultErrorMessage() {
 
         final EventSubscriptionDto eventSubscriptionDto = new EventSubscriptionDto();
         eventSubscriptionDto.setExecutionId("executionId");
@@ -48,7 +48,7 @@ public class IncidentServiceTest {
                 null,
                 null,
                 null,
-                null)).thenReturn(List.of(eventSubscriptionDto));
+                null)).thenReturn(new ResponseEntity<List<EventSubscriptionDto>>(List.of(eventSubscriptionDto), null, HttpStatus.OK));
 
         this.incidentService.createIncident("instanceId", "messageName", null);
 
@@ -72,7 +72,7 @@ public class IncidentServiceTest {
 
     @Test
     @DisplayName("should create incident with default error message when message body is blank")
-    public void shouldCreateIncidentWithDefaultErrorMessageWhenMessageBodyIsBlank() throws ApiException {
+    void shouldCreateIncidentWithDefaultErrorMessageWhenMessageBodyIsBlank() {
 
         final EventSubscriptionDto eventSubscriptionDto = new EventSubscriptionDto();
         eventSubscriptionDto.setExecutionId("executionId");
@@ -94,7 +94,7 @@ public class IncidentServiceTest {
                 null,
                 null,
                 null,
-                null)).thenReturn(List.of(eventSubscriptionDto));
+                null)).thenReturn(new ResponseEntity<List<EventSubscriptionDto>>(List.of(eventSubscriptionDto), null, HttpStatus.OK));
 
         this.incidentService.createIncident("instanceId", "messageName", " ");
 
@@ -118,7 +118,7 @@ public class IncidentServiceTest {
 
     @Test
     @DisplayName("should create incident with given error message")
-    public void shouldCreateIncidentWithGivenErrorMessage() throws ApiException {
+    void shouldCreateIncidentWithGivenErrorMessage() {
 
         final EventSubscriptionDto eventSubscriptionDto = new EventSubscriptionDto();
         eventSubscriptionDto.setExecutionId("executionId");
@@ -140,7 +140,7 @@ public class IncidentServiceTest {
                 null,
                 null,
                 null,
-                null)).thenReturn(List.of(eventSubscriptionDto));
+                null)).thenReturn(new ResponseEntity<List<EventSubscriptionDto>>(List.of(eventSubscriptionDto), null, HttpStatus.OK));
 
         this.incidentService.createIncident("instanceId", "messageName", "my-error-message");
 

@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.camunda.connector.data;
 
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.value.TypedValue;
-import org.camunda.community.rest.client.dto.VariableValueDto;
+import org.camunda.community.rest.client.model.VariableValueDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -58,6 +58,4 @@ public class EngineDataSerializer {
         }
         return new JSONObject(value.toString()).toMap();
     }
-
-
 }

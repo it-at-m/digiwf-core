@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.community.rest.client.api.MessageApi;
-import org.camunda.community.rest.client.dto.CorrelationMessageDto;
-import org.camunda.community.rest.client.dto.VariableValueDto;
-import org.camunda.community.rest.client.invoker.ApiException;
+import org.camunda.community.rest.client.model.CorrelationMessageDto;
+import org.camunda.community.rest.client.model.VariableValueDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -48,12 +47,7 @@ public class MessageServiceImpl implements MessageService {
             correlationMessageDto.setBusinessKey(correlateMessage.getBusinessKey());
         }
 
-        try {
-            this.messageApi.deliverMessage(correlationMessageDto);
-        } catch (final ApiException apiException) {
-            log.error("Message could not be sent.", apiException);
-            throw new RuntimeException(apiException);
-        }
+        this.messageApi.deliverMessage(correlationMessageDto);
     }
 
 }
