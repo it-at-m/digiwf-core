@@ -2,9 +2,9 @@ io:
   muenchendigital:
     digiwf:
       message:
-        incidentDestination: "dwf-connector-incident-e2e-test"
-        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
-        correlateMessageDestination: "dwf-connector-e2e-test"
+        incidentDestination: "dwf-connector-incident-e2e-itest"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-itest"
+        correlateMessageDestination: "dwf-connector-e2e-itest"
 
 spring:
   cloud:
@@ -15,7 +15,7 @@ spring:
     stream:
       bindings:
         functionRouter-in-0:
-          destination: "digiwf-e2e-test-topic"
+          destination: "digiwf-e2e-itest-topic"
           group: e2e-integration-test
         sendMessage-out-0:
           destination: ${io.muenchendigital.digiwf.message.correlateMessageDestination}
