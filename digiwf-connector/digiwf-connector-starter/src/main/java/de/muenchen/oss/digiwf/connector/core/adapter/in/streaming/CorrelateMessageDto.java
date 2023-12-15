@@ -10,7 +10,7 @@ import java.util.Map;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorrelateMessageEvent {
+public class CorrelateMessageDto {
 
     private String processInstanceId;
 

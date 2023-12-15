@@ -1,8 +1,7 @@
-package de.muenchen.oss.digiwf.connector.output.internal;
+package de.muenchen.oss.digiwf.connector.core.adapter.out;
 
 
 import de.muenchen.oss.digiwf.connector.BaseSpringTest;
-import de.muenchen.oss.digiwf.connector.core.adapter.out.EventEmitterAdapter;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @DisplayName("Streaming Service Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OutputServiceTest extends BaseSpringTest {
+public class EventEmitterAdapterTest extends BaseSpringTest {
 
 
     @Mock

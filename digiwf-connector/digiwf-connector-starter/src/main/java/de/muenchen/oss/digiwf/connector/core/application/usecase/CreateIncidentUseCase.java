@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class CreateIncidentUseCase implements CreateIncidentInPort {
+class CreateIncidentUseCase implements CreateIncidentInPort {
 
     private final CreateIncidentOutPort outPort;
 

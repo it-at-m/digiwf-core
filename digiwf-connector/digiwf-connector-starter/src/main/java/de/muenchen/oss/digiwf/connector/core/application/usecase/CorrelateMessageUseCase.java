@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class CorrelateMessageUseCase implements CorrelateMessageInPort {
+class CorrelateMessageUseCase implements CorrelateMessageInPort {
 
     private final CorrelateMessageOutPort correlateMessageOutPort;
 

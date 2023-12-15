@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class CreateBpmnErrorUseCase implements CreateBpmnErrorInPort {
+class CreateBpmnErrorUseCase implements CreateBpmnErrorInPort {
 
     private final CreateBpmnErrorOutPort createBpmnErrorOutPort;
 

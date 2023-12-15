@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.connector.incident.internal.streaming;
+package de.muenchen.oss.digiwf.connector.core.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.connector.core.adapter.in.streaming.IncidentConsumer;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.CreateIncidentInPort;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;

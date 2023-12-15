@@ -23,14 +23,14 @@ public class MessageEventConsumer {
     private final CorrelateMessageInPort inPort;
 
     @Bean
-    public Consumer<Message<CorrelateMessageEvent>> correlateMessage() {
+    public Consumer<Message<CorrelateMessageDto>> correlateMessage() {
         return correlation -> {
             log.info("Received message correlation {}", correlation.getPayload());
             this.inPort.correlateMessage(map(correlation.getPayload()));
         };
     }
 
-    private MessageCorrelation map(CorrelateMessageEvent event) {
+    private MessageCorrelation map(CorrelateMessageDto event) {
         MessageCorrelation messageCorrelation = new MessageCorrelation();
         messageCorrelation.setProcessInstanceId(event.getProcessInstanceId());
         messageCorrelation.setMessageName(event.getMessageName());

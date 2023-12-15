@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class ExecuteTaskUseCase implements ExecuteTaskInPort {
+class ExecuteTaskUseCase implements ExecuteTaskInPort {
 
     private final EmitEventOutPort emitEventOutPort;
 

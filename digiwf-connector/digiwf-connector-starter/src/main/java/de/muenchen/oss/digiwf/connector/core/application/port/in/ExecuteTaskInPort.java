@@ -1,9 +1,7 @@
 package de.muenchen.oss.digiwf.connector.core.application.port.in;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Map;
 
@@ -14,6 +12,8 @@ public interface ExecuteTaskInPort {
     @Data
     @ToString
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     class ExecuteTaskCommand {
         private String messageName;
 
