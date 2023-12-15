@@ -1,8 +1,5 @@
-package de.muenchen.oss.digiwf.connector.incident;
+package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out;
 
-
-import de.muenchen.oss.digiwf.camunda.connector.incident.IncidentServiceImpl;
-import de.muenchen.oss.digiwf.connector.api.incident.IncidentService;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
 import org.camunda.community.rest.client.api.ExecutionApi;
 import org.camunda.community.rest.client.model.CreateIncidentDto;
@@ -17,12 +14,12 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Incident Service Test")
-class IncidentServiceTest {
+class IncidentAdapterTest {
     private final ExecutionApi executionApi = mock(ExecutionApi.class);
 
     private final EventSubscriptionApi eventSubscriptionApi = mock(EventSubscriptionApi.class);
 
-    private final IncidentService incidentService = new IncidentServiceImpl(this.executionApi, this.eventSubscriptionApi);
+    private final IncidentAdapter incidentService = new IncidentAdapter(this.executionApi, this.eventSubscriptionApi);
 
     @Test
     @DisplayName("should create incident with default error message")

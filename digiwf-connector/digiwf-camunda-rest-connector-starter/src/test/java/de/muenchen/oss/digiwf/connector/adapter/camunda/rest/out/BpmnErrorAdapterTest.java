@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.connector.adapter.BaseSpringTest;
 import de.muenchen.oss.digiwf.connector.adapter.camunda.rest.mapper.EngineDataSerializer;
 import de.muenchen.oss.digiwf.connector.core.domain.BpmnError;
 import org.camunda.community.rest.client.api.MessageApi;
-import org.camunda.community.rest.client.invoker.ApiException;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class BpmnErrorAdapterTest extends BaseSpringTest {
     @Order(1)
     @Test
     @DisplayName("should correlate bpmn error")
-    public void shouldCorrelateBpmnError() throws ApiException {
+    public void shouldCorrelateBpmnError() {
 
         final BpmnError bpmnError = BpmnError.builder()
                 .messageName("myMessage")

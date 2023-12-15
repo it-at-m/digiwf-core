@@ -1,11 +1,10 @@
 package de.muenchen.oss.digiwf.connector.message;
 
 
-import de.muenchen.oss.digiwf.camunda.connector.data.EngineDataSerializer;
-import de.muenchen.oss.digiwf.camunda.connector.message.MessageServiceImpl;
-import de.muenchen.oss.digiwf.connector.api.message.CorrelateMessage;
-import de.muenchen.oss.digiwf.connector.api.message.MessageService;
-import de.muenchen.oss.digiwf.connector.message.internal.impl.model.CorrelateMessageImpl;
+import de.muenchen.oss.digiwf.connector.adapter.camunda.rest.mapper.EngineDataSerializer;
+import de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out.MessageAdapter;
+import de.muenchen.oss.digiwf.connector.core.application.port.out.CorrelateMessageOutPort;
+import de.muenchen.oss.digiwf.connector.core.domain.MessageCorrelation;
 import org.camunda.community.rest.client.api.MessageApi;
 import org.junit.jupiter.api.*;
 
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 @DisplayName("Message Service Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MessageServiceTest {
+class MessageAdapterTest {
     private final MessageApi messageApi = mock(MessageApi.class);
 
     private final EngineDataSerializer engineDataSerializer = new EngineDataSerializer();

@@ -1,7 +1,6 @@
-package de.muenchen.oss.digiwf.camunda.connector.incident;
+package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out;
 
-
-import de.muenchen.oss.digiwf.connector.api.incident.IncidentService;
+import de.muenchen.oss.digiwf.connector.core.application.port.in.CreateIncidentInPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
@@ -17,10 +16,10 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class IncidentServiceImpl implements IncidentService {
+public class IncidentAdapter implements CreateIncidentInPort {
 
-    private static final String INCIDENT_TYPE   = "integrationError";
-    private static final String EVENT_TYPE      = "message";
+    private static final String INCIDENT_TYPE = "integrationError";
+    private static final String EVENT_TYPE = "message";
 
     private final ExecutionApi executionApi;
     private final EventSubscriptionApi eventSubscriptionApi;
@@ -61,9 +60,9 @@ public class IncidentServiceImpl implements IncidentService {
             final CreateIncidentDto createIncidentDto = new CreateIncidentDto();
             createIncidentDto.setIncidentType(INCIDENT_TYPE);
             createIncidentDto.setMessage(
-                    messageContent != null  && !messageContent.isBlank()
-                        ? messageContent
-                        : "Error occurred in integration service"
+                    messageContent != null && !messageContent.isBlank()
+                            ? messageContent
+                            : "Error occurred in integration service"
             );
 
             // send create incident call
