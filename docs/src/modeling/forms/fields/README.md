@@ -111,6 +111,16 @@ Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschli
 ## Datum
 Über dieses Feld kann ein Datum eingegeben werden.
 
+![Formular Editor](~@source/modeling/forms/fields/date.png)
+
+#### Anzeige
+
+Im Formular wird das Feld wie folgt angezeigt.
+
+Das Datum kann wahlweise über die Tastatur eingegeben, oder über den Pop-Up-Kalender ausgewählt werden:
+
+![Formular Editor](~@source/modeling/forms/fields/date-form.png)
+
 ## Zeit
 
 Über dieses Feld kann eine Uhrzeit eingegeben werden.
