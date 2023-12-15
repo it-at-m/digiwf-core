@@ -34,7 +34,6 @@
           <camunda:inputParameter name="app_task_description" />
           <camunda:inputParameter name="app_task_tag" />
           <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
           <camunda:inputParameter name="mail_subject" />
           <camunda:inputParameter name="mail_body" />
           <camunda:inputParameter name="mail_bottom_text" />
@@ -43,6 +42,7 @@
           <camunda:inputParameter name="app_file_paths_readonly" />
           <camunda:inputParameter name="app_notification_send_candidate_groups">true</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_000ks2f</bpmn:incoming>
@@ -137,6 +137,10 @@
         <di:waypoint x="660" y="120" />
         <di:waypoint x="660" y="202" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tx4b68_di" bpmnElement="Flow_1tx4b68">
+        <di:waypoint x="685" y="227" />
+        <di:waypoint x="742" y="227" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0lhaz1g_di" bpmnElement="Flow_0lhaz1g">
         <di:waypoint x="520" y="227" />
         <di:waypoint x="635" y="227" />
@@ -145,10 +149,6 @@
         <di:waypoint x="520" y="340" />
         <di:waypoint x="660" y="340" />
         <di:waypoint x="660" y="252" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1tx4b68_di" bpmnElement="Flow_1tx4b68">
-        <di:waypoint x="685" y="227" />
-        <di:waypoint x="742" y="227" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

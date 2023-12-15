@@ -80,6 +80,8 @@ public class UserTaskNotificationListener {
             }
         }
         // send notification on task assignment for assignee
+        // assignment event is used for direct user assignment
+        // update event is used for group task assignment
         else if (delegateTask.getEventName().equals("assignment")) {
             log.debug("Notification for created task: {}", delegateTask.getName());
             val notify = NOTIFICATION_SEND.from(delegateTask).getOptional();
