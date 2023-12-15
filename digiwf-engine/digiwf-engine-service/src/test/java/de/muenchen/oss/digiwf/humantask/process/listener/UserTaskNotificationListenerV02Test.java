@@ -45,12 +45,20 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
 
     @Test
     void testDelegateTask_WithNotificationOff() throws Exception {
-        final DelegateTask task = this.prepareDelegateTask(Map.of(
+        DelegateTask task = this.prepareDelegateTask(Map.of(
                 "app_notification_send_assignee", "false",
                 "app_notification_send_candidate_users", "false",
                 "app_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
-        ));
+        ), "create");
+        this.notifyUsers(task, null, 0);
+
+        task = this.prepareDelegateTask(Map.of(
+                "app_notification_send_assignee", "false",
+                "app_notification_send_candidate_users", "false",
+                "app_notification_send_candidate_groups", "false",
+                "app_task_assignee", this.user.getLhmObjectId()
+        ), "assignment");
         this.notifyUsers(task, null, 0);
     }
 
@@ -60,7 +68,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_assignee", "true",
                 "app_notification_send_candidate_users", "false",
                 "app_notification_send_candidate_groups", "false"
-        ));
+        ), "assignment");
         this.notifyUsers(task, null, 0);
     }
 
@@ -71,7 +79,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_candidate_users", "false",
                 "app_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
-        ));
+        ), "assignment");
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         final Mail mail = this.notifyUsers(task, this.userTaskDefaultMailContent, 1);
@@ -86,7 +94,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_assignee", "false",
                 "app_notification_send_candidate_users", "true",
                 "app_notification_send_candidate_groups", "false"
-        ));
+        ), "create");
         when(task.getCandidates()).thenReturn(this.userCandidates);
 
         final Mail mail = this.notifyUsers(task, this.groupTaskDefaultMailContent, 1);
@@ -101,7 +109,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_assignee", "false",
                 "app_notification_send_candidate_users", "false",
                 "app_notification_send_candidate_groups", "true"
-        ));
+        ), "create");
         when(task.getCandidates()).thenReturn(this.groupCandidates);
 
         final Mail mail = this.notifyUsers(task, this.groupTaskDefaultMailContent, 1);
@@ -121,7 +129,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "mail_body", "Email Body",
                 "mail_bottom_text", "Some Bottom Text",
                 "mail_subject", "Email Subject"
-        ));
+        ), "assignment");
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
         final Map<String, String> customMailContent = Map.of(
                 "%%body_top%%", "Email Body",
@@ -147,7 +155,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "mail_body", "Email Body",
                 "mail_bottom_text", "Some Bottom Text",
                 "mail_subject", "Email Subject"
-        ));
+        ), "create");
         when(task.getCandidates()).thenReturn(this.userCandidates);
         final Map<String, String> customMailContent = Map.of(
                 "%%body_top%%", "Email Body",
