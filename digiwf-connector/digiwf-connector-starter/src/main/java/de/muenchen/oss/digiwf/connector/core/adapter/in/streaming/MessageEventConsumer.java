@@ -31,12 +31,12 @@ public class MessageEventConsumer {
     }
 
     private MessageCorrelation map(CorrelateMessageDto event) {
-        MessageCorrelation messageCorrelation = new MessageCorrelation();
-        messageCorrelation.setProcessInstanceId(event.getProcessInstanceId());
-        messageCorrelation.setMessageName(event.getMessageName());
-        messageCorrelation.setBusinessKey(event.getBusinessKey());
-        messageCorrelation.setPayloadVariables(event.getPayloadVariables());
-        messageCorrelation.setPayloadVariablesLocal(event.getPayloadVariablesLocal());
-        return messageCorrelation;
+        return MessageCorrelation.builder()
+                .processInstanceId(event.getProcessInstanceId())
+                .messageName(event.getMessageName())
+                .businessKey(event.getBusinessKey())
+                .payloadVariables(event.getPayloadVariables())
+                .payloadVariablesLocal(event.getPayloadVariablesLocal())
+                .build();
     }
 }

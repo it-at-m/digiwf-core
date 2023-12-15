@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CamundaClientConfigurationTest {
 
@@ -28,7 +28,6 @@ public class CamundaClientConfigurationTest {
                 CamundaClientConfiguration.TYPE_NAME);
         List<String> actualFilters = config.getFilters();
 
-        assertEquals(expectedFilters.size(), actualFilters.size(), "Filter list size should match");
-        assertTrue(actualFilters.containsAll(expectedFilters), "Actual filters should contain all expected filters");
+        assertThat(actualFilters).containsAll(expectedFilters);
     }
 }

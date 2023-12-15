@@ -20,15 +20,15 @@ class CreateIncidentUseCaseTest {
 
     @Test
     void createIncident_shouldCallOutPortWithSameArguments() {
-        // Arrange
+        // given
         String processInstanceId = "123";
         String messageName = "testMessage";
         String messageContent = "Test Content";
 
-        // Act
+        // when
         useCase.createIncident(processInstanceId, messageName, messageContent);
 
-        // Assert
+        // then
         verify(outPort).createIncident(processInstanceId, messageName, messageContent);
     }
 }

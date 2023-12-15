@@ -12,8 +12,6 @@ import java.util.function.Consumer;
 
 /**
  * Generic Listener to correlate bpmn errors to processes.
- *
- * @author martind260
  */
 @Slf4j
 @Component
@@ -31,11 +29,11 @@ public class BpmnErrorEventConsumer {
     }
 
     private BpmnError map(BpmnErrorDto event) {
-        BpmnError bpmnError = new BpmnError();
-        bpmnError.setProcessInstanceId(event.getProcessInstanceId());
-        bpmnError.setMessageName(event.getMessageName());
-        bpmnError.setErrorCode(event.getErrorCode());
-        bpmnError.setErrorMessage(event.getErrorMessage());
-        return bpmnError;
+        return BpmnError.builder()
+                .processInstanceId(event.getProcessInstanceId())
+                .messageName(event.getMessageName())
+                .errorCode(event.getErrorCode())
+                .errorMessage(event.getErrorMessage())
+                .build();
     }
 }
