@@ -3,6 +3,7 @@ import {ApiConfig} from "../ApiConfig";
 import {PageOfTasks, TaskApiFactory, TasksApiFactory, TaskWithSchema} from "@muenchen/digiwf-task-api-internal";
 import {AxiosError} from "axios";
 import {TaskVariables} from "../../middleware/tasks/tasksModels";
+import {defaultApiErrorHandler} from "../defaultErrorHandler";
 
 export const callGetTasksFromTaskService = (page: number, size: number, query?: string, tag?: string, followUp?: string, sort?: string): Promise<PageOfTasks> => {
   // follow-up: YYYY-MM-dd: e.g. 2023-04-17
@@ -42,7 +43,7 @@ export const callGetTaskDetailsFromTaskService = (taskId: string): Promise<TaskW
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getGETConfig());
   return TaskApiFactory(cfg).getTaskWithSchemaByTaskId(taskId)
     .then((res) => Promise.resolve(res.data))
-    .catch((err: AxiosError) => Promise.reject(FetchUtils.defaultCatchHandler(err, "Die Aufgabe konnte nicht geladen werden.")));
+    .catch((err: AxiosError) => Promise.reject(defaultApiErrorHandler(err)));
 };
 
 export const callCancelTaskInTaskService = (taskId: string): Promise<void> => {

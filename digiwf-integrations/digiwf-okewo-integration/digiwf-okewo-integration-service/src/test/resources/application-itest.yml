@@ -3,7 +3,23 @@ de:
     oss:
       digiwf:
         okewo:
-          password: 'password'
-          url: 'url'
-          username: 'username'
-          benutzerId: 'benutzerId'
+          password: "password"
+          url: "http://localhost:8189"
+          username: "username"
+          benutzerId: "benutzerId"
+logging:
+  level:
+    org.apache.kafka.clients.admin: WARN
+    org.apache.kafka.clients.consumer: WARN
+    org.apache.kafka.clients.producer: WARN
+
+spring:
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;integrationTestConsumer;
+
+# overwrite vars
+DIGIWF_ENV: itest
+KAFKA_BOOTSTRAP_SERVER: localhost
+KAFKA_BOOTSTRAP_SERVER_PORT: 19999
+KAFKA_SECURITY_PROTOCOL: PLAINTEXT

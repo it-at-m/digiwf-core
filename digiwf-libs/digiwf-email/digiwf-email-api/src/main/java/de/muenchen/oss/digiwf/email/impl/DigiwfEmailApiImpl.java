@@ -61,7 +61,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
             mimeMessage.setReplyTo(InternetAddress.parse(mail.getReplyTo()));
         }
 
-        final var helper = new MimeMessageHelper(mimeMessage, true);
+        final var helper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
 
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getBody(), mail.isHtmlBody());

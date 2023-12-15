@@ -10,7 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "markdown-it-footnote": "^3.0.3",
+    "markdown-it-footnote": "^4.0.0",
     "vuepress": "^1.9.10"
   },
   "dependencies": {

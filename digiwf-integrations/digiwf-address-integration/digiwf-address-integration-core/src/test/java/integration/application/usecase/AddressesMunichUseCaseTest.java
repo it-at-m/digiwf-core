@@ -12,8 +12,8 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class AddressesMunichUseCaseTest {
@@ -31,7 +31,7 @@ class AddressesMunichUseCaseTest {
 
         final MuenchenAdresse actualResponse = addressesMunichUseCase.checkAddress(checkAddressesModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).checkAddress(checkAddressesModel);
     }
 
@@ -42,9 +42,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.checkAddress(checkAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesMunichUseCase.checkAddress(checkAddressesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.checkAddress(checkAddressesModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -54,9 +54,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.checkAddress(checkAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesMunichUseCase.checkAddress(checkAddressesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.checkAddress(checkAddressesModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -68,7 +68,7 @@ class AddressesMunichUseCaseTest {
 
         final MuenchenAdresseResponse actualResponse = addressesMunichUseCase.listAddresses(listAddressesModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).listAddresses(listAddressesModel);
     }
 
@@ -79,9 +79,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.listAddresses(listAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesMunichUseCase.listAddresses(listAddressesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.listAddresses(listAddressesModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -91,9 +91,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.listAddresses(listAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesMunichUseCase.listAddresses(listAddressesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.listAddresses(listAddressesModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -105,7 +105,7 @@ class AddressesMunichUseCaseTest {
 
         final AenderungResponse actualResponse = addressesMunichUseCase.listChanges(listAddressChangesModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).listChanges(listAddressChangesModel);
     }
 
@@ -116,9 +116,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.listChanges(listAddressChangesModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesMunichUseCase.listChanges(listAddressChangesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.listChanges(listAddressChangesModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -128,9 +128,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.listChanges(listAddressChangesModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesMunichUseCase.listChanges(listAddressChangesModel);
-        });
+        assertThatThrownBy(() ->  addressesMunichUseCase.listChanges(listAddressChangesModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -142,7 +142,7 @@ class AddressesMunichUseCaseTest {
 
         final MuenchenAdresseResponse actualResponse = addressesMunichUseCase.searchAddresses(searchAddressesModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).searchAddresses(searchAddressesModel);
     }
 
@@ -153,9 +153,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddresses(searchAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesMunichUseCase.searchAddresses(searchAddressesModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.searchAddresses(searchAddressesModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -165,9 +165,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddresses(searchAddressesModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesMunichUseCase.searchAddresses(searchAddressesModel);
-        });
+        assertThatThrownBy(() ->  addressesMunichUseCase.searchAddresses(searchAddressesModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -179,7 +179,7 @@ class AddressesMunichUseCaseTest {
 
         final AddressDistancesModel actualResponse = addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).searchAddressesGeo(searchAddressesGeoModel);
     }
 
@@ -190,9 +190,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddressesGeo(searchAddressesGeoModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel);
-        });
+        assertThatThrownBy(() -> addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -202,9 +202,9 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddressesGeo(searchAddressesGeoModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel);
-        });
+        assertThatThrownBy(() ->  addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
 }

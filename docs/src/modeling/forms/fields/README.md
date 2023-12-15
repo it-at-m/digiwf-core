@@ -175,6 +175,16 @@ Es gibt lediglich einen Unterschied bei der Auswahl and Anzeigemöglichkeiten.
 
 Über dieses Feld können Dateien hochgeladen und angezeigt werden.
 
+Für folgende Dateitypen kann der Input eine Preview anzeigen:
+
+* jpeg
+
+* png
+
+* pdf
+
+Der Upload ist auf max. 10 Dateien mit je max. 10MB beschränkt.
+
 ![Formular Editor](~@source/modeling/forms/fields/files.png)
 
 #### Einstellungen

@@ -18,11 +18,11 @@
       >
         <v-toolbar-title class="font-weight-bold">
           <span class="white--text">Digi</span>
-          <span style="color: #FFCC00">WF</span>
+          <span :style="{color: stage.color}">WF</span>
         </v-toolbar-title>
       </router-link>
       <v-spacer/>
-      <span v-if="appInfo !== null">{{ appInfo.environment }}</span>
+      <span>{{ stage?.displayName }}</span>
       <v-spacer/>
       <v-btn
         icon
@@ -198,13 +198,14 @@ a {
 
 <script lang="ts">
 import Vue from "vue";
-import {Component, Watch} from "vue-property-decorator";
-import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
+import { Component, Watch } from "vue-property-decorator";
+import { InfoTO, ServiceInstanceTO, UserTO, } from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
-import {apiGatewayUrl} from "./utils/envVariables";
-import {queryClient} from "./middleware/queryClient";
+import { apiGatewayUrl } from "./utils/envVariables";
+import { queryClient } from "./middleware/queryClient";
 import ContrastModeSelection from "./components/UI/ContrastModeSelection.vue";
+import StageInfoService, { StageInfo} from "./api/StageInfoService";
 
 @Component({
   components: {AppKeyBindingsDialog, ContrastModeSelection, AppMenuList}
@@ -217,12 +218,16 @@ export default class App extends Vue {
   loginLoading = false;
   loggedIn = true;
   showKeyBindingsModal = false;
+  stage: StageInfo = StageInfoService.getDefaultStageInfo();
 
   created(): void {
     this.loadData();
   }
 
   loadData(refresh = false): void {
+    StageInfoService.getStageInfo().then((stageInfo) => {
+      this.stage = stageInfo;
+    });
     this.$store.dispatch("user/getUserInfo", refresh);
     this.$store.dispatch("info/getInfo", refresh);
     this.drawer = this.$store.getters["menu/open"];

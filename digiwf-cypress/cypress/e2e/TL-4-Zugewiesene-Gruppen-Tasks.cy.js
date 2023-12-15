@@ -77,15 +77,15 @@ describe('zugewiesene Gruppentasks anzeigen', () => {
 
     after(() => {
         vorgangStarten.openMeineAufgaben();
-        cy.wait(2000);
+        cy.wait(3000);
         //Close group tasks and check necessary group task function
         for (let i=1; i<= numberOfTasks; i++) {
             meineAufgaben.clickElement(1);
-            groupUserTasks.checkHeadline();
+            groupUserTasks.checkTaskHeadline();
             groupUserTasks.tickCheckbox();
             groupUserTasks.clickAbschliessen();
             //necessary to wait for the task to be deleted
-            cy.wait(3000);
+            cy.wait(4000)
             meineAufgaben.clickAktualisieren();
         }
     })

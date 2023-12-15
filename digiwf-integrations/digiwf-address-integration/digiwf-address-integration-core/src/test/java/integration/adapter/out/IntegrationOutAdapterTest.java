@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -41,9 +41,9 @@ class IntegrationOutAdapterTest {
         final ArgumentCaptor<Map<String, Object>> payloadCaptor = ArgumentCaptor.forClass(Map.class);
         verify(processApi).correlateMessage(processInstanceIdCaptor.capture(), messageNameCaptor.capture(), payloadCaptor.capture());
 
-        assertEquals(messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID), processInstanceIdCaptor.getValue());
-        assertEquals(messageHeaders.get(DIGIWF_MESSAGE_NAME), messageNameCaptor.getValue());
-        assertEquals(payloadCaptor.getValue(), payload);
+        assertThat(processInstanceIdCaptor.getValue()).isEqualTo(messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID));
+        assertThat(messageNameCaptor.getValue()).isEqualTo(messageHeaders.get(DIGIWF_MESSAGE_NAME));
+        assertThat(payloadCaptor.getValue()).isEqualTo(payload);
     }
 
     @Test
@@ -58,9 +58,9 @@ class IntegrationOutAdapterTest {
         final ArgumentCaptor<BpmnError> bpmnErrorCaptor = ArgumentCaptor.forClass(BpmnError.class);
         verify(errorApi).handleBpmnError(messageHeadersCaptor.capture(), bpmnErrorCaptor.capture());
 
-        assertEquals(messageHeaders, messageHeadersCaptor.getValue());
-        assertEquals(errorMessage, bpmnErrorCaptor.getValue().getErrorMessage());
-        assertEquals(errorCode, bpmnErrorCaptor.getValue().getErrorCode());
+        assertThat(messageHeadersCaptor.getValue()).isEqualTo(messageHeaders);
+        assertThat(bpmnErrorCaptor.getValue()).isEqualTo(bpmnError);
+        assertThat(bpmnErrorCaptor.getValue().getErrorCode()).isEqualTo(errorCode);
     }
 
     @Test
@@ -74,8 +74,8 @@ class IntegrationOutAdapterTest {
         final ArgumentCaptor<IncidentError> incidentErrorArgumentCaptor = ArgumentCaptor.forClass(IncidentError.class);
         verify(errorApi).handleIncident(messageHeadersCaptor.capture(), incidentErrorArgumentCaptor.capture());
 
-        assertEquals(messageHeaders, messageHeadersCaptor.getValue());
-        assertEquals(errorMessage, incidentErrorArgumentCaptor.getValue().getErrorMessage());
+        assertThat(messageHeadersCaptor.getValue()).isEqualTo(messageHeaders);
+        assertThat(incidentErrorArgumentCaptor.getValue()).isEqualTo(incidentError);
     }
 
 }

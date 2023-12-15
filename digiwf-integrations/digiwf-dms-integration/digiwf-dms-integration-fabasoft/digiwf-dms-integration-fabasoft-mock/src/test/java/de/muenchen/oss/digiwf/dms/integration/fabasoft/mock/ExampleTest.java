@@ -5,10 +5,9 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.CreateProcedureGIRespons
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import de.muenchen.oss.digiwf.integration.e2e.test.wsdl.DigiwfWiremockWsdlUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
 
 @WireMockTest()
 public class ExampleTest {
@@ -23,7 +22,7 @@ public class ExampleTest {
 
     @Test
     public void execute_createProcedure_request() {
-        stubOperation(
+        DigiwfWiremockWsdlUtility.stubOperation(
                 "CreateProcedureGI",
                 CreateProcedureGI.class, (u) -> "new procedure".equals(u.getShortname()),
                 new CreateProcedureGIResponse());
