@@ -14,7 +14,7 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -36,144 +36,168 @@ class AddressClientOutAdapterTest {
     @Test
     void testSearchAddressesThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressGermanyApi).searchAddresses(any(SearchAddressesGermanyModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testSearchAddressesThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressGermanyApi).searchAddresses(any(SearchAddressesGermanyModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchAddressesThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressGermanyApi).searchAddresses(any(SearchAddressesGermanyModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.searchAddresses(SearchAddressesGermanyModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testCheckAddressThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressMunichApi).checkAddress(any(CheckAddressesModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testCheckAddressThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressMunichApi).checkAddress(any(CheckAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testCheckAddressThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressMunichApi).checkAddress(any(CheckAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()));
+        assertThatThrownBy(() -> this.addressClientOutPort.checkAddress(CheckAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListAddressesThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressMunichApi).listAddresses(any(ListAddressesModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testListAddressesThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressMunichApi).listAddresses(any(ListAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListAddressesThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressMunichApi).listAddresses(any(ListAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listAddresses(ListAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListChangesThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressMunichApi).listChanges(any(ListAddressChangesModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testListChangesThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressMunichApi).listChanges(any(ListAddressChangesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListChangesThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressMunichApi).listChanges(any(ListAddressChangesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listChanges(ListAddressChangesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchAddressesMunichThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressMunichApi).searchAddresses(any(SearchAddressesModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testSearchAddressesMunichThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressMunichApi).searchAddresses(any(SearchAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchAddressesMunichThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressMunichApi).searchAddresses(any(SearchAddressesModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddresses(SearchAddressesModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchAddressesGeoThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(addressMunichApi).searchAddressesGeo(any(SearchAddressesGeoModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testSearchAddressesGeoThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(addressMunichApi).searchAddressesGeo(any(SearchAddressesGeoModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchAddressesGeoThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(addressMunichApi).searchAddressesGeo(any(SearchAddressesGeoModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.searchAddressesGeo(SearchAddressesGeoModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchStreetsThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(streetsMunichApi).findStreetsById(anyLong());
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.findStreetsById(1L));
+        assertThatThrownBy(() ->  this.addressClientOutPort.findStreetsById(1L))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testSearchStreetsThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(streetsMunichApi).findStreetsById(anyLong());
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.findStreetsById(1L));
+        assertThatThrownBy(() ->  this.addressClientOutPort.findStreetsById(1L))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testSearchStreetsThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(streetsMunichApi).findStreetsById(anyLong());
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.findStreetsById(1L));
+        assertThatThrownBy(() ->  this.addressClientOutPort.findStreetsById(1L))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListStreetsThrowsBpmnError() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationClientErrorException("test", new RuntimeException())).when(streetsMunichApi).listStreets(any(ListStreetsModel.class));
-        assertThrows(BpmnError.class, () -> this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()))
+                .isInstanceOf(BpmnError.class);
     }
 
     @Test
     void testListStreetsThrowsIncidentErrorIfAddressServiceIntegrationServerErrorExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationServerErrorException("test", new RuntimeException())).when(streetsMunichApi).listStreets(any(ListStreetsModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 
     @Test
     void testListStreetsThrowsIncidentErrorIfAddressServiceIntegrationExceptionOccurs() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         doThrow(new AddressServiceIntegrationException("test", new RuntimeException())).when(streetsMunichApi).listStreets(any(ListStreetsModel.class));
-        assertThrows(IncidentError.class, () -> this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()));
+        assertThatThrownBy(() ->  this.addressClientOutPort.listStreets(ListStreetsModel.builder().build()))
+                .isInstanceOf(IncidentError.class);
     }
 }

@@ -14,6 +14,9 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -38,13 +41,13 @@ class ErrorApiImplTest {
 
     @BeforeEach
     void setUp() {
-        when(this.messageApi.sendMessage(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        when(this.messageApi.sendMessage(any(), anyMap(), anyString())).thenReturn(true);
     }
 
     @Test
     void testHandleIncident() {
         final boolean success = this.errorApi.handleIncident(this.processInstanceId, this.messageName, "someErrorMessage");
-        Assertions.assertTrue(success);
+        assertThat(success).isTrue();
         this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.messageName, this.incidentDestination);
     }
 
@@ -53,7 +56,7 @@ class ErrorApiImplTest {
         final String errorCode = "400";
         final String errorMessage = "someErrorMessage";
         final boolean success = this.errorApi.handleBpmnError(this.processInstanceId, errorCode, errorMessage);
-        Assertions.assertTrue(success);
+        assertThat(success).isTrue();
         this.verifyBpmnErrorMessageApiCall(new BpmnError(errorCode, errorMessage), this.bpmnErrorDestination);
     }
 
@@ -61,36 +64,37 @@ class ErrorApiImplTest {
     void testHandleBpmnErrorWithException() {
         final BpmnError bpmnError = new BpmnError("400", "someErrorMessage");
         final boolean success = this.errorApi.handleBpmnError(this.messageHeaders, bpmnError);
-        Assertions.assertTrue(success);
+        assertThat(success).isTrue();
         this.verifyBpmnErrorMessageApiCall(bpmnError, this.bpmnErrorDestination);
     }
 
     @Test
     void testHandleBpmnErrorWithExceptionRaisesRuntimeExceptionOnMissingProcessInstance() {
         final BpmnError bpmnError = new BpmnError("400", "someErrorMessage");
-        Assertions.assertThrows(RuntimeException.class, () -> this.errorApi.handleBpmnError(Map.of(), bpmnError));
+        assertThatThrownBy(() -> this.errorApi.handleBpmnError(Map.of(DIGIWF_MESSAGE_NAME, "someMessage"), bpmnError))
+                .isInstanceOf(RuntimeException.class);
     }
 
     @Test
     void testHandleIncidentWithException() {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
         final boolean success = this.errorApi.handleIncident(this.messageHeaders, incidentError);
-        Assertions.assertTrue(success);
+        assertThat(success).isTrue();
         this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.messageName, this.incidentDestination);
     }
 
     @Test
     void testHandleIncidentWithExceptionRaisesRuntimeExceptionOnMissingProcessInstance() {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
-        Assertions.assertThrows(RuntimeException.class, () ->
-                this.errorApi.handleIncident(Map.of(DIGIWF_MESSAGE_NAME, "someMessage"), incidentError));
+        assertThatThrownBy(() -> this.errorApi.handleIncident(Map.of(DIGIWF_MESSAGE_NAME, "someMessage"), incidentError))
+                .isInstanceOf(RuntimeException.class);
     }
 
     @Test
     void testHandleIncidentWithExceptionRaisesRuntimeExceptionOnMissingMessageName() {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
-        Assertions.assertThrows(RuntimeException.class, () ->
-                this.errorApi.handleIncident(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId), incidentError));
+        assertThatThrownBy(() -> this.errorApi.handleIncident(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId), incidentError))
+                .isInstanceOf(RuntimeException.class);
     }
 
     private void verifyBpmnErrorMessageApiCall(final BpmnError payload, final String destination) {
@@ -113,11 +117,15 @@ class ErrorApiImplTest {
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
         Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(payload, payloadCaptor.getValue());
-        Assertions.assertEquals(typeHeader, headersCaptor.getValue().get(TYPE));
-        Assertions.assertEquals(this.processInstanceId, headersCaptor.getValue().get(DIGIWF_PROCESS_INSTANCE_ID));
-        Assertions.assertEquals(messageNameHeader, headersCaptor.getValue().get(DIGIWF_MESSAGE_NAME));
-        Assertions.assertEquals(destination, destinationCaptor.getValue());
+        assertThat(payloadCaptor.getValue()).isEqualTo(payload);
+
+        assertThat(headersCaptor.getValue())
+                .hasSize(3)
+                .containsEntry(TYPE, typeHeader)
+                .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId)
+                .containsEntry(DIGIWF_MESSAGE_NAME, messageNameHeader);
+
+        assertThat(destinationCaptor.getValue()).isEqualTo(destination);
     }
 
 }

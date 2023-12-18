@@ -4,8 +4,9 @@
 
 package de.muenchen.oss.digiwf.engine.incidents;
 
-import de.muenchen.oss.digiwf.legacy.mailing.domain.model.MailTemplate;
-import de.muenchen.oss.digiwf.legacy.mailing.domain.service.MailingService;
+import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.model.Mail;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
@@ -20,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -33,7 +34,7 @@ import java.io.IOException;
 public class IncidentNotifierHandler extends DefaultIncidentHandler {
 
     @Autowired
-    private MailingService mailingService;
+    private DigiwfEmailApi digiwfEmailApi;
 
     @Autowired
     @Lazy
@@ -66,39 +67,40 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
         }
 
         try {
-            this.sendInfoMail(incidentEntity);
-        } catch (final Exception error) {
+            String processName = this.getProcessName(incidentEntity.getProcessDefinitionId());
+            val link = this.cockpitUrl +
+                    "camunda/app/cockpit/default/#/process-instance/" +
+                    incidentEntity.getProcessInstanceId() +
+                    "/runtime";
+            final String emailText = processName.isBlank() ?
+                    "In der Anwendung ist ein Incident aufgetreten." :
+                    "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
+
+            final Map<String, String> emailContent = Map.of(
+                    "%%body_top%%", emailText,
+                    "%%body_bottom%%", "Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
+                    "%%button_link%%", link,
+                    "%%button_text%%", "Fehler im Cockpit anzeigen",
+                    "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
+            );
+            final String templatePath = "bausteine/mail/templatewithlink/mail-template.tpl";
+            final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
+
+            final Mail mail = Mail.builder()
+                    .receivers(this.toAddress)
+                    .subject(this.environment + ": Incident aufgetreten")
+                    .body(emailBody)
+                    .htmlBody(true)
+                    .replyTo(this.fromAddress)
+                    .build();
+            this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
+        } catch (final MessagingException error) {
             log.error("Die Mail für den Incident konnte nicht gesendet werden.", error);
         }
 
         return incidentEntity;
     }
 
-    public void sendInfoMail(final IncidentEntity incidentEntity) throws IOException {
-
-        String processName = this.getProcessName(incidentEntity.getProcessDefinitionId());
-
-        val link = this.cockpitUrl +
-                "camunda/app/cockpit/default/#/process-instance/" +
-                incidentEntity.getProcessInstanceId() +
-                "/runtime";
-
-        String body = "In der Anwendung ist ein Incident aufgetreten.";
-        if (!processName.isBlank()){
-            body = "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
-        }
-
-        final MailTemplate mail = MailTemplate.builder()
-                .body(body)
-                .link(link)
-                .buttonText("Fehler im Cockpit anzeigen")
-                .subject(this.environment + ": Incident aufgetreten")
-                .receivers(this.toAddress)
-                .replyTo(this.fromAddress)
-                .build();
-        log.debug("Sending mail");
-        this.mailingService.sendMailTemplateWithLink(mail);
-    }
     private String getProcessName(String processDefinitionId){
         String processName = "";
         try {

@@ -7,15 +7,16 @@ import store from "../store";
 Vue.use(Vuetify);
 
 export const lightTheme: Partial<VuetifyThemeVariant> = {
-  primary: '#ff7c02',
-  secondary: '#333333',
-  accent: '#7BA4D9',
-  success: '#69BE28',
-  error: '#FF0000',
+  primary: "#ff7c02",
+  secondary: "#333333",
+  accent: "#7BA4D9",
+  success: "#69BE28",
+  error: "#FF0000",
 };
 
 export const highContrastTheme: Partial<VuetifyThemeVariant> = {
   ...lightTheme,
+  primary: "#000000"
 };
 
 // https://medium.com/@jogarcia/vuetify-multiple-themes-c580f41ece65

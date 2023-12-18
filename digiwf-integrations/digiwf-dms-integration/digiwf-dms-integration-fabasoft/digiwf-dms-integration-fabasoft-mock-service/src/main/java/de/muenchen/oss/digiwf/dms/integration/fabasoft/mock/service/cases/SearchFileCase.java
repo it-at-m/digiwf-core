@@ -5,10 +5,9 @@ import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIObjectType
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.SearchObjNameGI;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.SearchObjNameGIResponse;
 import com.github.tomakehurst.wiremock.WireMockServer;
+import de.muenchen.oss.digiwf.integration.e2e.test.wsdl.DigiwfWiremockWsdlUtility;
 import lombok.val;
 import org.springframework.stereotype.Component;
-
-import static de.muenchen.oss.digiwf.dms.integration.fabasoft.mock.MockUtils.stubOperation;
 
 @Component
 public class SearchFileCase implements MockCase {
@@ -27,7 +26,7 @@ public class SearchFileCase implements MockCase {
         response.setStatus(0);
         response.setGiobjecttype(array);
 
-        stubOperation(
+        DigiwfWiremockWsdlUtility.stubOperation(
                 server,
                 "SearchObjNameGI",
                 SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),

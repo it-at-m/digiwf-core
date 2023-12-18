@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
 import org.camunda.community.rest.client.api.ExecutionApi;
-import org.camunda.community.rest.client.dto.CreateIncidentDto;
-import org.camunda.community.rest.client.dto.EventSubscriptionDto;
-import org.camunda.community.rest.client.invoker.ApiException;
+import org.camunda.community.rest.client.model.CreateIncidentDto;
+import org.camunda.community.rest.client.model.EventSubscriptionDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -34,21 +34,25 @@ public class IncidentServiceImpl implements IncidentService {
             Assert.notNull(messageName, "message name cannot be empty");
 
             //load corresponding event subscription
-            final String executionId = this.eventSubscriptionApi.getEventSubscriptions(
-                    null,
-                    messageName,
-                    EVENT_TYPE,
-                    null,
-                    processInstanceId,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null)
-                    .stream()
+            final List<EventSubscriptionDto> eventSubscriptions = this.eventSubscriptionApi.getEventSubscriptions(
+                            null,
+                            messageName,
+                            EVENT_TYPE,
+                            null,
+                            processInstanceId,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null)
+                    .getBody();
+            if (eventSubscriptions.isEmpty()) {
+                throw new NoSuchElementException();
+            }
+            final String executionId = eventSubscriptions.stream()
                     .findFirst()
                     .map(EventSubscriptionDto::getExecutionId)
                     .orElseThrow();
@@ -64,10 +68,6 @@ public class IncidentServiceImpl implements IncidentService {
 
             // send create incident call
             this.executionApi.createIncident(executionId, createIncidentDto);
-
-        } catch (final ApiException e) {
-            log.error("Cannot create incident for processinstance id {} and message name {}: {}", processInstanceId, messageName, e.getResponseBody());
-            throw new RuntimeException(e);
         } catch (final NoSuchElementException | IllegalArgumentException e) {
             log.error("Cannot create incident for processinstance id {} and message name {}", processInstanceId, messageName);
             throw new RuntimeException(e);

@@ -60,7 +60,7 @@ public class ServiceInstanceAuthService {
      * @return
      */
     public boolean hasAccess(final String instanceId, final String userId) {
-        return this.processInstanceAuthorizationRepository.findByUserIdAndProcessInstanceId(userId, instanceId).isPresent();
+        return this.processInstanceAuthorizationRepository.existsByUserIdAndProcessInstanceId(userId, instanceId);
     }
 
 }

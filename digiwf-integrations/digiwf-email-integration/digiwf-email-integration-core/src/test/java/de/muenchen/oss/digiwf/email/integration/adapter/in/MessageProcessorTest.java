@@ -6,7 +6,7 @@ import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import org.junit.jupiter.api.Assertions;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -14,11 +14,11 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import jakarta.validation.ValidationException;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -74,7 +74,7 @@ class MessageProcessorTest {
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
     }
 
     @Test
@@ -84,7 +84,7 @@ class MessageProcessorTest {
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
     }
 
     @Test
@@ -94,7 +94,7 @@ class MessageProcessorTest {
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
-        Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
     }
 }
 

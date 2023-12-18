@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0a2x67s" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="test-usertask-notifications" name="Test User Task Notifications" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="user-task">
+      <bpmn:outgoing>Flow_0klqeiw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0klqeiw" sourceRef="StartEvent_1" targetRef="Gateway_1wa76n1" />
+    <bpmn:sequenceFlow id="Flow_0deupe8" sourceRef="Gateway_1wa76n1" targetRef="Activity_10sw59m" />
+    <bpmn:sequenceFlow id="Flow_000ks2f" sourceRef="Gateway_1wa76n1" targetRef="Activity_1wkmit8" />
+    <bpmn:sequenceFlow id="Flow_0pf3hdd" sourceRef="Gateway_1wa76n1" targetRef="Activity_1cyn00v" />
+    <bpmn:userTask id="Activity_10sw59m" name="Notify User" camunda:modelerTemplate="de.muenchen.digiwf.templates.BasisUsertask" camunda:assignee="123456789">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0deupe8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dp4wm1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1wkmit8" name="Notify Group" camunda:modelerTemplate="de.muenchen.digiwf.templates.BasisUsertask" camunda:candidateGroups="group1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_000ks2f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lhaz1g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1cyn00v" name="Notfiy Candidate Users" camunda:modelerTemplate="de.muenchen.digiwf.templates.BasisUsertask" camunda:candidateUsers="123456789">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">user-task</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pf3hdd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bbgl2n</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0dp4wm1" sourceRef="Activity_10sw59m" targetRef="Gateway_08vuujq" />
+    <bpmn:endEvent id="Event_0abddja">
+      <bpmn:incoming>Flow_1tx4b68</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1tx4b68" sourceRef="Gateway_08vuujq" targetRef="Event_0abddja" />
+    <bpmn:sequenceFlow id="Flow_0lhaz1g" sourceRef="Activity_1wkmit8" targetRef="Gateway_08vuujq" />
+    <bpmn:sequenceFlow id="Flow_1bbgl2n" sourceRef="Activity_1cyn00v" targetRef="Gateway_08vuujq" />
+    <bpmn:parallelGateway id="Gateway_1wa76n1">
+      <bpmn:incoming>Flow_0klqeiw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0deupe8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_000ks2f</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0pf3hdd</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_08vuujq">
+      <bpmn:incoming>Flow_0dp4wm1</bpmn:incoming>
+      <bpmn:incoming>Flow_0lhaz1g</bpmn:incoming>
+      <bpmn:incoming>Flow_1bbgl2n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tx4b68</bpmn:outgoing>
+    </bpmn:parallelGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test-usertask-notifications">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_107ot83_di" bpmnElement="Activity_10sw59m">
+        <dc:Bounds x="420" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01gw5vy_di" bpmnElement="Activity_1wkmit8">
+        <dc:Bounds x="420" y="187" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0amy3ta_di" bpmnElement="Activity_1cyn00v">
+        <dc:Bounds x="420" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0abddja_di" bpmnElement="Event_0abddja">
+        <dc:Bounds x="742" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1v30890_di" bpmnElement="Gateway_1wa76n1">
+        <dc:Bounds x="265" y="202" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1m7h7qn_di" bpmnElement="Gateway_08vuujq">
+        <dc:Bounds x="635" y="202" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0klqeiw_di" bpmnElement="Flow_0klqeiw">
+        <di:waypoint x="215" y="227" />
+        <di:waypoint x="265" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0deupe8_di" bpmnElement="Flow_0deupe8">
+        <di:waypoint x="290" y="202" />
+        <di:waypoint x="290" y="120" />
+        <di:waypoint x="420" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_000ks2f_di" bpmnElement="Flow_000ks2f">
+        <di:waypoint x="315" y="227" />
+        <di:waypoint x="420" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pf3hdd_di" bpmnElement="Flow_0pf3hdd">
+        <di:waypoint x="290" y="252" />
+        <di:waypoint x="290" y="340" />
+        <di:waypoint x="420" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dp4wm1_di" bpmnElement="Flow_0dp4wm1">
+        <di:waypoint x="520" y="120" />
+        <di:waypoint x="660" y="120" />
+        <di:waypoint x="660" y="202" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tx4b68_di" bpmnElement="Flow_1tx4b68">
+        <di:waypoint x="685" y="227" />
+        <di:waypoint x="742" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lhaz1g_di" bpmnElement="Flow_0lhaz1g">
+        <di:waypoint x="520" y="227" />
+        <di:waypoint x="635" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bbgl2n_di" bpmnElement="Flow_1bbgl2n">
+        <di:waypoint x="520" y="340" />
+        <di:waypoint x="660" y="340" />
+        <di:waypoint x="660" y="252" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

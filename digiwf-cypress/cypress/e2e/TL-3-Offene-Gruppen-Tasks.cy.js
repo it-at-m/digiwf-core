@@ -68,9 +68,9 @@ describe('offene Gruppentasks anzeigen', () => {
             groupUserTasks.clickBearbeiten();
             groupUserTasks.tickCheckbox();
             groupUserTasks.clickAbschliessen();
-            meineAufgaben.clickAktualisieren();
             //wait for task being closed
             cy.wait(2000);
+            meineAufgaben.clickAktualisieren();
         }
     })
 

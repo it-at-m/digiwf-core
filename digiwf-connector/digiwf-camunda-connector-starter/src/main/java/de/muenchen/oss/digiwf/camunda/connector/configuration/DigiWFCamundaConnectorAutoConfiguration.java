@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.camunda.connector.configuration;
 
-import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputClient;
 import de.muenchen.oss.digiwf.camunda.connector.data.EngineDataSerializer;
+import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputClient;
 import de.muenchen.oss.digiwf.camunda.connector.output.CamundaOutputConfiguration;
 import de.muenchen.oss.digiwf.connector.api.output.OutputService;
 import de.muenchen.oss.digiwf.connector.output.internal.OutputServiceImpl;

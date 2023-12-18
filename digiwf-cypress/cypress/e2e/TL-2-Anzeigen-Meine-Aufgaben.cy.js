@@ -66,7 +66,7 @@ describe('Vorgaenge Anzeigen', () => {
     })
 
 
-    //ensures all of the tasks are loaded
+    //ensures the tasks are loaded
     function reloadPageUntilTasksVisible(maxAttempts=20, attempts=0) {
         if (attempts > maxAttempts) {
             throw new Error("Timed out waiting")
