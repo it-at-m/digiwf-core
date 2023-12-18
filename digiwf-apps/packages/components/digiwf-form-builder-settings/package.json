@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-form-builder-settings",
   "description": "Form Builder Settings",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "module": "dist/digiwf-form-builder-settings.mjs",
   "scripts": {
     "build": "vite build",
