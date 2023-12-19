@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out;
 
-import de.muenchen.oss.digiwf.connector.core.application.port.in.CreateIncidentInPort;
+import de.muenchen.oss.digiwf.connector.core.application.port.out.CreateIncidentOutPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.community.rest.client.api.EventSubscriptionApi;
@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class IncidentAdapter implements CreateIncidentInPort {
+public class IncidentAdapter implements CreateIncidentOutPort {
 
     private static final String INCIDENT_TYPE = "integrationError";
     private static final String EVENT_TYPE = "message";
