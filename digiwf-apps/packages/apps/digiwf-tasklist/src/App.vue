@@ -18,7 +18,7 @@
       >
         <v-toolbar-title class="font-weight-bold">
           <span class="white--text">Digi</span>
-          <span :style="{color: stage.color}">WF</span>
+          <span :style="{color: stage?.color}">WF</span>
         </v-toolbar-title>
       </router-link>
       <v-spacer/>
