@@ -23,7 +23,6 @@ export default class StageInfoService {
    * Fetches the stage info from the gateways actuator info endpoint.
    */
   static getStageInfo(): Promise<StageInfo> {
-    // return Promise.resolve(this.getDefaultStageInfo());
     return axios.get<ActuatorResponse>("actuator/info")
       .then(res => {
         if(res.data?.application.stage) {
