@@ -26,7 +26,6 @@ export default class StageInfoService {
     // return Promise.resolve(this.getDefaultStageInfo());
     return axios.get<ActuatorResponse>("actuator/info")
       .then(res => {
-        console.log("res.data?.application",res.data?.application);
         if(res.data?.application.stage) {
           return res.data?.application.stage;
         }
