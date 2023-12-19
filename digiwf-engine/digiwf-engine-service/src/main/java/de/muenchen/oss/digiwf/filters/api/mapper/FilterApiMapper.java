@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.filters.api.transport.FilterTO;
 import de.muenchen.oss.digiwf.filters.api.transport.SaveFilterTO;
 import de.muenchen.oss.digiwf.filters.domain.model.Filter;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -21,8 +22,10 @@ public interface FilterApiMapper {
 
     FilterTO map2TO(Filter filter);
 
+    @Mapping(target = "userId", ignore = true)
     Filter map(FilterTO filterTO);
 
+    @Mapping(target = "id", ignore = true)
     Filter map(SaveFilterTO filterTO, String userId);
 
 }

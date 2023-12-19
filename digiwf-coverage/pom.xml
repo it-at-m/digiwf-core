@@ -6,12 +6,13 @@
     <artifactId>digiwf-coverage</artifactId>
     <name>digiwf-coverage</name>
     <description>Jacoco Code Coverage</description>
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <relativePath>../digiwf-parent</relativePath>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
