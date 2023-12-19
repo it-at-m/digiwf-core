@@ -22,14 +22,9 @@
     </properties>
 
     <modules>
-        <module>digiwf-connector-api</module>
-        <module>digiwf-connector-core</module>
         <module>digiwf-connector-starter</module>
-        <module>digiwf-connector-starter-rest</module>
-
-        <module>digiwf-camunda-connector</module>
         <module>digiwf-camunda-connector-service</module>
-        <module>digiwf-camunda-connector-starter</module>
+        <module>digiwf-camunda-rest-connector-starter</module>
     </modules>
 
 
