@@ -37,8 +37,10 @@ Dementsprechend muss zuerst die **digiwf-message** Bibliothek als Dependency in 
     </dependency>
 ```
 
-Diese Bibliothek stellt bereits einen Function Router zur Verfügung, der die eingehenden Nachrichten anhand des Message Headers
-`type` an den in den *typeMappings* konfigurierten Consumer weiterleitet.
+Die digiwf-message Bibliothek stellt als Dependency Spring Cloud Stream bereit.
+Mithilfe von Spring Cloud Stream können wir Nachrichten aus einem Message Broker empfangen und verarbeiten.
+Spring Cloud Stream verfügt über eine [Funktion Routing Funktionalität](https://github.com/spring-cloud/spring-cloud-stream/blob/main/docs/modules/ROOT/pages/spring-cloud-stream/event-routing.adoc#using-application-properties), die es 
+ermöglicht, eingehende Nachrichten anhand eines Message Headers an den entsprechenden Spring Cloud Stream Consumer weiterzuleiten.
 Demnach muss die Anwendung nur noch die Consumer implementieren, die die Nachrichten vom Event Broker empfangen und verarbeiten.
 
 ```java
@@ -53,17 +55,26 @@ public class MessageProcessor {
 }
 ```
 
-Damit an den obigen `exampleIntegration` Consumer die Nachrichten weitergeleitet werden, muss in den typeMappings der digiwf-message lib
+Damit an den obigen `exampleIntegration` Consumer die Nachrichten weitergeleitet werden, muss in der *application.yml* der Integration
 die folgende Konfiguration angegeben werden. Anschließend werden alle Messages mit dem Header `type=exampleIntegration` an den Consumer weitergeleitet.
 
 ```yaml
-io:
-  muenchendigital:
-    digiwf:
-      message:
-        typeMappings:
-          exampleIntegration: "exampleIntegration"
+spring:
+  cloud:
+    function:
+      definition: functionRouter;exampleIntegration;
+      routing-expression: "headers['type']"
+    stream:
+      function:
+        routing:
+          enabled: 'true'
+      bindings:
+        functionRouter-in-0:
+          group: "consumer-group-der-integration"
+          destination: "topic-der-integration"
 ```
+
+Neben dem `functionRouter` muss auch der Consumer der Integration in der `application.yml` definiert werden.
 
 ## Correlate Message
 
@@ -185,7 +196,8 @@ die Streaming Group und die TypeMapping angepasst werden.
 spring:
   cloud:
     function:
-      definition: functionRouter;sendMessage;
+      definition: functionRouter;sendMessage;exampleIntegration;
+      routing-expression: "headers['type']"
     stream:
       function:
         routing:
@@ -204,8 +216,6 @@ io:
         incidentDestination: "${KAFKA_TOPICS_CONNECTOR_INCIDENT}"
         bpmnErrorDestination: "${KAFKA_TOPICS_CONNECTOR_BPMNERROR}"
         correlateMessageDestination: "${KAFKA_TOPIC_ENGINE}"
-        typeMappings:
-          exampleIntegration: "exampleIntegration"
 ```
 
 Im obigen Beispiel wird die Konfiguration des Binders bewusst ausgelassen, da diese vom verwendeten Binder abhängig ist.

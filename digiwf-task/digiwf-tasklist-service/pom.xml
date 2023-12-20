@@ -6,27 +6,44 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
-    <packaging>jar</packaging>
+
     <properties>
         <rest.base-package-name>de.muenchen.oss.digiwf.task.service.application.port.in.rest</rest.base-package-name>
-        <camunda-platform-7-rest-client.version>7.19.1</camunda-platform-7-rest-client.version>
+
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <camunda-platform-7-rest-client.version>7.20.0</camunda-platform-7-rest-client.version>
+        <axon-framework.version>4.9.1</axon-framework.version>
+        <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
+
         <spin.version>1.22.0</spin.version>
-        <archunit.version>1.1.0</archunit.version>
-        <wiremock.version>2.35.1</wiremock.version>
-        <camunda-platform-7-mockito.version>6.18.0</camunda-platform-7-mockito.version>
+        <archunit.version>1.2.1</archunit.version>
+        <wiremock.version>3.3.1</wiremock.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Cloud -->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- digiwf task api -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-task-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-security-starter</artifactId>
@@ -34,15 +51,21 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-json-serialization-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+
         <!-- Polyflow View -->
         <dependency>
             <groupId>io.holunda.polyflow</groupId>
@@ -52,12 +75,27 @@
             <groupId>io.holunda.polyflow</groupId>
             <artifactId>polyflow-view-api-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.holunda.polyflow</groupId>
+            <artifactId>polyflow-bus-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.holunda.data</groupId>
+            <artifactId>camunda-bpm-data</artifactId>
+        </dependency>
+
 
         <!-- Camunda REST Client -->
         <dependency>
             <groupId>org.camunda.community.rest</groupId>
             <artifactId>camunda-platform-7-rest-client-spring-boot-starter</artifactId>
             <version>${camunda-platform-7-rest-client.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-jaxb-annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- SPIN -->
@@ -69,6 +107,7 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine-plugin-spin</artifactId>
+            <version>${camunda.version}</version>
         </dependency>
 
         <dependency>
@@ -87,27 +126,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
         <dependency>
             <groupId>org.axonframework</groupId>
@@ -140,17 +159,15 @@
         <!-- OpenApi -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -168,30 +185,11 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-
         <!-- Test -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-unit-test</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -247,8 +245,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
             <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
@@ -260,7 +258,6 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>${camunda-platform-7-mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -292,7 +289,6 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.0.1</version>
                 <executions>
                     <execution>
                         <id>generate-server-stubs</id>
@@ -321,6 +317,7 @@
                                 <generateSupportingFiles>false</generateSupportingFiles>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useTags>true</useTags>
+                                <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -336,10 +333,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

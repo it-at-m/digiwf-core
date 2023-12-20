@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.spring.security;
 
-import com.nimbusds.jose.shaded.json.JSONObject;
+import net.minidev.json.JSONObject;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;

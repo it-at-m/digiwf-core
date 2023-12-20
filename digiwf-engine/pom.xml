@@ -1,22 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>digiwf-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
+    </parent>
+
+
     <artifactId>digiwf-engine</artifactId>
-    <name>digiwf-engine</name>
     <packaging>pom</packaging>
     <description>Workflow Engine used by DigiWF</description>
 
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
-    </parent>
+    <properties>
+        <camunda.version.ce>7.20.0</camunda.version.ce>
+        <camunda.version>${camunda.version.ce}</camunda.version>
+        <camunda.version.ee>7.20.0-ee</camunda.version.ee>
+        <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 
     <modules>
         <module>digiwf-engine-service</module>
+        <module>digiwf-engine-rest-service</module>
         <module>digiwf-engine-cockpit</module>
     </modules>
 
+
+    <profiles>
+        <profile>
+            <activation>
+                <property>
+                    <name>camunda-ee</name>
+                </property>
+            </activation>
+            <id>camunda-ee</id>
+            <properties>
+                <camunda.version>${camunda.version.ee}</camunda.version>
+            </properties>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>https://camunda.jfrog.io/artifactory/private/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </project>

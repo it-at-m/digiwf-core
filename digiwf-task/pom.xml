@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
-
 
     <artifactId>digiwf-task</artifactId>
     <name>${project.artifactId}</name>
@@ -16,14 +16,27 @@
     <description>Task management used by DigiWF</description>
 
     <properties>
-        <polyflow.version>3.15.0</polyflow.version>
-        <axon-framework.version>4.6.8</axon-framework.version>
-        <axon-extension-kafka.version>4.6.0</axon-extension-kafka.version>
-        <kotlin.version>1.9.10</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
+        <camunda.version>7.20.0</camunda.version>
+        <polyflow.version>4.1.0</polyflow.version>
+        <camunda-bpm-data.version>1.5.0</camunda-bpm-data.version>
     </properties>
+
+    <modules>
+        <module>digiwf-task-api</module>
+        <module>digiwf-tasklist-service</module>
+        <module>digiwf-polyflow-connector-starter</module>
+        <module>digiwf-task-itest</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-bom</artifactId>
@@ -32,12 +45,13 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
                 <scope>import</scope>
+                <type>pom</type>
             </dependency>
+
             <dependency>
                 <groupId>io.holunda.polyflow</groupId>
                 <artifactId>polyflow-taskpool-dependencies</artifactId>
@@ -54,24 +68,24 @@
             </dependency>
 
             <dependency>
-                <groupId>de.muenchen.oss.digiwf</groupId>
-                <artifactId>digiwf-task-api</artifactId>
-                <version>${project.version}</version>
+                <groupId>io.holunda.data</groupId>
+                <artifactId>camunda-bpm-data</artifactId>
+                <version>${camunda-bpm-data.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.holunda.polyflow</groupId>
+                <artifactId>polyflow-bus-jackson</artifactId>
+                <version>${polyflow.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.holunda.data</groupId>
-                <artifactId>camunda-bpm-data</artifactId>
-                <version>1.2.8</version>
+                <groupId>org.camunda.community.mockito</groupId>
+                <artifactId>camunda-platform-7-mockito</artifactId>
+                <version>7.20.0</version>
+                <scope>test</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>digiwf-task-api</module>
-        <module>digiwf-tasklist-service</module>
-        <module>digiwf-polyflow-connector-starter</module>
-        <module>digiwf-task-itest</module>
-    </modules>
 
 </project>

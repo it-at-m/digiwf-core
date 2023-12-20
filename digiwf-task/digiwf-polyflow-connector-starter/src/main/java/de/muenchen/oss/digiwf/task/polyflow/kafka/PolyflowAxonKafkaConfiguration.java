@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.task.polyflow.kafka;
 
-import de.muenchen.oss.digiwf.task.envprocessor.AxonKafkaPropertiesEnvironmentPostProcessor;
+import de.muenchen.oss.digiwf.task.autoconfig.DisableAxonKafkaPropertiesEnvironmentConfiguration;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.axonframework.common.AxonConfigurationException;
@@ -32,7 +32,7 @@ import static org.axonframework.extensions.kafka.eventhandling.producer.KafkaEve
 /**
  * Configure to send polyflow events only if kafka is not disabled (is enabled).
  */
-@Profile("!" + AxonKafkaPropertiesEnvironmentPostProcessor.PROFILE_DISABLED)
+@Profile("!" + DisableAxonKafkaPropertiesEnvironmentConfiguration.PROFILE_DISABLED)
 @Configuration
 @AutoConfigureBefore(KafkaAutoConfiguration.class) // we should run before Axon Kafka autoconfiguration
 @EnableConfigurationProperties(PolyflowAxonKafkaProperties.class)

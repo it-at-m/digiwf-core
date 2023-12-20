@@ -5,7 +5,7 @@
     <parent>
         <artifactId>digiwf-dms-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,10 +24,10 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Logging -->
+        <!-- security -->
         <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
     </dependencies>
 

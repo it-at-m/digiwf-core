@@ -3,19 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-gateway</artifactId>
-    <name>digiwf-gateway</name>
-    <packaging>jar</packaging>
-    <description>Apigateway used by DigiWF</description>
-
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <artifactId>digiwf-parent</artifactId>
+        <relativePath>../digiwf-parent</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
+    <artifactId>digiwf-gateway</artifactId>
+    <name>${project.artifactId}</name>
+    <description>Apigateway used by DigiWF</description>
+
+
     <properties>
-        <apache.commons.lang.version>3.13.0</apache.commons.lang.version>
+        <apache.commons.lang.version>3.14.0</apache.commons.lang.version>
         <hazelcast.version>4.2.8</hazelcast.version>
     </properties>
 
@@ -28,6 +29,21 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
+
+        <!-- External Libs -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.commons.lang.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- hateoas -->
@@ -43,16 +59,14 @@
             </exclusions>
         </dependency>
 
-        <!-- actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
         <!-- security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
         <!-- hazelcast -->
@@ -88,33 +102,6 @@
             <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- External Libs -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache.commons.lang.version}</version>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -128,6 +115,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>

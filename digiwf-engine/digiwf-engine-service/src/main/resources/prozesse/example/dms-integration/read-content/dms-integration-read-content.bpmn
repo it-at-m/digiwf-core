@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_0iserd2">
+    <bpmn:participant id="Participant_141ljpi" name="Read content process" processRef="dms-read-content-example" />
+  </bpmn:collaboration>
+  <bpmn:process id="dms-read-content-example" name="DMS: Example Read Cotent Integration" isExecutable="true">
+    <bpmn:documentation />
+    <bpmn:extensionElements />
+    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_1uusxk1" />
+    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-read-content_start">
+      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
+      <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
+        <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1hzdam7">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1H</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:endEvent id="End_terminated" name="Terminated">
+        <bpmn:incoming>Flow_1tpc9wl</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
+    </bpmn:subProcess>
+    <bpmn:endEvent id="Event_completed" name="Ended">
+      <bpmn:incoming>Flow_14y36ao</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0sls4lv" sourceRef="Activity_1uusxk1" targetRef="Activity_06uxuk4" />
+    <bpmn:callActivity id="Activity_1uusxk1" name="Read Content" camunda:modelerTemplate="de.muenchen.digitalwf.templates.dms.read-content" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="readContent" target="app_type_name" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
+        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="${fileCoos}" target="contentCoos" />
+        <camunda:in sourceExpression="path" target="filePath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sls4lv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_14y36ao" sourceRef="Activity_06uxuk4" targetRef="Event_completed" />
+    <bpmn:userTask id="Activity_06uxuk4" name="Check Files" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-read-content_check</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">path</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sls4lv</bpmn:incoming>
+      <bpmn:outgoing>Flow_14y36ao</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0iserd2">
+      <bpmndi:BPMNShape id="Participant_141ljpi_di" bpmnElement="Participant_141ljpi" isHorizontal="true">
+        <dc:Bounds x="160" y="40" width="740" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="252" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="252" y="125" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
+        <dc:Bounds x="340" y="160" width="335" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1v0winq_di" bpmnElement="Event_1v0winq">
+        <dc:Bounds x="392" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="376" y="235" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dekx0j_di" bpmnElement="End_terminated">
+        <dc:Bounds x="592" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="583" y="235" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
+        <di:waypoint x="428" y="210" />
+        <di:waypoint x="592" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_15xklzj_di" bpmnElement="Event_completed">
+        <dc:Bounds x="702" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="704" y="125" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jkj07s_di" bpmnElement="Activity_1uusxk1">
+        <dc:Bounds x="360" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06zvu85_di" bpmnElement="Activity_06uxuk4">
+        <dc:Bounds x="530" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
+        <di:waypoint x="288" y="100" />
+        <di:waypoint x="360" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sls4lv_di" bpmnElement="Flow_0sls4lv">
+        <di:waypoint x="460" y="100" />
+        <di:waypoint x="530" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14y36ao_di" bpmnElement="Flow_14y36ao">
+        <di:waypoint x="630" y="100" />
+        <di:waypoint x="702" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

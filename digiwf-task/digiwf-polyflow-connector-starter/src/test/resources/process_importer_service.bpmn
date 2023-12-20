@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0da9eiw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
-  <bpmn:process id="assignment_test_process" name="assignment_test_process" isExecutable="true">
+  <bpmn:process id="assignment_test_process" name="assignment_test_process" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_08bu753</bpmn:outgoing>
     </bpmn:startEvent>
@@ -103,15 +103,6 @@
         <di:waypoint x="270" y="340" />
         <di:waypoint x="360" y="340" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1onciql_di" bpmnElement="Flow_1onciql">
-        <di:waypoint x="270" y="145" />
-        <di:waypoint x="270" y="450" />
-        <di:waypoint x="360" y="450" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1yh2mao_di" bpmnElement="Flow_1yh2mao">
-        <di:waypoint x="575" y="120" />
-        <di:waypoint x="642" y="120" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_03ge0v5_di" bpmnElement="Flow_03ge0v5">
         <di:waypoint x="460" y="120" />
         <di:waypoint x="525" y="120" />
@@ -125,6 +116,15 @@
         <di:waypoint x="460" y="340" />
         <di:waypoint x="550" y="340" />
         <di:waypoint x="550" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yh2mao_di" bpmnElement="Flow_1yh2mao">
+        <di:waypoint x="575" y="120" />
+        <di:waypoint x="642" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1onciql_di" bpmnElement="Flow_1onciql">
+        <di:waypoint x="270" y="145" />
+        <di:waypoint x="270" y="450" />
+        <di:waypoint x="360" y="450" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_04h13on_di" bpmnElement="Flow_04h13on">
         <di:waypoint x="460" y="450" />

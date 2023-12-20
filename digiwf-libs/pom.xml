@@ -3,23 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>digiwf-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-parent/pom.xml</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
+    </parent>
+
+
     <artifactId>digiwf-libs</artifactId>
-    <name>digiwf-libs</name>
+    <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>Libs by DigiWF</description>
 
-    <parent>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
-    </parent>
-
     <modules>
         <module>digiwf-json-serialization</module>
-        <module>digiwf-spring-cloudstream-utils</module>
         <module>digiwf-camunda-prometheus</module>
         <module>digiwf-message</module>
         <module>digiwf-spring-security</module>
+        <module>digiwf-spring-logging-and-tracing</module>
+        <module>digiwf-email</module>
+        <module>digiwf-testing</module>
+        <module>digiwf-process</module>
     </modules>
 
 </project>

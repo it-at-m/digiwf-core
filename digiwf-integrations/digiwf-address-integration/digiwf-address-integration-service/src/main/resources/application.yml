@@ -1,0 +1,93 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: ${ADDRESS_INTEGRATION_SERVER_PORT:-8080}
+  shutdown: graceful
+spring:
+  application:
+    name: @project.artifactId@
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  cloud:
+    function:
+      definition: functionRouter;sendMessage;
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: "dwf-address-${DIGIWF_ENV}"
+          group: dwf-address-service
+        sendMessage-out-0:
+          destination: "dwf-connector-${DIGIWF_ENV}"
+      function:
+        routing:
+          enabled: true
+      kafka:
+        binder:
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        typeMappings:
+          searchAddressesGermany: searchAddressesGermany
+          checkAddressMunich: checkAddressMunich
+          listAddressesMunich: listAddressesMunich
+          listChangesMunich: listChangesMunich
+          searchAddressesMunich: searchAddressesMunich
+          searchAddressesGeoMunich: searchAddressesGeoMunich
+          findStreetByIdMunich: findStreetByIdMunich
+          listStreetMunich: listStreetMunich
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        address:
+          service:
+            url: ${ADDRESS_SERVICE_URL}

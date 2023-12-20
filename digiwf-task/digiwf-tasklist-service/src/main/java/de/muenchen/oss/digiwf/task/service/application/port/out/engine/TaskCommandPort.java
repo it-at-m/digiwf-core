@@ -36,6 +36,7 @@ public interface TaskCommandPort {
    * @param taskId id of the task.
    * @deprecated should not be used anymore.
    */
+  @Deprecated
   void unassignUserTask(String taskId);
 
   /**

@@ -5,6 +5,7 @@ import user, {UserState} from './modules/user';
 import menu, {MenuState} from "../store/modules/menu";
 import info, {InfoState} from "../store/modules/info";
 import {filters, FilterState} from "./modules/filters";
+import {accessibility} from "./modules/accessibility";
 
 Vue.use(Vuex);
 
@@ -19,14 +20,15 @@ export interface RootState {
 
 const vuexLocal = new VuexPersistence<RootState>({
   storage: window.localStorage,
-  modules: ["filters"]
+  modules: ["filters", "accessibility"]
 });
 export const Vuexstore = new Vuex.Store<RootState>({
   modules: {
     user,
     menu,
     info,
-    filters
+    filters,
+    accessibility
   },
   strict: debug,
   plugins: [vuexLocal.plugin]

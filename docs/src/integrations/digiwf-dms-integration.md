@@ -13,6 +13,34 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 
+### Sachakte anlegen
+
+Zur asynchronen Erstellung einer Sachakte im Dms, erzeugen Sie zuerst ein `CreateFileDto`-Objekt und setzen den
+TYPE-Header auf `createFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `CreateFileDto`-Objekt aufgeführt:
+
+```json
+{
+  "apentryCOO": "",
+  "title": "",
+  "user": ""
+}
+```
+
+Die Dms Integration erzeugt eine Sachakte mit den angegebenen Variablen.
+Dafür muss vorab die ID des Aktenplans gesucht und über das Feld `apentryCOO` übergeben werden.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Sachakte anlegen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createFile.json)
+
 ### Vorgang anlegen
 
 Zur asynchronen Erstellung eines Vorgangs im Dms, erzeugen Sie zuerst ein `CreateProcedureDto`-Objekt und setzen den
@@ -106,7 +134,6 @@ Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozesse
 befüllen Sie es mit den gewünschten Informationen:
 [Dokument updaten](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/updateDocument.json)
 
-
 ### Zu den Akten legen
 
 Um ein Objekt im Dms zu den Akten zu legen, erzeugen Sie zuerst ein `DepositObjectDto`-Objekt und setzen den
@@ -160,6 +187,92 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
 befüllen Sie es mit den gewünschten Informationen:
 [Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+
+### Dateien lesen und in den S3 Speicher übertragen
+
+Um ein Datein aus dem Dms zu lesen und in den S3 zu übertragen, erzeugen Sie zuerst ein `ReadContentDto`-Objekt und
+setzen den
+TYPE-Header auf `readContent`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
+Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `ReadContent`-Objekt aufgeführt:
+
+```json
+{
+  "contentCoos": [
+    "coo1",
+    "coo2"
+  ],
+  "filePath": "folder",
+  "fileContext": "processContext",
+  "user": "test"
+}
+```
+
+Die Dms Integration liest die Inhalte mit den angegebenen `contentCoos` und überträgt sie an den S3 Speicher.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Read Content](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/readContent.json)
+
+### Sachakte suchen
+
+Um eine Sachakte im Dms zu suchen, erzeugen Sie zuerst ein `SearchObjectDto`-Objekt und
+setzen den TYPE-Header auf `searchFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen
+des Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
+
+```json
+{
+  "searchString": "untergruppe.*-sachakte-*",
+  "user": "test"
+}
+```
+
+Die Dms Integration sucht nach der entsprechenden Sachakte und gibt die `Coo` der ersten zurück, die gefunden wird.
+Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Search File](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchFile.json)
+
+### Aktenplaneintrag suchen
+
+Um einen Aktenplaneintrag im Dms zu suchen, erzeugen Sie zuerst ein `SearchObjectDto`-Objekt und
+setzen den TYPE-Header auf `searchSubjectArea`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den
+Namen des Topics können Sie in der Konfiguration des Dms Integration Services unter
+spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+
+> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
+
+Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
+
+```json
+{
+  "searchString": "aktenplanName",
+  "user": "test"
+}
+```
+
+Die Dms Integration sucht nach dem entsprechenden Aktenplaneintrag und gibt die `Coo` des ersten zurück, der gefunden
+wird. Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
+
+**Verwendung in BPMN Prozessen**
+
+Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
+befüllen Sie es mit den gewünschten Informationen:
+[Search Subject Area](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchSubjectArea.json)
 
 ### Fehlerbehandlung
 

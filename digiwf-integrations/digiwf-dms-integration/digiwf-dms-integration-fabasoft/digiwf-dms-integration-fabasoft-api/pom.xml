@@ -6,16 +6,14 @@
     <parent>
         <artifactId>digiwf-dms-integration-fabasoft</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
 
     <properties>
-        <cxf.version>3.6.2</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
+        <cxf.version>4.0.3</cxf.version>
     </properties>
-
 
     <build>
         <plugins>
@@ -51,7 +49,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

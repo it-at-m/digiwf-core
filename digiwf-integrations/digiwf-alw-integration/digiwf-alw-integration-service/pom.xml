@@ -7,14 +7,14 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-alw-integration</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-alw-integration-service</artifactId>
     <name>digiwf-alw-integration-service</name>
 
     <properties>
-        <wiremock.version>2.35.1</wiremock.version>
+        <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
     <dependencies>
@@ -48,20 +48,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
-
         <!-- Spring developer tools -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -78,29 +64,9 @@
 
         <!-- Testing -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
-            <version>${wiremock.version}</version>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-e2e-test-core</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 

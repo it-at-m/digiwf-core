@@ -3,12 +3,25 @@ package de.muenchen.oss.digiwf.task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.holunda.polyflow.bus.jackson.config.FallbackPayloadObjectMapperAutoConfiguration;
 import io.holunda.polyflow.datapool.core.EnablePolyflowDataPool;
+import io.holunda.polyflow.taskpool.collector.CamundaTaskpoolCollectorConfiguration;
 import io.holunda.polyflow.taskpool.core.EnablePolyflowTaskPool;
 import io.holunda.polyflow.taskpool.sender.SenderConfiguration;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.axonframework.common.jpa.EntityManagerProvider;
+import org.axonframework.common.transaction.TransactionManager;
+import org.axonframework.eventhandling.deadletter.jpa.DeadLetterEntry;
+import org.axonframework.eventhandling.tokenstore.jpa.TokenEntry;
+import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
+import org.axonframework.eventsourcing.eventstore.jpa.DomainEventEntry;
+import org.axonframework.eventsourcing.eventstore.jpa.JpaEventStorageEngine;
+import org.axonframework.modelling.saga.repository.jpa.SagaEntry;
+import org.axonframework.serialization.Serializer;
 import org.axonframework.springboot.autoconfig.AxonAutoConfiguration;
 import org.axonframework.springboot.autoconfig.ObjectMapperAutoConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,12 +39,27 @@ import org.springframework.context.annotation.Configuration;
         AxonAutoConfiguration.class,
         ObjectMapperAutoConfiguration.class,
         FallbackPayloadObjectMapperAutoConfiguration.class,
-        SenderConfiguration.class
+        SenderConfiguration.class,
+        CamundaTaskpoolCollectorConfiguration.class
 })
 @EnableConfigurationProperties(
     TaskManagementProperties.class
 )
+@EntityScan(
+    basePackageClasses = {
+        DomainEventEntry.class,
+        SagaEntry.class,
+        TokenEntry.class,
+        DeadLetterEntry.class
+    }
+)
+@Slf4j
 public class PolyflowConnectorAutoConfiguration {
+
+    @PostConstruct
+    public void post() {
+        log.info("Loaded Polyflow configuration.");
+    }
 
     /**
      * Provides an objectmapper for Polyflow payload serialization.
@@ -61,5 +89,21 @@ public class PolyflowConnectorAutoConfiguration {
     @Bean
     public TaskManagementProperties.AssignmentProperties assignmentProperties(TaskManagementProperties properties) {
         return properties.getAssignment();
+    }
+
+    @Bean
+    public EventStorageEngine jpaStorageEngine(
+            EntityManagerProvider entityManagerProvider,
+            TransactionManager transactionManager,
+            @Qualifier("eventSerializer")
+            Serializer eventSerializer
+    ) {
+        return JpaEventStorageEngine
+                .builder()
+                .entityManagerProvider(entityManagerProvider)
+                .transactionManager(transactionManager)
+                .eventSerializer(eventSerializer)
+                .snapshotSerializer(eventSerializer)
+                .build();
     }
 }

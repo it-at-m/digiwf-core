@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.process.definition.api.streaming;
 
-import io.muenchendigital.digiwf.asyncapi.docs.annotations.DocumentAsyncAPI;
 import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
 import de.muenchen.oss.digiwf.process.definition.domain.facade.ServiceDefinitionFacade;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,6 @@ public class ProcessEventListener {
     private final ServiceDefinitionFacade serviceDefinitionFacade;
     private final UserService userService;
 
-    @DocumentAsyncAPI(payload = StartInstanceTOV01.class, functionRouter = true, typeHeader = "startProcessV01")
     @Bean
     public Consumer<Message<StartInstanceTOV01>> startProcessV01() {
         return startInstance -> {

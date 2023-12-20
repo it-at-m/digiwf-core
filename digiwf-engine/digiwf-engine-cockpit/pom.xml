@@ -5,16 +5,14 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-engine-cockpit</artifactId>
     <name>digiwf-engine-cockpit</name>
-    <packaging>jar</packaging>
 
     <properties>
-        <ojdbc8.version>18.15.0.0</ojdbc8.version>
-        <postgresql.version>42.6.0</postgresql.version>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -24,10 +22,6 @@
             <artifactId>digiwf-spring-security-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
         <!-- Camunda -->
         <dependency>
@@ -35,75 +29,12 @@
             <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Datenbank -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <!-- Hibernate Model Gen for type safe criteria -->
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>${ojdbc8.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin.external.google</groupId>
-                    <artifactId>android-json</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-            <version>${camunda.version}</version>
-            <scope>test</scope>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
@@ -122,6 +53,11 @@
         </profile>
         <profile>
             <id>camunda-ee</id>
+            <activation>
+                <property>
+                    <name>camunda-ee</name>
+                </property>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.camunda.bpm.springboot</groupId>

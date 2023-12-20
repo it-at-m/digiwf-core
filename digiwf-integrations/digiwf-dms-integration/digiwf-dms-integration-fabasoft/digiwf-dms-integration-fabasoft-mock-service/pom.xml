@@ -6,16 +6,10 @@
     <parent>
         <artifactId>digiwf-dms-integration-fabasoft</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-dms-integration-fabasoft-mock-service</artifactId>
-
-    <properties>
-        <cxf.version>3.3.6</cxf.version>
-        <javax.xml.version>2.3.0</javax.xml.version>
-        <wiremock.version>2.35.1</wiremock.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -29,14 +23,11 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- This is usually a test dependency, but we need it for the mock service -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-e2e-test-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

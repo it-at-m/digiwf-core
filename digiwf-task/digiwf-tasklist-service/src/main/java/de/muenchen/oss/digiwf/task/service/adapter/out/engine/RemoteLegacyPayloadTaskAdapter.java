@@ -7,7 +7,7 @@ import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.Map;
 
 /**

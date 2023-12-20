@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.process.definition.domain.model;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Optional;
 import java.util.UUID;
 

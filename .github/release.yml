@@ -14,4 +14,4 @@ changelog:
         - docs
     - title: 🔨 Dependency Upgrades
       labels:
-        - Technical Dept
+        - Technical Debt

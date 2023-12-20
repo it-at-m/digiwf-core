@@ -31,6 +31,7 @@ spring:
               protocol: "${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}"
     function:
       definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
   kafka:
     consumer:
       properties:
@@ -45,7 +46,6 @@ io:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
         correlateMessageDestination: "dwf-connector-local-01"
-        typeMappings:
-          exampleIntegration: "exampleIntegration"
+
 server:
   port: 8088

@@ -1,27 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>digiwf-connector</artifactId>
-    <name>digiwf-connector</name>
-    <packaging>pom</packaging>
-    <description>Workflow Engine Connector used by DigiWF</description>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-core</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <artifactId>digiwf-parent</artifactId>
+        <version>1.5.0-SNAPSHOT</version>
+        <relativePath>../digiwf-parent</relativePath>
     </parent>
 
+    <artifactId>digiwf-connector</artifactId>
+    <packaging>pom</packaging>
+    <description>Workflow Engine Connector used by DigiWF</description>
+
+    <properties>
+        <okhttp.version>4.12.0</okhttp.version>
+        <camunda.version>7.20.0</camunda.version>
+        <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
+    </properties>
+
     <modules>
-        <module>digiwf-connector-core</module>
-        <module>digiwf-camunda-connector-service</module>
         <module>digiwf-connector-starter</module>
-        <module>digiwf-connector-starter-rest</module>
-        <module>digiwf-camunda-connector</module>
-        <module>digiwf-camunda-connector-starter</module>
-        <module>digiwf-connector-api</module>
+        <module>digiwf-camunda-connector-service</module>
+        <module>digiwf-camunda-rest-connector-starter</module>
     </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-json-serialization-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${camunda.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.community</groupId>
+                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
+                <version>${camunda-engine-rest-client-openapi-java.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
 </project>

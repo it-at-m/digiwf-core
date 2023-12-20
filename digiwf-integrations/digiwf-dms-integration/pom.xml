@@ -6,18 +6,18 @@
 
     <name>digiwf-dms-integration</name>
     <artifactId>digiwf-dms-integration</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <description>DMS integration used by DigiWF</description>
     <packaging>pom</packaging>
 
     <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-integrations</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <relativePath>../digiwf-integration-parent</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <digiwf.s3.integration.client.version>${project.version}</digiwf.s3.integration.client.version>
         <!-- tika parsers -->
         <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
         <jai-imageio-jpeg2000.version>1.4.0</jai-imageio-jpeg2000.version>
@@ -29,5 +29,29 @@
         <module>digiwf-dms-integration-service</module>
         <module>digiwf-dms-integration-fabasoft</module>
     </modules>
+
+    <!--        TODO could be removed after migrate all migrations to spring 3-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- DigiWF -->
+            <dependency>
+                <groupId>de.muenchen.oss.digiwf</groupId>
+                <artifactId>digiwf-s3-integration-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+        </dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

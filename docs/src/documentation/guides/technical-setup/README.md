@@ -143,18 +143,18 @@ S3-kompatibler ObjectStorage für S3IntegrationApplication. Minio ist unter [htt
 ## DigiWFEngine
 
 Die DigiWF Engine ist eine Camunda Engine, welche um einige Funktionalitäten erweitert wurde.
-Die DigiWF Engine kann mit dem Befehl `mvn install` gebaut und anschließend gestartet werden.
+Die DigiWF Engine kann mit dem Befehl `./mvnw install` gebaut und anschließend gestartet werden.
 
 ### Camunda Cockpit
 
 Die DigiWF Engine kann direkt mit einem Camunda Cockpit gestartet werden.
-Hierfür muss das Profil `camunda-ce` (bzw. `camunda-ee` für die Enterprise Variant) verwendet werden.
+Hierfür muss das Profil `-Pcamunda-ce` (bzw. `-Pcamunda-ee,!camunda-ce` für die Enterprise Variant) verwendet werden.
 
 ```bash
 # community edition
-mvn install -Pcamunda-ce
+./mvn install -Pcamunda-ce
 # enterprise edition
-mvn install -Pcamunda-ee
+./mvn install -Pcamunda-ee,!camunda-ce
 ```
 
 Ggf. muss das Projekt in der IDE neu importiert werden, damit das Profil richtig erkannt wird.

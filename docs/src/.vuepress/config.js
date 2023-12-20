@@ -125,8 +125,10 @@ module.exports = {
                             title: 'Bibliotheken',
                             collapsable: false,
                             children: [
+                                'libs/digiwf-integration-e2e-test/',
                                 'libs/digiwf-message/',
                                 'libs/digiwf-spring-security/',
+                                'libs/digiwf-email/',
                             ]
                         },
                         {
@@ -200,7 +202,8 @@ module.exports = {
                                 'forms/',
                                 'forms/fields/',
                                 'forms/objects/',
-                                'forms/optional-content/'
+                                'forms/optional-content/',
+                                'forms/accessibility/'
                             ]
                         },
                         {
@@ -251,6 +254,7 @@ module.exports = {
                             collapsable: false,
                             children: [
                                 '',
+                                'digiwf-address-integration',
                                 'digiwf-alw-integration',
                                 'digiwf-cosys-integration',
                                 'digiwf-mail-integration',

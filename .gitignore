@@ -396,4 +396,5 @@ gradle-app.setting
 **/application-internal.*
 /docs/node/
 
-digiwf-schema-registry/digiwf-schema-registry-client/.openapi-generator-ignore
+# ignore direnv files
+.envrc

@@ -1,6 +1,9 @@
 info:
   application:
     name: ${spring.application.name}
+    stage:
+      color: ${STAGE_COLOR:#FFCC00}
+      displayName: ${STAGE_DISPLAY_NAME:${DIGIWF_ENV}}
 spring:
   application:
     name: @project.artifactId@
@@ -18,6 +21,9 @@ spring:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SSO_ISSUER_URL:sso.muenchen.de}
       client:
         provider:
           keycloak:
@@ -49,6 +55,8 @@ management:
           - "http://localhost:8083" # for cgi notebooks necessary
           - "http://127.0.0.1:8083" # for cgi notebooks necessary
           - "http://keycloak:8083" # for cgi notebooks necessary
+          - "http://127.0.0.1:8084"
+          - "http://localhost:8084"
         allowedMethods: "*"
         allowedHeaders: "*"
         allowCredentials: on

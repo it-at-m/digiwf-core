@@ -5,8 +5,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Map;
-
 /**
  * Configuration properties for the digiwf-message library.
  *
@@ -25,5 +23,4 @@ public class DigiwfMessageProperties {
     private String bpmnErrorDestination;
     private String correlateMessageDestination;
     private String startProcessDestination;
-    private Map<String, String> typeMappings;
 }

@@ -3,17 +3,15 @@ package de.muenchen.oss.digiwf.cockpit.security.camunda;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
-import org.camunda.bpm.webapp.impl.security.auth.Authentication;
-import org.camunda.bpm.webapp.impl.security.auth.Authentications;
-import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
+import org.camunda.bpm.webapp.impl.security.auth.*;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,15 +36,15 @@ public class CamundaApiAdminTokenBasedAuthenticationFilter extends ContainerBase
 
     AuthenticationResult authenticationResult = authenticationProvider.extractAuthenticatedUser(req, engine);
     if (authenticationResult.isAuthenticated()) {
-      Authentications authentications = Authentications.getFromSession(req.getSession());
+      Authentications authentications = AuthenticationUtil.getAuthsFromSession(req.getSession());
       String authenticatedUser = authenticationResult.getAuthenticatedUser();
 
       if (!existisAuthentication(authentications, DEFAULT_ENGINE, authenticatedUser)) {
         List<String> groups = authenticationResult.getGroups();
         List<String> tenants = authenticationResult.getTenants();
 
-        Authentication authentication = createAuthentication(engine, authenticatedUser, groups, tenants);
-        authentications.addAuthentication(authentication);
+        UserAuthentication authentication = createAuthentication(engine, authenticatedUser, groups, tenants);
+        authentications.addOrReplace(authentication);
       }
       chain.doFilter(request, response);
     } else {

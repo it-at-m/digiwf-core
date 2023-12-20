@@ -1,0 +1,169 @@
+{
+  "name": "Address: List Address Changes",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.listAddressChanges",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "value": "listChangesMunich",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Wirkungsdatum von",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "wirkungsdatumvon",
+        "target": "wirkungsdatumvon"
+      }
+    },
+    {
+      "label": "Wirkungsdatum um",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "wirkungsdatumbis",
+        "target": "wirkungsdatumbis"
+      }
+    },
+    {
+      "label": "Strassenname",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "strassenname",
+        "target": "strassenname"
+      }
+    },
+    {
+      "label": "Hausnummer",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "hausnummer",
+        "target": "hausnummer"
+      }
+    },
+    {
+      "label": "Zusatz",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "zusatz",
+        "target": "zusatz"
+      }
+    },
+    {
+      "label": "PLZ",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "plz",
+        "target": "plz"
+      }
+    },
+    {
+      "label": "page",
+      "type": "String",
+      "value": "1",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "page",
+        "target": "page"
+      }
+    },
+    {
+      "label": "pagesize",
+      "type": "String",
+      "value": "20",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "pagesize",
+        "target": "pagesize"
+      }
+    },
+    {
+      "label": "sortdir",
+      "type": "String",
+      "value": "ASC",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "sortdir",
+        "target": "sortdir"
+      }
+    },
+    {
+      "label": "Address service response as JSON object",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": false
+  }
+}

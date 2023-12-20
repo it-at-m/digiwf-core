@@ -17,7 +17,7 @@ class UpdateDocumentServiceTest {
 
     private final UpdateDocumentPort updateDocumentPort = mock(UpdateDocumentPort.class);
 
-    private final UpdateDocumentService updateDocumentService = new UpdateDocumentService(updateDocumentPort,loadFilePort);
+    private final UpdateDocumentService updateDocumentService = new UpdateDocumentService(updateDocumentPort, loadFilePort);
 
     @Test
     void updateDocument() {
@@ -28,7 +28,7 @@ class UpdateDocumentServiceTest {
 
         when(this.loadFilePort.loadFiles(any(), any())).thenReturn(List.of(content));
 
-        doNothing().when(updateDocumentPort).updateDocument(any(), any(),any(), any());
+        doNothing().when(updateDocumentPort).updateDocument(any(), any(), any(), any());
 
         updateDocumentService.updateDocument("procedureCOO", "user", DocumentType.EINGEHEND, filepaths, "filecontext");
 

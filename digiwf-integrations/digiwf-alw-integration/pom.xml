@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-integrations</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <relativePath>../digiwf-integration-parent</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-alw-integration</artifactId>
@@ -15,11 +16,25 @@
     <packaging>pom</packaging>
     <description>Integration of the ALW-System used by DigiWF</description>
 
-
     <modules>
         <module>digiwf-alw-integration-core</module>
         <module>digiwf-alw-integration-starter</module>
         <module>digiwf-alw-integration-service</module>
     </modules>
 
+    <dependencies>
+        <!-- TODO could be removed after migrate all migrations to spring 3-->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-message-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

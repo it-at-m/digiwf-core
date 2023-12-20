@@ -5,204 +5,46 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-core</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
     <name>digiwf-core</name>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>DigiWF Core Services</description>
     <url>https://github.com/it-at-m/digiwf-core</url>
 
     <properties>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.17</spring-boot.version>
-        <spring.cloud.version>2021.0.8</spring.cloud.version>
-        <okhttp.version>4.12.0</okhttp.version>
         <lombok.version>1.18.30</lombok.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-        <camunda.version.ce>7.18.0</camunda.version.ce>
-        <camunda.version>${camunda.version.ce}</camunda.version>
-        <camunda.version.ee>7.18.0-ee</camunda.version.ee>
-        <camunda-engine-rest-client-openapi-java.version>7.18.0</camunda-engine-rest-client-openapi-java.version>
-        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <tika.version>2.9.1</tika.version>
-        <logstash.encoder.version>7.4</logstash.encoder.version>
     </properties>
 
     <modules>
+        <module>digiwf-parent</module>
         <module>digiwf-engine</module>
         <module>digiwf-connector</module>
-        <module>digiwf-schema-registry</module>
         <module>digiwf-task</module>
         <module>digiwf-libs</module>
-        <module>digiwf-process</module>
         <module>digiwf-gateway</module>
         <module>digiwf-integrations</module>
         <module>digiwf-coverage</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Cloud -->
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-bom</artifactId>
-                <version>${camunda.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <!-- Open API -->
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-ui</artifactId>
-                <version>${springdoc-openapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc-openapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-security</artifactId>
-                <version>${springdoc-openapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openapitools</groupId>
-                <artifactId>jackson-databind-nullable</artifactId>
-                <version>0.2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-external-task-client</artifactId>
-                <version>${camunda.version.ce}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-external-task-client-spring</artifactId>
-                <version>${camunda.version.ce}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm.springboot</groupId>
-                <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
-                <version>${camunda.version.ce}</version>
-            </dependency>
-
-            <!-- Logging -->
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash.encoder.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
-                    <configuration>
-                        <propertiesEncoding>UTF-8</propertiesEncoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>3.1.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.4.1</version>
-                    <executions>
-                        <execution>
-                            <id>enforce-maven</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                            <configuration>
-                                <rules>
-                                    <requireJavaVersion>
-                                        <version>11</version>
-                                    </requireJavaVersion>
-                                    <requireMavenVersion>
-                                        <version>3.6.0</version>
-                                    </requireMavenVersion>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <version>3.3.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.11.0</version>
                     <configuration>
+                        <source>17</source>
+                        <target>17</target>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <showWarnings>true</showWarnings>
                         <annotationProcessorPaths>
@@ -231,46 +73,97 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.13</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
                     <configuration>
-                        <argLine>@{argLine} -Xms256m -Xmx2048m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
-                        <runOrder>random</runOrder>
+                        <propertiesEncoding>UTF-8</propertiesEncoding>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.1.2</version>
-                    <executions>
-                        <execution>
-                            <id>run-itests</id>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.1</version>
                     <configuration>
-                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                        <argLine>@{argLine} -Xms256m -Xmx2048m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
+                        <autoVersionSubmodules>false</autoVersionSubmodules>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <releaseProfiles>release</releaseProfiles>
+                        <goals>deploy</goals>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.2.3</version>
+                    <configuration>
+                        <runOrder>random</runOrder>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.11</version>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.4.1</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireJavaVersion>
+                                        <version>17</version>
+                                    </requireJavaVersion>
+                                    <requireMavenVersion>
+                                        <version>3.9.0</version>
+                                    </requireMavenVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.13</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -292,7 +185,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -302,74 +195,74 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.16.1</version>
+                    <version>2.16.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>de.juplo</groupId>
+                    <artifactId>hibernate-maven-plugin</artifactId>
+                    <version>2.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>3.6.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>1.15.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <autoVersionSubmodules>false</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
-                    <goals>deploy</goals>
-                    <tagNameFormat>@{project.version}</tagNameFormat>
-                </configuration>
+                <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
+            <!-- run apps build driven by Maven, run with parameter -Pfrontend -->
             <id>frontend</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <modules>
                 <module>digiwf-apps</module>
             </modules>
         </profile>
         <profile>
+            <!-- run docs build driven by Maven, run with parameter -Pdocs -->
             <id>docs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <modules>
                 <module>docs</module>
             </modules>
         </profile>
 
-        <profile>
-            <id>camunda-ee</id>
-            <properties>
-                <camunda.version>${camunda.version.ee}</camunda.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>camunda-bpm-nexus-ee</id>
-                    <name>camunda-bpm-nexus</name>
-                    <url>https://camunda.jfrog.io/artifactory/private/</url>
-                </repository>
-            </repositories>
-        </profile>
-
-
         <!-- Release profile (required so these plugins are only used when deploying) -->
-
         <profile>
             <id>release</id>
             <build>

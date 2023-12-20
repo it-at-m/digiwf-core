@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0czcg8g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0">
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="DokumentStornierenV01" />
   </bpmn:collaboration>
@@ -67,8 +67,8 @@ Hinweis: Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf d
           </camunda:inputParameter>
         </camunda:inputOutput>
         <camunda:taskListener event="complete">
-          <camunda:script scriptFormat="javascript">sachbearbeitung= task.execution.getVariable("FormField_Neue_Sachbearbeitung");
-task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
+          <camunda:script scriptFormat="javascript">sachbearbeitung= task.getExecution().getVariable("FormField_Neue_Sachbearbeitung");
+task.getExecution().setVariable("dms_user_login",sachbearbeitung);</camunda:script>
         </camunda:taskListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1uetbey</bpmn:incoming>
@@ -104,34 +104,6 @@ task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
       <bpmndi:BPMNShape id="Lane_127e0t2_di" bpmnElement="Lane_DigitalWF" isHorizontal="true">
         <dc:Bounds x="159" y="80" width="789" height="330" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0k1tg5g_di" bpmnElement="Flow_0k1tg5g">
-        <di:waypoint x="710" y="490" />
-        <di:waypoint x="740" y="490" />
-        <di:waypoint x="740" y="205" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0uc0w0a_di" bpmnElement="Flow_0uc0w0a">
-        <di:waypoint x="765" y="180" />
-        <di:waypoint x="832" y="180" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1bk25nf_di" bpmnElement="Flow_1bk25nf">
-        <di:waypoint x="278" y="180" />
-        <di:waypoint x="380" y="180" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
-        <di:waypoint x="480" y="180" />
-        <di:waypoint x="715" y="180" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
-        <di:waypoint x="400" y="238" />
-        <di:waypoint x="400" y="320" />
-        <di:waypoint x="420" y="320" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
-        <di:waypoint x="520" y="320" />
-        <di:waypoint x="550" y="320" />
-        <di:waypoint x="550" y="490" />
-        <di:waypoint x="610" y="490" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_DokumentStornieren" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="242" y="162" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -162,6 +134,34 @@ task.execution.setVariable("dms_user_login",sachbearbeitung);</camunda:script>
           <dc:Bounds x="403" y="243" width="33" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1uetbey_di" bpmnElement="Flow_1uetbey">
+        <di:waypoint x="520" y="320" />
+        <di:waypoint x="550" y="320" />
+        <di:waypoint x="550" y="490" />
+        <di:waypoint x="610" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sest2s_di" bpmnElement="Flow_1sest2s">
+        <di:waypoint x="400" y="238" />
+        <di:waypoint x="400" y="320" />
+        <di:waypoint x="420" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kwama8_di" bpmnElement="Flow_0kwama8">
+        <di:waypoint x="480" y="180" />
+        <di:waypoint x="715" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bk25nf_di" bpmnElement="Flow_1bk25nf">
+        <di:waypoint x="278" y="180" />
+        <di:waypoint x="380" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uc0w0a_di" bpmnElement="Flow_0uc0w0a">
+        <di:waypoint x="765" y="180" />
+        <di:waypoint x="832" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k1tg5g_di" bpmnElement="Flow_0k1tg5g">
+        <di:waypoint x="710" y="490" />
+        <di:waypoint x="740" y="490" />
+        <di:waypoint x="740" y="205" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
