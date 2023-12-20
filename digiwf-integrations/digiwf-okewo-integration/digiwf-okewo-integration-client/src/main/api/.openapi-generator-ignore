@@ -1,0 +1,25 @@
+# OpenAPI Generator Ignore
+
+# Ignore tests
+**/src/test/**/*.java
+
+# Ignore build files
+**/README.md
+**/pom.xml
+**/openapi.yaml
+**/application.properties
+
+# ignore gradle stuff
+**/gradle/**
+**/.github/**
+**/.travis.yml
+**/settings.gradle
+**/gradlew
+**/gradlew.bat
+**/gradle.properties
+**/build.gradle
+
+**/git_push.sh
+**/build.sbt
+
+**/AndroidManifest.xml

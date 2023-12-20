@@ -1,0 +1,17 @@
+de:
+    muenchen:
+        oss:
+            digiwf:
+                address:
+                    service:
+                        url: http://localhost:8189
+spring:
+    cloud:
+        function:
+            definition: functionRouter;sendMessage;integrationTestConsumer;
+
+# overwrite vars
+DIGIWF_ENV: itest
+KAFKA_BOOTSTRAP_SERVER: localhost
+KAFKA_BOOTSTRAP_SERVER_PORT: 19999
+KAFKA_SECURITY_PROTOCOL: PLAINTEXT

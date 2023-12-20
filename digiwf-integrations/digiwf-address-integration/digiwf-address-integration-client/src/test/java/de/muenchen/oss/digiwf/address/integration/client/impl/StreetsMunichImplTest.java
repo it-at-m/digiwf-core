@@ -7,7 +7,6 @@ import de.muenchen.oss.digiwf.address.integration.client.exception.AddressServic
 import de.muenchen.oss.digiwf.address.integration.client.gen.api.StraenMnchenApi;
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.*;
 import de.muenchen.oss.digiwf.address.integration.client.model.request.ListStreetsModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,6 +17,10 @@ import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
 class StreetsMunichImplTest {
 
@@ -53,27 +56,27 @@ class StreetsMunichImplTest {
     void testFindStreetsById_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
         final Strasse expectedStrasse = this.strasse;
         expectedStrasse.setStrasseId(this.streetId);
-        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenReturn(Mono.just(strasse));
+        when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenReturn(Mono.just(strasse));
         final Strasse result = streetsMunich.findStreetsById(streetId);
-        Assertions.assertEquals(expectedStrasse, result);
+        assertThat(result).isEqualTo(expectedStrasse);
     }
 
     @Test
     void testFindStreetsById_ClientErrorException() {
-        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "message"));
-        Assertions.assertThrows(AddressServiceIntegrationClientErrorException.class, () -> streetsMunich.findStreetsById(streetId));
+        when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "message"));
+        assertThatThrownBy(() -> streetsMunich.findStreetsById(streetId)).isInstanceOf(AddressServiceIntegrationClientErrorException.class);
     }
 
     @Test
     void testFindStreetsById_ServerErrorException() {
-        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new HttpServerErrorException(HttpStatus.BAD_REQUEST, "message"));
-        Assertions.assertThrows(AddressServiceIntegrationServerErrorException.class, () -> streetsMunich.findStreetsById(streetId));
+        when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new HttpServerErrorException(HttpStatus.BAD_REQUEST, "message"));
+        assertThatThrownBy(() -> streetsMunich.findStreetsById(streetId)).isInstanceOf(AddressServiceIntegrationServerErrorException.class);
     }
 
     @Test
     void testFindStreetsById_RestClientException() {
-        Mockito.when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new RestClientException(""));
-        Assertions.assertThrows(AddressServiceIntegrationException.class, () -> streetsMunich.findStreetsById(streetId));
+        when(straessenMuenchenApi.findStrasseByNummer(streetId)).thenThrow(new RestClientException(""));
+        assertThatThrownBy(() -> streetsMunich.findStreetsById(streetId)).isInstanceOf(AddressServiceIntegrationException.class);
     }
 
     @Test
@@ -89,7 +92,7 @@ class StreetsMunichImplTest {
         strasseResponseItem.setStrasse(this.strasse);
         expectedResponse.setContent(List.of(strasseResponseItem));
 
-        Mockito.when(straessenMuenchenApi.listStrassen(
+        when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
                 listStreetsModel.getStreetName(),
@@ -100,13 +103,13 @@ class StreetsMunichImplTest {
 
         final StrasseResponse result = streetsMunich.listStreets(listStreetsModel);
 
-        Assertions.assertEquals(expectedResponse, result);
+        assertThat(result).isEqualTo(expectedResponse);
     }
 
     @Test
     void testListStreets_ClientErrorException() {
         ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
-        Mockito.when(straessenMuenchenApi.listStrassen(
+        when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
                 listStreetsModel.getStreetName(),
@@ -115,13 +118,13 @@ class StreetsMunichImplTest {
                 listStreetsModel.getPagesize()
         )).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "message"));
 
-        Assertions.assertThrows(AddressServiceIntegrationClientErrorException.class, () -> streetsMunich.listStreets(listStreetsModel));
+        assertThatThrownBy(() -> streetsMunich.listStreets(listStreetsModel)).isInstanceOf(AddressServiceIntegrationClientErrorException.class);
     }
 
     @Test
     void testListStreets_ServerErrorException() {
         ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
-        Mockito.when(straessenMuenchenApi.listStrassen(
+        when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
                 listStreetsModel.getStreetName(),
@@ -130,13 +133,13 @@ class StreetsMunichImplTest {
                 listStreetsModel.getPagesize()
         )).thenThrow(new HttpServerErrorException(HttpStatus.BAD_REQUEST, "message"));
 
-        Assertions.assertThrows(AddressServiceIntegrationServerErrorException.class, () -> streetsMunich.listStreets(listStreetsModel));
+        assertThatThrownBy(() -> streetsMunich.listStreets(listStreetsModel)).isInstanceOf(AddressServiceIntegrationServerErrorException.class);
     }
 
     @Test
     void testListStreets_RestClientException() {
         ListStreetsModel listStreetsModel = ListStreetsModel.builder().build(); // Create a valid model
-        Mockito.when(straessenMuenchenApi.listStrassen(
+        when(straessenMuenchenApi.listStrassen(
                 listStreetsModel.getCityDistrictNames(),
                 listStreetsModel.getCityDistrictNumbers(),
                 listStreetsModel.getStreetName(),
@@ -145,7 +148,7 @@ class StreetsMunichImplTest {
                 listStreetsModel.getPagesize()
         )).thenThrow(new RestClientException(""));
 
-        Assertions.assertThrows(AddressServiceIntegrationException.class, () -> streetsMunich.listStreets(listStreetsModel));
+        assertThatThrownBy(() -> streetsMunich.listStreets(listStreetsModel)).isInstanceOf(AddressServiceIntegrationException.class);
     }
 
 }

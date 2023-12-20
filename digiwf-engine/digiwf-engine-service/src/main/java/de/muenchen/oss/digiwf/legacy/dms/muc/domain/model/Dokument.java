@@ -48,6 +48,7 @@ public class Dokument {
     /**
      * Liste der enthaltenen Schriftstücke
      */
+    @Builder.Default
     private List<Schriftstueck> schriftstuecke = new ArrayList<>();
 
     public Dokument(final NeuesDokument neuesDokument, final String coo, final List<Schriftstueck> schriftstuecke) {

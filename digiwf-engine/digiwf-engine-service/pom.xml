@@ -4,21 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-engine-service</artifactId>
     <name>digiwf-engine-service</name>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.4.8-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <properties>
         <apache.commons.collections4>4.4</apache.commons.collections4>
         <apache.commons.csv>1.10.0</apache.commons.csv>
-        <apache.commons.io>2.15.0</apache.commons.io>
+        <apache.commons.io>2.15.1</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
         <apache.commons.text>1.11.0</apache.commons.text>
-        <apache.commons.validator>1.7</apache.commons.validator>
+        <apache.commons.validator>1.8.0</apache.commons.validator>
 
         <ojdbc10.version>19.21.0.0</ojdbc10.version>
         <javafaker.version>1.0.2</javafaker.version>
@@ -170,8 +169,6 @@
             <artifactId>ojdbc10</artifactId>
             <version>${ojdbc10.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -185,11 +182,7 @@
         <!-- Other -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
 
         <!-- Validation -->

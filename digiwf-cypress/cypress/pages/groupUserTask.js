@@ -3,14 +3,21 @@ import Page from './page'
 class GroupUserTask extends Page{
     headline = "Group User Task"
     elements = {
-        bearbeiten: () => cy.get(`.assignButton`),
-        headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(2)'),
+        bearbeiten: () => cy.get(`button.v-btn--is-elevated:nth-child(1)`),
+        headline: () => cy.get('.layout > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > h1:nth-child(2)'),
+        taskHeadline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(2)'),
         checkBox: () => cy.get('.v-input--selection-controls__input'),
         abschliessenButton: () => cy.get('button.mt-5')
     }
 
     checkHeadline(){
+        this.elements.headline().should('be.visible')
         this.elements.headline().should('contain.text',this.headline)
+    }
+
+    checkTaskHeadline(){
+        this.elements.taskHeadline().should('be.visible')
+        this.elements.taskHeadline().should('contain.text',this.headline)
     }
 
     clickBearbeiten(){
@@ -23,6 +30,8 @@ class GroupUserTask extends Page{
     }
 
     tickCheckbox(){
+        this.elements.checkBox().should('be.visible')
+        cy.wait(2000);
         this.elements.checkBox().click()
     }
 

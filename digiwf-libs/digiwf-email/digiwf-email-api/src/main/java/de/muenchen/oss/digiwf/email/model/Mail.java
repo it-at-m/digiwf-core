@@ -21,6 +21,7 @@ public class Mail {
         private String subject;
         @NotBlank
         private String body;
+        @Builder.Default
         private boolean htmlBody = false;
         private String replyTo;
         private String receiversCc;

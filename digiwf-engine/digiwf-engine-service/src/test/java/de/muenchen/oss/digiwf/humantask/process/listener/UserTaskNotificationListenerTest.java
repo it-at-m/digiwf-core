@@ -45,12 +45,20 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
 
     @Test
     void testDelegateTask_WithNotificationOff() throws Exception {
-        final DelegateTask task = this.prepareDelegateTask(Map.of(
+        DelegateTask task = this.prepareDelegateTask(Map.of(
                 "digitalwf_notification_send_assignee", "false",
                 "digitalwf_notification_send_candidate_users", "false",
                 "digitalwf_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
-        ));
+        ), "create");
+        this.notifyUsers(task, null, 0);
+
+        task = this.prepareDelegateTask(Map.of(
+                "digitalwf_notification_send_assignee", "false",
+                "digitalwf_notification_send_candidate_users", "false",
+                "digitalwf_notification_send_candidate_groups", "false",
+                "app_task_assignee", this.user.getLhmObjectId()
+        ), "assignment");
         this.notifyUsers(task, null, 0);
     }
 
@@ -61,7 +69,7 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
                 "digitalwf_notification_send_candidate_users", "false",
                 "digitalwf_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
-        ));
+        ), "assignment");
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         final Mail mail = this.notifyUsers(task, this.userTaskDefaultMailContent, 1);
@@ -76,7 +84,7 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
                 "digitalwf_notification_send_assignee", "false",
                 "digitalwf_notification_send_candidate_users", "true",
                 "digitalwf_notification_send_candidate_groups", "false"
-        ));
+        ), "create");
         when(task.getCandidates()).thenReturn(this.userCandidates);
 
         final Mail mail = this.notifyUsers(task, this.groupTaskDefaultMailContent, 1);
@@ -91,7 +99,7 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
                 "digitalwf_notification_send_assignee", "false",
                 "digitalwf_notification_send_candidate_users", "false",
                 "digitalwf_notification_send_candidate_groups", "true"
-        ));
+        ),"create");
         when(task.getCandidates()).thenReturn(this.groupCandidates);
 
         final Mail mail = this.notifyUsers(task, this.groupTaskDefaultMailContent, 1);

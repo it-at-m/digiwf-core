@@ -10,8 +10,8 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +30,7 @@ class AddressesGermanyUseCaseTest {
 
         BundesweiteAdresseResponse actualResponse = addressesGermanyUseCase.searchAddresses(model);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).searchAddresses(model);
     }
 
@@ -41,9 +41,9 @@ class AddressesGermanyUseCaseTest {
 
         when(addressClientOutPort.searchAddresses(model)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            addressesGermanyUseCase.searchAddresses(model);
-        });
+        assertThatThrownBy(() -> addressesGermanyUseCase.searchAddresses(model))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -53,9 +53,9 @@ class AddressesGermanyUseCaseTest {
 
         when(addressClientOutPort.searchAddresses(model)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            addressesGermanyUseCase.searchAddresses(model);
-        });
+        assertThatThrownBy(() -> addressesGermanyUseCase.searchAddresses(model))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
 }

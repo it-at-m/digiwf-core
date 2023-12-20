@@ -68,7 +68,7 @@ public class SecurityConfiguration {
       final JwtAuthenticationConverter jwtAuthenticationConverter
   ) throws Exception {
     http
-        .authorizeHttpRequests((authorize) -> {
+        .authorizeHttpRequests(authorize -> {
               authorize.requestMatchers(antMatcher(HttpMethod.OPTIONS, "/**")).permitAll();
               Arrays.stream(springSecurityProperties.getPermittedUrls()).forEach(url ->
                   authorize.requestMatchers(antMatcher(url)).permitAll()

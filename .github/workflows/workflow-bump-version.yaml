@@ -51,6 +51,10 @@ jobs:
         run: |
           git config --global user.email "digiwf@muenchen.de"
           git config --global user.name "DigiWF Github Bot"
+
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
+
       # bump mvn version
       - name: Install Java and Maven
         if: inputs.bump-services-version== true
@@ -62,18 +66,18 @@ jobs:
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version != ''
         run: |
-          mvn versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT -DprocessAllModules
-          mvn versions:commit -DprocessAllModules
+          ./mvnw versions:set --batch-mode -DprocessAllModules -DnewVersion=${{ inputs.services-new-version }}-SNAPSHOT -DprocessAllModules -Pdocs -Pfrontend
+          ./mvnw versions:commit -DprocessAllModules -Pdocs -Pfrontend
       - name: Raise mvn version
         if: (github.event.inputs.bump-services-version == true || inputs.bump-services-version == true) && inputs.services-new-version == ''
         run: |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT -DprocessAllModules
-          mvn versions:commit -DprocessAllModules
+          ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT -DprocessAllModules -Pdocs -Pfrontend
+          ./mvnw versions:commit -DprocessAllModules -Pdocs -Pfrontend
       - name: Git commit
         if: github.event.inputs.bump-services-version == true || inputs.bump-services-version == true
         run: |
           git add .
-          git commit -m "chore: mvn auto version bump to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          git commit -m "chore: mvn auto version bump to $(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
       # bump apps version
       - name: Setup node

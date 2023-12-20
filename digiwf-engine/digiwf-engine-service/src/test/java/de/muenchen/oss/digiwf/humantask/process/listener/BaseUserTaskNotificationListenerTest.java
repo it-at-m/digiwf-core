@@ -88,12 +88,12 @@ public abstract class BaseUserTaskNotificationListenerTest {
 
 
 
-    DelegateTask prepareDelegateTask(final Map<String, String> variables) {
+    DelegateTask prepareDelegateTask(final Map<String, String> variables, final String eventName) {
         final DelegateTask task = mock(DelegateTask.class);
         for(Map.Entry<String, String> entry : variables.entrySet()) {
             when(task.getVariable(entry.getKey())).thenReturn(entry.getValue());
         }
-        when(task.getEventName()).thenReturn("create");
+        when(task.getEventName()).thenReturn(eventName);
         when(task.getProcessDefinitionId()).thenReturn("test123");
         when(task.getId()).thenReturn(taskId);
         return task;
