@@ -5,7 +5,7 @@ spring:
     name: @project.artifactId@
   cloud:
     function:
-      definition: functionRouter;sendMessage;sendMailFromEventBus;
+      definition: functionRouter;sendMessage;
       routing-expression: "headers['type']"
     stream:
       bindings:

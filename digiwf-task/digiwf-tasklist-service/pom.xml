@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -15,7 +15,7 @@
         <rest.base-package-name>de.muenchen.oss.digiwf.task.service.application.port.in.rest</rest.base-package-name>
 
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <camunda-platform-7-rest-client.version>7.20.0</camunda-platform-7-rest-client.version>
+        <camunda-platform-7-rest-client.version>7.20.1</camunda-platform-7-rest-client.version>
         <axon-framework.version>4.9.1</axon-framework.version>
         <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
 
@@ -318,6 +318,7 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useTags>true</useTags>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
                             </configOptions>
                         </configuration>
                     </execution>
