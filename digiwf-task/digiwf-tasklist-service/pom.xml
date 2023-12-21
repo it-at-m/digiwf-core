@@ -318,6 +318,7 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useTags>true</useTags>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
                             </configOptions>
                         </configuration>
                     </execution>
