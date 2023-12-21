@@ -2,6 +2,7 @@
   "name": "@muenchen/digiwf-apps",
   "description": "Vue JS Monorepo with Lerna and Vite",
   "scripts": {
+    "api": "lerna run api",
     "init": "npm install && npm run clean && lerna bootstrap",
     "clean": "lerna clean --yes && lerna exec rimraf dist",
     "refresh": "lerna bootstrap",

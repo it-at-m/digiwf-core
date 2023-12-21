@@ -477,6 +477,19 @@ export interface UserProfile {
      */
     'primaryOrgUnit': string;
 }
+/**
+ * Wrapper for variables.
+ * @export
+ * @interface VariableMap
+ */
+export interface VariableMap {
+    /**
+     * Process variables.
+     * @type {{ [key: string]: any; }}
+     * @memberof VariableMap
+     */
+    'variables': { [key: string]: any; };
+}
 
 /**
  * FileApi - axios parameter creator
@@ -812,15 +825,15 @@ export const TaskApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Completes task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to use during completion.
+         * @param {VariableMap} variableMap Task variables to use during completion.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeTask: async (taskId: string, requestBody: { [key: string]: object; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        completeTask: async (taskId: string, variableMap: VariableMap, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'taskId' is not null or undefined
             assertParamExists('completeTask', 'taskId', taskId)
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('completeTask', 'requestBody', requestBody)
+            // verify required parameter 'variableMap' is not null or undefined
+            assertParamExists('completeTask', 'variableMap', variableMap)
             const localVarPath = `/tasks/id/{taskId}`
                 .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -841,7 +854,7 @@ export const TaskApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(variableMap, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1024,15 +1037,15 @@ export const TaskApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Saves the variables for the task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to save.
+         * @param {VariableMap} variableMap Task variables to save.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveTaskVariables: async (taskId: string, requestBody: { [key: string]: object; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        saveTaskVariables: async (taskId: string, variableMap: VariableMap, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'taskId' is not null or undefined
             assertParamExists('saveTaskVariables', 'taskId', taskId)
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('saveTaskVariables', 'requestBody', requestBody)
+            // verify required parameter 'variableMap' is not null or undefined
+            assertParamExists('saveTaskVariables', 'variableMap', variableMap)
             const localVarPath = `/tasks/id/{taskId}/save`
                 .replace(`{${"taskId"}}`, encodeURIComponent(String(taskId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1053,7 +1066,7 @@ export const TaskApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(variableMap, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1160,12 +1173,12 @@ export const TaskApiFp = function(configuration?: Configuration) {
         /**
          * Completes task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to use during completion.
+         * @param {VariableMap} variableMap Task variables to use during completion.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async completeTask(taskId: string, requestBody: { [key: string]: object; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.completeTask(taskId, requestBody, options);
+        async completeTask(taskId: string, variableMap: VariableMap, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.completeTask(taskId, variableMap, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1224,12 +1237,12 @@ export const TaskApiFp = function(configuration?: Configuration) {
         /**
          * Saves the variables for the task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to save.
+         * @param {VariableMap} variableMap Task variables to save.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async saveTaskVariables(taskId: string, requestBody: { [key: string]: object; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.saveTaskVariables(taskId, requestBody, options);
+        async saveTaskVariables(taskId: string, variableMap: VariableMap, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveTaskVariables(taskId, variableMap, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1284,12 +1297,12 @@ export const TaskApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Completes task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to use during completion.
+         * @param {VariableMap} variableMap Task variables to use during completion.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeTask(taskId: string, requestBody: { [key: string]: object; }, options?: any): AxiosPromise<void> {
-            return localVarFp.completeTask(taskId, requestBody, options).then((request) => request(axios, basePath));
+        completeTask(taskId: string, variableMap: VariableMap, options?: any): AxiosPromise<void> {
+            return localVarFp.completeTask(taskId, variableMap, options).then((request) => request(axios, basePath));
         },
         /**
          * Defer the task to a follow-up date.
@@ -1342,12 +1355,12 @@ export const TaskApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Saves the variables for the task specified by id.
          * @param {string} taskId Task id.
-         * @param {{ [key: string]: object; }} requestBody Task variables to save.
+         * @param {VariableMap} variableMap Task variables to save.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveTaskVariables(taskId: string, requestBody: { [key: string]: object; }, options?: any): AxiosPromise<void> {
-            return localVarFp.saveTaskVariables(taskId, requestBody, options).then((request) => request(axios, basePath));
+        saveTaskVariables(taskId: string, variableMap: VariableMap, options?: any): AxiosPromise<void> {
+            return localVarFp.saveTaskVariables(taskId, variableMap, options).then((request) => request(axios, basePath));
         },
         /**
          * Resets the assignment of the task.
@@ -1420,10 +1433,10 @@ export interface TaskApiCompleteTaskRequest {
 
     /**
      * Task variables to use during completion.
-     * @type {{ [key: string]: object; }}
+     * @type {VariableMap}
      * @memberof TaskApiCompleteTask
      */
-    readonly requestBody: { [key: string]: object; }
+    readonly variableMap: VariableMap
 }
 
 /**
@@ -1518,10 +1531,10 @@ export interface TaskApiSaveTaskVariablesRequest {
 
     /**
      * Task variables to save.
-     * @type {{ [key: string]: object; }}
+     * @type {VariableMap}
      * @memberof TaskApiSaveTaskVariables
      */
-    readonly requestBody: { [key: string]: object; }
+    readonly variableMap: VariableMap
 }
 
 /**
@@ -1589,7 +1602,7 @@ export class TaskApi extends BaseAPI {
      * @memberof TaskApi
      */
     public completeTask(requestParameters: TaskApiCompleteTaskRequest, options?: AxiosRequestConfig) {
-        return TaskApiFp(this.configuration).completeTask(requestParameters.taskId, requestParameters.requestBody, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).completeTask(requestParameters.taskId, requestParameters.variableMap, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1657,7 +1670,7 @@ export class TaskApi extends BaseAPI {
      * @memberof TaskApi
      */
     public saveTaskVariables(requestParameters: TaskApiSaveTaskVariablesRequest, options?: AxiosRequestConfig) {
-        return TaskApiFp(this.configuration).saveTaskVariables(requestParameters.taskId, requestParameters.requestBody, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).saveTaskVariables(requestParameters.taskId, requestParameters.variableMap, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
