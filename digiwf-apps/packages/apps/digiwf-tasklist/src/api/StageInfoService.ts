@@ -8,7 +8,7 @@ export interface StageInfo {
 
 export interface ApplicationInfo {
   readonly name: string;
-  readonly stage: StageInfo;
+  readonly stage?: StageInfo;
 }
 
 interface ActuatorResponse {
@@ -24,7 +24,12 @@ export default class StageInfoService {
    */
   static getStageInfo(): Promise<StageInfo> {
     return axios.get<ActuatorResponse>("actuator/info")
-      .then(res => res.data?.application.stage)
+      .then(res => {
+        if(res.data?.application.stage) {
+          return res.data?.application.stage;
+        }
+        return this.getDefaultStageInfo();
+      })
       .catch(_ => Promise.resolve(StageInfoService.getDefaultStageInfo()));
   }
 
