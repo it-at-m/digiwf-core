@@ -8,13 +8,10 @@ import de.muenchen.oss.digiwf.shared.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.task.IdentityLinkType;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
@@ -58,6 +55,7 @@ public class HumanTaskService {
      * @param variables Variables that are set during completion
      * @param userId    Id of the user that complets the task
      */
+    @Deprecated
     public void completeTask(final String taskId, final Map<String, Object> variables, final String userId) {
         val task = this.getTask(taskId);
         checkTaskAccess(taskId, userId);
@@ -76,6 +74,7 @@ public class HumanTaskService {
      * @param variables Variables that should be saved
      * @param userId    Id of the user that saves the task
      */
+    @Deprecated
     public void saveTask(final String taskId, final Map<String, Object> variables, final String userId) {
         val task = this.getTask(taskId);
         checkTaskAccess(taskId, userId);

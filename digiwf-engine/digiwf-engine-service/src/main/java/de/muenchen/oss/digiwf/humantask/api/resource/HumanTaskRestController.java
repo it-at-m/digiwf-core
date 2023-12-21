@@ -4,15 +4,15 @@
 
 package de.muenchen.oss.digiwf.humantask.api.resource;
 
-import de.muenchen.oss.digiwf.humantask.api.transport.*;
+import de.muenchen.oss.digiwf.humantask.api.transport.CompleteTO;
+import de.muenchen.oss.digiwf.humantask.api.transport.SaveTO;
 import de.muenchen.oss.digiwf.humantask.domain.service.HumanTaskService;
 import de.muenchen.oss.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 
 /**
@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
  * @deprecated
  * @author externer.dl.horn
  */
+@Deprecated
 @RestController
 @Transactional
 @RequestMapping("/rest/task")
@@ -38,6 +39,7 @@ public class HumanTaskRestController {
      * @param saveTO Data of the task
      * @return the saved task
      */
+    @Deprecated
     @PutMapping
     public void saveTask(@Valid @RequestBody final SaveTO saveTO) {
         this.taskService.saveTask(saveTO.getTaskId(), saveTO.getVariables(), this.authenticationProvider.getCurrentUserId());
@@ -50,6 +52,7 @@ public class HumanTaskRestController {
      * @param completeTO
      * @return
      */
+    @Deprecated
     @PostMapping
     public void completeTask(@Valid @RequestBody final CompleteTO completeTO) {
         this.taskService.completeTask(completeTO.getTaskId(), completeTO.getVariables(), this.authenticationProvider.getCurrentUserId());

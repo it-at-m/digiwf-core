@@ -7,28 +7,19 @@ de:
           url: "http://localhost:8189"
           username: "username"
           benutzerId: "benutzerId"
+logging:
+  level:
+    org.apache.kafka.clients.admin: WARN
+    org.apache.kafka.clients.consumer: WARN
+    org.apache.kafka.clients.producer: WARN
+
 spring:
   cloud:
-    stream:
-      bindings:
-        functionRouter-in-0:
-          group: "dwf-okewo-service"
-          destination: dwf-okewo-e2e-test
-        sendMessage-out-0:
-          destination: dwf-connector-e2e-test
-        integrationTestConsumer-in-0:
-          destination: "dwf-connector-e2e-test"
-          group: dwf-okewo-service-e2e
-
     function:
       definition: functionRouter;sendMessage;integrationTestConsumer;
 
-# DigiWF config
-io:
-  muenchendigital:
-    digiwf:
-      message:
-        incidentDestination: "dwf-connector-incident-e2e-test"
-        bpmnErrorDestination: "dwf-connector-bpmnerror-e2e-test"
-        correlateMessageDestination: "dwf-connector-e2e-test"
-
+# overwrite vars
+DIGIWF_ENV: itest
+KAFKA_BOOTSTRAP_SERVER: localhost
+KAFKA_BOOTSTRAP_SERVER_PORT: 19999
+KAFKA_SECURITY_PROTOCOL: PLAINTEXT

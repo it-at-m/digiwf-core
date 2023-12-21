@@ -1,19 +1,15 @@
 package de.muenchen.oss.digiwf.example.integration;
 
 
+import de.muenchen.oss.digiwf.integration.e2e.test.DigiwfE2eTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("itest")
-@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:29092" })
+@DigiwfE2eTest
 class ExampleIntegrationServiceApplicationTest {
 
 
   @Test
-  public void shouldStartContext() {
+  void shouldStartContext() {
 
   }
 }
