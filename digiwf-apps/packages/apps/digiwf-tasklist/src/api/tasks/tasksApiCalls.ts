@@ -53,7 +53,7 @@ export const callCancelTaskInTaskService = (taskId: string): Promise<void> => {
 
 export const callCompleteTaskInTaskService = (taskId: string, variables: TaskVariables): Promise<void> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
-  return TaskApiFactory(cfg).completeTask(taskId, variables)
+  return TaskApiFactory(cfg).completeTask(taskId, { variables: variables })
     .then(() => Promise.resolve())
     .catch((e: AxiosError) => {
     if(e.response?.status === 400) {
@@ -76,7 +76,7 @@ export const callDeferTask = (taskId: string, followUpDate: string): Promise<voi
 
 export const callSaveTaskInTaskService = (taskId: string, variables: TaskVariables): Promise<void> => {
   const cfg = ApiConfig.getTasklistAxiosConfig(FetchUtils.getPOSTConfig({}));
-  return TaskApiFactory(cfg).saveTaskVariables(taskId, variables)
+  return TaskApiFactory(cfg).saveTaskVariables(taskId, { variables : variables })
     .then(() => Promise.resolve())
     .catch((e: AxiosError) => {
       if(e.response?.status === 400) {

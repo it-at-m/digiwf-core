@@ -724,10 +724,16 @@ components:
         - schemaJson
 
     VariableMap:
-      description: Variable map.
+      description: Wrapper for variables.
       type: object
-      additionalProperties:
-        type: object
+      properties:
+        variables:
+          description: Process variables.
+          type: object
+          additionalProperties: true
+      required:
+        - variables
+
 
     UserProfile:
       description: Profile of the user.
