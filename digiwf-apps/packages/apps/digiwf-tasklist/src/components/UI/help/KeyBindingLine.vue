@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row tabindex="0">
     <v-col
       cols="12"
       sm="6"

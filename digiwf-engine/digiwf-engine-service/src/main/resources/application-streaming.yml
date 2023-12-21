@@ -39,7 +39,7 @@ spring:
           maxAttempts: '1'
       default-binder: kafka
     function:
-      definition: dynamicProducer;functionRouter;deploymentStatus;deployConfiguration;startProcessV01;correlateMessageV01;deploySchema;deploy
+      definition: dynamicProducer;functionRouter;deploymentStatus;
       routing-expression: "headers['type']"
   kafka:
     consumer:
