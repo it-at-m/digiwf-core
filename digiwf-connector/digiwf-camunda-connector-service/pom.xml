@@ -12,7 +12,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -30,17 +30,25 @@
         <!-- DigiWF -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-starter-rest</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-camunda-connector-starter</artifactId>
+            <artifactId>digiwf-camunda-rest-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+        </dependency>
+        <!-- json etc. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
 
         <!-- Security -->
@@ -57,6 +65,13 @@
         </dependency>
 
         <!-- test -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-unit-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -78,16 +93,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
     <build>

@@ -58,14 +58,14 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
   }
 
   @Override
-  public ResponseEntity<Void> completeTask(String taskId, Map<String, Object> requestBody) {
-    workOnUserTask.completeUserTask(taskId, requestBody);
+  public ResponseEntity<Void> completeTask(String taskId, VariableMapTO variableMapTO) {
+    workOnUserTask.completeUserTask(taskId, variableMapTO.getVariables());
     return noContent().build();
   }
 
   @Override
-  public ResponseEntity<Void> saveTaskVariables(String taskId, Map<String, Object> requestBody) {
-    workOnUserTask.saveUserTask(taskId, requestBody);
+  public ResponseEntity<Void> saveTaskVariables(String taskId, VariableMapTO variableMapTO) {
+    workOnUserTask.saveUserTask(taskId, variableMapTO.getVariables());
     return noContent().build();
   }
 

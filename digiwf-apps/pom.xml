@@ -7,7 +7,7 @@
   <parent>
     <groupId>de.muenchen.oss.digiwf</groupId>
     <artifactId>digiwf-core</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>digiwf-apps</artifactId>
@@ -69,6 +69,16 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <arguments>run refresh</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-api</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <arguments>run api</arguments>
                 </configuration>
               </execution>
               <execution>
