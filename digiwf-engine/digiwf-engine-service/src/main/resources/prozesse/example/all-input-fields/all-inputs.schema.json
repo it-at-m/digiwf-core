@@ -228,6 +228,36 @@
                   }
                 }
               },
+              "FormField_file_Validation": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "file",
+                "title": "Files with validation",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "filePath": "test",
+                "x-rules": [],
+                "maxFiles": 4,
+                "maxFileSize": 1,
+                "maxTotalSize": 2,
+                "accept": "application/pdf,image/png",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },
               "FormField_switch": {
                 "x-options": {
                   "fieldColProps": {
@@ -546,6 +576,35 @@
                 "x-display": "custom-multi-file-input",
                 "type": "object",
                 "filePath": "test2",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },"FormField_file_Validation2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "file",
+                "title": "Files with validation",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "filePath": "test",
+                "x-rules": [],
+                "maxFiles": 4,
+                "maxFileSize": 1,
+                "maxTotalSize": 2,
+                "accept": "application/pdf,image/png",
                 "properties": {
                   "key": {
                     "type": "string"
