@@ -963,7 +963,7 @@ const fileSchema = {
         },
         "maxFiles": {
           "type": "integer",
-          "title": "Maximaler Dateinupload",
+          "title": "Maximale Dateianzahl",
           "x-props": {
             "outlined": true,
             "dense": true
