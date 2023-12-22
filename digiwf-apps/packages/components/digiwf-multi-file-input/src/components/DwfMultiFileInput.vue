@@ -248,7 +248,7 @@ export default defineComponent({
 
     const validateFileSize = (mydata: ArrayBuffer) => {
       if (mydata.byteLength > maxFileSize*mbInByte) {
-        errorMessage.value = "Die Datei ist muss kleiner als " + maxFileSize + " MB sein.";
+        errorMessage.value = "Die Datei muss kleiner als " + maxFileSize + " MB sein.";
         throw new Error("File too large.");
       }
     }
