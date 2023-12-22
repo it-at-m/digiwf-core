@@ -21,6 +21,7 @@
         <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
         <okhttp.version>4.12.0</okhttp.version>
         <tika.version>2.9.1</tika.version>
+        <archunit.version>1.2.1</archunit.version>
     </properties>
 
     <dependencyManagement>
@@ -62,6 +63,13 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>0.2.6</version>
+            </dependency>
+
+            <!-- Archuniut -->
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5</artifactId>
+                <version>${archunit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

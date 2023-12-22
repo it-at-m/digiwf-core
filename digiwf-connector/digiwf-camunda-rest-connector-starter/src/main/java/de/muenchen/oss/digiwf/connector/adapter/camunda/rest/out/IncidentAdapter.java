@@ -22,6 +22,7 @@ public class IncidentAdapter implements CreateIncidentOutPort {
     private static final String EVENT_TYPE = "message";
 
     private final ExecutionApi executionApi;
+
     private final EventSubscriptionApi eventSubscriptionApi;
 
     @Override
