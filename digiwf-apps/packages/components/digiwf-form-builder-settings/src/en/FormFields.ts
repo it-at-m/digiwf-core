@@ -980,7 +980,7 @@ const fileSchema = {
         },
         "maxTotalSize": {
           "type": "integer",
-          "title": "Maximale Gesamtgröße aller Dateien MB",
+          "title": "Maximum total size of all files in MB",
           "x-props": {
             "outlined": true,
             "dense": true
