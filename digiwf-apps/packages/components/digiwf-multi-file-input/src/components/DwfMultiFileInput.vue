@@ -116,7 +116,7 @@ export default defineComponent({
       if(updatedDocuments.length > maxFiles) {
         errorMessage.value = 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden';
       } else if (!!maxTotalSize && validateTotalSize() > maxTotalSize){
-        errorMessage.value = 'Die Gesamtgröße aller Datein darf ' + maxTotalSize + ' MB nicht überschreiten';
+        errorMessage.value = 'Die Gesamtgröße aller Dateien darf ' + maxTotalSize + ' MB nicht überschreiten';
       } else {
         errorMessage.value = "";
       }
