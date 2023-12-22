@@ -10,6 +10,8 @@
         multiple
         :label="label"
         type="file"
+        :hint="hint"
+        persistent-hint
         truncate-length="50"
         :error-messages="errorMessage"
         v-bind="schema['x-props']"
@@ -83,6 +85,9 @@ export default defineComponent({
     const maxFileSize = props.schema.maxFileSize || 10;
     const maxTotalSize = props.schema.maxTotalSize;
     const mbInByte = 1048576;
+    const hint = !!maxTotalSize ?
+      "Es dürfen maximal " + maxFiles + " Dateien mit einer Gesamtgröße von " + maxTotalSize + " MB hochgeladen werden" :
+      "Es dürfen maximal " + maxFiles + " Dateien hochgeladen werden";
     let rules: any[] = [];
 
     const apiEndpoint = inject<string>('apiEndpoint');
@@ -380,6 +385,7 @@ export default defineComponent({
       uuid,
       changeInput,
       rules,
+      hint,
       isReadonly,
       removeDocument
     }
