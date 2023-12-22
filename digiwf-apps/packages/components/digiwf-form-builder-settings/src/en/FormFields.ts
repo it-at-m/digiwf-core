@@ -988,8 +988,8 @@ const fileSchema = {
         },
         "accept": {
           "type": "string",
-          "title": "Zulässige Dateiformate",
-          "description": "Die Dateiformate müssen als MIME-Type und kommasepariert angegeben werden.",
+          "title": "Permitted file formats",
+          "description": "The file formats must be specified as MIME type and comma-separated.",
           "x-props": {
             "outlined": true,
             "dense": true
