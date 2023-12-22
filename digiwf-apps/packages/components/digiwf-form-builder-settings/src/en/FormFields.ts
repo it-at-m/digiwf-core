@@ -964,7 +964,7 @@ const fileSchema = {
         },
         "maxFiles": {
           "type": "integer",
-          "title": "Maximaler Dateinupload",
+          "title": "Maximum number of files",
           "x-props": {
             "outlined": true,
             "dense": true
