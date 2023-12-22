@@ -972,7 +972,7 @@ const fileSchema = {
         },
         "maxFileSize": {
           "type": "integer",
-          "title": "Maximale Dateigröße in MB",
+          "title": "Maximum file size in MB",
           "x-props": {
             "outlined": true,
             "dense": true
