@@ -3,12 +3,13 @@ package de.muenchen.oss.digiwf.connector.core.application.usecase;
 import de.muenchen.oss.digiwf.connector.core.DigiWFConnectorProperties;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort.ExecuteTaskCommand;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
-import org.apache.commons.lang3.StringUtils;
+import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class ExecuteTaskUseCaseTest {
@@ -28,7 +29,6 @@ class ExecuteTaskUseCaseTest {
     void executeTask_shouldCallEmitEventWithCorrectParametersAndDefaultDestination() {
         // Arrange
         ExecuteTaskCommand command = new ExecuteTaskCommand();
-        command.setMessageName(StringUtils.EMPTY);
         command.setIntegrationName("testIntegrationName");
         command.setType("testType");
         command.setInstanceId("123");
@@ -39,14 +39,13 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getMessageName(), "defaultDestination", command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent("defaultDestination", command.getType(), command.getInstanceId(), command.getData());
     }
 
     @Test
     void executeTask_shouldCallEmitEventWithCorrectParametersAndCustomDestination() {
         // Arrange
         ExecuteTaskCommand command = new ExecuteTaskCommand();
-        command.setMessageName(StringUtils.EMPTY);
         command.setCustomDestination("customDestination");
         command.setIntegrationName("testIntegrationName");
         command.setType("testType");
@@ -58,14 +57,13 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getMessageName(), command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
     }
 
     @Test
     void executeTask_shouldCallEmitEventWithCorrectParametersAndCustomDestinationForCustomIntegration() {
         // Arrange
         ExecuteTaskCommand command = new ExecuteTaskCommand();
-        command.setMessageName(StringUtils.EMPTY);
         command.setCustomDestination("customDestination");
         command.setIntegrationName("testIntegrationName");
         command.setType("testType");
@@ -77,6 +75,23 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getMessageName(), command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
+    }
+
+    @Test
+    void executeTask_shouldThrowIntegrationNameConfigExceptionIfIntegrationNameIsNotConfigured() {
+        // Arrange
+        ExecuteTaskCommand command = new ExecuteTaskCommand();
+        command.setIntegrationName("testIntegrationName");
+        command.setType("testType");
+        command.setInstanceId("123");
+        command.setData(Map.of());
+        when(digiWFConnectorProperties.getIntegrations()).thenReturn(Map.of());
+
+        // Assert
+        assertThatThrownBy(() -> useCase.executeTask(command))
+                .isInstanceOf(IntegrationNameConfigException.class)
+                .hasMessage("Integration testIntegrationName is not registered in configuration.")
+                .hasFieldOrPropertyWithValue("detailedMessage", "Integration testIntegrationName is not registered in configuration. Make sure to register it in configuration or provide a custom topic.");
     }
 }

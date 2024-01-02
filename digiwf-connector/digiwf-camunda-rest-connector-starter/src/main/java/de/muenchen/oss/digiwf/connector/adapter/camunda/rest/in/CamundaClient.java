@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.in;
 import de.muenchen.oss.digiwf.connector.adapter.camunda.rest.mapper.EngineDataSerializer;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort.ExecuteTaskCommand;
+import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.task.ExternalTask;
@@ -10,7 +11,6 @@ import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -29,19 +29,21 @@ public class CamundaClient implements ExternalTaskHandler {
         final String customTopic = (String) data.get(CamundaClientConfiguration.TOPIC_NAME);
         final String type = (String) data.get(CamundaClientConfiguration.TYPE_NAME);
         log.info("External task received (integration {}, type {})", integrationName, type);
-        final Optional<String> message = Optional.ofNullable(data.get(CamundaClientConfiguration.MESSAGE_NAME)).map(Object::toString);
         final Map<String, Object> filteredData = this.filterVariables(data);
 
-        executeTaskInPort.executeTask(ExecuteTaskCommand.builder()
-                .messageName(message.orElse(null))
-                .customDestination(customTopic)
-                .integrationName(integrationName)
-                .type(type)
-                .instanceId(externalTask.getProcessInstanceId())
-                .data(filteredData)
-                .build());
+        try {
+            executeTaskInPort.executeTask(ExecuteTaskCommand.builder()
+                    .customDestination(customTopic)
+                    .integrationName(integrationName)
+                    .type(type)
+                    .instanceId(externalTask.getProcessInstanceId())
+                    .data(filteredData)
+                    .build());
 
-        externalTaskService.complete(externalTask);
+            externalTaskService.complete(externalTask);
+        } catch (final IntegrationNameConfigException e) {
+            externalTaskService.handleFailure(externalTask, e.getMessage(), e.getDetailedMessage(), 0, 0);
+        }
     }
 
 

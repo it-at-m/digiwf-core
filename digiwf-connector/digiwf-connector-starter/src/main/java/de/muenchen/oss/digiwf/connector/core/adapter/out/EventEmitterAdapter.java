@@ -29,20 +29,6 @@ public class EventEmitterAdapter implements EmitEventOutPort {
         this.dynamicSink.tryEmitNext(message).orThrow();
     }
 
-    @Override
-    public void emitEvent(
-            final String messageName,
-            final String destination,
-            final String type,
-            final String instanceId,
-            final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, data)
-                .setHeader(StreamingHeaders.DIGIWF_MESSAGE_NAME, messageName)
-                .build();
-        log.debug("Emit message {}", message);
-        this.dynamicSink.tryEmitNext(message).orThrow();
-    }
-
     private MessageBuilder<Map<String, Object>> createMessage(
             final String destination,
             final String type,

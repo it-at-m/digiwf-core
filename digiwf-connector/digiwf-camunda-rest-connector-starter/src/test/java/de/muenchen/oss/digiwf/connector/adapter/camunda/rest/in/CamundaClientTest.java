@@ -49,7 +49,6 @@ class CamundaClientTest {
         VariableMap testData = new VariableMapImpl();
         testData.put(CamundaClientConfiguration.INTEGRATION_NAME, "testIntegrationName");
         testData.put(CamundaClientConfiguration.TYPE_NAME, "testType");
-        testData.put(CamundaClientConfiguration.MESSAGE_NAME, "testMessage");
         testData.put("someOtherKey", "someOtherValue");
 
         HashMap<String, Object> filteredData = new HashMap<>();
@@ -59,7 +58,6 @@ class CamundaClientTest {
         ExecuteTaskInPort.ExecuteTaskCommand expectedCommand = ExecuteTaskInPort.ExecuteTaskCommand.builder()
                 .integrationName("testIntegrationName")
                 .type("testType")
-                .messageName("testMessage")
                 .instanceId("testProcessInstanceId")
                 .data(filteredData)
                 .build();
@@ -70,7 +68,6 @@ class CamundaClientTest {
         when(clientConfiguration.getFilters()).thenReturn(List.of(
                 CamundaClientConfiguration.TOPIC_NAME,
                 CamundaClientConfiguration.TYPE_NAME,
-                CamundaClientConfiguration.MESSAGE_NAME,
                 CamundaClientConfiguration.INTEGRATION_NAME));
 
         // Execute the method under test
@@ -88,7 +85,6 @@ class CamundaClientTest {
         testData.put(CamundaClientConfiguration.INTEGRATION_NAME, "testIntegrationName");
         testData.put(CamundaClientConfiguration.TOPIC_NAME, "testTopic");
         testData.put(CamundaClientConfiguration.TYPE_NAME, "testType");
-        testData.put(CamundaClientConfiguration.MESSAGE_NAME, "testMessage");
         testData.put("someOtherKey", "someOtherValue");
 
         HashMap<String, Object> filteredData = new HashMap<>();
@@ -99,7 +95,6 @@ class CamundaClientTest {
                 .integrationName("testIntegrationName")
                 .customDestination("testTopic")
                 .type("testType")
-                .messageName("testMessage")
                 .instanceId("testProcessInstanceId")
                 .data(filteredData)
                 .build();
@@ -110,7 +105,6 @@ class CamundaClientTest {
         when(clientConfiguration.getFilters()).thenReturn(List.of(
                 CamundaClientConfiguration.TOPIC_NAME,
                 CamundaClientConfiguration.TYPE_NAME,
-                CamundaClientConfiguration.MESSAGE_NAME,
                 CamundaClientConfiguration.INTEGRATION_NAME));
 
         // Execute the method under test
