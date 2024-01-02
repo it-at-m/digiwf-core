@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.connector.core.application.usecase;
 
+import de.muenchen.oss.digiwf.connector.core.DigiWFConnectorProperties;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
 import jakarta.validation.Valid;
@@ -16,15 +17,27 @@ import org.springframework.validation.annotation.Validated;
 class ExecuteTaskUseCase implements ExecuteTaskInPort {
 
     private final EmitEventOutPort emitEventOutPort;
+    private final DigiWFConnectorProperties digiWFConnectorProperties;
 
     @Override
     public void executeTask(@Valid ExecuteTaskCommand command) {
         log.info("Execute task with command {}", command);
 
+        final String destination = StringUtils.isNotBlank(command.getCustomDestination()) ?
+                command.getCustomDestination() :
+                this.getDefaultDestination(command.getIntegrationName());
+
         if (StringUtils.isNotBlank(command.getMessageName())) {
-            emitEventOutPort.emitEvent(command.getMessageName(), command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
+            emitEventOutPort.emitEvent(destination, command.getType(), command.getInstanceId(), command.getData());
         } else {
-            emitEventOutPort.emitEvent(command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
+            emitEventOutPort.emitEvent(command.getMessageName(), destination, command.getType(), command.getInstanceId(), command.getData());
         }
+    }
+
+    private String getDefaultDestination(String integrationName) {
+        if (!digiWFConnectorProperties.getIntegrations().containsKey(integrationName)) {
+            throw new RuntimeException("Integration " + integrationName + " not found in configuration");
+        }
+        return digiWFConnectorProperties.getIntegrations().get(integrationName);
     }
 }

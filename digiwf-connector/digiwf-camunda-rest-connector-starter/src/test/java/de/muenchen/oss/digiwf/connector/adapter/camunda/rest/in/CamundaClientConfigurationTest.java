@@ -25,9 +25,10 @@ public class CamundaClientConfigurationTest {
         List<String> expectedFilters = Arrays.asList("var1", "var2", "var3",
                 CamundaClientConfiguration.MESSAGE_NAME,
                 CamundaClientConfiguration.TOPIC_NAME,
-                CamundaClientConfiguration.TYPE_NAME);
+                CamundaClientConfiguration.TYPE_NAME,
+                CamundaClientConfiguration.INTEGRATION_NAME);
         List<String> actualFilters = config.getFilters();
 
-        assertThat(actualFilters).containsAll(expectedFilters);
+        assertThat(actualFilters).isEqualTo(expectedFilters);
     }
 }

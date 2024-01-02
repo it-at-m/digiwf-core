@@ -18,8 +18,10 @@ public interface ExecuteTaskInPort {
     class ExecuteTaskCommand {
         private String messageName;
 
+        private String customDestination;
+
         @NotBlank
-        private String destination;
+        private String integrationName;
 
         @NotBlank
         private String type;

@@ -25,15 +25,17 @@ public class CamundaClient implements ExternalTaskHandler {
     @Override
     public void execute(final ExternalTask externalTask, final ExternalTaskService externalTaskService) {
         final Map<String, Object> data = this.getData(externalTask);
-        final String topic = (String) data.get(CamundaClientConfiguration.TOPIC_NAME);
+        final String integrationName = (String) data.get(CamundaClientConfiguration.INTEGRATION_NAME);
+        final String customTopic = (String) data.get(CamundaClientConfiguration.TOPIC_NAME);
         final String type = (String) data.get(CamundaClientConfiguration.TYPE_NAME);
-        log.info("External task received (topic {}, type {})", topic, type);
+        log.info("External task received (integration {}, type {})", integrationName, type);
         final Optional<String> message = Optional.ofNullable(data.get(CamundaClientConfiguration.MESSAGE_NAME)).map(Object::toString);
         final Map<String, Object> filteredData = this.filterVariables(data);
 
         executeTaskInPort.executeTask(ExecuteTaskCommand.builder()
                 .messageName(message.orElse(null))
-                .destination(topic)
+                .customDestination(customTopic)
+                .integrationName(integrationName)
                 .type(type)
                 .instanceId(externalTask.getProcessInstanceId())
                 .data(filteredData)
