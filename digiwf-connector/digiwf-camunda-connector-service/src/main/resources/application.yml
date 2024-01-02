@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: '@project.artifactId@'
+server:
+  port: '8080'
+feign:
+  client:
+    config:
+      default:
+        url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
+camunda:
+  bpm:
+    client:
+      date-format: yyyy-MM-dd'T'HH:mm:ss.SSSX
+
