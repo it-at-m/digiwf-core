@@ -28,12 +28,11 @@
     </bpmn:endEvent>
     <bpmn:callActivity id="create-file" name="Create File" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-file" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="createFile" target="app_type_name" />
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${apentryCOO}" target="apentryCOO" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="fileCOO" target="fileCoo" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>

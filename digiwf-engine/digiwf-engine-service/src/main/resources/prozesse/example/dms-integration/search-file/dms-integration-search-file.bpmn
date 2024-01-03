@@ -49,9 +49,8 @@
     <bpmn:sequenceFlow id="Flow_00rfshm" sourceRef="Activity_0or3gci" targetRef="Activity_170p8m9" />
     <bpmn:callActivity id="Activity_0or3gci" name="Search Sachakte" camunda:modelerTemplate="de.muenchen.digitalwf.templates.search-file" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="searchFile" target="app_type_name" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:out source="fileCoo" target="sachakte" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${search}" target="searchString" />

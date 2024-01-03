@@ -1,6 +1,6 @@
 {
-  "name": "Address: Search Address Munich Geo",
-  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunichGeo",
+  "name": "Address: Check Address",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.checkAddress",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "addressIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -47,7 +33,7 @@
     {
       "label": "Type Header",
       "type": "String",
-      "value": "searchAddressesGeoMunich",
+      "value": "checkAddressMunich",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -58,94 +44,83 @@
       }
     },
     {
-      "label": "Geometrie",
+      "label": "Adresse",
       "type": "String",
-      "value": "Punkt",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "geometrie",
-        "target": "geometrie"
+        "name": "adresse",
+        "target": "adresse"
       }
     },
     {
-      "label": "Koordinate lat",
+      "label": "Strassenname",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "lat",
-        "target": "lat"
+        "name": "strassenname",
+        "target": "strassenname"
       }
     },
     {
-      "label": "Koordinate lng",
+      "label": "StrasseId",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "lng",
-        "target": "lng"
+        "name": "strasseId",
+        "target": "strasseId"
       }
     },
     {
-      "label": "Distanz",
+      "label": "Hausnummer",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "distanz",
-        "target": "distanz"
+        "name": "hausnummer",
+        "target": "hausnummer"
       }
     },
     {
-      "label": "Top Left Lat",
+      "label": "Zusatz",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "topleftlat",
-        "target": "topleftlat"
+        "name": "zusatz",
+        "target": "zusatz"
       }
     },
     {
-      "label": "Top Left Lng",
+      "label": "PLZ",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "topleftlng",
-        "target": "topleftlng"
+        "name": "plz",
+        "target": "plz"
       }
     },
     {
-      "label": "Bottom Right Lat",
+      "label": "Ortsname",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "bottomrightlat",
-        "target": "bottomrightlat"
+        "name": "ortsname",
+        "target": "ortsname"
       }
     },
     {
-      "label": "Bottom Right Lng",
+      "label": "Gemeindeschluessel",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "bottomrightlng",
-        "target": "bottomrightlng"
-      }
-    },
-    {
-      "label": "Format",
-      "type": "String",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "format",
-        "target": "format"
+        "name": "gemeindeschluessel",
+        "target": "gemeindeschluessel"
       }
     },
     {

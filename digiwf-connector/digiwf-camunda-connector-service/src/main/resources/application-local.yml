@@ -32,3 +32,11 @@ logging:
       muenchendigital: info
 server:
   port: '8090'
+de:
+  muenchen:
+    oss:
+      digiwf:
+        connector:
+          core:
+            integrations:
+              exampleIntegration: "dwf-example-integration-${DIGIWF_ENV}"

@@ -32,7 +32,7 @@
         <camunda:in sourceExpression="updateDocument" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="${type}" target="type" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />

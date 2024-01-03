@@ -10,12 +10,11 @@
     <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="create-procedure" />
     <bpmn:callActivity id="create-procedure" name="Create Procedure" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-procedure" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="createProcedure" target="app_type_name" />
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
         <camunda:out source="procedureCOO" target="procedureCoo" />
       </bpmn:extensionElements>
@@ -43,9 +42,8 @@
     <bpmn:sequenceFlow id="Flow_0fytu23" sourceRef="Activity_0p6tsoh" targetRef="Event_completed" />
     <bpmn:callActivity id="Activity_0p6tsoh" name="Cancel Object" camunda:modelerTemplate="de.muenchen.digitalwf.templates.cancel-object" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="cancelObject" target="app_type_name" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${procedureCoo}" target="objectCoo" />
       </bpmn:extensionElements>

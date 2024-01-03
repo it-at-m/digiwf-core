@@ -31,7 +31,7 @@
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="readContent" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCoos}" target="contentCoos" />
         <camunda:in sourceExpression="path" target="filePath" />

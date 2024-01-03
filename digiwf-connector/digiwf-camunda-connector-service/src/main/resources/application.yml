@@ -24,5 +24,4 @@ de:
               cosysIntegration: "dwf-cosys-${DIGIWF_ENV}"
               dmsIntegration: "dwf-dms-${DIGIWF_ENV}"
               emailIntegration: "dwf-email-${DIGIWF_ENV}"
-              exampleIntegration: "dwf-example-integration-${DIGIWF_ENV}"
               s3Integration: "dwf-s3-${DIGIWF_ENV}"

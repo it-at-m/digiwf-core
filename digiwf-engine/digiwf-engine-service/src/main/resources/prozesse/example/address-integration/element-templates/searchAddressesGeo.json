@@ -1,6 +1,6 @@
 {
-  "name": "Address: Check Address",
-  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.checkAddress",
+  "name": "Address: Search Address Munich Geo",
+  "id": "de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunichGeo",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "addressIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -47,7 +33,7 @@
     {
       "label": "Type Header",
       "type": "String",
-      "value": "checkAddressMunich",
+      "value": "searchAddressesGeoMunich",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -58,83 +44,94 @@
       }
     },
     {
-      "label": "Adresse",
+      "label": "Geometrie",
       "type": "String",
+      "value": "Punkt",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "adresse",
-        "target": "adresse"
+        "name": "geometrie",
+        "target": "geometrie"
       }
     },
     {
-      "label": "Strassenname",
+      "label": "Koordinate lat",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "strassenname",
-        "target": "strassenname"
+        "name": "lat",
+        "target": "lat"
       }
     },
     {
-      "label": "StrasseId",
+      "label": "Koordinate lng",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "strasseId",
-        "target": "strasseId"
+        "name": "lng",
+        "target": "lng"
       }
     },
     {
-      "label": "Hausnummer",
+      "label": "Distanz",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "hausnummer",
-        "target": "hausnummer"
+        "name": "distanz",
+        "target": "distanz"
       }
     },
     {
-      "label": "Zusatz",
+      "label": "Top Left Lat",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "zusatz",
-        "target": "zusatz"
+        "name": "topleftlat",
+        "target": "topleftlat"
       }
     },
     {
-      "label": "PLZ",
+      "label": "Top Left Lng",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "plz",
-        "target": "plz"
+        "name": "topleftlng",
+        "target": "topleftlng"
       }
     },
     {
-      "label": "Ortsname",
+      "label": "Bottom Right Lat",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "ortsname",
-        "target": "ortsname"
+        "name": "bottomrightlat",
+        "target": "bottomrightlat"
       }
     },
     {
-      "label": "Gemeindeschluessel",
+      "label": "Bottom Right Lng",
       "type": "String",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "gemeindeschluessel",
-        "target": "gemeindeschluessel"
+        "name": "bottomrightlng",
+        "target": "bottomrightlng"
+      }
+    },
+    {
+      "label": "Format",
+      "type": "String",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "format",
+        "target": "format"
       }
     },
     {
