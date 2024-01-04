@@ -6,8 +6,6 @@
     <artifactId>digiwf-camunda-connector-service</artifactId>
     <name>digiwf-camunda-connector-service</name>
 
-    <properties>
-    </properties>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
