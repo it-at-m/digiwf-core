@@ -16,7 +16,6 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_bpmn_errors_enabled">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_message_name">bpmnError</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1umpo2a</bpmn:incoming>
@@ -31,7 +30,6 @@
             <camunda:inputParameter name="errorCode">${errorCode}</camunda:inputParameter>
             <camunda:inputParameter name="app_topic_name">${topic}</camunda:inputParameter>
             <camunda:inputParameter name="app_type_name">bpmnerror</camunda:inputParameter>
-            <camunda:inputParameter name="app_message_name">bpmnError</camunda:inputParameter>
             <camunda:inputParameter name="processInstanceId">${execution.processInstanceId}</camunda:inputParameter>
           </camunda:inputOutput>
         </bpmn:extensionElements>
@@ -130,13 +128,13 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0z7ndbh" sourceRef="Activity_109gmxf" targetRef="Event_1b6s36n" />
   </bpmn:process>
-  <bpmn:message id="Message_03q71z4" name="${app_message_name}" />
+  <bpmn:message id="Message_03q71z4" name="${app_type_name}" />
   <bpmn:error id="Error_0ixfbr0" name="Error_999" errorCode="999" />
   <bpmn:error id="Error_1dol2al" />
   <bpmn:error id="Error_0mtfk48" name="BpmnError" errorCode="0" />
   <bpmn:message id="Message_0b3qadt" name="bpmnError" />
   <bpmn:error id="Error_1qg8hu8" name="Incident" errorCode="0" />
-  <bpmn:message id="Message_1vnpjk9" name="${app_message_name}" />
+  <bpmn:message id="Message_1vnpjk9" name="${app_type_name}" />
   <bpmn:message id="Message_1i48c6q" name="Message_378u641" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Feature_GenericErrors">

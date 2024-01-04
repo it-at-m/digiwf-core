@@ -29,19 +29,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "Hidden",
-      "value": "cosysMessage",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "Hidden",
       "value": "createCosysDocument",

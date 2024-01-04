@@ -29,20 +29,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "editable": false,
-      "value": "genericOkEwoEvent",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Type Header",
       "type": "String",
       "value": "",

@@ -17,7 +17,6 @@
     </bpmn:userTask>
     <bpmn:callActivity id="Task_CreateParkausweis" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CreateParkausweisTemplateV02" calledElement="CreateParkausweisTemplateV01">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="correlateParkausweisCreated" target="app_message_name" />
         <camunda:in sourceExpression="createParkausweisv02" target="app_type_name" />
         <camunda:in sourceExpression="${formatter.bool(quickcheck1)}" target="gueltigerFuehrerschein" />
         <camunda:in sourceExpression="${formatter.bool(quickcheck2)}" target="gueltigerParkausweis" />

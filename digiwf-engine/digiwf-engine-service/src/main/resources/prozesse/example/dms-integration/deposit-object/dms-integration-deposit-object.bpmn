@@ -42,7 +42,6 @@
     <bpmn:sequenceFlow id="Flow_0fytu23" sourceRef="Activity_0p6tsoh" targetRef="Event_completed" />
     <bpmn:callActivity id="Activity_0p6tsoh" name="Deposit Object" camunda:modelerTemplate="de.muenchen.digitalwf.templates.deposit-object" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="depositObject" target="app_type_name" />
         <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
