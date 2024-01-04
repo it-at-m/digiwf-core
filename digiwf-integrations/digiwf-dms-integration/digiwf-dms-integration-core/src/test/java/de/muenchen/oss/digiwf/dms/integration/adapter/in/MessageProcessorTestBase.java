@@ -8,7 +8,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 class MessageProcessorTestBase {
@@ -24,7 +24,7 @@ class MessageProcessorTestBase {
     protected final SearchFileUseCase searchFileUseCase = Mockito.mock(SearchFileUseCase.class);
     protected final SearchSubjectAreaUseCase searchSubjectAreaUseCase = Mockito.mock(SearchSubjectAreaUseCase.class);
     protected final String processInstanceId = "exampleProcessInstanceId";
-    protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
+    protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "dmsIntegration"));
     protected MessageProcessor messageProcessor;
 
     protected void setupBase() {

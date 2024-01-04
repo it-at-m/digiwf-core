@@ -35,7 +35,7 @@ public class EventEmitterAdapterTest extends BaseSpringTest {
 
         when(this.dynamicSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);
 
-        this.outputService.emitEvent("myTopic", "myType", "myInstance", Map.of("key", "value"));
+        this.outputService.emitEvent("myTopic", "myType", "exampleIntegration", "myInstance", Map.of("key", "value"));
 
         verify(this.dynamicSink, times(1)).tryEmitNext(any());
     }

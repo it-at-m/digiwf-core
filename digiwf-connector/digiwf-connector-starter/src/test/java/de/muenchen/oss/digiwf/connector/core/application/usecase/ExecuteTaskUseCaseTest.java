@@ -39,7 +39,7 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent("defaultDestination", command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent("defaultDestination", command.getType(), command.getInstanceId(), command.getIntegrationName(), command.getData());
     }
 
     @Test
@@ -57,7 +57,7 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getIntegrationName(), command.getData());
     }
 
     @Test
@@ -75,7 +75,7 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getInstanceId(), command.getIntegrationName(), command.getData());
     }
 
     @Test

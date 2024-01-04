@@ -15,14 +15,15 @@ import static org.mockito.Mockito.*;
 @DisplayName("Incident Consumer Test")
 class IncidentConsumerTest {
     private static final String HEADER_PROCESS_INSTANCE_ID = "digiwf.processinstanceid";
-    private static final String HEADER_MESSAGE_NAME = "digiwf.messagename";
+    public static final String HEADER_INTEGRATION_NAME = "digiwf.integrationname";
+
     private final CreateIncidentInPort inPort = mock(CreateIncidentInPort.class);
 
     private final IncidentConsumer incidentConsumer = new IncidentConsumer(inPort);
 
     @Test
     @DisplayName("should do noting if headers are empty")
-    public void shouldDoNothingIfHeadersAreEmpty() {
+    void shouldDoNothingIfHeadersAreEmpty() {
         Consumer<Message<String>> consumer = incidentConsumer.createIncident();
 
         consumer.accept(new Message<String>() {
@@ -42,7 +43,7 @@ class IncidentConsumerTest {
 
     @Test
     @DisplayName("should create incident if headers are given")
-    public void shouldCreateIncidentIfHeadersAreGiven() {
+    void shouldCreateIncidentIfHeadersAreGiven() {
         Consumer<Message<String>> consumer = incidentConsumer.createIncident();
 
         consumer.accept(new Message<String>() {
@@ -55,18 +56,18 @@ class IncidentConsumerTest {
             public @NotNull MessageHeaders getHeaders() {
                 final HashMap<String, Object> map = new HashMap<>();
                 map.put(HEADER_PROCESS_INSTANCE_ID, "process-instance-id");
-                map.put(HEADER_MESSAGE_NAME, "message-name");
+                map.put(HEADER_INTEGRATION_NAME, "integration-name");
 
                 return new MessageHeaders(map);
             }
         });
 
-        verify(inPort).createIncident("process-instance-id", "message-name", "payload");
+        verify(inPort).createIncident("process-instance-id", "integration-name", "payload");
     }
 
     @Test
     @DisplayName("should create incident if payload is missing")
-    public void shouldCreateIncidentIfPayloadIsMissing() {
+    void shouldCreateIncidentIfPayloadIsMissing() {
         Consumer<Message<String>> consumer = incidentConsumer.createIncident();
 
         consumer.accept(new Message<String>() {
@@ -79,12 +80,12 @@ class IncidentConsumerTest {
             public @NotNull MessageHeaders getHeaders() {
                 final HashMap<String, Object> map = new HashMap<>();
                 map.put(HEADER_PROCESS_INSTANCE_ID, "process-instance-id");
-                map.put(HEADER_MESSAGE_NAME, "message-name");
+                map.put(HEADER_INTEGRATION_NAME, "integration-name");
 
                 return new MessageHeaders(map);
             }
         });
 
-        verify(inPort).createIncident("process-instance-id", "message-name", null);
+        verify(inPort).createIncident("process-instance-id", "integration-name", null);
     }
 }

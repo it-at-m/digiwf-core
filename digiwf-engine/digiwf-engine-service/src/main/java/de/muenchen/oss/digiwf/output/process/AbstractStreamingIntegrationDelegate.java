@@ -21,12 +21,12 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 public class AbstractStreamingIntegrationDelegate {
     private final EngineDataMapper engineDataMapper;
 
-    private final static VariableFactory<String> MESSAGE_NAME = stringVariable("app_message_name");
     private final static VariableFactory<String> TYPE_NAME = stringVariable("app_type_name");
+    private final static VariableFactory<String> INTEGRATION_NAME = stringVariable("app_integration_name");
     private final static VariableFactory<String> TOPIC_NAME = stringVariable("app_topic_name");
     private final static VariableFactory<String> RESPONSELESS = stringVariable("app_responseless");
     private final static List<String> filterVariables = List.of(
-            MESSAGE_NAME.getName(),
+            INTEGRATION_NAME.getName(),
             TYPE_NAME.getName(),
             TOPIC_NAME.getName(),
             RESPONSELESS.getName()
@@ -43,8 +43,8 @@ public class AbstractStreamingIntegrationDelegate {
                 .withPayload(this.engineDataMapper.mapToData(data))
                 .setHeader(STREAM_SEND_TO_DESTINATION, TOPIC_NAME.from(delegateExecution).get())
                 .setHeader(TYPE, TYPE_NAME.from(delegateExecution).get())
+                .setHeader(DIGIWF_INTEGRATION_NAME, INTEGRATION_NAME.from(delegateExecution).getOrDefault(TYPE_NAME.from(delegateExecution).get()))
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, delegateExecution.getProcessInstanceId());
-        MESSAGE_NAME.from(delegateExecution).getOptional().ifPresent(name -> builder.setHeader(DIGIWF_MESSAGE_NAME, name));
         return builder.build();
     }
 

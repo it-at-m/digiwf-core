@@ -12,12 +12,14 @@ public interface EmitEventOutPort {
      *
      * @param destination name of the topic to write the message to
      * @param type        type header of the message
+     * @param integrationName name of the integration
      * @param instanceId  id of the process instance
      * @param data        payload data
      */
     void emitEvent(
             String destination,
             String type,
+            String integrationName,
             String instanceId,
             Map<String, Object> data);
 
