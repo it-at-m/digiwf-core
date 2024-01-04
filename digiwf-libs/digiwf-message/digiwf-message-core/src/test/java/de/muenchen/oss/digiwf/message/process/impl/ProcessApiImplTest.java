@@ -71,7 +71,7 @@ class ProcessApiImplTest {
         assertThat(payload.getPayloadVariables()).isEqualTo(this.variables);
 
         assertThat(headers)
-            .hasSize(3)
+            .hasSize(2)
             .containsEntry(TYPE, "correlatemessagev01")
             .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId);
 

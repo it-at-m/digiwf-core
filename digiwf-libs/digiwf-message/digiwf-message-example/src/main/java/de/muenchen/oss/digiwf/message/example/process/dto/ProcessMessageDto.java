@@ -11,6 +11,5 @@ import java.util.Map;
 @AllArgsConstructor
 public class ProcessMessageDto {
     private String processInstanceId;
-    private String messageName;
     private Map<String, Object> variables;
 }

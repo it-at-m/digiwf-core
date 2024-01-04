@@ -90,13 +90,6 @@ class ErrorApiImplTest {
                 .isInstanceOf(RuntimeException.class);
     }
 
-    @Test
-    void testHandleIncidentWithExceptionRaisesRuntimeExceptionOnMissingMessageName() {
-        final IncidentError incidentError = new IncidentError("someErrorMessage");
-        assertThatThrownBy(() -> this.errorApi.handleIncident(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId), incidentError))
-                .isInstanceOf(RuntimeException.class);
-    }
-
     private void verifyBpmnErrorMessageApiCall(final BpmnError payload, final String destination) {
         final ArgumentCaptor<BpmnErrorDto> payloadCaptor = ArgumentCaptor.forClass(BpmnErrorDto.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
@@ -119,7 +112,7 @@ class ErrorApiImplTest {
         assertThat(payloadCaptor.getValue()).isEqualTo(payload);
 
         assertThat(headersCaptor.getValue())
-                .hasSize(3)
+                .hasSize(2)
                 .containsEntry(TYPE, typeHeader)
                 .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId);
 
