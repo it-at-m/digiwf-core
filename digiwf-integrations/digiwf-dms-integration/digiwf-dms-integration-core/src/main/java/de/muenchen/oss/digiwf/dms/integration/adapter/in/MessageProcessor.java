@@ -7,15 +7,16 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
+import jakarta.validation.ValidationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Configuration
@@ -44,7 +45,8 @@ public class MessageProcessor {
                         createFileDto.getUser()
                 );
 
-                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(), Map.of("fileCOO", file));
+                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("fileCOO", file));
             });
         };
     }
@@ -59,7 +61,8 @@ public class MessageProcessor {
                         createProcedureDto.getUser()
                 );
 
-                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(), Map.of("procedureCOO", vorgang.getCoo()));
+                this.correlateMessage(Objects.requireNonNull(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID)).toString(),
+                        Objects.requireNonNull(message.getHeaders().get(DIGIWF_MESSAGE_NAME)).toString(), Map.of("procedureCOO", vorgang.getCoo()));
             });
         };
     }
@@ -73,7 +76,8 @@ public class MessageProcessor {
                         depositObjectDto.getUser()
                 );
 
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of());
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             });
         };
     }
@@ -91,7 +95,8 @@ public class MessageProcessor {
                         createDocumentDto.getFileContext()
                 );
 
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of("documentCoo", document));
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("documentCoo", document));
             });
         };
     }
@@ -108,7 +113,8 @@ public class MessageProcessor {
                         updateDocumentDto.getFileContext()
                 );
 
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of());
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             });
         };
     }
@@ -122,7 +128,8 @@ public class MessageProcessor {
                         cancelObjectDto.getUser()
                 );
 
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of());
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             });
         };
     }
@@ -137,7 +144,8 @@ public class MessageProcessor {
                         readContentDto.getFilePath(),
                         readContentDto.getFileContext()
                 );
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of());
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of());
             });
         };
     }
@@ -152,7 +160,8 @@ public class MessageProcessor {
                         searchObjectDto.getReference(),
                         searchObjectDto.getValue()
                 );
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of("fileCoo", file));
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));
             });
         };
     }
@@ -165,7 +174,8 @@ public class MessageProcessor {
                         searchObjectDto.getSearchString(),
                         searchObjectDto.getUser()
                 );
-                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(), Map.of("subjectAreaCoo", subjectArea));
+                this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));
             });
         };
     }
@@ -182,7 +192,7 @@ public class MessageProcessor {
         }
     }
 
-    public void correlateMessage(final String processInstanceId, final Map<String, Object> message) {
-        this.processApi.correlateMessage(processInstanceId, message);
+    public void correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> message) {
+        this.processApi.correlateMessage(processInstanceId, messageName, message);
     }
 }

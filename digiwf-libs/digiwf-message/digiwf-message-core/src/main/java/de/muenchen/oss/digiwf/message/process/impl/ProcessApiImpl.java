@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
 /**
  * Default implementation of {@link ProcessApi}.
@@ -60,18 +59,21 @@ public class ProcessApiImpl implements ProcessApi {
      * The correlate message contains the process instance id, message name and variables.
      *
      * @param processInstanceId The process instance id of the process to be correlated.
+     * @param messageName The message name to be correlated.
      * @param payloadVariables The variables to be passed to the process.
      * @return
      */
     @Override
-    public boolean correlateMessage(final String processInstanceId, final Map<String, Object> payloadVariables) {
+    public boolean correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> payloadVariables) {
         final CorrelateMessageDto payload = CorrelateMessageDto.builder()
                 .processInstanceId(processInstanceId)
+                .messageName(messageName)
                 .payloadVariables(payloadVariables)
                 .build();
         final Map<String, Object> headers = Map.of(
                 TYPE, CORRELATEMESSAGEV_01,
-                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId
+                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
+                DIGIWF_MESSAGE_NAME, messageName
         );
         return this.messageApi.sendMessage(payload, headers, this.correlateMessageDestination);
     }

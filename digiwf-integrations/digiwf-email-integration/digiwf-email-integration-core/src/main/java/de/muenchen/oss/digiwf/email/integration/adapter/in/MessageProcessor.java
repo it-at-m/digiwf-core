@@ -12,6 +12,7 @@ import org.springframework.messaging.Message;
 
 import java.util.function.Consumer;
 
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class MessageProcessor {
             try {
                 this.mailUseCase.sendMail(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME, String.class),
                         message.getPayload());
                 this.monitoringService.sendMailSucceeded();
             } catch (final BpmnError bpmnError) {

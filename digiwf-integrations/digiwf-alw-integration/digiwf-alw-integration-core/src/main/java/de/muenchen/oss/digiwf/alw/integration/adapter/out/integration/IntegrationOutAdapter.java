@@ -22,10 +22,11 @@ public class IntegrationOutAdapter implements IntegrationOutPort {
   @Override
   public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
     final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
+    final String messageName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_MESSAGE_NAME)).toString();
     if (payload == null) {
       payload = new HashMap<>();
     }
-    this.processApi.correlateMessage(processInstanceId, payload);
+    this.processApi.correlateMessage(processInstanceId, messageName, payload);
   }
 
   @Override

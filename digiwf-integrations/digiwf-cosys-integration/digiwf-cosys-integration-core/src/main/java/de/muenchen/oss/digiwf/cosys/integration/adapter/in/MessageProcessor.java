@@ -6,7 +6,6 @@ import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,8 +13,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+import jakarta.validation.ValidationException;
 import java.util.function.Consumer;
 
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
 
 @Slf4j
@@ -42,6 +43,7 @@ public class MessageProcessor {
             log.debug("Generate document request: {}", document);
                 this.documentUseCase.createDocument(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
+                        message.getHeaders().get(DIGIWF_MESSAGE_NAME, String.class),
                         document);
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);

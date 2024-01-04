@@ -11,6 +11,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class CorrelateMessageDto {
     private String processInstanceId;
+    private String messageName;
     private String businessKey;
     private Map<String, Object> payloadVariables;
     private Map<String, Object> payloadVariablesLocal;

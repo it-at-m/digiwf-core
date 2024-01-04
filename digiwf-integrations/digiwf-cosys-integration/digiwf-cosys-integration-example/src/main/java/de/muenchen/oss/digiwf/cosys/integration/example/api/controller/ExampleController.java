@@ -39,7 +39,8 @@ public class ExampleController {
     public void testEventBus(final @RequestBody DocumentStorageUrl body) {
         this.messageApi.sendMessage(body, Map.of(
                 MessageConstants.TYPE, "createDocumentFromEventBus",
-                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId"
+                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
+                MessageConstants.DIGIWF_MESSAGE_NAME, "testCosysIntegration"
         ), "dwf-cosys-local-01");
     }
 

@@ -22,7 +22,8 @@ public class HelperController {
 
         final Map<String, Object> headers = new HashMap<>(Map.of(
                 MessageConstants.TYPE, "exampleIntegration",
-                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "123456789"
+                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "123456789",
+                MessageConstants.DIGIWF_MESSAGE_NAME, "test"
         ));
 
         this.messageApi.sendMessage(
