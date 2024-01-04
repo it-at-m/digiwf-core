@@ -139,8 +139,5 @@
         "name": "camunda:asyncBefore"
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }
