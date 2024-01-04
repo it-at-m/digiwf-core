@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
 import static org.awaitility.Awaitility.await;
 
 @Component
@@ -36,7 +37,7 @@ public class DigiwfIntegrationE2eTestUtility {
     }
 
     private void sendMessage(final Object payload, final String processInstanceId, final String messageType) {
-        final Map<String, Object> headers = Map.of(DIGIWF_PROCESS_INSTANCE_ID, processInstanceId, DIGIWF_MESSAGE_NAME, "messageName", TYPE, messageType);
+        final Map<String, Object> headers = Map.of(DIGIWF_PROCESS_INSTANCE_ID, processInstanceId, TYPE, messageType);
         messageApi.sendMessage(payload, headers, messageTopic);
     }
 

@@ -19,11 +19,10 @@ class ProcessAdapterTest {
         final ProcessAdapter processAdapter = new ProcessAdapter(processApiMock);
 
         final String processInstanceId = "exampleProcessInstanceId";
-        final String messageName = "exampleMessageName";
         final Map<String, Object> message = new HashMap<>();
 
-        processAdapter.correlateMessage(processInstanceId, messageName, message);
+        processAdapter.correlateMessage(processInstanceId, message);
 
-        verify(processApiMock, times(1)).correlateMessage(processInstanceId, messageName, message);
+        verify(processApiMock, times(1)).correlateMessage(processInstanceId, message);
     }
 }

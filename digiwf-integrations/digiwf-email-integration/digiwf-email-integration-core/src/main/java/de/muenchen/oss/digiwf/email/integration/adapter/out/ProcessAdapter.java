@@ -12,8 +12,8 @@ public class ProcessAdapter implements CorrelateMessagePort {
     private final ProcessApi processApi;
 
     @Override
-    public void correlateMessage(final String processInstanceId, final String messageName, final Map<String, Object> message) {
-        this.processApi.correlateMessage(processInstanceId, messageName, message);
+    public void correlateMessage(final String processInstanceId, final Map<String, Object> message) {
+        this.processApi.correlateMessage(processInstanceId, message);
     }
 
 }

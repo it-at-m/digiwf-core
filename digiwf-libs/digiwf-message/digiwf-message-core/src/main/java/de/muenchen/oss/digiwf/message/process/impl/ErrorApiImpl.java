@@ -10,7 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,17 +28,15 @@ public class ErrorApiImpl implements ErrorApi {
      * The incident message contains the process instance id, message name and error message.
      *
      * @param processInstanceId The process instance id of the process to be correlated.
-     * @param messageName The message name to be correlated.
      * @param errorMessage The error message to be passed to the process.
      * @return
      */
     @Override
-    public boolean handleIncident(final String processInstanceId, final String messageName, final String errorMessage) {
+    public boolean handleIncident(final String processInstanceId, final String errorMessage) {
         log.error("Incident occured for process {} with error message {}", processInstanceId, errorMessage);
         final Map<String, Object> headers = Map.of(
                 TYPE, this.incidentDestination,
-                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
-                DIGIWF_MESSAGE_NAME, messageName
+                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId
         );
         return this.messageApi.sendMessage(errorMessage, headers, this.incidentDestination);
     }
@@ -58,12 +57,10 @@ public class ErrorApiImpl implements ErrorApi {
                 .processInstanceId(processInstanceId)
                 .errorCode(errorCode)
                 .errorMessage(errorMessage)
-                .messageName(BPMN_ERROR_MESSAGE_NAME)
                 .build();
         final Map<String, Object> headers = Map.of(
                 TYPE, BPMN_ERROR_MESSAGE_TYPE,
-                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
-                DIGIWF_MESSAGE_NAME, BPMN_ERROR_MESSAGE_NAME
+                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId
         );
         return this.messageApi.sendMessage(payload, headers, this.bpmnErrorDestination);
     }
@@ -82,11 +79,7 @@ public class ErrorApiImpl implements ErrorApi {
         if (!originMessageHeaders.containsKey(DIGIWF_PROCESS_INSTANCE_ID)) {
             throw new RuntimeException("The origin message headers do not contain a process instance id.");
         }
-        if (!originMessageHeaders.containsKey(DIGIWF_MESSAGE_NAME)) {
-            throw new RuntimeException("The origin message headers do not contain a message name.");
-        }
-        return this.handleIncident(originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                originMessageHeaders.get(DIGIWF_MESSAGE_NAME).toString(), incidentError.getErrorMessage());
+        return this.handleIncident(originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString(), incidentError.getErrorMessage());
     }
 
 }

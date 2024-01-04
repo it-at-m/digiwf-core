@@ -10,7 +10,8 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -55,8 +56,7 @@ class ProcessApiImplTest {
 
     @Test
     void testCorrelateMessage() {
-        final String messageName = "correlateMessage";
-        final boolean success = this.processApi.correlateMessage(this.processInstanceId, messageName, this.variables);
+        final boolean success = this.processApi.correlateMessage(this.processInstanceId, this.variables);
         assertThat(success).isTrue();
 
         final ArgumentCaptor<CorrelateMessageDto> payloadCaptor = ArgumentCaptor.forClass(CorrelateMessageDto.class);
@@ -68,14 +68,12 @@ class ProcessApiImplTest {
         final Map<String, Object> headers = headersCaptor.getValue();
 
         assertThat(payload.getProcessInstanceId()).isEqualTo(this.processInstanceId);
-        assertThat(payload.getMessageName()).isEqualTo(messageName);
         assertThat(payload.getPayloadVariables()).isEqualTo(this.variables);
 
         assertThat(headers)
             .hasSize(3)
             .containsEntry(TYPE, "correlatemessagev01")
-            .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId)
-            .containsEntry(DIGIWF_MESSAGE_NAME, messageName);
+            .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId);
 
         assertThat(destinationCaptor.getValue()).isEqualTo("correlateMessageDestination");
     }

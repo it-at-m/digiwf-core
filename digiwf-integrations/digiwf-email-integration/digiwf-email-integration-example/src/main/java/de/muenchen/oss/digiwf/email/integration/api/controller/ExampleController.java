@@ -28,8 +28,7 @@ public class ExampleController {
     public void testEventBus(@RequestBody final Mail mail) {
         this.messageApi.sendMessage(mail, Map.of(
                 MessageConstants.TYPE, "sendMailFromEventBus",
-                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
-                MessageConstants.DIGIWF_MESSAGE_NAME, "testEmailIntegration"
+                MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId"
         ), "dwf-email-local-01");
     }
 
