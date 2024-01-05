@@ -50,7 +50,6 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
-            <version>7.20.0</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
