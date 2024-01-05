@@ -488,7 +488,7 @@
                                                 },
                                                 "key": "zulassungsbescheinigung_i_fahrzeugschein",
                                                 "uuidEnabled": false,
-                                                "filePath": "zulassungsbescheinigung_i_fahrzeugschein/assistants",
+                                                "filePath": "zulassungsbescheinigung_i_fahrzeugschein",
                                                 "x-options": {
                                                     "fieldColProps": {
                                                         "cols": 12,
