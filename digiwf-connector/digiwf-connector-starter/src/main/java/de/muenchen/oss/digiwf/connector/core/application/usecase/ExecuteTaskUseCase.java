@@ -28,7 +28,7 @@ class ExecuteTaskUseCase implements ExecuteTaskInPort {
                 command.getCustomDestination() :
                 this.getDefaultDestination(command.getIntegrationName());
 
-        emitEventOutPort.emitEvent(destination, command.getType(), command.getInstanceId(), command.getIntegrationName(), command.getData());
+        emitEventOutPort.emitEvent(destination, command.getType(), command.getIntegrationName(), command.getInstanceId(), command.getData());
     }
 
     private String getDefaultDestination(String integrationName) {
