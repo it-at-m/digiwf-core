@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.connector.core.application.port.in;
 
 import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 public interface ExecuteTaskInPort {
 
-    void executeTask(ExecuteTaskCommand command) throws IntegrationNameConfigException;
+    void executeTask(@Valid ExecuteTaskCommand command) throws IntegrationNameConfigException;
 
     @Data
     @ToString
