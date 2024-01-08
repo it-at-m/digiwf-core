@@ -1,0 +1,122 @@
+{
+    "key": "formserver_example_with_person",
+    "schema": {
+        "type": "object",
+        "x-display": "tabs",
+        "allOf": [
+            {
+                "title": "Section",
+                "description": "",
+                "type": "object",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Group",
+                        "description": "",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "Person": {
+                                "key": "Person",
+                                "fieldType": "arrayObject",
+                                "title": "Person",
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Person": {
+                                            "key": "Person",
+                                            "fieldType": "object",
+                                            "title": "Person",
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "x-options": {
+                                                "fieldColProps": {
+                                                    "cols": 12,
+                                                    "sm": 12,
+                                                    "messages": {}
+                                                }
+                                            },
+                                            "x-props": {
+                                                "outlined": true,
+                                                "dense": true
+                                            },
+                                            "properties": {
+                                                "Name": {
+                                                    "fieldType": "text",
+                                                    "title": "Name",
+                                                    "type": "string",
+                                                    "key": "Name",
+                                                    "x-options": {
+                                                        "fieldColProps": {
+                                                            "cols": 12,
+                                                            "sm": 12,
+                                                            "messages": {}
+                                                        }
+                                                    },
+                                                    "x-props": {
+                                                        "outlined": true,
+                                                        "dense": true
+                                                    },
+                                                    "x-rules": []
+                                                },
+                                                "Files": {
+                                                    "fieldType": "file",
+                                                    "title": "Files",
+                                                    "x-display": "custom-multi-file-input",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "key": {
+                                                            "type": "string"
+                                                        },
+                                                        "amount": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "key": "files",
+                                                    "uuidEnabled": false,
+                                                    "filePath": "files",
+                                                    "x-options": {
+                                                        "fieldColProps": {
+                                                            "cols": 12,
+                                                            "sm": 12,
+                                                            "messages": {}
+                                                        }
+                                                    },
+                                                    "x-props": {
+                                                        "outlined": true,
+                                                        "dense": true
+                                                    },
+                                                    "x-rules": []
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": false
+                                }
+                            }
+                        },
+                        "key": "9278d827-9813-4822-8ca2-de1d59ae9540"
+                    }
+                ],
+                "key": "d5207789-dd3d-4c56-b2bd-43945711168b"
+            }
+        ]
+    }
+}
