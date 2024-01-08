@@ -84,7 +84,7 @@ export default defineComponent({
 
     const value = ref({});
 
-    const schema = ref({});
+    const schema = ref({"dateval": ""});
     const changed = (newSchema: any) => {
       componentKey.value += 1;
       schema.value = newSchema;
@@ -111,30 +111,51 @@ export default defineComponent({
       schema.value = {
         "type": "object",
         "x-display": "tabs",
-        "allOf": [{
-          "key": "sectionKey1",
-          "title": "Allgemeine Angaben",
-          "type": "object",
-          "x-options": {"sectionsTitlesClasses": []},
-          "allOf": [{
-            "containerType": "group",
-            "title": "Group",
-            "description": "",
-            "x-options": {"childrenClass": "pl-0"},
-            "properties": {
-              "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
-                "fieldType": "boolean",
-                "title": "Checkbox",
-                "type": "boolean",
-                "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-                "x-props": {"outlined": true, "dense": true}
-              }
+        "allOf": [
+          {
+            "key": "sectionKey1",
+            "title": "Allgemeine Angaben",
+            "type": "object",
+            "x-options": {
+              "sectionsTitlesClasses": []
             },
-            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
-          }]
-        }]
+            "allOf": [
+              {
+                "containerType": "group",
+                "title": "Group",
+                "description": "",
+                "x-options": {
+                  "childrenClass": "pl-0"
+                },
+                "properties": {
+                  "dateval": {
+                    "fieldType": "date",
+                    "title": "Date",
+                    "x-display": "custom-date-input",
+                    "type": "string",
+                    "format": "date",
+                    "key": "dateval",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12
+                      },
+                      "messages": {}
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  }
+                },
+                "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
+              }
+            ]
+          }
+        ]
       };
-      value.value = {};
+      value.value = {"dateval": ""};
     }
 
     initSchema();
