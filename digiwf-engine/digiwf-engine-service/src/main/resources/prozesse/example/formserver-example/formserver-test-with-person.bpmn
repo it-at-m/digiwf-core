@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c78oxa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="TestFormserverIntegrationWithPerson" name="Example Formserver Integration With Person" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="formserver_example_with_person">
+      <bpmn:outgoing>Flow_0tqtlp2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1c7xcjc">
+      <bpmn:incoming>Flow_08bpold</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0tqtlp2" sourceRef="StartEvent_1" targetRef="Gateway_0ffk8fx" />
+    <bpmn:sequenceFlow id="Flow_15zl987" sourceRef="Activity_0ojk6tw" targetRef="Gateway_03saqv2" />
+    <bpmn:userTask id="Activity_0ojk6tw" name="Check Vars" camunda:candidateGroups="group1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_file_paths">files</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">formserver_example_with_person</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0e9isco</bpmn:incoming>
+      <bpmn:outgoing>Flow_15zl987</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0e9isco" sourceRef="Gateway_0ffk8fx" targetRef="Activity_0ojk6tw" />
+    <bpmn:parallelGateway id="Gateway_0ffk8fx">
+      <bpmn:incoming>Flow_0tqtlp2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e9isco</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16iu31k</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_08bpold" sourceRef="Gateway_03saqv2" targetRef="Event_1c7xcjc" />
+    <bpmn:parallelGateway id="Gateway_03saqv2">
+      <bpmn:incoming>Flow_15zl987</bpmn:incoming>
+      <bpmn:incoming>Flow_12nmrsp</bpmn:incoming>
+      <bpmn:outgoing>Flow_08bpold</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_16iu31k" sourceRef="Gateway_0ffk8fx" targetRef="Activity_1m1u1pp" />
+    <bpmn:callActivity id="Activity_0src9b9" name="Load Files" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
+        <camunda:in sourceExpression="GET" target="action" />
+        <camunda:out source="presignedUrls" target="presignedUrls" />
+        <camunda:in sourceExpression="${file_paths_readonly}" target="path" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e0dggb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0id6ydq</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0id6ydq" sourceRef="Activity_0src9b9" targetRef="Activity_1ep6cfq" />
+    <bpmn:callActivity id="Activity_1ep6cfq" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV01">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
+        <camunda:in sourceExpression="Test" target="body" />
+        <camunda:in sourceExpression="TestFormserverIntegrationWithPerson" target="subject" />
+        <camunda:in sourceExpression="dwf-email-local-01" target="app_topic_name" />
+        <camunda:in sourceExpression="ext.dl.moesle@muenchen.de" target="receivers" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0id6ydq</bpmn:incoming>
+      <bpmn:outgoing>Flow_12nmrsp</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_12nmrsp" sourceRef="Activity_1ep6cfq" targetRef="Gateway_03saqv2" />
+    <bpmn:sequenceFlow id="Flow_1e0dggb" sourceRef="Activity_1m1u1pp" targetRef="Activity_0src9b9" />
+    <bpmn:scriptTask id="Activity_1m1u1pp" name="Set File Paths" scriptFormat="javascript">
+      <bpmn:incoming>Flow_16iu31k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1e0dggb</bpmn:outgoing>
+      <bpmn:script>const app_file_paths = "file_paths";
+const app_file_paths_readonly = "file_paths_readonly";
+
+const person = JSON.parse(execution.getVariable("Person"));
+let filePaths = "";
+let filePathsReadonly = "";
+
+for (let i = 0; i &lt; person.length; i++) {
+    filePaths += "files/" + person[i].files.key + ";";
+    filePathsReadonly += "files/" + person[i].files.key + ";";
+}
+
+// remove last ,
+filePaths = filePaths.substring(0, filePaths.length - 1);
+filePathsReadonly = filePathsReadonly.substring(0, filePathsReadonly.length - 1);
+
+execution.setVariable(app_file_paths, filePaths);
+execution.setVariable(app_file_paths_readonly, filePathsReadonly);
+</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestFormserverIntegrationWithPerson">
+      <bpmndi:BPMNEdge id="Flow_12nmrsp_di" bpmnElement="Flow_12nmrsp">
+        <di:waypoint x="720" y="230" />
+        <di:waypoint x="750" y="230" />
+        <di:waypoint x="750" y="142" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0id6ydq_di" bpmnElement="Flow_0id6ydq">
+        <di:waypoint x="540" y="230" />
+        <di:waypoint x="620" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16iu31k_di" bpmnElement="Flow_16iu31k">
+        <di:waypoint x="230" y="142" />
+        <di:waypoint x="230" y="230" />
+        <di:waypoint x="270" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08bpold_di" bpmnElement="Flow_08bpold">
+        <di:waypoint x="775" y="117" />
+        <di:waypoint x="812" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e9isco_di" bpmnElement="Flow_0e9isco">
+        <di:waypoint x="255" y="117" />
+        <di:waypoint x="440" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15zl987_di" bpmnElement="Flow_15zl987">
+        <di:waypoint x="540" y="117" />
+        <di:waypoint x="725" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tqtlp2_di" bpmnElement="Flow_0tqtlp2">
+        <di:waypoint x="168" y="117" />
+        <di:waypoint x="205" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e0dggb_di" bpmnElement="Flow_1e0dggb">
+        <di:waypoint x="370" y="230" />
+        <di:waypoint x="440" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0owxmc1_di" bpmnElement="Activity_0src9b9">
+        <dc:Bounds x="440" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1t57kw2_di" bpmnElement="Activity_1ep6cfq">
+        <dc:Bounds x="620" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="132" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ecdr3a_di" bpmnElement="Gateway_0ffk8fx">
+        <dc:Bounds x="205" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u8gc4q_di" bpmnElement="Activity_1m1u1pp">
+        <dc:Bounds x="270" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18s0i9u_di" bpmnElement="Activity_0ojk6tw">
+        <dc:Bounds x="440" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mtboil_di" bpmnElement="Gateway_03saqv2">
+        <dc:Bounds x="725" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c7xcjc_di" bpmnElement="Event_1c7xcjc">
+        <dc:Bounds x="812" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
