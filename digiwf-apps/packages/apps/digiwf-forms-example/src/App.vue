@@ -139,12 +139,7 @@ export default defineComponent({
 
     initSchema();
 
-    const log = (obj: any) => {
-      console.log(obj);
-    }
-
     return {
-      log,
       initSchema,
       componentKey,
       changed,
