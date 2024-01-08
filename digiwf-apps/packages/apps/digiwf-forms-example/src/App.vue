@@ -15,14 +15,19 @@
         schema value
       </v-tab>
       <v-tab-item>
-        <dwf-form-builder :value="schema" @input="changed" :builderSettings="settings"></dwf-form-builder>
+        <dwf-form-builder :builderSettings="settings" :value="schema" @input="changed"></dwf-form-builder>
       </v-tab-item>
       <v-tab-item>
         <div style="padding: 30px">
+          <v-text-field label="Change"
+                        @beforeinput="evt => (!evt.data || /[\d,+-]/.test(evt.data)) || evt.preventDefault()"></v-text-field>
+          <v-text-field label="Keydown" type="number"
+                        @keydown="obj => (obj.key.length > 1 || /[\d,+-]/.test(obj.key)) || obj.preventDefault()"></v-text-field>
           <v-form ref="form">
-            <dwf-form-renderer :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
-                               :schema="schema" :key="componentKey"
-                               @input="valueChanged" :value="value">
+            <dwf-form-renderer :key="componentKey"
+                               :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
+                               :schema="schema"
+                               :value="value" @input="valueChanged">
               <template #custom-date-input="context">
                 <dwf-date-input v-bind="context"/>
               </template>
@@ -45,7 +50,7 @@
       </v-tab-item>
       <v-tab-item>
         <div style="padding: 30px">
-          <pre class="codeblock">{{JSON.stringify(value, undefined, 4)}}</pre>
+          <pre class="codeblock">{{ JSON.stringify(value, undefined, 4) }}</pre>
         </div>
       </v-tab-item>
     </v-tabs>
@@ -64,11 +69,11 @@ html, body {
 </style>
 
 <script lang="ts">
-import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
-import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
-import { DwfDateInput, DwfTimeInput } from "@muenchen/digiwf-date-input";
-import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
-import { defineComponent, provide, ref } from "vue";
+import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
+import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
+import {DwfDateInput, DwfTimeInput} from "@muenchen/digiwf-date-input";
+import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
+import {defineComponent, provide, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput, DwfTimeInput},
@@ -134,7 +139,12 @@ export default defineComponent({
 
     initSchema();
 
+    const log = (obj: any) => {
+      console.log(obj);
+    }
+
     return {
+      log,
       initSchema,
       componentKey,
       changed,
