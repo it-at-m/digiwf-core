@@ -40,10 +40,11 @@ public abstract class AbstractFileService {
 
     public List<String> getFileNames(final String filePath, final String fileContext, final Optional<String> documentStorageUrl) {
         try {
+            final String pathToFolder = fileContext + "/" + filePath;
             if (documentStorageUrl.isPresent()) {
-                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath, documentStorageUrl.get()).block());
+                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl.get()).block(), pathToFolder);
             }
-            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(fileContext + "/" + filePath).block());
+            return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block(), pathToFolder);
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed: {}", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
@@ -70,10 +71,20 @@ public abstract class AbstractFileService {
 
     //---------------------------------------- helper methods ---------------------------------------- //
 
-    private List<String> removeFolderFromPaths(final Set<String> fileList) {
+    /**
+     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned.
+     * Don't return filenames for files in subfolders.
+     *
+     * @param fileList
+     * @param pathToFolder
+     * @return
+     */
+    private List<String> extractFilenamesFromFolder(final Set<String> fileList, final String pathToFolder) {
+        final String basePath = (pathToFolder + "/").replace("//", "/");
         return fileList.stream()
-                .map(file -> file.substring(file.lastIndexOf("/") + 1))
-                .collect(Collectors.toList());
+                .map(file -> file = file.replace(basePath, ""))
+                .filter(file -> !file.contains("/"))
+                .toList();
     }
 
 }

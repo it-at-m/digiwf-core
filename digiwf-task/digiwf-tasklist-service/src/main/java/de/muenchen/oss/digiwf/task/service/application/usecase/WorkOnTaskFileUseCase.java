@@ -18,9 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Slf4j
 @Component
@@ -51,9 +50,9 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
             String documentStorageUrl = this.fileConfig.processSyncConfig;
             String pathToFolder = fileContext + "/" + filePath;
             if (documentStorageUrl != null) {
-                return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block());
+                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block(), pathToFolder);
             }
-            return this.removeFolderFromPaths(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block());
+            return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block(), pathToFolder);
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
@@ -83,10 +82,20 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         return presignedUrlPort.getPresignedUrl(pathToFile, 5, action);
     }
 
-    private List<String> removeFolderFromPaths(final Set<String> fileList) {
+    /**
+     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned.
+     * Don't return filenames for files in subfolders.
+     *
+     * @param fileList
+     * @param pathToFolder
+     * @return
+     */
+    private List<String> extractFilenamesFromFolder(final Set<String> fileList, final String pathToFolder) {
+        final String basePath = (pathToFolder + "/").replace("//", "/");
         return fileList.stream()
-                .map(file -> file.substring(file.lastIndexOf("/") + 1))
-                .collect(Collectors.toList());
+                .map(file -> file = file.replace(basePath, ""))
+                .filter(file -> !file.contains("/"))
+                .toList();
     }
 
     private void initializeFileConfig(String taskId) {

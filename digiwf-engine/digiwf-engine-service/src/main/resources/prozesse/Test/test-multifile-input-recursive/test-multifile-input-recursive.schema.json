@@ -1,5 +1,5 @@
 {
-    "key": "Form_tkifl6",
+    "key": "test_multifile_input_recursive",
     "schema": {
         "key": "MyStartForm",
         "type": "object",
@@ -59,7 +59,7 @@
                                 },
                                 "key": "files",
                                 "uuidEnabled": false,
-                                "filePath": "files/subfolder",
+                                "filePath": "files",
                                 "x-options": {
                                     "fieldColProps": {
                                         "cols": 12,

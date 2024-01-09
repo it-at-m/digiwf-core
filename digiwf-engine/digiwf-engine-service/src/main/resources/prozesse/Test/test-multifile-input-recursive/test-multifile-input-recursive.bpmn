@@ -3,7 +3,7 @@
   <bpmn:process id="test_multifile_input_recursive" name="test-multifile-input-recursive" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
-    <bpmn:startEvent id="StartEvent_1" camunda:formRef="test_multifile_input_recursive" camunda:formRefBinding="latest">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="test_multifile_input_recursive">
       <bpmn:outgoing>Flow_1s3t1n8</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1s3t1n8" sourceRef="StartEvent_1" targetRef="Activity_0rhcrp7" />
@@ -11,7 +11,7 @@
       <bpmn:incoming>Flow_1kynsvy</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1kynsvy" sourceRef="Activity_0rhcrp7" targetRef="Event_1pi4ox8" />
-    <bpmn:userTask id="Activity_0rhcrp7" name="Usertask">
+    <bpmn:userTask id="Activity_0rhcrp7" name="Usertask" camunda:candidateGroups="gr">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_schema_key">test_multifile_input_recursive</camunda:inputParameter>
