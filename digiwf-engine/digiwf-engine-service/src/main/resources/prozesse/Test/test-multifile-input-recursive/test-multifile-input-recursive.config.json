@@ -1,0 +1,17 @@
+{
+    "key": "test_multifile_input_recursive",
+    "configs": [
+      {
+        "key": "app_schema_key",
+        "value": "test_multifile_input_recursive"
+      },
+      {
+        "key": "app_file_paths_readonly",
+        "value": "files"
+      },
+      {
+        "key": "app_file_paths",
+        "value": "files/assistants"
+      }
+    ]
+  }
