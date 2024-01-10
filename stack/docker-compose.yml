@@ -8,12 +8,19 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - '22181:2181'
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
       - internal
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - '9092:9092'
       - '29092:29092'
