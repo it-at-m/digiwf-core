@@ -143,7 +143,6 @@ class WorkOnTaskFileUseCaseTest {
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 
     @Test
@@ -161,7 +160,6 @@ class WorkOnTaskFileUseCaseTest {
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 
     @Test
@@ -210,6 +208,5 @@ class WorkOnTaskFileUseCaseTest {
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 }
