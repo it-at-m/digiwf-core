@@ -21,4 +21,4 @@ werden.
 
 Wenn Sie – ähnlich wie in der Landeshauptstadt München – viele Prozesse mit vielen Benutzeraufgaben haben. Und dann ein
 heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, dann sollten Sie unbedingt eine nehmen schau
-mal bei DigiWF. [Kontaktieren Sie uns einfach per E-Mail](/contact).
+mal bei DigiWF. [Kontaktieren Sie uns einfach per E-Mail](/imprint).
