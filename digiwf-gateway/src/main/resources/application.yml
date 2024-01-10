@@ -78,3 +78,5 @@ management:
     env:
       enabled: true
 
+config:
+  map5xxto400: true
