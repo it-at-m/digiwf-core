@@ -201,6 +201,7 @@ Der Upload ist auf max. 10 Dateien mit je max. 10MB beschränkt.
 
 - **Dateipfad** Über den Dateipfad kann der Pfad angegeben werden, in dem die Dateien gespeichert werden sollen oder aus
   dem Dateien geladen werden sollen.
+  - Das Datei-Upload-Feld zeigt jeweils nur Dateien aus dem angegebenen Ordner an. Dateien aus Unterordnern werden nicht angezeigt.
 - **Eindeutiger Indentifikator** Erzegut einen eindeutigen Identifikator, der an den Dateipfad angehängt wird. Diese
   Einstellung sollte in Objektlisten verwendet werden.
 
