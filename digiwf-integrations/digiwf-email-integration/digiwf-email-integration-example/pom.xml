@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.5.3-SNAPSHOT</version>
+        <version>1.5.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-email-integration-example</artifactId>
