@@ -40,8 +40,8 @@ Darüber hinaus haben sie das Recht auf Datenübertragbarkeit. Sie haben weiter 
 
 ### Hosting
 
-Der Inhalt dieser Seite wird auf [Github verwaltet](https://github.com/it-at-m/digiwf-core), dort als Containerimage erstellt und dann im Rechenzentrum der Landeshauptstadt München gehostet.
-Das Sie sich als Besucher weder registrieren noch einloggen können, erheben wir nur sog. Logfiles folgende Daten, die Ihr Browser übermittelt:
+Der Inhalt dieser Seite wird auf [Github verwaltet](https://github.com/it-at-m/digiwf-core/docs) erstellt und auf [Github Pages](https://pages.github.com/) gehostet.
+Da Sie sich als Besucher weder registrieren noch einloggen können, erheben wir nur sog. Logfiles folgende Daten, die Ihr Browser übermittelt:
 
 IP-Adresse, Datum und Uhrzeit der Anfrage, Zeitzonendifferenz zur Greenwich Mean Time, Inhalt der Anforderung, HTTP-Statuscode, übertragene Datenmenge, Website, von der die Anforderung kommt und Informationen zu Browser und Betriebssystem.
 
