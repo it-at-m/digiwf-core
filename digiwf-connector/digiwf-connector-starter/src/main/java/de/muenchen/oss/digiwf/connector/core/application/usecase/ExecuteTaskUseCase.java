@@ -22,11 +22,9 @@ class ExecuteTaskUseCase implements ExecuteTaskInPort {
         log.info("Execute task with command {}", command);
 
         if (StringUtils.isNotBlank(command.getMessageName())) {
-            emitEventOutPort.emitEvent(command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
-
-        } else {
             emitEventOutPort.emitEvent(command.getMessageName(), command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
-
+        } else {
+            emitEventOutPort.emitEvent(command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
         }
     }
 }
