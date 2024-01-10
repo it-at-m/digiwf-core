@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import {filterInputsWithValue} from "../../utils/dataTransformations";
 
 @Component
 export default class AppJsonForm extends Vue {
@@ -71,10 +72,15 @@ export default class AppJsonForm extends Vue {
   @Emit("input")
   input(value: any): any {
     this.currentValue = value;
-    this.$router.replace({query: {
+
+    const filteredValues = filterInputsWithValue(value);
+    const newInputsString = JSON.stringify(filteredValues);
+    const newQuery =  {
       ...this.$router.currentRoute.query,
-      ...value
-    }});
+      inputs: newInputsString
+    };
+
+    this.$router.replace({query:newQuery});
 
     return value;
   }
@@ -88,7 +94,6 @@ export default class AppJsonForm extends Vue {
   created() {
     this.currentValue = this.value;
   }
-
 }
 </script>
 
