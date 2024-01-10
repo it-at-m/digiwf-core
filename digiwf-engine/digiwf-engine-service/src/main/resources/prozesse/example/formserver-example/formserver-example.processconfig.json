@@ -15,11 +15,11 @@
       },
       {
         "key": "app_instance_file_paths_readonly",
-        "value": "zulassungsbescheinigung_i_fahrzeugschein/assistants"
+        "value": "zulassungsbescheinigung_i_fahrzeugschein"
       },
       {
         "key": "app_instance_file_paths",
-        "value": "zulassungsbescheinigung_i_fahrzeugschein/assistants"
+        "value": "zulassungsbescheinigung_i_fahrzeugschein"
       }
     ]
   }
