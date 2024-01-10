@@ -62,7 +62,7 @@
     {
       "label": "Suche",
       "type": "String",
-      "description": "untergruppe.*-sachakte-*",
+      "description": "Name des Aktenplaneintrags",
       "value": "",
       "binding": {
         "type": "camunda:in",

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ADR-004 Use Java Packaging following Hexagonal Architecture Style | DigiWF</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="Documentation of the DigiWF automation platform">
+    <meta name="theme-color" content="#333333">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/assets/css/0.styles.38c5a9af.css" as="style"><link rel="preload" href="/assets/js/app.26b16cc8.js" as="script"><link rel="preload" href="/assets/js/1.f062895a.js" as="script"><link rel="preload" href="/assets/js/58.d52e97c2.js" as="script"><link rel="prefetch" href="/assets/js/10.8a34d010.js"><link rel="prefetch" href="/assets/js/11.ae130503.js"><link rel="prefetch" href="/assets/js/12.c406d447.js"><link rel="prefetch" href="/assets/js/13.90d8d21b.js"><link rel="prefetch" href="/assets/js/14.0a4b476b.js"><link rel="prefetch" href="/assets/js/15.44e077b3.js"><link rel="prefetch" href="/assets/js/16.9e6829b6.js"><link rel="prefetch" href="/assets/js/17.02cfc892.js"><link rel="prefetch" href="/assets/js/18.9a670cb3.js"><link rel="prefetch" href="/assets/js/19.325c73a1.js"><link rel="prefetch" href="/assets/js/2.54860991.js"><link rel="prefetch" href="/assets/js/20.99a60d0c.js"><link rel="prefetch" href="/assets/js/21.f3c6686e.js"><link rel="prefetch" href="/assets/js/22.c698058f.js"><link rel="prefetch" href="/assets/js/23.4fde448a.js"><link rel="prefetch" href="/assets/js/24.f15d5b2a.js"><link rel="prefetch" href="/assets/js/25.00929992.js"><link rel="prefetch" href="/assets/js/26.f954422c.js"><link rel="prefetch" href="/assets/js/27.c1f2be16.js"><link rel="prefetch" href="/assets/js/28.ca6b6691.js"><link rel="prefetch" href="/assets/js/29.0db97256.js"><link rel="prefetch" href="/assets/js/3.540c2e1f.js"><link rel="prefetch" href="/assets/js/30.89964d5a.js"><link rel="prefetch" href="/assets/js/31.ad504cd0.js"><link rel="prefetch" href="/assets/js/32.1e3a57f2.js"><link rel="prefetch" href="/assets/js/33.197151c8.js"><link rel="prefetch" href="/assets/js/34.46d8569f.js"><link rel="prefetch" href="/assets/js/35.c56f5124.js"><link rel="prefetch" href="/assets/js/36.8cb8907e.js"><link rel="prefetch" href="/assets/js/37.4a8ebfff.js"><link rel="prefetch" href="/assets/js/38.6c02ecf4.js"><link rel="prefetch" href="/assets/js/39.4abe1660.js"><link rel="prefetch" href="/assets/js/4.ded097b6.js"><link rel="prefetch" href="/assets/js/40.e935eaf4.js"><link rel="prefetch" href="/assets/js/41.936ab65c.js"><link rel="prefetch" href="/assets/js/42.97cea97b.js"><link rel="prefetch" href="/assets/js/43.0fe28fcd.js"><link rel="prefetch" href="/assets/js/44.bc841ef7.js"><link rel="prefetch" href="/assets/js/45.6967d2fe.js"><link rel="prefetch" href="/assets/js/46.463a444c.js"><link rel="prefetch" href="/assets/js/47.109caf8b.js"><link rel="prefetch" href="/assets/js/48.c5d5d77f.js"><link rel="prefetch" href="/assets/js/49.3f655139.js"><link rel="prefetch" href="/assets/js/5.003d78e9.js"><link rel="prefetch" href="/assets/js/50.b42d5fc5.js"><link rel="prefetch" href="/assets/js/51.b1d61aa5.js"><link rel="prefetch" href="/assets/js/52.a13f2a72.js"><link rel="prefetch" href="/assets/js/53.be04f4ff.js"><link rel="prefetch" href="/assets/js/54.5c18d3a5.js"><link rel="prefetch" href="/assets/js/55.ebf1bdfa.js"><link rel="prefetch" href="/assets/js/56.aa5ef5da.js"><link rel="prefetch" href="/assets/js/57.3c435b74.js"><link rel="prefetch" href="/assets/js/59.10eaa96c.js"><link rel="prefetch" href="/assets/js/6.1f99cb12.js"><link rel="prefetch" href="/assets/js/60.3ad7e84e.js"><link rel="prefetch" href="/assets/js/61.60ab5e64.js"><link rel="prefetch" href="/assets/js/62.e3e36608.js"><link rel="prefetch" href="/assets/js/63.7f9455d1.js"><link rel="prefetch" href="/assets/js/64.8dbfcea9.js"><link rel="prefetch" href="/assets/js/65.88dade77.js"><link rel="prefetch" href="/assets/js/66.760d6e12.js"><link rel="prefetch" href="/assets/js/67.1cb171f7.js"><link rel="prefetch" href="/assets/js/68.7b500f80.js"><link rel="prefetch" href="/assets/js/69.bb6d8327.js"><link rel="prefetch" href="/assets/js/70.efe24840.js"><link rel="prefetch" href="/assets/js/71.45c989a3.js"><link rel="prefetch" href="/assets/js/72.d1ddb0e3.js"><link rel="prefetch" href="/assets/js/73.71fe7cbd.js"><link rel="prefetch" href="/assets/js/74.d5a30834.js"><link rel="prefetch" href="/assets/js/75.24dd315a.js"><link rel="prefetch" href="/assets/js/76.3209569b.js"><link rel="prefetch" href="/assets/js/77.12395867.js"><link rel="prefetch" href="/assets/js/78.2fcadfd4.js"><link rel="prefetch" href="/assets/js/79.b7238802.js"><link rel="prefetch" href="/assets/js/80.6b99ea33.js"><link rel="prefetch" href="/assets/js/81.2788537c.js"><link rel="prefetch" href="/assets/js/82.ef8e101e.js"><link rel="prefetch" href="/assets/js/83.657e9ad8.js"><link rel="prefetch" href="/assets/js/84.b09a1840.js"><link rel="prefetch" href="/assets/js/85.3edca1e6.js"><link rel="prefetch" href="/assets/js/86.00eaa703.js"><link rel="prefetch" href="/assets/js/87.1e3ec7f8.js"><link rel="prefetch" href="/assets/js/88.08a82780.js"><link rel="prefetch" href="/assets/js/89.834c6107.js"><link rel="prefetch" href="/assets/js/9.e4acaf67.js"><link rel="prefetch" href="/assets/js/90.85926924.js"><link rel="prefetch" href="/assets/js/91.258b7b7d.js"><link rel="prefetch" href="/assets/js/92.461adfc1.js"><link rel="prefetch" href="/assets/js/93.2cfc6935.js"><link rel="prefetch" href="/assets/js/94.87f81c39.js"><link rel="prefetch" href="/assets/js/95.052aaa2f.js"><link rel="prefetch" href="/assets/js/96.48ac50c6.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.d8eef0fb.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.38c5a9af.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div data-v-4acfb458><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">DigiWF</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/features/" class="nav-link">
+  Features
+</a></div><div class="nav-item"><a href="/modeling/" class="nav-link">
+  Modellierung
+</a></div><div class="nav-item"><a href="/documentation/" class="nav-link router-link-active">
+  Technische Dokumentation
+</a></div><div class="nav-item"><a href="/integrations/" class="nav-link">
+  Integrationen
+</a></div><div class="nav-item"><a href="/apis/" class="nav-link">
+  APIs
+</a></div> <a href="https://github.com/it-at-m/digiwf-core" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/features/" class="nav-link">
+  Features
+</a></div><div class="nav-item"><a href="/modeling/" class="nav-link">
+  Modellierung
+</a></div><div class="nav-item"><a href="/documentation/" class="nav-link router-link-active">
+  Technische Dokumentation
+</a></div><div class="nav-item"><a href="/integrations/" class="nav-link">
+  Integrationen
+</a></div><div class="nav-item"><a href="/apis/" class="nav-link">
+  APIs
+</a></div> <a href="https://github.com/it-at-m/digiwf-core" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Plattform</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/" aria-current="page" class="sidebar-link">Einführung</a></li><li><a href="/documentation/roadmap.html" class="sidebar-link">DigiWF Roadmap</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Architektur</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/architecture/overview.html" class="sidebar-link">Übersicht</a></li><li><a href="/documentation/architecture/system-integration.html" class="sidebar-link">System Integration</a></li><li><a href="/documentation/architecture/json-schema.html" class="sidebar-link">Json Schema</a></li><li><a href="/documentation/architecture/filehandling.html" class="sidebar-link">Umgang mit Dateien</a></li><li><a href="/documentation/architecture/adrs.html" class="sidebar-link">Architecture Decision Records (ADRs)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Komponenten</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/components/engine.html" class="sidebar-link">Engine</a></li><li><a href="/documentation/components/connector.html" class="sidebar-link">Connector</a></li><li><a href="/documentation/components/tasks.html" class="sidebar-link">Task Management</a></li><li><a href="/documentation/components/frontend.html" class="sidebar-link">Frontend</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Guides</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/guides/topics.html" class="sidebar-link">Topics</a></li><li><a href="/documentation/guides/technical-setup/" class="sidebar-link">Technisches Setup</a></li><li><a href="/documentation/guides/custom-input-field/" class="sidebar-link">Hinzufügen von eigenen Eingabeelementen</a></li><li><a href="/documentation/guides/feature-toggle-taskservice-integration/" class="sidebar-link">Nutzung Feature Toggles für Migrationen</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Bibliotheken</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/libs/digiwf-integration-e2e-test/" class="sidebar-link">DigiWF Integration E2e Test Library</a></li><li><a href="/documentation/libs/digiwf-message/" class="sidebar-link">DigiWF Message</a></li><li><a href="/documentation/libs/digiwf-spring-security/" class="sidebar-link">DigiWF Spring Security</a></li><li><a href="/documentation/libs/digiwf-email/" class="sidebar-link">DigiWF Email</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Feature Prozesse</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/documentation/featureprocesses/intro.html" class="sidebar-link">Einführung</a></li><li><a href="/documentation/featureprocesses/digiwferleben/" class="sidebar-link">DigiWF erleben</a></li><li><a href="/documentation/featureprocesses/email/" class="sidebar-link">Email</a></li><li><a href="/documentation/featureprocesses/cosys/" class="sidebar-link">Cosys</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="adr-004-use-java-packaging-following-hexagonal-architecture-style"><a href="#adr-004-use-java-packaging-following-hexagonal-architecture-style" class="header-anchor">#</a> ADR-004 Use Java Packaging following Hexagonal Architecture Style</h1> <h2 id="status"><a href="#status" class="header-anchor">#</a> Status</h2> <p>accepted</p> <h2 id="context"><a href="#context" class="header-anchor">#</a> Context</h2> <p>Die Struktur von Java packages ermöglicht eine schnelle Navigation im Quelltext und kann zur Qualität und Einheitlichkeit des
+Quelltextes beitragen. Es gibt verschiedene Stile die Java Packages zu strukturieren - diese Entscheidung legt den Strukturstil fest.</p> <h2 id="decision"><a href="#decision" class="header-anchor">#</a> Decision</h2> <p>Durch die Verwendung von Hexagonal Architecture <a href="adr003-use-hexagonal-architecture">ADR003</a> ist der Architekturstil vorgegeben. Die Benennung der Java Packages
+folgt dem gewählten Architekturstil. Die Einhaltung dieser Benennung sollte mithilfe eines ArchUnit Tests geprüft werden.</p> <p>Hier ist ein Beispiel wie die Package Struktur aussehen kann:</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>   └── &lt;context-name&gt;
+        ├── adapter
+        │   ├── in
+        │   │   ├── rest
+        │   │   │   ├── dto
+        │   │   │   │   ├── ...Dto.java
+        │   │   │   │   └── ...Dto.java
+        │   │   │   ├── ...Controller.java (injects 1InPort)
+        │   │   │   ├── ...Controller.java (injects 2InPort)
+        │   │   │   ├── mapper
+        │   │   │   │   ├── ...Mapper.java
+        │   │   │   │   ├── ...Mapper.java (maps between domain model classes and DTOs)
+        │   │   │   ├── RestExceptionMapping.java
+        │   │   │   └── validation
+        │   │   │       ├── ....java
+        │   │   │       └── ...Validator.java
+        │   │   └── streaming
+        │   │       ├── ...Event.java
+        │   │       └── MessageProcessor.java (injects 3InPort)
+        │   └── out
+        │       ├── integration
+        │       │   └── IntegrationOutAdapter.java (implements IntegrationOutPort.java)
+        │       ├── storage
+        │       │   ├── BaseEntity.java
+        │       │   ├── ...Entity.java
+        │       │   ├── ...Repository.java
+        │       │   ├── ...Mapper.java (maps between domain model classes and entities)
+        │       │   ├── StorageOutAdapter.java (implements StorageOutPort.java)
+        │       └── ...
+        │           └── ....java
+        ├── application
+        │   ├── ...1UseCase.java  (implements ...1InPort.java)
+        │   ├── ...2UseCase.java  (implements ...2InPort.java)
+        │   ├── ...3UseCase.java  (implements ...3InPort.java)
+        │   └── port
+        │       ├── in
+        │       │   ├── ...Exception.java
+        │       │   ├── ...1InPort.java (uses domain model classes)
+        │       │   ├── ...2InPort.java (uses domain model classes)
+        │       │   └── ...3InPort.java (uses domain model classes)
+        │       └── out
+        │           ├── StorageOutPort.java (uses domain model classes)
+        │           └── IntegrationOutPort.java (uses domain model classes)
+        ├── domain
+        │   └── model
+        │       ├── ....java
+        │       └── ....java
+        └── infrastructure
+            ├── dialect
+            │   └── NoToastPostgresSQLDialect.java
+            └── mapper
+                └── MapstructConfiguration.java
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br></div></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div> <div class="home" data-v-4acfb458><div class="footer" data-v-4acfb458><a href="/contact/" class="nav-link" data-v-4acfb458>
+  Kontakt
+</a> <a href="/imprint/" class="nav-link" data-v-4acfb458>
+  Impressum
+</a> <div class="muc-footer" data-v-4acfb458>
+        Made with ❤️ in munich
+      </div></div></div></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.26b16cc8.js" defer></script><script src="/assets/js/1.f062895a.js" defer></script><script src="/assets/js/58.d52e97c2.js" defer></script>
+  </body>
+</html>
