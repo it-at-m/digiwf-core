@@ -4,13 +4,13 @@
 
     <artifactId>digiwf-okewo-integration-service</artifactId>
     <name>digiwf-okewo-integration-service</name>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-okewo-integration</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
     <properties>
