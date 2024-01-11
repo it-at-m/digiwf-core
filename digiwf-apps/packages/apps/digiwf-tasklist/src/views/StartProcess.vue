@@ -24,7 +24,7 @@
       />
       <app-json-form
         v-else
-        :value="{}"
+        :value="formFields"
         :schema="process.jsonSchema"
         :is-completing="isCompleting"
         @complete-form="startProcess"
@@ -67,6 +67,10 @@ import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
 import {invalidProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
+import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
+import {validateSchema} from "../utils/validateSchema";
+import {mergeObjects} from "../utils/mergeObjects";
+import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
 
 @Component({
   components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
@@ -79,18 +83,40 @@ export default class StartProcess extends SaveLeaveMixin {
   isCompleting = false;
   hasCompleteError = false;
 
+  formFields = {}
+
   @Prop()
   processKey!: string;
 
   @Provide('formContext')
-  get formContext(): FormContext { return {id: this.processKey, type: "start"};}
+  get formContext(): FormContext {
+    return {id: this.processKey, type: "start"};
+  }
 
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
 
 
   created() {
-    this.loadProcess();
+    const urlQueryParameter = this.$router.currentRoute.query;
+    const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
+
+    loadProcess(this.processKey).then(({data, error}) => {
+      if (error) {
+        this.errorMessage = error;
+        return;
+      }
+      if(!data) {
+        this.errorMessage = "Der Vorgang konnte nicht geladen werden.";
+        return;
+      }
+      this.process = data;
+      // use potential value of query parameter if variable is undefined or empty
+      this.formFields = validateSchema(
+        this.process.jsonSchema,
+        mergeObjects(this.process?.startForm || {}, inputs)
+      );
+    });
   }
 
   async startProcess(model: any): Promise<void> {
@@ -123,32 +149,6 @@ export default class StartProcess extends SaveLeaveMixin {
       this.isCompleting = false;
       this.hasCompleteError = hasError;
     }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
-
-  async loadProcess(): Promise<void> {
-    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-    cfg.baseOptions.validateStatus = function (status: number) {
-      return status >= 200 && status < 500;
-    }; // override axios default impl. (holding back http statuses >= 300)
-    ServiceDefinitionControllerApiFactory(cfg)
-      .getServiceDefinition(this.processKey)
-      .then((res) => {
-        if (res.status >= 200 && res.status < 300) { // as in axios default impl.
-          this.process = res.data;
-          this.errorMessage = "";
-          return res;
-        } else {
-          if (res.status === 403) {
-            this.errorMessage = "Es liegt keine Berechtigung zum Starten dieses Vorgangs vor. " +
-              "Weitere Infos finden Sie in unseren FAQs in Wilma.";
-          } else {
-            this.errorMessage = "Der Vorgang konnte nicht geladen werden: " + res.status;
-          }
-        }
-      })
-      .catch(() => {
-        this.errorMessage = "Der Vorgang konnte nicht geladen werden.";
-      });
   }
 
   setDirty(): void {

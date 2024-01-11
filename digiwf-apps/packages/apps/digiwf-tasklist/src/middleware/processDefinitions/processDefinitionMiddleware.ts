@@ -1,8 +1,17 @@
 import {Ref} from "vue";
 import {useQuery} from "@tanstack/vue-query";
-import {callGetProcessDefinitionsFromEngine} from "../../api/processDefinitions/processDefinitionApiCalls";
+import {
+  callGetProcessDefinition,
+  callGetProcessDefinitionsFromEngine
+} from "../../api/processDefinitions/processDefinitionApiCalls";
 import {Page} from "../commonModels";
 import {nullToUndefined} from "../../utils/dataTransformations";
+import {ApiConfig} from "../../api/ApiConfig";
+import {
+  FetchUtils,
+  ServiceDefinitionControllerApiFactory,
+  ServiceDefinitionDetailTO
+} from "@muenchen/digiwf-engine-api-internal";
 
 export interface ProcessDefinition {
   readonly key: string;
@@ -35,3 +44,27 @@ export const useGetProcessDefinitions = (page: Ref<number>, size: Ref<number>, q
         });
     },
   });
+
+
+export interface LoadProcessResult {
+  readonly data?: ServiceDefinitionDetailTO;
+  readonly error?: string
+
+}
+
+export const loadProcess = (processKey: string): Promise<LoadProcessResult> => {
+  return callGetProcessDefinition(processKey)
+    .then((data): Promise<LoadProcessResult> => {
+      return Promise.resolve({
+        data: data,
+        error: undefined
+      });
+
+    })
+    .catch(() => {
+      return Promise.resolve({
+        data: undefined,
+        error: "Der Vorgang konnte nicht geladen werden."
+      });
+    });
+};
