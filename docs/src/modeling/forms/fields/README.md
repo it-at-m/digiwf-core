@@ -193,7 +193,7 @@ Für folgende Dateitypen kann der Input eine Preview anzeigen:
 
 * pdf
 
-Der Upload ist auf max. 10 Dateien mit je max. 10MB beschränkt.
+Der Upload ist standardmäßig auf max. 10 Dateien mit je max. 10MB beschränkt. Diese Beschränkung kann konfiguriert werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/files.png)
 
