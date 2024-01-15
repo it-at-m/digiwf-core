@@ -3,11 +3,15 @@ package de.muenchen.oss.digiwf.task.service.application.usecase;
 import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.TaskVariables;
+import de.muenchen.oss.digiwf.task.service.adapter.out.link.TaskLinkResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.adapter.out.tag.TaskTagResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.links.TaskLinkResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.tag.TaskTagResolverPort;
+import de.muenchen.oss.digiwf.task.service.domain.TaskLink;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
+import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.auth.User;
 import de.muenchen.oss.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.adapter.out.schema.VariableTaskSchemaTypeResolverAdapter;
@@ -20,6 +24,8 @@ import de.muenchen.oss.digiwf.task.service.domain.PagingAndSorting;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTasks;
@@ -36,6 +42,7 @@ class RetrieveTasksForUserUseCaseTest {
     private final TaskSchemaRefResolverPort taskSchemaRefResolverPort = new VariableTaskSchemaResolverAdapter();
     private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort = new VariableTaskSchemaTypeResolverAdapter();
     private final TaskTagResolverPort taskTagResolverPort = new TaskTagResolverAdapter();
+    private final TaskLinkResolverPort taskLinkResolverPort = new TaskLinkResolverAdapter();
 
     private final RetrieveTasksForUser useCase = new RetrieveTasksForUserUseCase(
             taskQueryPort,
@@ -43,7 +50,8 @@ class RetrieveTasksForUserUseCaseTest {
             taskSchemaRefResolverPort,
             taskSchemaTypeResolverPort,
             cancellationFlagOutPort,
-            taskTagResolverPort
+            taskTagResolverPort,
+            taskLinkResolverPort
     );
 
     private final String query = "";

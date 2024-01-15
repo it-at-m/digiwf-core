@@ -84,13 +84,20 @@ public class TestFixtures {
             varsWriter.set(TaskVariables.TASK_CANCELABLE, cancelable);
         }
 
+        val correlations = Variables.createVariables();
+        if (variables.containsKey(TaskVariables.TASK_EXTERNAL_LINKS.getName())) {
+            reader(variables).get(TaskVariables.TASK_EXTERNAL_LINKS).forEach(reference ->
+                correlations.putValue(reference.getIdentity(), reference.getType())
+            );
+        }
+
         val reference = new ProcessReference(instanceId, instanceId, "def:1", "def", "Sample process", "app1", null);
         return new Task(
                 taskId,
                 reference,
                 "task_def_1",
                 varsWriter.variables(),
-                createVariables(),
+                correlations,
                 null,
                 "Task Name",
                 null,

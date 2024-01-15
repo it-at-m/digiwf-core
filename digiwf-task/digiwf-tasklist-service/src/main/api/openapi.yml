@@ -250,6 +250,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/PresignedUrl"
 
+  /tasks/id/{taskId}/links:
+    parameters:
+      - $ref: '#/components/parameters/TaskIdParam'
+    get:
+      description: Retrieves the external links of provided task.
+      operationId: getExternalLinks
+      tags:
+        - Link
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalLinks"
+
   /tasks/user:
     parameters:
       - $ref: '#/components/parameters/PageParam'
@@ -767,4 +783,30 @@ components:
       description: Presigned Url.
       type: string
 
+    ExternalLinks:
+      description: List of external links
+      type: array
+      items:
+        $ref: "#/components/schemas/ExternalLink"
 
+    ExternalLink:
+      description: Represents an external link
+      type: object
+      properties:
+        type:
+          description: Type of link.
+          type: string
+        url:
+          description: URL of the link.
+          type: string
+        label:
+          description: Label to render.
+          type: string
+        htmlContent:
+          description: HTML content of the element.
+          type: string
+        additionalProperties:
+          description: Additional extension properties.
+          type: object
+      required:
+        - type

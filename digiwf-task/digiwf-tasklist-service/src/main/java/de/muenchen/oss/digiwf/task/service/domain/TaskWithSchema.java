@@ -6,6 +6,9 @@ import io.holunda.polyflow.view.Task;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class TaskWithSchema {
   @NonNull
@@ -18,4 +21,6 @@ public class TaskWithSchema {
   private final JsonSchema schema;
   private final Form legacyForm;
   private final String tag;
+  @NonNull
+  private final List<TaskLink> taskLinks;
 }
