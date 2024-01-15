@@ -1,5 +1,5 @@
 {
-  "name": "digiwf-widget",
+  "name": "@muenchen/digiwf-webcomponent",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
