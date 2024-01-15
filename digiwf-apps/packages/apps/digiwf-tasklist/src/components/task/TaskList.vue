@@ -42,6 +42,19 @@
         </dwf-button>
       </div>
     </v-flex>
+    <v-flex v-if="showAssigneeFilter">
+      <div>
+        User Filter
+
+        <base-ldap-input
+          :rules="[]"
+          :model="assignee"
+          flat
+          dense
+          @input="(value) =>$emit('changeAssignee', value)"
+        />
+      </div>
+    </v-flex>
     <v-flex v-if="errorMessage">
       <AppToast :message="errorMessage" type="error"/>
     </v-flex>
@@ -96,9 +109,10 @@ import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
 import SortBySelect from "../common/SortBySelect.vue";
 import DwfButton from "../common/DwfButton.vue";
+import BaseLdapInput from "../form/BaseLdapInput.vue";
 
 export default {
-  components: {DwfButton, SortBySelect, SearchField, AppToast},
+  components: {BaseLdapInput, DwfButton, SortBySelect, SearchField, AppToast},
   props: {
     filter: {
       type: String,
@@ -106,6 +120,10 @@ export default {
     },
     tag: {
       type: String
+    },
+    assignee: {
+      type: String,
+      default: undefined,
     },
     errorMessage: {
       type: String,
@@ -130,6 +148,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showAssigneeFilter: {
+      type: Boolean,
+      default: false
+    },
   },
   emits: {
     loadTasks: {
@@ -139,6 +161,9 @@ export default {
       type: Function as PropType<(newValue: string) => void>,
     },
     changeTag: {
+      type: Function as PropType<(newValue: string) => void>,
+    },
+    changeAssignee: {
       type: Function as PropType<(newValue: string) => void>,
     },
   },

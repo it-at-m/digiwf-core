@@ -43,6 +43,7 @@ declare module 'vue' {
     TaskItem: typeof import('./src/components/task/TaskItem.vue')['default']
     TaskList: typeof import('./src/components/task/TaskList.vue')['default']
     TheSnackbar: typeof import('./src/components/TheSnackbar.vue')['default']
+    UserSearchInput: typeof import('./src/components/common/UserSearchInput.vue')['default']
     VAlert: typeof import('vuetify/lib')['VAlert']
     VApp: typeof import('vuetify/lib')['VApp']
     VAppBar: typeof import('vuetify/lib')['VAppBar']
