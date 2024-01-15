@@ -26,7 +26,7 @@
         <!--<module>digiwf-task</module>-->
         <module>digiwf-libs</module>
         <module>digiwf-gateway</module>
-        <!--<module>digiwf-integrations</module>-->
+        <module>digiwf-integrations</module>
         <module>digiwf-coverage</module>
     </modules>
 
