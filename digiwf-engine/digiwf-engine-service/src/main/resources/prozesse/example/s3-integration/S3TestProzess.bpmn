@@ -52,7 +52,7 @@
 }
 execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:callActivity id="Activity_0g1nqtd" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_0g1nqtd" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
@@ -64,7 +64,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_0qb6ikl</bpmn:incoming>
       <bpmn:outgoing>Flow_0815z5m</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys dokument" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys dokument" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
@@ -78,7 +78,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_0815z5m</bpmn:incoming>
       <bpmn:outgoing>Flow_1wkgg7w</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_145b1ua" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_145b1ua" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
@@ -95,7 +95,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_1wkgg7w</bpmn:incoming>
       <bpmn:outgoing>Flow_1nf1mk3</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />

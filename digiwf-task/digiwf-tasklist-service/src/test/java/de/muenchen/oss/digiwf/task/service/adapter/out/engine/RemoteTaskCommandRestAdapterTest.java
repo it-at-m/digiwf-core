@@ -11,6 +11,7 @@ import org.camunda.community.mockito.task.TaskFake;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
@@ -74,13 +75,19 @@ class RemoteTaskCommandRestAdapterTest {
 
     @Test
     void deferUserTask() {
-        val instant = LocalDateTime.of(2023, 5, 24, 12, 0).toInstant(ZoneOffset.UTC);
+        val originalTZ = System.getProperty("user.timezone");
+        System.setProperty("user.timezone", "Europe/Berlin");
+        val offsetDateTimeFromFrontend = OffsetDateTime.parse("2024-01-18T00:00:00.000+01:00");
+        val instant = offsetDateTimeFromFrontend.toInstant();
+
         final TaskFake task = TaskFake.builder().build();
         QueryMocks.mockTaskQuery(taskService).singleResult(task);
 
         taskCommandPort.deferUserTask(taskId, instant);
-        assertThat(task.getFollowUpDate()).isNotNull(); // check only if there is an interaction, no Instant to DateTime transformation is tested
+        assertThat(task.getFollowUpDate()).isNotNull();
+        assertThat(task.getFollowUpDate()).isEqualTo("2024-01-18T00:00:00.000+01:00");
         verify(taskService).saveTask(task);
+        System.setProperty("user.timezone", originalTZ);
     }
     @Test
     void undeferUserTask() {

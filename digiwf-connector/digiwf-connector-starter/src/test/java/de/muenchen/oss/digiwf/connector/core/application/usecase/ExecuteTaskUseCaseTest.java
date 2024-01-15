@@ -36,7 +36,7 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getMessageName(), command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
     }
 
     @Test
@@ -53,6 +53,6 @@ class ExecuteTaskUseCaseTest {
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getMessageName(), command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getDestination(), command.getType(), command.getInstanceId(), command.getData());
     }
 }

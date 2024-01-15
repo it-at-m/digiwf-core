@@ -19,7 +19,6 @@ import org.springframework.security.web.server.authentication.RedirectServerAuth
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
-import org.springframework.security.web.server.csrf.ServerCsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import reactor.core.publisher.Mono;
 
@@ -80,11 +79,10 @@ public class SecurityConfiguration {
         })
         .csrf(csrfSpec -> {
           /*
-           * Default config before spring security 6.0.
-           * Is vulnerable to BREACH attack.
-           * https://docs.spring.io/spring-security/reference/reactive/exploits/csrf.html#webflux-csrf-configure-request-handler
+           * Custom csrf request handler for spa and BREACH attack protection.
+           * https://docs.spring.io/spring-security/reference/6.1-SNAPSHOT/servlet/exploits/csrf.html#csrf-integration-javascript-spa
            */
-          csrfSpec.csrfTokenRequestHandler(new ServerCsrfTokenRequestAttributeHandler());
+          csrfSpec.csrfTokenRequestHandler(new SpaServerCsrfTokenRequestHandler());
           /*
            * The necessary subscription for csrf token attachment to {@link ServerHttpResponse}
            * is done in class {@link CsrfTokenAppendingHelperFilter}.
