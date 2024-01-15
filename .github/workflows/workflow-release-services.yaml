@@ -20,6 +20,7 @@ on:
 
 jobs:
   release-services:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -41,7 +42,6 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Remove SNAPSHOT
-        if: inputs.snapshot-release == false
         run: |
           ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
@@ -49,7 +49,6 @@ jobs:
         run: ./mvnw --batch-mode clean install -DskipTests
 
       - name: Perform maven release
-        if: inputs.maven-release == true
         run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
         env:
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
@@ -145,6 +144,7 @@ jobs:
 
   release-services-camunda-ee:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
@@ -162,7 +162,6 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Remove SNAPSHOT
-        if: inputs.snapshot-build== false
         run: |
           ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 

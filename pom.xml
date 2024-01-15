@@ -22,11 +22,11 @@
     <modules>
         <module>digiwf-parent</module>
         <module>digiwf-engine</module>
-        <module>digiwf-connector</module>
-        <module>digiwf-task</module>
+        <!--<module>digiwf-connector</module>-->
+        <!--<module>digiwf-task</module>-->
         <module>digiwf-libs</module>
         <module>digiwf-gateway</module>
-        <module>digiwf-integrations</module>
+        <!--<module>digiwf-integrations</module>-->
         <module>digiwf-coverage</module>
     </modules>
 
