@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
 
       - run: lerna publish from-package --yes
-        if: inputs.snapshot-release == false
+        if: false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -48,8 +48,16 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push tasklist
+        if: false
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
           tags: itatm/digiwf-tasklist:${{ inputs.release-version }},itatm/digiwf-tasklist:dev
+
+      - name: Build and push webcomponent
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-apps/packages/apps/digiwf-webcomponent
+          push: true
+          tags: itatm/digiwf-webcomponent:${{ inputs.release-version }},itatm/digiwf-webcomponent:dev

@@ -55,5 +55,6 @@ Here are helpful commands:
 - `mvn -f digiwf-apps -Pserve` serves the apps allowing local development
 - `mvn -f digiwf-apps -Pserve-tasklist` serves the tasklist allowing local development
 - `mvn -f digiwf-apps -Pserve-forms` serves the tasklist allowing local development
+- `mvn -f digiwf-apps -Pserve-webcomponent` serves the webcomponent allowing local development
 - `mvn -f digiwf-apps -Pclean-modules` enforces the deletion of locally installed modules
 
