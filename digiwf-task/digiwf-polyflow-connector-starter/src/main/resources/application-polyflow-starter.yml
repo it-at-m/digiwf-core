@@ -3,7 +3,7 @@ digiwf:
     assignment:
       shadow: true # should assignment be shadowed to process variables?
       local: true # should we store variables task local or not?
-      delete: false # should assignment be deleted from the attributes of Camunda User Tasks?
+      delete: true # should assignment be deleted from the attributes of Camunda User Tasks?
 axon:
   serializer:
     events: jackson
