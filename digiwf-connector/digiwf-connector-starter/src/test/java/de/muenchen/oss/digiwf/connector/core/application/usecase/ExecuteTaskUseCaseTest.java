@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.connector.core.application.usecase;
 import de.muenchen.oss.digiwf.connector.core.DigiWFConnectorProperties;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort.ExecuteTaskCommand;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
+import de.muenchen.oss.digiwf.connector.core.application.port.out.ProcessOutPort;
 import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,15 @@ class ExecuteTaskUseCaseTest {
 
     private ExecuteTaskUseCase useCase;
     private EmitEventOutPort emitEventOutPort;
+    private ProcessOutPort processOutPort;
     private DigiWFConnectorProperties digiWFConnectorProperties;
 
     @BeforeEach
     void setUp() {
         emitEventOutPort = mock(EmitEventOutPort.class);
         digiWFConnectorProperties = mock(DigiWFConnectorProperties.class);
-        useCase = new ExecuteTaskUseCase(emitEventOutPort, digiWFConnectorProperties);
+        processOutPort = mock(ProcessOutPort.class);
+        useCase = new ExecuteTaskUseCase(digiWFConnectorProperties, emitEventOutPort, processOutPort);
     }
 
     @Test
@@ -34,12 +37,13 @@ class ExecuteTaskUseCaseTest {
         command.setInstanceId("123");
         command.setData(Map.of());
         when(digiWFConnectorProperties.getIntegrations()).thenReturn(Map.of("testIntegrationName", "defaultDestination"));
+        when(processOutPort.loadProcessDefinition(command.getInstanceId())).thenReturn("processDefinition");
 
         // Act
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent("defaultDestination", command.getType(), command.getIntegrationName(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent("defaultDestination", command.getType(), command.getIntegrationName(), command.getInstanceId(), "processDefinition", command.getData());
     }
 
     @Test
@@ -52,12 +56,13 @@ class ExecuteTaskUseCaseTest {
         command.setInstanceId("123");
         command.setData(Map.of());
         when(digiWFConnectorProperties.getIntegrations()).thenReturn(Map.of("testIntegrationName", "defaultDestination"));
+        when(processOutPort.loadProcessDefinition(command.getInstanceId())).thenReturn("processDefinition");
 
         // Act
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getIntegrationName(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getIntegrationName(), command.getInstanceId(), "processDefinition", command.getData());
     }
 
     @Test
@@ -70,12 +75,13 @@ class ExecuteTaskUseCaseTest {
         command.setInstanceId("123");
         command.setData(Map.of());
         when(digiWFConnectorProperties.getIntegrations()).thenReturn(Map.of());
+        when(processOutPort.loadProcessDefinition(command.getInstanceId())).thenReturn("processDefinition");
 
         // Act
         useCase.executeTask(command);
 
         // Assert
-        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getIntegrationName(), command.getInstanceId(), command.getData());
+        verify(emitEventOutPort).emitEvent(command.getCustomDestination(), command.getType(), command.getIntegrationName(), command.getInstanceId(), "processDefinition", command.getData());
     }
 
     @Test
@@ -87,6 +93,7 @@ class ExecuteTaskUseCaseTest {
         command.setInstanceId("123");
         command.setData(Map.of());
         when(digiWFConnectorProperties.getIntegrations()).thenReturn(Map.of());
+        when(processOutPort.loadProcessDefinition(command.getInstanceId())).thenReturn("processDefinition");
 
         // Assert
         assertThatThrownBy(() -> useCase.executeTask(command))

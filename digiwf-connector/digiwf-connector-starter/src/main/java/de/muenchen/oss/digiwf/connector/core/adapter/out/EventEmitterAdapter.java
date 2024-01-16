@@ -24,8 +24,9 @@ public class EventEmitterAdapter implements EmitEventOutPort {
             final String type,
             final String integrationName,
             final String instanceId,
+            final String processDefinition,
             final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, integrationName, instanceId, data).build();
+        final Message<Map<String, Object>> message = this.createMessage(destination, type, integrationName, instanceId, processDefinition, data).build();
         log.debug("Emit message {}", message);
         this.dynamicSink.tryEmitNext(message).orThrow();
     }
@@ -35,6 +36,7 @@ public class EventEmitterAdapter implements EmitEventOutPort {
             final String type,
             final String integrationName,
             final String instanceId,
+            final String processDefinition,
             final Map<String, Object> data) {
 
         return MessageBuilder
@@ -42,7 +44,8 @@ public class EventEmitterAdapter implements EmitEventOutPort {
                 .setHeader(StreamingHeaders.STREAM_SEND_TO_DESTINATION, destination)
                 .setHeader(StreamingHeaders.TYPE, type)
                 .setHeader(StreamingHeaders.DIGIWF_INTEGRATION_NAME, integrationName)
-                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId);
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId)
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_DEFINITION, processDefinition);
     }
 
 }

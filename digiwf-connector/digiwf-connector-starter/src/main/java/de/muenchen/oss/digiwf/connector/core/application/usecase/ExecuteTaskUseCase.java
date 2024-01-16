@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.connector.core.application.usecase;
 import de.muenchen.oss.digiwf.connector.core.DigiWFConnectorProperties;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
+import de.muenchen.oss.digiwf.connector.core.application.port.out.ProcessOutPort;
 import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +18,21 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 class ExecuteTaskUseCase implements ExecuteTaskInPort {
 
-    private final EmitEventOutPort emitEventOutPort;
     private final DigiWFConnectorProperties digiWFConnectorProperties;
+    private final EmitEventOutPort emitEventOutPort;
+    private final ProcessOutPort processOutPort;
 
     @Override
     public void executeTask(@Valid ExecuteTaskCommand command) throws IntegrationNameConfigException {
         log.info("Execute task with command {}", command);
 
+        final String processDefinition = this.processOutPort.loadProcessDefinition(command.getInstanceId());
+
         final String destination = StringUtils.isNotBlank(command.getCustomDestination()) ?
                 command.getCustomDestination() :
                 this.getDefaultDestination(command.getIntegrationName());
 
-        emitEventOutPort.emitEvent(destination, command.getType(), command.getIntegrationName(), command.getInstanceId(), command.getData());
+        emitEventOutPort.emitEvent(destination, command.getType(), command.getIntegrationName(), command.getInstanceId(), processDefinition, command.getData());
     }
 
     private String getDefaultDestination(String integrationName) {

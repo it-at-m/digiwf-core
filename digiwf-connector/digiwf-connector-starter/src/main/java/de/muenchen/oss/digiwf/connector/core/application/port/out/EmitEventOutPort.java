@@ -21,6 +21,7 @@ public interface EmitEventOutPort {
             String type,
             String integrationName,
             String instanceId,
+            String processDefinition,
             Map<String, Object> data);
 
 }
