@@ -69,7 +69,7 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
                 "digitalwf_notification_send_candidate_users", "false",
                 "digitalwf_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
-        ), "assignment");
+        ), "create");
         when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
 
         final Mail mail = this.notifyUsers(task, this.userTaskDefaultMailContent, 1);
