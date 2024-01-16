@@ -65,6 +65,25 @@ public class UserTaskNotificationListener {
         // send notification on task creation for candidate users and groups
         if (delegateTask.getEventName().equals("create")) {
             log.debug("Notification for created task: {}", delegateTask.getName());
+            val notifyCandidateUsers = NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
+            val notifyCandidateUsersV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
+            if ((!notifyCandidateUsers.isPresent() || "true".equals(notifyCandidateUsers.get()))
+                    && (!notifyCandidateUsersV02.isPresent() || "true".equals(notifyCandidateUsersV02.get()))) {
+                this.notifyCandidateUsers(delegateTask);
+            }
+
+            val notifyCandidateGroups = NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
+            val notifyCandidateGroupsV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
+            if ((!notifyCandidateGroups.isPresent() || "true".equals(notifyCandidateGroups.get()))
+                    && (!notifyCandidateGroupsV02.isPresent() || "true".equals(notifyCandidateGroupsV02.get()))) {
+                this.notifyCandidateGroups(delegateTask);
+            }
+        }
+        // send notification on task assignment for assignee
+        // Create Event: User Task creation
+        // Assignment: e.g. a Group Task is assigend to the user later on
+        if (delegateTask.getEventName().equals("create") || delegateTask.getEventName().equals("assignment")) {
+            log.debug("Notification for created task: {}", delegateTask.getName());
             val notify = NOTIFICATION_SEND.from(delegateTask).getOptional();
             if (notify.isPresent()) {
                 if ("true".equals(notify.get())) {
@@ -78,20 +97,6 @@ public class UserTaskNotificationListener {
             if ((!notifyAssignee.isPresent() || "true".equals(notifyAssignee.get()))
                     && (!notifyAssigneeV02.isPresent() || "true".equals(notifyAssigneeV02.get()))) {
                 this.notifyAssignee(delegateTask);
-            }
-
-            val notifyCandidateUsers = NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
-            val notifyCandidateUsersV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
-            if ((!notifyCandidateUsers.isPresent() || "true".equals(notifyCandidateUsers.get()))
-                    && (!notifyCandidateUsersV02.isPresent() || "true".equals(notifyCandidateUsersV02.get()))) {
-                this.notifyCandidateUsers(delegateTask);
-            }
-
-            val notifyCandidateGroups = NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
-            val notifyCandidateGroupsV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
-            if ((!notifyCandidateGroups.isPresent() || "true".equals(notifyCandidateGroups.get()))
-                    && (!notifyCandidateGroupsV02.isPresent() || "true".equals(notifyCandidateGroupsV02.get()))) {
-                this.notifyCandidateGroups(delegateTask);
             }
         }
     }
