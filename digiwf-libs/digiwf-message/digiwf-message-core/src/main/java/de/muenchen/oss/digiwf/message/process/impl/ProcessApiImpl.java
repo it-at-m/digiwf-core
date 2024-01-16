@@ -60,15 +60,16 @@ public class ProcessApiImpl implements ProcessApi {
      *
      * @param processInstanceId The process instance id of the process to be correlated.
      * @param integrationName The integration name to be correlated.
+     * @param type The type to be correlated.
      * @param payloadVariables The variables to be passed to the process.
      * @return
      */
     @Override
-    public boolean correlateMessage(final String processInstanceId, final String integrationName, final Map<String, Object> payloadVariables) {
+    public boolean correlateMessage(final String processInstanceId, final String type, final String integrationName, final Map<String, Object> payloadVariables) {
         // message name = integration name -> camunda requires a message name
         final CorrelateMessageDto payload = CorrelateMessageDto.builder()
                 .processInstanceId(processInstanceId)
-                .messageName(integrationName)
+                .messageName(type)
                 .payloadVariables(payloadVariables)
                 .build();
         final Map<String, Object> headers = Map.of(

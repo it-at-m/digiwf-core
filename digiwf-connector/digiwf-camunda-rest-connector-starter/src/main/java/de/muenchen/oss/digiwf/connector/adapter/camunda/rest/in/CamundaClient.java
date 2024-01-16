@@ -25,11 +25,17 @@ public class CamundaClient implements ExternalTaskHandler {
     @Override
     public void execute(final ExternalTask externalTask, final ExternalTaskService externalTaskService) {
         final Map<String, Object> data = this.getData(externalTask);
-        final String integrationName = (String) data.get(CamundaClientConfiguration.INTEGRATION_NAME);
+        String integrationName = (String) data.get(CamundaClientConfiguration.INTEGRATION_NAME);
         final String customTopic = (String) data.get(CamundaClientConfiguration.TOPIC_NAME);
         final String type = (String) data.get(CamundaClientConfiguration.TYPE_NAME);
         log.info("External task received (integration {}, type {})", integrationName, type);
         final Map<String, Object> filteredData = this.filterVariables(data);
+
+        // TODO: Remove this fallback after all processes are migrated to the new version. It's a legacy feature to avoid breaking changes.
+        if (integrationName == null) {
+            log.warn("Integration name is null. Falling back to deprecated legacy feature. Please update your process definition.");
+            integrationName = "deprecatedLegacyFeature";
+        }
 
         try {
             executeTaskInPort.executeTask(ExecuteTaskCommand.builder()

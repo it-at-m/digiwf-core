@@ -19,11 +19,12 @@ class ProcessAdapterTest {
 
         final String processInstanceId = "processInstanceId";
         final String integrationName = "cosysIntegration";
+        final String type = "type";
         final Map<String, Object> message = new HashMap<>();
 
-        processAdapter.correlateMessage(processInstanceId,integrationName,message);
+        processAdapter.correlateMessage(processInstanceId,type,integrationName,message);
 
-        verify(processApi).correlateMessage(processInstanceId,integrationName,message);
+        verify(processApi).correlateMessage(processInstanceId,type,integrationName,message);
         verifyNoMoreInteractions(processApi);
     }
 }

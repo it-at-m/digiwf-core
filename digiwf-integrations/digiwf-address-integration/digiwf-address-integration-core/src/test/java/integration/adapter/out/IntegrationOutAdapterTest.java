@@ -12,8 +12,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -27,7 +26,8 @@ class IntegrationOutAdapterTest {
 
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(
             DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
-            DIGIWF_INTEGRATION_NAME, "addressIntegration"
+            DIGIWF_INTEGRATION_NAME, "addressIntegration",
+            TYPE, "addressType"
     ));
 
     @Test
@@ -38,11 +38,13 @@ class IntegrationOutAdapterTest {
 
         final ArgumentCaptor<String> processInstanceIdCaptor = ArgumentCaptor.forClass(String.class);
         final ArgumentCaptor<String> integrationNameCaptor = ArgumentCaptor.forClass(String.class);
+        final ArgumentCaptor<String> typeCaptor = ArgumentCaptor.forClass(String.class);
         final ArgumentCaptor<Map<String, Object>> payloadCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(processApi).correlateMessage(processInstanceIdCaptor.capture(), integrationNameCaptor.capture(), payloadCaptor.capture());
+        verify(processApi).correlateMessage(processInstanceIdCaptor.capture(), typeCaptor.capture(), integrationNameCaptor.capture(), payloadCaptor.capture());
 
         assertThat(processInstanceIdCaptor.getValue()).isEqualTo(messageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID));
         assertThat(integrationNameCaptor.getValue()).isEqualTo(messageHeaders.get(DIGIWF_INTEGRATION_NAME));
+        assertThat(typeCaptor.getValue()).isEqualTo(messageHeaders.get(TYPE));
         assertThat(payloadCaptor.getValue()).isEqualTo(payload);
     }
 

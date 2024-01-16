@@ -65,7 +65,7 @@
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1i9zfg0" sourceRef="Task_ReceiveEvent" targetRef="TextAnnotation_0acnosj" />
   </bpmn:process>
-  <bpmn:message id="Message_0o388ed" name="${app_integration_name}" />
+  <bpmn:message id="Message_0o388ed" name="${app_type_name}" />
   <bpmn:message id="Message_00v38k9" name="bpmnError" />
   <bpmn:error id="Error_1kj45rl" name="BpmnError" errorCode="unknown" />
   <bpmn:error id="Error_0yof26o" name="Incident" errorCode="0" />

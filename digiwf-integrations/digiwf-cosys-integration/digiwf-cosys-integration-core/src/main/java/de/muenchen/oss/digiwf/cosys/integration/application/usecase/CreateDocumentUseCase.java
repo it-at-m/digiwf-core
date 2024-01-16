@@ -28,13 +28,13 @@ public class CreateDocumentUseCase implements CreateDocument {
      * @param generateDocument Data for generating documents
      */
     @Override
-    public void createDocument(final String processInstanceIde, final String integrationName, @Valid final GenerateDocument generateDocument) {
+    public void createDocument(final String processInstanceIde, final String type, final String integrationName, @Valid final GenerateDocument generateDocument) {
         final byte[] data = this.generateDocumentPort.generateCosysDocument(generateDocument).block();
         this.saveFileToStoragePort.saveDocumentInStorage(generateDocument, data);
 
         final Map<String, Object> correlatePayload = new HashMap<>();
         correlatePayload.put("status", true);
-        this.correlateMessagePort.correlateMessage(processInstanceIde,integrationName,correlatePayload);
+        this.correlateMessagePort.correlateMessage(processInstanceIde,type,integrationName,correlatePayload);
     }
 
 

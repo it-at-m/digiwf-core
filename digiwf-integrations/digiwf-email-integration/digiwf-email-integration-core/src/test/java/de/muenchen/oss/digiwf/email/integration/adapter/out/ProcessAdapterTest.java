@@ -20,10 +20,11 @@ class ProcessAdapterTest {
 
         final String processInstanceId = "exampleProcessInstanceId";
         final String integrationName = "emailIntegration";
+        final String type = "emailType";
         final Map<String, Object> message = new HashMap<>();
 
-        processAdapter.correlateMessage(processInstanceId, integrationName, message);
+        processAdapter.correlateMessage(processInstanceId, type, integrationName, message);
 
-        verify(processApiMock, times(1)).correlateMessage(processInstanceId, integrationName, message);
+        verify(processApiMock, times(1)).correlateMessage(processInstanceId, type, integrationName, message);
     }
 }

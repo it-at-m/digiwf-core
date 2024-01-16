@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
 @Slf4j
 @Component
@@ -43,6 +42,7 @@ public class MessageProcessor {
             log.debug("Generate document request: {}", document);
                 this.documentUseCase.createDocument(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
+                        message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
                         document);
             } catch (final BpmnError bpmnError) {

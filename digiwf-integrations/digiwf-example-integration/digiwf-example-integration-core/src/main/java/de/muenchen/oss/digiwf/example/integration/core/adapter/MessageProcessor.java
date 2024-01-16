@@ -14,8 +14,7 @@ import org.springframework.messaging.Message;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class MessageProcessor implements CorrelateMessagePort {
                 this.exampleUseCase.processExampleData(this.exampleMapper.toModel(exampleDto));
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+                        message.getHeaders().get(TYPE).toString(),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of("someData", exampleDto.getSomeData()));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
@@ -44,8 +44,8 @@ public class MessageProcessor implements CorrelateMessagePort {
     }
 
     @Override
-    public void correlateMessage(final String processInstanceId, final String integrationName, final Map<String, Object> message) {
-        this.processApi.correlateMessage(processInstanceId, integrationName, message);
+    public void correlateMessage(final String processInstanceId, final String type, final String integrationName, final Map<String, Object> message) {
+        this.processApi.correlateMessage(processInstanceId, type, integrationName, message);
     }
 
 }

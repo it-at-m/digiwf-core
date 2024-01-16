@@ -5,6 +5,6 @@ import jakarta.validation.Valid;
 
 public interface CreateDocument {
 
-    void createDocument(final String processInstanceIde, final String integrationName, @Valid final GenerateDocument generateDocument);
+    void createDocument(final String processInstanceIde, final String type, final String integrationName, @Valid final GenerateDocument generateDocument);
 
 }
