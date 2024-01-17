@@ -471,7 +471,7 @@
                 <jdk>[12,</jdk>
             </activation>
             <properties>
-                <graalvm.version>22.3.3</graalvm.version>
+                <graalvm.version>23.0.3</graalvm.version>
             </properties>
             <dependencies>
                 <dependency>
