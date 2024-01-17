@@ -16,8 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
-import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
-import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
+import org.springframework.security.web.server.authentication.logout.HttpStatusReturningServerLogoutSuccessHandler;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import reactor.core.publisher.Mono;
@@ -59,7 +58,7 @@ public class SecurityConfiguration {
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http
         .logout(logoutSpec -> {
-          logoutSpec.logoutSuccessHandler(createLogoutSuccessHandler(LOGOUT_SUCCESS_URL))
+            logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
               .logoutUrl(LOGOUT_URL)
               .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL));
         })
@@ -103,19 +102,5 @@ public class SecurityConfiguration {
 
     return http.build();
   }
-
-    /**
-     * This method creates the {@link ServerLogoutSuccessHandler} for handling a successful logout.
-     * The usage is necessary in {@link SecurityWebFilterChain}.
-     *
-     * @param uri to forward after an successful logout.
-     * @return The handler for forwarding after an succesful logout.
-     */
-    public static ServerLogoutSuccessHandler createLogoutSuccessHandler(final String uri) {
-        final RedirectServerLogoutSuccessHandler successHandler = new RedirectServerLogoutSuccessHandler();
-        successHandler.setLogoutSuccessUrl(URI.create(uri));
-        return successHandler;
-    }
-
 
 }
