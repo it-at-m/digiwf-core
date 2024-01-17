@@ -104,6 +104,11 @@ public class ServiceInstanceService {
         return detail;
     }
 
+    public ServiceInstance getRootProcessInstance(final String instanceId) {
+        // TODO implement me
+        return this.getServiceInstanceById(instanceId).orElseThrow();
+    }
+
     /**
      * Get service instance by  id.
      *
