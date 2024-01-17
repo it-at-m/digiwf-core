@@ -115,7 +115,7 @@
                             "postleitzahl_vermieter": {
                                 "fieldType": "text",
                                 "title": "Postleitzahl Vermieter",
-                                "type": "string",
+                                "type": "number",
                                 "key": "postleitzahl_vermieter",
                                 "x-options": {
                                     "fieldColProps": {
