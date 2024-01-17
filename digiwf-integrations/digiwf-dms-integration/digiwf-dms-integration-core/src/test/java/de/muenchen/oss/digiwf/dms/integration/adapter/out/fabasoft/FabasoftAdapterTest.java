@@ -231,7 +231,7 @@ class FabasoftAdapterTest {
                 SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
                 response);
 
-        val files = fabasoftAdapter.searchFile("searchString", "user");
+        val files = fabasoftAdapter.searchFile("searchString", "user", "reference", "value");
 
         assertThat(files.size()).isEqualTo(1);
     }
@@ -254,7 +254,7 @@ class FabasoftAdapterTest {
                 SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Aktenplaneintrag.getName()),
                 response);
 
-        val files = fabasoftAdapter.searchSubjectArea("searchString", "user");
+        val files = fabasoftAdapter.searchSubjectArea("searchString", "user", "reference", "value");
 
         assertThat(files.size()).isEqualTo(1);
 

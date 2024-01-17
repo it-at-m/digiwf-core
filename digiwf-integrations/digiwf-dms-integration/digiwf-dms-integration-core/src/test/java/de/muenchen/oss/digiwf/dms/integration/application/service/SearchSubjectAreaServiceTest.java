@@ -17,11 +17,11 @@ class SearchSubjectAreaServiceTest {
     @Test
     void searchFile() {
 
-        when(searchSubjectAreaPort.searchSubjectArea(any(), any())).thenReturn(List.of("coo"));
+        when(searchSubjectAreaPort.searchSubjectArea(any(), any(), any(), any())).thenReturn(List.of("coo"));
 
-        searchSubjectAreaService.searchSubjectArea("searchString", "user");
+        searchSubjectAreaService.searchSubjectArea("searchString", "user", "reference", "value");
 
-        verify(this.searchSubjectAreaPort, times(1)).searchSubjectArea("searchString", "user");
+        verify(this.searchSubjectAreaPort, times(1)).searchSubjectArea("searchString", "user", "reference", "value");
     }
 
 

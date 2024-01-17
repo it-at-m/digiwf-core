@@ -13,7 +13,9 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
 
     private final SearchObjectDto searchSubjectAreaDto = new SearchObjectDto(
             "aktenplan",
-            "user"
+            "user",
+            "test-reference",
+            "test-value"
     );
     private Message<SearchObjectDto> message;
 
@@ -22,7 +24,9 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
         setupBase();
         Mockito.when(searchSubjectAreaUseCase.searchSubjectArea(
                 searchSubjectAreaDto.getSearchString(),
-                searchSubjectAreaDto.getUser()
+                searchSubjectAreaDto.getUser(),
+                searchSubjectAreaDto.getReference(),
+                searchSubjectAreaDto.getValue()
         )).thenReturn("coo");
 
         this.message = new Message<>() {
@@ -43,7 +47,9 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
         messageProcessor.searchSubjectArea().accept(this.message);
         verify(searchSubjectAreaUseCase, times(1)).searchSubjectArea(
                 searchSubjectAreaDto.getSearchString(),
-                searchSubjectAreaDto.getUser());
+                searchSubjectAreaDto.getUser(),
+                searchSubjectAreaDto.getReference(),
+                searchSubjectAreaDto.getValue());
     }
 
 }
