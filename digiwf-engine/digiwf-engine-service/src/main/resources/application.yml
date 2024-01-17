@@ -11,6 +11,7 @@ camunda:
     generic-properties:
       properties:
         history-time-to-live: '185'
+        enforce-history-time-to-live: false
         history-cleanup-strategy: removalTimeBased
         history-cleanup-batch-window-start-time: '22:00'
         history-cleanup-batch-window-end-time: '06:00'
