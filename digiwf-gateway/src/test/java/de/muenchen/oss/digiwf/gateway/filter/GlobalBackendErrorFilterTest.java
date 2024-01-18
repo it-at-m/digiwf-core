@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -20,6 +21,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @ApiGatewayTest
 @AutoConfigureWireMock
+@TestPropertySource(properties = {
+        "config.map5xxto400:false",
+})
 class GlobalBackendErrorFilterTest {
 
     @Autowired
