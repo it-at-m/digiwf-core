@@ -4,7 +4,8 @@ import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.adapter.out.engine.LegacyFormValidationAdapter;
-import de.muenchen.oss.digiwf.task.service.adapter.out.link.TaskLinkResolverAdapter;
+import de.muenchen.oss.digiwf.task.service.adapter.out.link.TaskLinkConfigurationProperties;
+import de.muenchen.oss.digiwf.task.service.adapter.out.link.OnTheFlyTaskLinkResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.adapter.out.tag.TaskTagResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnUserTask;
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
@@ -50,8 +51,9 @@ class WorkOnUserTaskUseCaseTest {
     private final CancellationFlagOutPort cancellationFlagOutPort = mock(CancellationFlagOutPort.class);
     private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort = new VariableTaskSchemaTypeResolverAdapter();
     private final TaskTagResolverPort taskTagResolverPort = new TaskTagResolverAdapter();
-
-    private final TaskLinkResolverPort taskLinkResolverPort = new TaskLinkResolverAdapter();
+    private final TaskLinkResolverPort taskLinkResolverPort = new OnTheFlyTaskLinkResolverAdapter(
+        new TaskLinkConfigurationProperties(Collections.emptyList())
+    );
 
 
     private final User user = new User("0123456789", Sets.newHashSet("group1", "group2"));

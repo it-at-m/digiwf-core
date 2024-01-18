@@ -250,22 +250,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/PresignedUrl"
 
-  /tasks/id/{taskId}/links:
-    parameters:
-      - $ref: '#/components/parameters/TaskIdParam'
-    get:
-      description: Retrieves the external links of provided task.
-      operationId: getExternalLinks
-      tags:
-        - Link
-      responses:
-        200:
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExternalLinks"
-
   /tasks/user:
     parameters:
       - $ref: '#/components/parameters/PageParam'
@@ -580,10 +564,13 @@ components:
           type: string
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
       required:
         - id
         - schemaRef
         - schemaType
+        - externalLinks
 
     TaskWithDetails:
       description: Represents a user task.
@@ -631,12 +618,16 @@ components:
           type: boolean
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
+
       required:
         - id
         - schemaRef
         - variables
         - cancelable
         - schemaType
+        - externalLinks
 
     TaskWithSchema:
       description: Represents a user task with embedded combined schema.
@@ -686,7 +677,8 @@ components:
           type: boolean
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
-
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
 
       required:
         - id
@@ -694,6 +686,7 @@ components:
         - schemaType
         - variables
         - cancelable
+        - externalLinks
 
 
     TaskSchemaType:
@@ -805,8 +798,10 @@ components:
         htmlContent:
           description: HTML content of the element.
           type: string
-        additionalProperties:
+        additionalParameters:
           description: Additional extension properties.
           type: object
+          additionalProperties:
+            type: string
       required:
         - type
