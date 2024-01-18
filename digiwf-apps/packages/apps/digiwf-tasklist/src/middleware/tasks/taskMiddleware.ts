@@ -114,7 +114,7 @@ export const useAssignedGroupTasksQuery = (
 ) => useQuery({
   queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value, assignee.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag), assignee.value)
+    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag), nullToUndefined(assignee.value))
       .then(handlePageOfTaskResponse);
   },
 });

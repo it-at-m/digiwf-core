@@ -138,8 +138,8 @@ export default defineComponent({
         setTag(newTag || "");
         refetch();
       },
-      onAssigneeChange: (newTag?: string) => {
-        setAssignee(newTag);
+      onAssigneeChange: (newAssignee?: string) => {
+        setAssignee(newAssignee);
         refetch();
       },
     };

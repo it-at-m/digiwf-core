@@ -3,64 +3,30 @@
     <v-flex>
       <h1>{{ viewName }}</h1>
     </v-flex>
-    <v-flex class="d-flex justify-space-between align-center searchField">
-      <v-flex class="d-flex left align-center">
-        <search-field
-          :on-filter-change="(v) => $emit('changeFilter', v)"
-        />
-        <v-text-field
-          label="Tag"
-          outlined
-          flat
-          dense
-          hide-details
-          clearable
-          :value="tag"
-          @change="(v) => $emit('changeTag', v)"
-          @input.native="(e) => $emit('changeTag', e.target.value)"
 
-        ></v-text-field>
-        <sort-by-select/>
-      </v-flex>
-      <div class="d-flex align-center">
-        <dwf-button
-          aria-label="Aufgaben aktualisieren"
-          @click="$emit('loadTasks')"
-        >
-          <div style="min-width: 30px">
-            <v-progress-circular
-              v-if="isLoading"
-              :size="25"
-              width="2"
-              color="primary"
-              indeterminate
-            />
-            <v-icon v-else> mdi-refresh</v-icon>
-          </div>
-          Aktualisieren
+    <task-list-filter
+      view-name="Gruppenaufgaben in Bearbeitung"
+      description="Hier sehen Sie alle Aufgaben, die in Ihrer Gruppe aktuell bearbeitet werden. Klicken Sie auf übernehmen, um eine Aufgabe zu übernehmen."
+      :tasks="tasks"
+      :show-assignee="showAssignee"
+      :show-assignee-filter="showAssigneeFilter"
+      :is-loading="isLoading"
+      :tag="tag"
+      :assignee="assignee"
+      :filter="filter"
+      @loadTasks="(v) => $emit('loadTasks',v )"
+      @changeFilter="(v) => $emit('changeFilter', v)"
+      @changeTag="(v) => $emit('changeTag', v)"
+      @changeAssignee="(v) => $emit('changeAssignee', v)"
+    />
 
-        </dwf-button>
-      </div>
-    </v-flex>
-    <v-flex v-if="showAssigneeFilter">
-      <div>
-        User Filter
 
-        <base-ldap-input
-          :rules="[]"
-          :model="assignee"
-          flat
-          dense
-          @input="(value) =>$emit('changeAssignee', value)"
-        />
-      </div>
-    </v-flex>
     <v-flex v-if="errorMessage">
       <AppToast :message="errorMessage" type="error"/>
     </v-flex>
     <v-flex class="mt-10">
       <v-flex class="tableHeader">
-        <v-flex class="headerTitle"> Aufgabe</v-flex>
+        <v-flex class="headerTitle"> Aufgabe </v-flex>
         <v-flex
           v-if="showAssignee"
           class="headerTitle"
@@ -104,15 +70,12 @@
 
 <script lang="ts">
 import AppToast from "@/components/UI/AppToast.vue";
-import SearchField from "../common/SearchField.vue";
 import {HumanTask} from "../../middleware/tasks/tasksModels";
 import {PropType} from "vue";
-import SortBySelect from "../common/SortBySelect.vue";
-import DwfButton from "../common/DwfButton.vue";
-import BaseLdapInput from "../form/BaseLdapInput.vue";
+import TaskListFilter from "./TaskListFilter.vue";
 
 export default {
-  components: {BaseLdapInput, DwfButton, SortBySelect, SearchField, AppToast},
+  components: {TaskListFilter, AppToast},
   props: {
     filter: {
       type: String,

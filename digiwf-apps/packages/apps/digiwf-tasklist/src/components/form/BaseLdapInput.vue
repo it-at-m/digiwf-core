@@ -14,6 +14,7 @@
     :label="label"
     :flat="flat"
     :dense="dense"
+    :clearable="clearable"
     item-value="lhmObjectId"
     item-text="lhmObjectId"
     placeholder="Benutzer suchen..."
@@ -92,6 +93,8 @@ export default class BaseLdapInput extends Vue {
 
   @Prop()
   readonly: boolean | undefined
+  @Prop()
+  clearable: boolean | undefined
 
   @Prop()
   rules: any | undefined
