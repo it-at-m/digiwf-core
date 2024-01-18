@@ -24,7 +24,8 @@ export default defineConfig({
   server: {
     port,
     proxy: {
-      "/api": "http://localhost:8083/"
+      "/api": "http://localhost:8083/",
+      "/actuator": "http://localhost:8083/"
     }
   },
   build: {

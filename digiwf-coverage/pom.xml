@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-coverage</artifactId>
     <name>digiwf-coverage</name>
     <description>Jacoco Code Coverage</description>
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <relativePath>../digiwf-parent</relativePath>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <!-- digiwf-connector -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-camunda-connector</artifactId>
+            <artifactId>digiwf-camunda-rest-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-connector-starter-rest</artifactId>
+            <artifactId>digiwf-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -90,11 +81,6 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-email-integration-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-email-integration-example</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -159,6 +145,11 @@
             <artifactId>digiwf-dms-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- digiwf-libs -->
         <dependency>
@@ -168,7 +159,7 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>example-json-serialization</artifactId>
+            <artifactId>digiwf-example-json-serialization</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -217,7 +208,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

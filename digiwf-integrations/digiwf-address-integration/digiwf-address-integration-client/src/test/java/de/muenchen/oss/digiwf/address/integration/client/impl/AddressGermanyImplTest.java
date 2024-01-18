@@ -10,7 +10,6 @@ import de.muenchen.oss.digiwf.address.integration.client.gen.model.BundesweiteAd
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.BundesweiteAdresseResponse;
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.BundesweiteAdresseResponseItem;
 import de.muenchen.oss.digiwf.address.integration.client.model.request.SearchAddressesGermanyModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,6 +20,10 @@ import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
 class AddressGermanyImplTest {
 
@@ -55,7 +58,7 @@ class AddressGermanyImplTest {
 
     @Test
     void testFindStreetsById_Success() throws AddressServiceIntegrationServerErrorException, AddressServiceIntegrationException, AddressServiceIntegrationClientErrorException {
-        Mockito.when(this.adressenBundesweitApi.searchAdressen(
+        when(this.adressenBundesweitApi.searchAdressen(
                 "Sample Query",
                 "12345",
                 "Sample City",
@@ -68,12 +71,12 @@ class AddressGermanyImplTest {
                 10
         )).thenReturn(Mono.just(bundesweiteAdresseResponse));
         final BundesweiteAdresseResponse result = addressGermany.searchAddresses(this.searchAddressesModel);
-        Assertions.assertEquals(bundesweiteAdresseResponse, result);
+        assertThat(result).isEqualTo(bundesweiteAdresseResponse);
     }
 
     @Test
     void testFindStreetsById_ClientErrorException() {
-        Mockito.when(this.adressenBundesweitApi.searchAdressen(
+        when(this.adressenBundesweitApi.searchAdressen(
                 "Sample Query",
                 "12345",
                 "Sample City",
@@ -85,12 +88,13 @@ class AddressGermanyImplTest {
                 1,
                 10
         )).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "message"));
-        Assertions.assertThrows(AddressServiceIntegrationClientErrorException.class, () -> addressGermany.searchAddresses(this.searchAddressesModel));
+        assertThatThrownBy(() -> addressGermany.searchAddresses(this.searchAddressesModel))
+                .isInstanceOf(AddressServiceIntegrationClientErrorException.class);
     }
 
     @Test
     void testFindStreetsById_ServerErrorException() {
-        Mockito.when(this.adressenBundesweitApi.searchAdressen(
+        when(this.adressenBundesweitApi.searchAdressen(
                 "Sample Query",
                 "12345",
                 "Sample City",
@@ -102,12 +106,13 @@ class AddressGermanyImplTest {
                 1,
                 10
         )).thenThrow(new HttpServerErrorException(HttpStatus.BAD_REQUEST, "message"));
-        Assertions.assertThrows(AddressServiceIntegrationServerErrorException.class, () -> addressGermany.searchAddresses(this.searchAddressesModel));
+        assertThatThrownBy(() -> addressGermany.searchAddresses(this.searchAddressesModel))
+                .isInstanceOf(AddressServiceIntegrationServerErrorException.class);
     }
 
     @Test
     void testFindStreetsById_RestClientException() {
-        Mockito.when(this.adressenBundesweitApi.searchAdressen(
+        when(this.adressenBundesweitApi.searchAdressen(
                 "Sample Query",
                 "12345",
                 "Sample City",
@@ -119,6 +124,7 @@ class AddressGermanyImplTest {
                 1,
                 10
         )).thenThrow(new RestClientException(""));
-        Assertions.assertThrows(AddressServiceIntegrationException.class, () -> addressGermany.searchAddresses(this.searchAddressesModel));
+        assertThatThrownBy(() -> addressGermany.searchAddresses(this.searchAddressesModel))
+                .isInstanceOf(AddressServiceIntegrationException.class);
     }
 }

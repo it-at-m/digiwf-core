@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-email-integration-core</artifactId>
@@ -17,12 +17,8 @@
             <artifactId>digiwf-s3-integration-client-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-email-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -51,24 +47,9 @@
 
         <!-- testing -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-unit-test</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

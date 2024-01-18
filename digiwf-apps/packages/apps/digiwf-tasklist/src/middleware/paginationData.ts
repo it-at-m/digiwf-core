@@ -1,7 +1,7 @@
-import {useRouter} from "vue-router/composables";
-import {inject, ref, Ref} from "vue";
-import {usePageId} from "./pageId";
-import {DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
+import { useRouter } from "vue-router/composables";
+import { inject, ref, Ref } from "vue";
+import { usePageId } from "./pageId";
+import { DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider } from "./PageBasedPaginationProvider";
 
 interface PaginationData {
   readonly searchQuery: Ref<string | undefined>;
@@ -69,6 +69,8 @@ export const useGetPaginationData = (): PaginationData => {
   };
   const setSize = (newSize: number) => {
     size.value = newSize;
+    // reset the page to 0, because the user should see the first page after changing the size
+    setPage(DEFAULT_PAGE);
     router.replace({
       query: {
         ...router.currentRoute.query,

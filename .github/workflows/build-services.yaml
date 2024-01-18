@@ -20,8 +20,11 @@ jobs:
           server-username: CAMUNDA_USER_REF
           server-password: CAMUNDA_TOKEN_REF
 
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
+
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
+        run: ./mvnw --batch-mode --update-snapshots --no-transfer-progress verify
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}

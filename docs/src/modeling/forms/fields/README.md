@@ -111,6 +111,16 @@ Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschli
 ## Datum
 Über dieses Feld kann ein Datum eingegeben werden.
 
+![Formular Editor](~@source/modeling/forms/fields/date.png)
+
+#### Anzeige
+
+Im Formular wird das Feld wie folgt angezeigt.
+
+Das Datum kann wahlweise über die Tastatur eingegeben, oder über den Pop-Up-Kalender ausgewählt werden:
+
+![Formular Editor](~@source/modeling/forms/fields/date-form.png)
+
 ## Zeit
 
 Über dieses Feld kann eine Uhrzeit eingegeben werden.
@@ -177,28 +187,52 @@ Es gibt lediglich einen Unterschied bei der Auswahl and Anzeigemöglichkeiten.
 
 ![Formular Editor](~@source/modeling/forms/fields/files.png)
 
+Für folgende Dateitypen kann der Input eine Preview anzeigen:
+
+* jpeg
+
+* png
+
+* pdf
+
+Der Upload ist standardmäßig auf max. 10 Dateien mit je max. 10MB beschränkt. Diese Beschränkungen können konfiguriert werden.
+
+![Formular Editor](~@source/modeling/forms/fields/file-configs.png)
+
 #### Einstellungen
 
 - **Dateipfad** Über den Dateipfad kann der Pfad angegeben werden, in dem die Dateien gespeichert werden sollen oder aus
   dem Dateien geladen werden sollen.
+  - Das Datei-Upload-Feld zeigt jeweils nur Dateien aus dem angegebenen Ordner an. Dateien aus Unterordnern werden nicht angezeigt.
 - **Eindeutiger Indentifikator** Erzegut einen eindeutigen Identifikator, der an den Dateipfad angehängt wird. Diese
   Einstellung sollte in Objektlisten verwendet werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/files-context.png)
 
-::: tip
-Je nachdem ob es sich um ein Start- oder Benutzerformular handelt, muss der Zugriff zusätzlich konfiguriert werden.
-Dies kann in der jeweiligen Dokumentation nachgelesen werden
+#### Konfiguration
+
+Das Datei-Upload-Feld benötigt eine zusätzliche Konfiguration im Usertask des Prozesses, damit Dateien gespeichert und gelesen werden können.
+
+In den Inputparameter *S3 Pfade für Schreibrechtigungen* (`app_file_paths`) und *S3 Pfade für Leseberechtigungen* (`app_file_paths_readonly`) müssen im Usertask der/die Ordner angegeben werden, auf die der User zugreifen darf.
+Wird ein Datei-Upload-Feld bei Prozessstart verwendet, müssen die beiden Parameter als Prozessconfig gesetzt werden.
+Ordnernamen können als Semicolon separierte Liste angegeben werden (z.B. `ordner1;ordner2`).
+
+Weitere Informationen zur Konfiguration von Prozessen finden Sie unter
 
 - [Benutzeraufgaben](/modeling/user-tasks/modeling/#template)
 - [Prozesskonfiguration](/modeling/processes/config/)
-  :::
 
 #### Anzeige
 
 Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/files-form.png)
+
+::: warning
+Das Datei-Upload Feld (multi-file input) wird immer in voller Breite (12 Spalten) angezeigt.
+Auch wenn die Breite des Feldes konfiguriert werden kann wird es trotzdem in voller Breite angezeigt.
+Dieser Fehler ist bekannt und kann aktuell nicht behoben werden ([siehe](https://github.com/it-at-m/digiwf-core/issues/1001#issuecomment-1812056615)).
+:::
 
 ## Benutzerauswahl
 

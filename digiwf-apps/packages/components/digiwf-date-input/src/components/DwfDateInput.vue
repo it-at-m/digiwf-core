@@ -1,20 +1,20 @@
 <template>
   <v-text-field
+    :id="schema.key"
     v-model="dateValue"
-    type="date"
-    :label="label"
     :dense="dense"
-    :outlined="outlined"
     :disabled="readOnly"
+    :label="label"
+    :outlined="outlined"
     :rules="[validationResult, ...rules]"
+    type="date"
     @change="onChange(event)"
     @input="onInput(event)"
-    :id="schema.key"
   >
     <template #append-outer>
-      <v-tooltip v-if="description" left :open-on-hover="false">
+      <v-tooltip v-if="description" :open-on-hover="false" left>
         <template v-slot:activator="{ on }">
-          <v-btn icon @click="on.click" @blur="on.blur" retain-focus-on-click>
+          <v-btn icon retain-focus-on-click @blur="on.blur" @click="on.click">
             <v-icon> mdi-information</v-icon>
           </v-btn>
         </template>
@@ -47,7 +47,14 @@ export default defineComponent({
     const dateValue = ref(value);
     const validationResult = ref<string | boolean>(true);
 
+    const clearValueIfEmpty = () => {
+      if (dateValue.value === "") {
+        dateValue.value = null;
+      }
+    }
+
     const onChange = () => {
+      clearValueIfEmpty()
       if (!!on?.input) {
         on.input(dateValue.value);
       }
@@ -55,8 +62,12 @@ export default defineComponent({
     }
 
     const onInput = () => {
+      clearValueIfEmpty();
       validationResult.value = validateDate(dateValue.value, nativeElement.value?.validity?.valid);
     }
+
+    clearValueIfEmpty();
+    on.input(dateValue.value);
 
     return {
       label,

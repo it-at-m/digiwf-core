@@ -15,14 +15,19 @@
         schema value
       </v-tab>
       <v-tab-item>
-        <dwf-form-builder :value="schema" @input="changed" :builderSettings="settings"></dwf-form-builder>
+        <dwf-form-builder :builderSettings="settings" :value="schema" @input="changed"></dwf-form-builder>
       </v-tab-item>
       <v-tab-item>
         <div style="padding: 30px">
+          <v-text-field label="Change"
+                        @beforeinput="evt => (!evt.data || /[\d,+-]/.test(evt.data)) || evt.preventDefault()"></v-text-field>
+          <v-text-field label="Keydown" type="number"
+                        @keydown="obj => (obj.key.length > 1 || /[\d,+-]/.test(obj.key)) || obj.preventDefault()"></v-text-field>
           <v-form ref="form">
-            <dwf-form-renderer :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
-                               :schema="schema" :key="componentKey"
-                               @input="valueChanged" :value="value">
+            <dwf-form-renderer :key="componentKey"
+                               :options="{locale : 'de', readOnly: false, markdownit: { breaks: true } }"
+                               :schema="schema"
+                               :value="value" @input="valueChanged">
               <template #custom-date-input="context">
                 <dwf-date-input v-bind="context"/>
               </template>
@@ -45,7 +50,7 @@
       </v-tab-item>
       <v-tab-item>
         <div style="padding: 30px">
-          <pre class="codeblock">{{JSON.stringify(value, undefined, 4)}}</pre>
+          <pre class="codeblock">{{ JSON.stringify(value, undefined, 4) }}</pre>
         </div>
       </v-tab-item>
     </v-tabs>
@@ -64,11 +69,11 @@ html, body {
 </style>
 
 <script lang="ts">
-import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
-import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
-import { DwfDateInput, DwfTimeInput } from "@muenchen/digiwf-date-input";
-import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
-import { defineComponent, provide, ref } from "vue";
+import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
+import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
+import {DwfDateInput, DwfTimeInput} from "@muenchen/digiwf-date-input";
+import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
+import {defineComponent, provide, ref} from "vue";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput, DwfTimeInput},
@@ -79,7 +84,7 @@ export default defineComponent({
 
     const value = ref({});
 
-    const schema = ref({});
+    const schema = ref({"dateval": ""});
     const changed = (newSchema: any) => {
       componentKey.value += 1;
       schema.value = newSchema;
@@ -106,30 +111,51 @@ export default defineComponent({
       schema.value = {
         "type": "object",
         "x-display": "tabs",
-        "allOf": [{
-          "key": "sectionKey1",
-          "title": "Allgemeine Angaben",
-          "type": "object",
-          "x-options": {"sectionsTitlesClasses": []},
-          "allOf": [{
-            "containerType": "group",
-            "title": "Group",
-            "description": "",
-            "x-options": {"childrenClass": "pl-0"},
-            "properties": {
-              "aaf3bc4d-1e46-4399-b8e4-67678f6101ec": {
-                "fieldType": "boolean",
-                "title": "Checkbox",
-                "type": "boolean",
-                "x-options": {"fieldColProps": {"cols": 12, "sm": 12}},
-                "x-props": {"outlined": true, "dense": true}
-              }
+        "allOf": [
+          {
+            "key": "sectionKey1",
+            "title": "Allgemeine Angaben",
+            "type": "object",
+            "x-options": {
+              "sectionsTitlesClasses": []
             },
-            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
-          }]
-        }]
+            "allOf": [
+              {
+                "containerType": "group",
+                "title": "Group",
+                "description": "",
+                "x-options": {
+                  "childrenClass": "pl-0"
+                },
+                "properties": {
+                  "dateval": {
+                    "fieldType": "date",
+                    "title": "Date",
+                    "x-display": "custom-date-input",
+                    "type": "string",
+                    "format": "date",
+                    "key": "dateval",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12
+                      },
+                      "messages": {}
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": []
+                  }
+                },
+                "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"
+              }
+            ]
+          }
+        ]
       };
-      value.value = {};
+      value.value = {"dateval": ""};
     }
 
     initSchema();

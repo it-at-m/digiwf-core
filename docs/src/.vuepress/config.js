@@ -125,8 +125,10 @@ module.exports = {
                             title: 'Bibliotheken',
                             collapsable: false,
                             children: [
+                                'libs/digiwf-integration-e2e-test/',
                                 'libs/digiwf-message/',
                                 'libs/digiwf-spring-security/',
+                                'libs/digiwf-email/',
                             ]
                         },
                         {

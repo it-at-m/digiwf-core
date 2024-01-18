@@ -6,11 +6,10 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-libs</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-    <name>logging-and-tracing</name>
     <description>Logging and Tracing configuration and libraries used for DigiWF</description>
 
 
@@ -34,6 +33,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.4</version>
         </dependency>
 
     </dependencies>

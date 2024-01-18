@@ -15,6 +15,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQue
 import de.muenchen.oss.digiwf.task.service.domain.IllegalResourceAccessException;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
 import de.muenchen.oss.digiwf.task.service.domain.TaskFileConfig;
+import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,12 @@ import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTask;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -46,26 +50,30 @@ class WorkOnTaskFileUseCaseTest {
 
     private final User user = new User("0123456789", Sets.newHashSet("group1", "group2"));
 
+    private String fileContext;
+    private final List<String> pathsReadonly = List.of("able/to/read");
+    private final List<String> pathsWrite = List.of("able/to/read", "able/to/write");
+
     @BeforeEach
     void setupMocks() {
         Task task = generateTask("task_0", Collections.emptySet(), Collections.emptySet(), user.getUsername(), null, false);
         when(currentUserPort.getCurrentUser()).thenReturn(user);
         when(taskQueryPort.getTaskByIdForCurrentUser(any(), anyString())).thenReturn(task);
+        this.fileContext = UUID.randomUUID().toString();
     }
 
     @Test
     void getFileNamesDocumentWithStorageUrl() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file1.txt","able/to/read/secondfile1.pdf")));
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(),anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file2.txt","able/to/read/secondfile2.pdf")));
+        final Set<String> filesInS3 = Sets.newHashSet(fileContext + "/able/to/read/file1.txt", fileContext + "/able/to/read/secondfile1.pdf");
 
-        List<String> listOfNames = useCase.getFileNames("task_0","able/to/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", "syncConfig",pathsWrite,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(),anyString())).thenReturn(Mono.just(filesInS3));
 
-        assertEquals(2, listOfNames.size());
-        assertTrue(listOfNames.contains("file2.txt"));
-        assertTrue(listOfNames.contains("secondfile2.pdf"));
+        final List<String> listOfNames = useCase.getFileNames("task_0", pathsReadonly.stream().findFirst().orElseThrow());
+
+        assertThat(listOfNames)
+                .hasSize(2)
+                .contains("file1.txt", "secondfile1.pdf");
 
         verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString(),anyString());
         verifyNoMoreInteractions(documentStorageFolderRepository);
@@ -76,17 +84,42 @@ class WorkOnTaskFileUseCaseTest {
 
     @Test
     void getFileNamesDocumentWithoutStorageUrl() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", null,paths,pathsReadonly));
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file1.txt","able/to/read/secondfile1.pdf")));
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(),anyString())).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file2.txt","able/to/read/secondfile2.pdf")));
+        final Set<String> filesInS3 = Sets.newHashSet(fileContext + "/able/to/read/file1.txt", fileContext + "/able/to/read/secondfile1.pdf");
 
-        List<String> listOfNames = useCase.getFileNames("task_0","able/to/read");
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", null,pathsWrite,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(filesInS3));
 
-        assertEquals(2, listOfNames.size());
-        assertTrue(listOfNames.contains("file1.txt"));
-        assertTrue(listOfNames.contains("secondfile1.pdf"));
+        final List<String> listOfNames = useCase.getFileNames("task_0", pathsReadonly.stream().findFirst().orElseThrow());
+
+        assertThat(listOfNames)
+                .hasSize(2)
+                .contains("file1.txt", "secondfile1.pdf");
+
+        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString());
+        verifyNoMoreInteractions(documentStorageFolderRepository);
+
+        verify(taskFileConfigResolverPort).apply(any());
+        verifyNoMoreInteractions(taskFileConfigResolverPort);
+    }
+
+    @Test
+    void getFileNames_DoesNotIncludeFilesFromSubdirectories()  throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+        final Set<String> filesInS3 = Sets.newHashSet(
+                fileContext + "/able/to/read/file1.txt",
+                fileContext + "/able/to/read/secondfile1.pdf",
+                fileContext + "/able/to/read/subdir/file2.txt",
+                fileContext + "/able/to/read/subdir1/file3.txt"
+        );
+
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", null,pathsWrite,pathsReadonly));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(filesInS3));
+
+        final List<String> listOfNames = useCase.getFileNames("task_0", pathsReadonly.stream().findFirst().orElseThrow());
+
+        assertThat(listOfNames)
+                .hasSize(2)
+                .contains("file1.txt", "secondfile1.pdf")
+                .doesNotContain("file2.txt", "file3.txt");
 
         verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString());
         verifyNoMoreInteractions(documentStorageFolderRepository);
@@ -97,58 +130,47 @@ class WorkOnTaskFileUseCaseTest {
 
     @Test
     void getFileNamesThrowsException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", "syncConfig",pathsWrite,pathsReadonly));
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenThrow(new DocumentStorageException("DocumentStorageException",new Exception()));
 
-        HttpServerErrorException exception = assertThrows(HttpServerErrorException.class, () -> { useCase.getFileNames("task_0","able/to/read");});
-
-        String expectedMessage = "Getting all files of folder able/to/read failed";
-        String actualMessage = exception.getStatusText();
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
-        assertEquals(expectedMessage, actualMessage);
+        assertThatThrownBy(() -> useCase.getFileNames("task_0","able/to/read"))
+                .isInstanceOf(HttpServerErrorException.class)
+                .hasMessage("500 Getting all files of folder able/to/read failed")
+                .has(new Condition<>(e -> ((HttpServerErrorException) e).getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR), "Status code is 500"));
 
         verify(documentStorageFolderRepository).getAllFilesInFolderRecursively(anyString(),anyString());
         verifyNoMoreInteractions(documentStorageFolderRepository);
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 
     @Test
     void getPresignedUrlForGETWithReadAccessAndDocumentStorageUrl() {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", "syncConfig",pathsWrite,pathsReadonly));
         when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
         when(presignedUrlPort.getPresignedUrl(anyString(),anyInt(),any())).thenReturn("Without DocumentStorageUrl");
 
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/read","filename1.txt");
 
-        assertEquals("With DocumentStorageUrl",presignedUrl);
+        assertThat(presignedUrl).isEqualTo("With DocumentStorageUrl");
 
         verify(presignedUrlPort).getPresignedUrl(anyString(),anyString(),anyInt(),any());
         verifyNoMoreInteractions(presignedUrlPort);
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 
     @Test
     void getPresignedUrlForGETWithWriteAccessAndWithoutDocumentStorageUrl() {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", null,paths,pathsReadonly));
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", null,pathsWrite,pathsReadonly));
         when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
         when(presignedUrlPort.getPresignedUrl(anyString(),anyInt(),any())).thenReturn("Without DocumentStorageUrl");
 
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.GET,"task_0","able/to/write","filename1.txt");
 
-        assertEquals("Without DocumentStorageUrl",presignedUrl);
+        assertThat(presignedUrl).isEqualTo("Without DocumentStorageUrl");
 
         verify(presignedUrlPort).getPresignedUrl(anyString(),anyInt(),any());
         verifyNoMoreInteractions(presignedUrlPort);
@@ -159,14 +181,12 @@ class WorkOnTaskFileUseCaseTest {
 
     @Test
     void getPresignedUrlForPUTWithWriteAccess() {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", "syncConfig",pathsWrite,pathsReadonly));
         when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
 
         String presignedUrl = useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","able/to/write","filename1.txt");
 
-        assertEquals("With DocumentStorageUrl",presignedUrl);
+        assertThat(presignedUrl).isEqualTo("With DocumentStorageUrl");
 
         verify(presignedUrlPort).getPresignedUrl(anyString(),anyString(),anyInt(),any());
         verifyNoMoreInteractions(presignedUrlPort);
@@ -177,22 +197,16 @@ class WorkOnTaskFileUseCaseTest {
 
     @Test
     void getPresignedUrlForPUTWithReadAccess() {
-        List<String> paths =List.of("able/to/write");
-        List<String> pathsReadonly =List.of("able/to/read","write/also/read");
-        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig("fileContext", "asyncConfig", "syncConfig",paths,pathsReadonly));
+        when(taskFileConfigResolverPort.apply(any())).thenReturn(new TaskFileConfig(this.fileContext, "asyncConfig", "syncConfig",pathsWrite,List.of("readonly/path")));
         when(presignedUrlPort.getPresignedUrl(anyString(),anyString(),anyInt(),any())).thenReturn("With DocumentStorageUrl");
 
-        Exception exception = assertThrows(IllegalResourceAccessException.class, () -> { useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","able/to/read","filename1.txt");});
-
-        String expectedMessage = "No access to defined property";
-        String actualMessage = exception.getMessage();
-
-        assertEquals(expectedMessage, actualMessage);
+        assertThatThrownBy(() -> useCase.getPresignedUrl(PresignedUrlAction.PUT,"task_0","readonly/path","filename1.txt"))
+                .isInstanceOf(IllegalResourceAccessException.class)
+                .hasMessage("No access to defined property");
 
         verifyNoInteractions(presignedUrlPort);
 
         verify(taskFileConfigResolverPort).apply(any());
         verifyNoMoreInteractions(taskFileConfigResolverPort);
-
     }
 }

@@ -6,12 +6,10 @@ import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 
-import jakarta.validation.ValidationException;
 import java.util.function.Consumer;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
@@ -24,8 +22,6 @@ public class MessageProcessor {
     private final SendMail mailUseCase;
     private final MonitoringService monitoringService;
 
-    @ConditionalOnMissingBean
-    @Bean
     public Consumer<Message<Mail>> emailIntegration() {
         return message -> {
             try {

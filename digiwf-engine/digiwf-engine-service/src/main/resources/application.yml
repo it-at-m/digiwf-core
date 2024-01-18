@@ -186,6 +186,8 @@ digiwf:
 io:
   muenchendigital:
     digiwf:
+      mail:
+        fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
       s3:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'

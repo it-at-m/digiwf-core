@@ -1,6 +1,9 @@
 info:
   application:
     name: ${spring.application.name}
+    stage:
+      color: ${STAGE_COLOR:#FFCC00}
+      displayName: ${STAGE_DISPLAY_NAME:${DIGIWF_ENV}}
 spring:
   application:
     name: @project.artifactId@
@@ -52,6 +55,8 @@ management:
           - "http://localhost:8083" # for cgi notebooks necessary
           - "http://127.0.0.1:8083" # for cgi notebooks necessary
           - "http://keycloak:8083" # for cgi notebooks necessary
+          - "http://127.0.0.1:8084"
+          - "http://localhost:8084"
         allowedMethods: "*"
         allowedHeaders: "*"
         allowCredentials: on

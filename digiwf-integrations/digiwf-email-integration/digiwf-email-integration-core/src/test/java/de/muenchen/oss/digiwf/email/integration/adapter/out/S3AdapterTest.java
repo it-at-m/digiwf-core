@@ -1,14 +1,13 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.email.integration.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
+import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,7 +41,7 @@ class S3AdapterTest {
         // DocumentStorageException
         when(s3FileTransferRepository.getFile(url))
                 .thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
-        Assertions.assertThrows(BpmnError.class, () -> s3Adapter.loadAttachment(presignedUrl));
+        assertThatThrownBy(() -> s3Adapter.loadAttachment(presignedUrl)).isInstanceOf(BpmnError.class);
     }
 
     @Test
@@ -62,12 +62,12 @@ class S3AdapterTest {
                         new PresignedUrl("http://localhost:9000/" + file, path, "GET")
                 );
 
-                Assertions.assertTrue(Arrays.equals(testFile, fileAttachment.getFile().getInputStream().readAllBytes()));
-                Assertions.assertEquals(file.getKey(), fileAttachment.getFileName());
-                Assertions.assertEquals(file.getValue(), fileAttachment.getFile().getContentType());
+                assertThat(Arrays.equals(testFile, fileAttachment.getFile().getInputStream().readAllBytes())).isTrue();
+                assertThat(file.getKey()).isEqualTo(fileAttachment.getFileName());
+                assertThat(file.getValue()).isEqualTo(fileAttachment.getFile().getContentType());
             } catch (final IOException e) {
                 log.warn("Could not read file: {}", file);
-                Assertions.fail(e);
+                fail(e.getMessage());
             }
         }
     }

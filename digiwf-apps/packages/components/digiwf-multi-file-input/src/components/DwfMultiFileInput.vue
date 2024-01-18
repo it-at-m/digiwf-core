@@ -2,13 +2,16 @@
   <div class="pa-0">
     <v-file-input
         v-model="fileValue"
-        :disabled="isReadonly || !canAddDocument"
-        :rules="rules ? rules : true"
+        :disabled="isReadonly"
+        :rules="rules"
         :loading="isLoading"
+        :accept="schema['accept']"
         outlined
         multiple
         :label="label"
         type="file"
+        :hint="hint"
+        persistent-hint
         truncate-length="50"
         :error-messages="errorMessage"
         v-bind="schema['x-props']"
@@ -47,7 +50,7 @@ import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
 import {DocumentData, FormContext} from "../../types";
-import {computed, defineComponent, inject, onMounted, ref} from "vue";
+import {computed, defineComponent, inject, onMounted, ref, watch} from "vue";
 import {
   getFilenames,
   getPresignedUrlForDelete,
@@ -78,6 +81,14 @@ export default defineComponent({
     let errorMessage = ref<string>("");
     let isLoading = ref<boolean>(false);
     let uuid = "";
+    const maxFiles = props.schema.maxFiles || 10;
+    const maxFileSize = props.schema.maxFileSize || 10;
+    const maxTotalSize = props.schema.maxTotalSize;
+    const mbInByte = 1048576;
+    const hint = !!maxTotalSize ?
+      "Es dürfen maximal " + maxFiles + " Dateien mit einer Gesamtgröße von " + maxTotalSize + " MB hochgeladen werden" :
+      "Es dürfen maximal " + maxFiles + " Dateien hochgeladen werden";
+    let rules = props.rules  ? props.rules : true;
 
     const apiEndpoint = inject<string>('apiEndpoint');
     const taskServiceApiEndpoint = inject<string>('taskServiceApiEndpoint');
@@ -106,8 +117,14 @@ export default defineComponent({
       );
     });
 
-    const canAddDocument = computed(() => {
-      return documents.value.length < 10;
+    watch(documents.value, (updatedDocuments) => {
+      if(updatedDocuments.length > maxFiles) {
+        errorMessage.value = 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden';
+      } else if (!!maxTotalSize && validateTotalSize() > maxTotalSize){
+        errorMessage.value = 'Die Gesamtgröße aller Dateien darf ' + maxTotalSize + ' MB nicht überschreiten';
+      } else {
+        errorMessage.value = "";
+      }
     });
 
     const filePath = computed(() => {
@@ -235,10 +252,15 @@ export default defineComponent({
     }
 
     const validateFileSize = (mydata: ArrayBuffer) => {
-      if (mydata.byteLength > 10485760) {
-        errorMessage.value = "Die Datei ist muss kleiner als 10MB sein.";
+      if (mydata.byteLength > maxFileSize*mbInByte) {
+        errorMessage.value = "Die Datei muss kleiner als " + maxFileSize + " MB sein.";
         throw new Error("File too large.");
       }
+    }
+
+    const validateTotalSize = () : number => {
+      const totalSize = documents.value.reduce((accumulator,document) => document.size + accumulator, 0)
+      return totalSize/mbInByte;
     }
 
     const createDocumentDataInstance = (
@@ -343,6 +365,10 @@ export default defineComponent({
           uuid = uuidv4();
         }
       }
+      rules.push(() => documents.value.length <= maxFiles || 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden');
+      if (!!maxTotalSize) {
+        rules.push(() => validateTotalSize() <= maxTotalSize || 'Die Gesamtgröße aller Dateien darf ' + maxTotalSize + ' MB nicht überschreiten');
+      }
       loadInitialValues();
     })
 
@@ -355,7 +381,8 @@ export default defineComponent({
       isLoading,
       uuid,
       changeInput,
-      canAddDocument,
+      rules,
+      hint,
       isReadonly,
       removeDocument
     }

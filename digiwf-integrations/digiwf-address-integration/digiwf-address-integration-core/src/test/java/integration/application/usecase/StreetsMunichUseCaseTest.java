@@ -10,8 +10,8 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class StreetsMunichUseCaseTest {
@@ -29,7 +29,7 @@ class StreetsMunichUseCaseTest {
 
         final Strasse actualResponse = streetsMunichUseCase.findStreetsById(streetId);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).findStreetsById(streetId);
     }
 
@@ -40,9 +40,9 @@ class StreetsMunichUseCaseTest {
 
         when(addressClientOutPort.findStreetsById(streetId)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            streetsMunichUseCase.findStreetsById(streetId);
-        });
+        assertThatThrownBy(() -> streetsMunichUseCase.findStreetsById(streetId))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -52,9 +52,9 @@ class StreetsMunichUseCaseTest {
 
         when(addressClientOutPort.findStreetsById(streetId)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            streetsMunichUseCase.findStreetsById(streetId);
-        });
+        assertThatThrownBy(() -> streetsMunichUseCase.findStreetsById(streetId))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -66,7 +66,7 @@ class StreetsMunichUseCaseTest {
 
         final StrasseResponse actualResponse = streetsMunichUseCase.listStreets(listStreetsModel);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
         verify(addressClientOutPort).listStreets(listStreetsModel);
     }
 
@@ -77,9 +77,9 @@ class StreetsMunichUseCaseTest {
 
         when(addressClientOutPort.listStreets(listStreetsModel)).thenThrow(expectedError);
 
-        assertThrows(BpmnError.class, () -> {
-            streetsMunichUseCase.listStreets(listStreetsModel);
-        });
+        assertThatThrownBy(() -> streetsMunichUseCase.listStreets(listStreetsModel))
+                .isInstanceOf(BpmnError.class)
+                .isEqualTo(expectedError);
     }
 
     @Test
@@ -89,9 +89,9 @@ class StreetsMunichUseCaseTest {
 
         when(addressClientOutPort.listStreets(listStreetsModel)).thenThrow(expectedError);
 
-        assertThrows(IncidentError.class, () -> {
-            streetsMunichUseCase.listStreets(listStreetsModel);
-        });
+        assertThatThrownBy(() -> streetsMunichUseCase.listStreets(listStreetsModel))
+                .isInstanceOf(IncidentError.class)
+                .isEqualTo(expectedError);
     }
 
 }

@@ -51,7 +51,7 @@ public class RemoteTaskCommandRestAdapter implements TaskCommandPort {
   public void deferUserTask(String taskId, Instant followUpDate) {
     var task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if (task != null) {
-      task.setFollowUpDate(Date.from(followUpDate.truncatedTo(ChronoUnit.DAYS)));
+      task.setFollowUpDate(Date.from(followUpDate));
       taskService.saveTask(task);
     }
   }

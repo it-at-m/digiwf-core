@@ -1,5 +1,8 @@
 package de.muenchen.oss.digiwf.cosys.integration.application.usecase;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.ProcessAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessagePort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
@@ -13,14 +16,8 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Map;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.*;
 
 class CreateDocumentUseCaseTest {
 
@@ -40,14 +37,18 @@ class CreateDocumentUseCaseTest {
 
     private final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
     private List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
-    private Map<String,String> variables = Map.of("key1", "value");
+    private JsonNode variables = new ObjectMapper().readTree("{\"key1\":\"value\"}");
+
     private final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", variables, listOfURls);
+
+    CreateDocumentUseCaseTest() throws JsonProcessingException {
+    }
 
     @Test
     void createDocument() {
         when(generateDocumentPort.generateCosysDocument(any())).thenReturn(Mono.just("Document".getBytes()));
 
-        final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStoragePort,correlateMessagePort, generateDocumentPort);
+        final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, generateDocumentPort);
         useCase.createDocument("processInstanceIde", "messageName", generateDocument);
 
         verify(generateDocumentPort).generateCosysDocument(generateDocument);

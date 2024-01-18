@@ -8,9 +8,6 @@ spring:
       definition: functionRouter;sendMessage;
       routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "dwf-email-service"

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.cosys.integration.example.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
@@ -48,10 +49,10 @@ public class ExampleController {
                 .client("9001")
                 .role("TESTER")
                 .guid("519650b7-87c2-41a6-8527-7b095675b13f")
-                .variables(Map.of(
+                .variables(new ObjectMapper().valueToTree(Map.of(
                         "FormField_Grusstext", "Hallo das ist mein Gruß",
                         "EmpfaengerVorname", "Dominik",
-                        "AbsenderVorname", "Max"))
+                        "AbsenderVorname", "Max")))
                 .build();
     }
 

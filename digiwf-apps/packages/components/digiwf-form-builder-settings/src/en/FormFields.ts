@@ -961,6 +961,39 @@ const fileSchema = {
             ]
           },
           "x-display": "checkbox"
+        },
+        "maxFiles": {
+          "type": "integer",
+          "title": "Maximum number of files",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxFileSize": {
+          "type": "integer",
+          "title": "Maximum file size in MB",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxTotalSize": {
+          "type": "integer",
+          "title": "Maximum total size of all files in MB",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "accept": {
+          "type": "string",
+          "title": "Permitted file formats",
+          "description": "The file formats must be specified as MIME type and comma-separated.",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
         }
       }
     }
