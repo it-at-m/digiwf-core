@@ -1,6 +1,5 @@
 <template>
   <c-container
-    id="digiwf-widget"
     fluid
   >
     <service-instance-list />
@@ -28,7 +27,7 @@ provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWfBaseUrl);
 </script>
 
 <style lang="scss">
-@import "@coreui/coreui/scss/coreui";
+@import "@/assets/coreui";
 
 :root,
 :host {
