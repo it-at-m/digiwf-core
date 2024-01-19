@@ -11,6 +11,10 @@
 
     <artifactId>digiwf-dms-integration-service</artifactId>
 
+    <properties>
+        <rest.base-package-name>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest</rest.base-package-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,10 +65,10 @@
                             <!--configHelp>true</configHelp-->
                             <!-- https://openapi-generator.tech/docs/generators/spring/ -->
                             <configOptions>
-                                <basePackage>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest</basePackage>
-                                <invokerPackage>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest</invokerPackage>
-                                <apiPackage>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest.api</apiPackage>
-                                <modelPackage>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest.model</modelPackage>
+                                <basePackage>${rest.base-package-name}</basePackage>
+                                <invokerPackage>${rest.base-package-name}</invokerPackage>
+                                <apiPackage>${rest.base-package-name}.api</apiPackage>
+                                <modelPackage>${rest.base-package-name}.model</modelPackage>
                                 <java8>true</java8>
                                 <delegatePattern>true</delegatePattern>
                                 <generateSupportingFiles>false</generateSupportingFiles>
