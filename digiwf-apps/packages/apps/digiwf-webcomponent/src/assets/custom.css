@@ -1,0 +1,5 @@
+digiwf-widget:host-context(#digiwf-widget) {
+  --cui-list-group-hover-bg: red;
+  --cui-primary: #ababab;
+  font-size: 10px !important;
+}
