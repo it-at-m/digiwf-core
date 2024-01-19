@@ -17,14 +17,14 @@ import { DIGIWF_BASE_URL_DEFAULT } from "@/util/constants";
 
 const props = withDefaults(
   defineProps<{
-    digiWFBaseUrl: string;
+    digiWfBaseUrl?: string;
   }>(),
   {
-    digiWFBaseUrl: DIGIWF_BASE_URL_DEFAULT,
+    digiWfBaseUrl: DIGIWF_BASE_URL_DEFAULT,
   }
 );
 
-provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWFBaseUrl);
+provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWfBaseUrl);
 </script>
 
 <style lang="scss">
