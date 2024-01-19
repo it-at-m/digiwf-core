@@ -2,7 +2,13 @@
   <c-card>
     <c-card-header>
       <div class="d-flex justify-content-between align-items-center">
-        <div>
+        <div class="d-flex">
+          <svg-icon
+              type="mdi"
+              :path="mdiClipboardTextOutline"
+              class="me-3"
+              style="color: var(--cui-primary)"
+          />
           <h5 class="mb-0"><strong>Neueste Anträge</strong></h5>
         </div>
         <c-button
@@ -57,7 +63,7 @@ import {
   CListGroup,
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiOpenInNew, mdiReload } from "@mdi/js";
+import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
 import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";

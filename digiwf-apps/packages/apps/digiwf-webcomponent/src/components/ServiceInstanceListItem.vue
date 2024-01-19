@@ -5,9 +5,9 @@
     target="_blank"
     class="p-3"
   >
-    <h5 class="mb-3">
+    <h6 class="mb-3">
       <strong>{{ serviceInstance.definitionName }}</strong>
-    </h5>
+    </h6>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
