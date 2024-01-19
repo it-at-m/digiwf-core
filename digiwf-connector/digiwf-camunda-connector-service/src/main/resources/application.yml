@@ -10,7 +10,7 @@ feign:
         url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
       digiwf-process-instance:
         name: digiwf-process-instance
-        url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
+        url: ${ENGINE_REST_ENDPOINT_URL}
 camunda:
   bpm:
     client:

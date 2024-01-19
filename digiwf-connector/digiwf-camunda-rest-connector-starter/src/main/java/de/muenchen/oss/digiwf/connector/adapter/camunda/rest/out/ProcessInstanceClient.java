@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(
         name = "${feign.client.config.digiwf-process-instance.name:digiwf-process-instance}",
-        url = "${feign.client.config.digiwf-process-instance.url}/rest/service/instance",
+        url = "${feign.client.config.digiwf-process-instance.url}rest/service/instance",
         configuration = DigiwfFeignOauthClientConfig.class
 )
 public interface ProcessInstanceClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/root/{id}")
     ResponseEntity<ServiceInstanceTO> getRootProcessInstanceDetail(@PathVariable("id") final String id);
 
 }
