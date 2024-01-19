@@ -1,15 +1,39 @@
 <template>
-  <main>
-    <hello-world />
-  </main>
+  <c-container
+    id="digiwf-widget"
+    fluid
+  >
+    <service-instance-list />
+  </c-container>
 </template>
 
 <script setup lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
+import { CContainer } from "@coreui/vue";
+import { provide } from "vue";
+
+import ServiceInstanceList from "@/components/ServiceInstanceList.vue";
+import { DIGIWF_BASE_URL_INJECT_KEY } from "@/composables/useDigiWFBaseURL";
+import { DIGIWF_BASE_URL_DEFAULT } from "@/util/constants";
+
+const props = withDefaults(
+  defineProps<{
+    digiWFBaseUrl: string;
+  }>(),
+  {
+    digiWFBaseUrl: DIGIWF_BASE_URL_DEFAULT,
+  }
+);
+
+provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWFBaseUrl);
 </script>
 
-<style>
-@import "@/assets/stylesheets/custom.css";
+<style lang="scss">
+@import "@coreui/coreui/scss/coreui";
+
+:root,
+:host {
+  @extend :root;
+}
 
 :host {
   font-family:
