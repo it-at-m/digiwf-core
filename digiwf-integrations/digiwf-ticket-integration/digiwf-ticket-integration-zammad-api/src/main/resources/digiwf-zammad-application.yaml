@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+        registration:
+          zammad:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${digiwf.security.client-id}
+            client-secret: ${digiwf.security.client-secret}
+            scope: email, profile, openid  # needed for userInfo endpoint
+

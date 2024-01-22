@@ -1,0 +1,82 @@
+/*
+ * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+ * der Landeshauptstadt München, 2020
+ */
+package de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming;
+
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
+import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.context.annotation.Bean;
+import org.springframework.lang.NonNull;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class TicketMessageProcessor {
+
+    private static final String VALIDATION_ERROR_CODE = "VALIDATION_ERROR";
+
+    private final WriteArticleInPort writeArticleInPort;
+
+    private final ProcessApi processApi;
+
+    private final ErrorApi errorApi;
+
+    /**
+     * All messages from the route "getAlwResponsibility" go here.
+     *
+     * @return the consumer
+     */
+    @Bean
+    public Consumer<Message<WriteArticleDto>> writeArticle() {
+        return message -> {
+            log.info("Processing new request from eventbus");
+            val request = message.getPayload();
+            val headers = message.getHeaders();
+            log.debug("Request: {}", request);
+            try {
+                writeArticleInPort.writeArticle(request.getTicketId(), request.getArticle(), request.getStatus());
+                correlateProcessMessage(headers, Map.of());
+            } catch (ConstraintViolationException cve) {
+                handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
+            } catch (final Exception e) {
+                log.error("Request could not be fulfilled", e);
+                handleIncident(headers, new IncidentError(e.getMessage()));
+            }
+        };
+    }
+
+
+    public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
+        final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
+        final String messageName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_MESSAGE_NAME)).toString();
+        if (payload == null) {
+            payload = new HashMap<>();
+        }
+        this.processApi.correlateMessage(processInstanceId, messageName, payload);
+    }
+
+    public void handleBpmnError(@NonNull MessageHeaders headers, @NonNull BpmnError bpmnError) {
+        this.errorApi.handleBpmnError(headers, bpmnError);
+    }
+
+    public void handleIncident(@NonNull MessageHeaders headers, @NonNull IncidentError incidentError) {
+        this.errorApi.handleIncident(headers, incidentError);
+    }
+}

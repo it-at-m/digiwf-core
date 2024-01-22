@@ -1,0 +1,20 @@
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        issuer-uri: http://local-itest
+    client:
+      registration:
+        keycloak:
+          provider: keycloak
+          client-id: <itest-client-id>
+          client-secret: <itest-client-secret>
+        keycloak-service-account:
+          provider: keycloak
+          client-id: <itest-client-id2>
+          client-secret: <itest-client-secret2>
+      provider:
+        keycloak:
+          issuer-uri: http://local-itest
+          user-info-uri: http://local-itest/realms/itest/protocol/openid-connect/userinfo
+          jwk-set-uri: http://local-itest/realms/itest/protocol/openid-connect/certs

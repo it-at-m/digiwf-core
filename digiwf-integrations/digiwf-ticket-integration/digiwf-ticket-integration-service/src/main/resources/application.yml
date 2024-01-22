@@ -1,0 +1,90 @@
+# DigiWF config
+
+digiwf:
+  security:
+    client-id: ${SSO_TICKET_CLIENT_ID}
+    client-secret: ${SSO_TICKET_CLIENT_SECRET}
+  zammad:
+    url: "localhost:8080"
+
+info:
+  application:
+    name: @project.artifactId@
+    version: @project.version@
+
+spring:
+  application.name: @project.artifactId@
+  banner.location: banner.txt
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+          configuration:
+            security:
+              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-ticket-service"
+          destination: dwf-ticket-${DIGIWF_ENV}
+        sendMessage-out-0:
+          destination: dwf-connector-${DIGIWF_ENV}
+      default:
+        consumer:
+          maxAttempts: '1'
+      default-binder: kafka
+      function:
+        routing:
+          enabled: 'true'
+
+    function:
+      definition: functionRouter;sendMessage;
+      routing-expression: "headers['type']"
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+
+server:
+  shutdown: "graceful"
+  port: ${TICKET_INTEGRATION_SERVER_PORT:8080}
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+
+# Config for spring actuator endpoints
+management:
+  server.port: ${server.port}
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health.enabled: true
+    info.enabled: true
+    prometheus.enabled: true
+  info:
+    env:
+      enabled: true
