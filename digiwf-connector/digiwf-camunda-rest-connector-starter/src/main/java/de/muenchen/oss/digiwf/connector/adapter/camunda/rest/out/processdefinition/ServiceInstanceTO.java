@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out;
+package de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out.processdefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

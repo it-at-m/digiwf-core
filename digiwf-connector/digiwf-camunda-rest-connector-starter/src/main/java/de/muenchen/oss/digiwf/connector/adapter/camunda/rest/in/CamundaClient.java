@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.connector.adapter.camunda.rest.mapper.EngineDataSe
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort.ExecuteTaskCommand;
 import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
+import de.muenchen.oss.digiwf.connector.core.domain.ProcessDefinitionLoadingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.task.ExternalTask;
@@ -48,6 +49,8 @@ public class CamundaClient implements ExternalTaskHandler {
 
             externalTaskService.complete(externalTask);
         } catch (final IntegrationNameConfigException e) {
+            externalTaskService.handleFailure(externalTask, e.getMessage(), e.getDetailedMessage(), 0, 0);
+        } catch (final ProcessDefinitionLoadingException e) {
             externalTaskService.handleFailure(externalTask, e.getMessage(), e.getDetailedMessage(), 0, 0);
         }
     }

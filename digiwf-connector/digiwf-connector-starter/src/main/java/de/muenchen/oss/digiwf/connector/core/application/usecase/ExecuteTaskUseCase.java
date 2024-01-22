@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPo
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.ProcessOutPort;
 import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigException;
+import de.muenchen.oss.digiwf.connector.core.domain.ProcessDefinitionLoadingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ class ExecuteTaskUseCase implements ExecuteTaskInPort {
     private final ProcessOutPort processOutPort;
 
     @Override
-    public void executeTask(@Valid ExecuteTaskCommand command) throws IntegrationNameConfigException {
+    public void executeTask(@Valid ExecuteTaskCommand command) throws IntegrationNameConfigException, ProcessDefinitionLoadingException {
         log.info("Execute task with command {}", command);
 
         final String processDefinition = this.processOutPort.loadProcessDefinition(command.getInstanceId());
