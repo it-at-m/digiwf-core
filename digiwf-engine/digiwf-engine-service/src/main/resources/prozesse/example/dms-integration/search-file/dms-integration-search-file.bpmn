@@ -55,6 +55,8 @@
         <camunda:out source="fileCoo" target="sachakte" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${search}" target="searchString" />
+        <camunda:in sourceExpression="${reference}" target="reference" />
+        <camunda:in sourceExpression="${value}" target="value" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_00rfshm</bpmn:outgoing>

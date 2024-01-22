@@ -29,7 +29,11 @@ public class SearchSubjectAreaCase implements MockCase {
         DigiwfWiremockWsdlUtility.stubOperation(
                 server,
                 "SearchObjNameGI",
-                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Aktenplaneintrag.getName()),
+                SearchObjNameGI.class, (u) -> {
+                    var referenceValueOk = true;
+                    if (u.getReference().equals("reference") && !u.getValue().equals("value")) referenceValueOk = false;
+                    return u.getObjclass().equals(DMSObjectClass.Aktenplaneintrag.getName()) && referenceValueOk;
+                },
                 response);
     }
 

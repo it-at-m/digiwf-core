@@ -231,6 +231,32 @@ class FabasoftAdapterTest {
                 SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
                 response);
 
+        val files = fabasoftAdapter.searchFile("searchString", "user", null, null);
+
+        assertThat(files.size()).isEqualTo(1);
+    }
+
+    /**
+     * Test like the previous one but includes request for a business date/'Fachdatum'.
+     */
+    @Test
+    void execute_searchFile_request_business_data() {
+        val file = new LHMBAI151700GIObjectType();
+        file.setLHMBAI151700Objaddress("testCoo");
+        file.setLHMBAI151700Objname("testName");
+
+        val array = new ArrayOfLHMBAI151700GIObjectType();
+        array.getLHMBAI151700GIObjectType().add(file);
+
+        val response = new SearchObjNameGIResponse();
+        response.setStatus(0);
+        response.setGiobjecttype(array);
+
+        DigiwfWiremockWsdlUtility.stubOperation(
+                "SearchObjNameGI",
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
+                response);
+
         val files = fabasoftAdapter.searchFile("searchString", "user", "reference", "value");
 
         assertThat(files.size()).isEqualTo(1);
