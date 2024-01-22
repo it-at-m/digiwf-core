@@ -49,10 +49,14 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         try {
             String documentStorageUrl = this.fileConfig.processSyncConfig;
             String pathToFolder = fileContext + "/" + filePath;
+            final Set<String> allFiles;
             if (documentStorageUrl != null) {
-                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block(), pathToFolder);
+                allFiles = this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block();
+            } else {
+                allFiles = this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block();
             }
-            return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block(), pathToFolder);
+            //noinspection DataFlowIssue
+            return extractFilenamesFromFolder(allFiles, pathToFolder);
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
@@ -86,14 +90,14 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
      * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned.
      * Don't return filenames for files in subfolders.
      *
-     * @param fileList
-     * @param pathToFolder
-     * @return
+     * @param fileList files.
+     * @param pathToFolder folder prefix, must be part of the filenames.
+     * @return a list of file names without prefix.
      */
-    private List<String> extractFilenamesFromFolder(final Set<String> fileList, final String pathToFolder) {
+    private static List<String> extractFilenamesFromFolder(final Set<String> fileList, final String pathToFolder) {
         final String basePath = (pathToFolder + "/").replace("//", "/");
         return fileList.stream()
-                .map(file -> file = file.replace(basePath, ""))
+                .map(file -> file.replace(basePath, ""))
                 .filter(file -> !file.contains("/"))
                 .toList();
     }

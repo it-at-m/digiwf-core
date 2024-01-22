@@ -33,6 +33,7 @@ public interface TaskMapper {
   @Mapping(target = "schemaRef", source = "schemaRef")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
+  @Mapping(target = "externalLinks", source = "externalLinks")
   TaskTO to(Task task, String schemaRef, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   @Mapping(target = "processName", source = "task.sourceReference.name")
@@ -42,6 +43,7 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
+  @Mapping(target = "externalLinks", source = "externalLinks")
   TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   @Mapping(target = "schemaId", source = "id")
@@ -79,6 +81,7 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
+  @Mapping(target = "externalLinks", source = "externalLinks")
   TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   default Map<String,Object> map(Form value) {

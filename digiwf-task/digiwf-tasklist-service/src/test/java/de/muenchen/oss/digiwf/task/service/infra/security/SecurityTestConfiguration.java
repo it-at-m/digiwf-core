@@ -1,5 +1,7 @@
 package de.muenchen.oss.digiwf.task.service.infra.security;
 
+import de.muenchen.oss.digiwf.spring.security.SpringSecurityProperties;
+import lombok.val;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration;
@@ -23,7 +25,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile("itest")
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@EnableMethodSecurity(jsr250Enabled = true, prePostEnabled = true)
+@EnableMethodSecurity(jsr250Enabled = true)
 @EnableWebSecurity
 @EnableAutoConfiguration(exclude = {
     OAuth2ResourceServerAutoConfiguration.class,
@@ -72,8 +74,15 @@ public class SecurityTestConfiguration {
             .requestMatchers("/actuator/**").permitAll()
             .anyRequest().authenticated()
         )
+        .oauth2ResourceServer(AbstractHttpConfigurer::disable)
         .build();
     // @formatter:on
     }
 
+    @Bean
+    public SpringSecurityProperties springSecurityProperties() {
+        val props =  new SpringSecurityProperties();
+        props.setClientRegistration("keycloak");
+        return props;
+    }
 }

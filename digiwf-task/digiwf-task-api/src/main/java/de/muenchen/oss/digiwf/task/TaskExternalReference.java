@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.task;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import lombok.extern.jackson.Jacksonized;
  *   }]
  * </code>
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 @Jacksonized
 @Data
@@ -30,9 +31,9 @@ public class TaskExternalReference {
   /**
    * Reference type.
    */
-  private final String type;
+  private String type;
   /**
    * Referenced identity.
    */
-  private final String identity;
+  private String identity;
 }

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.task.service.adapter.out.link;
 
+import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.application.port.out.links.TaskLinkResolverPort;
 import de.muenchen.oss.digiwf.task.service.domain.TaskLink;
 import io.holunda.polyflow.view.Task;
@@ -10,12 +11,15 @@ import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
 
 /**
  * An adapter for on-the-fly resolution of the external references of the tasks.
@@ -57,13 +61,15 @@ public class OnTheFlyTaskLinkResolverAdapter implements TaskLinkResolverPort {
 
     @Override
     public List<TaskLink> apply(Task task) {
-        return task
-            .getCorrelations()
-            .entrySet()
-            .stream()
-            .map(entry -> resolve((String) entry.getValue(), entry.getKey()))
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+        //noinspection unchecked
+        return
+            Objects
+                .requireNonNull(
+                    (List<Map<String, String>>)task.getPayload().getOrDefault(TaskVariables.TASK_EXTERNAL_LINKS.getName(), Collections.emptyList())
+                )
+                .stream()
+                .map(map -> resolve(map.get("type"), map.get("identity")))
+                .collect(Collectors.toList());
     }
 
     private TaskLink resolve(String type, String id) {
