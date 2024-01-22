@@ -33,7 +33,7 @@ class ServiceInstanceServiceTest {
     private final HistoryTaskMapper historyTaskMapper = mock(HistoryTaskMapper.class);
     private final JsonSchemaService jsonSchemaService = mock(JsonSchemaService.class);
     private final ServiceInstanceDataService serviceInstanceDataService = mock(ServiceInstanceDataService.class);
-    private ServiceInstanceMapper serviceInstanceMapper = Mappers.getMapper(ServiceInstanceMapper.class);
+    private final ServiceInstanceMapper serviceInstanceMapper = Mappers.getMapper(ServiceInstanceMapper.class);
     private ServiceInstanceService serviceInstanceService;
 
     @BeforeEach
