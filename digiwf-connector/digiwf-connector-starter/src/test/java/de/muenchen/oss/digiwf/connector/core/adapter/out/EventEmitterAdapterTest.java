@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @DisplayName("Streaming Service Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class EventEmitterAdapterTest extends BaseSpringTest {
+class EventEmitterAdapterTest extends BaseSpringTest {
 
 
     @Mock
@@ -31,7 +31,7 @@ public class EventEmitterAdapterTest extends BaseSpringTest {
     @Order(1)
     @Test
     @DisplayName("shouldEmitMessage")
-    public void shouldEmitMessage() {
+    void shouldEmitMessage() {
 
         when(this.dynamicSink.tryEmitNext(any())).thenReturn(Sinks.EmitResult.OK);
 
