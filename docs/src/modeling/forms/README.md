@@ -38,7 +38,7 @@ Formulare bestehen aus folgenden Elementen:
 
 DigiWF stellt die Möglichkeit bereit Formulare vorausgefüllt als Link zu teilen. 
 
-Dafür nutzt man vollständig die DigiWF-Tasklist UI. Das zu geteilte Formular wird vorausgefüllt. 
+Dafür nutzt man vollständig die DigiWF-Tasklist UI. Das geteilte Formular wird vorausgefüllt. 
 Die URL aktualisiert sich automatisch. 
 Anschließend kann man die URL kopieren und mit den gewünschten Personen teilen. 
 Beim Aufrufen des Links werden die Formularfelder automatisch ausgefüllt.
