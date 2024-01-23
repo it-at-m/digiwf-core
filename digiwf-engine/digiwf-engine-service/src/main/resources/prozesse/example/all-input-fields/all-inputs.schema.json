@@ -252,7 +252,7 @@
                 "title": "Files with validation",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
-                "filePath": "test_validation",
+                "filePath": "test",
                 "x-rules": [
                   "requiredObject"
                 ],
@@ -618,7 +618,7 @@
                 "title": "Files with validation",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
-                "filePath": "test2_validation",
+                "filePath": "test",
                 "x-rules": [],
                 "maxFiles": 4,
                 "maxFileSize": 1,
