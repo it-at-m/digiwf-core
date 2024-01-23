@@ -40,7 +40,7 @@ DigiWF stellt die Möglichkeit bereit Formulare vorausgefüllt als Link zu versc
 
 Dafür nutzt man vollständig die DigiWF-Tasklist UI. Das zu versendende Formular wird vorausgefüllt. 
 Die URL aktualisiert sich automatisch. 
-Anschließend kann man die URL kopieren und der betreffenden Person zusenden. 
+Anschließend kann man die URL kopieren und mit den gewünschten Personen teilen. 
 Beim Aufrufen des Links werden die Formularfelder automatisch ausgefüllt.
 
 
