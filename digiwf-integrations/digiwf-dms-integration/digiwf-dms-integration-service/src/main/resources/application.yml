@@ -44,7 +44,7 @@ spring:
             issuer-uri: ${SSO_ISSUER_URL}
             user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
-            user-name-attribute: lhmObjectID
+            user-name-attribute: user_name
         registration:
           s3:
             provider: keycloak
@@ -85,6 +85,7 @@ digiwf:
         username: ${FABASOFT_DMS_USERNAME}
         password: ${FABASOFT_DMS_PASSWORD}
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
+        uiurl: ${FABASOFT_DMS_UIURL}
         enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
   security:
     client-id: ${SSO_DMS_CLIENT_ID}

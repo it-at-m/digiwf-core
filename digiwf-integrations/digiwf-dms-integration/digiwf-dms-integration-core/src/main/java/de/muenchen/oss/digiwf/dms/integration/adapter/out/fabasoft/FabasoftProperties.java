@@ -26,5 +26,7 @@ public class FabasoftProperties {
 
     private String businessapp;
 
+    private String uiurl;
+
     private Boolean enableMTOM;
 }

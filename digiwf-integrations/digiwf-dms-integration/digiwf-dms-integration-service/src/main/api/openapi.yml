@@ -8,7 +8,7 @@ info:
 
 servers:
   - description: Local
-    url: http://localhost:38765/rest/
+    url: http://localhost:8087/rest/
 
 tags:
   - name: Dms
@@ -21,9 +21,9 @@ paths:
       - $ref: '#/components/parameters/ObjectclassParam'
       - $ref: '#/components/parameters/CooParam'
     get:
-      operationId: getMetaData
-      summary: Returns meta data of an objetct.
-      description: Returns meta data of an objetct.
+      operationId: readMetadata
+      summary: Returns metadata of an objetct.
+      description: Returns metadata of an objetct.
       tags:
         - Metadata
       responses:
