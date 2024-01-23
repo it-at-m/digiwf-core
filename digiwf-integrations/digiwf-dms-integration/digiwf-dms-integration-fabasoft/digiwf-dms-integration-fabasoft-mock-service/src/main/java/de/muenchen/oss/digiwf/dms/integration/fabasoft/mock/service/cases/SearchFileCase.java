@@ -29,11 +29,7 @@ public class SearchFileCase implements MockCase {
         DigiwfWiremockWsdlUtility.stubOperation(
                 server,
                 "SearchObjNameGI",
-                SearchObjNameGI.class, (u) -> {
-                    var referenceValueOk = true;
-                    if (u.getReference().equals("reference") && !u.getValue().equals("value")) referenceValueOk = false;
-                    return u.getObjclass().equals(DMSObjectClass.Sachakte.getName()) && referenceValueOk;
-                },
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
                 response);
     }
 
