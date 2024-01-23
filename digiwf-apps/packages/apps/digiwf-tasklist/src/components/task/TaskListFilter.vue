@@ -14,12 +14,21 @@
           <v-icon>mdi-filter</v-icon>
           Filter
 
-          <v-chip color="primary" v-if="!advancedFilterOpen && tag" class="filter-badge">Tag: {{ tag }}</v-chip>
+          <v-chip
+            v-if="!advancedFilterOpen && tag"
+            color="primary"
+            class="filter-badge"
+            close
+            @click:close="() => $emit('changeTag', undefined)"
+          >
+            Tag: {{ tag }}
+          </v-chip>
 
           <user-filter-badge
             v-if="!advancedFilterOpen && assignee"
             class="filter-badge"
             :user-id="assignee"
+            @clear="() => $emit('changeAssignee', undefined)"
           />
         </dwf-button>
         <sort-by-select/>

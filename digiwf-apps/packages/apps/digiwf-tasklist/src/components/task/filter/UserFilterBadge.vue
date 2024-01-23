@@ -1,5 +1,11 @@
 <template>
-  <v-chip color="primary">Bearbeiter: {{ user }}</v-chip>
+  <v-chip
+    color="primary"
+    close
+    @click:close="$emit('clear')"
+  >
+    Bearbeiter: {{ user }}
+  </v-chip>
 </template>
 
 <script lang="ts">
@@ -14,6 +20,7 @@ export default {
       required: true,
     },
   },
+  emits: ["clear"],
   setup: (props: { userId: string }) => {
 
     const user = ref<string>("-");
