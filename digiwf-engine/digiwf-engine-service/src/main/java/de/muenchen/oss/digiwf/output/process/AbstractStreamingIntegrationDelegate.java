@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.output.process;
 
 import de.muenchen.oss.digiwf.engine.mapper.EngineDataMapper;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -18,6 +19,7 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
  *
  * @author externer.dl.horn
  */
+@Slf4j
 public class AbstractStreamingIntegrationDelegate {
     private final EngineDataMapper engineDataMapper;
 
@@ -39,11 +41,18 @@ public class AbstractStreamingIntegrationDelegate {
     protected Message<Map<String, Object>> mapMessage(final DelegateExecution delegateExecution, final Map<String, Object> variables) {
         final Map<String, Object> data = this.filterVariables(variables);
 
+        // StreamingTemplateV01 sends an integration name to the integrations too, but it does not support any further features.
+        final String integrationName = INTEGRATION_NAME.from(delegateExecution).getOrDefault(TYPE_NAME.from(delegateExecution).get());
+        if (integrationName.equals("deprecatedLegacyFeature")) {
+            log.warn("Integration name is null. Falling back to deprecated legacy feature. Please update your process definition.");
+        }
+
         final MessageBuilder<Map<String, Object>> builder = MessageBuilder
                 .withPayload(this.engineDataMapper.mapToData(data))
                 .setHeader(STREAM_SEND_TO_DESTINATION, TOPIC_NAME.from(delegateExecution).get())
                 .setHeader(TYPE, TYPE_NAME.from(delegateExecution).get())
-                .setHeader(DIGIWF_INTEGRATION_NAME, INTEGRATION_NAME.from(delegateExecution).getOrDefault(TYPE_NAME.from(delegateExecution).get()))
+                .setHeader(DIGIWF_INTEGRATION_NAME, integrationName)
+                .setHeader(DIGIWF_PROCESS_DEFINITION, delegateExecution.getProcessDefinitionId())
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, delegateExecution.getProcessInstanceId());
         return builder.build();
     }
