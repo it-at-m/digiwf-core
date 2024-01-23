@@ -66,6 +66,9 @@ io:
           securityEnabled: false
 
 digiwf:
+  s3service:
+    topic: 'dwf-s3-itest'
+    httpAPI: http://localhost:8086
   task-links:
     task-link-types:
       - link-type: zammad
@@ -83,4 +86,4 @@ logging:
     org.springframework.security: info
     org.apache.zookeeper: OFF
     org.apache.kafka: OFF
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: trace
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: info

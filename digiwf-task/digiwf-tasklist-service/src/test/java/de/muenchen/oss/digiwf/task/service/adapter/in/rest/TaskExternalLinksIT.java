@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskExternalReference;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.TaskListApplication;
+import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
@@ -87,9 +88,9 @@ public class TaskExternalLinksIT {
 
         this.tasks = new Task[] {
             // user id
-            generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true, variables)
-            generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true, variables)
-            generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true, variables)
+            generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true, variables),
+            generateTask("task_1", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", this.followUpDate, true, variables),
+            generateTask("task_2", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP), null, this.followUpDate, true, variables)
         };
 
         Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
@@ -234,7 +235,7 @@ public class TaskExternalLinksIT {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))
-            .andExpect(jsonPath("$.content[0].id", equalTo("task_0")))
+            .andExpect(jsonPath("$.content[0].id", equalTo("task_1")))
             .andExpect(jsonPath("$.content[0].externalLinks").isArray())
             .andExpect(jsonPath("$.content[0].externalLinks", hasSize(3)))
             .andExpect(jsonPath("$.content[0].externalLinks[0].type", equalTo("url")))
@@ -271,7 +272,7 @@ public class TaskExternalLinksIT {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))
-            .andExpect(jsonPath("$.content[0].id", equalTo("task_0")))
+            .andExpect(jsonPath("$.content[0].id", equalTo("task_2")))
             .andExpect(jsonPath("$.content[0].externalLinks").isArray())
             .andExpect(jsonPath("$.content[0].externalLinks", hasSize(3)))
             .andExpect(jsonPath("$.content[0].externalLinks[0].type", equalTo("url")))

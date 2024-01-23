@@ -1,10 +1,12 @@
 package de.muenchen.oss.digiwf.task.service.adapter.out.link;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.task.TaskExternalReference;
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures;
 import de.muenchen.oss.digiwf.task.service.domain.TaskLink;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
+import io.holunda.camunda.variable.serializer.VariableSerializerKt;
 import io.holunda.polyflow.view.Task;
 import lombok.val;
 import org.assertj.core.util.Lists;
@@ -50,6 +52,7 @@ class OnTheFlyTaskLinkResolverAdapterTest {
                 )
             )
             .build();
+
         Task task = TestFixtures.generateTask("task-id", Set.of("candidate"),
             Set.of("group1"), "candidate", Instant.now(), true, variables);
 

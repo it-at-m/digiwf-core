@@ -61,15 +61,12 @@ public class OnTheFlyTaskLinkResolverAdapter implements TaskLinkResolverPort {
 
     @Override
     public List<TaskLink> apply(Task task) {
+        val links = Objects.requireNonNull(task.getPayload().getOrDefault(TaskVariables.TASK_EXTERNAL_LINKS.getName(), Collections.emptyList()));
         //noinspection unchecked
-        return
-            Objects
-                .requireNonNull(
-                    (List<Map<String, String>>)task.getPayload().getOrDefault(TaskVariables.TASK_EXTERNAL_LINKS.getName(), Collections.emptyList())
-                )
-                .stream()
-                .map(map -> resolve(map.get("type"), map.get("identity")))
-                .collect(Collectors.toList());
+        return ((List<Map<String, String>>)links).stream()
+            .map(map -> resolve(map.get("type"), map.get("identity")))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     private TaskLink resolve(String type, String id) {
