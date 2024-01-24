@@ -40,10 +40,9 @@ DigiWF stellt die Möglichkeit bereit Formulare vorausgefüllt als Link zu teile
 
 Dafür nutzt man die DigiWF-Tasklist UI und öffnet das entsprechende Formular.
 Mit der Eingabe der betreffenden Werte aktualisiert sich die URL automatisch.
-Anschließend kann diese aus der Browser-Menüleiste kopieren und mit den gewünschten Personen teilen.
+Anschließend kann diese aus der URL-Leiste kopiert und mit den gewünschten Personen geteilt werden.
 
 Beim Aufrufen des Links werden die Formularfelder automatisch ausgefüllt.
-
 
 
 ## Formulare mit BPMN Modellen verknüpfen
