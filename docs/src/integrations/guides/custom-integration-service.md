@@ -101,12 +101,13 @@ public class MessageProcessor {
     public Consumer<Message<ExampleDto>> exampleIntegration() {
         return message -> {
             final String processInstanceId = message.getHeaders().get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID).toString();
+            final String type = message.getHeaders().get(MessageConstants.TYPE).toString();
             final String integrationName = message.getHeaders().get(MessageConstants.DIGIWF_INTEGRATION_NAME).toString();
             
             // do something with message
             
             // correlate message
-            processApi.correlateMessage(processInstanceId, integrationName, new HashMap<String, Object>());
+            processApi.correlateMessage(processInstanceId, type, integrationName, new HashMap<String, Object>());
         };
     }   
 }
@@ -137,12 +138,13 @@ public class MessageProcessor {
         return message -> {
             try {
                 final String processInstanceId = message.getHeaders().get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID).toString();
+                final String type = message.getHeaders().get(MessageConstants.TYPE).toString();
                 final String integrationName = message.getHeaders().get(MessageConstants.DIGIWF_INTEGRATION_NAME).toString();
 
                 // do something with message
 
                 // correlate message
-                this.processApi.correlateMessage(processInstanceId, integrationName, new HashMap<String, Object>());
+                this.processApi.correlateMessage(processInstanceId, type, integrationName, new HashMap<String, Object>());
             } catch (final BpmnError bpmnError) {
                 // handle bpmn errors
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);

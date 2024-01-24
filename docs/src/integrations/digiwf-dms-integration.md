@@ -1,5 +1,7 @@
 # DigiWF Dms Integration
 
+![](https://img.shields.io/badge/Integration_Name-dmsIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die DMS Integration ermöglicht eine asynchrone Ablage von Dokumenten aus einem S3 Speicher in einem Dms System.
 Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
@@ -38,8 +40,8 @@ Dafür muss vorab die ID des Aktenplans gesucht und über das Feld `apentryCOO` 
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Sachakte anlegen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createFile.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Vorgang anlegen
 
@@ -66,8 +68,8 @@ Dafür muss vorab eine Akte angelegt und die Id über das Feld `fileCOO` überge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Vorgang anlegenn](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createProcedure.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dokument erstellen
 
@@ -99,8 +101,8 @@ Bei `filepaths` können mehrere Pfade zu Dateien oder Ordnern mit einem Komma ge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Dokument erstellen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createDocument.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dokument updaten
 
@@ -131,8 +133,8 @@ Bei `filepaths` können mehrere Pfade zu Dateien oder Ordnern mit einem Komma ge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Dokument updaten](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/updateDocument.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Zu den Akten legen
 
@@ -158,8 +160,8 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Zu den Akten legen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/depositObject.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Objekt stornieren
 
@@ -185,8 +187,8 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dateien lesen und in den S3 Speicher übertragen
 
@@ -217,8 +219,8 @@ Die Dms Integration liest die Inhalte mit den angegebenen `contentCoos` und übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Read Content](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/readContent.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Sachakte suchen
 
@@ -257,8 +259,8 @@ Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Search File](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchFile.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Aktenplaneintrag suchen
 
@@ -284,8 +286,8 @@ wird. Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Search Subject Area](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchSubjectArea.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Fehlerbehandlung
 

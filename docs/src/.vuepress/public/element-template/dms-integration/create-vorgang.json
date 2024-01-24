@@ -1,6 +1,6 @@
 {
-  "name": "Cosys: Dokument erstellen (alle Daten)",
-  "id": "de.muenchen.digitalwf.templates.GenerateDocumentWithAllVariables",
+  "name": "Create Vorgang",
+  "id": "de.muenchen.digitalwf.templates.create-procedure",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,19 +9,21 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
       }
     },
     {
-      "label": "Event Topic",
+      "label": "Integration Name",
       "type": "String",
-      "value": "dwf-cosys-XX",
+      "editable": false,
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "target": "app_topic_name",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
         "expression": true
       },
       "constraints": {
@@ -29,12 +31,14 @@
       }
     },
     {
-      "label": "Event Type",
-      "type": "Hidden",
-      "value": "createCosysDocument",
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "createProcedure",
       "binding": {
         "type": "camunda:in",
         "expression": true,
+        "name": "app_type_name",
         "target": "app_type_name"
       },
       "constraints": {
@@ -42,67 +46,69 @@
       }
     },
     {
-      "label": "Client",
-      "type": "String",
-      "value": "9001",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "client"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Role",
-      "type": "String",
-      "value": "TESTER",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "role"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Guid",
-      "type": "String",
-      "value": "519650b7-87c2-41a6-8527-7b095675b13f",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "guid"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Document Storage Urls (S3)",
+      "label": "Event Topic (Optional)",
       "type": "String",
       "value": "",
-      "description": "Array of presigned urls created with s3 integration",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "documentStorageUrls",
-        "target": "documentStorageUrls"
+        "name": "app_topic_name",
+        "target": "app_topic_name"
       },
       "constraints": {
         "notEmpty": false
       }
     },
     {
-      "label": "Daten",
-      "type": "Hidden",
-      "value": "${JSON(execution.getVariables())}",
+      "label": "Title",
+      "type": "String",
+      "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "target": "variables"
+        "name": "title",
+        "target": "title"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "User",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "user",
+        "target": "user"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Sachakte (Coo)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileCOO",
+        "target": "fileCOO"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Procedure (Coo)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "procedureCOO"
       },
       "constraints": {
         "notEmpty": true

@@ -7,12 +7,6 @@
 <DownloadArtifact
     artifact="cosys_generate_document_template_V02.json"
     type="element-template" />
-<DownloadArtifact
-    artifact="cosys-alle-daten.json"
-    type="element-template" />
-<DownloadArtifact
-    artifact="cosys-dokument-erstellen.json"
-    type="element-template" />
 
 ## S3 Integration
 
@@ -25,21 +19,6 @@
 <DownloadArtifact
     artifact="sendMailV02.json"
     type="element-template" />
-
-**Verwenden Streaming Template V01**
-
-<DownloadArtifact
-    artifact="sendSimpleMailV01.json"
-    type="element-template" />
-<DownloadArtifact
-    artifact="sendMailV01.json"
-    type="element-template" />
-
-## OK.EWO Integration
-
-<DownloadArtifact
-artifact="okEwoIntegration.json"
-type="element-template" />
 
 ## Address-Service Integration
 
@@ -71,7 +50,19 @@ type="element-template" />
     artifact="address-integration/searchAdressenMuenchen.json"
     type="element-template" />
 
-## DMS Integration
+## Dms Integration
+
+<DownloadArtifact
+    artifact="dms-integration/update-document.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/create-vorgang.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/upload-file.json"
+    type="element-template" />
 
 <DownloadArtifact
 artifact="searchFile.json"
