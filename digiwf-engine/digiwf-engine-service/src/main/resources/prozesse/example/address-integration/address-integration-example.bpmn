@@ -57,7 +57,7 @@
     <bpmn:callActivity id="Activity_1liuli2" name="Find Street by Id" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.findStreetById" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="findStreetByIdMunich" target="app_type_name" />
-        <camunda:in sourceExpression="addressIntegration" target="addressIntegration" />
+        <camunda:in sourceExpression="addressIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="2996" target="strasseId" />
         <camunda:out source="response" target="findStreetByIdMunichResponse" />
       </bpmn:extensionElements>
@@ -69,7 +69,7 @@
         <camunda:in sourceExpression="listStreetMunich" target="app_type_name" />
         <camunda:in sourceExpression="1" target="page" />
         <camunda:in sourceExpression="ASC" target="sortdir" />
-        <camunda:in sourceExpression="addressIntegration" target="addressIntegration" />
+        <camunda:in sourceExpression="addressIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="Marienplatz" target="strassenname" />
         <camunda:in sourceExpression="20" target="pagesize" />
         <camunda:out source="response" target="listStreetMunichResponse" />
@@ -80,7 +80,7 @@
     <bpmn:callActivity id="Activity_00lpcz5" name="Search Address Munich Geo" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.searchAddressMunichGeo" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="Punkt" target="geometrie" />
-        <camunda:in sourceExpression="addressIntegration" target="addressIntegration" />
+        <camunda:in sourceExpression="addressIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="5334745.607" target="lat" />
         <camunda:in sourceExpression="691641.878" target="lng" />
         <camunda:in sourceExpression="searchAddressesGeoMunich" target="app_type_name" />
@@ -95,7 +95,7 @@
         <camunda:in sourceExpression="1" target="page" />
         <camunda:in sourceExpression="20" target="pagesize" />
         <camunda:in sourceExpression="ASC" target="sortdir" />
-        <camunda:in sourceExpression="addressIntegration" target="addressIntegration" />
+        <camunda:in sourceExpression="addressIntegration" target="app_integration_name" />
         <camunda:out source="response" target="searchAddressesMunichResponse" />
         <camunda:in sourceExpression="Agnes-Pockels-Bogen 21" target="query" />
       </bpmn:extensionElements>
@@ -105,7 +105,7 @@
     <bpmn:callActivity id="Activity_19ir065" name="Check Address Munich" camunda:modelerTemplate="de.muenchen.digitalwf.templates.digiwf-address-service-integration.checkAddress" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="checkAddressMunich" target="app_type_name" />
-        <camunda:in sourceExpression="addressIntegration" target="addressIntegration" />
+        <camunda:in sourceExpression="addressIntegration" target="app_integration_name" />
         <camunda:out source="response" target="checkAddressMunichResponse" />
         <camunda:in sourceExpression="Agnes-Pockels-Bogen 21, 80992 München" target="adresse" />
         <camunda:in sourceExpression="Agnes-Pockels-Bogen" target="strassenname" />
