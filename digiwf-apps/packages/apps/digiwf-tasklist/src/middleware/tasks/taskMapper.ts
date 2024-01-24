@@ -17,7 +17,8 @@ export const mapTaskFromTaskService = (response: Task, inFinishProcess: boolean,
     assigneeId: response.assignee,
     assigneeFormatted: user && user.fullInfo,
     inFinishProcess,
-    inAssignProcess
+    inAssignProcess,
+    links: response.externalLinks,
   };
 };
 export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, inFinishProcess: boolean, inAssignProcess: boolean, user?: User): HumanTaskDetails => {
@@ -38,6 +39,7 @@ export const mapTaskDetailsFromTaskService = (response: TaskWithSchema, inFinish
     statusDocument: false,
     inFinishProcess,
     inAssignProcess,
-    isCancelable: response.cancelable
+    isCancelable: response.cancelable,
+    links: response.externalLinks,
   };
 };

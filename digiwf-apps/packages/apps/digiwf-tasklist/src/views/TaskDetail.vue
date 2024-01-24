@@ -10,6 +10,15 @@
       <span class="processName grey--text">{{ task.processName }}</span>
       <h1>{{ task.name }}</h1>
       <p>{{ task.description }}</p>
+      <v-flex
+        v-if="task.links.length > 0"
+        style="margin-bottom: 1em"
+      >
+        <task-links
+          :links="task.links"
+        />
+      </v-flex>
+
       <base-form
         v-if="task.form"
         :is-saving="isSaving"
@@ -169,9 +178,13 @@ import {
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
 import router from "../router";
+import TaskLinks from "../components/task/links/TaskLinks.vue";
 
 @Component({
-  components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
+  components: {
+    TaskLinks,
+    TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab
+  }
 })
 export default class TaskDetail extends SaveLeaveMixin {
 
@@ -248,7 +261,7 @@ export default class TaskDetail extends SaveLeaveMixin {
         this.isCompleting = false;
         this.hasCompleteError = result.isError;
         this.errorMessage = result.errorMessage || "";
-        if(!result.isError) {
+        if (!result.isError) {
           this.hasChanges = false;
           router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
         }
@@ -263,7 +276,7 @@ export default class TaskDetail extends SaveLeaveMixin {
       this.isSaving = false;
       this.errorMessage = result.errorMessage || "";
       this.hasSaveError = result.isError;
-      if(!result.isError) {
+      if (!result.isError) {
         this.hasChanges = false;
       }
 
@@ -272,6 +285,7 @@ export default class TaskDetail extends SaveLeaveMixin {
         : Promise.resolve();
     });
   }
+
   openFollowUp(): void {
     this.isFollowUpDialogVisible = true;
     this.fab = false;
