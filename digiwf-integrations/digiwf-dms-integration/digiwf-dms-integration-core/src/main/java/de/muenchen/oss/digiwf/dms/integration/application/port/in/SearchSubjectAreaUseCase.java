@@ -7,9 +7,7 @@ public interface SearchSubjectAreaUseCase {
      *
      * @param searchString String to search for
      * @param user         account name
-     * @param reference    (optional) 'Fachdatum' to refine a search
-     * @param value        (optional) value of 'Fachdatum'
      * @return Subject id.
      */
-    String searchSubjectArea(String searchString, String user, String reference, String value);
+    String searchSubjectArea(String searchString, String user);
 }

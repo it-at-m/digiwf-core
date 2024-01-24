@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -234,18 +235,6 @@ class FabasoftAdapterTest {
      */
     @Test
     void execute_searchSubjectArea_request() {
-        internalSearchSubjectAreaCallTest(DMSObjectClass.Aktenplaneintrag, "searchString", "user", null, null);
-    }
-
-    /**
-     * Tests a subject search but includes refinement on a business date/'Fachdatum'.
-     */
-    @Test
-    void execute_searchSubjectArea_request_business_data() {
-        internalSearchSubjectAreaCallTest(DMSObjectClass.Aktenplaneintrag, "searchString", "user", "reference", "value");
-    }
-
-    private void internalSearchSubjectAreaCallTest(final DMSObjectClass dmsObjectClass, final String searchString, final String user, final String reference, final String value) {
         val file = new LHMBAI151700GIObjectType();
         file.setLHMBAI151700Objaddress("testCoo");
         file.setLHMBAI151700Objname("testName");
@@ -259,10 +248,10 @@ class FabasoftAdapterTest {
 
         DigiwfWiremockWsdlUtility.stubOperation(
                 "SearchObjNameGI",
-                SearchObjNameGI.class, (u) -> u.getObjclass().equals(dmsObjectClass.getName()) && validateBusinessData(u),
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Aktenplaneintrag.getName()),
                 response);
 
-        val files = fabasoftAdapter.searchSubjectArea(searchString, user, reference, value);
+        val files = fabasoftAdapter.searchSubjectArea("searchString", "user");
 
         assertThat(files.size()).isEqualTo(1);
     }

@@ -172,9 +172,7 @@ public class MessageProcessor {
                 final SearchObjectDto searchObjectDto = message.getPayload();
                 final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
                         searchObjectDto.getSearchString(),
-                        searchObjectDto.getUser(),
-                        searchObjectDto.getReference(),
-                        searchObjectDto.getValue()
+                        searchObjectDto.getUser()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("subjectAreaCoo", subjectArea));

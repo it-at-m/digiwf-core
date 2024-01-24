@@ -14,9 +14,9 @@ public class SearchSubjectAreaService implements SearchSubjectAreaUseCase {
     private final SearchSubjectAreaPort searchSubjectAreaPort;
 
     @Override
-    public String searchSubjectArea(final String searchString, final String user, final String reference, final String value) {
+    public String searchSubjectArea(final String searchString, final String user) {
 
-        val subjectAreas = searchSubjectAreaPort.searchSubjectArea(searchString, user, reference, value);
+        val subjectAreas = searchSubjectAreaPort.searchSubjectArea(searchString, user);
 
         if (subjectAreas.isEmpty()) {
             throw new BpmnError("OBJECT_NOT_FOUND", String.format("Subject Area not found with searchString %s and user %s", searchString, user));

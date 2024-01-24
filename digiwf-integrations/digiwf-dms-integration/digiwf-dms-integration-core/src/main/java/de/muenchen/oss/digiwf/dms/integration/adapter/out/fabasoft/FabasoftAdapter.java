@@ -10,6 +10,7 @@ import lombok.val;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -342,13 +343,25 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<String> searchSubjectArea(final String searchString, final String user, final String reference, final String value) {
-        return this.searchObject(searchString, DMSObjectClass.Aktenplaneintrag, user, reference, value).stream()
+    public List<String> searchSubjectArea(final String searchString, final String user) {
+        return this.searchObject(searchString, DMSObjectClass.Aktenplaneintrag, user).stream()
                 .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
                 .toList();
     }
 
     //------------------------------------- HELPER METHODS -------------------------------------------
+
+    /**
+     * Searches for an object.
+     *
+     * @param searchString   string to search for
+     * @param dmsObjectClass object class for a soap request
+     * @param username       account name
+     * @return List of discovered objects
+     */
+    private List<LHMBAI151700GIObjectType> searchObject(final String searchString, final DMSObjectClass dmsObjectClass, final String username) {
+        return searchObject(searchString, dmsObjectClass, username, null, null);
+    }
 
     /**
      * Searches for an object.
@@ -375,8 +388,8 @@ public class FabasoftAdapter implements
         params.setBusinessapp(this.properties.getBusinessapp());
         params.setObjclass(dmsObjectClass.getName());
         params.setSearchstring(searchString);
-        params.setReference(reference);
-        params.setValue(value);
+        if (Objects.nonNull(reference)) params.setReference(reference);
+        if (Objects.nonNull(value)) params.setValue(value);
 
         final SearchObjNameGIResponse response = this.wsClient.searchObjNameGI(params);
 

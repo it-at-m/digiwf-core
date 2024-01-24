@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface SearchSubjectAreaPort {
 
-    List<String> searchSubjectArea(String searchString, String user, String reference, String value);
+    List<String> searchSubjectArea(String searchString, String user);
 }

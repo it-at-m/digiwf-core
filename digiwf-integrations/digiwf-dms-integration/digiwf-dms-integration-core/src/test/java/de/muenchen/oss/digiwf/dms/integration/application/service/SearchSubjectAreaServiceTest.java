@@ -15,13 +15,13 @@ class SearchSubjectAreaServiceTest {
     private final SearchSubjectAreaService searchSubjectAreaService = new SearchSubjectAreaService(searchSubjectAreaPort);
 
     @Test
-    void searchFile() {
+    void searchSubject() {
 
-        when(searchSubjectAreaPort.searchSubjectArea(any(), any(), any(), any())).thenReturn(List.of("coo"));
+        when(searchSubjectAreaPort.searchSubjectArea(any(), any())).thenReturn(List.of("coo"));
 
-        searchSubjectAreaService.searchSubjectArea("searchString", "user", "reference", "value");
+        searchSubjectAreaService.searchSubjectArea("searchString", "user");
 
-        verify(this.searchSubjectAreaPort, times(1)).searchSubjectArea("searchString", "user", "reference", "value");
+        verify(this.searchSubjectAreaPort, times(1)).searchSubjectArea("searchString", "user");
     }
 
 
