@@ -31,7 +31,7 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: 'health, info, prometheus'
+        include: 'health, info, prometheus, livenessstate, readinessstate'
       path-mapping:
         prometheus: metrics
   endpoint:
@@ -61,6 +61,7 @@ server:
     include-stacktrace: never
     whitelabel:
       enabled: false
+  shutdown: graceful
 spring:
   application:
     name: ${info.application.name}

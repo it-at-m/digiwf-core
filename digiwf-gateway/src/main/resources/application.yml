@@ -43,6 +43,7 @@ server:
     include-message: always
     whitelabel:
       enabled: false
+  shutdown: graceful
 
 management:
   endpoints:
@@ -62,7 +63,7 @@ management:
         allowCredentials: on
         maxAge: 3600
       exposure:
-        include: health, info, prometheus
+        include: health, info, prometheus, livenessstate, readinessstate
       path-mapping:
         prometheus: metrics
   endpoint:
@@ -78,3 +79,5 @@ management:
     env:
       enabled: true
 
+config:
+  map5xxto400: true

@@ -1,5 +1,6 @@
 server:
   port: ${TASKSERVICE_SERVER_PORT}
+  shutdown: graceful
 spring:
   application.name: @project.artifactId@
   profiles:
@@ -119,3 +120,19 @@ io:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'
           securityEnabled: true
+
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics

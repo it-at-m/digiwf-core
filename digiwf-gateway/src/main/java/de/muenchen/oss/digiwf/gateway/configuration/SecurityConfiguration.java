@@ -57,8 +57,7 @@ public class SecurityConfiguration {
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http
         .logout(logoutSpec -> {
-          //.logoutSuccessHandler(GatewayUtils.createLogoutSuccessHandler(LOGOUT_SUCCESS_URL))
-          logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
+            logoutSpec.logoutSuccessHandler(new HttpStatusReturningServerLogoutSuccessHandler())
               .logoutUrl(LOGOUT_URL)
               .requiresLogout(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, LOGOUT_URL));
         })

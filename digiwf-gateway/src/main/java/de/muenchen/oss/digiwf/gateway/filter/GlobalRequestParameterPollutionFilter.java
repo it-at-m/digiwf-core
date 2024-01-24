@@ -5,7 +5,6 @@
 package de.muenchen.oss.digiwf.gateway.filter;
 
 import de.muenchen.oss.digiwf.gateway.exception.ParameterPollutionException;
-import de.muenchen.oss.digiwf.gateway.util.GatewayUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -33,9 +32,11 @@ import java.util.Map;
 @Slf4j
 public class GlobalRequestParameterPollutionFilter implements GlobalFilter, Ordered {
 
+    public static final int ORDER_GLOBAL_FILTER = -3;
+
     @Override
     public int getOrder() {
-        return GatewayUtils.ORDER_GLOBAL_FILTER;
+        return ORDER_GLOBAL_FILTER;
     }
 
     /**
@@ -45,7 +46,7 @@ public class GlobalRequestParameterPollutionFilter implements GlobalFilter, Orde
      * The exception represents a http response with status {@link HttpStatus#BAD_REQUEST}.
      */
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) throws ParameterPollutionException {
+    public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) throws ParameterPollutionException {
         log.debug("Check for parameter pollution attack.");
         ServerHttpRequest request = exchange.getRequest();
         if (!CollectionUtils.isEmpty(request.getQueryParams())) {
