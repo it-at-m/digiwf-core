@@ -52,7 +52,8 @@ public class AbstractStreamingIntegrationDelegate {
                 .setHeader(STREAM_SEND_TO_DESTINATION, TOPIC_NAME.from(delegateExecution).get())
                 .setHeader(TYPE, TYPE_NAME.from(delegateExecution).get())
                 .setHeader(DIGIWF_INTEGRATION_NAME, integrationName)
-                // TODO get the root ProcessDefinition
+                // Note: It is not the root process definition. It is the StreamingTemplateV01.
+                // We will soon remove the feature
                 .setHeader(DIGIWF_PROCESS_DEFINITION, delegateExecution.getProcessDefinitionId())
                 .setHeader(DIGIWF_PROCESS_INSTANCE_ID, delegateExecution.getProcessInstanceId());
         return builder.build();
