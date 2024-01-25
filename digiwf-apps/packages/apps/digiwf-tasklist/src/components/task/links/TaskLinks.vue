@@ -23,7 +23,12 @@ export default {
       outlined
       style="margin-right: 1em"
     >
-      <a :href="link.url">{{ link.label || link.url }}</a>
+      <a
+        :href="link.url"
+        target="_blank"
+      >
+        {{ link.label || link.url }}
+      </a>
     </v-chip>
   </v-flex>
 
