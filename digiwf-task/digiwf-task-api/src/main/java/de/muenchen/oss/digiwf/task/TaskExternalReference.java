@@ -14,12 +14,12 @@ import lombok.extern.jackson.Jacksonized;
  *     "identity": "981726313829"
  *   },
  *   {
- *     "type": "zammat.was.auch.immer"
+ *     "type": "zammat"
  *     "identity": "123-1234-3452/task/123092813/user/12312"
  *   },
  *   {
  *     "type": "url"
- *     "identity": "https://www.google.de/?search=foo"
+ *     "identity": "[Label](https://www.google.de/?search=foo)"
  *   }]
  * </code>
  */
