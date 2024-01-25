@@ -69,11 +69,11 @@ html, body {
 </style>
 
 <script lang="ts">
-import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
-import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
-import {DwfDateInput, DwfTimeInput} from "@muenchen/digiwf-date-input";
-import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
-import {defineComponent, provide, ref} from "vue";
+import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
+import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
+import { DwfDateInput, DwfTimeInput } from "@muenchen/digiwf-date-input";
+import { defineComponent, provide, ref } from "vue";
+import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput, DwfTimeInput},
@@ -128,25 +128,33 @@ export default defineComponent({
                   "childrenClass": "pl-0"
                 },
                 "properties": {
-                  "dateval": {
-                    "fieldType": "date",
-                    "title": "Date",
-                    "x-display": "custom-date-input",
-                    "type": "string",
-                    "format": "date",
-                    "key": "dateval",
+                  "f4c728b1-3c5a-4350-9d9a-083065f8003b": {
+                    "fieldType": "multi-user-input",
+                    "title": "Mehrfache Benutzerauswahl",
+                    "x-display": "custom-multi-user-input",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "key": "f4c728b1-3c5a-4350-9d9a-083065f8003b",
+                    "default": [],
                     "x-options": {
                       "fieldColProps": {
                         "cols": 12,
                         "sm": 12
                       },
-                      "messages": {}
+                      "messages": {
+                        "minItems": "test 1234",
+                        "maxItems": "test 4321"
+                      }
                     },
                     "x-props": {
                       "outlined": true,
                       "dense": true
                     },
-                    "x-rules": []
+                    "x-rules": [],
+                    "minItems": 2,
+                    "maxItems": 4
                   }
                 },
                 "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a"

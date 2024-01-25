@@ -175,6 +175,117 @@ const basicOptions = {
   }
 };
 
+const basicArrayOptions = {
+  "title": "Optionen",
+  "type": "object",
+  "properties": {
+    "x-props": {
+      "type": "object",
+      "description": "Ui",
+      "properties": {
+        "dense": {
+          "type": "boolean",
+          "title": "Dense",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          },
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 6
+            }
+          }
+        },
+        "outlined": {
+          "type": "boolean",
+          "title": "Outlined",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          },
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 6
+            }
+          }
+        }
+      }
+    },
+    "x-options": {
+      "type": "object",
+      "properties": {
+        "fieldColProps": {
+          "description": "Größe (max. 12)",
+          "type": "object",
+          "properties":
+            {
+              "sm": {
+                "type": "integer",
+                "title": "Standardgröße",
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 6
+                  }
+                }
+              },
+              "cols": {
+                "type": "integer",
+                "title": "Größe auf kleinen Geräten",
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 6
+                  }
+                }
+              }
+            }
+        },
+        "messages": {
+          "type": "object",
+          "description": "Messages",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "title": "Pattern (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "minItems": {
+              "type": "string",
+              "title": "Min {minItems} Elements (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            },
+            "maxItems": {
+              "type": "string",
+              "title": "Max {maxItems} Elements (Error Message)",
+              "x-props": {
+                "outlined": true,
+                "dense": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 const basicValidation = {
   "title": "Validierung",
   "type": "object",
@@ -779,7 +890,7 @@ const selectSchema = {
       }
     },
     {
-      ...basicOptions
+      ...basicArrayOptions
     },
     {
       ...basicValidation
@@ -873,7 +984,7 @@ const multiselectSchema = {
       }
     },
     {
-      ...basicOptions
+      ...basicArrayOptions
     },
     {
       ...basicValidation,
@@ -1097,7 +1208,7 @@ const multiUserinputSchema = {
       }
     },
     {
-      ...basicOptions
+      ...basicArrayOptions
     },
     {
       ...basicValidation,
