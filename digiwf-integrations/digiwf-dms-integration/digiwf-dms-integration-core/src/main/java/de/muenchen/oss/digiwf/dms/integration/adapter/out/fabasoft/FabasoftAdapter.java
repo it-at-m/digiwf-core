@@ -361,6 +361,8 @@ public class FabasoftAdapter implements
         request.setUserlogin(username);
         val response = this.wsClient.readMetadataObjectGI(request);
 
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
         return new Metadata(
                 response.getObjname(),
                 response.getObjclass(),
@@ -379,6 +381,8 @@ public class FabasoftAdapter implements
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setUserlogin(username);
         val response = this.wsClient.readContentObjectMetaDataGI(request);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return new Metadata(
                 response.getGimetadatatype().getLHMBAI151700Filename(),

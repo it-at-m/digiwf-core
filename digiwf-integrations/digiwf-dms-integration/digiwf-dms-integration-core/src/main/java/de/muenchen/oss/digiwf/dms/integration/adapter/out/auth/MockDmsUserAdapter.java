@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class MockDmsUserAdapter implements DmsUserPort {
 
-    @Value("digiwf.integration.dms.mockuser")
+    @Value("${digiwf.integration.dms.mockuser}")
    private String dmsUsername;
 
     @Override

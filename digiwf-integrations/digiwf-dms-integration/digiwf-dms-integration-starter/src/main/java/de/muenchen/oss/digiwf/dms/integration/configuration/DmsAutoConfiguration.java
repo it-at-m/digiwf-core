@@ -155,14 +155,14 @@ public class DmsAutoConfiguration {
     @Profile("!local")
     @Bean
     @ConditionalOnMissingBean
-    public DmsUserPort dmsUserPort (final UserAuthenticationProvider userAuthenticationProvider) {
+    public DmsUserAdapter dmsUserAdapter (final UserAuthenticationProvider userAuthenticationProvider) {
         return new DmsUserAdapter(userAuthenticationProvider);
     }
 
     @Profile("local")
     @Bean
     @ConditionalOnMissingBean
-    public DmsUserPort dmsUserPort () {
+    public MockDmsUserAdapter mockDmsUserAdapter () {
         return new MockDmsUserAdapter();
     }
 

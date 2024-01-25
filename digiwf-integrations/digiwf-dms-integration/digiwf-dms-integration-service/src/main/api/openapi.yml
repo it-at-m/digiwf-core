@@ -16,7 +16,7 @@ tags:
 
 paths:
 
-  /dms-integration/mucs/metadata/{objclass}/{coo}:
+  /dms-integration/mucs/metadata/{objectclass}/{coo}:
     parameters:
       - $ref: '#/components/parameters/ObjectclassParam'
       - $ref: '#/components/parameters/CooParam'
