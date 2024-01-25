@@ -1281,7 +1281,7 @@ const arrayInput = {
       }
     },
     {
-      ...basicOptions
+      ...basicArrayOptions
     },
     {
       ...basicValidation,
