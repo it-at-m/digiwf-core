@@ -29,15 +29,14 @@ public class ZammadAutoConfiguration {
 
     private final ZammadProperties zammadProperties;
 
-
     @Bean
     public ArticlesApi articlesApi(final ApiClient apiClient) {
         return new ArticlesApi(apiClient);
     }
 
     @Bean
-    public ApiClient cosysApiClient(final ClientRegistrationRepository clientRegistrationRepository,
-                                    final OAuth2AuthorizedClientService authorizedClientService) {
+    public ApiClient zammadApiClient(final ClientRegistrationRepository clientRegistrationRepository,
+                                     final OAuth2AuthorizedClientService authorizedClientService) {
         final ApiClient apiClient = new ApiClient(this.webClient(clientRegistrationRepository, authorizedClientService));
         apiClient.setBasePath(this.zammadProperties.getBaseurl());
         return apiClient;
@@ -52,7 +51,7 @@ public class ZammadAutoConfiguration {
                         clientRegistrationRepository, authorizedClientService
                 )
         );
-        oauth.setDefaultClientRegistrationId("cosys");
+        oauth.setDefaultClientRegistrationId("zammad");
         return WebClient.builder()
                 .baseUrl(this.zammadProperties.getBaseurl())
                 .exchangeStrategies(ExchangeStrategies.builder()
