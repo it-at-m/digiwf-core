@@ -10,6 +10,7 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
+import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,8 @@ public class TicketMessageProcessor {
             val headers = message.getHeaders();
             log.debug("Request: {}", request);
             try {
-                writeArticleInPort.writeArticle(request.getTicketId(), request.getArticle(), request.getStatus());
+
+                writeArticleInPort.writeArticle(request.getTicketId(), new Article(request.getArticle(), request.getUserId()), request.getStatus());
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
                 handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));

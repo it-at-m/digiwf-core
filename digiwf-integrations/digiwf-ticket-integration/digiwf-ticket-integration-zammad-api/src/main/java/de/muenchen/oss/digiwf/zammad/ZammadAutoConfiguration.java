@@ -6,6 +6,7 @@ package de.muenchen.oss.digiwf.zammad;
 
 import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.ApiClient;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.ArticlesApi;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.TicketsApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,11 @@ public class ZammadAutoConfiguration {
     @Bean
     public ArticlesApi articlesApi(final ApiClient apiClient) {
         return new ArticlesApi(apiClient);
+    }
+
+    @Bean
+    public TicketsApi ticketsApi(final ApiClient apiClient) {
+        return new TicketsApi(apiClient);
     }
 
     @Bean
