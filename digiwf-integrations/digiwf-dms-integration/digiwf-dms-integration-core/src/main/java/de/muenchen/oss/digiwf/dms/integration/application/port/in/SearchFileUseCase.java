@@ -1,5 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.application.port.in;
 
+import java.util.List;
+
 public interface SearchFileUseCase {
 
     /**
@@ -11,5 +13,5 @@ public interface SearchFileUseCase {
      * @param value        (optional) value of 'Fachdatum'/business case
      * @return File id.
      */
-    String searchFile(String searchString, String user, String reference, String value);
+    List<String> searchFile(String searchString, String user, String reference, String value);
 }

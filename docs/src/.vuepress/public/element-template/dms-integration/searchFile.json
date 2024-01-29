@@ -105,9 +105,12 @@
       }
     },
     {
-      "label": "Sachakte (Coo)",
+      "label": "Sachakten (Coo)",
       "description": "Out Mapping",
-      "type": "String",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
       "value": "",
       "binding": {
         "type": "camunda:out",

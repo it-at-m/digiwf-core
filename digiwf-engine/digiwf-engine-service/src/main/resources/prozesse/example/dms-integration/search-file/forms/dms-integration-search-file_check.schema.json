@@ -40,21 +40,25 @@
                 },
                 "x-rules": []
               },
-              "sachakte": {
-                "fieldType": "text",
-                "title": "Sachakte",
-                "type": "string",
-                "key": "Sachakte",
+              "sachakten": {
+                "fieldType": "array",
+                "title": "Sachakten",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "key": "sachakten",
+                "default": [],
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
-                  "dense": true
+                  "dense": false
                 },
                 "x-rules": []
               }

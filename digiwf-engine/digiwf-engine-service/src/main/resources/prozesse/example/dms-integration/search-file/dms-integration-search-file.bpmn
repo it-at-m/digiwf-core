@@ -51,7 +51,7 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="searchFile" target="app_type_name" />
         <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:out source="fileCoo" target="sachakte" />
+        <camunda:out source="fileCoo" target="sachakten" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${search}" target="searchString" />
         <camunda:in sourceExpression="${reference}" target="reference" />
