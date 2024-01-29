@@ -12,8 +12,8 @@
     <bpmn:userTask id="Activity_0ojk6tw" name="Check Vars" camunda:candidateGroups="group1">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="app_file_paths_readonly">zulassungsbescheinigung_i_fahrzeugschein/assistants</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths">zulassungsbescheinigung_i_fahrzeugschein/assistants</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly">zulassungsbescheinigung_i_fahrzeugschein</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">zulassungsbescheinigung_i_fahrzeugschein</camunda:inputParameter>
           <camunda:inputParameter name="app_task_schema_key">formserver_example_parkausweis_form</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

@@ -1,5 +1,7 @@
 package de.muenchen.oss.digiwf.connector.core.application.port.in;
 
+import jakarta.validation.constraints.NotBlank;
+
 public interface CreateIncidentInPort {
 
     /**
@@ -9,6 +11,6 @@ public interface CreateIncidentInPort {
      * @param messageName       name of the message that should be answered
      * @param messageContent    optional content of message for provide detailed information
      */
-    void createIncident(String processInstanceId, String messageName, String messageContent);
+    void createIncident(@NotBlank String processInstanceId, @NotBlank String messageName, String messageContent);
 
 }

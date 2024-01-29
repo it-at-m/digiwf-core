@@ -27,7 +27,7 @@
       <bpmn:incoming>Flow_0n9f7m4</bpmn:incoming>
       <bpmn:outgoing>Flow_0rqxdmr</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_10z9ygh" name="Anhänge laden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_10z9ygh" name="Anhänge laden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />

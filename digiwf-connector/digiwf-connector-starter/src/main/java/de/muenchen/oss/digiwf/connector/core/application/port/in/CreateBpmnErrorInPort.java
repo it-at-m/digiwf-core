@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.connector.core.application.port.in;
 
 
 import de.muenchen.oss.digiwf.connector.core.domain.BpmnError;
+import jakarta.validation.Valid;
 
 public interface CreateBpmnErrorInPort {
 
@@ -11,5 +12,5 @@ public interface CreateBpmnErrorInPort {
      *
      * @param bpmnError error parameters
      */
-    void createBpmnError(BpmnError bpmnError);
+    void createBpmnError(@Valid BpmnError bpmnError);
 }

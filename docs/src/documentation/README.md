@@ -20,4 +20,4 @@ Output-Templates angebunden. Neben den Prozessen können auch Formulare für Ben
 werden.
 
 Wenn Sie – ähnlich wie in der Landeshauptstadt München – viele Prozesse mit vielen Benutzeraufgaben haben und eine
-heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, dann sollten Sie sich unbedingt einmal DigiWF anschauen. [Kontaktieren Sie uns einfach per E-Mail](/contact).
+heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, dann sollten Sie sich unbedingt einmal DigiWF anschauen. [Kontaktieren Sie uns einfach per E-Mail](/imprint).

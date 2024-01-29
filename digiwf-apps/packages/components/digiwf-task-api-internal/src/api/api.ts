@@ -1710,10 +1710,11 @@ export const TasksApiAxiosParamCreator = function (configuration?: Configuration
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [tag] A tag string used during search with the tag string, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
+         * @param {string} [userId] A user id string used during search with the user string.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedGroupTasks: async (page?: number, size?: number, query?: string, tag?: string, sort?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAssignedGroupTasks: async (page?: number, size?: number, query?: string, tag?: string, sort?: string, userId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tasks/group/assigned`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1744,6 +1745,10 @@ export const TasksApiAxiosParamCreator = function (configuration?: Configuration
 
             if (sort !== undefined) {
                 localVarQueryParameter['sort'] = sort;
+            }
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
             }
 
 
@@ -1889,11 +1894,12 @@ export const TasksApiFp = function(configuration?: Configuration) {
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [tag] A tag string used during search with the tag string, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
+         * @param {string} [userId] A user id string used during search with the user string.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAssignedGroupTasks(page?: number, size?: number, query?: string, tag?: string, sort?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageOfTasks>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(page, size, query, tag, sort, options);
+        async getAssignedGroupTasks(page?: number, size?: number, query?: string, tag?: string, sort?: string, userId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageOfTasks>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAssignedGroupTasks(page, size, query, tag, sort, userId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1942,11 +1948,12 @@ export const TasksApiFactory = function (configuration?: Configuration, basePath
          * @param {string} [query] A query string used during search, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [tag] A tag string used during search with the tag string, format is &lt;field&gt;&lt;op&gt;&lt;value&gt;.
          * @param {string} [sort] A sort parameter, &lt;direction&gt;&lt;field&gt; (direction is represented by + for asc or - for desc), asc is default.
+         * @param {string} [userId] A user id string used during search with the user string.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAssignedGroupTasks(page?: number, size?: number, query?: string, tag?: string, sort?: string, options?: any): AxiosPromise<PageOfTasks> {
-            return localVarFp.getAssignedGroupTasks(page, size, query, tag, sort, options).then((request) => request(axios, basePath));
+        getAssignedGroupTasks(page?: number, size?: number, query?: string, tag?: string, sort?: string, userId?: string, options?: any): AxiosPromise<PageOfTasks> {
+            return localVarFp.getAssignedGroupTasks(page, size, query, tag, sort, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of tasks assigned to current user.
@@ -2018,6 +2025,13 @@ export interface TasksApiGetAssignedGroupTasksRequest {
      * @memberof TasksApiGetAssignedGroupTasks
      */
     readonly sort?: string
+
+    /**
+     * A user id string used during search with the user string.
+     * @type {string}
+     * @memberof TasksApiGetAssignedGroupTasks
+     */
+    readonly userId?: string
 }
 
 /**
@@ -2126,7 +2140,7 @@ export class TasksApi extends BaseAPI {
      * @memberof TasksApi
      */
     public getAssignedGroupTasks(requestParameters: TasksApiGetAssignedGroupTasksRequest = {}, options?: AxiosRequestConfig) {
-        return TasksApiFp(this.configuration).getAssignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.tag, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
+        return TasksApiFp(this.configuration).getAssignedGroupTasks(requestParameters.page, requestParameters.size, requestParameters.query, requestParameters.tag, requestParameters.sort, requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

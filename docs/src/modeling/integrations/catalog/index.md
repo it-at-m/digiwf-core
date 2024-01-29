@@ -46,12 +46,12 @@ Um eine Email zu versenden, muss eine CallActivity modelliert werden, die ein `s
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
 | Event Topic           | Das Topic der Email Integration                                                    | dwf-email-local-01         |
-| Receiver              | Email Adresse des Empfängers                                                       | max.mustermann@example.com |
+| Receiver              | Email Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
 | Subject               | Betreff                                                                            | Testemail                  |
 | Body                  | Email Text                                                                         | Das ist ein Test           |
 | Reply-To Address      | Email Adresse, an die geantwortet werden soll                                      | test@example.com           |
-| Receiver (CC)         | Empfänger CC                                                                       | max.mustermann@example.com |
-| Receiver (BCC)        | Empfänger BCC                                                                      | max.mustermann@example.com |
+| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |
 
 ## S3

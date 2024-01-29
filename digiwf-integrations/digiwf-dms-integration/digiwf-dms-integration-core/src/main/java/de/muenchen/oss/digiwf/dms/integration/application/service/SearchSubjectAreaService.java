@@ -14,7 +14,7 @@ public class SearchSubjectAreaService implements SearchSubjectAreaUseCase {
     private final SearchSubjectAreaPort searchSubjectAreaPort;
 
     @Override
-    public String searchSubjectArea(String searchString, String user) {
+    public String searchSubjectArea(final String searchString, final String user) {
 
         val subjectAreas = searchSubjectAreaPort.searchSubjectArea(searchString, user);
 

@@ -88,7 +88,7 @@ export default defineComponent({
     const hint = !!maxTotalSize ?
       "Es dürfen maximal " + maxFiles + " Dateien mit einer Gesamtgröße von " + maxTotalSize + " MB hochgeladen werden" :
       "Es dürfen maximal " + maxFiles + " Dateien hochgeladen werden";
-    let rules: any[] = [];
+    let rules = props.rules  ? props.rules : true;
 
     const apiEndpoint = inject<string>('apiEndpoint');
     const taskServiceApiEndpoint = inject<string>('taskServiceApiEndpoint');
@@ -364,9 +364,6 @@ export default defineComponent({
         } else {
           uuid = uuidv4();
         }
-      }
-      if (!!props.rules && props.rules.length > 0) {
-        rules.push(props.rules);
       }
       rules.push(() => documents.value.length <= maxFiles || 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden');
       if (!!maxTotalSize) {

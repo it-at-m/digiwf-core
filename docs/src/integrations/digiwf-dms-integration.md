@@ -238,6 +238,19 @@ Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 }
 ```
 
+Es ist möglich, die Suche über ein Fachdatum einzugrenzen. Dafür kann der Suche eine Referenz auf ein Fachdatum 
+mitgegeben werden. Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt, das die optionalen Felder
+'Fachdatum-Referenz' und 'Fachdatum-Wert' verwendet:
+
+```json
+{
+  "searchString": "untergruppe.*-sachakte-*",
+  "user": "test",
+  "reference": "testNumber",
+  "value": "42"
+}
+```
+
 Die Dms Integration sucht nach der entsprechenden Sachakte und gibt die `Coo` der ersten zurück, die gefunden wird.
 Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 

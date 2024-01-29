@@ -109,6 +109,9 @@
                   "outlined": true,
                   "dense": true
                 },
+                "x-rules": [
+                  "required"
+                ],
                 "fieldType": "date",
                 "x-display": "custom-date-input",
                 "title": "Date",
@@ -133,7 +136,10 @@
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                }
+                },
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_select": {
                 "fieldType": "select",
@@ -214,6 +220,9 @@
                   "outlined": true,
                   "dense": true
                 },
+                "x-rules": [
+                  "requiredObject"
+                ],
                 "fieldType": "file",
                 "title": "Files",
                 "x-display": "custom-multi-file-input",
@@ -244,7 +253,9 @@
                 "x-display": "custom-multi-file-input",
                 "type": "object",
                 "filePath": "test",
-                "x-rules": [],
+                "x-rules": [
+                  "requiredObject"
+                ],
                 "maxFiles": 4,
                 "maxFileSize": 1,
                 "maxTotalSize": 2,
@@ -297,6 +308,9 @@
                   "outlined": true,
                   "dense": true
                 },
+                "x-rules": [
+                  "required"
+                ],
                 "fieldType": "user-input",
                 "title": "Benutzerauswahl",
                 "x-display": "custom-user-input",
@@ -313,6 +327,10 @@
                   "outlined": true,
                   "dense": true
                 },
+                "x-rules": [
+                  "required"
+                ],
+                "minItems": 1,
                 "fieldType": "multi-user-input",
                 "title": "Mehrfache Benutzerauswahl",
                 "x-display": "custom-multi-user-input",
@@ -468,6 +486,7 @@
                   "dense": true
                 },
                 "fieldType": "date",
+                "x-display": "custom-date-input",
                 "title": "Date",
                 "type": "string",
                 "format": "date"

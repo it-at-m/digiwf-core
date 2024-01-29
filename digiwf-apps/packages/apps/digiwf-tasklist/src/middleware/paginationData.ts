@@ -13,6 +13,8 @@ interface PaginationData {
   readonly getSearchQueryOfUrl: () => string | undefined;
   readonly tag: Ref<string | undefined>;
   readonly setTag: (tag: string) => void;
+  readonly assignee: Ref<string | undefined>;
+  readonly setAssignee: (assignee?: string) => void;
 }
 
 export const useGetPaginationData = (): PaginationData => {
@@ -52,11 +54,19 @@ export const useGetPaginationData = (): PaginationData => {
     }
     return paginationInformationOfPage?.tag ? paginationInformationOfPage?.tag : undefined;
   };
+  const getAssigneeOfUrl = (): string | undefined => {
+    const queryTagValue = router.currentRoute.query?.assignee as string | null;
+    if (queryTagValue) {
+      return queryTagValue;
+    }
+    return paginationInformationOfPage?.assignee ? paginationInformationOfPage?.assignee : undefined;
+  };
 
   const searchQuery = ref<string | undefined>(getSearchQueryOfUrl());
   const page = ref<number>(getDefaultPage());
   const size = ref<number>(getDefaultSize());
   const tag = ref<string | undefined>(getTagOfUrl());
+  const assignee = ref<string | undefined>(getAssigneeOfUrl());
   const setPage = (newPage: number) => {
     page.value = newPage;
     router.replace({
@@ -105,6 +115,19 @@ export const useGetPaginationData = (): PaginationData => {
     pageKeyToPaginationData.setTag(pageId.id, tag.value);
   };
 
+  const setAssignee = (newAssignee?: string) => {
+    assignee.value = newAssignee;
+    router.replace({
+      query: {
+        ...router.currentRoute.query,
+        assignee: newAssignee
+      }
+    });
+    // jump back to first page, so that user can see the first results again
+    setPage(0);
+    pageKeyToPaginationData.setTag(pageId.id, tag.value);
+  };
+
   // load pagination from session after page switch
   if (paginationInformationOfPage) {
     setSearchQuery(paginationInformationOfPage.searchQuery);
@@ -124,5 +147,7 @@ export const useGetPaginationData = (): PaginationData => {
     getSearchQueryOfUrl,
     tag,
     setTag,
+    assignee,
+    setAssignee
   };
 };

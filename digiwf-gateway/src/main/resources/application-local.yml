@@ -62,3 +62,6 @@ spring:
 
   mvc:
     log-request-details: on
+
+config:
+  map5xxto400: false

@@ -1,6 +1,5 @@
 import {PageId} from "./pageId";
 
-
 export const DEFAULT_PAGE = 0;
 export const DEFAULT_SIZE = 20;
 
@@ -37,6 +36,13 @@ export class PageBasedPaginationProvider {
       tag
     });
   }
+  public setAssignee(pageId: PageId, assignee?: string) {
+    this.pageKeyToPaginationData.set(pageId, {
+      ...this.getPaginationDataInSessionOrDefault(pageId),
+      assignee
+    });
+  }
+
 
   private getPaginationDataInSessionOrDefault(pageId: PageId): PaginationDataInSession {
     const paginationInformationOfPage = this.pageKeyToPaginationData.get(pageId);
@@ -45,6 +51,7 @@ export class PageBasedPaginationProvider {
       page: paginationInformationOfPage?.page || DEFAULT_PAGE,
       searchQuery: paginationInformationOfPage?.searchQuery,
       tag: paginationInformationOfPage?.tag,
+      assignee: paginationInformationOfPage?.assignee
     };
   }
 }
@@ -54,4 +61,5 @@ export interface PaginationDataInSession {
   readonly tag?: string
   readonly page: number;
   readonly size: number;
+  readonly assignee?: string
 }

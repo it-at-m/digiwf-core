@@ -2,7 +2,7 @@
     <v-list>
       <AppMenuItem path="/mytask" label="Meine Aufgaben" :number-of-elements="numberOfMyTasks"/>
       <hr class="hrDividerMenu">
-      <AppMenuItem path="/instance" label="Aktuelle Vorgänge" :number-of-elements="numberOfProcessInstances"/>
+      <AppMenuItem path="/instance" label="Meine Vorgänge" :number-of-elements="numberOfProcessInstances"/>
       <hr class="hrDividerMenu">
       <AppMenuItem path="/process" label="Vorgang Starten"/>
       <hr

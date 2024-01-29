@@ -70,3 +70,13 @@ type="element-template" />
 <DownloadArtifact
     artifact="address-integration/searchAdressenMuenchen.json"
     type="element-template" />
+
+## DMS Integration
+
+<DownloadArtifact
+artifact="searchFile.json"
+type="element-template" />
+
+<DownloadArtifact
+artifact="searchSubjectArea.json"
+type="element-template" />

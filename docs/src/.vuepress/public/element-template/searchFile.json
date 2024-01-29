@@ -89,6 +89,36 @@
       }
     },
     {
+      "label": "Fachdatum Referenz",
+      "type": "String",
+      "value": "",
+      "description": "Suche auf ein Fachdatum eingrenzen",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "reference",
+        "target": "reference"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Fachdatum Wert",
+      "type": "String",
+      "value": "",
+      "description": "Wert für die Eingrenzung der Suche auf ein Fachdatum",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "value",
+        "target": "value"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
       "label": "Sachakte (Coo)",
       "description": "Out Mapping",
       "type": "String",

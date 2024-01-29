@@ -7,11 +7,11 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
-import jakarta.validation.ValidationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -156,7 +156,9 @@ public class MessageProcessor {
                 final SearchObjectDto searchObjectDto = message.getPayload();
                 final String file = this.searchFileUseCase.searchFile(
                         searchObjectDto.getSearchString(),
-                        searchObjectDto.getUser()
+                        searchObjectDto.getUser(),
+                        searchObjectDto.getReference(),
+                        searchObjectDto.getValue()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(DIGIWF_MESSAGE_NAME).toString(), Map.of("fileCoo", file));

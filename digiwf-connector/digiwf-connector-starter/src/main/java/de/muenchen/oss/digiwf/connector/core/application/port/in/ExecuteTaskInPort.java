@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.connector.core.application.port.in;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import java.util.Map;
 
 public interface ExecuteTaskInPort {
 
-    void executeTask(ExecuteTaskCommand command);
+    void executeTask(@Valid ExecuteTaskCommand command);
 
     @Data
     @ToString
