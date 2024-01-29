@@ -34,11 +34,11 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="writeArticle" target="app_type_name" />
-        <camunda:in sourceExpression="" target="status" />
         <camunda:in sourceExpression="${ticketId}" target="ticketId" />
         <camunda:in sourceExpression="${article}" target="article" />
         <camunda:in sourceExpression="${userId}" target="userId" />
         <camunda:in sourceExpression="dwf-ticket-local" target="app_topic_name" />
+        <camunda:in source="-" target="status" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0lnd3z6</bpmn:incoming>
       <bpmn:outgoing>Flow_1ha43tr</bpmn:outgoing>

@@ -11,10 +11,12 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
+import de.muenchen.oss.digiwf.ticket.integration.domain.model.TicketStatus;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
@@ -52,7 +54,7 @@ public class TicketMessageProcessor {
             val headers = message.getHeaders();
             log.debug("Request: {}", request);
             try {
-                writeArticleInPort.writeArticle(request.getTicketId(), new Article(request.getArticle(), request.getUserId()), request.getStatus());
+                writeArticleInPort.writeArticle(request.getTicketId(), new Article(request.getArticle(), request.getUserId()), mapStatus(request.getStatus()));
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
                 handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
@@ -63,8 +65,17 @@ public class TicketMessageProcessor {
         };
     }
 
+    private TicketStatus mapStatus(String status) {
+        if (StringUtils.isBlank(status)) {
+            return null;
+        }
+        if (status.equalsIgnoreCase("-")) {
+            return null;
+        }
+        return TicketStatus.valueOf(status);
+    }
 
-    public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
+    private void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
         final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
         final String messageName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_MESSAGE_NAME)).toString();
         if (payload == null) {
@@ -73,11 +84,11 @@ public class TicketMessageProcessor {
         this.processApi.correlateMessage(processInstanceId, messageName, payload);
     }
 
-    public void handleBpmnError(@NonNull MessageHeaders headers, @NonNull BpmnError bpmnError) {
+    private void handleBpmnError(@NonNull MessageHeaders headers, @NonNull BpmnError bpmnError) {
         this.errorApi.handleBpmnError(headers, bpmnError);
     }
 
-    public void handleIncident(@NonNull MessageHeaders headers, @NonNull IncidentError incidentError) {
+    private void handleIncident(@NonNull MessageHeaders headers, @NonNull IncidentError incidentError) {
         this.errorApi.handleIncident(headers, incidentError);
     }
 }

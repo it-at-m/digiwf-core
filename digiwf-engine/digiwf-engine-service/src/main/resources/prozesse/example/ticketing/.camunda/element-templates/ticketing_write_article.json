@@ -90,11 +90,11 @@
     {
       "label": "Status",
       "type": "Dropdown",
-      "value": "",
+      "value": "-",
       "choices": [
         {
-          "name": "",
-          "value": ""
+          "name": "-",
+          "value": "-"
         },
         {
           "name": "Eingehend",
@@ -111,7 +111,7 @@
       ],
       "binding": {
         "type": "camunda:in",
-        "expression": true,
+        "expression": false,
         "name": "status",
         "target": "status"
       },
