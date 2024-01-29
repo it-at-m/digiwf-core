@@ -1,9 +1,11 @@
 package de.muenchen.oss.digiwf.ticket.integration.domain.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 @Getter
+@EqualsAndHashCode
 public class Article {
 
     private String text;

@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2A
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
@@ -60,11 +59,6 @@ public class ZammadAutoConfiguration {
         oauth.setDefaultClientRegistrationId("zammad");
         return WebClient.builder()
                 .baseUrl(this.zammadProperties.getBaseurl())
-                .exchangeStrategies(ExchangeStrategies.builder()
-                        .codecs(configurer -> configurer
-                                .defaultCodecs()
-                                .maxInMemorySize(32 * 1024 * 1024))
-                        .build())
                 .apply(oauth.oauth2Configuration())
                 .build();
     }

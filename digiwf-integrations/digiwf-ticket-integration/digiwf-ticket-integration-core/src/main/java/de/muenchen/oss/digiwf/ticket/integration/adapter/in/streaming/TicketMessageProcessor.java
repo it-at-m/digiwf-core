@@ -52,7 +52,6 @@ public class TicketMessageProcessor {
             val headers = message.getHeaders();
             log.debug("Request: {}", request);
             try {
-
                 writeArticleInPort.writeArticle(request.getTicketId(), new Article(request.getArticle(), request.getUserId()), request.getStatus());
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
