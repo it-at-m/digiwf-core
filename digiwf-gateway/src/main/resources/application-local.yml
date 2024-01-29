@@ -49,6 +49,14 @@ spring:
             - RewritePath=/clients/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
+        - id: mucs-dms-integration
+          uri: http://${DMS_INTEGRATION_SERVER_HOST:localhost}:${DMS_INTEGRATION_SERVER_PORT}/
+          predicates:
+            - Path=/api/dms-integration/mucs/rest/**
+          filters:
+            - RewritePath=/api/dms-integration/mucs/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
         - id: frontend
           uri: http://localhost:8081/
           predicates:
