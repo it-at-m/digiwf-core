@@ -44,20 +44,6 @@
       }
     },
     {
-      "label": "Event Topic (Optional)",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": false
-      }
-    },
-    {
       "label": "Wirkungsdatum von",
       "type": "String",
       "binding": {

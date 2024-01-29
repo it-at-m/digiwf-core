@@ -16,14 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
+      "label": "Integration Name",
       "type": "String",
-      "value": "",
+      "editable": false,
+      "value": "emailIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true

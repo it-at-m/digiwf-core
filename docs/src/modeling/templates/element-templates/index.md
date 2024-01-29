@@ -53,11 +53,27 @@
 ## Dms Integration
 
 <DownloadArtifact
-    artifact="dms-integration/update-document.json"
+    artifact="dms-integration/create-vorgang.json"
     type="element-template" />
 
 <DownloadArtifact
-    artifact="dms-integration/create-vorgang.json"
+    artifact="dms-integration/createDocument.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/createFile.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/depositObject.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/readContent.json"
+    type="element-template" />
+
+<DownloadArtifact
+    artifact="dms-integration/update-document.json"
     type="element-template" />
 
 <DownloadArtifact
@@ -65,9 +81,9 @@
     type="element-template" />
 
 <DownloadArtifact
-artifact="searchFile.json"
-type="element-template" />
+    artifact="dms-integration/searchFile.json"
+    type="element-template" />
 
 <DownloadArtifact
-artifact="searchSubjectArea.json"
-type="element-template" />
+    artifact="dms-integration/searchSubjectArea.json"
+    type="element-template" />
