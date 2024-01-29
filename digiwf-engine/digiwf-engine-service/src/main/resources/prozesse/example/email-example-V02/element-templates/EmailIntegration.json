@@ -19,7 +19,7 @@
       "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "s3Integration",
+      "value": "emailIntegration",
       "binding": {
         "type": "camunda:in",
         "name": "app_integration_name",
