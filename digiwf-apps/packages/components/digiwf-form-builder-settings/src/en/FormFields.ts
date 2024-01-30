@@ -1332,7 +1332,7 @@ const arrayObjectInput = {
       }
     },
     {
-      ...basicOptions
+      ...basicArrayOptions
     },
     {
       ...basicValidation,
