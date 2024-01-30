@@ -74,17 +74,6 @@ zu Adressen sowie Straßen abgerufen werden können.
 dwf-address-<ENV>
 ```
 
- Header Type              | Payload Type                 | Beschreibung                                                                                                       |
-|--------------------------|------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| searchAddressesGermany   | SearchAdressenDeutschlandDto | Dieser Header Typ wird verwendet, um eine Suche nach Adressen im gesamten Bundesgebiet Deutschlands zu initiieren. |
-| checkAddressMunich       | CheckAdresseMuenchenDto      | Mit diesem Header Typ wird eine Überprüfung von Adressen in München angefordert.                                   |
-| listAddressesMunich      | ListAdressenMuenchenDto      | Dieser Header Typ dient dazu, eine Liste von Adressen in München zu erfragen.                                      |
-| listChangesMunich        | ListAenderungenMuenchenDto   | Über diesen Header Typ werden Änderungen an Münchner Adressen abgefragt.                                           |
-| searchAddressesMunich    | SearchAdressenMuenchenDto    | Dieser Header Typ wird genutzt, um eine gezielte Adresssuche innerhalb Münchens durchzuführen.                     |
-| searchAddressesGeoMunich | SearchAdressenGeoMuenchenDto | Mit diesem Header Typ kann eine geobasierte Suche nach Adressen in München initiiert werden.                       |
-| findStreetByIdMunich     | findStreetByIdMunich         | Dieser Header Typ wird verwendet, um eine Straße in München anhand ihrer ID zu finden.                             |
-| listStreetMunich         | ListStrassenDto              | Mit diesem Header Typ wird eine Liste von Straßen in München angefordert.                                          |
-
 #### [Alw Integration](/integrations/digiwf-alw-integration)
 
 Das Ziel dieser Bibliothek besteht darin, eine asynchrone Kommunikation mit dem ALW-System zu ermöglichen.
@@ -92,10 +81,6 @@ Das Ziel dieser Bibliothek besteht darin, eine asynchrone Kommunikation mit dem 
 ```
 dwf-alw-<ENV>
 ```
-
-| Header Type          | Payload Type            | Beschreibung                                                                                    |
-|----------------------|-------------------------|-------------------------------------------------------------------------------------------------|
-| getAlwResponsibility | `ResponsibilityRequest` | Dieser Header Typ wird genutzt, um die Zuständigkeit im Rahmen des Ausländerwesens zu erfragen. |
 
 #### [Cosys Integration](/integrations/digiwf-cosys-integration)
 
@@ -105,10 +90,6 @@ Die Cosys Integration ermöglicht die Dokumenterstellung in Cosys.
 dwf-cosys-<ENV>
 ```
 
-| Header Type      | Payload Type       | Beschreibung                                                        |
-|------------------|--------------------|---------------------------------------------------------------------|
-| cosysIntegration | `GenerateDocument` | Dieser Header wird verwendet, um ein Dokument in Cosys zu erzeugen. |
-
 #### [Dms Integration](/integrations/digiwf-dms-integration)
 
 Die Dms Integration ermöglicht die Kommunikation mit dem DMS.
@@ -116,18 +97,6 @@ Die Dms Integration ermöglicht die Kommunikation mit dem DMS.
 ```
 dwf-dms-<ENV>
 ```
-
-| Header Type       | Payload Type         | Beschreibung                                                                                 |
-|-------------------|----------------------|----------------------------------------------------------------------------------------------|
-| createFile        | CreateFileDto      | Initiiert die Erstellung einer neuen Sachakte.                                               |
-| createProcedure   | CreateProcedureDto | Startet den Prozess, einen neuen Vorgang im System anzulegen.                                |
-| depositObject     | DepositObjectDto   | Ermöglicht das Archivieren eines Objekts in den Aktenbestand.                                |
-| createDocument    | CreateDocumentDto  | Löst die Generierung eines neuen Dokuments aus.                                              |
-| updateDocument    | UpdateDocumentDto  | Steuert die Aktualisierung eines bestehenden Dokuments.                                      |
-| cancelObject      | CancelObjectDto    | Dient dem Rückzug oder der Stornierung eines Dokuments aus dem DMS.                          |
-| readContent       | ReadContentDto     | Ermöglicht das Abrufen und Speichern eines Dokumenteninhalts aus dem DMS in den S3 Speicher. |
-| searchFile        | SearchObjectDto    | Unterstützt die gezielte Suche nach einer bestimmten Sachakte im DMS.                        |
-| searchSubjectArea | SearchObjectDto    | Führt eine Suche nach spezifischen Akteneinträgen durch.                                     |
 
 #### [Email Integration](/integrations/digiwf-mail-integration)
 
@@ -137,10 +106,6 @@ Die Email Integration ermöglicht das Versenden von Emails.
 dwf-email-<ENV>
 ```
 
-| Header Type          | Payload Type | Beschreibung                                          |
-|----------------------|--------------|-------------------------------------------------------|
-| sendMailFromEventBus | `Mail`       | Dieser Header wird verwendet, um Emails zu versenden. |
-
 #### [S3 Integration](/integrations/digiwf-s3-integration)
 
 Die S3 Integration ermöglicht das Speichern, Lesen und Aktualisieren von Dateien im S3 Speicher.
@@ -148,10 +113,6 @@ Die S3 Integration ermöglicht das Speichern, Lesen und Aktualisieren von Dateie
 ```
 dwf-s3-<ENV>
 ```
-
-| Header Type        | Payload Type              | Beschreibung                                                                                                            |
-|--------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| createPresignedUrl | `CreatePresignedUrlEvent` | Dieser Header wird verwendet, um sogenannte Presigned Urls für Datei(en) unter einem bestimmten Pfad im S3 zu erhalten. |
 
 ### Engine
 
