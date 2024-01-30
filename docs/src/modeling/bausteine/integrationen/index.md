@@ -1,6 +1,8 @@
-# Katalog
+# Integrationen
 
-Auf dieser Seite sind alle Template zu finden, die in DigiWF für die Modellierung verfügbar sind.
+Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen werden Element-Templates angeboten, die die Modellierung vereinfachen.
+Eine vollständige Liste der verfügbaren Integrationen finden Sie unter [DigiWF Integrationen](/integrations/).
+
 
 ## CoSys
 
