@@ -32,7 +32,7 @@ Examples:
 
 Derzeit existieren die Umgebungen `dev`, `test`, `demo`, `processestest`, `processesdemo`, `processeshotfix`
 und `local-01`. `dev`, `test` und `demo` sind unsere CI/CD-Stages und `local-01` wird für die Entwicklung verwendet.
-Die `process*` Umgebungen werden von Prozessmodellierer genutzt für das Testen ihrer Prozesse.
+Die `processes*` Umgebungen werden von Prozessmodellierern genutzt für das Testen ihrer Prozesse.
 
 #### [Task](/documentation/components/tasks)
 
