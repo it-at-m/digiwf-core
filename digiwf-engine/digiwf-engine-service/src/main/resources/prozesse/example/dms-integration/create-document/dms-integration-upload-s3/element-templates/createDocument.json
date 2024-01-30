@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true

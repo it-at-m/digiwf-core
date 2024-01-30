@@ -1,6 +1,6 @@
 {
-  "name": "Send simple E-Mail",
-  "id": "de.muenchen.digitalwf.templates.send-simple-email",
+  "name": "Create Vorgang",
+  "id": "de.muenchen.digitalwf.templates.create-procedure",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,36 +9,22 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -48,7 +34,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "sendMailFromEventBus",
+      "value": "createProcedure",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -60,72 +46,59 @@
       }
     },
     {
-      "label": "Receiver",
+      "label": "Title",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "receivers",
-        "target": "receivers"
+        "name": "title",
+        "target": "title"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Subject",
+      "label": "User",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "subject",
-        "target": "subject"
+        "name": "user",
+        "target": "user"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Body",
+      "label": "Sachakte (Coo)",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "body",
-        "target": "body"
+        "name": "fileCOO",
+        "target": "fileCOO"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Reply-To Address",
+      "label": "Procedure (Coo)",
+      "description": "Out Mapping",
       "type": "String",
       "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "replyTo",
-        "target": "replyTo"
-      }
-    },
-    {
-      "label": "Dispatch Status",
-      "value": "mailSentStatus",
-      "type": "String",
       "binding": {
         "type": "camunda:out",
-        "source": "mailSentStatus"
+        "source": "procedureCOO"
       },
       "constraints": {
-        "notEmpty": false
+        "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

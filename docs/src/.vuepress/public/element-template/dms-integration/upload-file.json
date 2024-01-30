@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Dokument anlegen",
-  "id": "de.muenchen.digitalwf.templates.create-document",
+  "name": "Upload file to dms",
+  "id": "de.muenchen.digitalwf.templates.upload-file-to-dms",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -75,7 +61,7 @@
       }
     },
     {
-      "label": " Vorgang (COO)",
+      "label": " Vorgang-COO",
       "type": "String",
       "value": "",
       "binding": {
@@ -121,18 +107,9 @@
       "type": "Dropdown",
       "value": "EINGEHEND",
       "choices": [
-        {
-          "name": "Eingehend",
-          "value": "EINGEHEND"
-        },
-        {
-          "name": "Ausgehend",
-          "value": "AUSGEHEND"
-        },
-        {
-          "name": "Intern",
-          "value": "INTERN"
-        }
+        { "name": "Eingehend", "value": "EINGEHEND" },
+        { "name": "Ausgehend", "value": "AUSGEHEND" },
+        { "name": "Intern", "value": "INTERN" }
       ],
       "binding": {
         "type": "camunda:in",
@@ -153,19 +130,6 @@
         "expression": true,
         "name": "filepaths",
         "target": "filepaths"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Document (Coo)",
-      "description": "Out Mapping",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:out",
-        "source": "documentCoo"
       },
       "constraints": {
         "notEmpty": true

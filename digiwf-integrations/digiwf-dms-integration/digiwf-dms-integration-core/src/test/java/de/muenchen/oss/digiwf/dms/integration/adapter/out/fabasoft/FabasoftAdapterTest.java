@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FabasoftAdapterTest {
 
     private final FabasoftProperties properties = new FabasoftProperties();
-    private LHMBAI151700GIWSDSoap soapClient;
     private FabasoftAdapter fabasoftAdapter;
 
 
@@ -28,8 +29,8 @@ class FabasoftAdapterTest {
         this.properties.setUsername("user");
         this.properties.setPassword("password");
         this.properties.setBusinessapp("businessapp");
-        soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:" + wmRuntimeInfo.getHttpPort() + "/");
-        fabasoftAdapter = new FabasoftAdapter(properties, this.soapClient);
+        val soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:" + wmRuntimeInfo.getHttpPort() + "/");
+        fabasoftAdapter = new FabasoftAdapter(properties, soapClient);
     }
 
     @Test
@@ -213,29 +214,25 @@ class FabasoftAdapterTest {
         assertThat(files.get(0)).usingRecursiveComparison().isEqualTo(expectedFile);
     }
 
+    /**
+     * Tests a file search.
+     */
     @Test
     void execute_searchFile_request() {
-        val file = new LHMBAI151700GIObjectType();
-        file.setLHMBAI151700Objaddress("testCoo");
-        file.setLHMBAI151700Objname("testName");
-
-        val array = new ArrayOfLHMBAI151700GIObjectType();
-        array.getLHMBAI151700GIObjectType().add(file);
-
-        val response = new SearchObjNameGIResponse();
-        response.setStatus(0);
-        response.setGiobjecttype(array);
-
-        DigiwfWiremockWsdlUtility.stubOperation(
-                "SearchObjNameGI",
-                SearchObjNameGI.class, (u) -> u.getObjclass().equals(DMSObjectClass.Sachakte.getName()),
-                response);
-
-        val files = fabasoftAdapter.searchFile("searchString", "user");
-
-        assertThat(files.size()).isEqualTo(1);
+        internalSearchFileCallTest(DMSObjectClass.Sachakte, "searchString", "user", null, null);
     }
 
+    /**
+     * Tests a file search but includes refinement on a business date/'Fachdatum'.
+     */
+    @Test
+    void execute_searchFile_request_business_data() {
+        internalSearchFileCallTest(DMSObjectClass.Sachakte, "searchString", "user", "reference", "value");
+    }
+
+    /**
+     * Tests a subject search.
+     */
     @Test
     void execute_searchSubjectArea_request() {
         val file = new LHMBAI151700GIObjectType();
@@ -257,8 +254,36 @@ class FabasoftAdapterTest {
         val files = fabasoftAdapter.searchSubjectArea("searchString", "user");
 
         assertThat(files.size()).isEqualTo(1);
-
     }
 
+    private void internalSearchFileCallTest(final DMSObjectClass dmsObjectClass, final String searchString, final String user, final String reference, final String value) {
+        val file = new LHMBAI151700GIObjectType();
+        file.setLHMBAI151700Objaddress("testCoo");
+        file.setLHMBAI151700Objname("testName");
 
+        val array = new ArrayOfLHMBAI151700GIObjectType();
+        array.getLHMBAI151700GIObjectType().add(file);
+
+        val response = new SearchObjNameGIResponse();
+        response.setStatus(0);
+        response.setGiobjecttype(array);
+
+        DigiwfWiremockWsdlUtility.stubOperation(
+                "SearchObjNameGI",
+                SearchObjNameGI.class, (u) -> u.getObjclass().equals(dmsObjectClass.getName()) && validateBusinessData(u),
+                response);
+
+        val files = fabasoftAdapter.searchFile(searchString, user, reference, value);
+
+        assertThat(files.size()).isEqualTo(1);
+    }
+
+    private boolean validateBusinessData(final SearchObjNameGI searchObjNameGI) {
+        val reference = Optional.ofNullable(searchObjNameGI.getReference()).orElse("");
+        val value = Optional.ofNullable(searchObjNameGI.getValue()).orElse("");
+        if (reference.isEmpty()) return true;
+        if (value.isEmpty()) return false;
+        if (reference.equals("reference") && !value.equals("value")) return false;
+        return true;
+    }
 }

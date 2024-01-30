@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Aktenplaneintrag suchen",
-  "id": "de.muenchen.digitalwf.templates.search-subject-area",
+  "name": "DMS: Objekt zu den Akten legen",
+  "id": "de.muenchen.digitalwf.templates.deposit-object",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -48,7 +34,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "searchSubjectArea",
+      "value": "depositObject",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -60,15 +46,14 @@
       }
     },
     {
-      "label": "Suche",
+      "label": "Coo",
       "type": "String",
-      "description": "Name des Aktenplaneintrags",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "searchString",
-        "target": "searchString"
+        "name": "objectCoo",
+        "target": "objectCoo"
       },
       "constraints": {
         "notEmpty": true
@@ -83,19 +68,6 @@
         "expression": true,
         "name": "user",
         "target": "user"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Aktenplaneintrag (Coo)",
-      "description": "Out Mapping",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:out",
-        "source": "subjectAreaCoo"
       },
       "constraints": {
         "notEmpty": true

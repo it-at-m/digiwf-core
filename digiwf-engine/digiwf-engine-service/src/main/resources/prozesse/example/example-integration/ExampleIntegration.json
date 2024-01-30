@@ -30,20 +30,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "editable": false,
-      "value": "genericEvent",
-      "binding": {
-        "type": "camunda:in",
-        "name": "app_message_name",
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Type Header",
       "type": "String",
       "editable": false,

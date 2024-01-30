@@ -1,6 +1,6 @@
 {
-  "name": "DMS: Objekt zu den Akten legen",
-  "id": "de.muenchen.digitalwf.templates.deposit-object",
+  "name": "DMS: Sachakte erstellen",
+  "id": "de.muenchen.digitalwf.templates.create-file",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -16,29 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
-      "value": "genericEvent",
+      "value": "dmsIntegration",
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
@@ -48,7 +34,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "depositObject",
+      "value": "createFile",
       "binding": {
         "type": "camunda:in",
         "expression": true,
@@ -60,14 +46,14 @@
       }
     },
     {
-      "label": "Coo",
+      "label": "Title",
       "type": "String",
       "value": "",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "objectCoo",
-        "target": "objectCoo"
+        "name": "title",
+        "target": "title"
       },
       "constraints": {
         "notEmpty": true
@@ -82,6 +68,33 @@
         "expression": true,
         "name": "user",
         "target": "user"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Aktenplan (Coo)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "apentryCOO",
+        "target": "apentryCOO"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "File (Coo)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "fileCOO"
       },
       "constraints": {
         "notEmpty": true

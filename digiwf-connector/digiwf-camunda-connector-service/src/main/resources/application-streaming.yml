@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          producerProperties:
+            value:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            key:
+              serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          consumerProperties:
+            key:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            value:
+              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        default:
+          consumer:
+            dlqName: ${digiwf.streaming.connector.topics.dlq}
+            enableDlq: 'true'
+      bindings:
+        dynamicProducer-out-0:
+          destination: ${digiwf.streaming.connector.topics.message}
+          producer:
+            auto-startup: 'true'
+        createBpmnError-in-0:
+          group: ${digiwf.streaming.connector.group}
+          destination: ${digiwf.streaming.connector.topics.bpmnerror}
+        createIncident-in-0:
+          destination: ${digiwf.streaming.connector.topics.incident}
+          group: ${digiwf.streaming.connector.group}
+        correlateMessage-in-0:
+          group: ${digiwf.streaming.connector.group}
+          destination: ${digiwf.streaming.connector.topics.message}
+      default-binder: kafka
+      default:
+        consumer:
+          maxAttempts: '1'
+    function:
+      definition: createIncident;createBpmnError;correlateMessage;dynamicProducer;
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'

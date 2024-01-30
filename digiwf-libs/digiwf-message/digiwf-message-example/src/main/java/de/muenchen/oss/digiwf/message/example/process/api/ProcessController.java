@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/process")
@@ -37,7 +42,8 @@ public class ProcessController {
             return ResponseEntity.ok().build();
         } catch (final BpmnError ex) {
             log.warn("Handle technical error");
-            this.errorApi.handleBpmnError(processMessageDto.getProcessInstanceId(), ex.getErrorCode(), ex.getErrorMessage());
+            this.errorApi.handleBpmnError(Map.of(DIGIWF_PROCESS_INSTANCE_ID, processMessageDto.getProcessInstanceId(), DIGIWF_INTEGRATION_NAME, processMessageDto.getMessageName()),
+                    ex.getErrorCode(), ex.getErrorMessage());
             return ResponseEntity.badRequest().build();
         }
     }

@@ -9,21 +9,20 @@ public interface ErrorApi {
 
     /**
      * Handles an incident with the specified process instance ID, origin message name, and error message.
-     * @param processInstanceId The ID of the process instance associated with the incident.
-     * @param originMessageName The name of the message that caused the incident.
+     * @param originMessageHeaders The headers of the message that caused the incident.
      * @param errorMessage The error message associated with the incident.
      * @return true if the incident was successfully handled, false otherwise.
      */
-    boolean handleIncident(String processInstanceId, String originMessageName, String errorMessage);
+    boolean handleIncident(Map<String, Object> originMessageHeaders, String errorMessage);
 
     /**
      * Handles a bpmn error with the specified process instance ID, error code, and error message.
-     * @param processInstanceId The ID of the process instance associated with the technical error.
+     * @param originMessageHeaders The headers of the message that caused the bpmn error.
      * @param errorCode The error code associated with the technical error.
      * @param errorMessage The error message associated with the technical error.
      * @return true if the technical error was successfully handled, false otherwise.
      */
-    boolean handleBpmnError(String processInstanceId, String errorCode, String errorMessage);
+    boolean handleBpmnError(Map<String, Object> originMessageHeaders, String errorCode, String errorMessage);
 
     /**
      * Handles a bpmn error with the specified origin message headers.

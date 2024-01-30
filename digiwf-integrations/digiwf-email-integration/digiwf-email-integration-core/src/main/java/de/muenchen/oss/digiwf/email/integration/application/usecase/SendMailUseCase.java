@@ -35,7 +35,7 @@ public class SendMailUseCase implements SendMail {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMail(final String processInstanceIde, final String messageName, @Valid final Mail mail) throws BpmnError {
+    public void sendMail(final String processInstanceIde, final String type, final String integrationName, @Valid final Mail mail) throws BpmnError {
         try {
             // load Attachments
             final List<FileAttachment> attachments = new ArrayList<>();
@@ -59,10 +59,11 @@ public class SendMailUseCase implements SendMail {
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);
-            this.correlateMessagePort.correlateMessage(processInstanceIde, messageName, correlatePayload);
+            this.correlateMessagePort.correlateMessage(processInstanceIde, type, integrationName, correlatePayload);
         } catch (final MessagingException ex) {
             log.error("Sending mail failed with exception: {}", ex.getMessage());
             throw new BpmnError("MAIL_SENDING_FAILED", ex.getMessage());
         }
     }
+
 }

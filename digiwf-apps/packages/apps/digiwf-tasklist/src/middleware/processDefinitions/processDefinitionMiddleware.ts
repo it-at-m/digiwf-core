@@ -22,7 +22,7 @@ export interface ProcessDefinition {
 
 export const useGetProcessDefinitions = (page: Ref<number>, size: Ref<number>, query: Ref<string | undefined>) =>
   useQuery({
-    queryKey: ["process-definitions", page.value, size.value, query.value || "no-query"], //.filter(it => !!it), // remove query key if not set
+    queryKey: ["process-definitions", page.value, size.value, query.value || "no-query"],
     queryFn: () => {
       return callGetProcessDefinitionsFromEngine(page.value, size.value, nullToUndefined(query.value)) // remove null
         .then(data => {

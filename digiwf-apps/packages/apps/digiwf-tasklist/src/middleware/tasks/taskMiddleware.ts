@@ -109,11 +109,12 @@ export const useAssignedGroupTasksQuery = (
   size: Ref<number>,
   query: Ref<string | undefined>,
   tag: Ref<string | undefined>,
+  assignee: Ref<string | undefined>,
   sort: Ref<string | undefined>
 ) => useQuery({
-  queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value],
+  queryKey: [assignedGroupTasksQueryId, page.value, size.value, sort.value, query.value, tag.value, assignee.value],
   queryFn: (): Promise<Page<HumanTask>> => {
-    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag))
+    return callGetAssignedGroupTasksFromTaskService(page.value, size.value, sort.value, nullToUndefined(query.value), extractTag(tag), nullToUndefined(assignee.value))
       .then(handlePageOfTaskResponse);
   },
 });
@@ -130,7 +131,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   const dummyQuery = ref(undefined);
   const dummyTag = ref(undefined);
   const {data: myTasksData} = useMyTasksQuery(dummyPage, dummyPageSize, dummyQuery, dummyTag, ref(false), ref(undefined));
-  const {data: assignGroupData} = useAssignedGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery, dummyTag, ref(undefined));
+  const {data: assignGroupData} = useAssignedGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery, dummyTag, ref(undefined), ref(undefined));
   const {data: openGroupData} = useOpenGroupTasksQuery(dummyPage, dummyPageSize, dummyQuery, dummyTag, ref(undefined));
 
   return {
