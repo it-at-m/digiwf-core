@@ -21,7 +21,7 @@
   "files": [
     "dist/*",
     "src/*",
-    "types/*"
+    "src/types/*"
   ],
   "publishConfig": {
     "access": "public"

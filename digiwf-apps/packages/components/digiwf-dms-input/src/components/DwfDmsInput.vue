@@ -87,9 +87,11 @@
 
 <script  lang="ts">
 
-import {Metadata, Objectclass} from "types";
+
 import {defineComponent, inject} from "vue";
-import {getMetadataFromDmsservice} from "@/middleware/dmsMiddleware";
+import {getMetadata} from "@/middleware/dmsMiddleware";
+import {Metadata, Objectclass } from "@/types";
+
 
 export default defineComponent({
   props: [
@@ -107,6 +109,8 @@ export default defineComponent({
     'on'
   ],
   setup(props) {
+    const objectclass = props.schema.objectclass;
+    const dmsSystem = props.schema.dmsSystem;
     let model = "";
     let documents = [] as Array<Metadata>;
     let locked = false;
@@ -126,13 +130,17 @@ export default defineComponent({
 
       try {
         locked = true;
-
-        const res = await getMetadataFromDmsservice(Objectclass.Ausgang, documentInput, mucsDmsApiEndpoint || "");
+        const res = await getMetadata(Objectclass.Ausgang, documentInput, mucsDmsApiEndpoint || "");
 
         errorMessage = "";
         setTimeout(() => {
           documentInput = "";
-          documents.push(res.data);
+          const metadata : Metadata = {
+            name: res.name,
+            type: res.type,
+            url: res.url
+          }
+          documents.push(metadata);
           requesting = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
 

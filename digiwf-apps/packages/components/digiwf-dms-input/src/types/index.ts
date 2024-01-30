@@ -1,11 +1,11 @@
 import Vue from "vue";
 
-export class DwfDmInput extends Vue {
+export class DwfDmsInput extends Vue {
 }
 
 export interface Metadata {
     name: string;
-    type: string;
+    type: string | undefined;
     url: string;
 }
 
