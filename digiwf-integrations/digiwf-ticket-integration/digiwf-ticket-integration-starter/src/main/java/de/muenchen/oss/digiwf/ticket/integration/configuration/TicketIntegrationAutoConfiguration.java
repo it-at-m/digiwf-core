@@ -17,11 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties({
-        TicketIntegrationProperties.class,
 })
 public class TicketIntegrationAutoConfiguration {
 
-    private final TicketIntegrationProperties ticketIntegrationProperties;
 
     @Bean
     public TicketOutPort ticketOutPort(final TicketsApi ticketsApi) {

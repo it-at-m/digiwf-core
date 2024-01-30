@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.TicketStatus;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,7 +17,7 @@ public class WriteArticleUseCase implements WriteArticleInPort {
     private final TicketOutPort ticketOutPort;
 
     @Override
-    public void writeArticle(@NotBlank String ticketId, @NotBlank Article article, @Nullable TicketStatus status) {
+    public void writeArticle(@NotBlank String ticketId, @NotNull Article article, @Nullable TicketStatus status) {
         ticketOutPort.updateTicket(ticketId, article, status);
     }
 }

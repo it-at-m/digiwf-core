@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="DigiWFConnectorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="ACTIVE_PROFILES" value="local,streaming" />
     <module name="digiwf-camunda-connector-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.connector.DigiWFConnectorApplication" />
     <extension name="net.ashald.envfile">

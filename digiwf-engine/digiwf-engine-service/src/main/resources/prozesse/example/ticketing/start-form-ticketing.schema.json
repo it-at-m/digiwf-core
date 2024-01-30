@@ -39,7 +39,7 @@
                   "required"
                 ]
               },
-              "ticket_user": {
+              "userId": {
                 "fieldType": "user-input",
                 "title": "Ticket User",
                 "x-display": "custom-user-input",

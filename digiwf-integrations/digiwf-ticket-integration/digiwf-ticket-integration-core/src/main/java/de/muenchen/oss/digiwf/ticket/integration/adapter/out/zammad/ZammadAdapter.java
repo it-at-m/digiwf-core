@@ -34,6 +34,10 @@ public class ZammadAdapter implements TicketOutPort {
     }
 
     private UpdateTicketDTO.StateEnum mapStatus(TicketStatus status) {
+        if (status == null) {
+            return null;
+        }
+
         return switch (status) {
             case OPEN -> UpdateTicketDTO.StateEnum.OPEN;
             case CLOSED -> UpdateTicketDTO.StateEnum.CLOSED;

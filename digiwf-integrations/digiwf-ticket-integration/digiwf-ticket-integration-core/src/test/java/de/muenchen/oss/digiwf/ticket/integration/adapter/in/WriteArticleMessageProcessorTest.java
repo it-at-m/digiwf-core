@@ -62,7 +62,7 @@ class WriteArticleMessageProcessorTest {
                 "ticketID123",
                 "mein text",
                 "userID123",
-                TicketStatus.OPEN
+                "OPEN"
         );
 
         final Message message1 = createmessage(writeArticleDto);

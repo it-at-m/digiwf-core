@@ -5,7 +5,15 @@ digiwf:
     client-id: ${SSO_TICKET_CLIENT_ID}
     client-secret: ${SSO_TICKET_CLIENT_SECRET}
   zammad:
-    url: ${TICKETING_ZAMMAD_URL}
+    baseurl: ${TICKETING_ZAMMAD_URL}
+
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
 
 info:
   application:
