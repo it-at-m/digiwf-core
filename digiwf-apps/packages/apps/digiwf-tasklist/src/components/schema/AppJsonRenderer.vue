@@ -9,6 +9,9 @@
       <template #custom-date-input="context">
         <dwf-date-input v-bind="context"/>
       </template>
+      <template #custom-dms-input="context">
+        <dwf-dms-input v-bind="context"/>
+      </template>
       <template #custom-time-input="context">
         <dwf-time-input v-bind="context"/>
       </template>

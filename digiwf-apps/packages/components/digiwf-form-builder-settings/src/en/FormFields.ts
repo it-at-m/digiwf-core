@@ -1124,6 +1124,81 @@ const multiUserinputSchema = {
   ]
 };
 
+const dmsInputSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      properties: {
+        ...basicAttributes.properties,
+        "x-display": {
+          "const": "custom-dms-input"
+        },
+        "dmsSystem": {
+          "type": "string",
+          "title": "Dms System",
+          "enum": [
+            "mucs",
+            "alw"
+          ],
+          "x-props": {
+            "outlined": true,
+          },
+          "x-rules": [],
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 12
+            }
+          }
+        },
+        "objectclass": {
+          "type": "string",
+          "title": "Objekt Klasse",
+          "enum": [
+            "Sachakte",
+            "Vorgang",
+            "Dokument",
+            "Eingang",
+            "Ausgang",
+            "Intern",
+            "Schriftstueck"
+          ],
+          "x-props": {
+            "outlined": true,
+          },
+          "x-rules": [],
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 12
+            }
+          }
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        "x-rules": {
+          "type": "array",
+          "title": "Regeln",
+          "items": {
+            "type": "string",
+            "enum": [
+              "requiredObject",
+            ]
+          },
+          "x-display": "checkbox"
+        }
+      }
+    }
+  ]
+};
+
 const arrayInput = {
   ...basicSchema,
   allOf: [
@@ -1286,6 +1361,7 @@ export const schemaMap: any = {
   "file": fileSchema,
   "user-input": userinputSchema,
   "multi-user-input": multiUserinputSchema,
+  "dms-input": dmsInputSchema,
   "array": arrayInput,
   "arrayObject": arrayObjectInput,
   "switch": switchSchema,
