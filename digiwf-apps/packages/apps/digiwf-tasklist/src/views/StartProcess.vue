@@ -96,6 +96,8 @@ export default class StartProcess extends SaveLeaveMixin {
   @Provide('apiEndpoint')
   apiEndpoint = ApiConfig.base;
 
+  @Provide('mucsDmsApiEndpoint')
+  mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
 
   created() {
     const urlQueryParameter = this.$router.currentRoute.query;

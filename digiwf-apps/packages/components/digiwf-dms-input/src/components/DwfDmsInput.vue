@@ -1,11 +1,11 @@
 <template>
   <div class="mb-7">
     <v-text-field
+      :id="props.schema.key"
       v-model.trim="documentInput"
       :readonly="readonly"
-      class="documentInput"
       outlined
-      :error="!valid && hasFocused"
+      :error="!!errorMessage"
       hide-details
       :disabled="requesting"
       :label="label"
@@ -14,21 +14,21 @@
       <template #append>
         <div
           v-if="!readonly"
-          class="appendWrapper"
+          class="mb-2 mt-0"
         >
           <v-fade-transition leave-absolute>
             <v-progress-circular
               v-if="requesting"
               size="24"
-              color="white"
+              color="primary"
               indeterminate
             />
             <v-btn
               v-else
               class="addButtonDocInput"
               text
-              height="56"
-              color="white"
+              size="24"
+              color="primary"
               @click="addDocument"
             >
               <v-icon>
@@ -59,49 +59,37 @@
           </v-icon>
           <a
             target="_blank"
-            class="documentLink"
             :href="doc.url"
           >{{ doc.name }}</a>
           <v-spacer/>
           <v-btn
             v-if="!readonly"
-            class="removeButton"
             icon
             @click="removeDocument(doc.url)"
           >
             <v-icon>
-              mdi-delete
+              mdi-close
             </v-icon>
           </v-btn>
         </v-flex>
       </div>
     </div>
-    <VMessages
-      v-if="!valid && hasFocused"
-      class="mt-1"
-      :value="errorBucket"
-      color="error"
-    />
   </div>
 </template>
 
-<script  lang="ts">
+<script lang="ts">
 
 
-import {defineComponent, inject} from "vue";
+import {defineComponent, inject, ref, watch} from "vue";
 import {getMetadata} from "@/middleware/dmsMiddleware";
 import {Metadata, Objectclass } from "@/types";
 
-
 export default defineComponent({
   props: [
-    'valid',
     'readonly',
-    'hasFocused',
     'value',
     'options',
     'schema',
-    'fullKey',
     'dense',
     'label',
     'disabled',
@@ -109,56 +97,69 @@ export default defineComponent({
     'on'
   ],
   setup(props) {
-    const objectclass = props.schema.objectclass;
+    const objectclass : Objectclass = Objectclass[props.schema.objectclass as keyof typeof Objectclass];
     const dmsSystem = props.schema.dmsSystem;
-    let model = "";
-    let documents = [] as Array<Metadata>;
-    let locked = false;
-    let requesting = false;
-    let errorMessage = "";
-    let documentInput = "";
+    let documents = ref<Metadata[]> (props.value || []);
+    let requesting = ref<boolean>(false);
+    let errorMessage = ref<string>("");
+    let documentInput = ref<string>("");
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
 
+    watch(documents.value, () => {
+      if (!props.on) {
+        return;
+      }
+      return props.on.input(
+        documents.value
+      );
+    });
+
+    const getApiEndpoint = () : string => {
+      if (dmsSystem === "mucs" && !!mucsDmsApiEndpoint) {
+        return mucsDmsApiEndpoint;
+      }
+      return "";
+    }
+
     const addDocument = async () => {
-      if (!documentInput) {
+      if (!documentInput.value) {
         return;
       }
 
       const startTime = new Date().getTime();
-      requesting = true;
+      requesting.value = true;
+      const input = documentInput.value.substring(documentInput.value.indexOf("COO."));
 
       try {
-        locked = true;
-        const res = await getMetadata(Objectclass.Ausgang, documentInput, mucsDmsApiEndpoint || "");
+        const res = await getMetadata(objectclass, input, getApiEndpoint());
 
-        errorMessage = "";
+        errorMessage.value = "";
         setTimeout(() => {
-          documentInput = "";
+          documentInput.value = "";
           const metadata : Metadata = {
             name: res.name,
             type: res.type,
             url: res.url
           }
-          documents.push(metadata);
-          requesting = false;
+          documents.value.push(metadata);
+          requesting.value = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
-
       } catch (error) {
         setTimeout(() => {
-          errorMessage = 'Das Dokument konnte nicht geladen werden.';
-          requesting = false;
+          errorMessage.value = 'Das Dokument konnte nicht geladen werden.';
+          requesting.value = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       }
     }
 
     const removeDocument = (url: string) => {
-      for (let i = 0; i < documents.length; i++) {
-      if (documents[i].url == url) {
-        documents.splice(i, 1);
-        break; // #838: only remove first item
+      for (let i = 0; i < documents.value.length; i++) {
+        if (documents.value[i].url == url) {
+          documents.value.splice(i, 1);
+          break; // #838: only remove first item
+        }
       }
-    }
   }
 
   const calculateIcon = (type: string) => {
@@ -168,18 +169,16 @@ export default defineComponent({
     return "mdi-file";
   }
 
-
-    return {
-      model,
-      documentInput,
-      documents,
-      locked,
-      requesting,
-      errorMessage,
-      addDocument,
-      removeDocument,
-      calculateIcon
-    }
+  return {
+    props,
+    documentInput,
+    documents,
+    requesting,
+    errorMessage,
+    addDocument,
+    removeDocument,
+    calculateIcon
+  }
 
   }
 });
@@ -188,40 +187,5 @@ export default defineComponent({
 
 <style scoped>
 
-.appendWrapper {
-  background-color: #333333;
-  border-top-right-radius: 4px;
-  margin-right: -12px;
-  height: 56px;
-  width: 56px;
-  margin-top: -17px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.removeButton {
-  margin: 0;
-}
-
-.listWrapper {
-  overflow: auto;
-  z-index: 10;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.38);
-  border-top: 0;
-}
-
-.documentInput {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.documentLink {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 
 </style>

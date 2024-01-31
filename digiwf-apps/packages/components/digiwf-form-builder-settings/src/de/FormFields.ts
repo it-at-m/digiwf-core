@@ -1136,6 +1136,7 @@ const dmsInputSchema = {
         "dmsSystem": {
           "type": "string",
           "title": "Dms System",
+          "default": "mucs",
           "enum": [
             "mucs",
             "alw"
@@ -1143,7 +1144,9 @@ const dmsInputSchema = {
           "x-props": {
             "outlined": true,
           },
-          "x-rules": [],
+          "x-rules": [
+            "required"
+          ],
           "x-options": {
             "fieldColProps": {
               "cols": 12,
@@ -1154,6 +1157,7 @@ const dmsInputSchema = {
         "objectclass": {
           "type": "string",
           "title": "Objekt Klasse",
+          "default": "Schriftstueck",
           "enum": [
             "Sachakte",
             "Vorgang",
@@ -1166,13 +1170,18 @@ const dmsInputSchema = {
           "x-props": {
             "outlined": true,
           },
-          "x-rules": [],
+          "x-rules": [
+            "required"
+          ],
           "x-options": {
             "fieldColProps": {
               "cols": 12,
               "sm": 12
             }
           }
+        },
+        "properties": {
+          "const": [{"name":{"type": "string"},"type":{"type": "string"},"url":{"type": "string"}}]
         }
       }
     },

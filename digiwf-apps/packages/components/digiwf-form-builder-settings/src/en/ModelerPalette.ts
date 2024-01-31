@@ -158,7 +158,10 @@ export const formFieldPalette = [
       "fieldType": "dms-input",
       title: "DMS Input",
       "x-display": "custom-dms-input",
-      type: "string"
+      type: "array",
+      "items": {
+        "type": "object"
+      },
     }
   ],
   [
