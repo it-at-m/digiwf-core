@@ -2,28 +2,40 @@
   <c-container
     fluid
   >
-    <service-instance-list />
+    <service-instance-card/>
   </c-container>
 </template>
 
 <script setup lang="ts">
 import { CContainer } from "@coreui/vue";
-import { provide } from "vue";
+import { provide, readonly, ref} from "vue";
 
-import ServiceInstanceList from "@/components/ServiceInstanceList.vue";
 import { DIGIWF_BASE_URL_INJECT_KEY } from "@/composables/useDigiWFBaseURL";
-import { DIGIWF_BASE_URL_DEFAULT } from "@/util/constants";
+import { ACCESS_TOKEN_EVENT_NAME, DIGIWF_BASE_URL_DEFAULT } from "@/util/constants";
+import { useEventListener } from "@vueuse/core";
+import type { AccessTokenLoadedEvent } from "@/types/AccessTokenLoadedEvent";
+import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
+import {ACCESS_TOKEN_INJECT_KEY} from "@/composables/useAccessToken";
 
 const props = withDefaults(
   defineProps<{
     digiWfBaseUrl?: string;
+    accessTokenEventName?: string;
   }>(),
   {
     digiWfBaseUrl: DIGIWF_BASE_URL_DEFAULT,
+    accessTokenEventName: ACCESS_TOKEN_EVENT_NAME
   }
 );
 
+const accessToken = ref("");
+
+useEventListener(document, props.accessTokenEventName, (event: AccessTokenLoadedEvent) => {
+  accessToken.value = event.detail.accessToken;
+})
+
 provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWfBaseUrl);
+provide(ACCESS_TOKEN_INJECT_KEY, readonly(accessToken))
 </script>
 
 <style lang="scss">
