@@ -43,7 +43,7 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
-        deadLetterQueueDestination: "dwf-connector-${DIGIWF_ENV}-dlq"
+        deadLetterQueueDestination: "dwf-digiwf-engine-${DIGIWF_ENV}-dlq"
         typeMappings:
           searchAddressesGermany: searchAddressesGermany
           checkAddressMunich: checkAddressMunich

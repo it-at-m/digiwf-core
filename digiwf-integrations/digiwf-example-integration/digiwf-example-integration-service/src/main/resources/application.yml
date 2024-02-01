@@ -14,7 +14,7 @@ io:
         incidentDestination: "dwf-connector-incident-local-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-local-01"
         correlateMessageDestination: "dwf-connector-local-01"
-        deadLetterQueueDestination: "dwf-connector-${DIGIWF_ENV}-dlq"
+        deadLetterQueueDestination: "dwf-digiwf-engine-${DIGIWF_ENV}-dlq"
 
 server:
   port: 8088
