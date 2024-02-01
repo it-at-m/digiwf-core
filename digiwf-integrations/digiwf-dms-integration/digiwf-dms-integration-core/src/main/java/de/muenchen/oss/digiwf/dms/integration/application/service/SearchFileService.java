@@ -25,7 +25,6 @@ public class SearchFileService implements SearchFileUseCase {
             throw new BpmnError("OBJECT_NOT_FOUND", String.format("File not found with searchString %s and user %s", searchString, user));
         }
 
-        // return first result
         return files;
     }
 }
