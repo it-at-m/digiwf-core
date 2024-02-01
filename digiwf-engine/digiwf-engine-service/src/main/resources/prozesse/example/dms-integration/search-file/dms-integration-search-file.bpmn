@@ -69,7 +69,7 @@
 * an eine Variable des Execution-Context uebergeben.
 */
 const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
-const tFirstCoo = fileCoos[0];
+const tFirstCoo = tFileCoos[0];
 execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
     </bpmn:scriptTask>
   </bpmn:process>
