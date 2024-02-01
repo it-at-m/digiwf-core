@@ -40,6 +40,24 @@
                 },
                 "x-rules": []
               },
+              "firstCoo": {
+                "fieldType": "text",
+                "title": "Erste Sachakte",
+                "type": "string",
+                "key": "firstCoo",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": false
+                },
+                "x-rules": []
+              },
               "sachakten": {
                 "fieldType": "array",
                 "title": "Sachakten",
