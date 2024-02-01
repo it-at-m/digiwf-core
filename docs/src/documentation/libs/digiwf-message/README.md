@@ -182,7 +182,7 @@ io:
         technicalErrorDestination: "digiwf-example-integration-technical-error"
         correlateMessageDestination: "digiwf-example-integration-correlate-message"
         startProcessDestination: "digiwf-message-scs-example-start-process"
-        deadLetterQueueDestination: "dwf-digiwf-engine-${DIGIWF_ENV}-dlq"
+        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
 ```
 
 |                                                            |                                                                                   |
