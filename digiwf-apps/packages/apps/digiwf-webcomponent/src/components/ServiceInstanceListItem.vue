@@ -1,0 +1,53 @@
+<template>
+  <c-list-group-item
+    component="a"
+    :href="frontendURL"
+    target="_blank"
+    class="p-3"
+  >
+    <h6 class="mb-3">
+      <strong>{{ serviceInstance.definitionName }}</strong>
+    </h6>
+    <p class="mb-1">Erstellt am {{ createdDate }}</p>
+    <p
+      v-if="serviceInstance.endTime"
+      class="mb-1"
+    >
+      Abgeschlossen am {{ endedDate }}
+    </p>
+    <p
+      v-if="serviceInstance.description"
+      class="mb-0 mt-3"
+    >
+      {{ serviceInstance.description }}
+    </p>
+  </c-list-group-item>
+</template>
+
+<script setup lang="ts">
+import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+
+import { CListGroupItem } from "@coreui/vue";
+import { useDateFormat } from "@vueuse/core";
+import { computed } from "vue";
+
+import { useDigiWFBaseURL } from "@/composables/useDigiWFBaseURL";
+import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
+
+const { digiWFBaseURL } = useDigiWFBaseURL();
+
+const props = defineProps<{
+  serviceInstance: ServiceInstanceTO;
+}>();
+
+const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
+const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
+
+const frontendURL = computed(() => {
+  return `https://${digiWFBaseURL}/#/${FRONTEND_INSTANCE_PATH}/${props.serviceInstance.id}`;
+});
+</script>
+
+<style scoped lang="scss">
+$list-group-active-color: #222222;
+</style>
