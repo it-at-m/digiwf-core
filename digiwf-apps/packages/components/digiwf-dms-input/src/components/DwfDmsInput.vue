@@ -2,10 +2,9 @@
   <div class="mb-7">
     <v-text-field
       :id="props.schema.key"
-      v-model.trim="documentInput"
-      :readonly="readonly"
+      v-model.trim="objectInput"
+      :readonly="props.schema.readOnly"
       outlined
-      :error="!!errorMessage"
       hide-details
       :disabled="requesting"
       :label="label"
@@ -13,8 +12,7 @@
     >
       <template #append>
         <div
-          v-if="!readonly"
-          class="mb-2 mt-0"
+          v-if="!props.schema.readOnly"
         >
           <v-fade-transition leave-absolute>
             <v-progress-circular
@@ -25,11 +23,10 @@
             />
             <v-btn
               v-else
-              class="addButtonDocInput"
-              text
+              icon
               size="24"
               color="primary"
-              @click="addDocument"
+              @click="addByButton"
             >
               <v-icon>
                 mdi-file-plus-outline
@@ -40,38 +37,19 @@
       </template>
     </v-text-field>
     <div
-      v-if="errorMessage"
-      style="color: red"
-    >
-      {{ errorMessage }}
-    </div>
-    <div
-      v-if="documents && documents.length > 0"
-      class="listWrapper"
+      v-if="dmsObjects && dmsObjects.length > 0"
     >
       <div
-        v-for="doc in documents"
-        :key="doc.url"
+        v-for="doc in dmsObjects"
+        :key="doc.coo"
       >
-        <v-flex class="d-flex ma-2 ml-3 align-center">
-          <v-icon class="mr-2">
-            {{ calculateIcon(doc.type) }}
-          </v-icon>
-          <a
-            target="_blank"
-            :href="doc.url"
-          >{{ doc.name }}</a>
-          <v-spacer/>
-          <v-btn
-            v-if="!readonly"
-            icon
-            @click="removeDocument(doc.url)"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
-        </v-flex>
+        <dwf-object-preview
+          :coo="doc.coo"
+          :metadata="doc.metadata"
+          :errormessage="doc.errormessage"
+          :readOnly="props.schema.readOnly"
+          @remove-object="removeDocument"
+       />
       </div>
     </div>
   </div>
@@ -80,13 +58,17 @@
 <script lang="ts">
 
 
-import {defineComponent, inject, ref, watch} from "vue";
+import {defineComponent, inject, onMounted, ref, watch} from "vue";
 import {getMetadata} from "@/middleware/dmsMiddleware";
 import {Metadata, Objectclass } from "@/types";
 
+interface DmsDocument {
+  readonly coo: string;
+  readonly metadata?: Metadata;
+  readonly errormessage?: string;
+}
 export default defineComponent({
   props: [
-    'readonly',
     'value',
     'options',
     'schema',
@@ -99,19 +81,22 @@ export default defineComponent({
   setup(props) {
     const objectclass : Objectclass = Objectclass[props.schema.objectclass as keyof typeof Objectclass];
     const dmsSystem = props.schema.dmsSystem;
-    let documents = ref<Metadata[]> (props.value || []);
     let requesting = ref<boolean>(false);
-    let errorMessage = ref<string>("");
-    let documentInput = ref<string>("");
+    let objectInput = ref<string>("");
+    const dmsObjects = ref<DmsDocument[]>([]);
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
 
-    watch(documents.value, () => {
+    watch(dmsObjects.value, () => {
       if (!props.on) {
         return;
       }
+      const metadata = dmsObjects.value
+        .map(doc => doc.metadata)
+        .filter(metadata => !!metadata);
+      console.log(metadata);
       return props.on.input(
-        documents.value
+       metadata
       );
     });
 
@@ -122,62 +107,78 @@ export default defineComponent({
       return "";
     }
 
-    const addDocument = async () => {
-      if (!documentInput.value) {
+    const addByButton = async () => {
+      if (!objectInput.value) {
         return;
       }
+      addObject(objectInput.value);
+    }
+
+    const addObject = async (coo: string) => {
 
       const startTime = new Date().getTime();
       requesting.value = true;
-      const input = documentInput.value.substring(documentInput.value.indexOf("COO."));
+
+      const input = coo.substring(coo.indexOf("COO."));
+      console.log(input);
 
       try {
         const res = await getMetadata(objectclass, input, getApiEndpoint());
 
-        errorMessage.value = "";
         setTimeout(() => {
-          documentInput.value = "";
+          objectInput.value = "";
           const metadata : Metadata = {
             name: res.name,
             type: res.type,
             url: res.url
           }
-          documents.value.push(metadata);
+          dmsObjects.value.push({
+            coo: input,
+            metadata
+          })
           requesting.value = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       } catch (error) {
+        console.log("ERROR");
+        dmsObjects.value.push({
+          coo: input,
+          errormessage: 'Das Dokument konnte nicht geladen werden.'
+        })
         setTimeout(() => {
-          errorMessage.value = 'Das Dokument konnte nicht geladen werden.';
           requesting.value = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       }
     }
 
-    const removeDocument = (url: string) => {
-      for (let i = 0; i < documents.value.length; i++) {
-        if (documents.value[i].url == url) {
-          documents.value.splice(i, 1);
-          break; // #838: only remove first item
-        }
-      }
+    const removeDocument = (coo: string) => {
+      console.log(dmsObjects.value);
+      console.log(coo);
+      dmsObjects.value = dmsObjects.value.filter(doc => doc.coo!== coo);
   }
 
-  const calculateIcon = (type: string) => {
-    if (type === "PDF-Dokument") {
-      return "mdi-file-pdf";
-    }
-    return "mdi-file";
-  }
+    onMounted(() => {
+
+      if (!!props.value) {
+        console.log("Props Value " , props.value);
+        dmsObjects.value = props.value.map((metadataOrCoo: Metadata) => {
+          return {
+          coo: metadataOrCoo.url.substring(metadataOrCoo.url.indexOf("COO.")),
+          metadata: metadataOrCoo
+        }} )
+        return;
+      }
+      if (!!props.schema.default) {
+        props.schema.default.map(addObject);
+      }
+    });
 
   return {
     props,
-    documentInput,
-    documents,
+    objectInput,
+    dmsObjects,
     requesting,
-    errorMessage,
-    addDocument,
-    removeDocument,
-    calculateIcon
+    addByButton,
+    removeDocument
   }
 
   }
@@ -186,6 +187,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-
 </style>

@@ -24,7 +24,7 @@
             "properties": {
               "dmsContent": {
                 "fieldType": "dms-input",
-                "title": "DMS Input",
+                "title": "DMS Input für Schriftstücke",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "items": {
@@ -48,7 +48,7 @@
               },
               "dmsProcedure": {
                 "fieldType": "dms-input",
-                "title": "DMS Input",
+                "title": "DMS Input für Vorgänge",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "items": {
@@ -57,6 +57,32 @@
                 "key": "dmsProcedure",
                 "dmsSystem": "mucs",
                 "objectclass": "Vorgang",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "dmsContentDefault": {
+                "fieldType": "dms-input",
+                "title": "DMS Input für Schriftstücke mit Default",
+                "x-display": "custom-dms-input",
+                "type": "string",
+                "key": "dmsContent",
+                "dmsSystem": "mucs",
+                "objectclass": "Schriftstueck",
+                "default": [
+                  "COO.1234.5678.1.12345677",
+                  "https://dms.digiwf.de/fsc/mx/COO.1234.5678.1.12345678"
+                ],
+                "readOnly": true,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
