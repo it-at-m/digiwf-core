@@ -17,7 +17,7 @@
     </p>
     <p
       v-if="serviceInstance.description"
-      class="mb-0"
+      class="mb-0 mt-3"
     >
       {{ serviceInstance.description }}
     </p>

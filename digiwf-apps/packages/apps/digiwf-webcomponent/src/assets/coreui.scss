@@ -4,10 +4,8 @@
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import "../../node_modules/@coreui/coreui/scss/functions";
 
-
 // 2. Include any default variable overrides here
-@import "./digiwf-widget";
-$primary: $digiwf-widget-primary;
+@import "coreui-custom";
 
 // 3. Include remainder of required CoreUI stylesheets
 @import "../../node_modules/@coreui/coreui/scss/variables";
