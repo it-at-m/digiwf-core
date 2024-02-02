@@ -2,7 +2,7 @@
   <c-card>
     <c-card-header>
       <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
           <CSpinner color="primary" size="xl" v-if="loading" class="me-3"/>
           <svg-icon
             v-else

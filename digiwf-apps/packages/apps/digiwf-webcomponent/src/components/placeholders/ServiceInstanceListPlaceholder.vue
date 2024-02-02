@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import {
-  CListGroup,
+  CListGroup
 } from "@coreui/vue";
 import ServiceInstanceListItemPlaceholder from "@/components/placeholders/ServiceInstanceListItemPlaceholder.vue";
 </script>
