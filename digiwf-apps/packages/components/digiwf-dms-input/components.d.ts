@@ -14,5 +14,6 @@ declare module 'vue' {
     VProgressCircular: typeof import('vuetify/lib')['VProgressCircular']
     VSpacer: typeof import('vuetify/lib')['VSpacer']
     VTextField: typeof import('vuetify/lib')['VTextField']
+    VTooltip: typeof import('vuetify/lib')['VTooltip']
   }
 }

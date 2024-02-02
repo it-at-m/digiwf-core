@@ -54,6 +54,8 @@
                 "key": "dmsContent",
                 "dmsSystem": "mucs",
                 "objectclass": "Schriftstueck",
+                "minObjects": 1,
+                "maxObjects": 4,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -78,6 +80,7 @@
                 "key": "dmsProcedure",
                 "dmsSystem": "mucs",
                 "objectclass": "Vorgang",
+                "description": "Beschreibung",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

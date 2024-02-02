@@ -1136,11 +1136,10 @@ const dmsInputSchema = {
         },
         "dmsSystem": {
           "type": "string",
-          "title": "Dms System",
+          "title": "Dms system",
           "default": "mucs",
           "enum": [
-            "mucs",
-            "alw"
+            "mucs"
           ],
           "x-props": {
             "outlined": true,
@@ -1157,7 +1156,7 @@ const dmsInputSchema = {
         },
         "objectclass": {
           "type": "string",
-          "title": "Objekt Klasse",
+          "title": "Objectclass",
           "default": "Schriftstueck",
           "enum": [
             "Sachakte",
@@ -1183,8 +1182,8 @@ const dmsInputSchema = {
         },
         "default": {
           "type": "array",
-          "title": "default",
-          "description": "Liste an COOs oder Links, die von dem Input überprüft werden sollen",
+          "title": "Default",
+          "description": "List of coos or links to be checked by the input",
           "items": {
             "type": "string"
           },
@@ -1212,16 +1211,21 @@ const dmsInputSchema = {
     {
       ...basicValidation,
       properties: {
-        "x-rules": {
-          "type": "array",
-          "title": "Regeln",
-          "items": {
-            "type": "string",
-            "enum": [
-              "requiredObject",
-            ]
-          },
-          "x-display": "checkbox"
+        "minObjects": {
+          "type": "integer",
+          "title": "Mininum number of objects",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxObjects": {
+          "type": "integer",
+          "title": "Maximum number of objects",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
         }
       }
     }

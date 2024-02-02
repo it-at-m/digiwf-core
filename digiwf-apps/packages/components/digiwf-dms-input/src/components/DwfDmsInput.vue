@@ -4,7 +4,9 @@
       :id="props.schema.key"
       v-model.trim="objectInput"
       :readonly="props.schema.readOnly"
+      :rules="rules"
       outlined
+      :error="!!errorMessage"
       hide-details
       :disabled="requesting"
       :label="label"
@@ -35,7 +37,23 @@
           </v-fade-transition>
         </div>
       </template>
+      <template #append-outer>
+        <v-tooltip v-if="props.schema.description" :open-on-hover="false" left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon retain-focus-on-click @blur="on.blur" @click="on.click">
+              <v-icon> mdi-information</v-icon>
+            </v-btn>
+          </template>
+          <div class="tooltip">{{ props.schema.description }}</div>
+        </v-tooltip>
+      </template>
     </v-text-field>
+    <div
+      v-if="errorMessage"
+      style="color: red"
+    >
+      {{ errorMessage }}
+    </div>
     <div
       v-if="dmsObjects && dmsObjects.length > 0"
     >
@@ -81,9 +99,16 @@ export default defineComponent({
   setup(props) {
     const objectclass : Objectclass = Objectclass[props.schema.objectclass as keyof typeof Objectclass];
     const dmsSystem = props.schema.dmsSystem;
-    let requesting = ref<boolean>(false);
-    let objectInput = ref<string>("");
+    const requesting = ref<boolean>(false);
+    const errorMessage = ref<string>("");
+    const objectInput = ref<string>("");
     const dmsObjects = ref<DmsDocument[]>([]);
+    const minObjects = props.schema.minObjects;
+    const maxObjects = props.schema.maxObjects;
+    const minMessage = (!!minObjects && minObjects == 1)?
+      'Es muss mindestens ' + minObjects + ' Objekt übergeben werden' :
+      'Es müssen mindestens ' + minObjects + ' Objekte übergeben werden';
+    let rules = props.rules  ? props.rules : true;
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
 
@@ -99,6 +124,18 @@ export default defineComponent({
        metadata
       );
     });
+
+    const validate = (number: number) => {
+
+      if(!!minObjects && number < minObjects) {
+        errorMessage.value = minMessage;
+      } else if (!!maxObjects && number > maxObjects){
+        errorMessage.value = 'Es dürfen maximal ' + maxObjects + ' Objekte übergeben werden';
+      } else {
+        errorMessage.value = "";
+      }
+
+    }
 
     const getApiEndpoint = () : string => {
       if (dmsSystem === "mucs" && !!mucsDmsApiEndpoint) {
@@ -137,15 +174,17 @@ export default defineComponent({
             metadata
           })
           requesting.value = false;
+          validate(dmsObjects.value.length);
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       } catch (error) {
         console.log("ERROR");
         dmsObjects.value.push({
           coo: input,
-          errormessage: 'Das Dokument konnte nicht geladen werden.'
+          errormessage: 'Das Object' + input + ' konnte nicht geladen werden.'
         })
         setTimeout(() => {
           requesting.value = false;
+          validate(dmsObjects.value.length);
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       }
     }
@@ -154,6 +193,7 @@ export default defineComponent({
       console.log(dmsObjects.value);
       console.log(coo);
       dmsObjects.value = dmsObjects.value.filter(doc => doc.coo!== coo);
+      validate(dmsObjects.value.length);
   }
 
     onMounted(() => {
@@ -170,6 +210,14 @@ export default defineComponent({
       if (!!props.schema.default) {
         props.schema.default.map(addObject);
       }
+
+      if(!!minObjects) {
+        rules.push(() => dmsObjects.value.length >= minObjects || minMessage);
+      }
+      if(!!maxObjects) {
+        rules.push(() => dmsObjects.value.length <= maxObjects || 'Es dürfen maximal ' + maxObjects + ' Objekte übergeben werden');
+      }
+
     });
 
   return {
@@ -177,6 +225,8 @@ export default defineComponent({
     objectInput,
     dmsObjects,
     requesting,
+    errorMessage,
+    rules,
     addByButton,
     removeDocument
   }
