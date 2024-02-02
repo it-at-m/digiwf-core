@@ -253,8 +253,8 @@ mitgegeben werden. Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt a
 }
 ```
 
-Die Dms Integration sucht nach der entsprechenden Sachakte und gibt die `Coo` der ersten zurück, die gefunden wird.
-Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
+Die Dms Integration sucht nach der entsprechenden Sachakte und gibt eine COO-Liste derjenigen Sachakten zurück, auf die die Suchkriterien zutreffen.
+Kann keine gefunden werden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 
 **Verwendung in BPMN Prozessen**
 
