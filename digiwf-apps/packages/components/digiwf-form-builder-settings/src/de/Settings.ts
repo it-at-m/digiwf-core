@@ -1,17 +1,17 @@
-import {containerIconMap, defaultContainerIcon, defaultIcon, iconMap} from "./IconMap";
-import {conditionalContainerSchema, conditionalObjectContainerSchema, containerSchema} from "./Container";
+import { containerIconMap, defaultContainerIcon, defaultIcon, iconMap } from "./IconMap";
+import { conditionalContainerSchema, conditionalObjectContainerSchema, containerSchema } from "./Container";
 import section from "./Section";
 import {
-    containerPalette,
-    formFieldPalette,
-    objectPalette,
-    optionalItem,
-    optionalObject,
-    optionalProperties,
-    sectionPalette
+  containerPalette,
+  formFieldPalette,
+  objectPalette,
+  optionalItem,
+  optionalObject,
+  optionalProperties,
+  sectionPalette
 } from "./ModelerPalette";
-import {genericSchema, schemaMap} from "./FormFields";
-import {FormBuilderSettings} from "../../types";
+import { genericSchema, schemaMap } from "./FormFields";
+import { FormBuilderSettings } from "../../types";
 
 const Settings: FormBuilderSettings = {
     iconSettings: {
@@ -34,7 +34,7 @@ const Settings: FormBuilderSettings = {
     conditionalContainerSchema: conditionalContainerSchema,
     conditionalObjectContainerSchema: conditionalObjectContainerSchema,
     sectionSchema: section,
-    defaultFormFieldSchema: genericSchema,
+    defaultFormFieldSchema: genericSchema(),
     formFieldSchemas: schemaMap
 };
 

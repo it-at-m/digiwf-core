@@ -1,28 +1,7 @@
 import { Labels, schemaBuilder } from "../utils";
 
-const enLabels: Labels = {
-  sectionTitle: "General",
-  sectionDescription: "Description",
-  optionsTitle: "Options",
-  maxColSize: "Size (max 12)",
-  defaultColSize: "Default size",
-  colSizeSmallDevices: "Size on small devices",
-  errorMsgPattern: "Pattern error message",
-  errorMsgMinString: "Minimum {minLength} characters",
-  errorMsgMaxString: "Maximum {maxLength} characters",
-  errorMsgMinNumber: "Minimum {minimum}",
-  errorMsgMaxNumber: "Maximum {maximum}",
-  errorMsgMinArray: "Minimum {minItems} entries",
-  errorMsgMaxArray: "Maximum {maxItems} entries",
-  errorMsgMinTime: "Minimum {minimum}",
-  errorMsgMaxTime: "Maximum {maximum}",
-  validationMin: "Minimum",
-  validationMax: "Maximum",
-  validationAdditionalRules: "Additional rules",
-};
-
-const textFeldSchema = () => {
-  const schema = schemaBuilder("string", enLabels);
+export const textFeldSchema = (labels) => {
+  const schema = schemaBuilder("string", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "title": "Default",
@@ -34,8 +13,8 @@ const textFeldSchema = () => {
   return schema;
 }
 
-const textAreaSchema = () => {
-  const schema = schemaBuilder("string", enLabels);
+export const textAreaSchema = (labels) => {
+  const schema = schemaBuilder("string", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "title": "Default",
@@ -51,8 +30,8 @@ const textAreaSchema = () => {
   return schema;
 }
 
-const integerSchema = () => {
-  const schema = schemaBuilder("number", enLabels);
+export const integerSchema = (labels) => {
+  const schema = schemaBuilder("number", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "integer",
     "title": "Default",
@@ -64,8 +43,8 @@ const integerSchema = () => {
   return schema;
 };
 
-const markdownSchema = () => {
-  const schema = schemaBuilder("markdown", enLabels);
+export const markdownSchema = (labels) => {
+  const schema = schemaBuilder("markdown", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "title": "Default",
@@ -81,8 +60,8 @@ const markdownSchema = () => {
   return schema;
 };
 
-const switchSchema = () => {
-  const schema = schemaBuilder("boolean", enLabels);
+export const switchSchema = (labels) => {
+  const schema = schemaBuilder("boolean", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "boolean",
     "title": "Default",
@@ -99,8 +78,8 @@ const switchSchema = () => {
   return schema;
 };
 
-const dateSchema = () => {
-  const schema = schemaBuilder("date", enLabels);
+export const dateSchema = (labels) => {
+  const schema = schemaBuilder("date", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "format": "date",
@@ -119,7 +98,7 @@ const dateSchema = () => {
   return schema;
 };
 
-const constSchema = {
+export const constSchema = {
   "title": "General",
   "type": "object",
   "properties": {
@@ -157,16 +136,16 @@ const constSchema = {
   }
 };
 
-const objectInput = () => {
-  const schema = schemaBuilder("object", enLabels);
+export const objectInput = (labels) => {
+  const schema = schemaBuilder("object", labels);
   (schema.allOf[0].properties as any)["additionalProperties"] = {
     "const": false,
   };
   return schema;
 };
 
-const timeSchema = () => {
-  const schema = schemaBuilder("time", enLabels);
+export const timeSchema = (labels) => {
+  const schema = schemaBuilder("time", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "format": "time",
@@ -193,8 +172,8 @@ const timeSchema = () => {
   return schema;
 };
 
-const checkboxSchema = () => {
-  const schema = schemaBuilder("boolean", enLabels);
+export const checkboxSchema = (labels) => {
+  const schema = schemaBuilder("boolean", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "boolean",
     "title": "Default",
@@ -221,8 +200,8 @@ const checkboxSchema = () => {
   return schema;
 };
 
-const selectSchema = () => {
-  const schema = schemaBuilder("select", enLabels);
+export const selectSchema = (labels) => {
+  const schema = schemaBuilder("select", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "title": "Default",
@@ -282,8 +261,8 @@ const selectSchema = () => {
   return schema;
 };
 
-const multiselectSchema = () => {
-  const schema = schemaBuilder("array", enLabels);
+export const multiselectSchema = (labels) => {
+  const schema = schemaBuilder("array", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "array",
     "title": "default",
@@ -363,8 +342,8 @@ const multiselectSchema = () => {
   return schema;
 };
 
-const fileSchema = () => {
-  const schema = schemaBuilder("file", enLabels);
+export const fileSchema = (labels: Labels) => {
+  const schema = schemaBuilder("file", labels);
   (schema.allOf[0].properties as any)["x-display"] = {
     "const": "custom-multi-file-input"
   };
@@ -450,8 +429,8 @@ const fileSchema = () => {
   return schema;
 };
 
-const userinputSchema = () => {
-  const schema = schemaBuilder("user", enLabels);
+export const userinputSchema = (labels) => {
+  const schema = schemaBuilder("user", labels);
   (schema.allOf[0].properties as any)["x-display"] = {
     "const": "custom-user-input"
   };
@@ -480,8 +459,8 @@ const userinputSchema = () => {
   return schema;
 };
 
-const multiUserinputSchema = () => {
-  const schema = schemaBuilder("array", enLabels);
+export const multiUserinputSchema = (labels) => {
+  const schema = schemaBuilder("array", labels);
   (schema.allOf[0].properties as any)["x-display"] = {
     "const": "custom-multi-user-input"
   };
@@ -529,8 +508,8 @@ const multiUserinputSchema = () => {
   return schema;
 };
 
-const arrayInput = () => {
-  const schema = schemaBuilder("array", enLabels);
+export const arrayInput = (labels) => {
+  const schema = schemaBuilder("array", labels);
   (schema.allOf[0].properties as any)["items"] = {
     "type": "object",
     "properties": {
@@ -570,8 +549,8 @@ const arrayInput = () => {
   return schema;
 };
 
-const arrayObjectInput = () => {
-  const schema = schemaBuilder("array", enLabels);
+export const arrayObjectInput = (labels) => {
+  const schema = schemaBuilder("array", labels);
   (schema.allOf[0].properties as any)["items"] = {
     "type": "object",
     "properties": {
@@ -589,8 +568,8 @@ const arrayObjectInput = () => {
   return schema;
 };
 
-export const genericSchema = () => {
-  const schema = schemaBuilder("generic", enLabels);
+export const genericSchema = (labels: Labels) => {
+  const schema = schemaBuilder("generic", labels);
   (schema.allOf[0].properties as any)["default"] = {
     "type": "string",
     "title": "Default",
@@ -602,24 +581,45 @@ export const genericSchema = () => {
   return schema;
 };
 
+export const enLabels: Labels = {
+  sectionTitle: "General",
+  sectionDescription: "Description",
+  optionsTitle: "Options",
+  maxColSize: "Size (max 12)",
+  defaultColSize: "Default size",
+  colSizeSmallDevices: "Size on small devices",
+  errorMsgPattern: "Pattern error message",
+  errorMsgMinString: "Minimum {minLength} characters",
+  errorMsgMaxString: "Maximum {maxLength} characters",
+  errorMsgMinNumber: "Minimum {minimum}",
+  errorMsgMaxNumber: "Maximum {maximum}",
+  errorMsgMinArray: "Minimum {minItems} entries",
+  errorMsgMaxArray: "Maximum {maxItems} entries",
+  errorMsgMinTime: "Minimum {minimum}",
+  errorMsgMaxTime: "Maximum {maximum}",
+  validationMin: "Minimum",
+  validationMax: "Maximum",
+  validationAdditionalRules: "Additional rules",
+};
+
 export const schemaMap: any = {
-  "textarea": textAreaSchema(),
-  "text": textFeldSchema(),
-  "integer": integerSchema(),
-  "number": integerSchema(),
-  "boolean": checkboxSchema(),
-  "multiselect": multiselectSchema(),
-  "file": fileSchema(),
-  "user-input": userinputSchema(),
-  "multi-user-input": multiUserinputSchema(),
-  "array": arrayInput(),
-  "arrayObject": arrayObjectInput(),
-  "switch": switchSchema(),
-  "markdown": markdownSchema(),
+  "textarea": textAreaSchema(enLabels),
+  "text": textFeldSchema(enLabels),
+  "integer": integerSchema(enLabels),
+  "number": integerSchema(enLabels),
+  "boolean": checkboxSchema(enLabels),
+  "multiselect": multiselectSchema(enLabels),
+  "file": fileSchema(enLabels),
+  "user-input": userinputSchema(enLabels),
+  "multi-user-input": multiUserinputSchema(enLabels),
+  "array": arrayInput(enLabels),
+  "arrayObject": arrayObjectInput(enLabels),
+  "switch": switchSchema(enLabels),
+  "markdown": markdownSchema(enLabels),
   "const": constSchema,
-  "object": objectInput(),
-  "objectType": objectInput(),
-  "select": selectSchema(),
-  "date": dateSchema(),
-  "time": timeSchema(),
+  "object": objectInput(enLabels),
+  "objectType": objectInput(enLabels),
+  "select": selectSchema(enLabels),
+  "date": dateSchema(enLabels),
+  "time": timeSchema(enLabels),
 };
