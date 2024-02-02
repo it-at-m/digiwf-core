@@ -21,5 +21,5 @@ import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { accessToken } = useAccessToken();
 
-const loading = computed(() => !accessToken.value)
+const loading = computed(() => !accessToken.value);
 </script>

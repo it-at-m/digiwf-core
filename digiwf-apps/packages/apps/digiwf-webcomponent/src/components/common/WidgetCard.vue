@@ -3,7 +3,12 @@
     <c-card-header>
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <CSpinner color="primary" size="xl" v-if="loading" class="me-3"/>
+          <c-spinner
+            v-if="loading"
+            color="primary"
+            size="xl"
+            class="me-3"
+          />
           <svg-icon
             v-else
             type="mdi"
@@ -11,8 +16,18 @@
             class="me-3 text-primary"
             size="36"
           />
-          <h5 v-if="loading" class="mb-0"><strong>{{ cardTitle }} werden geladen...</strong></h5>
-          <h5 v-else class="mb-0 p-0"><strong>{{ cardTitle }}</strong></h5>
+          <h5
+            v-if="loading"
+            class="mb-0"
+          >
+            <strong>{{ cardTitle }} werden geladen...</strong>
+          </h5>
+          <h5
+            v-else
+            class="mb-0 p-0"
+          >
+            <strong>{{ cardTitle }}</strong>
+          </h5>
         </div>
         <c-button
           color="primary"
@@ -28,7 +43,7 @@
       </div>
     </c-card-header>
     <c-card-body class="p-0">
-      <slot/>
+      <slot />
     </c-card-body>
     <c-card-footer>
       <div class="d-flex w-100 justify-content-end align-items-center">
@@ -58,10 +73,10 @@ import {
   CCardBody,
   CCardFooter,
   CCardHeader,
-  CSpinner
+  CSpinner,
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiClipboardTextOutline, mdiReload, mdiOpenInNew } from "@mdi/js";
+import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
 import { useDigiWFBaseURL } from "@/composables/useDigiWFBaseURL";
@@ -79,12 +94,11 @@ const props = withDefaults(
   {
     iconPath: mdiClipboardTextOutline,
     loading: false,
-    linkText: "In DigiWF öffnen"
+    linkText: "In DigiWF öffnen",
   }
 );
 
 const frontendURL = computed(() => {
   return `https://${digiWFBaseURL}/#/${props.linkPath}`;
 });
-
 </script>

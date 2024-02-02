@@ -9,9 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  CListGroup,
-} from "@coreui/vue";
+import { CListGroup } from "@coreui/vue";
 
 import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
 import SERVICE_INSTANCES_DUMMIES from "@/dev/dummy-data";

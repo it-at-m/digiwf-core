@@ -1,5 +1,5 @@
 type AccessTokenLoadedEventData = {
-  accessToken: string
-}
+  accessToken: string;
+};
 
-export type AccessTokenLoadedEvent = CustomEvent<AccessTokenLoadedEventData>
+export type AccessTokenLoadedEvent = CustomEvent<AccessTokenLoadedEventData>;
