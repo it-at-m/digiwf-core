@@ -23,19 +23,4 @@
         <module>digiwf-ticket-integration-zammad-api</module>
     </modules>
 
-    <dependencies>
-        <!-- TODO could be removed after migrate all migrations to spring 3-->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-message-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 </project>

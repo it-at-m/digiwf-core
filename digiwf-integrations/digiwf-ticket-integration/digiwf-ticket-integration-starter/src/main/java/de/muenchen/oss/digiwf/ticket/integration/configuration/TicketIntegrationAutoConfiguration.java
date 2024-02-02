@@ -7,6 +7,7 @@ package de.muenchen.oss.digiwf.ticket.integration.configuration;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.ZammadAdapter;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.TicketsApi;
 import de.muenchen.oss.digiwf.ticket.integration.application.WriteArticleUseCase;
+import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.TicketOutPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +28,7 @@ public class TicketIntegrationAutoConfiguration {
     }
 
     @Bean
-    public WriteArticleUseCase writeArticleUseCase(TicketOutPort ticketOutPort) {
+    public WriteArticleInPort writeArticleUseCase(TicketOutPort ticketOutPort) {
         return new WriteArticleUseCase(ticketOutPort);
     }
 
