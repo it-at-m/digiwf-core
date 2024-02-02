@@ -77,11 +77,12 @@ public class TicketMessageProcessor {
 
     private void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
         final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
-        final String messageName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_MESSAGE_NAME)).toString();
+        final String integrationName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_INTEGRATION_NAME)).toString();
+        final String type = Objects.requireNonNull(headers.get(MessageConstants.TYPE)).toString();
         if (payload == null) {
             payload = new HashMap<>();
         }
-        this.processApi.correlateMessage(processInstanceId, messageName, payload);
+        this.processApi.correlateMessage(processInstanceId, type, integrationName, payload);
     }
 
     private void handleBpmnError(@NonNull MessageHeaders headers, @NonNull BpmnError bpmnError) {
