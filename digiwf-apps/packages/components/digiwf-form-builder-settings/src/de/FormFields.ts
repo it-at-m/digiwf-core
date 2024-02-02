@@ -799,18 +799,15 @@ const dateSchema = {
               ...basicOptions.properties["x-options"].properties.fieldColProps,
               properties: {
                 ...basicOptions.properties["x-options"].properties.fieldColProps.properties,
-                messages: {}
               }
-            }
+            },
+            messages: {}
           }
         }
       }
     },
     {
-      ...basicValidation,
-      properties: {
-        "x-rules": basicValidation.properties["x-rules"],
-      }
+      ...basicValidation
     }
   ]
 };
@@ -943,39 +940,39 @@ const timeSchema = {
                           "sm": 6
                         }
                       }
-                    },
-                    "messages": {
-                      "type": "object",
-                      "description": "Messages",
-                      "properties": {
-                        "pattern": {
-                          "type": "string",
-                          "title": "Pattern (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        },
-                        "minimum": {
-                          "type": "string",
-                          "title": "Minimum (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        },
-                        "maximum": {
-                          "type": "string",
-                          "title": "Maximum (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        }
-                      }
+                    }
+                  },
+              },
+              "messages": {
+                "type": "object",
+                "description": "Messages",
+                "properties": {
+                  "pattern": {
+                    "type": "string",
+                    "title": "Pattern (Error Message)",
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    }
+                  },
+                  "minimum": {
+                    "type": "string",
+                    "title": "Minimum (Error Message)",
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    }
+                  },
+                  "maximum": {
+                    "type": "string",
+                    "title": "Maximum (Error Message)",
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
                     }
                   }
-              },
+                }
+              }
             }
           }
         }
@@ -1648,6 +1645,7 @@ const arrayObjectInput = {
     {
       ...basicValidation,
       properties: {
+        ...basicValidation.properties,
         "minItems": {
           "type": "integer",
           "title": "minimum",
@@ -1700,10 +1698,7 @@ export const schemaMap: any = {
   "text": textFeldSchema,
   "integer": integerSchema,
   "number": numberSchema,
-  "date": dateSchema,
-  "time": timeSchema,
   "boolean": checkboxSchema,
-  "select": selectSchema,
   "multiselect": multiselectSchema,
   "file": fileSchema,
   "user-input": userinputSchema,
@@ -1716,4 +1711,7 @@ export const schemaMap: any = {
   "const": constSchema,
   "object": objectInput,
   "objectType": objectInput,
+  "select": selectSchema,
+  "date": dateSchema,
+  "time": timeSchema,
 };

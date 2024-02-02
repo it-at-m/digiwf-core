@@ -1,12 +1,26 @@
-import {describe, expect, test} from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 
 import SettingsDE from './de/Settings';
 import SettingsEN from './en/Settings';
+import { schemaMap as enSchemaMap } from "./en/FormFields";
+import { schemaMap as deSchemaMap } from "./de/FormFields";
 
 describe("digiwf-form-builder-settings", () => {
-  test("settings for english and german should have to same keys", () => {
+  test("Form Fields: settings for english and german should have to same keys", () => {
+    const enSchemas = enSchemaMap;
+    const deSchemas = deSchemaMap;
+
+    expect(Object.keys(enSchemas)).toEqual(Object.keys(deSchemas));
+    Object.keys(enSchemas).forEach(key => {
+      const en = flattenObjectKeys(enSchemas[key]);
+      const de = flattenObjectKeys(deSchemas[key]);
+      expect(en).toEqual(de);
+    });
+  })
+  test("Settings: settings for english and german should have to same keys", () => {
     const enKeys = flattenObjectKeys(SettingsEN);
     const deKeys = flattenObjectKeys(SettingsDE);
+
     expect(enKeys).toEqual(deKeys)
   })
 })

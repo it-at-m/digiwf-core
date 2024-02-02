@@ -1,818 +1,122 @@
-const basicSchema = {
-  "type": "object",
-  "x-display": "tabs",
-  "x-props": {
-    "grow": true
-  },
-  "x-options": {
-    "childrenClass": "pr-5 pl-0",
-  }
+import { Labels, schemaBuilder } from "../utils";
+
+const enLabels: Labels = {
+  sectionTitle: "General",
+  sectionDescription: "Description",
+  optionsTitle: "Options",
+  maxColSize: "Size (max 12)",
+  defaultColSize: "Default size",
+  colSizeSmallDevices: "Size on small devices",
+  errorMsgPattern: "Pattern error message",
+  errorMsgMinString: "Minimum {minLength} characters",
+  errorMsgMaxString: "Maximum {maxLength} characters",
+  errorMsgMinNumber: "Minimum {minimum}",
+  errorMsgMaxNumber: "Maximum {maximum}",
+  errorMsgMinArray: "Minimum {minItems} entries",
+  errorMsgMaxArray: "Maximum {maxItems} entries",
+  errorMsgMinTime: "Minimum {minimum}",
+  errorMsgMaxTime: "Maximum {maximum}",
+  validationMin: "Minimum",
+  validationMax: "Maximum",
+  validationAdditionalRules: "Additional rules",
 };
 
-const basicAttributes = {
-  "title": "General",
-  "type": "object",
-  "properties": {
-    "fieldType": {
-      "type": "string",
-      "title": "Type",
-      "readOnly": true
-    },
-    "type": {
-      "type": "string",
-      "x-display": "hidden",
-    },
-    "key": {
-      "type": "string",
-      "title": "Key",
-      "x-props": {
-        "outlined": true,
-        "dense": true
-      },
-      "x-rules": [
-        "required"
-      ]
-    },
-    "title": {
-      "type": "string",
-      "title": "Titel",
-      "x-props": {
-        "outlined": true,
-        "dense": true
-      },
-      "x-rules": [
-        "required"
-      ]
-    },
-    "description": {
-      "type": "string",
-      "title": "Beschreibung",
-      "x-props": {
-        "outlined": true,
-        "dense": true
-      }
-    },
-    "readOnly": {
-      "type": "boolean",
-      "title": "Readonly",
-      "x-props": {
-        "outlined": true,
-        "dense": true
-      }
-    }
-  }
-};
-
-const basicOptions = {
-  "title": "Optionen",
-  "type": "object",
-  "properties": {
+const textFeldSchema = () => {
+  const schema = schemaBuilder("string", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
     "x-props": {
-      "type": "object",
-      "description": "Ui",
-      "properties": {
-        "dense": {
-          "type": "boolean",
-          "title": "Dense",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "outlined": {
-          "type": "boolean",
-          "title": "Outlined",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        }
-      }
-    },
-    "x-options": {
-      "type": "object",
-      "properties": {
-        "fieldColProps": {
-          "description": "Größe (max. 12)",
-          "type": "object",
-          "properties":
-            {
-              "sm": {
-                "type": "integer",
-                "title": "Standardgröße",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-              "cols": {
-                "type": "integer",
-                "title": "Größe auf kleinen Geräten",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-            }
-        },
-        "messages": {
-          "type": "object",
-          "description": "Messages",
-          "properties": {
-            "pattern": {
-              "type": "string",
-              "title": "Pattern (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            }
-          }
-        }
-      }
+      "outlined": true,
+      "dense": true
     }
-  }
-};
+  };
+  return schema;
+}
 
-const optionsWithCustomErrorMessages = {
-  "title": "Optionen",
-  "type": "object",
-  "properties": {
+const textAreaSchema = () => {
+  const schema = schemaBuilder("string", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
+    "x-display": "textarea",
     "x-props": {
-      "type": "object",
-      "description": "Ui",
-      "properties": {
-        "dense": {
-          "type": "boolean",
-          "title": "Dense",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "outlined": {
-          "type": "boolean",
-          "title": "Outlined",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        }
-      }
-    },
-    "x-options": {
-      "type": "object",
-      "properties": {
-        "fieldColProps": {
-          "description": "Größe (max. 12)",
-          "type": "object",
-          "properties":
-            {
-              "sm": {
-                "type": "integer",
-                "title": "Standardgröße",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-              "cols": {
-                "type": "integer",
-                "title": "Größe auf kleinen Geräten",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-            }
-        },
-        "messages": {
-          "type": "object",
-          "description": "Messages",
-          "properties": {
-            "pattern": {
-              "type": "string",
-              "title": "Pattern (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "minLength": {
-              "type": "string",
-              "title": " {minLength} characters minimum",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "maxLength": {
-              "type": "string",
-              "title": "{maxLength} characters maximum",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            }
-          }
-        }
-      }
+      "outlined": true,
+      "dense": true
     }
-  }
-};
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "textarea"
+  };
+  return schema;
+}
 
-const optionsNumberWithCustomErrorMessages = {
-  "title": "Optionen",
-  "type": "object",
-  "properties": {
+const integerSchema = () => {
+  const schema = schemaBuilder("number", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "integer",
+    "title": "Default",
     "x-props": {
-      "type": "object",
-      "description": "Ui",
-      "properties": {
-        "dense": {
-          "type": "boolean",
-          "title": "Dense",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "outlined": {
-          "type": "boolean",
-          "title": "Outlined",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        }
-      }
-    },
-    "x-options": {
-      "type": "object",
-      "properties": {
-        "fieldColProps": {
-          "description": "Größe (max. 12)",
-          "type": "object",
-          "properties":
-            {
-              "sm": {
-                "type": "integer",
-                "title": "Standardgröße",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-              "cols": {
-                "type": "integer",
-                "title": "Größe auf kleinen Geräten",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-            }
-        },
-        "messages": {
-          "type": "object",
-          "description": "Messages",
-          "properties": {
-            "pattern": {
-              "type": "string",
-              "title": "Pattern (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "minimum": {
-              "type": "string",
-              "title": "The value must be greater than or equal to {minimum}",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "maximum": {
-              "type": "string",
-              "title": "The value must be lower than or equal to {maximum}",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            }
-          }
-        }
-      }
+      "outlined": true,
+      "dense": true
     }
-  }
+  };
+  return schema;
 };
 
-const optionsArrayWithCustomErrorMessages = {
-  "title": "Optionen",
-  "type": "object",
-  "properties": {
+const markdownSchema = () => {
+  const schema = schemaBuilder("markdown", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
+    "x-display": "markdown",
     "x-props": {
-      "type": "object",
-      "description": "Ui",
-      "properties": {
-        "dense": {
-          "type": "boolean",
-          "title": "Dense",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "outlined": {
-          "type": "boolean",
-          "title": "Outlined",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        }
-      }
-    },
-    "x-options": {
-      "type": "object",
-      "properties": {
-        "fieldColProps": {
-          "description": "Größe (max. 12)",
-          "type": "object",
-          "properties":
-            {
-              "sm": {
-                "type": "integer",
-                "title": "Standardgröße",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              },
-              "cols": {
-                "type": "integer",
-                "title": "Größe auf kleinen Geräten",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 6
-                  }
-                }
-              }
-            }
-        },
-        "messages": {
-          "type": "object",
-          "description": "Messages",
-          "properties": {
-            "pattern": {
-              "type": "string",
-              "title": "Pattern (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "minItems": {
-              "type": "string",
-              "title": "Min {minItems} Elements (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            },
-            "maxItems": {
-              "type": "string",
-              "title": "Max {maxItems} Elements (Error Message)",
-              "x-props": {
-                "outlined": true,
-                "dense": true
-              }
-            }
-          }
-        }
-      }
+      "outlined": true,
+      "dense": true
     }
-  }
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "markdown"
+  };
+  return schema;
 };
 
-const basicValidation = {
-  "title": "Validierung",
-  "type": "object",
-  "properties": {
-    "pattern": {
-      "type": "string",
-      "title": "Pattern (regex)",
-      "x-props": {
-        "outlined": true,
-        "dense": true
-      }
-    },
-    "x-rules": {
-      "type": "array",
-      "title": "Weitere Regeln",
-      "items": {
-        "type": "string",
-        "enum": [
-          "required",
-        ]
-      },
-      "x-display": "checkbox"
+const switchSchema = () => {
+  const schema = schemaBuilder("boolean", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "boolean",
+    "title": "Default",
+    "default": false,
+    "x-display": "switch",
+    "x-props": {
+      "outlined": true,
+      "dense": true
     }
-  }
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "switch"
+  };
+  return schema;
 };
 
-const textFeldSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      "properties": {
-        ...basicAttributes.properties,
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...optionsWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minLength": {
-          "type": "integer",
-          "title": "min. Länge",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxLength": {
-          "type": "integer",
-          "title": "max. Länge",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
+const dateSchema = () => {
+  const schema = schemaBuilder("date", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "format": "date",
+    "title": "Default",
+    "x-props": {
+      "outlined": true,
+      "dense": true
     }
-  ]
-};
-
-const integerSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      "properties": {
-        ...basicAttributes.properties,
-        "default": {
-          "type": "integer",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...optionsNumberWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minimum": {
-          "type": "integer",
-          "title": "min. value",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maximum": {
-          "type": "integer",
-          "title": "max. value",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const numberSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      "properties": {
-        ...basicAttributes.properties,
-        "default": {
-          "type": "integer",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...optionsNumberWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minimum": {
-          "type": "number",
-          "title": "min. value",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maximum": {
-          "type": "number",
-          "title": "max. value",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const markdownSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "markdown"
-        },
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-display": "markdown",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
-    }
-  ]
-};
-
-const textAreaSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "textarea"
-        },
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-display": "textarea",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...optionsWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minLength": {
-          "type": "integer",
-          "title": "min. Länge",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxLength": {
-          "type": "integer",
-          "title": "max. Länge",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const switchSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "switch"
-        },
-        "default": {
-          "type": "boolean",
-          "title": "Default",
-          "default": false,
-          "x-display": "switch",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
-    }
-  ]
-};
-
-const dateSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "custom-date-input"
-        },
-        "format": {
-          "const": "date"
-        },
-        "default": {
-          "type": "string",
-          "format": "date",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      // all basic options without messages
-      ...basicOptions,
-      properties: {
-        ...basicOptions.properties,
-        "x-options": {
-          ...basicOptions.properties["x-options"],
-          properties: {
-            ...basicOptions.properties["x-options"].properties,
-            fieldColProps: {
-              ...basicOptions.properties["x-options"].properties.fieldColProps,
-              properties: {
-                ...basicOptions.properties["x-options"].properties.fieldColProps.properties,
-                messages: {}
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      ...basicValidation,
-      properties: {
-        "x-rules": basicValidation.properties["x-rules"],
-      }
-    }
-  ]
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-date-input"
+  };
+  (schema.allOf[0].properties as any)["format"] = {
+    "const": "date"
+  };
+  return schema;
 };
 
 const constSchema = {
@@ -853,868 +157,469 @@ const constSchema = {
   }
 };
 
-const objectInput = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "additionalProperties": {
-          "const": false,
-        },
-      }
-    },
-    {
-      ...basicOptions
-    }
-  ]
+const objectInput = () => {
+  const schema = schemaBuilder("object", enLabels);
+  (schema.allOf[0].properties as any)["additionalProperties"] = {
+    "const": false,
+  };
+  return schema;
 };
 
-const timeSchema = {
-    ...basicSchema,
-    allOf: [
-      {
-        ...basicAttributes,
-        properties: {
-          ...basicAttributes.properties,
-          "x-display": {
-            "const": "custom-time-input"
-          },
-          "format": {
-            "const": "time"
-          },
-          "default": {
-            "type": "string",
-            "format": "time",
-            "title": "Default",
-            "x-props": {
-              "outlined": true,
-              "dense": true
-            }
-          }
-
-        },
-      },
-      {
-        ...basicOptions,
-        "properties": {
-          ...basicOptions.properties,
-          "x-options": {
-            "type": "object",
-            "properties": {
-              "timePickerProps": {
-                "type": "object",
-                "properties": {
-                  "format": {
-                    "const": "24hr"
-                  }
-                }
-              },
-              "fieldColProps": {
-                "description": "Size (max. 12)",
-                "type": "object",
-                "properties":
-                  {
-                    "sm": {
-                      "type": "integer",
-                      "title": "default size",
-                      "x-props": {
-                        "outlined": true,
-                        "dense": true
-                      },
-                      "x-options": {
-                        "fieldColProps": {
-                          "cols": 12,
-                          "sm": 6
-                        }
-                      }
-                    },
-                    "cols": {
-                      "type": "integer",
-                      "title": "Size on small devices",
-                      "x-props": {
-                        "outlined": true,
-                        "dense": true
-                      },
-                      "x-options": {
-                        "fieldColProps": {
-                          "cols": 12,
-                          "sm": 6
-                        }
-                      }
-                    },
-                    "messages": {
-                      "type": "object",
-                      "description": "Messages",
-                      "properties": {
-                        "pattern": {
-                          "type": "string",
-                          "title": "Pattern (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        },
-                        "minimum": {
-                          "type": "string",
-                          "title": "Minimum (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        },
-                        "maximum": {
-                          "type": "string",
-                          "title": "Maximum (Error Message)",
-                          "x-props": {
-                            "outlined": true,
-                            "dense": true
-                          }
-                        }
-                      }
-                    }
-                  }
-              },
-            }
-          }
-        }
-      },
-      {
-        ...basicValidation
-      }
-    ]
-  }
-;
-
-const checkboxSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "type": "string",
-          "title": "Display",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "default": {
-          "type": "boolean",
-          "title": "Default",
-          "default": false,
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
+const timeSchema = () => {
+  const schema = schemaBuilder("time", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "format": "time",
+    "title": "Default",
+    "x-props": {
+      "outlined": true,
+      "dense": true
     }
-  ]
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-time-input"
+  };
+  (schema.allOf[0].properties as any)["format"] = {
+    "const": "time"
+  };
+  (schema.allOf[1].properties as any)["x-options"].properties["timePickerProps"] = {
+    "type": "object",
+    "properties": {
+      "format": {
+        "const": "24hr"
+      }
+    }
+  };
+  return schema;
 };
 
-const selectSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "type": "string",
-          "title": "Display",
-          "enum": [
-            "radio",
-            "select"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          },
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      "title": "Select",
-      "type": "object",
-      "properties": {
-        "anyOf": {
-          "type": "array",
-          "title": "Entries",
-          "x-itemTitle": "title",
-          "items": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "string",
-                "title": "Titel",
-                "x-rules": [
-                  "required"
-                ]
-              },
-              "const": {
-                "type": "string",
-                "title": "Value",
-                "x-rules": [
-                  "required"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
+const checkboxSchema = () => {
+  const schema = schemaBuilder("boolean", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "boolean",
+    "title": "Default",
+    "default": false,
+    "x-props": {
+      "outlined": true,
+      "dense": true
     }
-  ]
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "type": "string",
+    "title": "Display",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    },
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 6
+      }
+    }
+  };
+  return schema;
 };
 
-const multiselectSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "type": "string",
-          "title": "Display",
-          "enum": [
-            "checkbox",
-            "select",
-            "switch"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          },
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "default": {
-          "type": "array",
-          "title": "default",
-          "items": {
-            "type": "string"
-          },
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        }
-      }
+const selectSchema = () => {
+  const schema = schemaBuilder("select", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    }
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "type": "string",
+    "title": "Display",
+    "enum": [
+      "radio",
+      "select"
+    ],
+    "x-props": {
+      "outlined": true,
+      "dense": true
     },
-    {
-      "title": "Select",
-      "type": "object",
-      "properties": {
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 6
+      }
+    }
+  };
+  schema.allOf.splice(1, 0, {
+    "title": "Select",
+    "type": "object",
+    "properties": {
+      "anyOf": {
+        "type": "array",
+        "title": "Entries",
+        "x-itemTitle": "title",
         "items": {
           "type": "object",
           "properties": {
-            "type": {
-              "const": "string"
-            },
-            "anyOf": {
-              "type": "array",
-              "title": "Entries",
-              "x-itemTitle": "title",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "title": "Titel",
-                    "x-rules": [
-                      "required"
-                    ]
-                  },
-                  "const": {
-                    "type": "string",
-                    "title": "Value",
-                    "x-rules": [
-                      "required"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      ...optionsArrayWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minItems": {
-          "type": "integer",
-          "title": "minimum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxItems": {
-          "type": "integer",
-          "title": "maximum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const fileSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "custom-multi-file-input"
-        },
-        "filePath": {
-          "type": "string",
-          "title": "Filepath",
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        },
-        "properties": {
-          "const": {"key": {"type": "string"}, "amount": {"type": "integer"}}
-        },
-        "uuidEnabled": {
-          "type": "boolean",
-          "title": "Unique identifier?",
-          "description": "Creates an unique, which will add to the the directory path. It should be used in object lists.",
-
-          "default": false,
-          "x-props": {
-            "outlined": true,
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation,
-      properties: {
-        "x-rules": {
-          "type": "array",
-          "title": "Regeln",
-          "items": {
-            "type": "string",
-            "enum": [
-              "requiredObject",
-            ]
-          },
-          "x-display": "checkbox"
-        },
-        "maxFiles": {
-          "type": "integer",
-          "title": "Maximum number of files",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxFileSize": {
-          "type": "integer",
-          "title": "Maximum file size in MB",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxTotalSize": {
-          "type": "integer",
-          "title": "Maximum total size of all files in MB",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "accept": {
-          "type": "string",
-          "title": "Permitted file formats",
-          "description": "The file formats must be specified as MIME type and comma-separated.",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const userinputSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "custom-user-input"
-        },
-        "ldap-groups": {
-          "type": "string",
-          "title": "Ldap Gruppen",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
-    }
-  ]
-};
-
-const multiUserinputSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "custom-multi-user-input"
-        },
-        "ldap-groups": {
-          "type": "string",
-          "title": "Ldap Gruppen",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          },
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 6
-            }
-          }
-        },
-        "items": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "string"
-            }
-          }
-        },
-        "default": {
-          "type": "array",
-          "title": "default",
-          "items": {
-            "type": "string"
-          },
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        }
-      }
-    },
-    {
-      ...optionsArrayWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minItems": {
-          "type": "integer",
-          "title": "minimum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxItems": {
-          "type": "integer",
-          "title": "maximum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const dmsInputSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "x-display": {
-          "const": "custom-dms-input"
-        },
-        "dmsSystem": {
-          "type": "string",
-          "title": "Dms system",
-          "default": "mucs",
-          "enum": [
-            "mucs"
-          ],
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        },
-        "objectclass": {
-          "type": "string",
-          "title": "Objectclass",
-          "default": "Schriftstueck",
-          "enum": [
-            "Sachakte",
-            "Vorgang",
-            "Eingang",
-            "Ausgang",
-            "Intern",
-            "Schriftstueck"
-          ],
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        },
-        "default": {
-          "type": "array",
-          "title": "Default",
-          "description": "List of coos or links to be checked by the input",
-          "items": {
-            "type": "string"
-          },
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        },
-        "items": {
-          "type": "object"
-        }
-      }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation,
-      properties: {
-        "minObjects": {
-          "type": "integer",
-          "title": "Mininum number of objects",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxObjects": {
-          "type": "integer",
-          "title": "Maximum number of objects",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
-      }
-    }
-  ]
-};
-
-const arrayInput = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "items": {
-          "type": "object",
-          "properties": {
-            "type": {
+            "title": {
               "type": "string",
-              "title": "Typ",
-              "enum": [
-                "string",
-                "integer"
-              ],
-              "x-props": {
-                "outlined": true,
-                "dense": true
+              "title": "Titel",
+              "x-rules": [
+                "required"
+              ]
+            },
+            "const": {
+              "type": "string",
+              "title": "Value",
+              "x-rules": [
+                "required"
+              ]
+            }
+          }
+        }
+      }
+    }
+  } as any);
+  return schema;
+};
+
+const multiselectSchema = () => {
+  const schema = schemaBuilder("array", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "array",
+    "title": "default",
+    "items": {
+      "type": "string"
+    },
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "type": "string",
+    "title": "Display",
+    "enum": [
+      "checkbox",
+      "select",
+      "switch"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 6
+      }
+    },
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    }
+  };
+  schema.allOf.splice(1, 0, {
+    "title": "Auswahl",
+    "type": "object",
+    "properties": {
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "string"
+          },
+          "anyOf": {
+            "type": "array",
+            "title": "Einträge",
+            "x-itemTitle": "title",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "title": "Titel",
+                  "x-rules": [
+                    "required"
+                  ]
+                },
+                "const": {
+                  "type": "string",
+                  "title": "Wert",
+                  "x-rules": [
+                    "required"
+                  ]
+                }
               }
             }
           }
-        },
-        "default": {
-          "type": "array",
-          "title": "default",
-          "items": {
-            "type": "string"
-          },
-          "x-props": {
-            "outlined": true,
-          },
-          "x-rules": [
-            "required"
-          ],
-          "x-options": {
-            "fieldColProps": {
-              "cols": 12,
-              "sm": 12
-            }
-          }
-        }
-      }
-    },
-    {
-      ...optionsArrayWithCustomErrorMessages
-    },
-    {
-      ...basicValidation,
-      properties: {
-        ...basicValidation.properties,
-        "minItems": {
-          "type": "integer",
-          "title": "minimum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxItems": {
-          "type": "integer",
-          "title": "maximum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
         }
       }
     }
-  ]
+  } as any);
+  return schema;
 };
 
-const arrayObjectInput = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
-      properties: {
-        ...basicAttributes.properties,
-        "items": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "object"
-            },
-            "additionalProperties": {
-              "const": false,
-            },
-            "properties": {
-              "type": "object"
-            }
-          },
-        }
+const fileSchema = () => {
+  const schema = schemaBuilder("file", enLabels);
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-multi-file-input"
+  };
+  (schema.allOf[0].properties as any)["filePath"] = {
+    "type": "string",
+    "title": "Filepath",
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["properties"] = {
+    "const": {"key": {"type": "string"}, "amount": {"type": "integer"}}
+  };
+  (schema.allOf[0].properties as any)["uuidEnabled"] = {
+    "type": "boolean",
+    "title": "Unique identifier?",
+    "description": "Creates an unique, which will add to the the directory path. It should be used in object lists.",
+
+    "default": false,
+    "x-props": {
+      "outlined": true,
+    },
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  (schema.allOf[2].properties as any) = {
+    "x-rules": {
+      "type": "array",
+      "title": "Regeln",
+      "items": {
+        "type": "string",
+        "enum": [
+          "requiredObject",
+        ]
+      },
+      "x-display": "checkbox"
+    },
+    "maxFiles": {
+      "type": "integer",
+      "title": "Maximum number of files",
+      "x-props": {
+        "outlined": true,
+        "dense": true
       }
     },
-    {
-      ...optionsArrayWithCustomErrorMessages
+    "maxFileSize": {
+      "type": "integer",
+      "title": "Maximum file size in MB",
+      "x-props": {
+        "outlined": true,
+        "dense": true
+      }
     },
-    {
-      ...basicValidation,
-      properties: {
-        "minItems": {
-          "type": "integer",
-          "title": "minimum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        },
-        "maxItems": {
-          "type": "integer",
-          "title": "maximum",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
+    "maxTotalSize": {
+      "type": "integer",
+      "title": "Maximum total size of all files in MB",
+      "x-props": {
+        "outlined": true,
+        "dense": true
+      }
+    },
+    "accept": {
+      "type": "string",
+      "title": "Permitted file formats",
+      "description": "The file formats must be specified as MIME type and comma-separated.",
+      "x-props": {
+        "outlined": true,
+        "dense": true
+      }
+    }
+  };
+  return schema;
+};
+
+const userinputSchema = () => {
+  const schema = schemaBuilder("user", enLabels);
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-user-input"
+  };
+  (schema.allOf[0].properties as any)["ldap-groups"] = {
+    "type": "string",
+    "title": "Ldap Gruppen",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    },
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 6
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    }
+  };
+  return schema;
+};
+
+const multiUserinputSchema = () => {
+  const schema = schemaBuilder("array", enLabels);
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-multi-user-input"
+  };
+  (schema.allOf[0].properties as any)["ldap-groups"] = {
+    "type": "string",
+    "title": "Ldap Gruppen",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    },
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 6
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["items"] = {
+    "type": "object",
+    "properties": {
+      "type": {
+        "const": "string"
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "array",
+    "title": "default",
+    "items": {
+      "type": "string"
+    },
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  return schema;
+};
+
+const arrayInput = () => {
+  const schema = schemaBuilder("array", enLabels);
+  (schema.allOf[0].properties as any)["items"] = {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "title": "Typ",
+        "enum": [
+          "string",
+          "integer"
+        ],
+        "x-props": {
+          "outlined": true,
+          "dense": true
         }
       }
     }
-  ]
+  };
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "array",
+    "title": "default",
+    "items": {
+      "type": "string"
+    },
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  return schema;
 };
 
-export const genericSchema = {
-  ...basicSchema,
-  allOf: [
-    {
-      ...basicAttributes,
+const arrayObjectInput = () => {
+  const schema = schemaBuilder("array", enLabels);
+  (schema.allOf[0].properties as any)["items"] = {
+    "type": "object",
+    "properties": {
+      "type": {
+        "const": "object"
+      },
+      "additionalProperties": {
+        "const": false,
+      },
       "properties": {
-        ...basicAttributes.properties,
-        "default": {
-          "type": "string",
-          "title": "Default",
-          "x-props": {
-            "outlined": true,
-            "dense": true
-          }
-        }
+        "type": "object"
       }
-    },
-    {
-      ...basicOptions
-    },
-    {
-      ...basicValidation
     }
-  ]
+  };
+  return schema;
+};
+
+export const genericSchema = () => {
+  const schema = schemaBuilder("generic", enLabels);
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "string",
+    "title": "Default",
+    "x-props": {
+      "outlined": true,
+      "dense": true
+    }
+  };
+  return schema;
 };
 
 export const schemaMap: any = {
-  "textarea": textAreaSchema,
-  "text": textFeldSchema,
-  "integer": integerSchema,
-  "number": numberSchema,
-  "date": dateSchema,
-  "time": timeSchema,
-  "boolean": checkboxSchema,
-  "select": selectSchema,
-  "multiselect": multiselectSchema,
-  "file": fileSchema,
-  "user-input": userinputSchema,
-  "multi-user-input": multiUserinputSchema,
-  "dms-input": dmsInputSchema,
-  "array": arrayInput,
-  "arrayObject": arrayObjectInput,
-  "switch": switchSchema,
-  "markdown": markdownSchema,
+  "textarea": textAreaSchema(),
+  "text": textFeldSchema(),
+  "integer": integerSchema(),
+  "number": integerSchema(),
+  "boolean": checkboxSchema(),
+  "multiselect": multiselectSchema(),
+  "file": fileSchema(),
+  "user-input": userinputSchema(),
+  "multi-user-input": multiUserinputSchema(),
+  "array": arrayInput(),
+  "arrayObject": arrayObjectInput(),
+  "switch": switchSchema(),
+  "markdown": markdownSchema(),
   "const": constSchema,
-  "object": objectInput,
-  "objectType": objectInput,
+  "object": objectInput(),
+  "objectType": objectInput(),
+  "select": selectSchema(),
+  "date": dateSchema(),
+  "time": timeSchema(),
 };
