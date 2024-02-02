@@ -10,8 +10,9 @@ import {
   optionalProperties,
   sectionPalette
 } from "./ModelerPalette";
-import { genericSchema, schemaMap } from "./FormFields";
+import { deLabels, schemaMap } from "./FormFields";
 import { FormBuilderSettings } from "../../types";
+import { genericSchema } from "../base/FormFields";
 
 const Settings: FormBuilderSettings = {
     iconSettings: {
@@ -34,7 +35,7 @@ const Settings: FormBuilderSettings = {
     conditionalContainerSchema: conditionalContainerSchema,
     conditionalObjectContainerSchema: conditionalObjectContainerSchema,
     sectionSchema: section,
-    defaultFormFieldSchema: genericSchema(),
+    defaultFormFieldSchema: genericSchema(deLabels),
     formFieldSchemas: schemaMap
 };
 

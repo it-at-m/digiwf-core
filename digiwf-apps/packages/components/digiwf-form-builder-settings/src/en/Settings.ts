@@ -10,8 +10,9 @@ import {
   optionalProperties,
   sectionPalette
 } from "./ModelerPalette";
-import { enLabels, genericSchema, schemaMap } from "./FormFields";
+import { enLabels, schemaMap } from "./FormFields";
 import { FormBuilderSettings } from "../../types";
+import { genericSchema } from "../base/FormFields";
 
 const Settings: FormBuilderSettings = {
     iconSettings: {

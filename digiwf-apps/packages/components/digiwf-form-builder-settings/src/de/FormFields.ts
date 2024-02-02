@@ -1,12 +1,11 @@
-import { Labels } from "@/utils";
 import {
   arrayInput,
   arrayObjectInput,
   checkboxSchema,
   dateSchema,
   fileSchema,
-  genericSchema as enGenericSchema,
   integerSchema,
+  Labels,
   markdownSchema,
   multiselectSchema,
   multiUserinputSchema,
@@ -17,11 +16,35 @@ import {
   textFeldSchema,
   timeSchema,
   userinputSchema
-} from "../en/FormFields";
+} from "../base/FormFields";
 
+export const deLabels: Labels = {
+  sectionTitle: "Allgemein",
+  sectionDescription: "Beschreibung",
+  optionsTitle: "Optionen",
+  maxColSize: "Größe (max 12)",
+  defaultColSize: "Standardgröße",
+  colSizeSmallDevices: "Größe auf kleinen Geräten",
+  default: "Standard",
+  messages: "Nachrichten",
+  validation: "Validierung",
+  type: "Typ",
+  errorMsgPattern: "Pattern Fehlermeldung",
+  errorMsgMinString: "Minimum {minLength} Zeichen",
+  errorMsgMaxString: "Maximum {maxLength} Zeichen",
+  errorMsgMinNumber: "Minimum {minimum}",
+  errorMsgMaxNumber: "Maximum {maximum}",
+  errorMsgMinArray: "Minimum {minItems} Einträge",
+  errorMsgMaxArray: "Maximum {maxItems} Einträge",
+  errorMsgMinTime: "Minimum {minimum}",
+  errorMsgMaxTime: "Maximum {maximum}",
+  validationMin: "Minimum",
+  validationMax: "Maximum",
+  validationAdditionalRules: "Zusätzliche Regeln",
+};
 
 const constSchema = {
-  "title": "General",
+  "title": "Allgemein",
   "type": "object",
   "properties": {
     "fieldType": {
@@ -56,32 +79,6 @@ const constSchema = {
       ]
     },
   }
-};
-
-
-export const genericSchema = () => {
-  return enGenericSchema(deLabels);
-}
-
-const deLabels: Labels = {
-  sectionTitle: "Allgemein",
-  sectionDescription: "Beschreibung",
-  optionsTitle: "Optionen",
-  maxColSize: "Größe (max 12)",
-  defaultColSize: "Standardgröße",
-  colSizeSmallDevices: "Größe auf kleinen Geräten",
-  errorMsgPattern: "Pattern Fehlermeldung",
-  errorMsgMinString: "Minimum {minLength} Zeichen",
-  errorMsgMaxString: "Maximum {maxLength} Zeichen",
-  errorMsgMinNumber: "Minimum {minimum}",
-  errorMsgMaxNumber: "Maximum {maximum}",
-  errorMsgMinArray: "Minimum {minItems} Einträge",
-  errorMsgMaxArray: "Maximum {maxItems} Einträge",
-  errorMsgMinTime: "Minimum {minimum}",
-  errorMsgMaxTime: "Maximum {maximum}",
-  validationMin: "Minimum",
-  validationMax: "Maximum",
-  validationAdditionalRules: "Zusätzliche Regeln",
 };
 
 export const schemaMap: any = {
