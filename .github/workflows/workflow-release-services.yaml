@@ -143,6 +143,13 @@ jobs:
           push: true
           tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }},itatm/digiwf-address-integration-service:dev
 
+      - name: Build and push ticket-integration
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-ticket-integration/digiwf-ticket-integration-service
+          push: true
+          tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }},itatm/digiwf-ticket-integration-service:dev
+
   release-services-camunda-ee:
     runs-on: ubuntu-latest
     steps:
