@@ -5,7 +5,8 @@ In this module, you can find all integrations for the communication with other s
 ## digiwf-email-integration
 
 This is a Spring Boot Starter library to send e-mails in the DigiWF environment.
-It can be used to send mails asynchronously through a spring cloud stream compatible event broker.<br>For attachments to not clutter the EventBus,
+It can be used to send mails asynchronously through a spring cloud stream compatible event broker.<br>For attachments to
+not clutter the EventBus,
 paths to file locations on the S3-Filer are expected. The file is then grabbed by this library to avoid sending
 large files repeatedly through the EventBus.
 
@@ -36,18 +37,22 @@ with the above-mentioned starter.
 
 ## digiwf-alw-integration
 
-The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your environment.
+The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your
+environment.
 
 ## digiwf-verification-integration
 
-The goal of this library is to provide a service able to get a verification registered and return a verification link which later can be used to verify any data by confirmation.
-
+The goal of this library is to provide a service able to get a verification registered and return a verification link
+which later can be used to verify any data by confirmation.
 
 ## digiwf-ok.ewo-integration
 
-The goal of this library is to provide a service through which it is possible to request OK.EWO data. 
-
+The goal of this library is to provide a service through which it is possible to request OK.EWO data.
 
 ## digiwf-address-service-integration
 
 The goal of this library is to enable address service requests.
+
+## digiwf-ticket-integration
+
+The goal of this library is to enable ticket service requests.
