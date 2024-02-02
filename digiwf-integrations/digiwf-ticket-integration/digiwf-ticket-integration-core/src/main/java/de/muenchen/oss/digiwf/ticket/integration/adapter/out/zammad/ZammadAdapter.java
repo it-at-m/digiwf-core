@@ -22,6 +22,7 @@ public class ZammadAdapter implements TicketOutPort {
         final var ticketUpdateDto = mapToDTO(article, status);
 
         ticketsApi.updateTicket(ticketId, ticketUpdateDto, null, article.getUserId()).block();
+
     }
 
     private UpdateTicketDTO mapToDTO(Article article, TicketStatus status) {
