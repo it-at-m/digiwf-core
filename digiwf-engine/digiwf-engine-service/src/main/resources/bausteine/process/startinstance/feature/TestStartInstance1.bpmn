@@ -31,7 +31,6 @@ execution.setVariable('blank', "");</bpmn:script>
     <bpmn:sequenceFlow id="Flow_0ff4ikv" sourceRef="Activity_024d1ti" targetRef="Activity_1h8r8th" />
     <bpmn:callActivity id="Activity_024d1ti" name="Create instance2" camunda:modelerTemplate="de.muenchen.digitalwf.templates.StartInstanceTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="startProcessV01" target="app_message_name" />
         <camunda:in sourceExpression="true" target="app_responseless" />
         <camunda:in sourceExpression="startProcessV01" target="app_type_name" />
         <camunda:in sourceExpression="${starterOfInstance}" target="starterOfInstance" />

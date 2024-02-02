@@ -1,5 +1,7 @@
 # DigiWF Dms Integration
 
+![](https://img.shields.io/badge/Integration_Name-dmsIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die DMS Integration ermöglicht eine asynchrone Ablage von Dokumenten aus einem S3 Speicher in einem Dms System.
 Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
@@ -38,8 +40,8 @@ Dafür muss vorab die ID des Aktenplans gesucht und über das Feld `apentryCOO` 
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Sachakte anlegen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createFile.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Vorgang anlegen
 
@@ -66,8 +68,8 @@ Dafür muss vorab eine Akte angelegt und die Id über das Feld `fileCOO` überge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Vorgang anlegenn](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createProcedure.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dokument erstellen
 
@@ -99,8 +101,8 @@ Bei `filepaths` können mehrere Pfade zu Dateien oder Ordnern mit einem Komma ge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Dokument erstellen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/createDocument.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dokument updaten
 
@@ -131,8 +133,8 @@ Bei `filepaths` können mehrere Pfade zu Dateien oder Ordnern mit einem Komma ge
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Dokument updaten](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/updateDocument.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Zu den Akten legen
 
@@ -158,8 +160,8 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Zu den Akten legen](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/depositObject.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Objekt stornieren
 
@@ -185,8 +187,8 @@ Dafür muss vorab ein Object angelegt und die Id über das Feld `objectCoo` übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Objekt stornieren](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cancelObject.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Dateien lesen und in den S3 Speicher übertragen
 
@@ -217,8 +219,8 @@ Die Dms Integration liest die Inhalte mit den angegebenen `contentCoos` und übe
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Read Content](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/readContent.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Sachakte suchen
 
@@ -238,14 +240,27 @@ Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 }
 ```
 
+Es ist möglich, die Suche über ein Fachdatum einzugrenzen. Dafür kann der Suche eine Referenz auf ein Fachdatum
+mitgegeben werden. Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt, das die optionalen Felder
+'Fachdatum-Referenz' und 'Fachdatum-Wert' verwendet:
+
+```json
+{
+  "searchString": "untergruppe.*-sachakte-*",
+  "user": "test",
+  "reference": "testNumber",
+  "value": "42"
+}
+```
+
 Die Dms Integration sucht nach der entsprechenden Sachakte und gibt die `Coo` der ersten zurück, die gefunden wird.
 Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Search File](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchFile.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Aktenplaneintrag suchen
 
@@ -271,8 +286,8 @@ wird. Ist keine vorhanden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 **Verwendung in BPMN Prozessen**
 
 Verwenden Sie eines das Element-Template in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
-befüllen Sie es mit den gewünschten Informationen:
-[Search Subject Area](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/searchSubjectArea.json)
+befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
 ### Fehlerbehandlung
 
@@ -284,21 +299,21 @@ Nachfolgend sind die BPMN Errors aufgeführt, die von der dms Integration geworf
 
 #### BPMN Error
 
-| Error Code                                   | Error Message                                                                                                                                                                                                                   | Beschreibung                                                            | Handlungsempfehlung                                                                            | 
-|----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `LOAD_FILE_FAILED`                           | An file could not be loaded from url: filepath                                                                                                                                                                                  | Die Datei konnte nicht geladen werden                                   | Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist                                  |
-| `LOAD_FOLDER_FAILED`                         | An folder could not be loaded from url: folderpath                                                                                                                                                                              | Der Ordner konnte nicht geladen werden                                  | Stellen Sie sicher, dass der Ornder im S3 Bucket vorhanden ist                                 |
-| `FILE_TYPE_NOT_SUPPORTED`                    | The type of this file is not supported: filepath                                                                                                                                                                                | Der Dateityp der Datei wird nicht unterstützt                           | Die Datei kann nicht in DMS abgelegt werden                                                    | 
-| `OBJEKT_GESPERRT`                            | Das Objekt "Objektname", „Objektadresse“ ist seit DD.MM.YYYY HH:MM:SS von Benutzername gesperrt.                                                                                                                                | Das Objekt befindet sich aktuell in Bearbeitung und ist daher gesperrt  | Stellen Sie sicher, dass das Objekt sich nicht in Bearbeitung befindet                         | 
-| `FEHLENDE_BERECHTIGUNG`                      | Ihre Rechte für Objekt “<COO-Adresse>“ (Eigentümer/in “<Benutzername>“) reichen nicht aus.                                                                                                                                      | Zum Ausführen der Aktion fehlt dem übergeben Bentuzter die Berechtigung | Stellen Sie sicher, dass der Benutzer die notwendigen Berechtigungen hat                       | 
-| `UNGUELTIGE_ADRESSE`                         | Ungültiger Input Parameter: Objektadresse “<im Aufruf angegebene COO-Adresse>“                                                                                                                                                  | Eine falsche oder nicht existierende COO-Adresse wurde übergeben        | Stellen Sie sicher, dass die richtige COO-Adresse übergeben wird                               | 
-| `MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE`       | Unter dem Objekt “Objektname, COO-Adresse” dürfen keine weiteren Objekte angelegt werden, da dem Objekt bereits über 1000 untergeordnete Objekte zugeordnet sind.                                                               | Das übergeordnete Objekt enthält über 1000 Objekte                      | Es muss ein neues übergeordnetes Objekt erstellt werden                                        | 
-| `AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE`        | Das übergebene Objekt mit der COO-Adresse “<COO Adresse>“ ist ungültig, da das übergebene Objekt von der Objektklasse “<Objektklasse>“ ist und dies nicht mit der/den erwarteten Objektklasse/n “<Objektklasse>“ übereinstimmt. | Das auszulesende Objekt entspricht nicht der erwarteten Objektklasse    | Stellen Sie sicher, dass die etwartete Objektklasse mit dem auszulesenden Objekt übereinstimmt | 
-| `HINWEIS_LESEN_VON_STORNIERTEM_OBJEKT`       | Das übergebene Objekt mit der COO-Adresse „<COO-Adresse>" ist storniert.                                                                                                                                                        | Das übergebene Objekt ist storniert                                     | Das Objekt kann nicht gelesen werden                                                           | 
-| `FALSCHE_ZUGRIFFSDEFINITION`                 | Ungültiger Input Parameter: “Zugriffsdefinition“ : „<Wert>“ enthält einen ungültigen Wert.                                                                                                                                      | Die übergebene Zugriffsdefinition ist ungültig                          | Stellen Sie sicher, dass eine gültige Zugriffsdefinition übergeben wird                        | 
-| `FALSCHER_AKTENPLANEINTRAG`                  | Die Akte kann nicht erzeugt werden, da der übergebene Aktenplaneintrag „[objname]+[COO-Adresse]“ keine Betreffseinheit ist.                                                                                                     | Der übergebene Aktenplaneintrag ist keine Betreffseinheit               | Stellen Sie sicher, dass der übergebene Aktenplaneintrag eine Betreffseinheit ist              | 
-| `NICHT_PLAUSIBEL`                            | Rückmeldung, wenn eine Plausibilitätsprüfung aufschlägt. z.B.: Das Eingangsdatum darf nicht in der Zukunft liegen.                                                                                                              | Eine Plausibilitätsprüfung schlägt fehl                                 | Überprüfen Sie Ihre Eingabe anhand der Fehlermeldung                                           | 
-| `OBJEKT_ZU_GROSS_FUER_UEBERTRAGUNG_MIT_SOAP` | Inhaltsobjekt (objname) ist zu groß (über 100 MB) und kann daher nicht via SOAP übertragen werden.                                                                                                                              | Das Schriftstück ist zu groß                                            | Passen Sie die Größe des Schriftstücks an                                                      | 
+| Error Code                                   | Error Message                                                                                                                                                                                                                 | Beschreibung                                                            | Handlungsempfehlung                                                                            | 
+|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| `LOAD_FILE_FAILED`                           | An file could not be loaded from url: filepath                                                                                                                                                                                | Die Datei konnte nicht geladen werden                                   | Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist                                  |
+| `LOAD_FOLDER_FAILED`                         | An folder could not be loaded from url: folderpath                                                                                                                                                                            | Der Ordner konnte nicht geladen werden                                  | Stellen Sie sicher, dass der Ornder im S3 Bucket vorhanden ist                                 |
+| `FILE_TYPE_NOT_SUPPORTED`                    | The type of this file is not supported: filepath                                                                                                                                                                              | Der Dateityp der Datei wird nicht unterstützt                           | Die Datei kann nicht in DMS abgelegt werden                                                    | 
+| `OBJEKT_GESPERRT`                            | Das Objekt "Objektname", „Objektadresse“ ist seit DD.MM.YYYY HH:MM:SS von Benutzername gesperrt.                                                                                                                              | Das Objekt befindet sich aktuell in Bearbeitung und ist daher gesperrt  | Stellen Sie sicher, dass das Objekt sich nicht in Bearbeitung befindet                         | 
+| `FEHLENDE_BERECHTIGUNG`                      | Ihre Rechte für Objekt `<COO-Adresse>` (Eigentümer/in `<Benutzername>`) reichen nicht aus.                                                                                                                                    | Zum Ausführen der Aktion fehlt dem übergeben Bentuzter die Berechtigung | Stellen Sie sicher, dass der Benutzer die notwendigen Berechtigungen hat                       | 
+| `UNGUELTIGE_ADRESSE`                         | Ungültiger Input Parameter: Objektadresse `<im Aufruf angegebene COO-Adresse>`                                                                                                                                                | Eine falsche oder nicht existierende COO-Adresse wurde übergeben        | Stellen Sie sicher, dass die richtige COO-Adresse übergeben wird                               | 
+| `MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE`       | Unter dem Objekt “Objektname, COO-Adresse” dürfen keine weiteren Objekte angelegt werden, da dem Objekt bereits über 1000 untergeordnete Objekte zugeordnet sind.                                                             | Das übergeordnete Objekt enthält über 1000 Objekte                      | Es muss ein neues übergeordnetes Objekt erstellt werden                                        | 
+| `AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE`        | Das übergebene Objekt mit der COO-Adresse `<COO Adresse>` ist ungültig, da das übergebene Objekt von der Objektklasse `<Objektklasse>` ist und dies nicht mit der/den erwarteten Objektklasse `<Objektklasse>` übereinstimmt. | Das auszulesende Objekt entspricht nicht der erwarteten Objektklasse    | Stellen Sie sicher, dass die etwartete Objektklasse mit dem auszulesenden Objekt übereinstimmt | 
+| `HINWEIS_LESEN_VON_STORNIERTEM_OBJEKT`       | Das übergebene Objekt mit der COO-Adresse `<COO-Adresse>` ist storniert.                                                                                                                                                      | Das übergebene Objekt ist storniert                                     | Das Objekt kann nicht gelesen werden                                                           | 
+| `FALSCHE_ZUGRIFFSDEFINITION`                 | Ungültiger Input Parameter: “Zugriffsdefinition“ : `<Wert>` enthält einen ungültigen Wert.                                                                                                                                    | Die übergebene Zugriffsdefinition ist ungültig                          | Stellen Sie sicher, dass eine gültige Zugriffsdefinition übergeben wird                        | 
+| `FALSCHER_AKTENPLANEINTRAG`                  | Die Akte kann nicht erzeugt werden, da der übergebene Aktenplaneintrag `[objname]+[COO-Adresse]` keine Betreffseinheit ist.                                                                                                   | Der übergebene Aktenplaneintrag ist keine Betreffseinheit               | Stellen Sie sicher, dass der übergebene Aktenplaneintrag eine Betreffseinheit ist              | 
+| `NICHT_PLAUSIBEL`                            | Rückmeldung, wenn eine Plausibilitätsprüfung aufschlägt. z.B.: Das Eingangsdatum darf nicht in der Zukunft liegen.                                                                                                            | Eine Plausibilitätsprüfung schlägt fehl                                 | Überprüfen Sie Ihre Eingabe anhand der Fehlermeldung                                           | 
+| `OBJEKT_ZU_GROSS_FUER_UEBERTRAGUNG_MIT_SOAP` | Inhaltsobjekt (objname) ist zu groß (über 100 MB) und kann daher nicht via SOAP übertragen werden.                                                                                                                            | Das Schriftstück ist zu groß                                            | Passen Sie die Größe des Schriftstücks an                                                      | 
 
 ## DigiWF Dms Integration anpassen
 

@@ -1,5 +1,7 @@
 # DigiWF S3 Integration
 
+![](https://img.shields.io/badge/Integration_Name-s3Integration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die DigiWF S3 Integration ermöglicht Dateianhänge in Prozessen zu verwenden. Mit dieser Integration können Prozessentwickler
 Formulare entwickeln, in den Dateien hoch- und herunterladen werden können. Auch weitere Services können Dateien erzeugen und 
 diese integriert über einen Prozess in einer Dateiablage ablegen, sodass andere Services diese wieder verwenden können.

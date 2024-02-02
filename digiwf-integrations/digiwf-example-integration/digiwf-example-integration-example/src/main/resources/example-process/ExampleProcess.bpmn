@@ -9,7 +9,6 @@
     <bpmn:sequenceFlow id="Flow_1qa6ykl" sourceRef="StartEvent_1" targetRef="Activity_0alkz1h" />
     <bpmn:callActivity id="Activity_0alkz1h" name="Example Integration" camunda:modelerTemplate="de.muenchen.digitalwf.templates.example-integration" calledElement="StreamingTemplateV01">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="exampleIntegration" target="app_type_name" />
         <camunda:in sourceExpression="digiwf-example-integration-local-01" target="app_topic_name" />
         <camunda:in sourceExpression="${some_data}" target="someData" />

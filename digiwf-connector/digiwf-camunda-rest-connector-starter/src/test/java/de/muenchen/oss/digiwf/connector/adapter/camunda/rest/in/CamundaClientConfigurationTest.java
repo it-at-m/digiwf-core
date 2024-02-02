@@ -9,7 +9,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class CamundaClientConfigurationTest {
+class CamundaClientConfigurationTest {
 
     private CamundaClientConfiguration config;
     private List<String> initialFilteredVariables;
@@ -23,11 +23,11 @@ public class CamundaClientConfigurationTest {
     @Test
     void testGetFilters() {
         List<String> expectedFilters = Arrays.asList("var1", "var2", "var3",
-                CamundaClientConfiguration.MESSAGE_NAME,
                 CamundaClientConfiguration.TOPIC_NAME,
-                CamundaClientConfiguration.TYPE_NAME);
+                CamundaClientConfiguration.TYPE_NAME,
+                CamundaClientConfiguration.INTEGRATION_NAME);
         List<String> actualFilters = config.getFilters();
 
-        assertThat(actualFilters).containsAll(expectedFilters);
+        assertThat(actualFilters).isEqualTo(expectedFilters);
     }
 }

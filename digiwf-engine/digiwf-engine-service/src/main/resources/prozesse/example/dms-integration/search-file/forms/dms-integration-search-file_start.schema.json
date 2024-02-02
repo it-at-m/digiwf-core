@@ -43,25 +43,6 @@
                 },
                 "x-rules": []
               },
-              "topic": {
-                "fieldType": "text",
-                "title": "Search File Topic",
-                "type": "string",
-                "key": "topic",
-                "default": "dwf-dms-local-01",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
               "search": {
                 "fieldType": "text",
                 "title": "Search",
@@ -85,6 +66,44 @@
                 "title": "Dms User",
                 "type": "string",
                 "key": "user",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "reference": {
+                "fieldType": "text",
+                "title": "Fachdatum Referenz",
+                "type": "string",
+                "key": "reference",
+                "default": "",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "value": {
+                "fieldType": "text",
+                "title": "Fachdatum Wert",
+                "type": "string",
+                "key": "value",
+                "default": "",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

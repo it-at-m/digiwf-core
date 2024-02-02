@@ -28,19 +28,6 @@
       }
     },
     {
-      "label": "Event Message (Link)",
-      "description": "Name der Nachricht für den Bestätigungslink",
-      "type": "String",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "Hidden",
       "value": "getVerificationLink",
@@ -117,8 +104,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

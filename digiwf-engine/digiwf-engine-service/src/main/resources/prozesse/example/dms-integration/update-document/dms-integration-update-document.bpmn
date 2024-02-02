@@ -28,11 +28,10 @@
     <bpmn:sequenceFlow id="Flow_1fnfcyp" sourceRef="Activity_13fzsdj" targetRef="Event_completed" />
     <bpmn:callActivity id="Activity_13fzsdj" name="Update Document In DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.update-document-in-dms" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="updateDocument" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="${type}" target="type" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />

@@ -26,17 +26,17 @@ public class IncidentAdapter implements CreateIncidentOutPort {
     private final EventSubscriptionApi eventSubscriptionApi;
 
     @Override
-    public void createIncident(final String processInstanceId, final String messageName, final String messageContent) {
+    public void createIncident(final String processInstanceId, final String integrationName, final String messageContent) {
         try {
 
             //check parameters
             Assert.notNull(processInstanceId, "process instance id cannot be empty");
-            Assert.notNull(messageName, "message name cannot be empty");
+            Assert.notNull(integrationName, "integrationName name cannot be empty");
 
             //load corresponding event subscription
             final List<EventSubscriptionDto> eventSubscriptions = this.eventSubscriptionApi.getEventSubscriptions(
                             null,
-                            messageName,
+                            integrationName,
                             EVENT_TYPE,
                             null,
                             processInstanceId,
@@ -69,7 +69,7 @@ public class IncidentAdapter implements CreateIncidentOutPort {
             // send create incident call
             this.executionApi.createIncident(executionId, createIncidentDto);
         } catch (final NoSuchElementException | IllegalArgumentException e) {
-            log.error("Cannot create incident for processinstance id {} and message name {}", processInstanceId, messageName);
+            log.error("Cannot create incident for processinstance id {} and integration name {}", processInstanceId, integrationName);
             throw new RuntimeException(e);
         }
 

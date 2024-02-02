@@ -27,24 +27,23 @@
 }
 execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_05sxqq7" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.GenerateDocument" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
         <camunda:in sourceExpression="9001" target="client" />
         <camunda:in sourceExpression="TESTER" target="role" />
         <camunda:in sourceExpression="519650b7-87c2-41a6-8527-7b095675b13f" target="guid" />
         <camunda:in sourceExpression="${cosysData}" target="variables" />
         <camunda:in sourceExpression="${createPresignedUrls}" target="documentStorageUrls" />
-        <camunda:in sourceExpression="dwf-cosys-processestest" target="app_topic_name" />
+        <camunda:in sourceExpression="cosysIntegration" target="app_integration_name" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0815z5m</bpmn:incoming>
       <bpmn:outgoing>Flow_0ubqgpj</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_0g1nqtd" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV01">
+    <bpmn:callActivity id="Activity_0g1nqtd" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV02" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
+        <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
-        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="POST" target="action" />
         <camunda:out source="presignedUrls" target="createPresignedUrls" />

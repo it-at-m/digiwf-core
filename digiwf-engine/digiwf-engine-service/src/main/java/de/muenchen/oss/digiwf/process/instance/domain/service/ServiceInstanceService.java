@@ -13,18 +13,20 @@ import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstanceDetail;
 import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInstanceEntity;
 import de.muenchen.oss.digiwf.process.instance.infrastructure.repository.ProcessInstanceInfoRepository;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,7 @@ public class ServiceInstanceService {
 
     private final ProcessConfigService processConfigService;
     private final ServiceInstanceAuthService serviceInstanceAuthService;
+    private final RuntimeService runtimeService;
 
     private final ProcessInstanceInfoRepository processInstanceInfoRepository;
 
@@ -102,6 +105,19 @@ public class ServiceInstanceService {
         }
 
         return detail;
+    }
+
+    public ServiceInstance getRootProcessInstance(final String instanceId) {
+        final ProcessInstance instance = this.runtimeService.createProcessInstanceQuery()
+                .processInstanceId(instanceId)
+                .singleResult();
+        if (instance == null) {
+            throw new IllegalArgumentException("No process instance found for id: " + instanceId);
+        }
+
+        return this.processInstanceInfoRepository.findByInstanceId(instance.getRootProcessInstanceId())
+                .map(this.serviceInstanceMapper::map2Model)
+                .orElseThrow();
     }
 
     /**

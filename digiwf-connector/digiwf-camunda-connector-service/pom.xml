@@ -6,8 +6,6 @@
     <artifactId>digiwf-camunda-connector-service</artifactId>
     <name>digiwf-camunda-connector-service</name>
 
-    <properties>
-    </properties>
 
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
@@ -49,13 +47,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
-        </dependency>
-
-        <!-- Security -->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-security-starter</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- database -->

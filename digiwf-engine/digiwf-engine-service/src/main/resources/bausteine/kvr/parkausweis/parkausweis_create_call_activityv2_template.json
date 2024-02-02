@@ -29,19 +29,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "value": "correlateParkausweisCreated",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "String",
       "value": "createParkausweisv02",
@@ -573,8 +560,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }
