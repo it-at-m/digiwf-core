@@ -16,8 +16,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 
 class WriteArticleMessageProcessorTest {
@@ -50,7 +49,7 @@ class WriteArticleMessageProcessorTest {
 
             @Override
             public MessageHeaders getHeaders() {
-                return new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId", DIGIWF_MESSAGE_NAME, "messageName"));
+                return new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId", DIGIWF_INTEGRATION_NAME, "dmsIntegration", TYPE, "type"));
             }
         };
     }

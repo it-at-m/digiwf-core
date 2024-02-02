@@ -30,7 +30,7 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0lnd3z6" sourceRef="Start_Form" targetRef="Activity_173ot4u" />
     <bpmn:sequenceFlow id="Flow_1ha43tr" sourceRef="Activity_173ot4u" targetRef="End_completed" />
-    <bpmn:callActivity id="Activity_173ot4u" name="Write article" camunda:modelerTemplate="de.muenchen.digitalwf.templates.ticketing.write-article" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="Activity_173ot4u" name="Write article" camunda:modelerTemplate="de.muenchen.digitalwf.templates.ticketing.write-article-with-user" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="writeArticle" target="app_type_name" />
         <camunda:in sourceExpression="${ticketId}" target="ticketId" />

@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model.UpdateTick
 import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model.UpdateTicketDTO;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.TicketStatus;
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,8 +36,8 @@ public class ZammadAdapterTest {
         zammadAdapter.updateTicket(ticketId, article, status);
 
         // then
-        val updateTicketDTO = new UpdateTicketDTO();
-        val articleDTO = new UpdateTicketArticleDTO();
+        UpdateTicketDTO updateTicketDTO = new UpdateTicketDTO();
+        UpdateTicketArticleDTO articleDTO = new UpdateTicketArticleDTO();
         articleDTO.setBody("mein text");
         updateTicketDTO.setArticle(articleDTO);
         updateTicketDTO.setState(UpdateTicketDTO.StateEnum.OPEN);
