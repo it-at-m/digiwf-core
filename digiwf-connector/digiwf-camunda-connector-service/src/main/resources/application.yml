@@ -16,6 +16,7 @@ camunda:
     client:
       base-url: ${ENGINE_CAMUNDA_REST_ENDPOINT_URL}
       date-format: yyyy-MM-dd'T'HH:mm:ss.SSSX
+      disable-backoff-strategy: true
 de:
   muenchen:
     oss:
@@ -29,5 +30,6 @@ de:
               dmsIntegration: "dwf-dms-${DIGIWF_ENV}"
               emailIntegration: "dwf-email-${DIGIWF_ENV}"
               s3Integration: "dwf-s3-${DIGIWF_ENV}"
+              ticketIntegration: "dwf-ticket-${DIGIWF_ENV}"
               # TODO: Remove this fallback after all processes are migrated to the new version. It's a legacy feature to avoid breaking changes.
               deprecatedLegacyFeature: ${digiwf.streaming.connector.topics.dlq}
