@@ -67,7 +67,7 @@
           :errormessage="doc.errormessage"
           :readOnly="props.schema.readOnly"
           @remove-object="removeDocument"
-       />
+        />
       </div>
     </div>
   </div>
@@ -78,13 +78,14 @@
 
 import {defineComponent, inject, onMounted, ref, watch} from "vue";
 import {getMetadata} from "@/middleware/dmsMiddleware";
-import {Metadata, Objectclass } from "@/types";
+import {Metadata, Objectclass} from "@/types";
 
 interface DmsDocument {
   readonly coo: string;
   readonly metadata?: Metadata;
   readonly errormessage?: string;
 }
+
 export default defineComponent({
   props: [
     'value',
@@ -97,18 +98,23 @@ export default defineComponent({
     'on'
   ],
   setup(props) {
-    const objectclass : Objectclass = Objectclass[props.schema.objectclass as keyof typeof Objectclass];
+    const objectclass: Objectclass = Objectclass[props.schema.objectclass as keyof typeof Objectclass];
     const dmsSystem = props.schema.dmsSystem;
     const requesting = ref<boolean>(false);
-    const errorMessage = ref<string>("");
+    const errorMessage = ref<string | undefined>(undefined);
     const objectInput = ref<string>("");
     const dmsObjects = ref<DmsDocument[]>([]);
     const minObjects = props.schema.minObjects;
     const maxObjects = props.schema.maxObjects;
-    const minMessage = (!!minObjects && minObjects == 1)?
+    const minMessage = (!!minObjects && minObjects == 1) ?
       'Es muss mindestens ' + minObjects + ' Objekt übergeben werden' :
       'Es müssen mindestens ' + minObjects + ' Objekte übergeben werden';
-    let rules = props.rules  ? props.rules : true;
+    const rules = props.rules ? props.rules : [];
+
+    rules.push(() => {
+      console.log("rule validator is running");
+      return errorMessage.value === undefined
+    })
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
 
@@ -121,23 +127,24 @@ export default defineComponent({
         .filter(metadata => !!metadata);
       console.log(metadata);
       return props.on.input(
-       metadata
+        metadata
       );
     });
 
     const validate = (number: number) => {
+      console.log("validate: ", {number, minObjects, maxObjects})
 
-      if(!!minObjects && number < minObjects) {
+      if (!!minObjects && number < minObjects) {
         errorMessage.value = minMessage;
-      } else if (!!maxObjects && number > maxObjects){
+      } else if (!!maxObjects && number > maxObjects) {
         errorMessage.value = 'Es dürfen maximal ' + maxObjects + ' Objekte übergeben werden';
       } else {
-        errorMessage.value = "";
+        errorMessage.value = undefined;
       }
 
     }
 
-    const getApiEndpoint = () : string => {
+    const getApiEndpoint = (): string => {
       if (dmsSystem === "mucs" && !!mucsDmsApiEndpoint) {
         return mucsDmsApiEndpoint;
       }
@@ -153,83 +160,77 @@ export default defineComponent({
 
     const addObject = async (coo: string) => {
 
-      const startTime = new Date().getTime();
       requesting.value = true;
 
       const input = coo.substring(coo.indexOf("COO."));
       console.log(input);
-
+      // important: in this case it works
+      objectInput.value = "";
       try {
         const res = await getMetadata(objectclass, input, getApiEndpoint());
 
-        setTimeout(() => {
-          objectInput.value = "";
-          const metadata : Metadata = {
-            name: res.name,
-            type: res.type,
-            url: res.url
-          }
-          dmsObjects.value.push({
-            coo: input,
-            metadata
-          })
-          requesting.value = false;
-          validate(dmsObjects.value.length);
-        }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
+        const metadata: Metadata = {
+          name: res.name,
+          type: res.type,
+          url: res.url
+        }
+
+        dmsObjects.value.push({
+          coo: input,
+          metadata
+        })
+
       } catch (error) {
         console.log("ERROR");
+
         dmsObjects.value.push({
           coo: input,
           errormessage: 'Das Object' + input + ' konnte nicht geladen werden.'
         })
-        setTimeout(() => {
-          requesting.value = false;
-          validate(dmsObjects.value.length);
-        }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
+
+      } finally {
+        console.log("FINALLLY")
+        requesting.value = false;
+        validate(dmsObjects.value.length);
       }
+
     }
 
     const removeDocument = (coo: string) => {
       console.log(dmsObjects.value);
       console.log(coo);
-      dmsObjects.value = dmsObjects.value.filter(doc => doc.coo!== coo);
-      validate(dmsObjects.value.length);
-  }
+      const newDmsObjects = dmsObjects.value.filter(doc => doc.coo !== coo);
+      dmsObjects.value = newDmsObjects
+      validate(newDmsObjects.length);
+    }
 
     onMounted(() => {
 
       if (!!props.value) {
-        console.log("Props Value " , props.value);
+        console.log("Props Value ", props.value);
         dmsObjects.value = props.value.map((metadataOrCoo: Metadata) => {
           return {
-          coo: metadataOrCoo.url.substring(metadataOrCoo.url.indexOf("COO.")),
-          metadata: metadataOrCoo
-        }} )
+            coo: metadataOrCoo.url.substring(metadataOrCoo.url.indexOf("COO.")),
+            metadata: metadataOrCoo
+          }
+        })
         return;
       }
       if (!!props.schema.default) {
         props.schema.default.map(addObject);
       }
-
-      if(!!minObjects) {
-        rules.push(() => dmsObjects.value.length >= minObjects || minMessage);
-      }
-      if(!!maxObjects) {
-        rules.push(() => dmsObjects.value.length <= maxObjects || 'Es dürfen maximal ' + maxObjects + ' Objekte übergeben werden');
-      }
-
     });
 
-  return {
-    props,
-    objectInput,
-    dmsObjects,
-    requesting,
-    errorMessage,
-    rules,
-    addByButton,
-    removeDocument
-  }
+    return {
+      props,
+      objectInput,
+      dmsObjects,
+      requesting,
+      errorMessage,
+      rules,
+      addByButton,
+      removeDocument
+    }
 
   }
 });
