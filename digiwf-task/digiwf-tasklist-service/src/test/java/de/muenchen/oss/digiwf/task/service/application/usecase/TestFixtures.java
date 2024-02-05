@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.TaskVariables;
+import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
@@ -12,7 +13,6 @@ import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
 import io.holunda.camunda.taskpool.api.task.TaskDeletedEngineEvent;
 import io.holunda.camunda.variable.serializer.VariableSerializerKt;
 import io.holunda.polyflow.view.Task;
-import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.camunda.bpm.engine.variable.VariableMap;
@@ -24,7 +24,6 @@ import java.time.Instant;
 import java.util.*;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.*;
-import static org.camunda.bpm.engine.variable.Variables.createVariables;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
