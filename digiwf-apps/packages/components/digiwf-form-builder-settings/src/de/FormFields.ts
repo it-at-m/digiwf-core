@@ -1179,9 +1179,9 @@ const dmsInputSchema = {
             }
           }
         },
-        "Default": {
+        "default": {
           "type": "array",
-          "title": "default",
+          "title": "Default",
           "description": "Liste an COOs oder Links, die von dem Input überprüft werden sollen",
           "items": {
             "type": "string"
