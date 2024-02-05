@@ -94,6 +94,54 @@
                 },
                 "x-rules": []
               },
+              "dmsIntern": {
+                "fieldType": "dms-input",
+                "title": "DMS Input für interne Dokumente",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "key": "dmsProcedure",
+                "dmsSystem": "mucs",
+                "objectclass": "Intern",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "dmsDocument": {
+                "fieldType": "dms-input",
+                "title": "DMS Input für Dokumente",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "key": "dmsProcedure",
+                "dmsSystem": "mucs",
+                "objectclass": "Dokument",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "dmsContentDefault": {
                 "fieldType": "dms-input",
                 "title": "DMS Input für Schriftstücke mit Default",
