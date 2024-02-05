@@ -48,7 +48,6 @@ components:
         enum:
           - Sachakte
           - Vorgang
-          - Dokument
           - Eingang
           - Ausgang
           - Intern

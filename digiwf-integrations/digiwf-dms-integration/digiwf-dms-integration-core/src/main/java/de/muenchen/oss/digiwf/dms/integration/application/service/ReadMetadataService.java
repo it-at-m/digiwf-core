@@ -33,7 +33,11 @@ public class ReadMetadataService implements ReadMetadataUseCase {
 
         Metadata metadata = readMetadataPort.readMetadata(coo, user);
 
-        if(!objectclass.toString().equals(metadata.getType())){
+        String object = objectclass == ObjectType.Intern?
+                "Internes Dokument":
+                objectclass.toString();
+
+        if(!object.equals(metadata.getType())){
             throw new BpmnError("AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE","Das übergebene Objekt mit der COO-Adresse " + coo + " ist ungültig, da das übergebene Objekt von der Objektklasse " + metadata.getType() + " ist und dies nicht mit der/den erwarteten Objektklasse/n " + objectclass + " übereinstimmt.");
         }
         return metadata;

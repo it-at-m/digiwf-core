@@ -12,7 +12,6 @@ export interface Metadata {
 export enum Objectclass {
   Sachakte ="Sachakte",
   Vorgang = "Vorgang",
-  Dokument = "Dokument",
   Eingang = "Eingang",
   Ausgang = "Ausgang",
   Intern = "Intern",

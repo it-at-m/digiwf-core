@@ -1160,7 +1160,6 @@ const dmsInputSchema = {
           "enum": [
             "Sachakte",
             "Vorgang",
-            "Dokument",
             "Eingang",
             "Ausgang",
             "Intern",

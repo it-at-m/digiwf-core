@@ -56,12 +56,12 @@ export const MetadataApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Returns metadata of an objetct.
          * @summary Returns metadata of an objetct.
-         * @param {'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
+         * @param {'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
          * @param {string} coo Coo of object.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        readMetadata: async (objectclass: 'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        readMetadata: async (objectclass: 'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'objectclass' is not null or undefined
             assertParamExists('readMetadata', 'objectclass', objectclass)
             // verify required parameter 'coo' is not null or undefined
@@ -104,12 +104,12 @@ export const MetadataApiFp = function(configuration?: Configuration) {
         /**
          * Returns metadata of an objetct.
          * @summary Returns metadata of an objetct.
-         * @param {'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
+         * @param {'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
          * @param {string} coo Coo of object.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async readMetadata(objectclass: 'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Metadata>> {
+        async readMetadata(objectclass: 'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Metadata>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.readMetadata(objectclass, coo, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -126,12 +126,12 @@ export const MetadataApiFactory = function (configuration?: Configuration, baseP
         /**
          * Returns metadata of an objetct.
          * @summary Returns metadata of an objetct.
-         * @param {'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
+         * @param {'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'} objectclass Object class.
          * @param {string} coo Coo of object.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        readMetadata(objectclass: 'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options?: any): AxiosPromise<Metadata> {
+        readMetadata(objectclass: 'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck', coo: string, options?: any): AxiosPromise<Metadata> {
             return localVarFp.readMetadata(objectclass, coo, options).then((request) => request(axios, basePath));
         },
     };
@@ -145,10 +145,10 @@ export const MetadataApiFactory = function (configuration?: Configuration, baseP
 export interface MetadataApiReadMetadataRequest {
     /**
      * Object class.
-     * @type {'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'}
+     * @type {'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'}
      * @memberof MetadataApiReadMetadata
      */
-    readonly objectclass: 'Sachakte' | 'Vorgang' | 'Dokument' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'
+    readonly objectclass: 'Sachakte' | 'Vorgang' | 'Eingang' | 'Ausgang' | 'Intern' | 'Schriftstueck'
 
     /**
      * Coo of object.
