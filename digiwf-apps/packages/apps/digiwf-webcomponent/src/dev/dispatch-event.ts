@@ -1,18 +1,19 @@
-const dispatchEvent = () => {
+function dispatchAccessTokenEvent() {
+  const uuid = crypto.randomUUID();
   document.dispatchEvent(
     new CustomEvent("access-token-loaded", {
       detail: {
-        accessToken: "randomAccessToken",
+        accessToken: `randomAccessToken-${uuid}`,
       },
     })
   );
-};
+}
 
 setTimeout(() => {
-  dispatchEvent();
+  dispatchAccessTokenEvent();
   setInterval(
     () => {
-      dispatchEvent();
+      dispatchAccessTokenEvent();
     },
     10 * 60 * 1000
   );
