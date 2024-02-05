@@ -21,7 +21,7 @@ Checkout [dev.md](dev.md) to learn more about our projects technical setup.
 
 ## Releases
 
-Checkout the [release page](https://github.com/it-at-m/digiwf-cocreation/releases) to get the latest version of the project.
+Checkout the [release page](https://github.com/it-at-m/digiwf-core/releases) to get the latest version of the project.
 
 
 ## Contributing
