@@ -6,16 +6,16 @@
 
 <script setup lang="ts">
 import { CContainer } from "@coreui/vue";
+import { toRefs } from "vue";
 
 import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
+import { useAPI } from "@/composables/useAPI";
+import { useProvideBaseURL } from "@/composables/useBaseURL";
 import {
   ACCESS_TOKEN_EVENT_NAME,
   DIGIWF_BASE_URL_DEFAULT,
 } from "@/util/constants";
-import { useAPI } from "@/composables/useAPI";
-import { toRefs } from "vue";
-import { useProvideBaseURL } from "@/composables/useBaseURL";
 
 const props = withDefaults(
   defineProps<{
