@@ -16,8 +16,6 @@ export interface Labels {
   errorMsgMaxNumber: string;
   errorMsgMinArray: string;
   errorMsgMaxArray: string;
-  errorMsgMinTime: string;
-  errorMsgMaxTime: string;
   validationMin: string;
   validationMax: string;
   validationAdditionalRules: string;
@@ -280,22 +278,6 @@ function getMessageOptions(fieldType: string, labels: Labels) {
           "pattern": {
             "type": "string",
             "title": `${labels.errorMsgPattern}`,
-            "x-props": {
-              "outlined": true,
-              "dense": true
-            }
-          },
-          "minimum": {
-            "type": "string",
-            "title": `${labels.errorMsgMinTime}`,
-            "x-props": {
-              "outlined": true,
-              "dense": true
-            }
-          },
-          "maximum": {
-            "type": "string",
-            "title": `${labels.errorMsgMaxTime}`,
             "x-props": {
               "outlined": true,
               "dense": true

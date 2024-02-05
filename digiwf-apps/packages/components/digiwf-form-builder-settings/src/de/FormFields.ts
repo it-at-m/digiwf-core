@@ -36,8 +36,6 @@ export const deLabels: Labels = {
   errorMsgMaxNumber: "Maximum {maximum}",
   errorMsgMinArray: "Minimum {minItems} Einträge",
   errorMsgMaxArray: "Maximum {maxItems} Einträge",
-  errorMsgMinTime: "Minimum {minimum}",
-  errorMsgMaxTime: "Maximum {maximum}",
   validationMin: "Minimum",
   validationMax: "Maximum",
   validationAdditionalRules: "Zusätzliche Regeln",

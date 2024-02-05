@@ -37,8 +37,6 @@ export const enLabels: Labels = {
   errorMsgMaxNumber: "Maximum {maximum}",
   errorMsgMinArray: "Minimum {minItems} entries",
   errorMsgMaxArray: "Maximum {maxItems} entries",
-  errorMsgMinTime: "Minimum {minimum}",
-  errorMsgMaxTime: "Maximum {maximum}",
   validationMin: "Minimum",
   validationMax: "Maximum",
   validationAdditionalRules: "Additional rules",
