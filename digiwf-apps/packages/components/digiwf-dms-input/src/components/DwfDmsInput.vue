@@ -11,6 +11,7 @@
       :disabled="requesting"
       :label="label"
       type="text"
+      @keydown.enter.prevent="addByButton"
     >
       <template #append>
         <div
@@ -106,13 +107,14 @@ export default defineComponent({
     const dmsObjects = ref<DmsDocument[]>([]);
     const minObjects = props.schema.minObjects;
     const maxObjects = props.schema.maxObjects;
-    const minMessage = (!!minObjects && minObjects == 1) ?
-      'Es muss mindestens ' + minObjects + ' Objekt übergeben werden' :
-      'Es müssen mindestens ' + minObjects + ' Objekte übergeben werden';
+    const minMessage =
+      (!!minObjects && minObjects == 1)
+        ? `Es muss mindestens ${minObjects} Objekt übergeben werden`
+        : `Es müssen mindestens ${minObjects}  Objekte übergeben werden`;
+
     const rules = props.rules ? props.rules : [];
 
     rules.push(() => {
-      console.log("rule validator is running");
       return errorMessage.value === undefined
     })
 
@@ -125,19 +127,17 @@ export default defineComponent({
       const metadata = dmsObjects.value
         .map(doc => doc.metadata)
         .filter(metadata => !!metadata);
-      console.log(metadata);
       return props.on.input(
         metadata
       );
     });
 
     const validate = (number: number) => {
-      console.log("validate: ", {number, minObjects, maxObjects})
 
       if (!!minObjects && number < minObjects) {
         errorMessage.value = minMessage;
       } else if (!!maxObjects && number > maxObjects) {
-        errorMessage.value = 'Es dürfen maximal ' + maxObjects + ' Objekte übergeben werden';
+        errorMessage.value = `Es dürfen maximal ${maxObjects} Objekte übergeben werden`;
       } else {
         errorMessage.value = undefined;
       }
@@ -151,54 +151,44 @@ export default defineComponent({
       return "";
     }
 
-    const addByButton = async () => {
+    const addByButton = () => {
       if (!objectInput.value) {
         return;
       }
       addObject(objectInput.value);
     }
 
-    const addObject = async (coo: string) => {
-
+    const addObject = (coo: string) => {
       requesting.value = true;
 
+
       const input = coo.substring(coo.indexOf("COO."));
-      console.log(input);
       // important: in this case it works
       objectInput.value = "";
-      try {
-        const res = await getMetadata(objectclass, input, getApiEndpoint());
 
-        const metadata: Metadata = {
-          name: res.name,
-          type: res.type,
-          url: res.url
-        }
+      getMetadata(objectclass, input, getApiEndpoint())
+        .then(res => {
+          dmsObjects.value.push({
+              coo: input,
+              metadata: res
+            } as DmsDocument
+          );
 
-        dmsObjects.value.push({
-          coo: input,
-          metadata
         })
-
-      } catch (error) {
-        console.log("ERROR");
-
-        dmsObjects.value.push({
-          coo: input,
-          errormessage: 'Das Object' + input + ' konnte nicht geladen werden.'
+        .catch(() => {
+          dmsObjects.value.push({
+              coo: input,
+              errormessage: `Das Objekt ${input} konnte nicht geladen werden.`
+            } as DmsDocument
+          );
         })
-
-      } finally {
-        console.log("FINALLLY")
-        requesting.value = false;
-        validate(dmsObjects.value.length);
-      }
-
+        .finally(() => {
+          requesting.value = false;
+          validate(dmsObjects.value.length);
+        })
     }
 
     const removeDocument = (coo: string) => {
-      console.log(dmsObjects.value);
-      console.log(coo);
       const newDmsObjects = dmsObjects.value.filter(doc => doc.coo !== coo);
       dmsObjects.value = newDmsObjects
       validate(newDmsObjects.length);
@@ -207,12 +197,32 @@ export default defineComponent({
     onMounted(() => {
 
       if (!!props.value) {
-        console.log("Props Value ", props.value);
-        dmsObjects.value = props.value.map((metadataOrCoo: Metadata) => {
+        Promise.all<DmsDocument>(props.value.map((metadataOrCoo: Metadata | string) => {
+          if (typeof metadataOrCoo === "string") {
+            const coo = metadataOrCoo.substring(metadataOrCoo.indexOf("COO."))
+
+            return getMetadata(objectclass, coo, getApiEndpoint())
+              .then(res => {
+                return {
+                  coo: coo,
+                  metadata: res
+                } as DmsDocument;
+
+              })
+              .catch(() => {
+                return {
+                  coo: coo,
+                  errormessage: `Das Objekt ${coo} konnte nicht geladen werden.`
+                } as DmsDocument;
+              })
+          }
+
           return {
             coo: metadataOrCoo.url.substring(metadataOrCoo.url.indexOf("COO.")),
             metadata: metadataOrCoo
           }
+        })).then(documents => {
+          dmsObjects.value = documents
         })
         return;
       }
