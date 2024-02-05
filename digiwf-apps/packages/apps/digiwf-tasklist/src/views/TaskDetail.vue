@@ -182,8 +182,7 @@ import TaskLinks from "../components/task/links/TaskLinks.vue";
 
 @Component({
   components: {
-    TaskLinks,
-    TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab
+    TaskLinks, TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab
   }
 })
 export default class TaskDetail extends SaveLeaveMixin {
