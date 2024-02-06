@@ -26,9 +26,7 @@
                 "fieldType": "markdown",
                 "title": "Info",
                 "type": "array",
-                "items": {
-                  "type": "object"
-                },
+                "items": {},
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
@@ -50,12 +48,14 @@
                 "fieldType": "dms-input",
                 "title": "DMS Input für Schriftstücke",
                 "x-display": "custom-dms-input",
-                "type": "string",
+                "type": "array",
                 "key": "dmsContent",
-                "dmsSystem": "mucs",
+                "items": {},
                 "objectclass": "Schriftstueck",
+                "dmsSystem": "mucs",
                 "minObjects": 1,
                 "maxObjects": 4,
+                "default": [],
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -66,20 +66,17 @@
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                },
-                "x-rules": []
+                }
               },
               "dmsProcedure": {
                 "fieldType": "dms-input",
-                "title": "DMS Input für Vorgänge",
+                "title": "DMS Input für Vorgang",
                 "x-display": "custom-dms-input",
                 "type": "array",
-                "items": {
-                  "type": "object"
-                },
                 "key": "dmsProcedure",
-                "dmsSystem": "mucs",
+                "items": {},
                 "objectclass": "Vorgang",
+                "dmsSystem": "mucs",
                 "description": "Beschreibung",
                 "x-options": {
                   "fieldColProps": {
@@ -91,82 +88,7 @@
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                },
-                "x-rules": []
-              },
-              "dmsIntern": {
-                "fieldType": "dms-input",
-                "title": "DMS Input für interne Dokumente",
-                "x-display": "custom-dms-input",
-                "type": "array",
-                "items": {
-                  "type": "object"
-                },
-                "key": "dmsProcedure",
-                "dmsSystem": "mucs",
-                "objectclass": "Intern",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12
-                  },
-                  "messages": {}
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
-              "dmsDocument": {
-                "fieldType": "dms-input",
-                "title": "DMS Input für Dokumente",
-                "x-display": "custom-dms-input",
-                "type": "array",
-                "items": {
-                  "type": "object"
-                },
-                "key": "dmsProcedure",
-                "dmsSystem": "mucs",
-                "objectclass": "Dokument",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12
-                  },
-                  "messages": {}
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
-              "dmsContentDefault": {
-                "fieldType": "dms-input",
-                "title": "DMS Input für Schriftstücke mit Default",
-                "x-display": "custom-dms-input",
-                "type": "string",
-                "key": "dmsContent",
-                "dmsSystem": "mucs",
-                "objectclass": "Schriftstueck",
-                "default": [
-                  "COO.1234.5678.1.12345677",
-                  "https://dms.digiwf.de/fsc/mx/COO.1234.5678.1.12345678"
-                ],
-                "readOnly": true,
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12
-                  },
-                  "messages": {}
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
+                }
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"

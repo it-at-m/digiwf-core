@@ -1198,8 +1198,8 @@ const dmsInputSchema = {
             }
           }
         },
-        "properties": {
-          "const": [{"name":{"type": "string"},"type":{"type": "string"},"url":{"type": "string"}}]
+        "items": {
+          "type": "object"
         }
       }
     },
