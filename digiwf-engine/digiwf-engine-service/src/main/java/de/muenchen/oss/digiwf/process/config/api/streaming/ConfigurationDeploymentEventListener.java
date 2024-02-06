@@ -34,6 +34,7 @@ public class ConfigurationDeploymentEventListener {
     private final ProcessConfigApiMapper processConfigApiMapper;
     private final Sinks.Many<Message<DeploymentStatusModel>> statusEmitter;
 
+    @Deprecated
     @Bean
     public Consumer<Message<DeploymentEvent>> deployConfiguration() {
         return message -> {

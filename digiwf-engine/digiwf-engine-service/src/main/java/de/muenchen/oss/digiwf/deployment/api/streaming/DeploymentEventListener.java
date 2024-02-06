@@ -15,6 +15,7 @@ import reactor.core.publisher.Sinks;
 import java.util.function.Consumer;
 
 
+@Deprecated
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class DeploymentEventListener {
     private final ModelDeploymentService modelDeploymentService;
     private final DeploymentMapper mapper;
 
+    @Deprecated
     @Bean
     public Consumer<Message<DeploymentEvent>> deploy() {
         return message -> {

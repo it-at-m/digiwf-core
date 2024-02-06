@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 
+@Deprecated
 @Slf4j
 @Service
 @Transactional

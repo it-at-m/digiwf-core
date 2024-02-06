@@ -10,14 +10,13 @@ import de.muenchen.oss.digiwf.jsonschema.domain.model.JsonSchema;
 import de.muenchen.oss.digiwf.jsonschema.domain.service.JsonSchemaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 /**
  * Rest API to handle schemas.
@@ -41,6 +40,7 @@ public class JsonSchemaRestController {
      * @param to Json schema that is created
      * @return json schema
      */
+    @Deprecated
     @PostMapping
     @Operation(description = "create a new json schema")
     @PreAuthorize("hasAuthority(T(de.muenchen.oss.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")

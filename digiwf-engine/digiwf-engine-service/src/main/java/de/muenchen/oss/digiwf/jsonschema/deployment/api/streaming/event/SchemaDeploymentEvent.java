@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.jsonschema.deployment.api.streaming.event;
 
 import lombok.*;
 
+@Deprecated
 @Data
 @Builder
 @ToString

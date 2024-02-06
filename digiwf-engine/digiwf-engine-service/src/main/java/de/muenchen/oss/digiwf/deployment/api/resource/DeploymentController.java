@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.deployment.api.transport.DeploymentStatusDto;
 import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentStatusModel;
 import de.muenchen.oss.digiwf.deployment.domain.service.ModelDeploymentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-
+@Deprecated
 @RestController
 @RequestMapping("/rest/deployment")
 @RequiredArgsConstructor
@@ -25,6 +25,7 @@ public class DeploymentController {
     private final ModelDeploymentService modelDeploymentService;
     private final DeploymentMapper mapper;
 
+    @Deprecated
     @PostMapping
     @PreAuthorize("hasAuthority(T(de.muenchen.oss.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public DeploymentStatusDto deployArtifacts(@Valid @RequestBody final DeploymentDto deploymentDto) {
