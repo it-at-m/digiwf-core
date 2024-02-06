@@ -22,23 +22,11 @@ public class EventEmitterAdapter implements EmitEventOutPort {
     public void emitEvent(
             final String destination,
             final String type,
+            final String integrationName,
             final String instanceId,
+            final String processDefinition,
             final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, data).build();
-        log.debug("Emit message {}", message);
-        this.dynamicSink.tryEmitNext(message).orThrow();
-    }
-
-    @Override
-    public void emitEvent(
-            final String messageName,
-            final String destination,
-            final String type,
-            final String instanceId,
-            final Map<String, Object> data) {
-        final Message<Map<String, Object>> message = this.createMessage(destination, type, instanceId, data)
-                .setHeader(StreamingHeaders.DIGIWF_MESSAGE_NAME, messageName)
-                .build();
+        final Message<Map<String, Object>> message = this.createMessage(destination, type, integrationName, instanceId, processDefinition, data).build();
         log.debug("Emit message {}", message);
         this.dynamicSink.tryEmitNext(message).orThrow();
     }
@@ -46,14 +34,18 @@ public class EventEmitterAdapter implements EmitEventOutPort {
     private MessageBuilder<Map<String, Object>> createMessage(
             final String destination,
             final String type,
+            final String integrationName,
             final String instanceId,
+            final String processDefinition,
             final Map<String, Object> data) {
 
         return MessageBuilder
                 .withPayload(data)
                 .setHeader(StreamingHeaders.STREAM_SEND_TO_DESTINATION, destination)
                 .setHeader(StreamingHeaders.TYPE, type)
-                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId);
+                .setHeader(StreamingHeaders.DIGIWF_INTEGRATION_NAME, integrationName)
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_INSTANCE_ID, instanceId)
+                .setHeader(StreamingHeaders.DIGIWF_PROCESS_DEFINITION, processDefinition);
     }
 
 }

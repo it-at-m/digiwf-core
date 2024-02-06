@@ -1,0 +1,38 @@
+digiwf:
+  streaming:
+    connector:
+      topics:
+        bpmnerror: dwf-connector-bpmnerror-local-01
+        incident: dwf-connector-incident-local-01
+        message: dwf-connector-local-01
+        dlq: dwf-connector-local-01-dlq
+      group: dwf-connector-local-01
+  security:
+    client-id: ${SSO_TASK_CLIENT_ID}
+    client-secret: ${SSO_TASK_CLIENT_SECRET}
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          consumerProperties:
+            auto:
+              offset:
+                reset: latest
+          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
+logging:
+  level:
+    org:
+      springframework: info
+    io:
+      muenchendigital: info
+server:
+  port: '8090'
+de:
+  muenchen:
+    oss:
+      digiwf:
+        connector:
+          core:
+            integrations:
+              exampleIntegration: "dwf-example-integration-${DIGIWF_ENV}"

@@ -49,7 +49,7 @@ class CreateDocumentUseCaseTest {
         when(generateDocumentPort.generateCosysDocument(any())).thenReturn(Mono.just("Document".getBytes()));
 
         final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, generateDocumentPort);
-        useCase.createDocument("processInstanceIde", "messageName", generateDocument);
+        useCase.createDocument("processInstanceIde", "type", "integrationName", generateDocument);
 
         verify(generateDocumentPort).generateCosysDocument(generateDocument);
         verifyNoMoreInteractions(generateDocumentPort);

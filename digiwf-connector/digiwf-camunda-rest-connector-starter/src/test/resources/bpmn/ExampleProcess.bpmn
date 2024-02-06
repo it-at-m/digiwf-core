@@ -12,10 +12,10 @@
     <bpmn:scriptTask id="Activity_1wnsc7d" name="Objektdaten erstellen" scriptFormat="javascript">
       <bpmn:incoming>Flow_1xd5oxg</bpmn:incoming>
       <bpmn:outgoing>Flow_0nyulbz</bpmn:outgoing>
-      <bpmn:script>var meinjson = { 
+      <bpmn:script>var meinjson = {
 "testString": "Hallo das ist mein Gruß" ,
 "testNumber": 100 ,
-"testBoolean": true 
+"testBoolean": true
 }
 execution.setVariable('objectData', S(JSON.stringify(meinjson)));
 
@@ -25,7 +25,6 @@ execution.setVariable('objectData', S(JSON.stringify(meinjson)));
     <bpmn:callActivity id="Activity_1bko4i9" name="Test Connector" camunda:modelerTemplate="de.muenchen.digiwf.alw.DigiWFConnector" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="dwf-connector-example" target="app_topic_name" />
-        <camunda:in sourceExpression="answerBack" target="app_message_name" />
         <camunda:in sourceExpression="connectorExample" target="app_type_name" />
         <camunda:in sourceExpression="abc" target="stringData" />
         <camunda:out source="outputString" target="myOutputString" />

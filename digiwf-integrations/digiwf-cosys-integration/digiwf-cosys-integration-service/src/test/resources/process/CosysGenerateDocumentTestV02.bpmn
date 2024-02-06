@@ -32,7 +32,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
     <bpmn:callActivity id="Activity_1pvhkb4" name="Create presigned url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
-        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="POST" target="action" />
         <camunda:in sourceExpression="${app_file_context}/test/example-cosys-document.pdf" target="path" />
@@ -56,7 +56,7 @@ execution.setVariable('cosysData', S(JSON.stringify(myjson)));</bpmn:script>
     <bpmn:sequenceFlow id="Flow_1cwzs2l" sourceRef="Activity_1jtwnh4" targetRef="Activity_16d89ab" />
     <bpmn:callActivity id="Activity_1jtwnh4" name="Create Cosys document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.CosysGenerateDocumentV02" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="cosysMessage" target="app_message_name" />
+        <camunda:in sourceExpression="cosysMessage" target="app_type_name" />
         <camunda:in sourceExpression="createCosysDocument" target="app_type_name" />
         <camunda:in sourceExpression="${cosysData}" target="variables" />
         <camunda:in sourceExpression="${FormField_CosysEventTopic}" target="app_topic_name" />

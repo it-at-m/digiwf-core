@@ -30,20 +30,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "value": "cosysMessage",
-      "description": "The name of the message that will be correlated with the instance",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "String",
       "editable": false,
@@ -126,8 +112,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

@@ -44,26 +44,6 @@
                   "dense": true
                 },
                 "x-rules": []
-              },
-              "address_integration_topic": {
-                "fieldType": "text",
-                "title": "Address Integration Topic",
-                "type": "string",
-                "key": "address_integration_topic",
-                "description": "",
-                "default": "dwf-address-local-01",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
               }
             }
           }

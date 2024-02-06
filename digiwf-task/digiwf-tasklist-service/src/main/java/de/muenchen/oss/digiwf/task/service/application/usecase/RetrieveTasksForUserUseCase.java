@@ -31,14 +31,14 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   @Override
   public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, false, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, null,false, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
   @Override
-  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, String assignedUserId, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag,true, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, assignedUserId,true, pagingAndSorting);
     return enrichWithSchema(result);
   }
 

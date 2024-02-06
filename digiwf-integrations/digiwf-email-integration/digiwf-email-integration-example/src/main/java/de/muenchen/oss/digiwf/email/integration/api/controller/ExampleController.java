@@ -29,7 +29,7 @@ public class ExampleController {
         this.messageApi.sendMessage(mail, Map.of(
                 MessageConstants.TYPE, "sendMailFromEventBus",
                 MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
-                MessageConstants.DIGIWF_MESSAGE_NAME, "testEmailIntegration"
+                MessageConstants.DIGIWF_INTEGRATION_NAME, "testEmailIntegration"
         ), "dwf-email-local-01");
     }
 

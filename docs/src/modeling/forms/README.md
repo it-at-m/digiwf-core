@@ -34,6 +34,17 @@ Formulare bestehen aus folgenden Elementen:
 
 ![Formular Struktur](~@source/modeling/forms/form-structure.png)
 
+## Teilen von vorausgefüllten Formularen
+
+DigiWF stellt die Möglichkeit bereit Formulare vorausgefüllt als Link zu teilen.
+
+Dafür nutzt man die DigiWF-Tasklist UI und öffnet das entsprechende Formular.
+Mit der Eingabe der betreffenden Werte aktualisiert sich die URL automatisch.
+Anschließend kann diese aus der URL-Leiste kopiert und mit den gewünschten Personen geteilt werden.
+
+Beim Aufrufen des Links werden die Formularfelder automatisch ausgefüllt.
+
+
 ## Formulare mit BPMN Modellen verknüpfen
 
 Formulare können mit BPMN Modellen verknüpft werden.

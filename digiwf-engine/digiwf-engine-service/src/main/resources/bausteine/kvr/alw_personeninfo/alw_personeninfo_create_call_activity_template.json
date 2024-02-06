@@ -29,19 +29,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "value": "correlateAlwPersoneninfo",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "String",
       "value": "getAlwZustaendigkeitEventBus",
@@ -80,8 +67,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

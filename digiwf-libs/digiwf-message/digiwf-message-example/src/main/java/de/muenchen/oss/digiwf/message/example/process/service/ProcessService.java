@@ -26,7 +26,7 @@ public class ProcessService {
         if (messageDto.getVariables().isEmpty()) {
             throw new BpmnError("400", "No variables defined.");
         }
-        this.processApi.correlateMessage(messageDto.getProcessInstanceId(), messageDto.getMessageName(), messageDto.getVariables());
+        this.processApi.correlateMessage(messageDto.getProcessInstanceId(), "type", messageDto.getMessageName(), messageDto.getVariables());
     }
 
 }

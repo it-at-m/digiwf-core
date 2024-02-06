@@ -40,7 +40,7 @@ public class ExampleController {
         this.messageApi.sendMessage(body, Map.of(
                 MessageConstants.TYPE, "createDocumentFromEventBus",
                 MessageConstants.DIGIWF_PROCESS_INSTANCE_ID, "processInstanceId",
-                MessageConstants.DIGIWF_MESSAGE_NAME, "testCosysIntegration"
+                MessageConstants.DIGIWF_INTEGRATION_NAME, "testCosysIntegration"
         ), "dwf-cosys-local-01");
     }
 

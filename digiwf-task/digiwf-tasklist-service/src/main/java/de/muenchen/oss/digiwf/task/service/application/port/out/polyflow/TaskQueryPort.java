@@ -27,12 +27,14 @@ public interface TaskQueryPort {
    * Retrieves tasks visible via user's group.
    *
    * @param user             user.
+   * @param tag              task tag.
+   * @param assignedUserId   user id of assigned user.
    * @param includeAssigned  include tasks assigned to someone.
    * @param query            additional query.
    * @param pagingAndSorting paging and sorting info.
    * @return page of tasks.
    */
-  PageOfTasks getTasksForCurrentUserGroup(User user, String query, String tag, boolean includeAssigned, PagingAndSorting pagingAndSorting);
+  PageOfTasks getTasksForCurrentUserGroup(User user, String query, String tag, String assignedUserId, boolean includeAssigned, PagingAndSorting pagingAndSorting);
 
   /**
    * Load task by id.

@@ -55,8 +55,9 @@ class ProcessApiImplTest {
 
     @Test
     void testCorrelateMessage() {
-        final String messageName = "correlateMessage";
-        final boolean success = this.processApi.correlateMessage(this.processInstanceId, messageName, this.variables);
+        final String integrationName = "exampleIntegration";
+        final String type = "exampleType";
+        final boolean success = this.processApi.correlateMessage(this.processInstanceId, type, integrationName, this.variables);
         assertThat(success).isTrue();
 
         final ArgumentCaptor<CorrelateMessageDto> payloadCaptor = ArgumentCaptor.forClass(CorrelateMessageDto.class);
@@ -68,14 +69,14 @@ class ProcessApiImplTest {
         final Map<String, Object> headers = headersCaptor.getValue();
 
         assertThat(payload.getProcessInstanceId()).isEqualTo(this.processInstanceId);
-        assertThat(payload.getMessageName()).isEqualTo(messageName);
+        assertThat(payload.getMessageName()).isEqualTo(type);
         assertThat(payload.getPayloadVariables()).isEqualTo(this.variables);
 
         assertThat(headers)
             .hasSize(3)
             .containsEntry(TYPE, "correlatemessagev01")
             .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId)
-            .containsEntry(DIGIWF_MESSAGE_NAME, messageName);
+            .containsEntry(DIGIWF_INTEGRATION_NAME, integrationName);
 
         assertThat(destinationCaptor.getValue()).isEqualTo("correlateMessageDestination");
     }
