@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -27,7 +29,7 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
                 searchFileDto.getUser(),
                 searchFileDto.getReference(),
                 searchFileDto.getValue()
-        )).thenReturn("noFilter");
+        )).thenReturn(Arrays.asList("noFilter"));
 
         this.message = new Message<>() {
             @Override

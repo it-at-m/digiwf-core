@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Search File process" processRef="search-file-integration-example" />
   </bpmn:collaboration>
@@ -7,9 +7,6 @@
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_0or3gci" />
-    <bpmn:endEvent id="Event_completed" name="Ended">
-      <bpmn:incoming>Flow_0g21vbi</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
       <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
         <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
@@ -23,6 +20,26 @@
       <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_0g21vbi" sourceRef="Activity_170p8m9" targetRef="Event_completed" />
+    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-search-file_start">
+      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_00rfshm" sourceRef="Activity_0or3gci" targetRef="Activity_0qi6poe" />
+    <bpmn:callActivity id="Activity_0or3gci" name="Search Sachakte" camunda:modelerTemplate="de.muenchen.digitalwf.templates.search-file" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="searchFile" target="app_type_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:out source="fileCoo" target="sachakten" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="${search}" target="searchString" />
+        <camunda:in sourceExpression="${reference}" target="reference" />
+        <camunda:in sourceExpression="${value}" target="value" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
+      <bpmn:outgoing>Flow_00rfshm</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_completed" name="Ended">
+      <bpmn:incoming>Flow_0g21vbi</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:userTask id="Activity_170p8m9" name="Sachakte kontrollieren" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -40,42 +57,64 @@
           <camunda:inputParameter name="app_task_schema_key">dms-integration-search-file_check</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_00rfshm</bpmn:incoming>
+      <bpmn:incoming>Flow_1o3nie8</bpmn:incoming>
       <bpmn:outgoing>Flow_0g21vbi</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-search-file_start">
-      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_00rfshm" sourceRef="Activity_0or3gci" targetRef="Activity_170p8m9" />
-    <bpmn:callActivity id="Activity_0or3gci" name="Search Sachakte" camunda:modelerTemplate="de.muenchen.digitalwf.templates.search-file" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="searchFile" target="app_type_name" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:out source="fileCoo" target="sachakte" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${search}" target="searchString" />
-        <camunda:in sourceExpression="${reference}" target="reference" />
-        <camunda:in sourceExpression="${value}" target="value" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
-      <bpmn:outgoing>Flow_00rfshm</bpmn:outgoing>
-    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1o3nie8" sourceRef="Activity_0qi6poe" targetRef="Activity_170p8m9" />
+    <bpmn:scriptTask id="Activity_0qi6poe" name="Get First COO" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_00rfshm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o3nie8</bpmn:outgoing>
+      <bpmn:script>/*
+* Erstes Element aus der Liste der DMS-COOs
+* an eine Variable des Execution-Context uebergeben.
+*/
+const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
+const tFirstCoo = tFileCoos[0];
+execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
+    </bpmn:scriptTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0iserd2">
       <bpmndi:BPMNShape id="Participant_141ljpi_di" bpmnElement="Participant_141ljpi" isHorizontal="true">
-        <dc:Bounds x="160" y="40" width="650" height="270" />
+        <dc:Bounds x="160" y="40" width="1060" height="520" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_00rfshm_di" bpmnElement="Flow_00rfshm">
+        <di:waypoint x="440" y="97" />
+        <di:waypoint x="580" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g21vbi_di" bpmnElement="Flow_0g21vbi">
+        <di:waypoint x="930" y="97" />
+        <di:waypoint x="1032" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
+        <di:waypoint x="278" y="97" />
+        <di:waypoint x="340" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o3nie8_di" bpmnElement="Flow_1o3nie8">
+        <di:waypoint x="680" y="97" />
+        <di:waypoint x="830" y="97" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_15xklzj_di" bpmnElement="Event_completed">
-        <dc:Bounds x="672" y="79" width="36" height="36" />
+        <dc:Bounds x="1032" y="79" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="674" y="122" width="32" height="14" />
+          <dc:Bounds x="1034" y="122" width="32" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wy9tir_di" bpmnElement="Activity_170p8m9">
+        <dc:Bounds x="830" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_059xxu9_di" bpmnElement="Activity_0qi6poe">
+        <dc:Bounds x="580" y="57" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="340" y="160" width="335" height="130" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
+        <di:waypoint x="428" y="210" />
+        <di:waypoint x="592" y="210" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1v0winq_di" bpmnElement="Event_1v0winq">
         <dc:Bounds x="392" y="192" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -88,14 +127,6 @@
           <dc:Bounds x="583" y="235" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
-        <di:waypoint x="428" y="210" />
-        <di:waypoint x="592" y="210" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1wy9tir_di" bpmnElement="Activity_170p8m9">
-        <dc:Bounds x="510" y="57" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="242" y="79" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -106,18 +137,6 @@
         <dc:Bounds x="340" y="57" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
-        <di:waypoint x="278" y="97" />
-        <di:waypoint x="340" y="97" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0g21vbi_di" bpmnElement="Flow_0g21vbi">
-        <di:waypoint x="610" y="97" />
-        <di:waypoint x="672" y="97" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00rfshm_di" bpmnElement="Flow_00rfshm">
-        <di:waypoint x="440" y="97" />
-        <di:waypoint x="510" y="97" />
-      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

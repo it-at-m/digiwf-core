@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -160,7 +161,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final SearchObjectDto searchObjectDto = message.getPayload();
-                final String file = this.searchFileUseCase.searchFile(
+                final List<String> file = this.searchFileUseCase.searchFile(
                         searchObjectDto.getSearchString(),
                         searchObjectDto.getUser(),
                         searchObjectDto.getReference(),
