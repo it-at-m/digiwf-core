@@ -4,7 +4,7 @@ export class ApiConfig {
 
   public static base: string = import.meta.env.VITE_VUE_APP_API_URL ? import.meta.env.VITE_VUE_APP_API_URL : 'api/digitalwf-backend-service';
   public static tasklistBase: string = import.meta.env.VITE_VUE_APP_TASKLIST_API_URL ? import.meta.env.VITE_VUE_APP_TASKLIST_API_URL : 'api/digitalwf-tasklist-service/rest';
-  public static mucsDmsBase: string = 'api/dms-integration/mucs/rest/';
+  public static mucsDmsBase: string = import.meta.env.VITE_VUE_APP_DMS_API_URL ? import.meta.env.VITE_VUE_APP_DMS_API_URL : 'api/dms-integration/mucs/rest/';
 
   /**
    * @deprecated
