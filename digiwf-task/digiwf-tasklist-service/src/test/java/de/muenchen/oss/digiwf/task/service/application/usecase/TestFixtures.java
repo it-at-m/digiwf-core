@@ -90,7 +90,6 @@ public class TestFixtures {
 
         }
 
-        //
         // this emulates the serialization and de-serialization based on transfer of the variable from the engine to
         // task list, where the types get lost.
         val vars = VariableSerializerKt.toPayloadVariableMap(VariableSerializerKt.toPayloadJson(variables, om), om);
