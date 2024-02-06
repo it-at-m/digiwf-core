@@ -38,7 +38,7 @@ public class IncidentConsumer {
             }
 
             if (typeHeader.isEmpty()) {
-                log.error("No integrationName is present. Cannot create an incident");
+                log.error("No typeHeader is present. Cannot create an incident");
                 return;
             }
 
