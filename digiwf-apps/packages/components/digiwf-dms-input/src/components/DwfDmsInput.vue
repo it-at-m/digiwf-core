@@ -77,7 +77,7 @@
 <script lang="ts">
 
 
-import {defineComponent, inject, onMounted, ref, watch} from "vue";
+import {defineComponent, inject, onMounted, ref} from "vue";
 import {getMetadata} from "@/middleware/dmsMiddleware";
 import {Metadata, Objectclass} from "@/types";
 
@@ -103,7 +103,7 @@ export default defineComponent({
     const dmsSystem = props.schema.dmsSystem;
     const requesting = ref<boolean>(false);
     const errorMessage = ref<string | undefined>(undefined);
-    const objectInput = ref<string>("");
+    const objectInput = ref<string|undefined>(undefined);
     const dmsObjects = ref<DmsDocument[]>([]);
     const minObjects = props.schema.minObjects;
     const maxObjects = props.schema.maxObjects;
@@ -120,7 +120,7 @@ export default defineComponent({
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
 
-    watch(dmsObjects.value, () => {
+    const onObjectChange = () => {
       if (!props.on) {
         return;
       }
@@ -130,7 +130,7 @@ export default defineComponent({
       return props.on.input(
         metadata
       );
-    });
+    };
 
     const validate = (number: number) => {
 
@@ -161,10 +161,7 @@ export default defineComponent({
     const addObject = (coo: string) => {
       requesting.value = true;
 
-
       const input = coo.substring(coo.indexOf("COO."));
-      // important: in this case it works
-      objectInput.value = "";
 
       getMetadata(objectclass, input, getApiEndpoint())
         .then(res => {
@@ -173,7 +170,6 @@ export default defineComponent({
               metadata: res
             } as DmsDocument
           );
-
         })
         .catch(() => {
           dmsObjects.value.push({
@@ -185,6 +181,8 @@ export default defineComponent({
         .finally(() => {
           requesting.value = false;
           validate(dmsObjects.value.length);
+          onObjectChange();
+          objectInput.value = "";
         })
     }
 
@@ -192,10 +190,13 @@ export default defineComponent({
       const newDmsObjects = dmsObjects.value.filter(doc => doc.coo !== coo);
       dmsObjects.value = newDmsObjects
       validate(newDmsObjects.length);
+      onObjectChange();
+      // Is necessary to trigger validation
+      objectInput.value = undefined
     }
 
     onMounted(() => {
-
+        validate(dmsObjects.value.length);
       if (!!props.value) {
         Promise.all<DmsDocument>(props.value.map((metadataOrCoo: Metadata | string) => {
           if (typeof metadataOrCoo === "string") {
@@ -222,7 +223,9 @@ export default defineComponent({
             metadata: metadataOrCoo
           }
         })).then(documents => {
-          dmsObjects.value = documents
+          dmsObjects.value = documents;
+          validate(dmsObjects.value.length);
+          onObjectChange();
         })
         return;
       }
