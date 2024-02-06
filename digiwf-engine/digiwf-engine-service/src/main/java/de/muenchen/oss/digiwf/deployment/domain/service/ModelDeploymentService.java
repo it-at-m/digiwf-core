@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 
+@Deprecated
 @Slf4j
 @Service
 @RequiredArgsConstructor

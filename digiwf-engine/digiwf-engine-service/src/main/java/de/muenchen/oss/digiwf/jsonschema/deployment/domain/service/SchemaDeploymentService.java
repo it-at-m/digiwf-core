@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Deprecated
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class SchemaDeploymentService {
 
     private final JsonSchemaService jsonSchemaService;
 
+    @Deprecated
     public DeploymentStatusModel deploy(final SchemaDeploymentModel deploymentModel) {
         try {
             final JsonSchema jsonSchema = JsonSchema.builder()

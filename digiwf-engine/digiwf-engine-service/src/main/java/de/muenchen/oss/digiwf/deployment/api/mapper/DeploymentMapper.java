@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.deployment.api.transport.DeploymentDto;
 import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentModel;
 import org.mapstruct.Mapper;
 
+@Deprecated
 @Mapper
 public interface DeploymentMapper {
 
