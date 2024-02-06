@@ -27,13 +27,13 @@
         :has-save-error="hasSaveError"
         class="taskForm"
         :form="task.form"
-        :init-model="task.variables"
+        :init-model="formFields"
         @model-changed="modelChanged"
         @complete-form="handleCompleteTask"
       />
       <app-json-form
         v-else
-        :value="task.variables"
+        :value="formFields"
         :schema="task.schema"
         @input="modelChanged"
         @complete-form="handleCompleteTask"
@@ -176,8 +176,11 @@ import {
   saveTask,
   deferTask
 } from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels"
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import router from "../router";
+import {mergeObjects} from "../utils/mergeObjects";
+import {validateSchema} from "../utils/validateSchema";
+import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 
 @Component({
@@ -228,17 +231,30 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Provide('taskServiceApiEndpoint')
   taskServiceApiEndpoint = ApiConfig.tasklistBase;
 
+  formFields = {}
+
   created() {
     loadTask(this.id).then(({data, error}) => {
-      if (!!data) {
+      if (data) {
         this.task = data.task;
         this.model = data.model;
         this.followUpDate = data.followUpDate;
         this.cancelText = data.cancelText;
         this.hasDownloadButton = data.hasDownloadButton;
         this.downloadButtonText = data.downloadButtonText;
+
+        const urlQueryParameter = this.$router.currentRoute.query;
+
+        const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
+
+        // use potential value of query parameter if variable is undefined or empty
+        this.formFields =
+          validateSchema(
+            this.task.schema,
+            mergeObjects(this.task.variables, inputs)
+          );
       }
-      if (!!error) {
+      if (error) {
         this.errorMessage = error;
       }
     });

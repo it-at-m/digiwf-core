@@ -26,18 +26,16 @@ public class ErrorApiImpl implements ErrorApi {
      * Handles an incident by sending a message to the incident destination.
      * The incident message contains the process instance id, message name and error message.
      *
-     * @param processInstanceId The process instance id of the process to be correlated.
-     * @param messageName The message name to be correlated.
+     * @param originMessageHeaders The headers of the message that caused the incident.
      * @param errorMessage The error message to be passed to the process.
      * @return
      */
     @Override
-    public boolean handleIncident(final String processInstanceId, final String messageName, final String errorMessage) {
-        log.error("Incident occured for process {} with error message {}", processInstanceId, errorMessage);
+    public boolean handleIncident(final Map<String, Object>  originMessageHeaders, final String errorMessage) {
         final Map<String, Object> headers = Map.of(
                 TYPE, this.incidentDestination,
-                DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
-                DIGIWF_MESSAGE_NAME, messageName
+                DIGIWF_PROCESS_INSTANCE_ID, originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID),
+                DIGIWF_INTEGRATION_NAME, originMessageHeaders.get(DIGIWF_INTEGRATION_NAME)
         );
         return this.messageApi.sendMessage(errorMessage, headers, this.incidentDestination);
     }
@@ -46,13 +44,14 @@ public class ErrorApiImpl implements ErrorApi {
      * Handles a bpmn error by sending a message to the bpmn error destination.
      * The bpmn error message contains the process instance id, error code and error message.
      *
-     * @param processInstanceId The process instance id of the process to be correlated.
+     * @param originMessageHeaders The headers of the message that caused the bpmn error.
      * @param errorCode The error code to be passed to the process.
      * @param errorMessage The error message to be passed to the process.
      * @return
      */
     @Override
-    public boolean handleBpmnError(final String processInstanceId, final String errorCode, final String errorMessage) {
+    public boolean handleBpmnError(final Map<String, Object> originMessageHeaders, final String errorCode, final String errorMessage) {
+        final String processInstanceId = originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString();
         log.warn("A technical error occured for process {} with error message {}", processInstanceId, errorMessage);
         final BpmnErrorDto payload = BpmnErrorDto.builder()
                 .processInstanceId(processInstanceId)
@@ -63,7 +62,7 @@ public class ErrorApiImpl implements ErrorApi {
         final Map<String, Object> headers = Map.of(
                 TYPE, BPMN_ERROR_MESSAGE_TYPE,
                 DIGIWF_PROCESS_INSTANCE_ID, processInstanceId,
-                DIGIWF_MESSAGE_NAME, BPMN_ERROR_MESSAGE_NAME
+                DIGIWF_INTEGRATION_NAME, originMessageHeaders.get(DIGIWF_INTEGRATION_NAME)
         );
         return this.messageApi.sendMessage(payload, headers, this.bpmnErrorDestination);
     }
@@ -73,7 +72,7 @@ public class ErrorApiImpl implements ErrorApi {
         if (!originMessageHeaders.containsKey(DIGIWF_PROCESS_INSTANCE_ID)) {
             throw new RuntimeException("The origin message headers do not contain a process instance id.");
         }
-        return this.handleBpmnError(originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
+        return this.handleBpmnError(originMessageHeaders,
                 bpmnError.getErrorCode(), bpmnError.getErrorMessage());
     }
 
@@ -82,11 +81,10 @@ public class ErrorApiImpl implements ErrorApi {
         if (!originMessageHeaders.containsKey(DIGIWF_PROCESS_INSTANCE_ID)) {
             throw new RuntimeException("The origin message headers do not contain a process instance id.");
         }
-        if (!originMessageHeaders.containsKey(DIGIWF_MESSAGE_NAME)) {
-            throw new RuntimeException("The origin message headers do not contain a message name.");
+        if (!originMessageHeaders.containsKey(DIGIWF_INTEGRATION_NAME)) {
+            throw new RuntimeException("The origin message headers do not contain an integration name.");
         }
-        return this.handleIncident(originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                originMessageHeaders.get(DIGIWF_MESSAGE_NAME).toString(), incidentError.getErrorMessage());
+        return this.handleIncident(originMessageHeaders, incidentError.getErrorMessage());
     }
 
 }

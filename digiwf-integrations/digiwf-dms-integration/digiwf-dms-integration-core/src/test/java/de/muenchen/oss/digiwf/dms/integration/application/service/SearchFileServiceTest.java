@@ -17,12 +17,11 @@ class SearchFileServiceTest {
     @Test
     void searchFile() {
 
-        when(searchFilePort.searchFile(any(), any())).thenReturn(List.of("coo"));
+        when(searchFilePort.searchFile(any(), any(),any(), any())).thenReturn(List.of("coo"));
 
-        searchFileService.searchFile("searchString", "user");
+        searchFileService.searchFile("searchString", "user", "reference", "value");
 
-        verify(this.searchFilePort, times(1)).searchFile("searchString", "user");
+        verify(this.searchFilePort, times(1)).searchFile("searchString", "user", "reference", "value");
     }
-
 
 }

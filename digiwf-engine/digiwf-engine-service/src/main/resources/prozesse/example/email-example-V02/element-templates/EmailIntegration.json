@@ -1,0 +1,216 @@
+{
+  "name": "Send E-Mail V02",
+  "id": "de.muenchen.digitalwf.templates.send-mail-V02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration Name",
+      "type": "String",
+      "editable": false,
+      "value": "emailIntegration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "sendMailFromEventBus",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Receiver",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receivers",
+        "target": "receivers"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Receiver (CC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "receiversCc",
+        "target": "receiversCc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${receiversCc}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "receiversCc"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Receiver (BCC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "receiversBcc",
+        "target": "receiversBcc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${receiversBcc}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "receiversBcc"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Subject",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "subject",
+        "target": "subject"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Body",
+      "type": "Text",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "body"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${body}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "body"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Reply-To Address",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "replyTo",
+        "target": "replyTo"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${replyTo}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "replyTo"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Attachment Paths (S3)",
+      "type": "String",
+      "value": "",
+      "description": "Array of presigned urls created with s3 integration",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "attachments",
+        "target": "attachments"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${attachments}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "attachments"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dispatch Status",
+      "value": "mailSentStatus",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "mailSentStatus"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    }
+  ]
+}

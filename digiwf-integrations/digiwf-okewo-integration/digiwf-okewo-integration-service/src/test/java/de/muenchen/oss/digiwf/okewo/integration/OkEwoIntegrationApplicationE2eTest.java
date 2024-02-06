@@ -56,7 +56,7 @@ class OkEwoIntegrationApplicationE2eTest {
     DigiwfWiremockUtility.setupGETWithBasicAuth("/personen/2.0/rest/person/om?benutzerId=benutzerId", "username", "password", objectMapper.writeValueAsString(person));
 
     // send and receive messages
-    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "getPerson");
+    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "okEwoIntegration", "getPerson");
     assertNotNull(payload);
     final Map<String, Object> response = (Map<String, Object>) payload.get("response");
     assertNotNull(response);
@@ -78,7 +78,7 @@ class OkEwoIntegrationApplicationE2eTest {
     DigiwfWiremockUtility.setupPOSTWithBasicAuth("/personen/2.0/rest/person/search", objectMapper.writeValueAsString(searchRequest), "username", "password", objectMapper.writeValueAsString(apiResponse));
 
     // send and receive messages
-    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "searchPerson");
+    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "okEwoIntegration", "searchPerson");
     assertNotNull(payload);
     final Map<String, Object> response = (Map<String, Object>) payload.get("response");
     assertNotNull(response);
@@ -97,7 +97,7 @@ class OkEwoIntegrationApplicationE2eTest {
     DigiwfWiremockUtility.setupGETWithBasicAuth("/personen/2.0/rest/personErweitert/om?benutzerId=benutzerId", "username", "password", objectMapper.writeValueAsString(person));
 
     // send and receive messages
-    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "getPersonErweitert");
+    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "okEwoIntegration", "getPersonErweitert");
     assertNotNull(payload);
     final Map<String, Object> response = (Map<String, Object>) payload.get("response");
     assertNotNull(response);
@@ -119,7 +119,7 @@ class OkEwoIntegrationApplicationE2eTest {
     DigiwfWiremockUtility.setupPOSTWithBasicAuth("/personen/2.0/rest/personErweitert/search", objectMapper.writeValueAsString(searchRequest), "username", "password", objectMapper.writeValueAsString(apiResponse));
 
     // send and receive messages
-    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "searchPersonErweitert");
+    final Map<String, Object> payload = digiWFIntegrationE2eTestUtility.runIntegration(request, processInstanceId, "okEwoIntegration", "searchPersonErweitert");
     assertNotNull(payload);
     final Map<String, Object> response = (Map<String, Object>) payload.get("response");
     assertNotNull(response);

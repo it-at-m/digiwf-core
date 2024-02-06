@@ -21,7 +21,8 @@ import java.util.function.Consumer;
 public class IncidentConsumer {
 
     private static final String HEADER_PROCESS_INSTANCE_ID = "digiwf.processinstanceid";
-    private static final String HEADER_MESSAGE_NAME = "digiwf.messagename";
+    public static final String HEADER_INTEGRATION_NAME = "digiwf.integrationname";
+
 
     private final CreateIncidentInPort inPort;
 
@@ -29,20 +30,20 @@ public class IncidentConsumer {
     public Consumer<Message<String>> createIncident() {
         return correlation -> {
             final Optional<String> processInstanceId = Optional.ofNullable(correlation.getHeaders().get(HEADER_PROCESS_INSTANCE_ID)).map(Object::toString);
-            final Optional<String> messageName = Optional.ofNullable(correlation.getHeaders().get(HEADER_MESSAGE_NAME)).map(Object::toString);
+            final Optional<String> integrationName = Optional.ofNullable(correlation.getHeaders().get(HEADER_INTEGRATION_NAME)).map(Object::toString);
 
             if (processInstanceId.isEmpty()) {
                 log.error("No process instance id present. Cannot create an incident");
                 return;
             }
 
-            if (messageName.isEmpty()) {
-                log.error("No messageName is present. Cannot create an incident");
+            if (integrationName.isEmpty()) {
+                log.error("No integrationName is present. Cannot create an incident");
                 return;
             }
 
             log.info("Received create incident for process instance with id: {}", processInstanceId.get());
-            this.inPort.createIncident(processInstanceId.get(), messageName.get(), correlation.getPayload());
+            this.inPort.createIncident(processInstanceId.get(), integrationName.get(), correlation.getPayload());
         };
     }
 }

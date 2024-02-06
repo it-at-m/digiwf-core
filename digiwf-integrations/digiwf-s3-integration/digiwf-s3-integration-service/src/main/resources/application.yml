@@ -98,6 +98,7 @@ server:
     include-stacktrace: never
     whitelabel:
       enabled: false
+  shutdown: graceful
 
 # Config for spring actuator endpoints
 management:
@@ -106,7 +107,7 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: health, info, prometheus
+        include: health, info, prometheus, livenessstate, readinessstate
       path-mapping:
         prometheus: metrics
   endpoint:

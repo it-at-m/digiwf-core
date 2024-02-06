@@ -67,4 +67,10 @@ public class ServiceInstanceController {
         return ResponseEntity.ok(this.serviceInstanceApiMapper.map2TO(startedInstances));
     }
 
+    @GetMapping("/root/{id}")
+    public ResponseEntity<ServiceInstanceTO> getRootProcessInstanceDetail(@PathVariable("id") final String id) {
+        val instance = this.processInstanceService.getRootProcessInstance(id);
+        return ResponseEntity.ok(this.serviceInstanceApiMapper.map2TO(instance));
+    }
+
 }

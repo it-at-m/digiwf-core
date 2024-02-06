@@ -17,8 +17,8 @@ class CreateIncidentUseCase implements CreateIncidentInPort {
     private final CreateIncidentOutPort outPort;
 
     @Override
-    public void createIncident(@NotBlank String processInstanceId, @NotBlank String messageName, String messageContent) {
+    public void createIncident(@NotBlank String processInstanceId, @NotBlank String integrationName, String messageContent) {
         log.info("Received create incident for process instance with id: {}", processInstanceId);
-        outPort.createIncident(processInstanceId, messageName, messageContent);
+        outPort.createIncident(processInstanceId, integrationName, messageContent);
     }
 }

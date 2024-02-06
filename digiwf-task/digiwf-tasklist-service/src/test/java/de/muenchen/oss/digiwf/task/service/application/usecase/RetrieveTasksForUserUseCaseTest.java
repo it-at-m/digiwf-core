@@ -71,11 +71,11 @@ class RetrieveTasksForUserUseCaseTest {
 
         val pageOfTasks = new PageOfTasks(content, 17, pagingAndSorting);
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
         val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null, false, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 
@@ -89,11 +89,11 @@ class RetrieveTasksForUserUseCaseTest {
                 pagingAndSorting
         );
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
         val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null,false, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 
@@ -106,11 +106,29 @@ class RetrieveTasksForUserUseCaseTest {
                 pagingAndSorting
         );
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
-        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
+        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, true, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null, true, pagingAndSorting);
+        verifyNoMoreInteractions(taskQueryPort);
+    }
+
+    @Test
+    void getsAssignedTasksForCurrentUserGroupAndAssignee() {
+
+
+        val pageOfTasks = new PageOfTasks(
+            TestFixtures.generateTasks(5, Sets.newHashSet(), Sets.newHashSet("group1"), "987654321"),
+            5,
+            pagingAndSorting
+        );
+
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+
+        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, "987654321", pagingAndSorting);
+        assertThat(tasks.getTotalElementsCount()).isEqualTo(5);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, "987654321", true, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 

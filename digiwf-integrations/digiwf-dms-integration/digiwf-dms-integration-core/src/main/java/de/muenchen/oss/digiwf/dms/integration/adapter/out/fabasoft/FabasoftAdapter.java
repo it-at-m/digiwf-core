@@ -10,6 +10,7 @@ import lombok.val;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -335,14 +336,14 @@ public class FabasoftAdapter implements
     }
 
     @Override
-    public List<String> searchFile(final String searchString, final String user) {
-        return this.searchObject(searchString, DMSObjectClass.Sachakte, user).stream()
+    public List<String> searchFile(String searchString, String user, String reference, String value) {
+        return this.searchObject(searchString, DMSObjectClass.Sachakte, user, reference, value).stream()
                 .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
                 .toList();
     }
 
     @Override
-    public List<String> searchSubjectArea(String searchString, String user) {
+    public List<String> searchSubjectArea(final String searchString, final String user) {
         return this.searchObject(searchString, DMSObjectClass.Aktenplaneintrag, user).stream()
                 .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
                 .toList();
@@ -350,12 +351,36 @@ public class FabasoftAdapter implements
 
     //------------------------------------- HELPER METHODS -------------------------------------------
 
-    public List<LHMBAI151700GIObjectType> searchObject(final String searchString, final DMSObjectClass dmsObjectClass, final String username) {
+    /**
+     * Searches for an object.
+     *
+     * @param searchString   string to search for
+     * @param dmsObjectClass object class for a soap request
+     * @param username       account name
+     * @return List of discovered objects
+     */
+    private List<LHMBAI151700GIObjectType> searchObject(final String searchString, final DMSObjectClass dmsObjectClass, final String username) {
+        return searchObject(searchString, dmsObjectClass, username, null, null);
+    }
+
+    /**
+     * Searches for an object.
+     *
+     * @param searchString   string to search for
+     * @param dmsObjectClass object class for a soap request
+     * @param username       account name
+     * @param reference      (optional) 'Fachdatum'/business case to refine a search
+     * @param value          (optional) value of 'Fachdatum'/business case
+     * @return List of discovered objects
+     */
+    private List<LHMBAI151700GIObjectType> searchObject(final String searchString, final DMSObjectClass dmsObjectClass, final String username, final String reference, final String value) {
         //logging for dms team
         log.info("calling SearchObjNameGI"
                 + " Userlogin: " + username
                 + " SearchString: " + searchString
                 + " Objclass: " + dmsObjectClass.getName()
+                + " Reference: " + reference
+                + " Value: " + value
         );
 
         final SearchObjNameGI params = new SearchObjNameGI();
@@ -363,6 +388,8 @@ public class FabasoftAdapter implements
         params.setBusinessapp(this.properties.getBusinessapp());
         params.setObjclass(dmsObjectClass.getName());
         params.setSearchstring(searchString);
+        if (Objects.nonNull(reference)) params.setReference(reference);
+        if (Objects.nonNull(value)) params.setValue(value);
 
         final SearchObjNameGIResponse response = this.wsClient.searchObjNameGI(params);
 

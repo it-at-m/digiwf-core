@@ -74,6 +74,7 @@ export default class VUserInput extends Vue {
   noDataText = "Tippen, um Suche zu starten";
   locked = false;
   readonly = false;
+  ldapOus: string | undefined;
 
   @Prop()
   value: string | undefined;
@@ -83,9 +84,6 @@ export default class VUserInput extends Vue {
 
   @Prop()
   label: string | undefined;
-
-  @Prop()
-  ldapOus: string | undefined;
 
   @Prop()
   rules: any | undefined
@@ -103,6 +101,7 @@ export default class VUserInput extends Vue {
   created(): void {
     const schemaobj = JSON.parse(JSON.stringify(this.schema));
     this.readonly = schemaobj.readOnly;
+    this.ldapOus = schemaobj['ldap-groups'];
 
     if (this.value) {
       this.loadInitialValue(this.value);
@@ -177,10 +176,7 @@ export default class VUserInput extends Vue {
     try {
       this.noDataText = "Benutzer werden gesucht...";
       this.isLoading = true;
-      //const items = await UserService.searchUsers({
-      // searchString: this.lastSearch,
-      // ous: this.ldapOus ? this.ldapOus : null
-      // });
+
       const to: SearchUserTO = {
         searchString: this.lastSearch,
         ous: this.ldapOus ? this.ldapOus : undefined

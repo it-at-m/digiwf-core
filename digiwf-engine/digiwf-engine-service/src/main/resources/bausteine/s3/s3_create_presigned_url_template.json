@@ -31,21 +31,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "String",
-      "editable": false,
-      "value": "createPresignedUrl",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Event Type",
       "type": "String",
       "editable": false,
@@ -99,8 +84,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

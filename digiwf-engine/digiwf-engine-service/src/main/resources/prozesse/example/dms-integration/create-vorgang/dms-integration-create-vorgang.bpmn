@@ -28,12 +28,11 @@
     </bpmn:endEvent>
     <bpmn:callActivity id="create-procedure" name="Create Procedure" camunda:modelerTemplate="de.muenchen.digitalwf.templates.create-procedure" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="createProcedure" target="app_type_name" />
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>

@@ -12,6 +12,9 @@
     :loading="isLoading"
     :filter="filterUsers"
     :label="label"
+    :flat="flat"
+    :dense="dense"
+    :clearable="clearable"
     item-value="lhmObjectId"
     item-text="lhmObjectId"
     placeholder="Benutzer suchen..."
@@ -59,6 +62,7 @@ import {VAutocomplete} from "vuetify/lib";
 import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
 import {AxiosResponse} from 'axios';
 import {ApiConfig} from "../../api/ApiConfig";
+import {callGetUserById, callGetUserByUsername, callSearchUser} from "../../api/user/userApiCalls";
 
 @Component({
   components: {
@@ -89,9 +93,16 @@ export default class BaseLdapInput extends Vue {
 
   @Prop()
   readonly: boolean | undefined
+  @Prop()
+  clearable: boolean | undefined
 
   @Prop()
   rules: any | undefined
+
+  @Prop()
+  flat: boolean | undefined
+  @Prop()
+  dense: boolean | undefined
 
   @Emit()
   input(value: any): any {
@@ -109,31 +120,27 @@ export default class BaseLdapInput extends Vue {
   }
 
   async loadInitialValue(id: string): Promise<void> {
-    try {
-      this.isLoading = true;
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      let res: AxiosResponse;
+    this.isLoading = true;
 
-      //if number search by objectId, if string search by username
-      if (id.match(/^-?\d+$/)) {
-        //user = await UserService.searchUser(id);
-        res = await UserRestControllerApiFactory(cfg).getUser(id);
-      } else {
-        //user = await UserService.searchUserByUid(id);
-        res = await UserRestControllerApiFactory(cfg).getUserByUsername(id);
-      }
-      const user = res.data;
-
-      this.items.push(user);
-      this.model = user.lhmObjectId!;
-      this.input(user.lhmObjectId);
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Der Benutzer konnte nicht geladen werden.';
-      this.model = "";
-      this.input("");
-    }
-    this.isLoading = false;
+    (
+      id.match(/^-?\d+$/)
+        ? callGetUserById(id)
+        : callGetUserByUsername(id)
+    )
+      .then(user => {
+        this.items.push(user);
+        this.model = user.lhmObjectId!;
+        this.input(user.lhmObjectId);
+        this.errorMessage = "";
+      })
+      .catch(() => {
+        this.errorMessage = "Der Benutzer konnte nicht geladen werden.";
+        this.model = "";
+        this.input("");
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   }
 
   getFullName(user: UserTO): string {
@@ -162,37 +169,28 @@ export default class BaseLdapInput extends Vue {
 
   @Watch("search")
   async queryResults(): Promise<void> {
-
     if (!this.search || this.search.length < 3) return;
 
     if (this.lastSearch === this.search.slice(0, 3)) return;
 
     this.lastSearch = this.search.slice(0, 3);
 
-    try {
-      this.noDataText = "Benutzer werden gesucht...";
-      this.isLoading = true;
-      //const items = await UserService.searchUsers({
-      // searchString: this.lastSearch,
-      // ous: this.ldapOus ? this.ldapOus : null
-      // });
-      const to: SearchUserTO = {
-        searchString: this.lastSearch,
-        ous: this.ldapOus ? this.ldapOus : undefined
-      };
-
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      const res = await UserRestControllerApiFactory(cfg).getUsers(to);
-
-      if (this.lastSearch === this.search.slice(0, 3)) {
-        this.items = res.data;
-      }
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Der Benutzer konnte nicht geladen werden.';
-    }
-    this.isLoading = false;
-    this.noDataText = "Tippen, um Suche zu starten";
+    this.noDataText = "Benutzer werden gesucht...";
+    this.isLoading = true;
+    callSearchUser(this.lastSearch, this.ldapOus)
+      .then(searchResult => {
+        if (this.lastSearch === this.search.slice(0, 3)) {
+          this.items = searchResult;
+        }
+        this.errorMessage = "";
+      })
+      .catch(() => {
+        this.errorMessage = "Der Benutzer konnte nicht geladen werden.";
+      })
+      .finally(() => {
+        this.isLoading = false;
+        this.noDataText = "Tippen, um Suche zu starten";
+      });
   }
 
 }

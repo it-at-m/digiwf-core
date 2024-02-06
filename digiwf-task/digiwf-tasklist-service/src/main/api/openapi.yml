@@ -298,6 +298,7 @@ paths:
       - $ref: '#/components/parameters/QueryParam'
       - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
+      - $ref: '#/components/parameters/UserIdQueryParam'
     get:
       description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
       operationId: getAssignedGroupTasks
@@ -369,6 +370,14 @@ components:
       required: false
       schema:
         type: string
+    UserIdQueryParam:
+      name: userId
+      in: query
+      description: A user id string used during search with the user string.
+      required: false
+      schema:
+        type: string
+
     SortParam:
       name: sort
       in: query

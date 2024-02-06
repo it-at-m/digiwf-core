@@ -11,6 +11,7 @@ camunda:
     generic-properties:
       properties:
         history-time-to-live: '185'
+        enforce-history-time-to-live: false
         history-cleanup-strategy: removalTimeBased
         history-cleanup-batch-window-start-time: '22:00'
         history-cleanup-batch-window-end-time: '06:00'
@@ -31,7 +32,7 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: 'health, info, prometheus'
+        include: 'health, info, prometheus, livenessstate, readinessstate'
       path-mapping:
         prometheus: metrics
   endpoint:
@@ -61,6 +62,7 @@ server:
     include-stacktrace: never
     whitelabel:
       enabled: false
+  shutdown: graceful
 spring:
   application:
     name: ${info.application.name}

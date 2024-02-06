@@ -16,8 +16,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_MESSAGE_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -42,7 +41,7 @@ class MessageProcessorTest {
             "digiwf@muenchen.de",
             null
     );
-    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_MESSAGE_NAME, "messageName"));
+    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "emailIntegration", TYPE, "emailType"));
 
     @BeforeEach
     void setup() {
@@ -64,37 +63,46 @@ class MessageProcessorTest {
     void testEmailIntegrationSendsMailSuccessfully() {
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailMock, times(1)).sendMail(processInstanceId, "messageName", mail);
+        verify(sendMailMock, times(1)).sendMail(processInstanceId, "emailType", "emailIntegration", mail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMail(any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMail(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
+        assertThat(messageHeaderArgumentCaptor.getValue())
+                .containsKey(DIGIWF_PROCESS_INSTANCE_ID)
+                .containsKey(DIGIWF_INTEGRATION_NAME)
+                .containsKey(TYPE);
     }
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMail(any(), any(), any());
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMail(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
+        assertThat(messageHeaderArgumentCaptor.getValue())
+                .containsKey(DIGIWF_PROCESS_INSTANCE_ID)
+                .containsKey(DIGIWF_INTEGRATION_NAME)
+                .containsKey(TYPE);
     }
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMail(any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMail(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
-        assertThat(messageHeaderArgumentCaptor.getValue()).containsKey(DIGIWF_PROCESS_INSTANCE_ID);
+        assertThat(messageHeaderArgumentCaptor.getValue())
+                .containsKey(DIGIWF_PROCESS_INSTANCE_ID)
+                .containsKey(DIGIWF_INTEGRATION_NAME)
+                .containsKey(TYPE);
     }
 }
 

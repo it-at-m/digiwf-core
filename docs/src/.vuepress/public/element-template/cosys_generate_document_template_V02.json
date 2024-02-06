@@ -16,26 +16,15 @@
       }
     },
     {
-      "label": "Event Topic",
+      "label": "Integration Name",
       "type": "String",
-      "value": "dwf-cosys-XX",
+      "editable": false,
+      "value": "cosysIntegration",
       "binding": {
         "type": "camunda:in",
-        "target": "app_topic_name",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
         "expression": true
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
-      "type": "Hidden",
-      "value": "cosysMessage",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
       },
       "constraints": {
         "notEmpty": true
@@ -120,8 +109,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

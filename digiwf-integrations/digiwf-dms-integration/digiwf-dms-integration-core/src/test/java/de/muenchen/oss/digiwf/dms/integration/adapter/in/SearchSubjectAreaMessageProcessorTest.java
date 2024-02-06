@@ -13,7 +13,9 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
 
     private final SearchObjectDto searchSubjectAreaDto = new SearchObjectDto(
             "aktenplan",
-            "user"
+            "user",
+            "test-reference",
+            "test-value"
     );
     private Message<SearchObjectDto> message;
 

@@ -41,7 +41,6 @@ public class Vorgang {
      * Art des Vortgangs.
      * Default ist ELEKTRONISCH
      */
-    @Builder.Default
     private VorgangArt art = VorgangArt.ELEKTRONISCH;
 
     public Vorgang(final NeuerVorgang neuerVorgang, final String coo) {

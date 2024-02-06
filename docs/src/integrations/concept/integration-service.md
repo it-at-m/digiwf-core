@@ -7,7 +7,8 @@ Für die Integration in Bpmn Prozesse werden Bausteine (Element-Templates) berei
 
 Die Integration wird über eine Call Activity aus dem Prozess aufgerufen.
 Dafür werden Element Templates bereitgestellt, mit deren Hilfe die Modellierer schnell und einfach die Integration in ihren Prozess einbinden können.
-In den Element-Templates wird die Struktur der Daten, die an die Integration übergeben werden, definiert, das Kafka Topic sowie der Type Header erfasst.
+In den Element-Templates wird die Struktur der Daten, die an die Integration übergeben werden, definiert, der Integration Name sowie der Type Header erfasst.
+Zusätzlich kann ein Kafka Topic angegeben werden, falls nicht das Default Topic verwendet werden soll.
 
 > Der Type Header sollte bereits vom Developer vorausgefüllt werden. Die verfügbaren Topics sollten über eine Konfiguration gesetzt werden, da 
 > sie sich je nach Umgebung unterscheiden können.
@@ -19,7 +20,7 @@ Die Integrationsservices von DigiWF basieren auf einer Spring Boot Starter Paket
 - **core**, der die Businesslogik beinhaltet
 - **starter** Module, das den *core* verwendet, um Spring Beans zur Verfügung zu stellen
 - **example** Anwendung, die die Verwendung des Starters zeigt
-- **service** Anwendung, die bereits vorkonfiguriert ist und direkt verwendet werden kann. Diese Service Anwendung ist üblicherweise als Docker Image im [dockerhub](https://hub.docker.com/u/itatm) veröffentlicht. Eine solche Service Anwendung ist nur bei generische Integrationen vorhanden.
+- **service** Anwendung, die bereits vorkonfiguriert ist und direkt verwendet werden kann. Diese Service-Anwendung ist üblicherweise als Docker Image im [dockerhub](https://hub.docker.com/u/itatm) veröffentlicht. Eine solche Service-Anwendung ist nur bei generische Integrationen vorhanden.
 
 > Durch die Bereitstellung von Spring Boot Startern bietet es die nötige Flexibilität, um die Integrationsservices bei Bedarf zu erweitern oder zu verändern.
 

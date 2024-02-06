@@ -1,5 +1,7 @@
 # DigiWF OK.EWO Integration
 
+![](https://img.shields.io/badge/Integration_Name-okewoIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 ## Documentation
 
 Basically, two artifacts are available.

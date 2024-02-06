@@ -48,7 +48,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse_bundesweit/search?ortsname=Augsburg", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "searchAddressesGermany", 30);
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenDeutschlandDto, processInstanceId, "addressIntegration", "searchAddressesGermany", 30);
 
         // assert
         assertThat(payload)
@@ -77,7 +77,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse/check?adresse=Agnes-Pockels-Bogen%2021%2C%2080992%20M%C3%BCnchen", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(checkAdresseMuenchenDto, processInstanceId, "checkAddressMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(checkAdresseMuenchenDto, processInstanceId,"addressIntegration", "checkAddressMunich");
 
         assertThat(payload)
                 .isNotNull()
@@ -96,7 +96,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse/list?plz=80992", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAdressenMuenchenDto, processInstanceId, "listAddressesMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAdressenMuenchenDto, processInstanceId, "addressIntegration", "listAddressesMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
@@ -124,7 +124,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse/aenderung?plz=80992", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAenderungenMuenchenDto, processInstanceId, "listChangesMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listAenderungenMuenchenDto, processInstanceId, "addressIntegration", "listChangesMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
@@ -141,7 +141,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse/search?query=Agnes-Pockels-Bogen%2021", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenMuenchenDto, processInstanceId, "searchAddressesMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenMuenchenDto, processInstanceId, "addressIntegration", "searchAddressesMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
@@ -169,7 +169,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/adresse/search/geo?geometrie=Punkt&lat=5334745.607&lng=691641.878", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenGeoMuenchenDto, processInstanceId, "searchAddressesGeoMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(searchAdressenGeoMuenchenDto, processInstanceId, "addressIntegration", "searchAddressesGeoMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
@@ -192,7 +192,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/strasse/2996", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(strassenIdDto, processInstanceId, "findStreetByIdMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(strassenIdDto, processInstanceId, "addressIntegration", "findStreetByIdMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
@@ -211,7 +211,7 @@ class AddressIntegrationE2eTest {
         DigiwfWiremockUtility.setupGET("/v2/strasse/search?strassenname=Marienplatz", expectedResponse);
 
         // send and receive messages
-        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listStrassenDto, processInstanceId, "listStreetMunich");
+        final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(listStrassenDto, processInstanceId, "addressIntegration", "listStreetMunich");
 
         // assert
         final Map<String, Object> response = this.verifyAndGetResponseBody(payload);
