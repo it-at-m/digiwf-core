@@ -162,10 +162,10 @@ import {ApiConfig} from "../api/ApiConfig";
 import {
   cancelTask,
   completeTask,
+  deferTask,
   downloadPDFFromEngine,
   loadTask,
-  saveTask,
-  deferTask
+  saveTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import router from "../router";
@@ -235,12 +235,19 @@ export default class TaskDetail extends SaveLeaveMixin {
 
         const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-        // use potential value of query parameter if variable is undefined or empty
-        this.formFields =
-          validateSchema(
-            this.task.schema,
-            mergeObjects(this.task.variables, inputs)
-          );
+        if(this.task.form) {
+
+          this.formFields = mergeObjects(this.task.variables, inputs);
+
+        } else {
+
+          // use potential value of query parameter if variable is undefined or empty
+          this.formFields =
+            validateSchema(
+              this.task.schema,
+              mergeObjects(this.task.variables, inputs)
+            );
+        }
       }
       if (error) {
         this.errorMessage = error;
