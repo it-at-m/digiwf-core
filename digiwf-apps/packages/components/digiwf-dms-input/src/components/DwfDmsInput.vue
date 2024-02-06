@@ -20,16 +20,15 @@
           <v-fade-transition leave-absolute>
             <v-progress-circular
               v-if="requesting"
-              size="24"
               color="primary"
               indeterminate
             />
             <v-btn
               v-else
               icon
-              size="24"
               color="primary"
               @click="addByButton"
+              class="ml-6 mb-4"
             >
               <v-icon>
                 mdi-file-plus-outline
@@ -81,7 +80,7 @@ import {defineComponent, inject, onMounted, ref} from "vue";
 import {getMetadata} from "@/middleware/dmsMiddleware";
 import {Metadata, Objectclass} from "@/types";
 
-interface DmsDocument {
+interface DmsObject {
   readonly coo: string;
   readonly metadata?: Metadata;
   readonly errormessage?: string;
@@ -104,7 +103,7 @@ export default defineComponent({
     const requesting = ref<boolean>(false);
     const errorMessage = ref<string | undefined>(undefined);
     const objectInput = ref<string|undefined>(undefined);
-    const dmsObjects = ref<DmsDocument[]>([]);
+    const dmsObjects = ref<DmsObject[]>([]);
     const minObjects = props.schema.minObjects;
     const maxObjects = props.schema.maxObjects;
     const minMessage =
@@ -124,13 +123,16 @@ export default defineComponent({
       if (!props.on) {
         return;
       }
-      const metadata = dmsObjects.value
-        .map(doc => doc.metadata)
-        .filter(metadata => !!metadata);
       return props.on.input(
-        metadata
+        getMetadataOfObjects(dmsObjects.value)
       );
     };
+
+    const getMetadataOfObjects = (objects: DmsObject[]) => {
+      return objects
+          .map(doc => doc.metadata)
+          .filter(metadata => !!metadata);
+    }
 
     const validate = (number: number) => {
 
@@ -168,19 +170,19 @@ export default defineComponent({
           dmsObjects.value.push({
               coo: input,
               metadata: res
-            } as DmsDocument
+            } as DmsObject
           );
         })
         .catch(() => {
           dmsObjects.value.push({
               coo: input,
               errormessage: `Das Objekt ${input} konnte nicht geladen werden.`
-            } as DmsDocument
+            } as DmsObject
           );
         })
         .finally(() => {
           requesting.value = false;
-          validate(dmsObjects.value.length);
+          validate(getMetadataOfObjects(dmsObjects.value).length);
           onObjectChange();
           objectInput.value = "";
         })
@@ -189,16 +191,16 @@ export default defineComponent({
     const removeDocument = (coo: string) => {
       const newDmsObjects = dmsObjects.value.filter(doc => doc.coo !== coo);
       dmsObjects.value = newDmsObjects
-      validate(newDmsObjects.length);
+      validate(getMetadataOfObjects(newDmsObjects).length);
       onObjectChange();
       // Is necessary to trigger validation
       objectInput.value = undefined
     }
 
     onMounted(() => {
-        validate(dmsObjects.value.length);
+        validate(getMetadataOfObjects(dmsObjects.value).length);
       if (!!props.value) {
-        Promise.all<DmsDocument>(props.value.map((metadataOrCoo: Metadata | string) => {
+        Promise.all<DmsObject>(props.value.map((metadataOrCoo: Metadata | string) => {
           if (typeof metadataOrCoo === "string") {
             const coo = metadataOrCoo.substring(metadataOrCoo.indexOf("COO."))
 
@@ -207,14 +209,14 @@ export default defineComponent({
                 return {
                   coo: coo,
                   metadata: res
-                } as DmsDocument;
+                } as DmsObject;
 
               })
               .catch(() => {
                 return {
                   coo: coo,
                   errormessage: `Das Objekt ${coo} konnte nicht geladen werden.`
-                } as DmsDocument;
+                } as DmsObject;
               })
           }
 
@@ -224,7 +226,7 @@ export default defineComponent({
           }
         })).then(documents => {
           dmsObjects.value = documents;
-          validate(dmsObjects.value.length);
+          validate(getMetadataOfObjects(dmsObjects.value).length);
           onObjectChange();
         })
         return;
