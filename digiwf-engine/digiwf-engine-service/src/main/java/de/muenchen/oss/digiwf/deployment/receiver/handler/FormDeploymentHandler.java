@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,12 +28,13 @@ public class FormDeploymentHandler implements DeploymentHandler {
     public void deployArtifact(Deployment artifact) {
         try {
             final JsonNode jsonNode = this.objectMapper.readTree(artifact.getFile());
-            final String schemaRef = Optional.of(jsonNode.get("key")).map(JsonNode::asText)
-                    .orElseThrow(() -> new DeploymentFailedException("No key found in schema " + jsonNode.get("key")));
+            final String schemaRef = jsonNode.get("key").asText();
+            final JsonNode schemaNode = jsonNode.get("schema");
+            final String schema = this.objectMapper.writeValueAsString(schemaNode);
 
             final JsonSchema jsonSchema = JsonSchema.builder()
                     .key(schemaRef)
-                    .schema(artifact.getFile())
+                    .schema(schema)
                     .build();
 
             this.jsonSchemaService.createJsonSchema(jsonSchema);
