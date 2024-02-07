@@ -283,9 +283,7 @@ public class TaskExternalLinksIT {
             .andExpect(jsonPath("$.content[0].externalLinks[2].label", equalTo("Vorgang 41134")))
             .andExpect(jsonPath("$.content[0].externalLinks[0].url", equalTo("https://www.muenchen.de/")))
             .andExpect(jsonPath("$.content[0].externalLinks[1].url", equalTo("https://mpdz-ticketing-prelive.muenchen.de/#ticket/zoom/number/11004832")))
-            .andExpect(jsonPath("$.content[0].externalLinks[2].url", equalTo("https://eakte.muenchen.de/fsc/mx/COO.2150.307.2.41134")))
-
-        ;
+            .andExpect(jsonPath("$.content[0].externalLinks[2].url", equalTo("https://eakte.muenchen.de/fsc/mx/COO.2150.307.2.41134")));
     }
 
 }
