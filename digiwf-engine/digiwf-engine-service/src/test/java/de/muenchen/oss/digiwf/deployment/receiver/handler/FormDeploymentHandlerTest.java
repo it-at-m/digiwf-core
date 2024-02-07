@@ -109,7 +109,7 @@ class FormDeploymentHandlerTest {
         final Deployment deployment = new Deployment("{\"schema\": \"some-schema\"}", "form", "filename", "namespace", List.of("LATEST"));
         assertThatThrownBy(() -> handler.deployArtifact(deployment))
                 .isInstanceOf(DeploymentFailedException.class)
-                .hasMessageContaining("No schema found in json");
+                .hasMessage("Model validation failed with message: Form key is missing");
     }
 
     @Test
@@ -117,7 +117,7 @@ class FormDeploymentHandlerTest {
         final Deployment deployment = new Deployment("{\"key\": \"key\"}", "form", "filename", "namespace", List.of("LATEST"));
         assertThatThrownBy(() -> handler.deployArtifact(deployment))
                 .isInstanceOf(DeploymentFailedException.class)
-                .hasMessageContaining("No key found in json");
+                .hasMessageContaining("Model validation failed with message: Form schema is missing");
     }
 
 }
