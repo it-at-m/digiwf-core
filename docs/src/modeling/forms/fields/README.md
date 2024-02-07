@@ -304,3 +304,30 @@ dem Benutzer formatierte Inhalte anzuzeigen.
 Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/markdown-form.png)
+
+## DMS Input
+
+Über dieses Feld können die Metadaten von einem DMS Objekt abgerufen und angezeigt werden.
+
+![Formular Editor](~@source/modeling/forms/fields/dms-input.png)
+
+#### Einstellungen
+
+- **Objektklasse** Über die Objektklasse wird das DMS Objekt ausgewählt, von dem die Metadaten abgerufen werden sollen. Es muss eine Objektklasse ausgwählt werden. Die folgenden Objektklassen stehen zur Auswahl:
+    - Sachakte
+    - Vorgang
+    - Eingang
+    - Ausgang
+    - Intern
+    - Schriftstueck
+- **Default** Über den Default Wert kann eine Liste an COOs oder Links zu Objekten angegeben werden. Die Metadaten werden beim Öffnen des Formluars aus dem DMS geladen.
+
+- **Minimale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte mindestens über den Input übergeben werden müssen. Der DMS Input kann somit als Pflichtfeld deklariert werden.
+- **Maximale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte maximal über den Input übergeben werden dürfen.
+
+
+#### Anzeige
+
+Im Formular wird das Feld wie folgt angezeigt:
+
+![Formular Editor](~@source/modeling/forms/fields/dms-input-form.png)
