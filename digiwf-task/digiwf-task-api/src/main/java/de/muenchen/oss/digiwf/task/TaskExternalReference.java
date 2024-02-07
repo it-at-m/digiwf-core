@@ -3,8 +3,9 @@ package de.muenchen.oss.digiwf.task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
+
+import java.io.Serializable;
 
 /**
  * Represents an external referencable identity.
@@ -27,7 +28,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @Data
-public class TaskExternalReference {
+public class TaskExternalReference implements Serializable {
   /**
    * Reference type.
    */
