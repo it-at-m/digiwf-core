@@ -110,6 +110,10 @@ export default defineComponent({
       (!!minObjects && minObjects == 1)
         ? `Es muss mindestens ${minObjects} Objekt übergeben werden`
         : `Es müssen mindestens ${minObjects}  Objekte übergeben werden`;
+    const maxMessage =
+      (!!maxObjects && maxObjects == 1)
+        ? `Es darf maximal ${minObjects} Objekt übergeben werden`
+        : `Es dürfen maximal ${maxObjects} Objekte übergeben werden`;
 
     const rules = props.rules ? props.rules : [];
 
@@ -139,7 +143,7 @@ export default defineComponent({
       if (!!minObjects && number < minObjects) {
         errorMessage.value = minMessage;
       } else if (!!maxObjects && number > maxObjects) {
-        errorMessage.value = `Es dürfen maximal ${maxObjects} Objekte übergeben werden`;
+        errorMessage.value = maxMessage;
       } else {
         errorMessage.value = undefined;
       }
