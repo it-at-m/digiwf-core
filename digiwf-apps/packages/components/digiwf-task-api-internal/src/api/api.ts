@@ -22,6 +22,43 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * Represents an external link
+ * @export
+ * @interface ExternalLink
+ */
+export interface ExternalLink {
+    /**
+     * Type of link.
+     * @type {string}
+     * @memberof ExternalLink
+     */
+    'type': string;
+    /**
+     * URL of the link.
+     * @type {string}
+     * @memberof ExternalLink
+     */
+    'url'?: string;
+    /**
+     * Label to render.
+     * @type {string}
+     * @memberof ExternalLink
+     */
+    'label'?: string;
+    /**
+     * HTML content of the element.
+     * @type {string}
+     * @memberof ExternalLink
+     */
+    'htmlContent'?: string;
+    /**
+     * Additional extension properties.
+     * @type {{ [key: string]: string; }}
+     * @memberof ExternalLink
+     */
+    'additionalParameters'?: { [key: string]: string; };
+}
+/**
  * Page of tasks.
  * @export
  * @interface PageOfTasks
@@ -216,6 +253,12 @@ export interface Task {
      * @memberof Task
      */
     'schemaType': TaskSchemaType;
+    /**
+     * List of external links
+     * @type {Array<ExternalLink>}
+     * @memberof Task
+     */
+    'externalLinks': Array<ExternalLink>;
 }
 /**
  * Task assignment information.
@@ -360,6 +403,12 @@ export interface TaskWithDetails {
      * @memberof TaskWithDetails
      */
     'schemaType': TaskSchemaType;
+    /**
+     * List of external links
+     * @type {Array<ExternalLink>}
+     * @memberof TaskWithDetails
+     */
+    'externalLinks': Array<ExternalLink>;
 }
 /**
  * Represents a user task with embedded combined schema.
@@ -445,6 +494,12 @@ export interface TaskWithSchema {
      * @memberof TaskWithSchema
      */
     'schemaType': TaskSchemaType;
+    /**
+     * List of external links
+     * @type {Array<ExternalLink>}
+     * @memberof TaskWithSchema
+     */
+    'externalLinks': Array<ExternalLink>;
 }
 /**
  * Profile of the user.

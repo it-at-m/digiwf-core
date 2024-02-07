@@ -10,6 +10,15 @@
       <span class="processName grey--text">{{ task.processName }}</span>
       <h1>{{ task.name }}</h1>
       <p>{{ task.description }}</p>
+      <v-flex
+        v-if="task.links.length > 0"
+        style="margin-bottom: 1em"
+      >
+        <task-links
+          :links="task.links"
+        />
+      </v-flex>
+
       <base-form
         v-if="task.form"
         :is-saving="isSaving"
@@ -162,19 +171,22 @@ import {ApiConfig} from "../api/ApiConfig";
 import {
   cancelTask,
   completeTask,
+  deferTask,
   downloadPDFFromEngine,
   loadTask,
-  saveTask,
-  deferTask
+  saveTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import router from "../router";
 import {mergeObjects} from "../utils/mergeObjects";
 import {validateSchema} from "../utils/validateSchema";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
+import TaskLinks from "../components/task/links/TaskLinks.vue";
 
 @Component({
-  components: {TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab}
+  components: {
+    TaskLinks, TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab
+  }
 })
 export default class TaskDetail extends SaveLeaveMixin {
 
@@ -235,12 +247,19 @@ export default class TaskDetail extends SaveLeaveMixin {
 
         const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-        // use potential value of query parameter if variable is undefined or empty
-        this.formFields =
-          validateSchema(
-            this.task.schema,
-            mergeObjects(this.task.variables, inputs)
-          );
+        if(this.task.form) {
+
+          this.formFields = mergeObjects(this.task.variables, inputs);
+
+        } else {
+
+          // use potential value of query parameter if variable is undefined or empty
+          this.formFields =
+            validateSchema(
+              this.task.schema,
+              mergeObjects(this.task.variables, inputs)
+            );
+        }
       }
       if (error) {
         this.errorMessage = error;
@@ -345,4 +364,5 @@ export default class TaskDetail extends SaveLeaveMixin {
     return this.hasChanges;
   }
 }
+
 </script>

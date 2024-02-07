@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 @Validated
 @RequiredArgsConstructor
 public class SearchFileService implements SearchFileUseCase {
@@ -14,7 +16,7 @@ public class SearchFileService implements SearchFileUseCase {
     private final SearchFilePort searchFilePort;
 
     @Override
-    public String searchFile(final String searchString, final String user, final String reference, final String value) {
+    public List<String> searchFile(final String searchString, final String user, final String reference, final String value) {
 
 
         val files = searchFilePort.searchFile(searchString, user, reference, value);
@@ -23,7 +25,6 @@ public class SearchFileService implements SearchFileUseCase {
             throw new BpmnError("OBJECT_NOT_FOUND", String.format("File not found with searchString %s and user %s", searchString, user));
         }
 
-        // return first result
-        return files.get(0);
+        return files;
     }
 }

@@ -27,11 +27,12 @@ public interface ProcessApi {
     /**
      * Correlates a message with the specified process instance ID and payload variables.
      * @param processInstanceId The ID of the process instance to correlate the message with.
-     * @param messageName The name of the message to be correlated.
+     * @param type The type of the message to be correlated.
+     * @param integrationName The name of the integration to be correlated.
      * @param payloadVariables The payload variables to be included in the message correlation.
      * @return true if the message was successfully correlated, false otherwise.
      */
 
-    boolean correlateMessage(String processInstanceId, String messageName, Map<String, Object> payloadVariables);
+    boolean correlateMessage(String processInstanceId, String type, String integrationName, Map<String, Object> payloadVariables);
 
 }

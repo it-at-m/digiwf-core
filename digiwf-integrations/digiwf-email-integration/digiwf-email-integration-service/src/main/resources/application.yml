@@ -5,9 +5,6 @@ spring:
   application:
     name: @project.artifactId@
   cloud:
-    function:
-      definition: functionRouter;sendMessage;
-      routing-expression: "headers['type']"
     stream:
       bindings:
         functionRouter-in-0:
@@ -15,32 +12,6 @@ spring:
           destination: "dwf-email-${DIGIWF_ENV}"
         sendMessage-out-0:
           destination: "dwf-connector-${DIGIWF_ENV}"
-      kafka:
-        binder:
-          configuration:
-            security:
-              protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
-          producerProperties:
-            value:
-              serializer: org.springframework.kafka.support.serializer.JsonSerializer
-            key:
-              serializer: org.springframework.kafka.support.serializer.JsonSerializer
-          consumerProperties:
-            auto:
-              offset:
-                reset: latest
-            key:
-              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-            value:
-              deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-          brokers: ${KAFKA_BOOTSTRAP_SERVER:localhost}:${KAFKA_BOOTSTRAP_SERVER_PORT:29092}
-  kafka:
-    consumer:
-      properties:
-        spring:
-          json:
-            trusted:
-              packages: '*'
   mail:
     port: ${MAIL_PORT:1025}
     host: ${MAIL_HOST:localhost}
@@ -82,3 +53,4 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"

@@ -1,16 +1,18 @@
 package de.muenchen.oss.digiwf.task.service.application.usecase;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.TaskVariables;
+import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import io.holunda.camunda.taskpool.api.task.ProcessReference;
 import io.holunda.camunda.taskpool.api.task.TaskCreatedEngineEvent;
 import io.holunda.camunda.taskpool.api.task.TaskDeletedEngineEvent;
+import io.holunda.camunda.variable.serializer.VariableSerializerKt;
 import io.holunda.polyflow.view.Task;
-import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.camunda.bpm.engine.variable.VariableMap;
@@ -22,7 +24,6 @@ import java.time.Instant;
 import java.util.*;
 
 import static io.holunda.camunda.bpm.data.CamundaBpmData.*;
-import static org.camunda.bpm.engine.variable.Variables.createVariables;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -70,18 +71,39 @@ public class TestFixtures {
     }
 
 
+    /**
+     * Generates a task.
+     * @param taskId task id.
+     * @param candidateUsers set of candidate users.
+     * @param candidateGroups set of candidate groups.
+     * @param assignee assignee of a task, may be null.
+     * @param followUpDate follow-up data, may be null.
+     * @param cancelable cancelable flag.
+     * @param variables variable map written with a help of Camunda BPM Data.
+     * @return generated task.
+     */
     public static Task generateTask(String taskId, Set<String> candidateUsers, Set<String> candidateGroups, String assignee, Instant followUpDate, Boolean cancelable, VariableMap variables) {
+        final ObjectMapper om = new ObjectMapper();
         try {
             Thread.sleep(1);
         } catch (InterruptedException ignored) {
 
         }
 
-        val vars = Variables.createVariables();
-        vars.putAll(variables);
+        // this emulates the serialization and de-serialization based on transfer of the variable from the engine to
+        // task list, where the types get lost.
+        val vars = VariableSerializerKt.toPayloadVariableMap(VariableSerializerKt.toPayloadJson(variables, om), om);
+
         val varsWriter = writer(vars);
         if (cancelable != null) {
             varsWriter.set(TaskVariables.TASK_CANCELABLE, cancelable);
+        }
+
+        val correlations = Variables.createVariables();
+        if (variables.containsKey(TaskVariables.TASK_EXTERNAL_LINKS.getName())) {
+            reader(variables).get(TaskVariables.TASK_EXTERNAL_LINKS).forEach(reference ->
+                correlations.putValue(reference.getIdentity(), reference.getType())
+            );
         }
 
         val reference = new ProcessReference(instanceId, instanceId, "def:1", "def", "Sample process", "app1", null);
@@ -90,7 +112,7 @@ public class TestFixtures {
                 reference,
                 "task_def_1",
                 varsWriter.variables(),
-                createVariables(),
+                correlations,
                 null,
                 "Task Name",
                 null,

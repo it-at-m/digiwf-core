@@ -113,6 +113,16 @@ digiwf:
   security:
     client-id: ${SSO_TASK_CLIENT_ID}
     client-secret: ${SSO_TASK_CLIENT_SECRET}
+  task-links:
+    task-link-types:
+      - link-type: zammad
+        url-template: "${ZAMMAD_URL_TEMPLATE:https://mpdz-ticketing-prelive.muenchen.de/#ticket/zoom/number/{0}}"
+        label-template: "${ZAMMAD_LABEL_TEMPLATE:Zammad Ticket {0}}"
+        id-transformer-regex: "^(?>LHM)?(?<id>[\\d]+)$"
+      - link-type: mucsdms
+        url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
+        label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
+
 io:
   muenchendigital:
     digiwf:

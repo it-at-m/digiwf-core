@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnTaskFile;
 import de.muenchen.oss.digiwf.task.service.application.port.in.rest.api.FileApiDelegate;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +23,12 @@ public class FileApiDelegateImpl implements FileApiDelegate {
 
     @Override
     public ResponseEntity<List<String>> getFileNames(String taskId, String filePath) {
-        return ok(workOnTaskFile.getFileNames(taskId,filePath));
+        val files = workOnTaskFile.getFileNames(taskId, filePath);
+        return ok(files);
     }
 
     @Override
-    public ResponseEntity<String> getPresignedUrlForFile(String taskId, String fileName, String filePath, String requestMethod){
+    public ResponseEntity<String> getPresignedUrlForFile(String taskId, String fileName, String filePath, String requestMethod) {
         return ok(workOnTaskFile.getPresignedUrl(PresignedUrlAction.valueOf(requestMethod), taskId, filePath, fileName));
     }
 

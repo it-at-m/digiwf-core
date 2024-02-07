@@ -67,6 +67,13 @@
             <artifactId>digiwf-connector-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Security -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- Validation -->
         <dependency>

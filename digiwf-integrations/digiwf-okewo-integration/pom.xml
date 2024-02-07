@@ -24,27 +24,4 @@
         <module>digiwf-okewo-integration-service</module>
     </modules>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>run-itests</id>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                        <argLine>@{argLine} -Xms256m -Xmx2048m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 </project>

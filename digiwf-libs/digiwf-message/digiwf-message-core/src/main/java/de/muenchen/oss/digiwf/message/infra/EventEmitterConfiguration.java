@@ -42,9 +42,6 @@ public class EventEmitterConfiguration {
         return sink::asFlux;
     }
 
-    public static final String FUNCTION_ROUTING_ERROR = "springCloudstreamUtilsFunctionRoutingError";
-    public static final String MISSING_TYPE_HEADER_ERROR = "springCloudstreamUtilsMissingTypeHeaderError";
-
     /**
      * When TYPE header of the incoming message is set but not configured in the application, message gets routed here.
      * @return Consumer

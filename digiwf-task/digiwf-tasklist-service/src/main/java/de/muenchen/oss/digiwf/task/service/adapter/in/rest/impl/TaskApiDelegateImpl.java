@@ -43,18 +43,17 @@ public class TaskApiDelegateImpl implements TaskApiDelegate {
     val taskWithSchema = workOnUserTask.loadUserTaskWithSchema(taskId);
     switch (taskWithSchema.getTaskSchemaType()) {
       case VUETIFY_FORM_BASE:
-        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getLegacyForm(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType(), taskWithSchema.getTag()));
+        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getLegacyForm(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType(), taskWithSchema.getTag(), taskWithSchema.getTaskLinks()));
       case SCHEMA_BASED:
       default:
-        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema().asMap(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType(), taskWithSchema.getTag()));
+        return ok(taskMapper.toWithSchema(taskWithSchema.getTask(), taskWithSchema.getSchema().asMap(), taskWithSchema.isCancelable(), taskWithSchema.getTaskSchemaType(), taskWithSchema.getTag(), taskWithSchema.getTaskLinks()));
     }
-
   }
 
   @Override
   public ResponseEntity<TaskWithDetailsTO> getTaskByTaskId(String taskId) {
     val taskWithSchemaRef = workOnUserTask.loadUserTask(taskId);
-    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef(), taskWithSchemaRef.isCancelable(), taskWithSchemaRef.getTaskSchemaType(), taskWithSchemaRef.getTag()));
+    return ok(taskMapper.toWithDetails(taskWithSchemaRef.getTask(), taskWithSchemaRef.getSchemaRef(), taskWithSchemaRef.isCancelable(), taskWithSchemaRef.getTaskSchemaType(), taskWithSchemaRef.getTag(), taskWithSchemaRef.getTaskLinks()));
   }
 
   @Override

@@ -41,6 +41,8 @@ declare module 'vue' {
     StatementIcon: typeof import('./src/components/UI/icons/StatementIcon.vue')['default']
     TaskFollowUpDialog: typeof import('./src/components/task/TaskFollowUpDialog.vue')['default']
     TaskItem: typeof import('./src/components/task/TaskItem.vue')['default']
+    TaskLink: typeof import('./src/components/task/links/TaskLink.vue')['default']
+    TaskLinks: typeof import('./src/components/task/links/TaskLinks.vue')['default']
     TaskList: typeof import('./src/components/task/TaskList.vue')['default']
     TaskListFilter: typeof import('./src/components/task/TaskListFilter.vue')['default']
     TheSnackbar: typeof import('./src/components/TheSnackbar.vue')['default']

@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.task.service.application.usecase;
 import de.muenchen.oss.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.links.TaskLinkResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
@@ -27,6 +28,7 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
   private final CancellationFlagOutPort cancellationFlagOutPort;
   private final TaskTagResolverPort taskTagResolverPort;
+  private final TaskLinkResolverPort taskLinkResolverPort;
 
   @Override
   public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
@@ -56,7 +58,8 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
                 taskSchemaRefResolverPort.apply(task),
                 cancellationFlagOutPort.apply(task),
                 taskSchemaTypeResolverPort.apply(task),
-                taskTagResolverPort.apply(task).orElse(null)
+                taskTagResolverPort.apply(task).orElse(null),
+                taskLinkResolverPort.apply(task)
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

@@ -15,22 +15,21 @@
     <bpmn:sequenceFlow id="Flow_0ryqzye" sourceRef="StartEvent_1" targetRef="Gateway_0soknkl" />
     <bpmn:callActivity id="Activity_0g2rzzy" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
         <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
         <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
-        <camunda:in sourceExpression="${FORMFIELD_EMAIL_TOPIC}" target="app_topic_name" />
+        <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0n9f7m4</bpmn:incoming>
       <bpmn:outgoing>Flow_0rqxdmr</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:callActivity id="Activity_10z9ygh" name="Anhänge laden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
+        <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
-        <camunda:in sourceExpression="createPresignedUrl" target="app_message_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="GET" target="action" />
         <camunda:in sourceExpression="${app_file_context}/test" target="path" />
@@ -42,7 +41,6 @@
     <bpmn:sequenceFlow id="Flow_1lp426t" sourceRef="Activity_10z9ygh" targetRef="Activity_1olcqz6" />
     <bpmn:callActivity id="Activity_1olcqz6" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
@@ -50,7 +48,7 @@
         <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
         <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
         <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
-        <camunda:in sourceExpression="${FORMFIELD_EMAIL_TOPIC}" target="app_topic_name" />
+        <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1lp426t</bpmn:incoming>
       <bpmn:outgoing>Flow_06uw57q</bpmn:outgoing>

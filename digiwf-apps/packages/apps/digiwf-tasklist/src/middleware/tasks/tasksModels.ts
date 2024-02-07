@@ -1,3 +1,5 @@
+import {ExternalLink} from "@muenchen/digiwf-task-api-internal";
+
 export interface HumanTask {
   readonly id: string;
   readonly createTime: string;
@@ -11,6 +13,7 @@ export interface HumanTask {
   readonly assigneeFormatted?: string;
   readonly inFinishProcess: boolean;
   readonly inAssignProcess: boolean;
+  readonly links: ExternalLink[];
 }
 
 // eslint-disable-next-line

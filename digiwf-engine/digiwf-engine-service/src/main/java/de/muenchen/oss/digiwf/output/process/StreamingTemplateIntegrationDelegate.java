@@ -16,6 +16,7 @@ import java.util.Map;
  *
  * @author externer.dl.horn
  */
+@Deprecated
 @Slf4j
 @Component
 public class StreamingTemplateIntegrationDelegate extends AbstractStreamingIntegrationDelegate implements JavaDelegate {
@@ -27,6 +28,13 @@ public class StreamingTemplateIntegrationDelegate extends AbstractStreamingInteg
         this.dynamicSink = dynamicSink;
     }
 
+    /**
+     * StreamingTemplateV01 sends an integration name to the integrations too, but it does not support any further features.
+     * Migrate to StreamingTemplateV02 as soon as possible.
+     *
+     * @param delegateExecution
+     * @throws Exception
+     */
     @Override
     public void execute(final DelegateExecution delegateExecution) throws Exception {
         final Map<String, Object> localVariables = delegateExecution.getVariables();

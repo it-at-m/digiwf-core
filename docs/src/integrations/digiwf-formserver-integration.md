@@ -1,5 +1,7 @@
 # DigiWF Formserver Integration
 
+![](https://img.shields.io/badge/Integration_Name-formserverIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die DigiWF Formserver Integration ist eine Integration, die es Benutzern ermöglicht Prozesse in DigiWF über den Formserver
 zu starten.
 Hierbei werden die Formulardaten an den zu startenden Prozess weitergegeben.

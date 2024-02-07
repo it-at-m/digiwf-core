@@ -191,11 +191,11 @@ module.exports = {
                             ]
                         },
                         {
-                            title: 'Integrationen',
+                            title: 'Wiederverwendbare Bausteine',
                             collapsable: false,
                             children: [
-                                'integrations/',
-                                'integrations/catalog/',
+                                'bausteine/',
+                                'bausteine/integrationen/',
                             ]
                         },
                         {

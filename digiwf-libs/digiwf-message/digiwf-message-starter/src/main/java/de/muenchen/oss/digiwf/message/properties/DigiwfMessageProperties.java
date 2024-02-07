@@ -23,4 +23,5 @@ public class DigiwfMessageProperties {
     private String bpmnErrorDestination;
     private String correlateMessageDestination;
     private String startProcessDestination;
+    private String deadLetterQueueDestination;
 }

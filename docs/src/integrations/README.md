@@ -10,6 +10,16 @@ Jede Digiwf Integration folgt unserem Integrationskonzept (Spring Boot Starter) 
 [Prozessbeispiele und Formulare](/modeling/templates/examples) können für die Verwendung der Integration heruntergeladen werden.
 [Element Templates](/modeling/templates/element-templates) können für eigene Bausteine heruntergeladen werden.
 
+## Verfügbare Integrationen
+
+- [Address Integration](digiwf-address-integration.md)
+- [Alw Integration](digiwf-alw-integration.md)
+- [CoSys Integration](digiwf-cosys-integration.md)
+- [Dms Integration](digiwf-dms-integration.md)
+- [Formserver Integration](digiwf-formserver-integration.md)
+- [Email Integration](digiwf-mail-integration.md)
+- [S3 Integration](digiwf-s3-integration.md)
+
 ## Konzepte
 
 - [Integrationsservices](concept/integration-service.md)

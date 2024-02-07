@@ -22,9 +22,9 @@ public class BpmnErrorEventConsumer {
 
     @Bean
     public Consumer<Message<BpmnErrorDto>> createBpmnError() {
-        return correlation -> {
-            log.info("Received bpmn error correlation {}", correlation.getPayload());
-            this.inPort.createBpmnError(map(correlation.getPayload()));
+        return bpmnError -> {
+            log.info("Received bpmn error correlation {}", bpmnError.getPayload());
+            this.inPort.createBpmnError(map(bpmnError.getPayload()));
         };
     }
 

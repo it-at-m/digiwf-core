@@ -16,7 +16,6 @@
     <bpmn:sequenceFlow id="Flow_1k3r5nz" sourceRef="Activity_1tm1cuh" targetRef="Activity_1w78p0t" />
     <bpmn:callActivity id="Activity_1tm1cuh" name="ALW Personeninfo abfragen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.AlwPersoneninfoTemplateV01" calledElement="StreamingTemplateV01">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="correlateAlwPersoneninfo" target="app_message_name" />
         <camunda:in sourceExpression="getAlwZustaendigkeitEventBus" target="app_type_name" />
         <camunda:in sourceExpression="${azrNummer}" target="azrNummer" />
         <camunda:out source="alwZustaendigeGruppe" target="alwZustaendigeGruppe" />

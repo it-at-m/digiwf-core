@@ -1,6 +1,6 @@
 {
-  "name": "S3: Presigned Url erstellen",
-  "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01",
+  "name": "S3: Presigned Url erstellen V02",
+  "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV02",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -9,16 +9,31 @@
       "label": "Template",
       "type": "String",
       "editable": false,
-      "value": "StreamingTemplateV01",
+      "value": "StreamingTemplateV02",
       "binding": {
         "type": "property",
         "name": "calledElement"
       }
     },
     {
-      "label": "Event Topic",
+      "label": "Integration Name",
       "type": "String",
       "editable": false,
+      "value": "s3Integration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "editable": true,
       "value": "${app_file_s3_async_config}",
       "binding": {
         "type": "camunda:in",
@@ -27,22 +42,7 @@
         "expression": true
       },
       "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "Event Message",
-      "type": "String",
-      "editable": false,
-      "value": "createPresignedUrl",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "app_message_name",
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
+        "notEmpty": false
       }
     },
     {
@@ -99,8 +99,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }
