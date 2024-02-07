@@ -28,8 +28,16 @@ public class FormDeploymentHandler implements DeploymentHandler {
     public void deployArtifact(Deployment artifact) {
         try {
             final JsonNode jsonNode = this.objectMapper.readTree(artifact.getFile());
+            if (!jsonNode.has("key")) {
+                throw new RuntimeException("Form key is missing");
+            }
+            if (!jsonNode.has("schema")) {
+                throw new RuntimeException("Form schema is missing");
+            }
+
             final String schemaRef = jsonNode.get("key").asText();
             final JsonNode schemaNode = jsonNode.get("schema");
+
             final String schema = this.objectMapper.writeValueAsString(schemaNode);
 
             final JsonSchema jsonSchema = JsonSchema.builder()
