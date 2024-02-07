@@ -30,7 +30,7 @@ public class TaskLinkTypeConfig {
     private final String labelTemplate;
     /**
      * Optional id transformer regex expression, used to transform the id before used in templates.
-     * If matches, the {@link ID_TRANSFORMER_REGEX_GROUP} is extracted.
+     * If matches, the {@link #ID_TRANSFORMER_REGEX_GROUP} is extracted.
      * For example: "^(?>LHM)?(?<id>[\d]+)$" would not capture the first group, and the second group is called "id".
      */
     private final String idTransformerRegex;

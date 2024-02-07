@@ -53,7 +53,7 @@ public class WorkOnUserTaskUseCase implements WorkOnUserTask {
         val cancelable = cancellationFlagOutPort.apply(task);
         val schemaRef = taskSchemaRefResolverPort.apply(task);
         val type = taskSchemaTypeResolverPort.apply(task);
-        String tag = taskTagResolverPort.apply(task).orElse(null);
+        val tag = taskTagResolverPort.apply(task).orElse(null);
         val links = taskLinkResolverPort.apply(task);
 
         switch (type) {

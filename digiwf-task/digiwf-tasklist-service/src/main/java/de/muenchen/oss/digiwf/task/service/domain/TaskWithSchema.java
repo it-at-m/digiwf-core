@@ -6,7 +6,6 @@ import io.holunda.polyflow.view.Task;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

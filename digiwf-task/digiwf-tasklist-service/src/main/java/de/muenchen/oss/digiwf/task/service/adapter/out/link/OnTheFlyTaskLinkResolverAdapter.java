@@ -19,8 +19,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static io.holunda.camunda.bpm.data.CamundaBpmData.reader;
-
 /**
  * An adapter for on-the-fly resolution of the external references of the tasks.
  */
@@ -93,6 +91,14 @@ public class OnTheFlyTaskLinkResolverAdapter implements TaskLinkResolverPort {
         return new TaskLink(TYPE_URL, url, label, null, null);
     }
 
+    /**
+     *
+     * resolves typed link by using TaskLinkTypeConfig
+     *
+     * @param config
+     * @param id
+     * @return the generated TaskLink
+     */
     private TaskLink resolveTypedLink(TaskLinkTypeConfig config, String id) {
         val matcher = MD_TYPED_LINK_REGEX.matcher(id);
 

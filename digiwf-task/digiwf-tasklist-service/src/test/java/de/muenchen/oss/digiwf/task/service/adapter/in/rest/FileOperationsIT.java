@@ -42,7 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"itest", "embedded-kafka", "no-security"})
 @AutoConfigureMockMvc(addFilters = true)
 @EmbeddedKafka(
-
     partitions = 1,
     topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
 )
