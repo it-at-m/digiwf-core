@@ -39,16 +39,16 @@ export class FetchUtils {
    * Liefert eine default POST-Config für fetch
    * @param body Optional zu übertragender Body
    */
-    // eslint-disable-next-line
-    static getPOSTConfig(body: any): RequestInit {
-      return {
-          method: 'POST',
-          body: body ? JSON.stringify(body) : undefined,
-          headers: FetchUtils.getHeaders(),
-          mode: 'cors',
-          credentials: 'same-origin',
-          redirect: "manual"
-      };
+  // eslint-disable-next-line
+  static getPOSTConfig(body: any): RequestInit {
+    return {
+      method: 'POST',
+      body: body ? JSON.stringify(body) : undefined,
+      headers: FetchUtils.getHeaders(),
+      mode: 'cors',
+      credentials: 'same-origin',
+      redirect: "manual"
+    };
   }
 
   /**
@@ -112,7 +112,7 @@ export class FetchUtils {
   }
 
   /**
-   *  Baut den Header fuer den Request auf
+   * Baut den Header fuer den Request auf
    * @returns {Headers}
    */
   static getHeaders(): Headers {
@@ -128,9 +128,9 @@ export class FetchUtils {
 
   /**
    * Liefert den XSRF-TOKEN zurück.
-   * @returns {string|string}
+   * @returns {string}
    */
-  static _getXSRFToken(): string {
+  private static _getXSRFToken(): string {
     const help = document.cookie.match('(^|;)\\s*' + 'XSRF-TOKEN' + '\\s*=\\s*([^;]+)');
     return (help ? help.pop() : '') as string;
   }
