@@ -1,9 +1,10 @@
+const accessToken = "ADD_TOKEN_FOR_LOCAL_TESTING_HERE"
+
 function dispatchAccessTokenEvent() {
-  const uuid = crypto.randomUUID();
   document.dispatchEvent(
     new CustomEvent("access-token-loaded", {
       detail: {
-        accessToken: `randomAccessToken-${uuid}`,
+        accessToken,
       },
     })
   );
