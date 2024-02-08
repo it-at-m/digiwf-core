@@ -1,0 +1,42 @@
+io:
+  muenchendigital:
+    camunda:
+      prometheus:
+        update-interval: 3000
+
+management:
+  server:
+    port: 8080
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health,info,prometheus'
+      path-mapping:
+        prometheus: metrics
+
+  metrics:
+    enable:
+      jvm: false
+      tomcat: false
+      cache: false
+      logback: false
+      process: false
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG # DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE # set to TRACE for request logging
