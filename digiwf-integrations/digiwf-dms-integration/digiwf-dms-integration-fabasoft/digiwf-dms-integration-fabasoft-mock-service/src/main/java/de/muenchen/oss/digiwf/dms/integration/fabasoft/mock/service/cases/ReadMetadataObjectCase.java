@@ -7,8 +7,6 @@ import de.muenchen.oss.digiwf.integration.e2e.test.wsdl.DigiwfWiremockWsdlUtilit
 import lombok.val;
 
 import org.springframework.stereotype.Component;
-
-
 @Component
 public class ReadMetadataObjectCase implements MockCase {
 

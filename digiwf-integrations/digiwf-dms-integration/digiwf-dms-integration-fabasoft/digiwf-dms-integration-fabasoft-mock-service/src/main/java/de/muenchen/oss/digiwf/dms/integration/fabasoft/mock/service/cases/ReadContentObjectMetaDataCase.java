@@ -7,8 +7,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import de.muenchen.oss.digiwf.integration.e2e.test.wsdl.DigiwfWiremockWsdlUtility;
 import lombok.val;
 import org.springframework.stereotype.Component;
-
-
 @Component
 public class ReadContentObjectMetaDataCase implements MockCase {
 

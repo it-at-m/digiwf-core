@@ -3,7 +3,6 @@ import {ApiError, Levels} from "@/error";
 
 export class FetchUtils {
 
-
   /**
    * Liefert eine default GET-Config für fetch
    */
@@ -37,9 +36,9 @@ export class FetchUtils {
   }
 
   /**
-     * Liefert eine default POST-Config für fetch
-     * @param body Optional zu übertragender Body
-     */
+   * Liefert eine default POST-Config für fetch
+   * @param body Optional zu übertragender Body
+   */
     // eslint-disable-next-line
     static getPOSTConfig(body: any): RequestInit {
       return {

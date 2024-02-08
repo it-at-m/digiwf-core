@@ -25,8 +25,5 @@ public class MetadataApiDelegateImpl implements MetadataApiDelegate {
     public ResponseEntity<MetadataTO> readMetadata(String objectclass, String coo) {
         return ok(metadataMapper.to(readMetadataUseCase.readMetadata(ObjectType.valueOf(objectclass), coo)));
     }
-
-
-
-
+    
 }

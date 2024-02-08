@@ -350,6 +350,7 @@ public class FabasoftAdapter implements
                 .toList();
     }
 
+    @Override
     public Metadata readMetadata(final String coo, final String username) {
         log.info("calling ReadMetadataObjectGI"
                 + " Userlogin: " + username
@@ -371,6 +372,7 @@ public class FabasoftAdapter implements
         );
     }
 
+    @Override
     public Metadata readContentMetadata(final String coo, final String username) {
         log.info("calling ReadContentObjectMetaDataGI"
                 + " Userlogin: " + username

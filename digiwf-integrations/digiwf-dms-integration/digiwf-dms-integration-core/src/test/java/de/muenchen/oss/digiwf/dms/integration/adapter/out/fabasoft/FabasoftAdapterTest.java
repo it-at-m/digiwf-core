@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FabasoftAdapterTest {
 
     private final FabasoftProperties properties = new FabasoftProperties();
-    private LHMBAI151700GIWSDSoap soapClient;
     private FabasoftAdapter fabasoftAdapter;
 
 

@@ -33,8 +33,8 @@ public class ReadMetadataService implements ReadMetadataUseCase {
 
         Metadata metadata = readMetadataPort.readMetadata(coo, user);
 
-        String object = objectclass == ObjectType.Intern?
-                "Internes Dokument":
+        String object = objectclass == ObjectType.Intern ?
+                "Internes Dokument" :
                 objectclass.toString();
 
         if(!object.equals(metadata.getType())){
