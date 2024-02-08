@@ -9,7 +9,7 @@ import { computed, provide } from "vue";
 export type ServiceInstanceControllerAPI = ReturnType<
   typeof ServiceInstanceControllerApiFactory
 >;
-export const SERVICE_INSTANCE_INJECT_KEY = Symbol() as InjectionKey<
+export const SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY = Symbol() as InjectionKey<
   ComputedRef<ServiceInstanceControllerAPI>
 >;
 
@@ -25,5 +25,5 @@ export function useAPI(basePath: Ref<string>, accessToken: Ref<string>) {
     return ServiceInstanceControllerApiFactory(apiConfig.value);
   });
 
-  provide(SERVICE_INSTANCE_INJECT_KEY, serviceInstanceControllerAPI);
+  provide(SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY, serviceInstanceControllerAPI);
 }
