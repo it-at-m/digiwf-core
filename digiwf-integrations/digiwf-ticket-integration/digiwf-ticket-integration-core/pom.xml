@@ -31,7 +31,7 @@
 
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-ticket-integration-zamad-api</artifactId>
+            <artifactId>digiwf-ticket-integration-zammad-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
