@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Builder
 @Jacksonized
 @Data
-public class TaskExternalReference implements Serializable {
+public class TaskExternalReference {
   /**
    * Reference type.
    */

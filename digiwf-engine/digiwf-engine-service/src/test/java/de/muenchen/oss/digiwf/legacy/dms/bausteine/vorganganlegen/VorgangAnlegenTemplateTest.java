@@ -21,15 +21,14 @@ import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
 import de.muenchen.oss.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import de.muenchen.oss.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
@@ -63,31 +62,27 @@ public class VorgangAnlegenTemplateTest {
     public static final String TASK_SPERRE_AKTE_AUFHEBEN = "Task_SperreAkteAufheben";
     public static final String TASK_VORGANG_ZUSTAENDIGKEIT_AENDERN_ODER_VERGABE_VON_SCHREIBRECHTEN_BEAUFTRAGEN = "Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    private final ProcessScenario processScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario processScenario;
+    private final ProcessScenario templateScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario templateScenario;
+    private final DmsService dmsService = mock(DmsService.class);
 
-    @Mock
-    private DmsService dmsService;
+    private final DocumentService documentService = mock(DocumentService.class);
 
-    @Mock
-    private DocumentService documentService;
+    private final DigitalWFFunctions digitalWF = mock(DigitalWFFunctions.class);
 
-    @Mock
-    private DigitalWFFunctions digitalWF;
+    private final S3Resolver s3Resolver = mock(S3Resolver.class);
 
-    @Mock
-    private S3Resolver s3Resolver;
+    private final UserFunctions user = mock(UserFunctions.class);
 
-    @Mock
-    private UserFunctions user;
+    @RegisterExtension
+    public static ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
 
-    @Before
+
+    @BeforeEach
     public void defaultScenario() throws Exception {
         MockitoAnnotations.initMocks(this);
 

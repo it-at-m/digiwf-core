@@ -18,5 +18,7 @@
         </property>
         <property name="historyTimeToLive" value="P1D" />
 
+        <property name="defaultSerializationFormat" value="application/json"/>
+
     </bean>
 </beans>

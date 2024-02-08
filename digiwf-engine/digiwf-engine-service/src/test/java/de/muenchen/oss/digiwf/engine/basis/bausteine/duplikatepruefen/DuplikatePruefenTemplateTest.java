@@ -7,14 +7,14 @@ package de.muenchen.oss.digiwf.engine.basis.bausteine.duplikatepruefen;
 import de.muenchen.oss.digiwf.engine.basis.process.businesskeyerstellen.CreateBusinessKeyDelegate;
 import de.muenchen.oss.digiwf.engine.basis.process.duplikatepruefen.CheckBusinessKeyDelegate;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -38,8 +38,10 @@ public class DuplikatePruefenTemplateTest {
     public static final String FORM_FIELD_CANCEL_PROCESS = "FormField_CancelProcess";
     public static final String EVENT_END_ERROR = "Event_End_Error";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    @RegisterExtension
+    private ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
 
     @Mock
     private ProcessScenario processScenario;
@@ -47,13 +49,13 @@ public class DuplikatePruefenTemplateTest {
     @Mock
     private ProcessScenario templateScenario;
 
-    @Before
+    @BeforeEach
     public void defaultScenario() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         Mocks.register("createBusinessKeyDelegate", new CreateBusinessKeyDelegate());
 
-        Mocks.register("checkBusinessKeyDelegate", new CheckBusinessKeyDelegate(this.rule.getRuntimeService(), this.rule.getHistoryService()));
+        Mocks.register("checkBusinessKeyDelegate", new CheckBusinessKeyDelegate(this.processEngineExtension.getRuntimeService(), this.processEngineExtension.getHistoryService()));
 
         when(this.processScenario.runsCallActivity(ACTIVITY_DOKUMENT_DUPLIKATE_PRUEFEN))
                 .thenReturn(Scenario.use(this.templateScenario));
@@ -84,7 +86,7 @@ public class DuplikatePruefenTemplateTest {
     @Test
     public void shouldExecuteWithDuplicate() {
 
-        this.rule.getRuntimeService().startProcessInstanceByKey(TEMPLATE_KEY, withVariables(
+        this.processEngineExtension.getRuntimeService().startProcessInstanceByKey(TEMPLATE_KEY, withVariables(
                 STARTER_OF_INSTANCE, "startUser",
                 FORM_FIELD_VARIABLE_1, "1",
                 FORM_FIELD_VARIABLE_2, "2"
@@ -110,7 +112,7 @@ public class DuplikatePruefenTemplateTest {
         when(this.templateScenario.waitsAtUserTask(TASK_DUPLIKAT_KONTROLLIEREN))
                 .thenReturn(task -> task.complete(withVariables(FORM_FIELD_CANCEL_PROCESS, true)));
 
-        this.rule.getRuntimeService().startProcessInstanceByKey(TEMPLATE_KEY, withVariables(
+        this.processEngineExtension.getRuntimeService().startProcessInstanceByKey(TEMPLATE_KEY, withVariables(
                 STARTER_OF_INSTANCE, "startUser",
                 FORM_FIELD_VARIABLE_1, "1",
                 FORM_FIELD_VARIABLE_2, "2"
