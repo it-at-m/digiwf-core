@@ -6,7 +6,6 @@
           <c-spinner
             v-if="loading"
             color="primary"
-            size="xl"
             class="me-3"
           />
           <svg-icon
