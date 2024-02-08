@@ -26,6 +26,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "types": "types/index.d.ts",
+  "types": "src/types/index.ts",
   "gitHead": "47fcec12b321f6890de7729c98cd5f0ed7b1189d"
 }
