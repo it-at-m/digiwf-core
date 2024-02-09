@@ -35,8 +35,6 @@ export default defineComponent({
   props: ['coo','metadata','errormessage','readOnly'],
   emits: ['remove-object'],
   setup(props, {emit}) {
-
-    console.log(props);
     const calculateIcon = (type: string) => {
       if (type === "PDF-Dokument") {
         return "mdi-file-pdf";

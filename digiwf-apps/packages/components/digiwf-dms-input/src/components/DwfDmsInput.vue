@@ -77,8 +77,8 @@
 
 
 import {defineComponent, inject, onMounted, ref} from "vue";
-import {getMetadata} from "@/middleware/dmsMiddleware";
-import {Metadata, Objectclass} from "@/types";
+import {getMetadata, Objectclass} from "@/middleware/dmsMiddleware";
+import {Metadata} from "@muenchen/digiwf-dms-api-internal";
 
 interface DmsObject {
   readonly coo: string;

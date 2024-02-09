@@ -21,11 +21,11 @@
   "files": [
     "dist/*",
     "src/*",
-    "src/types/*"
+    "types/*"
   ],
   "publishConfig": {
     "access": "public"
   },
-  "types": "src/types/index.ts",
+  "types": "types/index.ts",
   "gitHead": "47fcec12b321f6890de7729c98cd5f0ed7b1189d"
 }

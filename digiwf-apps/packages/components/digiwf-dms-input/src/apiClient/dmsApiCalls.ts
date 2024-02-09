@@ -1,6 +1,6 @@
-import {Configuration, MetadataApiFactory, Metadata} from "@muenchen/digiwf-dms-api-internal";
+import {Configuration, Metadata, MetadataApiFactory} from "@muenchen/digiwf-dms-api-internal";
+import {Objectclass} from "@/middleware/dmsMiddleware";
 import {AxiosResponse} from "axios";
-import {Objectclass} from "@/types";
 
 /**
  * Calls readMetadata on dms api
@@ -11,6 +11,6 @@ import {Objectclass} from "@/types";
 export const getMetadataFromDmsservice = (ojectclass: Objectclass, coo: string, cfg: Configuration): Promise<Metadata> => {
   return MetadataApiFactory(cfg)
     .readMetadata(ojectclass,coo)
-    .then((response: AxiosResponse<Metadata>) => Promise.resolve(response.data));
+    .then((response: AxiosResponse<Metadata, any>) => Promise.resolve<Metadata>(response.data));
 }
 
