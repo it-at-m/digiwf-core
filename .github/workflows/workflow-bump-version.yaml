@@ -123,3 +123,10 @@ jobs:
                 'This PR is auto-generated'
               ].join('\n')
             });
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: pullResult.data.number,
+              assignees: ['${ github.actor }'],
+            });
+            console.log(`Pull Request created: ${pullResult.data.html_url}`);
