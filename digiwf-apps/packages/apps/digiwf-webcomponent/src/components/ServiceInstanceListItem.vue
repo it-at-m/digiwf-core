@@ -44,7 +44,7 @@ const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
 
 const frontendURL = computed(() => {
-  return `https://${digiWFBaseURL}/#/${FRONTEND_INSTANCE_PATH}/${props.serviceInstance.id}`;
+  return `${digiWFBaseURL!.value}/#/${FRONTEND_INSTANCE_PATH}/${props.serviceInstance.id}`;
 });
 </script>
 

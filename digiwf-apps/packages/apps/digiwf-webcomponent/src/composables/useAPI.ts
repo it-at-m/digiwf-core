@@ -5,6 +5,7 @@ import {
   ServiceInstanceControllerApiFactory,
 } from "@muenchen/digiwf-engine-api-internal";
 import { computed, provide } from "vue";
+import { DIGIWF_ENGINE_SUFFIX } from "@/util/constants";
 
 export type ServiceInstanceControllerAPI = ReturnType<
   typeof ServiceInstanceControllerApiFactory
@@ -13,10 +14,10 @@ export const SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY = Symbol() as InjectionK
   ComputedRef<ServiceInstanceControllerAPI>
 >;
 
-export function useAPI(basePath: Ref<string>, accessToken: Ref<string>) {
+export function useAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
   const apiConfig = computed(() => {
     return new Configuration({
-      basePath: basePath.value,
+      basePath: baseUrl.value + DIGIWF_ENGINE_SUFFIX,
       accessToken: accessToken.value,
     });
   });

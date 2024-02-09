@@ -12,28 +12,25 @@
 </template>
 
 <script setup lang="ts">
-import { FetchUtils } from "@muenchen/digiwf-engine-api-internal";
-import { computed, inject } from "vue";
+import { computed } from "vue";
 
 import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListPlaceholder from "@/components/placeholders/ServiceInstanceListPlaceholder.vue";
 import ServiceInstanceList from "@/components/ServiceInstanceList.vue";
 import { useHasAccessToken } from "@/composables/useAccessToken";
-import { SERVICE_INSTANCE_INJECT_KEY } from "@/composables/useAPI";
 import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
+import { useServiceInstanceControllerAPI } from "@/composables/useServiceInstanceControllerAPI";
 
 const { hasAccessToken } = useHasAccessToken();
 
 const loading = computed(() => !hasAccessToken?.value);
 
-const service = inject(SERVICE_INSTANCE_INJECT_KEY);
+const { callGetAssignedProcessInstances } = useServiceInstanceControllerAPI();
 
-const sendTest = () => {
-  service!.value.getAssignedInstances(
-    4,
-    4,
-    "test",
-    FetchUtils.getPOSTConfig(null)
-  );
-};
+const sendTest = async () => {
+  const result = await callGetAssignedProcessInstances(1, 2, "test");
+  if(!result) {
+    console.log("ERROR MUST HAVE BEEN OCCURED");
+  }
+}
 </script>

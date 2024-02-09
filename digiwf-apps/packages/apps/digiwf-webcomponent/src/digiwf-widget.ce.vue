@@ -13,17 +13,15 @@ import { useAccessToken } from "@/composables/useAccessToken";
 import { useAPI } from "@/composables/useAPI";
 import { useProvideBaseURL } from "@/composables/useBaseURL";
 import {
-  ACCESS_TOKEN_EVENT_NAME,
-  DIGIWF_BASE_URL_DEFAULT,
+  ACCESS_TOKEN_EVENT_NAME
 } from "@/util/constants";
 
 const props = withDefaults(
   defineProps<{
-    digiWfBaseUrl?: string;
+    digiWfBaseUrl: string;
     accessTokenEventName?: string;
   }>(),
   {
-    digiWfBaseUrl: DIGIWF_BASE_URL_DEFAULT,
     accessTokenEventName: ACCESS_TOKEN_EVENT_NAME,
   }
 );

@@ -98,6 +98,6 @@ const props = withDefaults(
 );
 
 const frontendURL = computed(() => {
-  return `https://${digiWFBaseURL}/#/${props.linkPath}`;
+  return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
 });
 </script>
