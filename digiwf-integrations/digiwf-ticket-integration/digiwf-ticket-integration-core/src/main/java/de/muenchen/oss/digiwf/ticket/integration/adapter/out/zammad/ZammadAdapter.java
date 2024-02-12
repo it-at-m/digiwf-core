@@ -19,14 +19,16 @@ public class ZammadAdapter implements TicketOutPort {
     @Override
     public void updateTicket(String ticketId, Article article, TicketStatus status) {
 
-        final var ticketUpdateDto = mapToDTO(article, status);
+        final var ticketUpdateDto = mapToDTO(ticketId, article, status);
 
         ticketsApi.updateTicket(ticketId, ticketUpdateDto, null, article.getUserId()).block();
 
     }
 
-    private UpdateTicketDTO mapToDTO(Article article, TicketStatus status) {
+    private UpdateTicketDTO mapToDTO(String ticketId, Article article, TicketStatus status) {
         val ticketUpdateDto = new UpdateTicketDTO();
+        // Note: TicketId is required in body and url
+        ticketUpdateDto.setId(ticketId);
         ticketUpdateDto.setState(mapStatus(status));
         val articleDto = new UpdateTicketArticleDTO();
         articleDto.setBody(article.getText());
