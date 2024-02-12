@@ -1439,6 +1439,113 @@ const multiUserinputSchema = {
   ]
 };
 
+const dmsInputSchema = {
+  ...basicSchema,
+  allOf: [
+    {
+      ...basicAttributes,
+      properties: {
+        ...basicAttributes.properties,
+        "x-display": {
+          "const": "custom-dms-input"
+        },
+        "dmsSystem": {
+          "type": "string",
+          "title": "Dms System",
+          "default": "mucs",
+          "enum": [
+            "mucs"
+          ],
+          "x-props": {
+            "outlined": true,
+          },
+          "x-rules": [
+            "required"
+          ],
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 12
+            }
+          }
+        },
+        "objectclass": {
+          "type": "string",
+          "title": "Objektklasse",
+          "default": "Schriftstueck",
+          "enum": [
+            "Sachakte",
+            "Vorgang",
+            "Eingang",
+            "Ausgang",
+            "Intern",
+            "Schriftstueck"
+          ],
+          "x-props": {
+            "outlined": true,
+          },
+          "x-rules": [
+            "required"
+          ],
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 12
+            }
+          }
+        },
+        "default": {
+          "type": "array",
+          "title": "Default",
+          "description": "Liste an COOs oder Links, die von dem Input überprüft werden sollen",
+          "items": {
+            "type": "string"
+          },
+          "x-props": {
+            "outlined": true,
+          },
+          "x-rules": [
+            "required"
+          ],
+          "x-options": {
+            "fieldColProps": {
+              "cols": 12,
+              "sm": 12
+            }
+          }
+        },
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      ...basicOptions
+    },
+    {
+      ...basicValidation,
+      properties: {
+        "minObjects": {
+          "type": "integer",
+          "title": "Minimale Anzahl an Objekten",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        },
+        "maxObjects": {
+          "type": "integer",
+          "title": "Maximale Anzahl an Objekten",
+          "x-props": {
+            "outlined": true,
+            "dense": true
+          }
+        }
+      }
+    }
+  ]
+};
+
 const arrayInput = {
   ...basicSchema,
   allOf: [
@@ -1601,6 +1708,7 @@ export const schemaMap: any = {
   "file": fileSchema,
   "user-input": userinputSchema,
   "multi-user-input": multiUserinputSchema,
+  "dms-input": dmsInputSchema,
   "array": arrayInput,
   "arrayObject": arrayObjectInput,
   "switch": switchSchema,

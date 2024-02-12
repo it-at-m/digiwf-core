@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@muenchen/digiwf-date-input": "^1.7.0",
+    "@muenchen/digiwf-dms-input": "^1.7.0",
     "@muenchen/digiwf-form-builder": "^1.7.0",
     "@muenchen/digiwf-form-builder-settings": "^1.7.0",
     "@muenchen/digiwf-form-renderer": "^1.7.0",

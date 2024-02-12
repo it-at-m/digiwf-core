@@ -19,6 +19,5 @@ Backend-Systeme (sofern für diese ein Integrationsartefakt verfügbar ist) werd
 Output-Templates angebunden. Neben den Prozessen können auch Formulare für Benutzeraufgaben per Drag & Drop erstellt
 werden.
 
-Wenn Sie – ähnlich wie in der Landeshauptstadt München – viele Prozesse mit vielen Benutzeraufgaben haben. Und dann ein
-heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, dann sollten Sie unbedingt eine nehmen schau
-mal bei DigiWF. [Kontaktieren Sie uns einfach per E-Mail](/imprint).
+Wenn Sie – ähnlich wie in der Landeshauptstadt München – viele Prozesse mit vielen Benutzeraufgaben haben und eine
+heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, dann sollten Sie sich unbedingt einmal DigiWF anschauen. [Kontaktieren Sie uns einfach per E-Mail](/imprint).

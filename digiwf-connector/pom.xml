@@ -18,7 +18,6 @@
     <properties>
         <okhttp.version>4.12.0</okhttp.version>
         <camunda.version>7.20.0</camunda.version>
-        <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
     </properties>
 
     <modules>
@@ -26,7 +25,6 @@
         <module>digiwf-camunda-connector-service</module>
         <module>digiwf-camunda-rest-connector-starter</module>
     </modules>
-
 
     <dependencyManagement>
         <dependencies>
@@ -54,18 +52,6 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

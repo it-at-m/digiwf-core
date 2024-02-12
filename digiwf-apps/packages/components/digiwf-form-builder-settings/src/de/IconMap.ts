@@ -18,6 +18,7 @@ export const iconMap: any = {
   "arrayObject": "mdi-view-list",
   "markdown": "mdi-image-text",
   "time": "mdi-clock-outline",
+  "dms-input": "mdi-folder-multiple",
   "optionalContainer": "mdi-border-none-variant",
   "optionalContentItem": "mdi-border-none",
   "const": "mdi-crosshairs-gps"

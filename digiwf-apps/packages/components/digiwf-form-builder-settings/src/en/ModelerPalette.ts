@@ -152,6 +152,19 @@ export const formFieldPalette = [
     }
   ],
   [
+    "dmsinput",
+    {
+      ...basicOptions,
+      "fieldType": "dms-input",
+      title: "DMS Input",
+      "x-display": "custom-dms-input",
+      type: "array",
+      "items": {
+        "type": "object"
+      },
+    }
+  ],
+  [
     "switch",
     {
       ...basicOptions,

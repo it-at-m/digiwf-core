@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 @DisplayName("Incident Consumer Test")
 class IncidentConsumerTest {
     private static final String HEADER_PROCESS_INSTANCE_ID = "digiwf.processinstanceid";
-    public static final String HEADER_INTEGRATION_NAME = "digiwf.integrationname";
+    public static final String HEADER_TYPE = "type";
 
     private final CreateIncidentInPort inPort = mock(CreateIncidentInPort.class);
 
@@ -56,13 +56,13 @@ class IncidentConsumerTest {
             public @NotNull MessageHeaders getHeaders() {
                 final HashMap<String, Object> map = new HashMap<>();
                 map.put(HEADER_PROCESS_INSTANCE_ID, "process-instance-id");
-                map.put(HEADER_INTEGRATION_NAME, "integration-name");
+                map.put(HEADER_TYPE, "type-header");
 
                 return new MessageHeaders(map);
             }
         });
 
-        verify(inPort).createIncident("process-instance-id", "integration-name", "payload");
+        verify(inPort).createIncident("process-instance-id", "type-header", "payload");
     }
 
     @Test
@@ -80,12 +80,12 @@ class IncidentConsumerTest {
             public @NotNull MessageHeaders getHeaders() {
                 final HashMap<String, Object> map = new HashMap<>();
                 map.put(HEADER_PROCESS_INSTANCE_ID, "process-instance-id");
-                map.put(HEADER_INTEGRATION_NAME, "integration-name");
+                map.put(HEADER_TYPE, "type-header");
 
                 return new MessageHeaders(map);
             }
         });
 
-        verify(inPort).createIncident("process-instance-id", "integration-name", null);
+        verify(inPort).createIncident("process-instance-id", "type-header", null);
     }
 }

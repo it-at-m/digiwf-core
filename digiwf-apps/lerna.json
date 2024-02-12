@@ -7,6 +7,8 @@
     "packages/components/digiwf-multi-file-input",
     "packages/components/digiwf-date-input",
     "packages/components/digiwf-task-api-internal",
+    "packages/components/digiwf-dms-api-internal",
+    "packages/components/digiwf-dms-input",
     "packages/apps/digiwf-forms-example",
     "packages/apps/digiwf-tasklist"
   ],

@@ -61,13 +61,7 @@ die folgende Konfiguration angegeben werden. Anschließend werden alle Messages 
 ```yaml
 spring:
   cloud:
-    function:
-      definition: functionRouter;exampleIntegration;
-      routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "consumer-group-der-integration"
@@ -197,13 +191,7 @@ die Streaming Group und die TypeMapping angepasst werden.
 ```yaml
 spring:
   cloud:
-    function:
-      definition: functionRouter;sendMessage;exampleIntegration;
-      routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "consumer-group-der-integration"
@@ -218,6 +206,7 @@ io:
         incidentDestination: "${KAFKA_TOPICS_CONNECTOR_INCIDENT}"
         bpmnErrorDestination: "${KAFKA_TOPICS_CONNECTOR_BPMNERROR}"
         correlateMessageDestination: "${KAFKA_TOPIC_ENGINE}"
+        deadLetterQueueDestination: "${KAFKA_TOPICS_CONNECTOR_DLQ}"
 ```
 
 Im obigen Beispiel wird die Konfiguration des Binders bewusst ausgelassen, da diese vom verwendeten Binder abhängig ist.

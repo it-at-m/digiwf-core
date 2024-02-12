@@ -11,6 +11,10 @@
 
     <artifactId>digiwf-dms-integration-service</artifactId>
 
+    <properties>
+        <rest.base-package-name>de.muenchen.oss.digiwf.dms.integration.application.port.in.rest</rest.base-package-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,6 +43,44 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-server-stubs</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/api/openapi.yml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <removeOperationIdPrefix>true</removeOperationIdPrefix>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore
+                            </ignoreFileOverride>
+                            <library>spring-boot</library>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <modelNameSuffix>TO</modelNameSuffix>
+                            <!--configHelp>true</configHelp-->
+                            <!-- https://openapi-generator.tech/docs/generators/spring/ -->
+                            <configOptions>
+                                <basePackage>${rest.base-package-name}</basePackage>
+                                <invokerPackage>${rest.base-package-name}</invokerPackage>
+                                <apiPackage>${rest.base-package-name}.api</apiPackage>
+                                <modelPackage>${rest.base-package-name}.model</modelPackage>
+                                <java8>true</java8>
+                                <delegatePattern>true</delegatePattern>
+                                <generateSupportingFiles>false</generateSupportingFiles>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <useTags>true</useTags>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

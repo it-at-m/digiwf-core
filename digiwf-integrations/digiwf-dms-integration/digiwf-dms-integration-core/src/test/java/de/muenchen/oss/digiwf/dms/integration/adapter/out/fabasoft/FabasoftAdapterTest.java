@@ -29,6 +29,7 @@ class FabasoftAdapterTest {
         this.properties.setUsername("user");
         this.properties.setPassword("password");
         this.properties.setBusinessapp("businessapp");
+        this.properties.setUiurl("uiurl");
         val soapClient = FabasoftClienFactory.dmsWsClient("http://localhost:" + wmRuntimeInfo.getHttpPort() + "/");
         fabasoftAdapter = new FabasoftAdapter(properties, soapClient);
     }
@@ -286,4 +287,47 @@ class FabasoftAdapterTest {
         if (reference.equals("reference") && !value.equals("value")) return false;
         return true;
     }
+
+    @Test
+    void execute_read_metadata() {
+
+        val response = new ReadMetadataObjectGIResponse();
+        response.setStatus(0);
+        response.setObjclass("Vorgang");
+        response.setObjname("name");
+
+
+        DigiwfWiremockWsdlUtility.stubOperation(
+                "ReadMetadataObjectGI",
+                ReadMetadataObjectGI.class, (u) -> true,
+                response);
+
+        val metadata = fabasoftAdapter.readMetadata("coo", "user");
+
+        assertThat(metadata.getName()).isEqualTo("name");
+        assertThat(metadata.getType()).isEqualTo("Vorgang");
+    }
+
+    @Test
+    void execute_read_content_metadata() {
+        val content = new LHMBAI151700GIMetadataType();
+        content.setLHMBAI151700Filename("name");
+        content.setLHMBAI151700Objclass("pdf");
+
+        val response = new ReadContentObjectMetaDataGIResponse();
+        response.setStatus(0);
+        response.setGimetadatatype(content);
+
+        DigiwfWiremockWsdlUtility.stubOperation(
+                "ReadContentObjectMetaDataGI",
+                ReadContentObjectMetaDataGI.class, (u) -> true,
+                response);
+
+        val metadata = fabasoftAdapter.readContentMetadata("coo", "user");
+
+        assertThat(metadata.getName()).isEqualTo("name");
+        assertThat(metadata.getType()).isEqualTo("pdf");
+    }
+
+
 }

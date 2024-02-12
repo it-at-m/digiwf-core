@@ -23,7 +23,8 @@ public class FabasoftAdapter implements
         CancelObjectPort,
         ReadContentPort,
         SearchFilePort,
-        SearchSubjectAreaPort {
+        SearchSubjectAreaPort,
+        ReadMetadataPort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
@@ -347,6 +348,50 @@ public class FabasoftAdapter implements
         return this.searchObject(searchString, DMSObjectClass.Aktenplaneintrag, user).stream()
                 .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
                 .toList();
+    }
+
+    @Override
+    public Metadata readMetadata(final String coo, final String username) {
+        log.info("calling ReadMetadataObjectGI"
+                + " Userlogin: " + username
+                + " COO: " + coo
+        );
+
+        val request = new ReadMetadataObjectGI();
+        request.setObjaddress(coo);
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setUserlogin(username);
+        val response = this.wsClient.readMetadataObjectGI(request);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
+        return new Metadata(
+                response.getObjname(),
+                response.getObjclass(),
+                String.format(this.properties.getUiurl(), coo)
+        );
+    }
+
+    @Override
+    public Metadata readContentMetadata(final String coo, final String username) {
+        log.info("calling ReadContentObjectMetaDataGI"
+                + " Userlogin: " + username
+                + " COO: " + coo
+        );
+
+        val request = new ReadContentObjectMetaDataGI();
+        request.setObjaddress(coo);
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setUserlogin(username);
+        val response = this.wsClient.readContentObjectMetaDataGI(request);
+
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
+        return new Metadata(
+                response.getGimetadatatype().getLHMBAI151700Filename(),
+                response.getGimetadatatype().getLHMBAI151700Objclass(),
+                String.format(this.properties.getUiurl(), coo)
+                );
     }
 
     //------------------------------------- HELPER METHODS -------------------------------------------
