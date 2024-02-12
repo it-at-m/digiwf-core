@@ -54,6 +54,11 @@ spring:
           predicates:
             - Path=/app/**
 
+        - id: webcomponent
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/webcomponent/**
+
       default-filters:
         - RemoveResponseHeader=Expires
 #        - RemoveRequestHeader=cookie
