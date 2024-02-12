@@ -5,14 +5,14 @@ import {
   ServiceInstanceControllerApiFactory,
 } from "@muenchen/digiwf-engine-api-internal";
 import { computed, provide } from "vue";
+
 import { DIGIWF_ENGINE_SUFFIX } from "@/util/constants";
 
 export type ServiceInstanceControllerAPI = ReturnType<
   typeof ServiceInstanceControllerApiFactory
 >;
-export const SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY = Symbol() as InjectionKey<
-  ComputedRef<ServiceInstanceControllerAPI>
->;
+export const SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY =
+  Symbol() as InjectionKey<ComputedRef<ServiceInstanceControllerAPI>>;
 
 export function useAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
   const apiConfig = computed(() => {
@@ -26,5 +26,8 @@ export function useAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
     return ServiceInstanceControllerApiFactory(apiConfig.value);
   });
 
-  provide(SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY, serviceInstanceControllerAPI);
+  provide(
+    SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY,
+    serviceInstanceControllerAPI
+  );
 }

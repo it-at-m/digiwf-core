@@ -24,8 +24,8 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:8083/",
       "/actuator": "http://localhost:8083/",
-      "/clients": "http://localhost:8083/"
-    }
+      "/clients": "http://localhost:8083/",
+    },
   },
   resolve: {
     alias: {

@@ -18,8 +18,8 @@ import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListPlaceholder from "@/components/placeholders/ServiceInstanceListPlaceholder.vue";
 import ServiceInstanceList from "@/components/ServiceInstanceList.vue";
 import { useHasAccessToken } from "@/composables/useAccessToken";
-import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 import { useServiceInstanceControllerAPI } from "@/composables/useServiceInstanceControllerAPI";
+import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { hasAccessToken } = useHasAccessToken();
 
@@ -29,8 +29,8 @@ const { callGetAssignedProcessInstances } = useServiceInstanceControllerAPI();
 
 const sendTest = async () => {
   const result = await callGetAssignedProcessInstances(1, 2, "test");
-  if(!result) {
+  if (!result) {
     console.log("ERROR MUST HAVE BEEN OCCURED");
   }
-}
+};
 </script>

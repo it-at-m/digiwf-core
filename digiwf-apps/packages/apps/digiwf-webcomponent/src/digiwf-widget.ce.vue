@@ -12,9 +12,7 @@ import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
 import { useAPI } from "@/composables/useAPI";
 import { useProvideBaseURL } from "@/composables/useBaseURL";
-import {
-  ACCESS_TOKEN_EVENT_NAME
-} from "@/util/constants";
+import { ACCESS_TOKEN_EVENT_NAME } from "@/util/constants";
 
 const props = withDefaults(
   defineProps<{

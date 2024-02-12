@@ -1,4 +1,4 @@
-const accessToken = "ADD_TOKEN_FOR_LOCAL_TESTING_HERE"
+const accessToken = "ADD_TOKEN_FOR_LOCAL_TESTING_HERE";
 
 function dispatchAccessTokenEvent() {
   document.dispatchEvent(
