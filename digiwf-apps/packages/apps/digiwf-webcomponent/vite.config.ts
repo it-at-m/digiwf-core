@@ -2,8 +2,13 @@ import { fileURLToPath, URL } from "node:url";
 
 import { viteVueCESubStyle } from "@unplugin-vue-ce/sub-style";
 import vue from "@vitejs/plugin-vue";
-import { defineConfig, PluginOption } from "vite";
+import { defineConfig, loadEnv, PluginOption } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+
+const portFromDevelopmentEnv = loadEnv("development", "./")?.VITE_PORT;
+const port = portFromDevelopmentEnv
+  ? Number.parseInt(portFromDevelopmentEnv)
+  : 8081;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +19,14 @@ export default defineConfig({
     viteVueCESubStyle() as PluginOption,
     cssInjectedByJsPlugin(),
   ],
+  server: {
+    port,
+    proxy: {
+      "/api": "http://localhost:8083/",
+      "/actuator": "http://localhost:8083/",
+      "/clients": "http://localhost:8083/",
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

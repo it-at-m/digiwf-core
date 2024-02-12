@@ -1,9 +1,34 @@
-import { inject } from "vue";
+import type { AccessTokenLoadedEvent } from "@/types/AccessTokenLoadedEvent";
+import type { ComputedRef, InjectionKey, Ref } from "vue";
 
-export const ACCESS_TOKEN_INJECT_KEY = "accessToken";
+import { useEventListener } from "@vueuse/core";
+import { computed, inject, provide, ref } from "vue";
 
-export function useAccessToken() {
-  const accessToken = inject(ACCESS_TOKEN_INJECT_KEY);
+export const HAS_ACCESS_TOKEN_INJECT_KEY = Symbol() as InjectionKey<
+  ComputedRef<boolean>
+>;
 
-  return { accessToken };
+export function useAccessToken(accessTokenEventName: Ref<string>) {
+  const accessToken = ref("");
+
+  useEventListener(
+    document,
+    accessTokenEventName.value,
+    (event: AccessTokenLoadedEvent) => {
+      accessToken.value = event.detail.accessToken;
+    }
+  );
+
+  const hasAccessToken = computed(() => !!accessToken.value);
+  provide(HAS_ACCESS_TOKEN_INJECT_KEY, hasAccessToken);
+
+  return {
+    accessToken,
+  };
+}
+
+export function useHasAccessToken() {
+  const hasAccessToken = inject(HAS_ACCESS_TOKEN_INJECT_KEY);
+
+  return { hasAccessToken };
 }

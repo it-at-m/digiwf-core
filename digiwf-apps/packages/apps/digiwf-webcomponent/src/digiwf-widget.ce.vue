@@ -5,43 +5,29 @@
 </template>
 
 <script setup lang="ts">
-import type { AccessTokenLoadedEvent } from "@/types/AccessTokenLoadedEvent";
-
 import { CContainer } from "@coreui/vue";
-import { useEventListener } from "@vueuse/core";
-import { provide, readonly, ref } from "vue";
+import { toRefs } from "vue";
 
 import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
-import { ACCESS_TOKEN_INJECT_KEY } from "@/composables/useAccessToken";
-import { DIGIWF_BASE_URL_INJECT_KEY } from "@/composables/useDigiWFBaseURL";
-import {
-  ACCESS_TOKEN_EVENT_NAME,
-  DIGIWF_BASE_URL_DEFAULT,
-} from "@/util/constants";
+import { useAccessToken } from "@/composables/useAccessToken";
+import { useAPI } from "@/composables/useAPI";
+import { useProvideBaseURL } from "@/composables/useBaseURL";
+import { ACCESS_TOKEN_EVENT_NAME } from "@/util/constants";
 
 const props = withDefaults(
   defineProps<{
-    digiWfBaseUrl?: string;
+    digiWfBaseUrl: string;
     accessTokenEventName?: string;
   }>(),
   {
-    digiWfBaseUrl: DIGIWF_BASE_URL_DEFAULT,
     accessTokenEventName: ACCESS_TOKEN_EVENT_NAME,
   }
 );
+const { digiWfBaseUrl, accessTokenEventName } = toRefs(props);
+const { accessToken } = useAccessToken(accessTokenEventName);
 
-const accessToken = ref("");
-
-useEventListener(
-  document,
-  props.accessTokenEventName,
-  (event: AccessTokenLoadedEvent) => {
-    accessToken.value = event.detail.accessToken;
-  }
-);
-
-provide(DIGIWF_BASE_URL_INJECT_KEY, props.digiWfBaseUrl);
-provide(ACCESS_TOKEN_INJECT_KEY, readonly(accessToken));
+useProvideBaseURL(digiWfBaseUrl);
+useAPI(digiWfBaseUrl, accessToken);
 </script>
 
 <style lang="scss">

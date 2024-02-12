@@ -6,7 +6,6 @@
           <c-spinner
             v-if="loading"
             color="primary"
-            size="xl"
             class="me-3"
           />
           <svg-icon
@@ -79,9 +78,9 @@ import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
-import { useDigiWFBaseURL } from "@/composables/useDigiWFBaseURL";
+import { useInjectBaseURL } from "@/composables/useBaseURL";
 
-const { digiWFBaseURL } = useDigiWFBaseURL();
+const { digiWFBaseURL } = useInjectBaseURL();
 
 const props = withDefaults(
   defineProps<{
@@ -99,6 +98,6 @@ const props = withDefaults(
 );
 
 const frontendURL = computed(() => {
-  return `https://${digiWFBaseURL}/#/${props.linkPath}`;
+  return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
 });
 </script>

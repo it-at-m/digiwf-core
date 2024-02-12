@@ -8,6 +8,7 @@
     <service-instance-list-placeholder v-if="loading" />
     <service-instance-list v-else />
   </widget-card>
+  <button @click="sendTest">TEST API CODE</button>
 </template>
 
 <script setup lang="ts">
@@ -16,10 +17,20 @@ import { computed } from "vue";
 import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListPlaceholder from "@/components/placeholders/ServiceInstanceListPlaceholder.vue";
 import ServiceInstanceList from "@/components/ServiceInstanceList.vue";
-import { useAccessToken } from "@/composables/useAccessToken";
+import { useHasAccessToken } from "@/composables/useAccessToken";
+import { useServiceInstanceControllerAPI } from "@/composables/useServiceInstanceControllerAPI";
 import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
-const { accessToken } = useAccessToken();
+const { hasAccessToken } = useHasAccessToken();
 
-const loading = computed(() => !accessToken.value);
+const loading = computed(() => !hasAccessToken?.value);
+
+const { callGetAssignedProcessInstances } = useServiceInstanceControllerAPI();
+
+const sendTest = async () => {
+  const result = await callGetAssignedProcessInstances(1, 2, "test");
+  if (!result) {
+    console.log("ERROR MUST HAVE BEEN OCCURED");
+  }
+};
 </script>

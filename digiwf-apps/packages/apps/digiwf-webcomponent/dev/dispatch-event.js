@@ -1,18 +1,20 @@
-const dispatchEvent = () => {
+const accessToken = "ADD_TOKEN_FOR_LOCAL_TESTING_HERE";
+
+function dispatchAccessTokenEvent() {
   document.dispatchEvent(
     new CustomEvent("access-token-loaded", {
       detail: {
-        accessToken: "randomAccessToken",
+        accessToken,
       },
     })
   );
-};
+}
 
 setTimeout(() => {
-  dispatchEvent();
+  dispatchAccessTokenEvent();
   setInterval(
     () => {
-      dispatchEvent();
+      dispatchAccessTokenEvent();
     },
     10 * 60 * 1000
   );

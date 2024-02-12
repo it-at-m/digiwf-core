@@ -31,10 +31,10 @@ import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
 import { computed } from "vue";
 
-import { useDigiWFBaseURL } from "@/composables/useDigiWFBaseURL";
+import { useInjectBaseURL } from "@/composables/useBaseURL";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
-const { digiWFBaseURL } = useDigiWFBaseURL();
+const { digiWFBaseURL } = useInjectBaseURL();
 
 const props = defineProps<{
   serviceInstance: ServiceInstanceTO;
@@ -44,7 +44,9 @@ const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
 
 const frontendURL = computed(() => {
-  return `https://${digiWFBaseURL}/#/${FRONTEND_INSTANCE_PATH}/${props.serviceInstance.id}`;
+  return `${digiWFBaseURL!.value}/#/${FRONTEND_INSTANCE_PATH}/${
+    props.serviceInstance.id
+  }`;
 });
 </script>
 
