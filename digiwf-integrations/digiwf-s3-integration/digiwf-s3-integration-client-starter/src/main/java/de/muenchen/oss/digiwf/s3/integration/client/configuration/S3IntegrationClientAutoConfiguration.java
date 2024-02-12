@@ -5,7 +5,9 @@ import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -39,9 +41,15 @@ import org.springframework.web.reactive.function.client.WebClient;
         })
 @RequiredArgsConstructor
 @EnableConfigurationProperties(S3IntegrationClientProperties.class)
+@Slf4j
 public class S3IntegrationClientAutoConfiguration {
 
     public final S3IntegrationClientProperties s3IntegrationClientProperties;
+
+    @PostConstruct
+    public void init() {
+      log.info("[DIGIWF-S3-INTEGRATION-CLIENT]: Staring integration client, security is {}.", s3IntegrationClientProperties.isEnableSecurity() ? "enabled" : "disabled" );
+    }
 
     @Bean
     @ConditionalOnProperty(prefix = "io.muenchendigital.digiwf.s3.client", name = "securityEnabled", havingValue = "true")
