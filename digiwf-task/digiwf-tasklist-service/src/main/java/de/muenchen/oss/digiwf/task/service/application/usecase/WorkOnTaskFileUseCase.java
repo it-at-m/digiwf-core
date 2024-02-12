@@ -12,6 +12,7 @@ import de.muenchen.oss.digiwf.task.service.domain.TaskFileConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
-    protected final DocumentStorageFolderRepository documentStorageFolderRepository;
+    private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
     private final PresignedUrlPort presignedUrlPort;
 
