@@ -37,6 +37,7 @@ public class ZammadAdapterTest {
 
         // then
         UpdateTicketDTO updateTicketDTO = new UpdateTicketDTO();
+        updateTicketDTO.setId("123");
         UpdateTicketArticleDTO articleDTO = new UpdateTicketArticleDTO();
         articleDTO.setBody("mein text");
         updateTicketDTO.setArticle(articleDTO);
