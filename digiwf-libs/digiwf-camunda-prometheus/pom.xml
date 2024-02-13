@@ -15,7 +15,6 @@
 
     <properties>
         <camunda.version>7.20.0</camunda.version>
-        <camunda-engine-rest-client-openapi-java.version>7.20.2</camunda-engine-rest-client-openapi-java.version>
     </properties>
 
 
@@ -29,16 +28,6 @@
                 <type>pom</type>
             </dependency>
 
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.community</groupId>
-                <artifactId>camunda-engine-rest-client-openapi-java</artifactId>
-                <version>${camunda-engine-rest-client-openapi-java.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-external-task-client</artifactId>
