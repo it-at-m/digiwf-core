@@ -11,12 +11,11 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 import static org.camunda.bpm.engine.variable.Variables.createVariables;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test to demonstrate correct exit timer usage.
  */
-public class ExampleProcessExitTimerTest {
+class ExampleProcessExitTimerTest {
   @RegisterExtension
   public ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
       .configurationResource("camunda.cfg.xml")
@@ -33,7 +32,7 @@ public class ExampleProcessExitTimerTest {
 
   @Test
   @Deployment(resources = "prozesse/example/all-input-fields/all-input-fields-process.bpmn")
-  public void terminates_all_fields_process_after_timer_job_is_triggered() {
+  void terminates_all_fields_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("example-all-input-fields",
         createVariables()
@@ -45,12 +44,12 @@ public class ExampleProcessExitTimerTest {
     assertThat(instance).isEnded();
     assertThat(instance).hasNotPassed("End_completed");
     assertThat(instance).hasPassed("End_terminated"); // process terminated
-    assertEquals("AllInputsField gestartet von: firstname lastname", processMock.getDescription());
+    Assertions.assertThat(processMock.getDescription()).isEqualTo("AllInputsField gestartet von: firstname lastname");
   }
 
   @Test
   @Deployment(resources = {"prozesse/example/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV02.bpmn"})
-  public void terminates_email_integration_process_after_timer_job_is_triggered() {
+  void terminates_email_integration_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("email-integration-example",
         createVariables()
@@ -71,7 +70,7 @@ public class ExampleProcessExitTimerTest {
 
   @Test
   @Deployment(resources = {"prozesse/example/s3-integration/S3TestProzess.bpmn"})
-  public void terminates_s3_integration_process_after_timer_job_is_triggered() {
+  void terminates_s3_integration_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("feature-s3-integration",
         createVariables()
@@ -89,7 +88,7 @@ public class ExampleProcessExitTimerTest {
 
   @Test
   @Deployment(resources = {"prozesse/example/user-tasks/usertask-process.bpmn"})
-  public void terminates_user_task_process_after_timer_job_is_triggered() {
+  void terminates_user_task_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("Usertask-Example",
         createVariables()
@@ -103,13 +102,12 @@ public class ExampleProcessExitTimerTest {
     assertThat(instance).isEnded();
     assertThat(instance).hasNotPassed("End_completed");
     assertThat(instance).hasPassed("End_terminated"); // process terminated
-    assertEquals("Usertask gestartet von: firstname lastname", processMock.getDescription());
-
+    Assertions.assertThat(processMock.getDescription()).isEqualTo("Usertask gestartet von: firstname lastname");
   }
 
   @Test
   @Deployment(resources = {"prozesse/example/group-tasks/grouptask-process.bpmn"})
-  public void terminates_group_task_process_after_timer_job_is_triggered() {
+  void terminates_group_task_process_after_timer_job_is_triggered() {
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("Grouptask-Example",
         createVariables()
             .putValue("FORMFIELD_NumberOfTasks", 1)
@@ -121,8 +119,7 @@ public class ExampleProcessExitTimerTest {
     assertThat(instance).isEnded();
     assertThat(instance).hasNotPassed("End_completed");
     assertThat(instance).hasPassed("End_terminated"); // process terminated
-    assertEquals("Gruppentask gestartet von: firstname lastname", processMock.getDescription());
-
+    Assertions.assertThat(processMock.getDescription()).isEqualTo("Gruppentask gestartet von: firstname lastname");
   }
 
 }
