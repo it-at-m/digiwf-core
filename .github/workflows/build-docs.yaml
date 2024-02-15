@@ -3,7 +3,7 @@ name: build docs
 on:
   push:
     branches:
-      - '**'
+      - dev
   pull_request:
     types: [ opened, reopened ]
     paths:

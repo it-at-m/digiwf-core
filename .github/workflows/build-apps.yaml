@@ -3,7 +3,7 @@ name: build apps
 on:
   push:
     branches:
-      - '**'
+      - dev
   pull_request:
     types: [ opened, reopened ]
     paths:
