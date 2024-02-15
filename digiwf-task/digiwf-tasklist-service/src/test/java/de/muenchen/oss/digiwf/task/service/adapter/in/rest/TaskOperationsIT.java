@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.service.TaskListApplication;
 import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
+import de.muenchen.oss.digiwf.task.service.infra.metrics.CollectorRegistryMockingConfiguration;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
 import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import io.holunda.polyflow.view.Task;
@@ -25,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
@@ -55,6 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @WireMockTest(httpPort = 7080)
 @DirtiesContext
+@ContextConfiguration(classes = {CollectorRegistryMockingConfiguration.class})
 public class TaskOperationsIT {
 
 

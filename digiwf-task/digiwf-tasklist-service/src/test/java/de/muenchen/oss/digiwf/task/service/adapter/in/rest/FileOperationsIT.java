@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.Pres
 import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.TaskListApplication;
 import de.muenchen.oss.digiwf.task.service.infra.file.S3MockConfiguration;
+import de.muenchen.oss.digiwf.task.service.infra.metrics.CollectorRegistryMockingConfiguration;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
 import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
@@ -38,7 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = {S3MockConfiguration.class})
+@ContextConfiguration(classes = {S3MockConfiguration.class, CollectorRegistryMockingConfiguration.class})
 @ActiveProfiles({"itest", "embedded-kafka", "no-security"})
 @AutoConfigureMockMvc(addFilters = true)
 @EmbeddedKafka(

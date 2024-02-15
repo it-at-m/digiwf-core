@@ -73,7 +73,11 @@ axon:
     properties:
       security.protocol: ${KAFKA_SECURITY_PROTOCOL}
 
+
 polyflow:
+  metrics:
+    delay:
+      taskcount: 30000
   axon:
     kafka:
       enabled: true
