@@ -127,6 +127,6 @@ jobs:
               owner,
               repo,
               issue_number: pullResult.data.number,
-              assignees: ['${ github.actor }'],
+              assignees: ['${{ github.actor }}'],
             });
             console.log(`Pull Request created: ${pullResult.data.html_url}`);
