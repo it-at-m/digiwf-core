@@ -194,3 +194,6 @@ io:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'
           securityEnabled: true
+    camunda:
+      prometheus:
+        update-interval: 3000
