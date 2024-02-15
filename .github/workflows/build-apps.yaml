@@ -6,6 +6,8 @@ on:
       - '**'
   pull_request:
     types: [ opened, reopened ]
+    paths:
+      - 'digiwf-apps/**'
 
 jobs:
   build:

@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
     types: [opened, reopened]
+    paths-ignore:
+      - '.github/**'
+      - 'digiwf-apps/**'
+      - 'docs/**'
+      - 'stack/**'
 
 jobs:
   build-maven:
