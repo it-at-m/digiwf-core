@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Jsf @input="input" :value="value" :schema="currentSchema" :options="currentOptions">
+    <VJsf @input="input" :value="value" :schema="currentSchema" :options="currentOptions">
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
       </template>
-    </Jsf>
+    </VJsf>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default defineComponent({
     const defaultOptions = {
       "editMode": "inline",
       "disableSorting": true,
+      "removeAdditionalProperties": false,
       "sectionsClass": "pl-0 col-12 pb-0 pt-0 pr-0",
       "objectContainerClass": "pl-0 pb-0 pt-0 pr-0",
       dialogProps: {maxWidth: 1000},
