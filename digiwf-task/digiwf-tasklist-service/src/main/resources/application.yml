@@ -148,5 +148,5 @@ management:
     web:
       exposure:
         include: health, info, prometheus, livenessstate, readinessstate
-        path-mapping:
-          prometheus: metrics
+      path-mapping:
+        prometheus: metrics
