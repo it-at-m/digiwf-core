@@ -35,13 +35,13 @@ export default defineComponent({
   </nav>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 nav {
   flex: 0;
   display: flex;
   flex-direction: row;
   padding: 24px;
-  background-color: #1f3763;
+  background-color: #333333;
   color: white;
 
   a {

@@ -1,21 +1,25 @@
 <template>
   <v-autocomplete
-    :value="model"
+    :filter="filterUsers"
+    :items="entries"
+    :label="label"
+    :loading="isLoading"
     :no-data-text="noDataText"
-    :search-input.sync="search"
-    auto-select-first
     :readonly="isReadonly"
     :rules="rules ? rules : true"
-    :items="entries"
-    :loading="isLoading"
-    :filter="filterUsers"
-    :label="label"
-    v-bind="schema['x-props']"
-    item-value="lhmObjectId"
+    :search-input.sync="search"
+    :value="model"
+    auto-select-first
     item-text="lhmObjectId"
+    item-value="lhmObjectId"
     placeholder="Benutzer suchen..."
+    v-bind="schema['x-props']"
     @input="input"
   >
+    <template #label>
+      <span>{{ label }}</span>
+      <span v-if="isRequired()" class="star"> *</span>
+    </template>
     <template #selection="data">
       {{ getFullName(data.item) }}
     </template>
@@ -49,6 +53,10 @@
   line-height: 1rem;
 }
 
+.star {
+  color: red;
+  font-weight: bold;
+}
 </style>
 
 <script lang="ts">
@@ -57,6 +65,7 @@ import {VAutocomplete} from "vuetify/lib";
 import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
 import {AxiosResponse} from 'axios';
 import {ApiConfig} from "../../api/ApiConfig";
+import {checkRequired} from "@/components/schema/validation/required";
 
 @Component({
   components: {
@@ -94,6 +103,14 @@ export default class VUserInput extends Vue {
   @Prop()
   schema: any
 
+  get isReadonly(): boolean {
+    return this.readonly || this.locked;
+  }
+
+  get entries(): UserTO [] {
+    return this.items;
+  }
+
   input(value: any): any {
     return this.on.input(value);
   }
@@ -106,10 +123,6 @@ export default class VUserInput extends Vue {
     if (this.value) {
       this.loadInitialValue(this.value);
     }
-  }
-
-  get isReadonly(): boolean {
-    return this.readonly || this.locked;
   }
 
   async loadInitialValue(id: string): Promise<void> {
@@ -160,9 +173,10 @@ export default class VUserInput extends Vue {
     return val;
   }
 
-  get entries(): UserTO [] {
-    return this.items;
+  isRequired() {
+    return checkRequired(this.schema);
   }
+
 
   @Watch("search")
   async queryResults(): Promise<void> {
