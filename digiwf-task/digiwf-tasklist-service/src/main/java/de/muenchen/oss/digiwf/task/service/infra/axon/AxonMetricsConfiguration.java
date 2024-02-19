@@ -30,7 +30,7 @@ public class AxonMetricsConfiguration {
                 ) {
                     return new ApplicationNameCompositeMessageMonitorWrapper<>(
                         (applicationName) -> new EventMessageCountingMonitor(
-                            meterRegistry, "polyflow_axon_kafka_events_processed"
+                            meterRegistry, "polyflow_axon_kafka_events_received"
                         )
                     );
                 }
