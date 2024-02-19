@@ -70,6 +70,8 @@ public class SecurityConfiguration {
                   "/actuator/health",
                   "/actuator/info",
                   "/actuator/metrics").permitAll()
+              .pathMatchers(HttpMethod.OPTIONS, "/public/**").permitAll()
+              .pathMatchers(HttpMethod.GET, "/public/**").permitAll()
               // only authenticated
               .anyExchange().authenticated();
         })
