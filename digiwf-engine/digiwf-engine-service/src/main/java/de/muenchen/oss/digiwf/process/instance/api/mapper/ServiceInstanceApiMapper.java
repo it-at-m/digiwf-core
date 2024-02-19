@@ -6,6 +6,7 @@ package de.muenchen.oss.digiwf.process.instance.api.mapper;
 
 import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceInstanceDetailTO;
 import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceInstanceTO;
+import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceRootInstanceTO;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
 import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstanceDetail;
 import org.mapstruct.Mapper;
@@ -24,5 +25,7 @@ public interface ServiceInstanceApiMapper {
     ServiceInstanceTO map2TO(ServiceInstance item);
 
     ServiceInstanceDetailTO map2TO(ServiceInstanceDetail instanceDetail);
+
+    ServiceRootInstanceTO map2RootInstanceTO(ServiceInstance instance);
 
 }
