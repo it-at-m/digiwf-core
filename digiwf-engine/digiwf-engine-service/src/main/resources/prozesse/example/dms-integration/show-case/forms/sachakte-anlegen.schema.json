@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-search-file_start",
+  "key": "dms-integration-create-file",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -29,13 +29,13 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process search for a file (Sachakte) with the information from the form below.\n\n1. Specify a file or a wildcard.\n2. Specify a username.\n3. Optionally specify the reference of a subject date (Fachdatum).\n4. Optionally specify a value of a subject date.",
+                "default": "1. Bestehendes Aktenplankennzeichen eintragen.\n2. Titel der neuen Sachakte eintragen.\n3. Titel des neuen Vorgangs in der Sachakte anlegen.\n4. Berechtigten Benutzer eintragen.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
@@ -43,11 +43,50 @@
                 },
                 "x-rules": []
               },
-              "search": {
+              "aktenplan": {
                 "fieldType": "text",
-                "title": "Search",
+                "title": "Aktenplankennzeichen",
                 "type": "string",
-                "key": "search",
+                "key": "aktenplan",
+                "description": "Kennzeichen eines Aktenplaneintrags vom Typ 'Betreffseinheit'",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "fileTitle": {
+                "fieldType": "text",
+                "title": "Titel der Sachakte",
+                "type": "string",
+                "key": "fileTitle",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "title": {
+                "fieldType": "text",
+                "title": "Titel des Vorgangs",
+                "type": "string",
+                "key": "title",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -66,44 +105,6 @@
                 "title": "Dms User",
                 "type": "string",
                 "key": "user",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
-              "reference": {
-                "fieldType": "text",
-                "title": "Fachdatum Referenz",
-                "type": "string",
-                "key": "reference",
-                "default": "",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
-              "value": {
-                "fieldType": "text",
-                "title": "Fachdatum Wert",
-                "type": "string",
-                "key": "value",
-                "default": "",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

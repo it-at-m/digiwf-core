@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-search-file_start",
+  "key": "dms-integration-start-form",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -29,13 +29,13 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process search for a file (Sachakte) with the information from the form below.\n\n1. Specify a file or a wildcard.\n2. Specify a username.\n3. Optionally specify the reference of a subject date (Fachdatum).\n4. Optionally specify a value of a subject date.",
+                "default": "Suche nach einer Sachakte mit oder ohne Fachdatum\n\n1. Gib den Titel einer Sachakte mit oder ohne Sternchen * an oder nur * für einen beliebigen Titel an.\n2. Gib einen berechtigten Benutzernamen an.\n3. Gib optional eine Fachdatumsreferenz an. Bspw. 'testNumber'.\n4. Gib optional einen Wert für das Fachdatum an. Bspw. '42'.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
@@ -45,15 +45,15 @@
               },
               "search": {
                 "fieldType": "text",
-                "title": "Search",
+                "title": "Suchstring Titel Sachakte",
                 "type": "string",
                 "key": "search",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
