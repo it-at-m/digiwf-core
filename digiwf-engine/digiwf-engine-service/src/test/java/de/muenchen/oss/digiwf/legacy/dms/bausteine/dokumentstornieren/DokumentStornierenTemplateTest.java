@@ -17,15 +17,18 @@ import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 import static org.mockito.Mockito.*;
 
 @Deployment(resources = { "bausteine/dms/dokumentstornieren/DokumentStornierenV01.bpmn",
         "bausteine/dms/dokumentstornieren/feature/Feature_DokumentStornieren.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class DokumentStornierenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureDokumentStornieren";
@@ -56,25 +59,24 @@ public class DokumentStornierenTemplateTest {
 
     @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
+
         Mocks.register("cancelDokumentDelegate", new CancelDokumentDelegate(this.dmsService));
         Mocks.register("sendMailDelegate", new TestSendMailDelegate());
         Mocks.register("digitalwf", new DigitalWFFunctions(this.digitalWFProperties));
 
-        when(this.digitalWFProperties.getFrontendUrl()).thenReturn("myUrl");
-
-        doNothing().when(this.dmsService).cancelDocument(any(), any());
-
         when(this.processScenario.runsCallActivity(ACTIVITY_DOKUMENT_STORNIEREN))
                 .thenReturn(Scenario.use(this.templateScenario));
 
-        when(this.templateScenario.waitsAtUserTask(TASK_DOKUMENT_MANUELL_STORNIEREN))
-                .thenReturn(TaskDelegate::complete);
 
     }
 
     @Test
-    public void shouldExecuteHappyPath() {
+    public void shouldExecuteHappyPath() throws Exception {
+
+        doNothing().when(this.dmsService).cancelDocument(any(), any());
+
+
+
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY, withVariables(
                         VAR_DOKUMENTCOO, "VorgangCOO",
@@ -90,6 +92,10 @@ public class DokumentStornierenTemplateTest {
     public void shouldExecuteWithError() throws Exception {
 
         doThrow(RuntimeException.class).when(this.dmsService).cancelDocument(any(), any());
+        when(this.digitalWFProperties.getFrontendUrl()).thenReturn("myUrl");
+
+        when(this.templateScenario.waitsAtUserTask(TASK_DOKUMENT_MANUELL_STORNIEREN))
+            .thenReturn(TaskDelegate::complete);
 
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY, withVariables(

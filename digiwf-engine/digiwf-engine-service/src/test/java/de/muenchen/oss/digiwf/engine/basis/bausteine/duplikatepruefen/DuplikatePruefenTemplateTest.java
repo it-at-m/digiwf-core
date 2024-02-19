@@ -14,9 +14,11 @@ import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 import static org.mockito.Mockito.verify;
@@ -24,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 @Deployment(resources = { "bausteine/basis/duplikatepruefen/DuplikatePruefenV01.bpmn",
         "bausteine/basis/duplikatepruefen/feature/Feature_DuplikatePruefen.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class DuplikatePruefenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureDuplikatePruefen";
@@ -50,8 +53,7 @@ public class DuplikatePruefenTemplateTest {
     private ProcessScenario templateScenario;
 
     @BeforeEach
-    public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    public void defaultScenario() {
 
         Mocks.register("createBusinessKeyDelegate", new CreateBusinessKeyDelegate());
 
@@ -60,16 +62,13 @@ public class DuplikatePruefenTemplateTest {
         when(this.processScenario.runsCallActivity(ACTIVITY_DOKUMENT_DUPLIKATE_PRUEFEN))
                 .thenReturn(Scenario.use(this.templateScenario));
 
-        when(this.processScenario.waitsAtUserTask(TASK_DUPLIKATE_PRUEFEN_ABSCHLIESSEN))
-                .thenReturn(TaskDelegate::complete);
-
-        when(this.templateScenario.waitsAtUserTask(TASK_DUPLIKAT_KONTROLLIEREN))
-                .thenReturn(TaskDelegate::complete);
-
     }
 
     @Test
     public void shouldExecuteHappyPath() {
+        when(this.processScenario.waitsAtUserTask(TASK_DUPLIKATE_PRUEFEN_ABSCHLIESSEN))
+            .thenReturn(TaskDelegate::complete);
+
         Scenario.run(this.processScenario)
                 .startByKey(TEMPLATE_KEY, withVariables(
                         STARTER_OF_INSTANCE, "startUser",
@@ -85,6 +84,11 @@ public class DuplikatePruefenTemplateTest {
 
     @Test
     public void shouldExecuteWithDuplicate() {
+
+        when(this.templateScenario.waitsAtUserTask(TASK_DUPLIKAT_KONTROLLIEREN))
+            .thenReturn(TaskDelegate::complete);
+        when(this.processScenario.waitsAtUserTask(TASK_DUPLIKATE_PRUEFEN_ABSCHLIESSEN))
+            .thenReturn(TaskDelegate::complete);
 
         this.processEngineExtension.getRuntimeService().startProcessInstanceByKey(TEMPLATE_KEY, withVariables(
                 STARTER_OF_INSTANCE, "startUser",

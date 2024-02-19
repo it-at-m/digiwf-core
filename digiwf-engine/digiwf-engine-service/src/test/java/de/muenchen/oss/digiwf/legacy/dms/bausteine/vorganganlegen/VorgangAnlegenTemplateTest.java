@@ -28,8 +28,10 @@ import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -40,6 +42,7 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVar
 import static org.mockito.Mockito.*;
 
 @Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn", "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegenV02S3.bpmn"})
+@ExtendWith(MockitoExtension.class)
 public class VorgangAnlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangAnlegen";
@@ -84,7 +87,6 @@ public class VorgangAnlegenTemplateTest {
 
     @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("searchSachakteDelegate", new SearchSachakteDelegate(this.dmsService));
         when(this.dmsService.searchSachakte(any(), any())).thenReturn(Optional.of("sachakteCOO"));
