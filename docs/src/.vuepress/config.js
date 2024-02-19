@@ -60,10 +60,6 @@ module.exports = {
                 ariaLabel: 'Sprachen',
                 nav: [
                     {
-                        text: 'Features',
-                        link: '/features/'
-                    },
-                    {
                         text: 'Modellierung',
                         link: '/modeling/'
                     },
@@ -78,6 +74,10 @@ module.exports = {
                     {
                         text: 'APIs',
                         link: '/apis/',
+                    },
+                    {
+                        text: 'Release Notes',
+                        link: 'https://github.com/it-at-m/digiwf-core/releases'
                     }
                 ],
                 sidebar: {
@@ -143,22 +143,6 @@ module.exports = {
                             ]
                         }
                     ],
-                    '/features/': [
-                        {
-                            title: 'Features',
-                            collapsable: false,
-                            children: [
-                                '',
-                            ]
-                        },
-                        {
-                            title: 'Changes',
-                            collapsable: false,
-                            children: [
-                                'changes/',
-                            ]
-                        },
-                    ],
                     '/modeling/': [
                         {
                             title: 'Plattform',
@@ -207,11 +191,11 @@ module.exports = {
                             ]
                         },
                         {
-                            title: 'Integrationen',
+                            title: 'Wiederverwendbare Bausteine',
                             collapsable: false,
                             children: [
-                                'integrations/',
-                                'integrations/catalog/',
+                                'bausteine/',
+                                'bausteine/integrationen/',
                             ]
                         },
                         {
@@ -259,7 +243,6 @@ module.exports = {
                                 'digiwf-cosys-integration',
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
-                                'digiwf-verification-integration',
                                 'digiwf-formserver-integration',
                                 'digiwf-dms-integration'
                             ]

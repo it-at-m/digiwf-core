@@ -61,13 +61,7 @@ die folgende Konfiguration angegeben werden. Anschließend werden alle Messages 
 ```yaml
 spring:
   cloud:
-    function:
-      definition: functionRouter;exampleIntegration;
-      routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "consumer-group-der-integration"
@@ -101,12 +95,13 @@ public class MessageProcessor {
     public Consumer<Message<ExampleDto>> exampleIntegration() {
         return message -> {
             final String processInstanceId = message.getHeaders().get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID).toString();
-            final String messageName = message.getHeaders().get(MessageConstants.DIGIWF_MESSAGE_NAME).toString();
+            final String type = message.getHeaders().get(MessageConstants.TYPE).toString();
+            final String integrationName = message.getHeaders().get(MessageConstants.DIGIWF_INTEGRATION_NAME).toString();
             
             // do something with message
             
             // correlate message
-            processApi.correlateMessage(processInstanceId, messageName, new HashMap<String, Object>());
+            processApi.correlateMessage(processInstanceId, type, integrationName, new HashMap<String, Object>());
         };
     }   
 }
@@ -137,12 +132,13 @@ public class MessageProcessor {
         return message -> {
             try {
                 final String processInstanceId = message.getHeaders().get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID).toString();
-                final String messageName = message.getHeaders().get(MessageConstants.DIGIWF_MESSAGE_NAME).toString();
+                final String type = message.getHeaders().get(MessageConstants.TYPE).toString();
+                final String integrationName = message.getHeaders().get(MessageConstants.DIGIWF_INTEGRATION_NAME).toString();
 
                 // do something with message
 
                 // correlate message
-                this.processApi.correlateMessage(processInstanceId, messageName, new HashMap<String, Object>());
+                this.processApi.correlateMessage(processInstanceId, type, integrationName, new HashMap<String, Object>());
             } catch (final BpmnError bpmnError) {
                 // handle bpmn errors
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
@@ -195,13 +191,7 @@ die Streaming Group und die TypeMapping angepasst werden.
 ```yaml
 spring:
   cloud:
-    function:
-      definition: functionRouter;sendMessage;exampleIntegration;
-      routing-expression: "headers['type']"
     stream:
-      function:
-        routing:
-          enabled: 'true'
       bindings:
         functionRouter-in-0:
           group: "consumer-group-der-integration"
@@ -216,6 +206,7 @@ io:
         incidentDestination: "${KAFKA_TOPICS_CONNECTOR_INCIDENT}"
         bpmnErrorDestination: "${KAFKA_TOPICS_CONNECTOR_BPMNERROR}"
         correlateMessageDestination: "${KAFKA_TOPIC_ENGINE}"
+        deadLetterQueueDestination: "${KAFKA_TOPICS_CONNECTOR_DLQ}"
 ```
 
 Im obigen Beispiel wird die Konfiguration des Binders bewusst ausgelassen, da diese vom verwendeten Binder abhängig ist.

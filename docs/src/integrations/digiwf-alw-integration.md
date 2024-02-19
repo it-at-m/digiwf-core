@@ -1,5 +1,7 @@
 # Digiwf ALW Integration
 
+![](https://img.shields.io/badge/Integration_Name-alwIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 The goal of this library is to enable async communication with the ALW System dispatched by an EventBus of your
 environment.
 
@@ -93,15 +95,4 @@ digiwf.alw.personeninfo:
 7. Define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG**
    of <i>[SachbearbeitungMapperConfig](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-core/src/main/java/io/muenchendigital/digiwf/alw/integration/configuration/SachbearbeitungMapperConfig.java) </i> )
    to support mapping of the ALW System responses to directory-ous.
-
-For an example, please refer to
-the [example project](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-example).
-There you can:
-
-* Configure the example application (see above)
-* Start the example application
-* Make a http request to the configured test endpoints
-  from <i>[ExampleController](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-example/src/main/java/io/muenchendigital/digiwf/alw/integration/api/controller/ExampleController.java) </i>
-  on http://localhost:10006/testGetAlwZustaendigkeitEventBus
-* Observe the output in the console
 

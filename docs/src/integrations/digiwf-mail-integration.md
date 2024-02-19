@@ -1,5 +1,7 @@
 # DigiWF Mail Integration
 
+![](https://img.shields.io/badge/Integration_Name-emailIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die DigiWF Email Integration ist eine Integration, die es Benutzern ermöglicht, Emails über die DigiWF-Plattform zu
 senden.
 Mit dieser Integration können Prozessentwickler Email-Kommunikation in ihre BPMN Prozesse integrieren.

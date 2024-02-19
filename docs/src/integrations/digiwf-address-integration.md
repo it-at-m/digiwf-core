@@ -1,5 +1,7 @@
 # DigiWF Address Integration
 
+![](https://img.shields.io/badge/Integration_Name-addressIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die Address Integration bindet den Address-Service der Stadt München an die DigiWF Plattform an, wodurch Informationen
 zu Adressen sowie Straßen abgerufen werden können.
 

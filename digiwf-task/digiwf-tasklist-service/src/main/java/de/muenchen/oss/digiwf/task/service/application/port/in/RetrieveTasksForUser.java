@@ -22,10 +22,12 @@ public interface RetrieveTasksForUser {
    * Retrieves a list of tasks assigned to someone, but visible via one of current user's groups.
    *
    * @param query            additional query containing limiting parameters.
+   * @param tag              additional query parameter denoting a task tag, may be null.
+   * @param assignedUserId           additional query parameter denoting the assigned user.
    * @param pagingAndSorting information about paging and sorting.
    * @return a page of tasks with schema.
    */
-  PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting);
+  PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, String assignedUserId, PagingAndSorting pagingAndSorting);
 
   /**
    * Retrieves the list of tasks assigned directly to the current user.

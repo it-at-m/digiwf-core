@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import de.muenchen.oss.digiwf.message.process.impl.dto.BpmnErrorDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,9 +33,9 @@ class ErrorApiImplTest {
     private final String processInstanceId = "processInstanceId-123";
     private final String incidentDestination = "incidentMessageDestination";
     private final String bpmnErrorDestination = "bpmnErrorMessageDestination";
-    private final String messageName = "someMessageName";
+    private final String integrationName = "exampleIntegration";
     private final Map<String, Object> messageHeaders = Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId,
-            DIGIWF_MESSAGE_NAME, this.messageName);
+            DIGIWF_INTEGRATION_NAME, this.integrationName);
 
 
     @BeforeEach
@@ -46,16 +45,16 @@ class ErrorApiImplTest {
 
     @Test
     void testHandleIncident() {
-        final boolean success = this.errorApi.handleIncident(this.processInstanceId, this.messageName, "someErrorMessage");
+        final boolean success = this.errorApi.handleIncident(messageHeaders, "someErrorMessage");
         assertThat(success).isTrue();
-        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.messageName, this.incidentDestination);
+        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.integrationName, this.incidentDestination);
     }
 
     @Test
     void testHandleBpmnError() {
         final String errorCode = "400";
         final String errorMessage = "someErrorMessage";
-        final boolean success = this.errorApi.handleBpmnError(this.processInstanceId, errorCode, errorMessage);
+        final boolean success = this.errorApi.handleBpmnError(messageHeaders, errorCode, errorMessage);
         assertThat(success).isTrue();
         this.verifyBpmnErrorMessageApiCall(new BpmnError(errorCode, errorMessage), this.bpmnErrorDestination);
     }
@@ -71,7 +70,7 @@ class ErrorApiImplTest {
     @Test
     void testHandleBpmnErrorWithExceptionRaisesRuntimeExceptionOnMissingProcessInstance() {
         final BpmnError bpmnError = new BpmnError("400", "someErrorMessage");
-        assertThatThrownBy(() -> this.errorApi.handleBpmnError(Map.of(DIGIWF_MESSAGE_NAME, "someMessage"), bpmnError))
+        assertThatThrownBy(() -> this.errorApi.handleBpmnError(Map.of(DIGIWF_INTEGRATION_NAME, "someMessage"), bpmnError))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -80,13 +79,13 @@ class ErrorApiImplTest {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
         final boolean success = this.errorApi.handleIncident(this.messageHeaders, incidentError);
         assertThat(success).isTrue();
-        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.messageName, this.incidentDestination);
+        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.integrationName, this.incidentDestination);
     }
 
     @Test
     void testHandleIncidentWithExceptionRaisesRuntimeExceptionOnMissingProcessInstance() {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
-        assertThatThrownBy(() -> this.errorApi.handleIncident(Map.of(DIGIWF_MESSAGE_NAME, "someMessage"), incidentError))
+        assertThatThrownBy(() -> this.errorApi.handleIncident(Map.of(DIGIWF_INTEGRATION_NAME, "someMessage"), incidentError))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -103,15 +102,15 @@ class ErrorApiImplTest {
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
         Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
-        Assertions.assertEquals(payload.getErrorMessage(), payloadCaptor.getValue().getErrorMessage());
-        Assertions.assertEquals(payload.getErrorCode(), payloadCaptor.getValue().getErrorCode());
-        Assertions.assertEquals(this.processInstanceId, payloadCaptor.getValue().getProcessInstanceId());
-        Assertions.assertEquals(destination, destinationCaptor.getValue());
-        Assertions.assertEquals("bpmnError", headersCaptor.getValue().get(DIGIWF_MESSAGE_NAME), "Message name should be bpmnError");
-        Assertions.assertEquals("bpmnerror", headersCaptor.getValue().get(TYPE), "Message type should be bpmnerror");
+        assertThat(payload.getErrorMessage()).isEqualTo(payloadCaptor.getValue().getErrorMessage());
+        assertThat(payload.getErrorCode()).isEqualTo(payloadCaptor.getValue().getErrorCode());
+        assertThat(this.processInstanceId).isEqualTo(payloadCaptor.getValue().getProcessInstanceId());
+        assertThat(destination).isEqualTo(destinationCaptor.getValue());
+        assertThat(integrationName).isEqualTo(headersCaptor.getValue().get(DIGIWF_INTEGRATION_NAME));
+        assertThat("bpmnerror").isEqualTo(headersCaptor.getValue().get(TYPE));
     }
 
-    private void verifyIncidentMessageApiCall(final String payload, final String typeHeader, final String messageNameHeader, final String destination) {
+    private void verifyIncidentMessageApiCall(final String payload, final String typeHeader, final String integrationNameHeader, final String destination) {
         final ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
@@ -123,7 +122,7 @@ class ErrorApiImplTest {
                 .hasSize(3)
                 .containsEntry(TYPE, typeHeader)
                 .containsEntry(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId)
-                .containsEntry(DIGIWF_MESSAGE_NAME, messageNameHeader);
+                .containsEntry(DIGIWF_INTEGRATION_NAME, integrationNameHeader);
 
         assertThat(destinationCaptor.getValue()).isEqualTo(destination);
     }

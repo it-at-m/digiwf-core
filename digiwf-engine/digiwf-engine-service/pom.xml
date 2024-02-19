@@ -8,7 +8,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.6.0-SNAPSHOT</version>
+        <version>1.7.3-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -19,7 +19,7 @@
         <apache.commons.text>1.11.0</apache.commons.text>
         <apache.commons.validator>1.8.0</apache.commons.validator>
 
-        <ojdbc10.version>19.21.0.0</ojdbc10.version>
+        <ojdbc10.version>19.22.0.0</ojdbc10.version>
         <javafaker.version>1.0.2</javafaker.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <cxf.version>3.6.2</cxf.version>
@@ -281,6 +281,16 @@
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
             <version>${camunda.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
         <!-- FIXME legacy version -->
@@ -294,6 +304,11 @@
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
             <version>7.20.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-bpm-junit5</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -471,7 +486,7 @@
                 <jdk>[12,</jdk>
             </activation>
             <properties>
-                <graalvm.version>22.3.3</graalvm.version>
+                <graalvm.version>23.0.3</graalvm.version>
             </properties>
             <dependencies>
                 <dependency>

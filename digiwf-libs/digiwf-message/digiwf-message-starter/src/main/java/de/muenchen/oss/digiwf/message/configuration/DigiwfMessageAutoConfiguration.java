@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.message.configuration;
 
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import de.muenchen.oss.digiwf.message.core.impl.MessageApiImpl;
+import de.muenchen.oss.digiwf.message.factory.YamlPropertySourceFactory;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.impl.ErrorApiImpl;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.messaging.Message;
 import reactor.core.publisher.Sinks;
 
@@ -21,6 +23,7 @@ import reactor.core.publisher.Sinks;
 @RequiredArgsConstructor
 @ComponentScan(basePackages = "de.muenchen.oss.digiwf.message.infra")
 @EnableConfigurationProperties(value = DigiwfMessageProperties.class)
+@PropertySource(value = "classpath:digiwf-message-application.yml", factory = YamlPropertySourceFactory.class)
 public class DigiwfMessageAutoConfiguration {
 
     private final DigiwfMessageProperties digiwfMessageProperties;

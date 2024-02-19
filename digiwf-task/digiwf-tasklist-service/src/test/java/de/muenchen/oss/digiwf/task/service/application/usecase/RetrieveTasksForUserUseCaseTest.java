@@ -3,26 +3,29 @@ package de.muenchen.oss.digiwf.task.service.application.usecase;
 import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.TaskVariables;
-import de.muenchen.oss.digiwf.task.service.adapter.out.tag.TaskTagResolverAdapter;
-import de.muenchen.oss.digiwf.task.service.application.port.in.RetrieveTasksForUser;
-import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
-import de.muenchen.oss.digiwf.task.service.application.port.out.tag.TaskTagResolverPort;
-import io.holunda.camunda.bpm.data.CamundaBpmData;
-import io.holunda.polyflow.view.auth.User;
+import de.muenchen.oss.digiwf.task.service.adapter.out.link.OnTheFlyTaskLinkResolverAdapter;
+import de.muenchen.oss.digiwf.task.service.adapter.out.link.TaskLinkConfigurationProperties;
 import de.muenchen.oss.digiwf.task.service.adapter.out.schema.VariableTaskSchemaResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.adapter.out.schema.VariableTaskSchemaTypeResolverAdapter;
+import de.muenchen.oss.digiwf.task.service.adapter.out.tag.TaskTagResolverAdapter;
+import de.muenchen.oss.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.links.TaskLinkResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.tag.TaskTagResolverPort;
 import de.muenchen.oss.digiwf.task.service.domain.PageOfTasks;
 import de.muenchen.oss.digiwf.task.service.domain.PagingAndSorting;
+import io.holunda.camunda.bpm.data.CamundaBpmData;
+import io.holunda.polyflow.view.auth.User;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTask;
-import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTasks;
+import java.util.Collections;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -36,6 +39,9 @@ class RetrieveTasksForUserUseCaseTest {
     private final TaskSchemaRefResolverPort taskSchemaRefResolverPort = new VariableTaskSchemaResolverAdapter();
     private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort = new VariableTaskSchemaTypeResolverAdapter();
     private final TaskTagResolverPort taskTagResolverPort = new TaskTagResolverAdapter();
+    private final TaskLinkResolverPort taskLinkResolverPort = new OnTheFlyTaskLinkResolverAdapter(
+        new TaskLinkConfigurationProperties(Collections.emptyList())
+    );
 
     private final RetrieveTasksForUser useCase = new RetrieveTasksForUserUseCase(
             taskQueryPort,
@@ -43,7 +49,8 @@ class RetrieveTasksForUserUseCaseTest {
             taskSchemaRefResolverPort,
             taskSchemaTypeResolverPort,
             cancellationFlagOutPort,
-            taskTagResolverPort
+            taskTagResolverPort,
+            taskLinkResolverPort
     );
 
     private final String query = "";
@@ -64,11 +71,11 @@ class RetrieveTasksForUserUseCaseTest {
 
         val pageOfTasks = new PageOfTasks(content, 17, pagingAndSorting);
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
         val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null, false, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 
@@ -82,11 +89,11 @@ class RetrieveTasksForUserUseCaseTest {
                 pagingAndSorting
         );
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
         val tasks = useCase.getUnassignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, false, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null,false, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 
@@ -99,11 +106,29 @@ class RetrieveTasksForUserUseCaseTest {
                 pagingAndSorting
         );
 
-        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
 
-        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, pagingAndSorting);
+        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, null, pagingAndSorting);
         assertThat(tasks.getTotalElementsCount()).isEqualTo(17);
-        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, true, pagingAndSorting);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, null, true, pagingAndSorting);
+        verifyNoMoreInteractions(taskQueryPort);
+    }
+
+    @Test
+    void getsAssignedTasksForCurrentUserGroupAndAssignee() {
+
+
+        val pageOfTasks = new PageOfTasks(
+            TestFixtures.generateTasks(5, Sets.newHashSet(), Sets.newHashSet("group1"), "987654321"),
+            5,
+            pagingAndSorting
+        );
+
+        when(taskQueryPort.getTasksForCurrentUserGroup(any(), anyString(), any(), any(), anyBoolean(), any())).thenReturn(pageOfTasks);
+
+        val tasks = useCase.getAssignedTasksForCurrentUserGroup(query, null, "987654321", pagingAndSorting);
+        assertThat(tasks.getTotalElementsCount()).isEqualTo(5);
+        verify(taskQueryPort).getTasksForCurrentUserGroup(user, query, null, "987654321", true, pagingAndSorting);
         verifyNoMoreInteractions(taskQueryPort);
     }
 

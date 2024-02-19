@@ -14,7 +14,7 @@ Folgenden findest du eine kurze Beschreibung der wichtigsten Artefakte:
 - Prozesskonfiguration: Prozesskonfigurationen ermöglichen es, Prozessparameter und -einstellungen zu definieren und zu
   verwalten. In DigiWF können Prozesskonfigurationen erstellt werden, um die Ausführung von Prozessen zu steuern und
   diese zur Laufzeit zu verwenden.
-- Templates: DigiWF bietet eine Vielzahl von Elementvoralgen, die bei der Erstellung neuer Prozesse
+- Templates: DigiWF bietet eine Vielzahl von Elementvorlagen, die bei der Erstellung neuer Prozesse
   verwendet werden können. Die Vorlagen enthalten bereits BPMN-Diagramme, DMN-Modelle und Anbindungen an Fachverfahren
   und Basisdienste.
 

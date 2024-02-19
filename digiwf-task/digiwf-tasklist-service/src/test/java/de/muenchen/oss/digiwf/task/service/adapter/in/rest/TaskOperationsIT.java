@@ -3,14 +3,14 @@ package de.muenchen.oss.digiwf.task.service.adapter.in.rest;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.google.common.collect.Sets;
+import de.muenchen.oss.digiwf.task.service.TaskListApplication;
+import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
+import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
+import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import io.holunda.polyflow.view.Task;
 import io.holunda.polyflow.view.jpa.JpaPolyflowViewTaskService;
 import io.holunda.polyflow.view.query.task.AllTasksQuery;
-import de.muenchen.oss.digiwf.task.service.TaskListApplication;
-import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
-import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
-import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.messaging.MetaData;
 import org.junit.jupiter.api.AfterEach;
@@ -46,8 +46,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * mapping to correct HTTP status.
  */
 @SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles({"itest", "embedded-kafka"})
-@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles({"itest", "embedded-kafka", "no-security"})
+@AutoConfigureMockMvc
 @EmbeddedKafka(
     partitions = 1,
     topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
@@ -57,68 +57,68 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 public class TaskOperationsIT {
 
-  private final Instant followUpDate = Instant.now().plus(2, ChronoUnit.DAYS);
 
-  private final Task[] tasks = {
-          // user id
-          generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true),
-          // candidate group
-          generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP, "ANOTHER"), "OTHER", null, false),
-          // candidate user -> This is a special case, we don't expect candidate user assignment
-          generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
-          // some white noise
-          generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
-          generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP), null, null),
-  };
+    private final Instant followUpDate = Instant.now().plus(2, ChronoUnit.DAYS);
 
-  @Autowired
-  private MockMvc mockMvc;
+    private final Task[] tasks = {
+        // user id
+        generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, this.followUpDate, true),
+        // candidate group
+        generateTask("task_1", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP, "ANOTHER"), "OTHER", null, false),
+        // candidate user -> This is a special case, we don't expect candidate user assignment
+        generateTask("task_2", Sets.newHashSet(TestUser.USER_ID), Sets.newHashSet(), "OTHER", null),
+        // some white noise
+        generateTask("task_3", Sets.newHashSet(), Sets.newHashSet(), "OTHER", null),
+        generateTask("task_4", Sets.newHashSet(), Sets.newHashSet(MockUserGroupResolverAdapter.PRIMARY_USERGROUP), null, null),
+    };
 
-  @Autowired
-  private JpaPolyflowViewTaskService service;
+    @Autowired
+    private MockMvc mockMvc;
 
-  @MockBean
-  private TaskCommandPort taskCommandPort;
+    @Autowired
+    private JpaPolyflowViewTaskService service;
 
-  @BeforeEach
-  public void produce_task_events() {
-    Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
-    await().untilAsserted(
-        () -> {
-          final var count = this.service.query(new AllTasksQuery()).getTotalElementCount();
-          assertThat(count).isEqualTo(this.tasks.length);
-        }
-    );
-  }
+    @MockBean
+    private TaskCommandPort taskCommandPort;
 
-  @AfterEach
-  public void clean_tasks() {
-    Arrays.stream(this.tasks).forEach(t -> this.service.on(deleteEvent(t), MetaData.emptyInstance()));
-  }
+    @BeforeEach
+    public void produce_task_events() {
+        Arrays.stream(this.tasks).forEach(t -> this.service.on(createEvent(t), MetaData.emptyInstance()));
+        await().untilAsserted(
+            () -> {
+                final var count = this.service.query(new AllTasksQuery()).getTotalElementCount();
+                assertThat(count).isEqualTo(this.tasks.length);
+            }
+        );
+    }
+
+    @AfterEach
+    public void clean_tasks() {
+        Arrays.stream(this.tasks).forEach(t -> this.service.on(deleteEvent(t), MetaData.emptyInstance()));
+    }
 
 
     @Test
     @WithKeycloakUser
     public void retrieve_task_with_details() throws Exception {
         WireMock.givenThat(
-                WireMock.get(WireMock.urlEqualTo("/rest/jsonschema/schema-1"))
-                        .willReturn(
-                                WireMock.aResponse()
-                                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                                        .withBody(getJsonFromFile("json-schema-1.json"))
-                        )
+            WireMock.get(WireMock.urlEqualTo("/rest/jsonschema/schema-1"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBody(getJsonFromFile("json-schema-1.json"))
+                )
         );
 
         mockMvc
-                .perform(
-                        get(RestConstants.BASE_PATH + "/tasks/id/task_0")
-                                .servletPath(RestConstants.SERVLET_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                //.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo("task_0")))
-                .andExpect(jsonPath("$.schemaRef", equalTo("schema-1")))
+            .perform(
+                get(RestConstants.BASE_PATH + "/tasks/id/task_0")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            //.andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", equalTo("task_0")))
+            .andExpect(jsonPath("$.schemaRef", equalTo("schema-1")))
         ;
     }
 
@@ -127,24 +127,23 @@ public class TaskOperationsIT {
     public void retrieve_task_with_schema() throws Exception {
 
         WireMock.givenThat(
-                WireMock.get(WireMock.urlEqualTo("/rest/jsonschema/schema-1"))
-                        .willReturn(
-                                WireMock.aResponse()
-                                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                                        .withBody(getJsonFromFile("json-schema-1.json"))
-                        )
+            WireMock.get(WireMock.urlEqualTo("/rest/jsonschema/schema-1"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBody(getJsonFromFile("json-schema-1.json"))
+                )
         );
 
         mockMvc
-                .perform(
-                        get(RestConstants.BASE_PATH + "/tasks/id/task_0/with-schema")
-                                .servletPath(RestConstants.SERVLET_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                //.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo("task_0")))
-                .andExpect(jsonPath("$.schema.type", equalTo("object")))
+            .perform(
+                get(RestConstants.BASE_PATH + "/tasks/id/task_0/with-schema")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            //.andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", equalTo("task_0")))
+            .andExpect(jsonPath("$.schema.type", equalTo("object")))
         ;
     }
 
@@ -152,13 +151,12 @@ public class TaskOperationsIT {
     @WithKeycloakUser
     public void unassign_task() throws Exception {
         mockMvc
-                .perform(
-                        post(RestConstants.BASE_PATH + "/tasks/id/task_0/unassign")
-                                .servletPath(RestConstants.SERVLET_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                //.andDo(print())
-                .andExpect(status().isNoContent())
+            .perform(
+                post(RestConstants.BASE_PATH + "/tasks/id/task_0/unassign")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            //.andDo(print())
+            .andExpect(status().isNoContent())
         ;
 
         verify(taskCommandPort).unassignUserTask("task_0");
@@ -169,13 +167,12 @@ public class TaskOperationsIT {
     @WithKeycloakUser
     public void undefer_task() throws Exception {
         mockMvc
-                .perform(
-                        post(RestConstants.BASE_PATH + "/tasks/id/task_0/undefer")
-                                .servletPath(RestConstants.SERVLET_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                //.andDo(print())
-                .andExpect(status().isNoContent())
+            .perform(
+                post(RestConstants.BASE_PATH + "/tasks/id/task_0/undefer")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            //.andDo(print())
+            .andExpect(status().isNoContent())
         ;
 
         verify(taskCommandPort).undeferUserTask("task_0");
@@ -186,13 +183,12 @@ public class TaskOperationsIT {
     @WithKeycloakUser
     public void cancel_task() throws Exception {
         mockMvc
-                .perform(
-                        post(RestConstants.BASE_PATH + "/tasks/id/task_0/cancel")
-                                .servletPath(RestConstants.SERVLET_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                //.andDo(print())
-                .andExpect(status().isNoContent())
+            .perform(
+                post(RestConstants.BASE_PATH + "/tasks/id/task_0/cancel")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            //.andDo(print())
+            .andExpect(status().isNoContent())
         ;
 
         verify(taskCommandPort).cancelUserTask("task_0");

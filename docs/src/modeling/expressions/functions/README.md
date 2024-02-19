@@ -44,3 +44,14 @@ interagieren. Über die `execution` sind eine Vielzahl an Funktionen bereit, fol
 | `getVariable(key)`        | Lädt eine bestimmte Variable aus dem Execution Context     | `${execution.getVariable('starterOfInstance')}`          |
 | `setVariable(key, value)` | Setzt eine bestimmte Variable im Execution Context         | `${execution.setVariable('meineVariable', 'Mein Wert')}` |
 | `hasVariable(key)`        | Prüft, ob eine Variable im Execution Context vorhanden ist | `${execution.hasVariable('meineVariable')}`              |
+
+Um auf die Elemente einer Liste zugreifen zu können, muss die Variable zunächst geparst werden. Das unten stehende Beispiel aus einem Script-Task zeigt den Zugriff auf das erste Element einer Liste, das in eine neue Variable gespeichert wird.
+```
+/*
+* Erstes Element aus der Liste der DMS-COOs
+* an eine Variable des Execution-Context uebergeben.
+*/
+const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
+const tFirstCoo = tFileCoos[0];
+execution.setVariable('firstCoo', tFirstCoo);
+```

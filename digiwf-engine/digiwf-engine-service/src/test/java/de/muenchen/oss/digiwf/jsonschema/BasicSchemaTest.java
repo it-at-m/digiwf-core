@@ -8,13 +8,13 @@ import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.Validator;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 public class BasicSchemaTest {
