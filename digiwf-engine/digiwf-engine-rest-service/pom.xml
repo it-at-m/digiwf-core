@@ -81,6 +81,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc10</artifactId>
+            <version>${ojdbc10.version}</version>
+        </dependency>
 
         <!-- Validation -->
         <dependency>
