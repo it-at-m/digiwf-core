@@ -10,14 +10,14 @@ import de.muenchen.oss.digiwf.legacy.dms.muc.process.canceldokument.CancelDokume
 import de.muenchen.oss.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import de.muenchen.oss.digiwf.shared.properties.DigitalWFProperties;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -37,8 +37,10 @@ public class DokumentStornierenTemplateTest {
     public static final String VAR_DMS_TASK_TITLE_MANUELL = "dms_task_title_manuell";
     public static final String TASK_DOKUMENT_MANUELL_STORNIEREN = "Task_DokumentManuellStornieren";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    @RegisterExtension
+    public ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
 
     @Mock
     private ProcessScenario processScenario;
@@ -52,7 +54,7 @@ public class DokumentStornierenTemplateTest {
     @Mock
     private DmsService dmsService;
 
-    @Before
+    @BeforeEach
     public void defaultScenario() throws Exception {
         MockitoAnnotations.initMocks(this);
         Mocks.register("cancelDokumentDelegate", new CancelDokumentDelegate(this.dmsService));
@@ -101,5 +103,4 @@ public class DokumentStornierenTemplateTest {
 
         verify(this.templateScenario).hasFinished(END_EVENT_DOKUMENT_STORNIERT);
     }
-
 }

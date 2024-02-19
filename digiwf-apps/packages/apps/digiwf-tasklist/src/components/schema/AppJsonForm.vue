@@ -10,6 +10,9 @@
       <template #custom-date-input="context">
         <dwf-date-input v-bind="context"/>
       </template>
+      <template #custom-dms-input="context">
+        <dwf-dms-input v-bind="context"/>
+      </template>
       <template #custom-time-input="context">
         <dwf-time-input v-bind="context"/>
       </template>
@@ -41,6 +44,7 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import {filterInputsWithValue} from "../../utils/dataTransformations";
 
 @Component
 export default class AppJsonForm extends Vue {
@@ -62,6 +66,7 @@ export default class AppJsonForm extends Vue {
   @Prop()
   isCompleting: boolean | undefined;
 
+
   @Emit("complete-form")
   completeForm(value: any): any {
     return value;
@@ -70,6 +75,16 @@ export default class AppJsonForm extends Vue {
   @Emit("input")
   input(value: any): any {
     this.currentValue = value;
+
+    const filteredValues = filterInputsWithValue(value);
+    const newInputsString = JSON.stringify(filteredValues);
+    const newQuery =  {
+      ...this.$router.currentRoute.query,
+      inputs: newInputsString
+    };
+
+    this.$router.replace({query:newQuery});
+
     return value;
   }
 
@@ -82,7 +97,6 @@ export default class AppJsonForm extends Vue {
   created() {
     this.currentValue = this.value;
   }
-
 }
 </script>
 

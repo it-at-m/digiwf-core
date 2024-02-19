@@ -31,6 +31,18 @@ var startervorname = user.firstname(execution.getVariable("starterOfInstance"));
 process.setDescription("AllInputsField gestartet von: " + startervorname + " " + startername);
 process.setStatus("firstUserTask");</camunda:script>
         </camunda:executionListener>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">
+            var ArrayList = Java.type('java.util.ArrayList');
+            var TaskExternalReference = Java.type('de.muenchen.oss.digiwf.task.TaskExternalReference');
+            externalLinks = new ArrayList();
+            externalLinks.add(new TaskExternalReference('url', '[Google](https://google.de/)'));
+            externalLinks.add(new TaskExternalReference('zammad', '[Ticket 11004832](LHM11004832)'));
+            externalLinks.add(new TaskExternalReference('mucsdms', '[Vorgang 1](COO.2150.307.2.41134)'));
+            execution.setVariable('app_task_external_links', externalLinks);
+          </camunda:script>
+        </camunda:executionListener>
+
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_12y3fmu</bpmn:incoming>
       <bpmn:outgoing>Flow_0y6uopv</bpmn:outgoing>

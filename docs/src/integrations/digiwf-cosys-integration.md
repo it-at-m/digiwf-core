@@ -1,5 +1,7 @@
 # DigiWF Cosys Integration
 
+![](https://img.shields.io/badge/Integration_Name-cosysIntegration-informational?style=flat&logoColor=white&color=2c73d2)
+
 Die Cosys Integration ermöglicht eine asynchrone Erstellung von Dokumenten in [Cosys](https://www.cib.de/cosys/) mit anschließender Speicherung in einem S3 Speicher. 
 Mit dieser Integration können Dokumente erstellt und in einem S3-kompatiblen Speicher abgelegt werden. Diese Dokumente können im Anschluss beispielweise in einer E-Mail versendet werden.    
 
@@ -38,13 +40,10 @@ Die Aktion `POST` wird für die Erstellung neuer Dateien im S3 Speicher verwende
 
 **Verwendung in BPMN Prozessen**
 
-Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Prozessentwicklung zu beschleunigen und befüllen Sie es mit den gewünschten Informationen:
+Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Prozessentwicklung zu beschleunigen und befüllen Sie es mit den gewünschten Informationen.
+Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
 
-* [Cosys all data](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-alle-daten.json)
-* [Cosys create document](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys-dokument-erstellen.json)
-* [Cosys create document (V02)](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/cosys_generate_document_template_V02.json)
-
-Zur Erstellung von presigned URLs können Sie das Element-Template [s3_create_presigned_url](https://github.com/it-at-m/digiwf-core/blob/dev/docs/src/.vuepress/public/element-template/s3_create_presigned_url_template.json) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 
+Zur Erstellung von presigned URLs können Sie das Element-Template s3_create_presigned_url (siehe [Element Template](/modeling/templates/element-templates/)) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 
 
 In der folgenden Grafik wird ein Beispiel für einen BPMN Prozess dargestellt. Wie oben beschrieben, wird zuerst eine presigned URL erstellt bevor ein Dokument erstellt wird. 
 

@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.task.service.application.usecase;
 import de.muenchen.oss.digiwf.task.service.application.port.in.RetrieveTasksForUser;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.cancellation.CancellationFlagOutPort;
+import de.muenchen.oss.digiwf.task.service.application.port.out.links.TaskLinkResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaRefResolverPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.schema.TaskSchemaTypeResolverPort;
@@ -27,18 +28,19 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
   private final TaskSchemaTypeResolverPort taskSchemaTypeResolverPort;
   private final CancellationFlagOutPort cancellationFlagOutPort;
   private final TaskTagResolverPort taskTagResolverPort;
+  private final TaskLinkResolverPort taskLinkResolverPort;
 
   @Override
   public PageOfTasksWithSchema getUnassignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, false, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, null,false, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
   @Override
-  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, PagingAndSorting pagingAndSorting) {
+  public PageOfTasksWithSchema getAssignedTasksForCurrentUserGroup(String query, String tag, String assignedUserId, PagingAndSorting pagingAndSorting) {
     var currentUser = currentUserPort.getCurrentUser();
-    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag,true, pagingAndSorting);
+    var result = taskQueryPort.getTasksForCurrentUserGroup(currentUser, query, tag, assignedUserId,true, pagingAndSorting);
     return enrichWithSchema(result);
   }
 
@@ -56,7 +58,8 @@ public class RetrieveTasksForUserUseCase implements RetrieveTasksForUser {
                 taskSchemaRefResolverPort.apply(task),
                 cancellationFlagOutPort.apply(task),
                 taskSchemaTypeResolverPort.apply(task),
-                taskTagResolverPort.apply(task).orElse(null)
+                taskTagResolverPort.apply(task).orElse(null),
+                taskLinkResolverPort.apply(task)
             )
         ).collect(Collectors.toList()),
         result.getTotalElementsCount(),

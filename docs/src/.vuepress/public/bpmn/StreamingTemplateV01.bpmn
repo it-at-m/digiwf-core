@@ -36,7 +36,7 @@
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1i9zfg0" sourceRef="Task_ReceiveEvent" targetRef="TextAnnotation_0acnosj" />
   </bpmn:process>
-  <bpmn:message id="Message_0o388ed" name="${app_message_name}" />
+  <bpmn:message id="Message_0o388ed" name="${app_type_name}" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="StreamingTemplateV01">
       <bpmndi:BPMNEdge id="Flow_07inef3_di" bpmnElement="Flow_07inef3">

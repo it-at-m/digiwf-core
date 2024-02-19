@@ -298,6 +298,7 @@ paths:
       - $ref: '#/components/parameters/QueryParam'
       - $ref: '#/components/parameters/TagParam'
       - $ref: '#/components/parameters/SortParam'
+      - $ref: '#/components/parameters/UserIdQueryParam'
     get:
       description: Returns a list of tasks for the groups the current user is in (candidate groups) including already assigned.
       operationId: getAssignedGroupTasks
@@ -369,6 +370,14 @@ components:
       required: false
       schema:
         type: string
+    UserIdQueryParam:
+      name: userId
+      in: query
+      description: A user id string used during search with the user string.
+      required: false
+      schema:
+        type: string
+
     SortParam:
       name: sort
       in: query
@@ -564,10 +573,13 @@ components:
           type: string
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
       required:
         - id
         - schemaRef
         - schemaType
+        - externalLinks
 
     TaskWithDetails:
       description: Represents a user task.
@@ -615,12 +627,16 @@ components:
           type: boolean
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
+
       required:
         - id
         - schemaRef
         - variables
         - cancelable
         - schemaType
+        - externalLinks
 
     TaskWithSchema:
       description: Represents a user task with embedded combined schema.
@@ -670,7 +686,8 @@ components:
           type: boolean
         schemaType:
           $ref: "#/components/schemas/TaskSchemaType"
-
+        externalLinks:
+          $ref: "#/components/schemas/ExternalLinks"
 
       required:
         - id
@@ -678,6 +695,7 @@ components:
         - schemaType
         - variables
         - cancelable
+        - externalLinks
 
 
     TaskSchemaType:
@@ -767,4 +785,32 @@ components:
       description: Presigned Url.
       type: string
 
+    ExternalLinks:
+      description: List of external links
+      type: array
+      items:
+        $ref: "#/components/schemas/ExternalLink"
 
+    ExternalLink:
+      description: Represents an external link
+      type: object
+      properties:
+        type:
+          description: Type of link.
+          type: string
+        url:
+          description: URL of the link.
+          type: string
+        label:
+          description: Label to render.
+          type: string
+        htmlContent:
+          description: HTML content of the element.
+          type: string
+        additionalParameters:
+          description: Additional extension properties.
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - type

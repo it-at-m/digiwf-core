@@ -5,6 +5,6 @@ DigiWF ist derzeit ein intern entwickeltes Projekt. Wir erstellen Repos für neu
 - Integrationsartefakt für JMS (enthält Spring Boot Starter, Pipeline zum Maven-Repo)
 - NPM-Paket für den Formulareditor (enthält Pipeline im NPM-Repo)
 - VS-Code-Plugin-Formular-Editor
-- Übertragen des Self-Service-Portals auf github
+- Übertragen des Self-Service-Portals auf GitHub
 - Spring Boot Starter für die Dateiübertragung über Integrationsartefakte
 - Spring Boot Starter zur automatischen Registrierung von Integrationsartefakten in DigiWF

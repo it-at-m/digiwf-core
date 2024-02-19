@@ -12,6 +12,7 @@ spring:
       connection-test-query: select 1 from dual;
       schema: PUBLIC
     driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
       # this is ok, since we won't match data type fields in I-Tests by using MS-SQL migration scripts.
@@ -24,7 +25,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://local-itest
+          issuer-uri: http://localhost-itest
       client:
         registration:
           keycloak:
@@ -37,9 +38,9 @@ spring:
             client-secret: <itest-client-secret2>
         provider:
           keycloak:
-            issuer-uri: http://local-itest
-            user-info-uri: http://local-itest/realms/itest/protocol/openid-connect/userinfo
-            jwk-set-uri: http://local-itest/realms/itest/protocol/openid-connect/certs
+            issuer-uri: http://localhost-itest
+            user-info-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/certs
 
 
 feign:
@@ -57,15 +58,32 @@ ezldap:
     port: 8183
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
-logging:
-  level:
-    root: info
-    org.eclipse.jetty: warn
-
-
 io:
   muenchendigital:
     digiwf:
       s3:
         client:
           securityEnabled: false
+
+digiwf:
+  s3service:
+    topic: 'dwf-s3-itest'
+    httpAPI: http://localhost:8086
+  task-links:
+    task-link-types:
+      - link-type: zammad
+        url-template: "${ZAMMAD_URL_TEMPLATE:https://mpdz-ticketing-prelive.muenchen.de/#ticket/zoom/number/{0}}"
+        label-template: "${ZAMMAD_LABEL_TEMPLATE:Zammad Ticket {0}}"
+        id-transformer-regex: "^(?>LHM)?(?<id>[\\d]+)$"
+      - link-type: mucsdms
+        url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
+        label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
+
+logging:
+  level:
+    root: info
+    org.eclipse.jetty: warn
+    org.springframework.security: info
+    org.apache.zookeeper: OFF
+    org.apache.kafka: OFF
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: info

@@ -66,25 +66,6 @@
                 "x-rules": [],
                 "minItems": 1
               },
-              "topic": {
-                "fieldType": "text",
-                "title": "Read Files Topic",
-                "type": "string",
-                "key": "topic",
-                "default": "dwf-dms-local-01",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
               "user": {
                 "fieldType": "text",
                 "title": "Dms User",

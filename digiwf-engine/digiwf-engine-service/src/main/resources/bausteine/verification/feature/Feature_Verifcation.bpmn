@@ -33,7 +33,6 @@
         <camunda:in sourceExpression="${FormField_Subject}" target="subject" />
         <camunda:out source="verificationLink" target="verificationLink" />
         <camunda:in sourceExpression="2023-01-01T00:00:00" target="expiryTime" />
-        <camunda:in sourceExpression="getVerificationLink" target="app_message_name" />
         <camunda:in sourceExpression="emailVerified" target="messageName" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1en2301</bpmn:incoming>

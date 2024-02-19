@@ -1,15 +1,15 @@
 # Umgang mit Dateien
 
 Der Umgang mit Dateien stellt eine Prozess- und Integrationsplattform naturgemäß vor Herausforderungen. Dateien
-können sehr groß sein, oder in großer Anzahl auftreten und stellen somit ein potenzielles Ressourcenproblem dar.
-Deshalb werden bei DigiWf grundsätzlich keine Dateien in den Speicher geladen oder durch Prozess geschleift. Das
+können sehr groß sein oder in großer Anzahl auftreten und stellen somit ein potenzielles Ressourcenproblem dar.
+Deshalb werden bei DigiWf grundsätzlich keine Dateien in den Speicher geladen oder durch den Prozess geschleift. Das
 File Handling findet in den Integrations Layern (entweder GUI oder Backend statt).
 
 ![Es sind die drei Schichten GUI Integration, DigiWF Core und Application Integration Layer dargestellt.
 Dort ist eingezeichnet, dass nur in den beiden Integrationsschichten File Handling stattfindet.](~@source/images/platform/architecture/filehandling/digiwf_file_handling_in_integration_layers.png)
 
 Ein grundlegendes Element bei der Behandlung von Dateien (unabhängig davon, ob sie über die GUI oder angebundene
-Backend Komponenten in das System gelangen) ist der Datei Speicher. Im Fall von DigiWF ist das ein `S3-Service`.
+Backend Komponenten in das System gelangen) ist der Dateispeicher. Im Fall von DigiWF ist das ein `S3-Service`.
 Hier kann eine Cloudlösung wie AWS oder ein on prem Dienst verwendet werden. Die Kommunikation mit dem Dienst an
 sich wird über eine generisch gültige Schnittstelle abstrahiert.
 
@@ -19,7 +19,7 @@ Service und `S3 Bucket`. Trotzdem kann - je nach
 Fachlichkeit - hier nach Domäne, Prozess oder
 Abteilung ein eigener `S3
 Bucket` mit einem eigenen `S3 Service` an die Plattform angebunden werden. Das heißt bei einer größeren Installation
-(beispielsweise Unternehmensweit) wird man in der Regel n `S3 Services` angebunden haben.
+(beispielsweise unternehmensweit) wird man in der Regel n `S3 Services` angebunden haben.
 
 
 ## Datei Handling im Application Integration Layer
@@ -37,14 +37,14 @@ In der Abbildung oben ist zu sehen, wie mit eingehenden Dateien umgegangen wird.
 1. Eine Datei wird erzeugt oder von außen empfangen.
 2. Um die Dateien zu speichern, wird eine `presigned URL` [^1] am `S3 Service` für die Speicherung abgefragt und
    erzeugt. Eine `presigned
-   URL` ist eine zeitlich begrenzt gültige URL, für eine bestimmte Operation (z.B. `POST`, `PUT`, usw.) die verwendet
-   werden kann um Dateien direkt an einen `S3 Bucket`zu schicken, ohne eingeloggt sein zu müssen. Wie lange eine solche URL gültig kann eingestellt werden. Für den
+   URL` ist eine zeitlich begrenzt gültige URL, die für eine bestimmte Operation (z.B. `POST`, `PUT`, usw.) verwendet
+   werden kann, um Dateien direkt an einen `S3 Bucket`zu schicken, ohne eingeloggt sein zu müssen. Wie lange eine solche URL gültig ist, kann eingestellt werden. Für den
    hier dargestellten Anwendungsfall funktionieren auch sehr kurze Gültigkeitszeiträume, da es sich hier um eine
    rein maschinelle Verarbeitung handelt. Zusätzlich zur URL wird an dieser Stelle noch eine Referenz- oder Datei ID
    erzeugt und zurückgegeben.
 3. Mit der URL wird die Datei nun direkt in den S3 Speicher geschrieben. Das geht ohne Umweg über einen weiteren
    Service.
-4. Die Datei Referenz wird über den `Event Bus` an den Prozess übergeben. Ab dieser Stelle ist der Prozess dafür
+4. Die Dateireferenz wird über den `Event Bus` an den Prozess übergeben. Ab dieser Stelle ist der Prozess dafür
    verantwortlich diese Datei ID sorgsam aufzubewahren, denn nur mit dieser Referenz kann man die Datei noch über
    den `S3 Service` finden und entsprechend laden.
 
@@ -53,7 +53,7 @@ In der Abbildung oben ist zu sehen, wie mit eingehenden Dateien umgegangen wird.
 
 In der Abbildung oben ist zu sehen, wie mit ausgehenden Dateien umgegangen wird.
 
-1. Grundvoraussetzung um eine Datei (oder einen ganzen Ordner) aus dem `S3 Bucket` zu holen ist die Referenz- oder
+1. Grundvoraussetzung, um eine Datei (oder einen ganzen Ordner) aus dem `S3 Bucket` zu holen, ist die Referenz- oder
    Datei ID. Will man mehrere
    Dateien / Ordner laden - und beispielsweise an eine E-Mail anhängen - so werden auch entsprechend viele Referenz IDs
    benötigt. D.h. die Kardinalität zwischen Datei / Ordner und Referenz ID ist immer 1:1.
@@ -64,7 +64,7 @@ In der Abbildung oben ist zu sehen, wie mit ausgehenden Dateien umgegangen wird.
 
 ::: warning
 Es ist übrigends davon abzuraten, eine presigned URL direkt heraus zu geben (beispielsweise per Mail zu 
-verschicken). Wie oben beschrieben ist eine solche URL nur eine bestimmte Zeit gültig. D.h. wenn dieser Zeitraum 
+verschicken). Wie oben beschrieben, ist eine solche URL nur eine bestimmte Zeit gültig. D.h. wenn dieser Zeitraum 
 abgelaufen ist, dann kann über die URL nicht mehr auf die Datei zugegriffen werden. Wenn dann auch noch die 
 Prozessinstanz beendet wurde, hat man auch nicht mehr so einfach Zugriff auf die Referenz ID.
 :::

@@ -33,7 +33,7 @@
           "prependIcon": "",
           "rows": "4",
           "multiple": false,
-          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zum Alw-DMS. Tragen Sie in das Formularfeld den Wert http://alwdmstest02.muenchen.de/fsc/mx/COO.2150.9400.2.66044 ein und betätigen Sie den \"+\"-Button daneben. Diese Aktion löst die Suche nach einem Dokument im DMS aus, welches bei erfolgreicher Verbindung als Eintrag an die Dokumentenliste angehangen wird. Im Fehlerfall erscheint die Meldung \"Das Dokument/Schriftstück konnte nicht geladen werden\".",
+          "description": "Dieser Prozess dient dem Prüfen der Funktionsfähigkeit der EAI zum Alw-DMS. Tragen Sie in das Formularfeld den Wert http://alwdmsk01.muenchen.de/fsc/mx/COO.2150.9551.2.48545 ein und betätigen Sie den \"+\"-Button daneben. Diese Aktion löst die Suche nach einem Dokument im DMS aus, welches bei erfolgreicher Verbindung als Eintrag an die Dokumentenliste angehangen wird. Im Fehlerfall erscheint die Meldung \"Das Dokument/Schriftstück konnte nicht geladen werden\".",
           "rules": [
             {
               "type": "required",

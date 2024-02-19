@@ -29,20 +29,6 @@
       }
     },
     {
-      "label": "Event Message",
-      "type": "Hidden",
-      "value": "startProcessV01",
-      "editable": false,
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "target": "app_message_name"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Responseless",
       "type": "Hidden",
       "value": "true",
@@ -126,8 +112,5 @@
         "notEmpty": true
       }
     }
-  ],
-  "entriesVisible": {
-    "_all": false
-  }
+  ]
 }

@@ -2,6 +2,8 @@ package de.muenchen.oss.digiwf.dms.integration.configuration;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
 import de.muenchen.oss.digiwf.dms.integration.adapter.in.*;
+import de.muenchen.oss.digiwf.dms.integration.adapter.out.auth.DmsUserAdapter;
+import de.muenchen.oss.digiwf.dms.integration.adapter.out.auth.MockDmsUserAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftClientConfiguration;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftProperties;
@@ -13,12 +15,14 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 
 import java.util.function.Consumer;
@@ -98,6 +102,12 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public ReadMetadataUseCase readMetadataUseCase(ReadMetadataPort readMetadataPort, DmsUserPort dmsUserPort) {
+        return new ReadMetadataService(readMetadataPort, dmsUserPort);
+    }
+
+    @Bean
     public Consumer<Message<CreateFileDto>> createFile(final MessageProcessor messageProcessor) {
         return messageProcessor.createFile();
     }
@@ -140,6 +150,20 @@ public class DmsAutoConfiguration {
     @Bean
     public Consumer<Message<SearchObjectDto>> searchSubjectArea(final MessageProcessor messageProcessor) {
         return messageProcessor.searchSubjectArea();
+    }
+
+    @Profile("!local")
+    @Bean
+    @ConditionalOnMissingBean
+    public DmsUserAdapter dmsUserAdapter (final UserAuthenticationProvider userAuthenticationProvider) {
+        return new DmsUserAdapter(userAuthenticationProvider);
+    }
+
+    @Profile("local")
+    @Bean
+    @ConditionalOnMissingBean
+    public MockDmsUserAdapter mockDmsUserAdapter () {
+        return new MockDmsUserAdapter();
     }
 
     @Bean

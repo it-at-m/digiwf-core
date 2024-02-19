@@ -26,7 +26,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
 
     @Override
     public PageOfTasks getTasksForCurrentUser(User currentUser, String query, String tag, LocalDate followUp, PagingAndSorting pagingAndSorting) {
-        var filters = buildFilters(query, tag, followUp);
+        var filters = buildFilters(query, tag, null, followUp);
         var result = taskQueryClient.query(new TasksForUserQuery(
                 new User(currentUser.getUsername(), Collections.emptySet()), // no groups in user-based query
                 true, // assigned to me only
@@ -43,8 +43,8 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
     }
 
     @Override
-    public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, String tag, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
-        var filters = buildFilters(query, tag, null);
+    public PageOfTasks getTasksForCurrentUserGroup(User currentUser, String query, String tag, String assignedUserId, boolean includeAssigned, PagingAndSorting pagingAndSorting) {
+        var filters = buildFilters(query, tag, assignedUserId, null);
         var result = taskQueryClient.query(new TasksForCandidateUserAndGroupQuery(
                 currentUser,
                 includeAssigned,
@@ -66,7 +66,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
          * Think about the implementation and authorization here.
          * Possibilities are:
          * - query for all tasks for user filtering for id
-         * - get task by id and check the authorization afterwards
+         * - get task by id and check the authorization afterward
          * Currently taking the second option.
          */
         return taskQueryClient.query(
@@ -76,7 +76,7 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
-    private List<String> buildFilters(String query, String tag, LocalDate followUp) {
+    private List<String> buildFilters(String query, String tag, String assignedUserId, LocalDate followUp) {
         val filters = new ArrayList<String>();
         if (followUp != null) {
             filters.add("task.followUpDate<" + followUp.atStartOfDay().plusSeconds(1).toInstant(ZoneOffset.UTC));
@@ -86,6 +86,9 @@ public class PolyflowTaskQueryAdapter implements TaskQueryPort {
         }
         if(tag != null) {
             filters.add("app_task_tag=" + tag);
+        }
+        if (assignedUserId != null) {
+            filters.add("task.assignee="+assignedUserId);
         }
         return filters;
     }

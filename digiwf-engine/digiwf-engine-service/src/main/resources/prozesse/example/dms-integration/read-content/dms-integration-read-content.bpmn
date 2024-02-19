@@ -28,10 +28,9 @@
     <bpmn:sequenceFlow id="Flow_0sls4lv" sourceRef="Activity_1uusxk1" targetRef="Activity_06uxuk4" />
     <bpmn:callActivity id="Activity_1uusxk1" name="Read Content" camunda:modelerTemplate="de.muenchen.digitalwf.templates.dms.read-content" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="genericEvent" target="app_message_name" />
         <camunda:in sourceExpression="readContent" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="${topic}" target="app_topic_name" />
+        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCoos}" target="contentCoos" />
         <camunda:in sourceExpression="path" target="filePath" />

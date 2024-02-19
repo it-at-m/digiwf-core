@@ -1,10 +1,12 @@
 package de.muenchen.oss.digiwf.task.service.adapter.in.rest.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.muenchen.oss.digiwf.task.TaskExternalReference;
 import de.muenchen.oss.digiwf.task.TaskSchemaType;
 import de.muenchen.oss.digiwf.task.service.application.port.in.rest.model.*;
 import de.muenchen.oss.digiwf.task.service.domain.JsonSchema;
 import de.muenchen.oss.digiwf.task.service.domain.PageOfTasksWithSchema;
+import de.muenchen.oss.digiwf.task.service.domain.TaskLink;
 import de.muenchen.oss.digiwf.task.service.domain.legacy.Form;
 import io.holunda.polyflow.view.Task;
 import de.muenchen.oss.digiwf.task.service.application.port.in.rest.model.*;
@@ -14,6 +16,7 @@ import org.mapstruct.Mapping;
 import org.springframework.lang.NonNull;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -30,7 +33,8 @@ public interface TaskMapper {
   @Mapping(target = "schemaRef", source = "schemaRef")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
-  TaskTO to(Task task, String schemaRef, @NonNull TaskSchemaType schemaType, String tag);
+  @Mapping(target = "externalLinks", source = "externalLinks")
+  TaskTO to(Task task, String schemaRef, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   @Mapping(target = "processName", source = "task.sourceReference.name")
   @Mapping(target = "processInstanceId", source = "task.sourceReference.instanceId")
@@ -39,7 +43,8 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
-  TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
+  @Mapping(target = "externalLinks", source = "externalLinks")
+  TaskWithDetailsTO toWithDetails(Task task, String schemaRef, Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   @Mapping(target = "schemaId", source = "id")
   @Mapping(target = "schemaJson", source = "schema")
@@ -59,7 +64,8 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
-  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Map<String, Object> schema, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
+  @Mapping(target = "externalLinks", source = "externalLinks")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Map<String, Object> schema, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
 
   @Mapping(target = "id", source = "task.id")
@@ -75,7 +81,8 @@ public interface TaskMapper {
   @Mapping(target = "cancelable", source = "cancelable")
   @Mapping(target = "schemaType", source = "schemaType")
   @Mapping(target = "tag", source = "tag")
-  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag);
+  @Mapping(target = "externalLinks", source = "externalLinks")
+  TaskWithSchemaTO toWithSchema(@Nonnull Task task, @Nonnull Form form, @NonNull Boolean cancelable, @NonNull TaskSchemaType schemaType, String tag, @NonNull List<TaskLink> externalLinks);
 
   default Map<String,Object> map(Form value) {
     val objectMapper = new ObjectMapper();
@@ -101,7 +108,8 @@ public interface TaskMapper {
         taskWithSchema.getTask(),
         taskWithSchema.getSchemaRef(),
         taskWithSchema.getTaskSchemaType(),
-            taskWithSchema.getTag()
+        taskWithSchema.getTag(),
+        taskWithSchema.getTaskLinks()
         )).collect(Collectors.toList());
     var empty = domain.getTotalElementsCount() == 0;
     var sortRequested = pagingAndSorting.getSort() != null;
@@ -126,5 +134,14 @@ public interface TaskMapper {
         .empty(empty)
         .first(pagingAndSorting.getPageIndex() == 0)
         .last(pagingAndSorting.getPageIndex() == totalPages - 1);
+  }
+
+  default ExternalLinkTO externalLink(TaskLink link) {
+    return new ExternalLinkTO()
+        .url(link.getUrl())
+        .type(link.getType())
+        .htmlContent(link.getHtmlContent())
+        .label(link.getLabel())
+        .additionalParameters(link.getAdditionalParameters());
   }
 }

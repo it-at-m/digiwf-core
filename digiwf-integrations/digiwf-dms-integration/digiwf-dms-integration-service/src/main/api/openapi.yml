@@ -1,0 +1,84 @@
+openapi: 3.0.1
+info:
+  version: ${project.version}
+  title: DigiWF DMS API
+  description: API for dms.
+  contact:
+    name: DigiWF Team
+
+servers:
+  - description: Local
+    url: http://localhost:8087/rest/
+
+tags:
+  - name: Dms
+    description: "API for dms"
+
+paths:
+
+  /metadata/{objectclass}/{coo}:
+    parameters:
+      - $ref: '#/components/parameters/ObjectclassParam'
+      - $ref: '#/components/parameters/CooParam'
+    get:
+      operationId: readMetadata
+      summary: Returns metadata of an objetct.
+      description: Returns metadata of an objetct.
+      tags:
+        - Metadata
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Metadata"
+
+components:
+
+  parameters:
+
+    ObjectclassParam:
+      name: objectclass
+      in: path
+      description: Object class.
+      required: true
+      schema:
+        type: string
+        enum:
+          - Sachakte
+          - Vorgang
+          - Eingang
+          - Ausgang
+          - Intern
+          - Schriftstueck
+
+    CooParam:
+      name: coo
+      in: path
+      description: Coo of object.
+      required: true
+      schema:
+        type: string
+
+  schemas:
+
+    Metadata:
+      description: Metadata of the object.
+      type: object
+      properties:
+        name:
+          description: Name of the object.
+          type: string
+        type:
+          description: Type of the content.
+          type: string
+        url:
+          description: Url of the object.
+          type: string
+      required:
+        - name
+        - url
+
+
+

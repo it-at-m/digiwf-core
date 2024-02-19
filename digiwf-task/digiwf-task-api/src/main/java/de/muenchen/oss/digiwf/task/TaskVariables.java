@@ -91,4 +91,6 @@ public class TaskVariables {
    */
   public static final VariableFactory<String> MAIL_BOTTOM_TEXT  = stringVariable("mail_bottom_text");
 
+  public static final VariableFactory<List<TaskExternalReference>> TASK_EXTERNAL_LINKS = listVariable("app_task_external_links", TaskExternalReference.class);
+
 }

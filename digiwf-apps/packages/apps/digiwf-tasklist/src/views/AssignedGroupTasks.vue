@@ -5,13 +5,16 @@
       description="Hier sehen Sie alle Aufgaben, die in Ihrer Gruppe aktuell bearbeitet werden. Klicken Sie auf übernehmen, um eine Aufgabe zu übernehmen."
       :tasks="data?.content || []"
       :show-assignee="true"
+      :show-assignee-filter="true"
       :is-loading="isLoading || isRefetching"
       :errorMessage="errorMessage"
       :tag="tag"
+      :assignee="assignee"
       :filter="filter"
       @loadTasks="reloadTasks"
       @changeFilter="onFilterChange"
       @changeTag="onTagChange"
+      @changeAssignee="onAssigneeChange"
     >
       <template #default="props">
         <group-task-item
@@ -62,9 +65,16 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
+    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag, assignee, setAssignee} = useGetPaginationData();
     const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch, isRefetching} = useAssignedGroupTasksQuery(page, size, searchQuery, tag, currentSortDirection);
+    const {isLoading, data, error, refetch, isRefetching} = useAssignedGroupTasksQuery(
+      page,
+      size,
+      searchQuery,
+      tag,
+      assignee,
+      currentSortDirection
+    );
 
     const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
@@ -93,6 +103,7 @@ export default defineComponent({
       data,
       filter: searchQuery,
       tag,
+      assignee,
       reloadTasks: refetch,
       pagination: {
         page,
@@ -125,6 +136,10 @@ export default defineComponent({
       },
       onTagChange: (newTag?: string) => {
         setTag(newTag || "");
+        refetch();
+      },
+      onAssigneeChange: (newAssignee?: string) => {
+        setAssignee(newAssignee);
         refetch();
       },
     };

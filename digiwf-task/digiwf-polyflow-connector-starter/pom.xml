@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>1.6.0-SNAPSHOT</version>
+        <version>1.7.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-polyflow-connector-starter</artifactId>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20231013</version>
+            <version>20240205</version>
         </dependency>
 
         <!-- Axon Framework -->

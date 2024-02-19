@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMock implements Serializable {
+public class UserMock {
     private String firstName;
     private String lastName;
-    public String lastname(String dummyArg) {
+    public String lastname(String userId) {
         return lastName;
     }
-    public String firstname(String dummyArg) {
+    public String firstname(String userId) {
         return firstName;
     }
 }

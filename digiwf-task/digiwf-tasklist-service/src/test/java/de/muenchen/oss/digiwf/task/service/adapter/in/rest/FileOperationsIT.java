@@ -2,17 +2,17 @@ package de.muenchen.oss.digiwf.task.service.adapter.in.rest;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.google.common.collect.Sets;
-import de.muenchen.oss.digiwf.task.TaskVariables;
-import io.holunda.camunda.bpm.data.CamundaBpmData;
-import io.holunda.polyflow.view.Task;
-import io.holunda.polyflow.view.jpa.JpaPolyflowViewTaskService;
-import io.holunda.polyflow.view.query.task.AllTasksQuery;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
+import de.muenchen.oss.digiwf.task.TaskVariables;
 import de.muenchen.oss.digiwf.task.service.TaskListApplication;
 import de.muenchen.oss.digiwf.task.service.infra.file.S3MockConfiguration;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
 import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
+import io.holunda.camunda.bpm.data.CamundaBpmData;
+import io.holunda.polyflow.view.Task;
+import io.holunda.polyflow.view.jpa.JpaPolyflowViewTaskService;
+import io.holunda.polyflow.view.query.task.AllTasksQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.messaging.MetaData;
 import org.junit.jupiter.api.AfterEach;
@@ -30,23 +30,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import reactor.core.publisher.Mono;
 
 import static de.muenchen.oss.digiwf.task.service.adapter.in.rest.RestConstants.BASE_PATH;
-import static de.muenchen.oss.digiwf.task.service.adapter.in.rest.RestConstants.SERVLET_PATH;
 import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = TaskListApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = {S3MockConfiguration.class})
-@ActiveProfiles({"itest", "embedded-kafka"})
-@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles({"itest", "embedded-kafka", "no-security"})
+@AutoConfigureMockMvc(addFilters = true)
 @EmbeddedKafka(
-        partitions = 1,
-        topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
+    partitions = 1,
+    topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
 )
 @Slf4j
 @WireMockTest(httpPort = 7080)
@@ -66,26 +63,25 @@ public class FileOperationsIT {
     DocumentStorageFolderRepository documentStorageFolderRepository;
 
     Task task = generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null, true,
-            CamundaBpmData
-                    .builder()
-                    .set(TaskVariables.PROCESS_FILE_CONTEXT, "FileContext")
-                    .set(TaskVariables.PROCESS_ASYNC_CONFIG, "AsyncConfig")
-                    .set(TaskVariables.PROCESS_SYNC_CONFIG, "SyncConfig")
-                    .set(TaskVariables.FILE_PATHS, "File;paths")
-                    .set(TaskVariables.FILE_PATHS_READONLY, "File;paths;read;only")
-                    .build()
+        CamundaBpmData
+            .builder()
+            .set(TaskVariables.PROCESS_FILE_CONTEXT, "FileContext")
+            .set(TaskVariables.PROCESS_ASYNC_CONFIG, "AsyncConfig")
+            .set(TaskVariables.PROCESS_SYNC_CONFIG, "SyncConfig")
+            .set(TaskVariables.FILE_PATHS, "File;paths")
+            .set(TaskVariables.FILE_PATHS_READONLY, "File;paths;read;only")
+            .build()
     );
 
     @BeforeEach
     public void produce_task_event() {
         service.on(createEvent(task), MetaData.emptyInstance());
         await().untilAsserted(
-                () -> {
-                    var count = service.query(new AllTasksQuery()).getTotalElementCount();
-                    assertThat(count).isEqualTo(1);
-                }
+            () -> {
+                var count = service.query(new AllTasksQuery()).getTotalElementCount();
+                assertThat(count).isEqualTo(1);
+            }
         );
-
     }
 
     @AfterEach
@@ -97,20 +93,25 @@ public class FileOperationsIT {
     @WithKeycloakUser
     public void get_filenames() throws Exception {
 
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively("FileContext/only","SyncConfig")).thenReturn(Mono.just(Sets.newHashSet("able/to/read/file1.txt","able/to/read/file2.pdf")));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(), anyString()))
+            .thenReturn(Mono.just(
+                Sets.newHashSet(
+                    "FileContext/only/file1.txt",
+                    "FileContext/only/file2.pdf")
+            ));
 
         mockMvc
             .perform(
-                    get(BASE_PATH + "/tasks/id/task_0/file")
-                            .param("filePath", "only")
-                            .servletPath(SERVLET_PATH)
-                            .contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH + "/tasks/id/task_0/file")
+                    .queryParam("filePath", "only")
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0]").value("file2.pdf"))
-            .andExpect(jsonPath("$[1]").value("file1.txt"));
+            .andExpect(jsonPath("$[0]").value("file1.txt"))
+            .andExpect(jsonPath("$[1]").value("file2.pdf"));
 
-        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively("FileContext/only","SyncConfig");
+
+        verify(documentStorageFolderRepository).getAllFilesInFolderRecursively("FileContext/only", "SyncConfig");
         verifyNoMoreInteractions(documentStorageFolderRepository);
 
 
@@ -118,7 +119,7 @@ public class FileOperationsIT {
 
     @Test
     @WithKeycloakUser
-    public void get_presignedUrl_for_download_file() throws  Exception{
+    public void get_presignedUrl_for_download_file() throws Exception {
         when(presignedUrlRepository.getPresignedUrlGetFile("FileContext/read/filenameGet", 5, "SyncConfig")).thenReturn(Mono.just("Presigned URL for download"));
 
         mockMvc
@@ -126,7 +127,6 @@ public class FileOperationsIT {
                 get(BASE_PATH + "/tasks/id/task_0/file/filenameGet")
                     .param("filePath", "read")
                     .param("requestMethod", "GET")
-                    .servletPath(SERVLET_PATH)
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())
@@ -138,7 +138,7 @@ public class FileOperationsIT {
 
     @Test
     @WithKeycloakUser
-    public void get_presignedUrl_for_upload_file() throws  Exception{
+    public void get_presignedUrl_for_upload_file() throws Exception {
         when(presignedUrlRepository.getPresignedUrlSaveFile("FileContext/paths/filenamePost", 5, null, "SyncConfig")).thenReturn("Presigned URL for upload");
 
         mockMvc
@@ -146,7 +146,6 @@ public class FileOperationsIT {
                 get(BASE_PATH + "/tasks/id/task_0/file/filenamePost")
                     .param("filePath", "paths")
                     .param("requestMethod", "POST")
-                    .servletPath(SERVLET_PATH)
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())
@@ -158,7 +157,7 @@ public class FileOperationsIT {
 
     @Test
     @WithKeycloakUser
-    public void get_presignedUrl_for_delete_file() throws  Exception{
+    public void get_presignedUrl_for_delete_file() throws Exception {
         when(presignedUrlRepository.getPresignedUrlDeleteFile("FileContext/File/filenameDelete", 5, "SyncConfig")).thenReturn("Presigned URL for delete");
 
         mockMvc
@@ -166,7 +165,6 @@ public class FileOperationsIT {
                 get(BASE_PATH + "/tasks/id/task_0/file/filenameDelete")
                     .param("filePath", "File")
                     .param("requestMethod", "DELETE")
-                    .servletPath(SERVLET_PATH)
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())

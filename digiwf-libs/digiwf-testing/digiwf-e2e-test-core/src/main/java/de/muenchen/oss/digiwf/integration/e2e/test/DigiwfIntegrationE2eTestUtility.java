@@ -22,12 +22,12 @@ public class DigiwfIntegrationE2eTestUtility {
 
     private final int DEFAULT_TIMEOUT = 15;
 
-    public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType) {
-        return this.runIntegration(payload, processInstanceId, messageType, DEFAULT_TIMEOUT);
+    public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String integrationName, final String messageType) {
+        return this.runIntegration(payload, processInstanceId, integrationName, messageType, DEFAULT_TIMEOUT);
     }
 
-    public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String messageType, final int timeout) {
-        this.sendMessage(payload, processInstanceId, messageType);
+    public Map<String, Object> runIntegration(final Object payload, final String processInstanceId, final String integrationName, final String messageType, final int timeout) {
+        this.sendMessage(payload, processInstanceId, integrationName, messageType);
 
         // wait for the message to be received
         await().atMost(timeout, TimeUnit.SECONDS).until(() -> this.testMessageConsumer.hasReceivedMessage(processInstanceId));
@@ -35,8 +35,8 @@ public class DigiwfIntegrationE2eTestUtility {
         return this.testMessageConsumer.receiveMessage(processInstanceId);
     }
 
-    private void sendMessage(final Object payload, final String processInstanceId, final String messageType) {
-        final Map<String, Object> headers = Map.of(DIGIWF_PROCESS_INSTANCE_ID, processInstanceId, DIGIWF_MESSAGE_NAME, "messageName", TYPE, messageType);
+    private void sendMessage(final Object payload, final String processInstanceId, final String integrationName, final String messageType) {
+        final Map<String, Object> headers = Map.of(DIGIWF_PROCESS_INSTANCE_ID, processInstanceId, DIGIWF_INTEGRATION_NAME, integrationName, TYPE, messageType);
         messageApi.sendMessage(payload, headers, messageTopic);
     }
 

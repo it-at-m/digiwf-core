@@ -16,4 +16,14 @@ public class SearchObjectDto {
 
     private String user;
 
+    /**
+     * 'Fachdatum' to refine a search on
+     */
+    private String reference;
+
+    /**
+     * Value of 'Fachdatum'/reference
+     */
+    private String value;
+
 }

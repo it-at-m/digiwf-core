@@ -14,14 +14,14 @@ import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
 import de.muenchen.oss.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import de.muenchen.oss.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -47,9 +47,10 @@ public class SchriftstueckUpdatenTemplateTest {
     public static final String TASK_SACHBEARBEITUNG_AUSWAEHLEN1 = "Task_SachbearbeitungAuswaehlen";
     public static final String TASK_SPERRE_AUFHEBEN = "Task_SperreAufheben";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
-
+    @RegisterExtension
+    public static ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
     @Mock
     private ProcessScenario processScenario;
 
@@ -71,7 +72,7 @@ public class SchriftstueckUpdatenTemplateTest {
     @Mock
     private DigitalWFFunctions digitalWF;
 
-    @Before
+    @BeforeEach
     public void defaultScenario() throws Exception {
         MockitoAnnotations.initMocks(this);
 

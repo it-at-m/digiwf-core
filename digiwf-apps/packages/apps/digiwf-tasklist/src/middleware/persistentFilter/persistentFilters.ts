@@ -12,7 +12,6 @@ export const useSavePersistentFilters = () => {
   const queryClient = useQueryClient();
   return useMutation<FilterTO, any, SaveFilterTO>({
     mutationFn: (filter: SaveFilterTO) => {
-      console.log("mutationFn of useSavePersistentFilters", filter)
       return callSaveFilter(filter)
     },
     onSuccess: () => {

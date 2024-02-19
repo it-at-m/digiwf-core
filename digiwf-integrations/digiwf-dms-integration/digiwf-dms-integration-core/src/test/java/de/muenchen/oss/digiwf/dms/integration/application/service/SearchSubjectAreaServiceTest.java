@@ -15,7 +15,7 @@ class SearchSubjectAreaServiceTest {
     private final SearchSubjectAreaService searchSubjectAreaService = new SearchSubjectAreaService(searchSubjectAreaPort);
 
     @Test
-    void searchFile() {
+    void searchSubject() {
 
         when(searchSubjectAreaPort.searchSubjectArea(any(), any())).thenReturn(List.of("coo"));
 
