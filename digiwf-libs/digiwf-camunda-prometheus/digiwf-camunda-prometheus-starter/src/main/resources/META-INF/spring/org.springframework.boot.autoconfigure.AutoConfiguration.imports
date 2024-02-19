@@ -1,1 +1,2 @@
+de.muenchen.oss.digiwf.camunda.prometheus.MetricsAutoConfiguration
 de.muenchen.oss.digiwf.camunda.prometheus.CamundaPrometheusAutoConfiguration

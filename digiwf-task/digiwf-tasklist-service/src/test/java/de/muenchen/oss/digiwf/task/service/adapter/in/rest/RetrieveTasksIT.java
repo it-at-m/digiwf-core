@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.task.service.adapter.in.rest;
 import com.google.common.collect.Sets;
 import de.muenchen.oss.digiwf.task.service.TaskListApplication;
 import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
+import de.muenchen.oss.digiwf.task.service.infra.metrics.CollectorRegistryMockingConfiguration;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
 import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import io.holunda.polyflow.view.Task;
@@ -21,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -51,6 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 @Slf4j
 @DirtiesContext
+@ContextConfiguration(classes = {CollectorRegistryMockingConfiguration.class})
 public class RetrieveTasksIT {
 
     @Autowired

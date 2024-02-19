@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.task.service.infra.ingress;
+package de.muenchen.oss.digiwf.task.service.infra.metrics;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.kafka.KafkaClientMetrics;
@@ -9,6 +9,11 @@ import org.axonframework.extensions.kafka.eventhandling.consumer.ConsumerFactory
 
 import java.util.UUID;
 
+/**
+ * Metrics-aware consumer factory binding Kafka metrics ti meter registry.
+ * @param <K> message partition key.
+ * @param <V> message encoding.
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class MetricsBindingConsumerFactory<K, V> implements ConsumerFactory<K, V> {
@@ -21,7 +26,7 @@ public class MetricsBindingConsumerFactory<K, V> implements ConsumerFactory<K, V
         var consumer = delegateConsumerFactory.createConsumer(groupId);
         var metrics = new KafkaClientMetrics(consumer);
         metrics.bindTo(meterRegistry);
-        return new MetricsAwareConsumer<K, V>(consumer, metrics);
+        return new MetricsAwareConsumer<>(consumer, metrics);
     }
 
     @RequiredArgsConstructor
