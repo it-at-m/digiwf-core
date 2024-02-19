@@ -7,19 +7,19 @@ package de.muenchen.oss.digiwf.process.instance.api.resource;
 import de.muenchen.oss.digiwf.process.instance.api.mapper.ServiceInstanceApiMapper;
 import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceInstanceDetailTO;
 import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceInstanceTO;
+import de.muenchen.oss.digiwf.process.instance.api.transport.ServiceRootInstanceTO;
 import de.muenchen.oss.digiwf.process.instance.domain.service.ServiceInstanceService;
 import de.muenchen.oss.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 /**
  * Rest API to interact with process instances.
@@ -68,9 +68,9 @@ public class ServiceInstanceController {
     }
 
     @GetMapping("/root/{id}")
-    public ResponseEntity<ServiceInstanceTO> getRootProcessInstanceDetail(@PathVariable("id") final String id) {
+    public ResponseEntity<ServiceRootInstanceTO> getRootProcessInstanceDetail(@PathVariable("id") final String id) {
         val instance = this.processInstanceService.getRootProcessInstance(id);
-        return ResponseEntity.ok(this.serviceInstanceApiMapper.map2TO(instance));
+        return ResponseEntity.ok(this.serviceInstanceApiMapper.map2RootInstanceTO(instance));
     }
 
 }

@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface ProcessInstanceClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/root/{id}")
-    ServiceInstanceTO getRootProcessInstanceDetail(@PathVariable("id") final String id);
+    ServiceRootInstanceTO getRootProcessInstanceDetail(@PathVariable("id") final String id);
 
 }
