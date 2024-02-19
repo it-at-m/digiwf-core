@@ -57,7 +57,10 @@ spring:
         - id: webcomponent
           uri: http://localhost:8085/
           predicates:
-            - Path=/webcomponent/**
+            - Path=/public/webcomponent/**
+          filters:
+            - RewritePath=/public/webcomponent/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
 
       default-filters:
         - RemoveResponseHeader=Expires

@@ -31,7 +31,7 @@ spring:
         - id: webcomponent-dockerized
           uri: http://digiwf-webcomponent:8080/
           predicates:
-            - Path=/webcomponent/**
+            - Path=/public/webcomponent/**
 
         - id: frontend-dockerized
           uri: http://digiwf-tasklist:8080/
