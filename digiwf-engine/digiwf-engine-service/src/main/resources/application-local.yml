@@ -12,11 +12,6 @@
 #  logging:
 #    requests: all
 
-spring:
-  sleuth:
-    web:
-      enabled: false
-
 server:
   error:
     include-exception: true
