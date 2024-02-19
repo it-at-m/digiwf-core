@@ -20,7 +20,7 @@
     >
       <template #label>
         <span>{{ label }}</span>
-        <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
+        <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
       </template>
       <template #append-outer>
         <v-tooltip v-if="schema.description" :open-on-hover="false" left>

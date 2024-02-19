@@ -19,7 +19,7 @@
   >
     <template #label>
       <span>{{ label }}</span>
-      <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
+      <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
     </template>
     <template #selection="data">
       {{ getFullName(data.item) }}
