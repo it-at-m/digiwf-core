@@ -3,6 +3,7 @@
     <v-text-field
       :id="props.schema.key"
       v-model.trim="objectInput"
+      :aria-required="isRequired()"
       :disabled="requesting"
       :error="!!errorMessage"
       :label="label"
@@ -15,7 +16,7 @@
     >
       <template #label>
         <span>{{ label }}</span>
-        <span v-if="isRequired()" class="star"> *</span>
+        <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
       </template>
       <template #append>
         <div
@@ -265,10 +266,3 @@ export default defineComponent({
 });
 
 </script>
-
-<style scoped>
-.star {
-  color: red;
-  font-weight: bold;
-}
-</style>

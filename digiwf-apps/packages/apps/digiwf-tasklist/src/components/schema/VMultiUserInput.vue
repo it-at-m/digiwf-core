@@ -2,6 +2,7 @@
   <div id="top">
     <v-autocomplete
       v-model="selectedUsers"
+      :aria-required="isRequired()"
       :class="[isReadonly ? 'userInputReadonly' : 'userInput']"
       :disabled="disabled"
       :filter="filterUsers"
@@ -25,7 +26,7 @@
     >
       <template #label>
         <span>{{ label }}</span>
-        <span v-if="isRequired()" class="star"> *</span>
+        <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
       </template>
       <template
         #selection="data"
@@ -86,11 +87,6 @@
 
 #top .v-chip__content {
   font-size: 14px;
-}
-
-.star {
-  color: red;
-  font-weight: bold;
 }
 </style>
 

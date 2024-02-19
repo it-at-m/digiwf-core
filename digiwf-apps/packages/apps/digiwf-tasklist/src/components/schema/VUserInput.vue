@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+    :aria-required="isRequired()"
     :filter="filterUsers"
     :items="entries"
     :label="label"
@@ -18,7 +19,7 @@
   >
     <template #label>
       <span>{{ label }}</span>
-      <span v-if="isRequired()" class="star"> *</span>
+      <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
     </template>
     <template #selection="data">
       {{ getFullName(data.item) }}
@@ -51,11 +52,6 @@
   margin: 0 0.2rem;
   font-size: 1.2rem;
   line-height: 1rem;
-}
-
-.star {
-  color: red;
-  font-weight: bold;
 }
 </style>
 

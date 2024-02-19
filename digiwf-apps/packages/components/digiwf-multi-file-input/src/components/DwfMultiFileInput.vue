@@ -3,6 +3,7 @@
     <v-file-input
       v-model="fileValue"
       :accept="schema['accept']"
+      :aria-required="isRequired()"
       :disabled="isReadonly"
       :error-messages="errorMessage"
       :hint="hint"
@@ -19,7 +20,7 @@
     >
       <template #label>
         <span>{{ label }}</span>
-        <span v-if="isRequired()" class="star"> *</span>
+        <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
       </template>
       <template #append-outer>
         <v-tooltip v-if="schema.description" :open-on-hover="false" left>
@@ -423,10 +424,5 @@ export default defineComponent({
 
 .v-input--is-disabled:not(.v-input--is-readonly) {
   pointer-events: all;
-}
-
-.star {
-  color: red;
-  font-weight: bold;
 }
 </style>

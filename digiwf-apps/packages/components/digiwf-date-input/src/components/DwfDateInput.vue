@@ -2,7 +2,7 @@
   <v-text-field
     :id="schema.key"
     v-model="dateValue"
-    :aria-required="schema['x-rules']?.includes('required')"
+    :aria-required="isRequired()"
     :dense="dense"
     :disabled="readOnly"
     :outlined="outlined"
@@ -13,7 +13,7 @@
   >
     <template #label>
       <span>{{ label }}</span>
-      <span v-if="isRequired()" class="star"> *</span>
+      <span v-if="isRequired()" style="font-weight: bold; color: red"> *</span>
     </template>
     <template #append-outer>
       <v-tooltip v-if="description" :open-on-hover="false" left>
@@ -99,10 +99,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-.star {
-  color: red;
-  font-weight: bold;
-}
-</style>
