@@ -60,7 +60,7 @@ jobs:
         working-directory: ./digiwf-apps
         run: |
           echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
-      - name: Add Snapshot suffix to apps version
+      - name: Set apps release version env variable for SNAPSHOT release
         if: github.event.inputs.snapshot-build == 'true'
         working-directory: ./digiwf-apps
         run: |
