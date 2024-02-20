@@ -1,17 +1,17 @@
 <template>
   <div>
-    <VJsf @input="input" :value="value" :schema="currentSchema" :options="currentOptions">
+    <Jsf @input="input" :value="value" :schema="currentSchema" :options="currentOptions">
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
       </template>
-    </VJsf>
+    </Jsf>
   </div>
 </template>
 
 <script lang="ts">
 //@ts-ignore
 import deepmerge from "deepmerge";
-import {computed, defineComponent} from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: ['options', 'buttonText', 'value', 'schema'],
