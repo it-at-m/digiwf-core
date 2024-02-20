@@ -11,7 +11,7 @@
 <script lang="ts">
 //@ts-ignore
 import deepmerge from "deepmerge";
-import {computed, defineComponent} from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: ['options', 'buttonText', 'value', 'schema'],
@@ -21,6 +21,7 @@ export default defineComponent({
     const defaultOptions = {
       "editMode": "inline",
       "disableSorting": true,
+      "removeAdditionalProperties": false,
       "sectionsClass": "pl-0 col-12 pb-0 pt-0 pr-0",
       "objectContainerClass": "pl-0 pb-0 pt-0 pr-0",
       dialogProps: {maxWidth: 1000},
