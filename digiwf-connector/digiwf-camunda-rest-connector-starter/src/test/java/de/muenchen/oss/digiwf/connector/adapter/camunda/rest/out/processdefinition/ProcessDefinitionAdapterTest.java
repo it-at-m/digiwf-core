@@ -26,20 +26,20 @@ class ProcessDefinitionAdapterTest {
     void test_processDefinitionAdapterReturnsRootProcessDefinitionForInstanceId() {
         // Arrange
         final String processInstanceId = "validProcessInstanceId";
-        final String expectedDefinitionName = "rootProcessDefinition";
+        final String expectedDefinitionKey = "rootProcessDefinitionKey";
 
         final ServiceInstanceTO serviceInstanceTO = ServiceInstanceTO.builder()
                 .id(processInstanceId)
-                .definitionName(expectedDefinitionName)
+                .definitionKey(expectedDefinitionKey)
                 .build();
 
         when(processInstanceClient.getRootProcessInstanceDetail(processInstanceId)).thenReturn(serviceInstanceTO);
 
         // Act
-        final String actualDefinitionName = processOutPort.loadProcessDefinition(processInstanceId);
+        final String actualDefinitionKey = processOutPort.loadProcessDefinition(processInstanceId);
 
         // Assert
-        assertThat(actualDefinitionName).isEqualTo(expectedDefinitionName);
+        assertThat(actualDefinitionKey).isEqualTo(expectedDefinitionKey);
     }
 
     @Test
