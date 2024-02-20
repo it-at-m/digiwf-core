@@ -26,7 +26,9 @@ de:
               addressIntegration: "dwf-address-${DIGIWF_ENV}"
               alwIntegration: "dwf-alw-${DIGIWF_ENV}"
               cosysIntegration: "dwf-cosys-${DIGIWF_ENV}"
-              dmsIntegration: "dwf-dms-${DIGIWF_ENV}"
+              dmsIntegration: "dwf-mucs-dms-${DIGIWF_ENV}"
+              mucsDmsIntegration: "dwf-mucs-dms-${DIGIWF_ENV}"
+              alwDmsIntegration: "dwf-alw-dms-${DIGIWF_ENV}"
               emailIntegration: "dwf-email-${DIGIWF_ENV}"
               s3Integration: "dwf-s3-${DIGIWF_ENV}"
               # TODO: Remove this fallback after all processes are migrated to the new version. It's a legacy feature to avoid breaking changes.
