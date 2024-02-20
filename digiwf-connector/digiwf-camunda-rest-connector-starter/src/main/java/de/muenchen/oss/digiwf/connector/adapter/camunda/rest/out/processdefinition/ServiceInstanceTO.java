@@ -14,6 +14,7 @@ import java.util.Date;
 public class ServiceInstanceTO {
     private String id;
     private String definitionName;
+    private String definitionKey;
     private Date startTime;
     private Date endTime;
     private String status;

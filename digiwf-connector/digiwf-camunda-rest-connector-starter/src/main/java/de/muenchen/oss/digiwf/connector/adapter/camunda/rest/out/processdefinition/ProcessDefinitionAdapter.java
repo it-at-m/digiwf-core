@@ -15,7 +15,7 @@ public class ProcessDefinitionAdapter implements ProcessOutPort {
     @Override
     public String loadProcessDefinition(final String processInstanceId) throws ProcessDefinitionLoadingException {
         try {
-            return processInstanceClient.getRootProcessInstanceDetail(processInstanceId).getDefinitionName();
+            return processInstanceClient.getRootProcessInstanceDetail(processInstanceId).getDefinitionKey();
         } catch (final FeignException e) {
             throw new ProcessDefinitionLoadingException("Could not load process definition for process instance with id " + processInstanceId, e.getMessage());
         }

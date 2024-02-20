@@ -34,6 +34,11 @@ public class ServiceInstanceTO {
     private String definitionName;
 
     /**
+     * Key of the corresponding process definition.
+     */
+    private String definitionKey;
+
+    /**
      * Start time
      */
     private Date startTime;
