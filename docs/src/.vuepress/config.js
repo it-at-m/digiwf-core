@@ -109,6 +109,7 @@ module.exports = {
                                 'components/connector',
                                 'components/tasks',
                                 'components/frontend',
+                                'components/deployment'
                             ]
                         },
                         {
