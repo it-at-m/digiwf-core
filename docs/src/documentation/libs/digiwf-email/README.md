@@ -30,6 +30,7 @@ Diese bestehen aus einem Dateinamen und einem `ByteArrayDataSource`, der den Inh
 ## Konfiguration
 
 Die E-Mail Konfiguration erlaubt es einen default Wert für den Absender der E-Mails zu setzen mit der Property `io.muenchendigital.digiwf.mail.fromAddress`.
+Zusätzlich kann eine Standard-Reply-To Adresse gesetzt werden für technische Mails ohne Rückkanal mit der Property `io.muenchendigital.digiwf.mail.defaultReplyToAddress`.
 Alle weiteren Konfiguration werden direkt über die Spring Mail Konfiguration vorgenommen.
 
 ```yaml
