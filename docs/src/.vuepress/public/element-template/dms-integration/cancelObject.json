@@ -16,14 +16,24 @@
       }
     },
     {
-      "label": "Event Topic",
-      "type": "String",
-      "value": "",
+      "label": "Dms System (Integration Name)",
+      "type": "Dropdown",
+      "value": "mucsDmsIntegration",
+      "choices": [
+        {
+          "name": "mucs",
+          "value": "mucsDmsIntegration"
+        },
+        {
+          "name": "alw",
+          "value": "alwDmsIntegration"
+        }
+      ],
       "binding": {
         "type": "camunda:in",
-        "expression": true,
-        "name": "app_topic_name",
-        "target": "app_topic_name"
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
       },
       "constraints": {
         "notEmpty": true
