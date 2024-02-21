@@ -146,7 +146,7 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-        defaultReplyToAddress: ${MAIL_NO-REPLY:no-reply@muenchen.de}
+        defaultReplyToAddress: ${MAIL_NO-REPLY:noreply@muenchen.de}
         metrics:
           totalMailCounterName: "digiwf.email.integration.send_mail.total"
           failureCounterName: "digiwf.email.integration.send_mail.failure"

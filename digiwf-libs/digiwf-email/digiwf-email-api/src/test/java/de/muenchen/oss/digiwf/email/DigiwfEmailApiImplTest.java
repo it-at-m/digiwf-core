@@ -47,7 +47,7 @@ class DigiwfEmailApiImplTest {
     private final String subject = "Test Mail";
     private final String body = "This is a test mail";
     private final String replyTo = "digiwf@muenchen.de";
-    private final String defaultReplyTo = "no-reply@muenchen.de";
+    private final String defaultReplyTo = "noreply@muenchen.de";
     private final String sender = "some-custom-sender@muenchen.de";
 
 
