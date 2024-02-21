@@ -28,6 +28,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     private final JavaMailSender mailSender;
     private final ResourceLoader resourceLoader;
     private final String fromAddress;
+    private final String defaultReplyToAddress;
     // use a prepackaged sanitizer to prevent XSS
     private final PolicyFactory policy = Sanitizers.BLOCKS
             .and(Sanitizers.FORMATTING)
@@ -59,6 +60,8 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
 
         if (mail.hasReplyTo()) {
             mimeMessage.setReplyTo(InternetAddress.parse(mail.getReplyTo()));
+        } else if (defaultReplyToAddress != null) {
+            mimeMessage.setReplyTo(InternetAddress.parse(defaultReplyToAddress));
         }
 
         final var helper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
