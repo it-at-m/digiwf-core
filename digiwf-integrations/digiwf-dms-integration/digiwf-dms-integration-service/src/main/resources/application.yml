@@ -9,7 +9,7 @@ spring:
       bindings:
         functionRouter-in-0:
           group: "dwf-dms-service"
-          destination: "${DMS_TOPIC};dwf-dms-${DIGIWF_ENV}" #TODO remove dwf-dms-${DIGIWF_ENV} after topic migration
+          destination: "dwf-mucs-dms-${DIGIWF_ENV};dwf-dms-${DIGIWF_ENV}" #TODO remove dwf-dms-${DIGIWF_ENV} after topic migration
         sendMessage-out-0:
           destination: "dwf-connector-${DIGIWF_ENV}"
   security:
