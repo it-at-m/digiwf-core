@@ -15,7 +15,14 @@ Prozess-Code übernommen. Somit muss, wie nachfolgend beschrieben, manuell korri
 
 Hierzu müssen die beiden Werte `app_message_name` und `app_topic_name` entfernt und der zur Integration passende
 neue Wert `app_integration_name` hinzugefügt werden. Der Wert für `app_integration_name` kann entweder aus dem bereits
-angezeigten Element-Template oder von den [Integrations-Seiten](../../../integrations) übernommen werden. Auf den
-einzelnen Integrations-Seiten ist der entsprechende Wert jeweils als Badge dokumentiert.
+angezeigten Element-Template, der nachfolgenden Liste oder von den [Integrations-Seiten](../../../integrations)
+übernommen werden. Auf den einzelnen Integrations-Seiten ist der entsprechende Wert jeweils als Badge dokumentiert.
+
+- addressIntegration
+- alwIntegration
+- cosysIntegration
+- emailIntegration
+- s3Integration
+- dmsIntegration
 
 ![Element-Template-Migration Beispiel](migrate_et_topics_example.png)
