@@ -2,7 +2,7 @@
   <v-form
     ref="form">
     <dwf-form-renderer
-      :options="vjfsConfig"
+      :options="{locale : 'de', readOnly: readonly || false, markdownit: { breaks: true } }"
       :value="value"
       :schema="schema"
       @input="input"
@@ -45,7 +45,6 @@
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
 import {filterInputsWithValue} from "../../utils/dataTransformations";
-import {defaultVJFSConfig, VJSFConfig} from "../../utils/vjfsConfig";
 
 @Component
 export default class AppJsonForm extends Vue {
@@ -67,11 +66,6 @@ export default class AppJsonForm extends Vue {
   @Prop()
   isCompleting: boolean | undefined;
 
-  vjfsConfig: VJSFConfig = {
-    ...defaultVJFSConfig,
-    readonly: this.readonly || false
-  }
-
 
   @Emit("complete-form")
   completeForm(value: any): any {
@@ -84,12 +78,12 @@ export default class AppJsonForm extends Vue {
 
     const filteredValues = filterInputsWithValue(value);
     const newInputsString = JSON.stringify(filteredValues);
-    const newQuery = {
+    const newQuery =  {
       ...this.$router.currentRoute.query,
       inputs: newInputsString
     };
 
-    this.$router.replace({query: newQuery});
+    this.$router.replace({query:newQuery});
 
     return value;
   }
@@ -107,7 +101,7 @@ export default class AppJsonForm extends Vue {
 </script>
 
 <style scoped>
-.form-submit-button:focus, .form-submit-button:hover {
+.form-submit-button:focus, .form-submit-button:hover  {
   opacity: 0.6; /* first fix for increasing contrast. User feedback is required */
 }
 </style>
