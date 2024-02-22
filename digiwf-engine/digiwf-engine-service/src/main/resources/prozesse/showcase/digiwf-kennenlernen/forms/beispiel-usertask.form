@@ -1,0 +1,160 @@
+{
+    "key": "beispiel-usertask",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "",
+        "allOf": [
+            {
+                "title": "Beispiel Usertask ",
+                "description": "",
+                "type": "object",
+                "key": "fbd1a6a0-0a0e-4341-94d4-00994f0f5b54",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Einige Formularfelder",
+                        "description": "",
+                        "key": "9f071fe2-f56f-4022-9c51-afb38c3efc95",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "dba91d90-4565-4956-b0f2-bfcd08e6a413": {
+                                "fieldType": "text",
+                                "title": "Textfeld",
+                                "type": "string",
+                                "key": "dba91d90-4565-4956-b0f2-bfcd08e6a413",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "cb9457ac-ef61-43d8-bcfb-372fbebc7171": {
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "fieldType": "textarea",
+                                "title": "Textarea",
+                                "x-display": "textarea",
+                                "type": "string"
+                            },
+                            "26164571-1ad9-4428-bda0-10348a42d9a3": {
+                                "fieldType": "integer",
+                                "title": "Zahl",
+                                "type": "integer",
+                                "key": "26164571-1ad9-4428-bda0-10348a42d9a3",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "4a120039-4336-41e8-9706-07afee0b3cd9": {
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "fieldType": "boolean",
+                                "title": "Checkbox",
+                                "default": false,
+                                "type": "boolean"
+                            },
+                            "12269dfa-1e5d-444a-b9de-a17e2b1af445": {
+                                "fieldType": "date",
+                                "title": "Datum",
+                                "x-display": "custom-date-input",
+                                "type": "string",
+                                "format": "date",
+                                "key": "12269dfa-1e5d-444a-b9de-a17e2b1af445",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "2590614b-8a2e-4e03-99ed-125ba45bac0b": {
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "fieldType": "switch",
+                                "title": "Switch",
+                                "x-display": "switch",
+                                "default": false,
+                                "type": "boolean"
+                            },
+                            "dc16cc7d-f847-4f69-a210-e460cdd6d558": {
+                                "fieldType": "array",
+                                "title": "Liste",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "key": "dc16cc7d-f847-4f69-a210-e460cdd6d558",
+                                "default": [],
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": false
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

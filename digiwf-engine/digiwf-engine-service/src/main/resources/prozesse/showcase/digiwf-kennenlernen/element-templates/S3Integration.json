@@ -1,0 +1,88 @@
+{
+  "name": "S3: Presigned Url erstellen V02",
+  "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV02",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration Name",
+      "type": "String",
+      "editable": false,
+      "value": "s3Integration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "editable": false,
+      "value": "createPresignedUrl",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Dateipfad",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "path",
+        "target": "path"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Datei Aktion",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "action",
+        "target": "action"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Out: PresignedUrls",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "presignedUrls"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ]
+}

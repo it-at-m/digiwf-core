@@ -1,0 +1,161 @@
+{
+  "name": "Basis: Usertask",
+  "id": "de.muenchen.digiwf.templates.Usertask",
+  "appliesTo": [
+    "bpmn:UserTask"
+  ],
+  "properties": [
+    {
+      "label": "Assignee",
+      "description": "Bearbeiter*in der Aufgabe",
+      "type": "String",
+      "binding": {
+        "type": "property",
+        "name": "camunda:assignee"
+      }
+    },
+    {
+      "label": "Candidate Users",
+      "description": "Benutzer*in, die diesen Task bearbeiten dürfen",
+      "type": "String",
+      "binding": {
+        "type": "property",
+        "name": "camunda:candidateUsers"
+      }
+    },
+    {
+      "label": "Candidate Groups",
+      "description": "Gruppen, die diesen Task bearbeiten dürfen",
+      "type": "String",
+      "binding": {
+        "type": "property",
+        "name": "camunda:candidateGroups"
+      }
+    },
+    {
+      "label": "Beschreibungstext",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_task_description"
+      }
+    },
+    {
+      "label": "Formular Key",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_task_schema_key"
+      }
+    },
+    {
+      "label": "Tag",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_task_tag"
+      }
+    },
+    {
+      "label": "Candidate Groups benachrichtigen?",
+      "description": "Sendet eine E-Mail an die Candidate Groups, falls diese vorhanden sind.",
+      "type": "Dropdown",
+      "value": "false",
+      "choices": [
+        { "name": "Ja", "value": "true" },
+        { "name": "Nein", "value": "false" }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_notification_send_candidate_groups"
+      }
+    },
+    {
+      "label": "Candidate Users benachrichtigen?",
+      "description": "Sendet eine E-Mail an die Candidate Users",
+      "type": "Dropdown",
+      "value": "false",
+      "choices": [
+        { "name": "Ja", "value": "true" },
+        { "name": "Nein", "value": "false" }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_notification_send_candidate_users"
+      }
+    },
+    {
+      "label": "Assignee benachrichtigen?",
+      "description": "Sendet eine E-Mail an den Assginee",
+      "type": "Dropdown",
+      "value": "false",
+      "choices": [
+        { "name": "Ja", "value": "true" },
+        { "name": "Nein", "value": "false" }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_notification_send_assignee"
+      }
+    },
+    {
+      "label": "Individueller Betreff",
+      "type": "String",
+      "description": "Wird kein Betreff angegeben, wird der Standart Betreff verwendet",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "mail_subject"
+      }
+    },
+    {
+      "label": "Individueller E-Mail Text",
+      "description": "Wird kein E-Mail Text angegeben, wird der Standart E-Mail Text verwendet",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "mail_body"
+      }
+    },
+    {
+      "label": "Individueller E-Mail Gruß",
+      "description": "Wird kein E-Mail Gruß angegeben, wird der Standart E-Mail Gruß verwendet",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "mail_bottom_text"
+      }
+    },
+    {
+      "label": "User für Vorgang berechtigen?",
+      "description": "Gibt einem Nutzer nach Abschluss der Aufgabe Zugriff auf die Vorgangsübersicht",
+      "type": "Dropdown",
+      "value": "false",
+      "choices": [
+        { "name": "Ja", "value": "true" },
+        { "name": "Nein", "value": "false" }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_assign_user_to_processinstance"
+      }
+    },
+    {
+      "label": "S3 Pfade für Schreibrechtigungen",
+      "description": "; separierte Liste an S3 Pfaden",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_file_paths"
+      }
+    },
+    {
+      "label": "S3 Pfade für Lesebrechtigungen",
+      "description": "; separierte Liste an S3 Pfaden",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "app_file_paths_readonly"
+      }
+    }
+  ]
+}
