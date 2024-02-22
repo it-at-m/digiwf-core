@@ -262,7 +262,8 @@ services:
     ports:
       - "9010:8080"
     depends_on:
-      - keycloak
+      init-keycloak:
+        condition: service_completed_successfully
     profiles:
       - cocreation
     env_file:
