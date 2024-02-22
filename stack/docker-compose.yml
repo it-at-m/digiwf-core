@@ -201,6 +201,16 @@ services:
     networks:
       - local-keycloak
 
+  pgadmin:
+    image: dpage/pgadmin4:8.2
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: digiwf@muenchen.de
+      PGADMIN_DEFAULT_PASSWORD: test
+    networks:
+      - internal
+
   postgres-engine:
     image: postgres:13.2
     container_name: digiwf-postgres-engine
