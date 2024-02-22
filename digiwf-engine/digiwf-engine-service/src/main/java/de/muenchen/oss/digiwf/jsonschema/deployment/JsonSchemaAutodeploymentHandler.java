@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import de.muenchen.oss.digiwf.jsonschema.domain.model.JsonSchema;
 import de.muenchen.oss.digiwf.jsonschema.domain.service.JsonSchemaService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -18,7 +19,6 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
-import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -45,13 +45,17 @@ public class JsonSchemaAutodeploymentHandler {
 
     @PostConstruct
     public void autoDeploy() throws IOException {
-        final Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(this.resourceLoader).getResources("classpath:**/*.schema.json");
         final List<JsonSchema> schemas = new ArrayList<>();
-        for (final Resource resource : resources) {
-            try {
-                schemas.add(this.map(resource));
-            } catch (final Exception error) {
-                log.error("The schema could no be loaded: {}", resource.getFilename(), error);
+        // allow schema.json and form files
+        final List<String> resourceLocations = List.of("classpath:**/*.schema.json", "classpath:**/*.form");
+        for (final String resourceLocation : resourceLocations) {
+            final Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(this.resourceLoader).getResources(resourceLocation);
+            for (final Resource resource : resources) {
+                try {
+                    schemas.add(this.map(resource));
+                } catch (final Exception error) {
+                    log.error("The schema could no be loaded: {}", resource.getFilename(), error);
+                }
             }
         }
 
