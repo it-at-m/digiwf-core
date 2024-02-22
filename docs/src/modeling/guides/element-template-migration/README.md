@@ -8,8 +8,8 @@ Element-Templates nicht mehr angegeben werden.
 Um diese Funktionalität zu ermöglichen wurde in den Element-Templates der neue Wert `app_integration_name` eingeführt.
 Im gleichen Zuge wurde der alte nicht mehr benötigte Wert `app_message_name` entfernt.
 
-Die Schnittstelle wurde dabei so verändert, dass alle Prozesse die noch die alten Werte verwenden keine Probleme haben,
-um die neue Funktionalität zu nutzen muss der Prozess aber entsprechend angepasst werden. In der normalen UI werden die
+Die Schnittstelle wurde dabei so verändert, dass alle Prozesse die noch die alten Werte verwenden keine Probleme haben.
+Um die neue Funktionalität zu nutzen, muss der Prozess aber entsprechend angepasst werden. In der normalen UI werden die
 neuen Werte durch Anpassung der Element-Templates bereits angezeigt, leider werden diese aber nicht automatisch in den
 Prozess-Code übernommen. Dies muss wie nachfolgend beschrieben manuell korrigiert werden.
 
