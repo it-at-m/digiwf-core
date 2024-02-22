@@ -22,8 +22,8 @@
         component="button"
         :active="isActivePage(page)"
         @click="gotoPage(page - 1)"
-        >{{ page }}</c-pagination-item
-      >
+        >{{ page }}
+      </c-pagination-item>
     </template>
     <c-pagination-item
       v-if="showLeftRightButtons"
@@ -62,7 +62,7 @@ const props = withDefaults(
     amountPagesVisible: 5,
     showLeftRightButtons: true,
     showPageButtons: true,
-    size: "",
+    size: undefined,
   }
 );
 
