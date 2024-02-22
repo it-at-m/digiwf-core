@@ -10,8 +10,8 @@ Im gleichen Zuge wurde der alte nicht mehr benötigte Wert `app_message_name` en
 
 Die Schnittstelle wurde dabei so verändert, dass alle Prozesse die noch die alten Werte verwenden keine Probleme haben.
 Um die neue Funktionalität zu nutzen, muss der Prozess aber entsprechend angepasst werden. In der normalen UI werden die
-neuen Werte durch Anpassung der Element-Templates bereits angezeigt, leider werden diese aber nicht automatisch in den
-Prozess-Code übernommen. Dies muss wie nachfolgend beschrieben manuell korrigiert werden.
+neuen Werte durch Anpassung der Element-Templates bereits angezeigt. Leider werden diese aber nicht automatisch in den
+Prozess-Code übernommen. Somit muss, wie nachfolgend beschrieben, manuell korrigiert werden.
 
 Hierzu müssen die beiden Werte `app_message_name` und `app_topic_name` entfernt und der zur Integration passende
 neue Wert `app_integration_name` hinzugefügt werden. Der Wert für `app_integration_name` kann entweder aus dem bereits
