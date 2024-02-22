@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-process</artifactId>
-        <version>1.7.2-SNAPSHOT</version>
+        <version>1.7.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-process-example</artifactId>
