@@ -1,0 +1,102 @@
+{
+  "key": "dms-integration-create-document",
+  "schema": {
+    "type": "object",
+    "x-display": " ",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "9832cdba-2476-4f25-8f3b-2fe7da303c5a": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "9832cdba-2476-4f25-8f3b-2fe7da303c5a",
+                "readOnly": true,
+                "default": "Im gerade erstellten Vorgang wird ein Dokument erstellt, in das mehrere Schriftstücke abgelegt werden können.\n\n1. Gib einen Dokumentennamen an.\n2. Klicke auf Feld 'Dateien' und wähle eine oder mehrere Dokumentdateien aus.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "documentTitle": {
+                "fieldType": "text",
+                "title": "Titel des Dokuments",
+                "type": "string",
+                "key": "documentTitle",
+                "readOnly": false,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "docs": {
+                "fieldType": "file",
+                "title": "Dateien",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "docs",
+                "uuidEnabled": false,
+                "filePath": "docs",
+                "readOnly": false,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "400de930-0857-41a6-af11-b721f08be61d"
+          }
+        ]
+      }
+    ]
+  }
+}

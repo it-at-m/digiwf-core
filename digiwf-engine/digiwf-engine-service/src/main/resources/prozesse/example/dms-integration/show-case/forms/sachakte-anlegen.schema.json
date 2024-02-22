@@ -1,0 +1,129 @@
+{
+  "key": "dms-integration-create-file",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "Abschnitt",
+        "description": "",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "1. Bestehendes Aktenplankennzeichen eintragen.\n2. Titel der neuen Sachakte eintragen.\n3. Titel des neuen Vorgangs in der Sachakte anlegen.\n4. Berechtigten Benutzer eintragen.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "aktenplan": {
+                "fieldType": "text",
+                "title": "Aktenplankennzeichen",
+                "type": "string",
+                "key": "aktenplan",
+                "description": "Kennzeichen eines Aktenplaneintrags vom Typ 'Betreffseinheit'",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "fileTitle": {
+                "fieldType": "text",
+                "title": "Titel der Sachakte",
+                "type": "string",
+                "key": "fileTitle",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "title": {
+                "fieldType": "text",
+                "title": "Titel des Vorgangs",
+                "type": "string",
+                "key": "title",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "user": {
+                "fieldType": "text",
+                "title": "Dms User",
+                "type": "string",
+                "key": "user",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            },
+            "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"
+          }
+        ],
+        "key": "74924cdc-184a-4319-9f62-cf7f256f9282"
+      }
+    ]
+  }
+}

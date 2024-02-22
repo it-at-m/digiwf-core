@@ -17,7 +17,7 @@
     "@muenchen/digiwf-form-renderer": "^1.7.3",
     "@muenchen/digiwf-multi-file-input": "^1.7.3",
     "@muenchen/digiwf-task-api-internal": "^1.7.3",
-    "@muenchen/vjsf": "^2.21.10",
+    "@muenchen/vjsf": "^2.21.12",
     "@tanstack/vue-query": "^4.19.1",
     "ajv": "^8.12.0",
     "core-js": "^3.8.3",

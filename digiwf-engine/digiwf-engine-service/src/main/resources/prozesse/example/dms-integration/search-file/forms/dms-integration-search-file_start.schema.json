@@ -29,7 +29,7 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process search a file with the information from the form below.",
+                "default": "With this test process search for a file (Sachakte) with the information from the form below.\n\n1. Specify a file or a wildcard.\n2. Specify a username.\n3. Optionally specify the reference of a subject date (Fachdatum).\n4. Optionally specify a value of a subject date.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

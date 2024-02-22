@@ -135,6 +135,7 @@ sind, können Sie die folgenden Konfigurationen für die DigiWF Mail Integration
 |                                                               |                                                                                                                |
 |---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | `io.muenchendigital.digiwf.mail.fromAddress`                  | Die Absenderadresse, die für alle Emails verwendet wird, die über die DigiWF Mail Integration gesendet werden. |
+| `io.muenchendigital.digiwf.mail.defaultReplyToAddress`        | Eine Standard-Reply-To-Mailadresse für technische Mails, auf die nicht geantwortet werden soll.                |
 | `io.muenchendigital.digiwf.mail.metrics.totalMailCounterName` | Der Name des Micrometer Counters, der die Anzahl der gesendeten Emails zählt.                                  |
 | `io.muenchendigital.digiwf.mail.metrics.failureCounterName`   | Der Name des Micrometer Counters, der die Anzahl der fehlgeschlagenen Emails zählt.                            |
 
@@ -145,6 +146,7 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
+        defaultReplyToAddress: ${MAIL_NO-REPLY:noreply@muenchen.de}
         metrics:
           totalMailCounterName: "digiwf.email.integration.send_mail.total"
           failureCounterName: "digiwf.email.integration.send_mail.failure"

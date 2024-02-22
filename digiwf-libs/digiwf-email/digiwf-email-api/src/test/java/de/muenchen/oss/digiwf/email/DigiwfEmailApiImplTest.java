@@ -28,7 +28,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class DigiwfEmailApiImplTest {
 
@@ -44,13 +47,14 @@ class DigiwfEmailApiImplTest {
     private final String subject = "Test Mail";
     private final String body = "This is a test mail";
     private final String replyTo = "digiwf@muenchen.de";
+    private final String defaultReplyTo = "noreply@muenchen.de";
     private final String sender = "some-custom-sender@muenchen.de";
 
 
     @BeforeEach
     void setUp() {
         when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
-        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, "digiwf@muenchen.de");
+        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, "digiwf@muenchen.de", defaultReplyTo);
     }
 
     @Test
@@ -67,6 +71,30 @@ class DigiwfEmailApiImplTest {
 
         assertThat(messageArgumentCaptor.getValue().getAllRecipients()).hasSize(2);
         assertThat(messageArgumentCaptor.getValue().getSubject()).isEqualTo(this.subject);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).hasSize(1);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).contains(new InternetAddress(this.defaultReplyTo));
+        final MimeMultipart content = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
+        assertThat(content.getContentType()).contains("multipart/mixed");
+    }
+
+    @Test
+    void testSendMailNoDefaultReplyTo() throws MessagingException, IOException {
+        var customAddress = new InternetAddress("custom.digiwf@muenchen.de");
+
+        final Mail mail = Mail.builder()
+                .receivers(this.receiver)
+                .subject(this.subject)
+                .body(this.body)
+                .build();
+        new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, customAddress.getAddress(), null).sendMail(mail);
+
+        final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
+        verify(this.javaMailSender).send(messageArgumentCaptor.capture());
+
+        assertThat(messageArgumentCaptor.getValue().getAllRecipients()).hasSize(2);
+        assertThat(messageArgumentCaptor.getValue().getSubject()).isEqualTo(this.subject);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).hasSize(1);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).contains(new InternetAddress(customAddress.getAddress()));
         final MimeMultipart content = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
         assertThat(content.getContentType()).contains("multipart/mixed");
     }
@@ -93,6 +121,7 @@ class DigiwfEmailApiImplTest {
         );
         assertThat(messageArgumentCaptor.getValue().getSubject()).isEqualTo(this.subject);
         assertThat(messageArgumentCaptor.getValue().getReplyTo()).hasSize(1);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).contains(new InternetAddress(this.replyTo));
         assertThat(messageArgumentCaptor.getValue().getFrom()).contains(new InternetAddress(this.sender));
         final MimeMultipart content = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
         assertThat(content.getContentType()).contains("multipart/mixed");
@@ -121,11 +150,14 @@ class DigiwfEmailApiImplTest {
 
     @Test
     void sendMailWithMultipleReplyToAddresses() throws MessagingException, IOException {
+        var reply1 = new InternetAddress("address1@muenchen.de");
+        var reply2 = new InternetAddress("address2@muenchen.de");
+
         final Mail mail = Mail.builder()
                 .receivers(this.receiver)
                 .subject(this.subject)
                 .body(this.body)
-                .replyTo("address1@muenchen.de, address2@muenchen.de")
+                .replyTo(reply1.getAddress() + "," + reply2.getAddress())
                 .build();
         this.digiwfEmailApi.sendMail(mail);
 
@@ -135,6 +167,7 @@ class DigiwfEmailApiImplTest {
         assertThat(messageArgumentCaptor.getValue().getAllRecipients()).hasSize(2);
         assertThat(messageArgumentCaptor.getValue().getSubject()).isEqualTo(this.subject);
         assertThat(messageArgumentCaptor.getValue().getReplyTo()).hasSize(2);
+        assertThat(messageArgumentCaptor.getValue().getReplyTo()).containsAll(List.of(reply1, reply2));
         final MimeMultipart content = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
         assertThat(content.getContentType()).contains("multipart/mixed");
     }

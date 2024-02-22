@@ -44,8 +44,10 @@ public class SecurityConfiguration {
     http
         .securityMatcher(ServerWebExchangeMatchers.pathMatchers("/clients/**"))
         .authorizeExchange(authorizeExchangeSpec -> {
-          authorizeExchangeSpec.anyExchange().authenticated();
+            authorizeExchangeSpec.pathMatchers(HttpMethod.OPTIONS, "/clients/**").permitAll()
+                .anyExchange().authenticated();
         })
+        .cors(corsSpec -> {})
         .oauth2ResourceServer(oauth2 ->
           oauth2.jwt(Customizer.withDefaults())
         );
@@ -70,6 +72,8 @@ public class SecurityConfiguration {
                   "/actuator/health",
                   "/actuator/info",
                   "/actuator/metrics").permitAll()
+              .pathMatchers(HttpMethod.OPTIONS, "/public/**").permitAll()
+              .pathMatchers(HttpMethod.GET, "/public/**").permitAll()
               // only authenticated
               .anyExchange().authenticated();
         })
