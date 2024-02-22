@@ -5,8 +5,12 @@
     link-text="Alle Anträge ansehen (DigiWF)"
     :loading="loading"
   >
-    <service-instance-list-placeholder v-if="loading" />
-    <service-instance-list v-else />
+    <template #content>
+      <service-instance-list/>
+    </template>
+    <template #placeholder>
+      <service-instance-list-placeholder/>
+    </template>
   </widget-card>
   <button @click="sendTest">TEST API CODE</button>
 </template>

@@ -42,7 +42,8 @@
       </div>
     </c-card-header>
     <c-card-body class="p-0">
-      <slot />
+      <slot name="content" v-if="!loading"/>
+      <slot name="placeholder" v-else/>
     </c-card-body>
     <c-card-footer>
       <div class="d-flex w-100 justify-content-end align-items-center">
