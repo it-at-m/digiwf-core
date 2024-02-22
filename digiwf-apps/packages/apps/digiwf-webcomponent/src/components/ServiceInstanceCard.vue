@@ -6,10 +6,10 @@
     :loading="loading"
   >
     <template #content>
-      <service-instance-list/>
+      <service-instance-list />
     </template>
     <template #placeholder>
-      <service-instance-list-placeholder/>
+      <service-instance-list-placeholder />
     </template>
   </widget-card>
   <button @click="sendTest">TEST API CODE</button>
