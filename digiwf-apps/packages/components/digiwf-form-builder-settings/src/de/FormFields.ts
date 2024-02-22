@@ -1454,7 +1454,8 @@ const dmsInputSchema = {
           "title": "Dms System",
           "default": "mucs",
           "enum": [
-            "mucs"
+            "mucs",
+            "alw"
           ],
           "x-props": {
             "outlined": true,
