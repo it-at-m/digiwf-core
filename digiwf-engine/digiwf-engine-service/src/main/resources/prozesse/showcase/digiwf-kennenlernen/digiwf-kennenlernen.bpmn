@@ -58,7 +58,7 @@
     <bpmn:intermediateThrowEvent id="Event_16v3gqr" name="Status start">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript">process.setDescription("Gestartet")</camunda:script>
+          <camunda:script scriptFormat="javascript">process.setStatus("Gestartet")</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1w559er</bpmn:incoming>
@@ -67,7 +67,7 @@
     <bpmn:intermediateThrowEvent id="Event_0d2mt9c" name="Status Basics Usertasks">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript">process.setDescription("Basics-Usertask");</camunda:script>
+          <camunda:script scriptFormat="javascript">process.setStatus("Basics-Usertask");</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_01yiwb1</bpmn:incoming>
@@ -153,7 +153,7 @@
     <bpmn:intermediateThrowEvent id="Event_0q9bx4h" name="Status Basics Integrationen">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript">process.setDescription("Basics-Integrationen");</camunda:script>
+          <camunda:script scriptFormat="javascript">process.setStatus("Basics-Integrationen");</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_12j9si2</bpmn:incoming>
@@ -206,7 +206,7 @@
     <bpmn:intermediateThrowEvent id="Event_0nr0gxt" name="Status Abschluss">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript">process.setDescription("Abschluss");</camunda:script>
+          <camunda:script scriptFormat="javascript">process.setStatus("Abschluss");</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0f9gx8p</bpmn:incoming>
@@ -299,6 +299,9 @@
       <bpmndi:BPMNShape id="Activity_05xk399_di" bpmnElement="Activity_0id21fc">
         <dc:Bounds x="1530" y="57" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yj6x7w_di" bpmnElement="Event_0yj6x7w">
+        <dc:Bounds x="2082" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0nr0gxt_di" bpmnElement="Event_0nr0gxt">
         <dc:Bounds x="1812" y="79" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -308,9 +311,6 @@
       <bpmndi:BPMNShape id="Activity_157dbwo_di" bpmnElement="Activity_1aapg6v">
         <dc:Bounds x="1910" y="57" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0yj6x7w_di" bpmnElement="Event_0yj6x7w">
-        <dc:Bounds x="2082" y="79" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1w559er_di" bpmnElement="Flow_1w559er">
         <di:waypoint x="148" y="97" />
