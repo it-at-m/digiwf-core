@@ -6,7 +6,7 @@ Ab Release 1.7 werden die Integrations-Topics automatisch bestimmt, dadurch müs
 Element-Templates nicht mehr angegeben werden.
 
 Um diese Funktionalität zu ermöglichen wurde in den Element-Templates der neue Wert `app_integration_name` eingeführt.
-Im gleichen Zuge wurde der alte nicht mehr benötigte Wert `app_message_name` entfernt.
+Im gleichen Zuge wurden die alten nicht mehr benötigten Werte `app_message_name` und `app_topic_name` entfernt.
 
 Die Schnittstelle wurde dabei so verändert, dass alle Prozesse die noch die alten Werte verwenden keine Probleme haben.
 Um die neue Funktionalität zu nutzen, muss der Prozess aber entsprechend angepasst werden. In der normalen UI werden die
