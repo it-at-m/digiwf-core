@@ -1,14 +1,15 @@
 <template>
   <c-container fluid>
     <service-instance-card />
+    <smart-pagination :active-page="9" :amount-pages="10"/>
   </c-container>
 </template>
 
 <script setup lang="ts">
 import { CContainer } from "@coreui/vue";
-import { toRefs } from "vue";
-
+import { toRefs, withDefaults, defineProps } from "vue";
 import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
+import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
 import { useAPI } from "@/composables/useAPI";
 import { useProvideBaseURL } from "@/composables/useBaseURL";
