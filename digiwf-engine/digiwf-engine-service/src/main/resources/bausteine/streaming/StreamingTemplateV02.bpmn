@@ -6,7 +6,7 @@
                   xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0f11k6m"
                   targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0"
                   modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
-  <bpmn:process id="StreamingTemplateV02" name="StreamingTemplateV02" isExecutable="true">
+  <bpmn:process id="StreamingTemplateV02" name="StreamingTemplateV02" isExecutable="true" camunda:isStartableInTasklist="false">
     <bpmn:startEvent id="StartEvent_1" name="Start Streaming">
       <bpmn:outgoing>Flow_0riqkf6</bpmn:outgoing>
     </bpmn:startEvent>
