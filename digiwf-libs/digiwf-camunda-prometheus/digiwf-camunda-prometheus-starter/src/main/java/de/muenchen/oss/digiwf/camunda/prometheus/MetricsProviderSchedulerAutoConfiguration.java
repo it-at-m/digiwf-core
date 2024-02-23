@@ -28,7 +28,7 @@ public class MetricsProviderSchedulerAutoConfiguration {
         metricsProviders.forEach((key, value) -> value.registerMetrics(collectorRegistry));
     }
 
-    @Scheduled(fixedDelayString = "${digiwf.prometheus.process-engine.update-interval:3000}")
+    @Scheduled(fixedDelayString = "${digiwf.prometheus.process-engine.update-interval}")
     public void updateProviderMetrics() {
         metricsProviders.forEach((key, value) -> value.updateMetrics());
     }
