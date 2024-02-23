@@ -1,0 +1,65 @@
+{
+  "key": "FeatureDuplikatePruefen_AbschliessenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_Variable1",
+          "label": "BusinessKey Variable 1",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_Variable2",
+          "label": "BusinessKey Variable 2",
+          "type": "text",
+          "ext": "",
+          "tooltip": "",
+          "readonly": true,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}

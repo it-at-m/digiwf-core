@@ -1,0 +1,66 @@
+{
+  "key": "FeatureDokumentStornieren_StartenV01",
+  "description": "Das ist meine Formularbeschreibung",
+  "buttons": {
+    "complete": {
+      "buttonText": "Abschliessen"
+    },
+    "cancel": {
+      "showButton": false,
+      "buttonText": "Abbrechen"
+    },
+    "statusPdf": {
+      "showButton": false,
+      "buttonText": "Status PDF"
+    }
+  },
+  "groups": [
+    {
+      "label": "Informationen",
+      "schema": [
+        {
+          "key": "FormField_DokumentCOO",
+          "label": "Dokument COO",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        },
+        {
+          "key": "FormField_DMSBenutzer",
+          "label": "DMS Benutzer",
+          "type": "text",
+          "ext": "",
+          "defaultValue": "260",
+          "tooltip": "",
+          "readonly": false,
+          "col": "6",
+          "prependIcon": "",
+          "multiple": false,
+          "description": "",
+          "rules": [
+            {
+              "type": "required",
+              "value": "",
+              "target": ""
+            }
+          ],
+          "items": []
+        }
+      ]
+    }
+  ]
+}
