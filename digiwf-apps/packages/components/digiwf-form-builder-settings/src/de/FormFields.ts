@@ -39,6 +39,15 @@ export const deLabels: Labels = {
   validationMin: "Minimum",
   validationMax: "Maximum",
   validationAdditionalRules: "Zusätzliche Regeln",
+  dmsSystem: "DMS System",
+  dmsObjectClass: "Objektklasse",
+  dmsSchriftstueck: "Schriftstück",
+  dmsSachakte: "Sachakte",
+  dmsVorgang: "Vorgang",
+  dmsEingang: "Eingang",
+  dmsAusgang: "Ausgang",
+  dmsIntern: "Intern",
+  dmsDefaultDescription: "Liste der Coos oder Links, die von der Eingabe überprüft werden sollen",
 };
 
 const constSchema = {

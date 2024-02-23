@@ -19,6 +19,15 @@ export interface Labels {
   validationMin: string;
   validationMax: string;
   validationAdditionalRules: string;
+  dmsSystem: string;
+  dmsObjectClass: string;
+  dmsSchriftstueck: string;
+  dmsSachakte: string;
+  dmsVorgang: string;
+  dmsEingang: string;
+  dmsAusgang: string;
+  dmsIntern: string;
+  dmsDefaultDescription: string;
 }
 
 
@@ -928,6 +937,79 @@ export const arrayObjectInput = (labels: Labels) => {
     }
   };
   return schema;
+};
+
+export const dmsInputSchema = (labels: Labels) => {
+  // custom array type
+  const schema = schemaBuilder("array", labels);
+  (schema.allOf[0].properties as any)["x-display"] = {
+    "const": "custom-dms-input"
+  };
+  (schema.allOf[0].properties as any)["dmsSystem"] = {
+    "type": "string",
+    "title": `${labels.dmsSystem}`,
+    "default": "mucs",
+    "enum": [
+      "mucs"
+    ],
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["objectclass"] = {
+    "type": "string",
+    "title": `${labels.dmsObjectClass}`,
+    "default": `${labels.dmsSchriftstueck}`,
+    "enum": [
+      `${labels.dmsSachakte}`,
+      `${labels.dmsVorgang}`,
+      `${labels.dmsEingang}`,
+      `${labels.dmsAusgang}`,
+      `${labels.dmsIntern}`,
+      `${labels.dmsSchriftstueck}`,
+    ],
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
+  (schema.allOf[0].properties as any)["default"] = {
+    "type": "array",
+    "title": `${labels.default}`,
+    "description": `${labels.dmsDefaultDescription}`,
+    "items": {
+      "type": "string"
+    },
+    "x-props": {
+      "outlined": true,
+    },
+    "x-rules": [
+      "required"
+    ],
+    "x-options": {
+      "fieldColProps": {
+        "cols": 12,
+        "sm": 12
+      }
+    }
+  };
 };
 
 export const genericSchema = (labels: Labels) => {
