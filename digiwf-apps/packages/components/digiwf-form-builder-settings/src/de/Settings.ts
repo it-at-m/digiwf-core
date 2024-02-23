@@ -1,19 +1,19 @@
-import { containerIconMap, defaultContainerIcon, defaultIcon, iconMap } from "./IconMap";
-import { conditionalContainerSchema, conditionalObjectContainerSchema, containerSchema } from "./Container";
-import section from "./Section";
-import {
-  containerPalette,
-  formFieldPalette,
-  objectPalette,
-  optionalItem,
-  optionalObject,
-  optionalProperties,
-  sectionPalette
-} from "./ModelerPalette";
+import { containerIconMap, defaultContainerIcon, defaultIcon, iconMap } from "../base/IconMap";
 import { schemaMap } from "./FormFields";
 import { FormBuilderSettings } from "../../types";
 import { genericSchema } from "../base/FormFields";
 import { Labels } from "../base/labels";
+import { sectionBuilder } from "../base/Section";
+import { containerSchemaBuilder } from "../base/Container";
+import {
+  containerPaletteBuilder,
+  formFieldPaletteBuilder,
+  objectPaletteBuilder,
+  optionalItemBuilder,
+  optionalObjectPaletteBuilder,
+  optionalPropertiesBuilder,
+  sectionPaletteBuilder
+} from "../base/ModelerPalette";
 
 const deLabels: Labels = {
   title: "Titel",
@@ -82,19 +82,19 @@ const Settings: FormBuilderSettings = {
         defaultContainerIcon: defaultContainerIcon
     },
     modelerPalette: {
-        formFields: formFieldPalette,
-        containers: containerPalette,
-        objects: objectPalette,
-        sections: sectionPalette,
-        optionalObject: optionalObject,
-        optionalProperties: optionalProperties,
-        optionalItem: optionalItem
+        formFields: formFieldPaletteBuilder(deLabels),
+        containers: containerPaletteBuilder(deLabels),
+        objects: objectPaletteBuilder(deLabels),
+        sections: sectionPaletteBuilder(deLabels),
+        optionalObject: optionalObjectPaletteBuilder(deLabels),
+        optionalProperties: optionalPropertiesBuilder(deLabels),
+        optionalItem: optionalItemBuilder(deLabels)
 
     },
-    containerSchema: containerSchema,
-    conditionalContainerSchema: conditionalContainerSchema,
-    conditionalObjectContainerSchema: conditionalObjectContainerSchema,
-    sectionSchema: section,
+    containerSchema: containerSchemaBuilder("container", deLabels),
+    conditionalContainerSchema: containerSchemaBuilder("conditionalContainer", deLabels),
+    conditionalObjectContainerSchema: containerSchemaBuilder("conditionalObjectContainer", deLabels),
+    sectionSchema: sectionBuilder(deLabels),
     defaultFormFieldSchema: genericSchema(deLabels),
     formFieldSchemas: schemaMap(deLabels)
 };
