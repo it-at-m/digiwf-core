@@ -73,7 +73,11 @@ axon:
     properties:
       security.protocol: ${KAFKA_SECURITY_PROTOCOL}
 
+
 polyflow:
+  metrics:
+    delay:
+      taskcount: 30000
   axon:
     kafka:
       enabled: true
@@ -144,5 +148,5 @@ management:
     web:
       exposure:
         include: health, info, prometheus, livenessstate, readinessstate
-        path-mapping:
-          prometheus: metrics
+      path-mapping:
+        prometheus: metrics

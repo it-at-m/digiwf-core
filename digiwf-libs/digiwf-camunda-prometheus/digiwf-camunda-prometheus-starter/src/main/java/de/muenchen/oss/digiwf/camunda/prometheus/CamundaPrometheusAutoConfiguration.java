@@ -1,30 +1,11 @@
 package de.muenchen.oss.digiwf.camunda.prometheus;
 
-import io.prometheus.client.CollectorRegistry;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
 
-@EnableScheduling
-@Import(MetricsConfiguration.class)
-@RequiredArgsConstructor
+@Configuration
+@EnableConfigurationProperties(CamundaPrometheusProperties.class)
 public class CamundaPrometheusAutoConfiguration {
-
-    private final List<MetricsProvider> metricsProviders;
-    private final CollectorRegistry collectorRegistry;
-
-    @Scheduled(fixedDelayString = "${io.muenchendigital.camunda.prometheus.update-interval}")
-    public void updateMetrics() {
-        metricsProviders.forEach(MetricsProvider::updateMetrics);
-    }
-
-    @PostConstruct
-    public void initalizeMetrics() {
-        metricsProviders.forEach(provider -> provider.registerMetrics(collectorRegistry));
-    }
 
 }

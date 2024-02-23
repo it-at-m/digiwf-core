@@ -23,6 +23,7 @@ polyflow:
 
 logging:
   level:
+    kafka.server: WARN
     org.apache.kafka.clients.admin: WARN
     org.apache.kafka.clients.consumer: WARN
     org.apache.kafka.clients.producer: WARN

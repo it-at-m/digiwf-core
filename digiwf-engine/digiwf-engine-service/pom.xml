@@ -83,6 +83,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-camunda-prometheus-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- Streaming -->
         <dependency>

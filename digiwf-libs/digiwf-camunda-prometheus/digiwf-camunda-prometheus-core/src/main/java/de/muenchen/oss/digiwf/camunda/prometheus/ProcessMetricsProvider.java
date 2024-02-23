@@ -5,9 +5,14 @@ import io.prometheus.client.Gauge;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 public class ProcessMetricsProvider implements MetricsProvider {
@@ -21,21 +26,27 @@ public class ProcessMetricsProvider implements MetricsProvider {
 
     @Override
     public void updateMetrics() {
-        final List<String> processDefinitionKeys = new ArrayList<>();
-        this.repositoryService.createProcessDefinitionQuery().list().forEach(processDefinition -> processDefinitionKeys.add(processDefinition.getKey()));
-        this.processDefinitionCount.set(processDefinitionKeys.size());
-        this.processDefinitionCountUnique.set(processDefinitionKeys.stream().distinct().count());
 
-        if (processDefinitionKeys.size() > 0) {
-            processDefinitionKeys.forEach(processDefinitionKey -> this.processInstanceCount.labels(processDefinitionKey)
-                    .set(this.runtimeService.createProcessInstanceQuery()
-                            .processDefinitionKey(processDefinitionKey)
-                            .count()
-                    )
-            );
-        } else {
-            this.processInstanceCount.labels("NA").set(0);
-        }
+        Map<String, List<ProcessDefinition>> maxVersionByProcessDefinitionKey = repositoryService.createProcessDefinitionQuery().list().stream()
+            .sorted(comparing(ProcessDefinition::getVersion).reversed())
+            .collect(groupingBy(ProcessDefinition::getKey));
+
+        processDefinitionCount.set(maxVersionByProcessDefinitionKey.values().stream().mapToLong(List::size).sum());
+        processDefinitionCountUnique.set(maxVersionByProcessDefinitionKey.size());
+
+        maxVersionByProcessDefinitionKey.forEach((processDefinitionKey, processDefinitions) -> {
+            long instanceCountByKey = runtimeService.createProcessInstanceQuery()
+                .processDefinitionKey(processDefinitionKey)
+                .count();
+            long instanceCountLatestVersion = runtimeService.createProcessInstanceQuery()
+                .processDefinitionId(processDefinitions.get(0).getId())
+                .count();
+
+            processInstanceCount.labels(processDefinitionKey, "true")
+                .set(instanceCountLatestVersion);
+            processInstanceCount.labels(processDefinitionKey, "false")
+                .set(instanceCountByKey - instanceCountLatestVersion);
+        });
     }
 
     @Override
@@ -53,7 +64,7 @@ public class ProcessMetricsProvider implements MetricsProvider {
         this.processInstanceCount = Gauge.build()
                 .name("camunda_running_process_instances")
                 .help("Running process instances by process definition key.")
-                .labelNames("processDefinitionKey")
+                .labelNames("processDefinitionKey", "latest")
                 .register(collectorRegistry);
     }
 }

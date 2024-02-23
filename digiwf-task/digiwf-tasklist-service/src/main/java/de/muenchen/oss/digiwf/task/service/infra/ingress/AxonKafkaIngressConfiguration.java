@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.task.service.infra.ingress;
 
+import de.muenchen.oss.digiwf.task.service.infra.metrics.MetricsBindingConsumerFactory;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.axonframework.extensions.kafka.KafkaProperties;
 import org.axonframework.extensions.kafka.eventhandling.KafkaMessageConverter;
@@ -79,7 +80,6 @@ public class AxonKafkaIngressConfiguration {
         .<String, byte[]>builder()
         .topics(Collections.singletonList(extendedProperties.getTopicDataEntries()))
         .consumerFactory(new MetricsBindingConsumerFactory<>(meterRegistry, kafkaConsumerFactory))
-        .consumerFactory(kafkaConsumerFactory)
         .serializer(serializer)
         .fetcher(kafkaFetcher)
         .messageConverter(messageConverter)
@@ -114,7 +114,6 @@ public class AxonKafkaIngressConfiguration {
         .<String, byte[]>builder()
         .topics(Collections.singletonList(extendedProperties.getTopicTasks()))
         .consumerFactory(new MetricsBindingConsumerFactory<>(meterRegistry, kafkaConsumerFactory))
-        .consumerFactory(kafkaConsumerFactory)
         .serializer(serializer)
         .fetcher(kafkaFetcher)
         .messageConverter(messageConverter)

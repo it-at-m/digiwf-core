@@ -1,0 +1,11 @@
+logging:
+  level:
+    org.apache.kafka.clients.admin: WARN
+    org.apache.kafka.clients.consumer: WARN
+    org.apache.kafka.clients.producer: WARN
+
+# overwrite vars
+DIGIWF_ENV: itest
+#KAFKA_BOOTSTRAP_SERVER: localhost
+#KAFKA_BOOTSTRAP_SERVER_PORT: 19999
+#KAFKA_SECURITY_PROTOCOL: PLAINTEXT
