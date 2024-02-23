@@ -1,7 +1,7 @@
 digiwf:
   prometheus:
     process-engine:
-      update-interval: 3000
+      update-interval: 30000
       providers:
         fniAndEde: true
         incident: true
