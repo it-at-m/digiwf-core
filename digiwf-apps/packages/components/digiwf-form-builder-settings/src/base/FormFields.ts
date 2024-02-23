@@ -1010,6 +1010,7 @@ export const dmsInputSchema = (labels: Labels) => {
       }
     }
   };
+  return schema;
 };
 
 export const genericSchema = (labels: Labels) => {
