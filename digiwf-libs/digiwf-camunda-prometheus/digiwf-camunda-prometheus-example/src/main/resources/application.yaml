@@ -1,8 +1,13 @@
-io:
-  muenchendigital:
-    camunda:
-      prometheus:
-        update-interval: 3000
+digiwf:
+  prometheus:
+    process-engine:
+      update-interval: 30000
+      providers:
+        fniAndEde: true
+        incident: true
+        job: true
+        process: true
+        task: true
 
 management:
   server:

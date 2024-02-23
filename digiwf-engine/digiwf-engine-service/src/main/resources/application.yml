@@ -185,6 +185,16 @@ digiwf:
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+  prometheus:
+    process-engine:
+      update-interval: 30000
+      providers:
+        fniAndEde: true
+        incident: true
+        job: true
+        process: false # deactivate the process definition metrics
+        task: true
+
 io:
   muenchendigital:
     digiwf:
@@ -194,6 +204,3 @@ io:
         client:
           documentStorageUrl: '${digiwf.s3service.httpAPI}'
           securityEnabled: true
-    camunda:
-      prometheus:
-        update-interval: 3000
