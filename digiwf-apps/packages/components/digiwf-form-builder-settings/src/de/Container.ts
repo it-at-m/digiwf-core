@@ -77,6 +77,7 @@ export const containerSchema = {
             "description": "Ui",
             "properties": {
               "dense": {
+                "default": false,
                 "type": "boolean",
                 "title": "Dense",
                 "x-props": {
@@ -91,6 +92,7 @@ export const containerSchema = {
                 }
               },
               "outlined": {
+                "default": false,
                 "type": "boolean",
                 "title": "Outlined",
                 "x-props": {
@@ -126,6 +128,7 @@ export const conditionalObjectContainerSchema = {
   "allOf": [
     {
       "title": "General",
+      "description": "I'm a description shown as a paragraph on top of section",
       "type": "object",
       "x-options": {
         "removeAdditionalProperties": false
@@ -189,6 +192,7 @@ export const conditionalObjectContainerSchema = {
     },
     {
       "title": "Options",
+      "description": "I'm a description shown as a paragraph on top of section",
       "type": "object",
       "properties": {
         "x-options": {
@@ -269,6 +273,7 @@ export const conditionalContainerSchema = {
   "allOf": [
     {
       "title": "Allgemein",
+      "description": "I'm a description shown as a paragraph on top of section",
       "type": "object",
       "x-options": {
         "removeAdditionalProperties": false
@@ -334,6 +339,7 @@ export const conditionalContainerSchema = {
     },
     {
       "title": "Options",
+      "description": "I'm a description shown as a paragraph on top of section",
       "type": "object",
       "properties": {
         "x-options": {

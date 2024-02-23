@@ -10,9 +10,69 @@ import {
   optionalProperties,
   sectionPalette
 } from "./ModelerPalette";
-import { deLabels, schemaMap } from "./FormFields";
+import { schemaMap } from "./FormFields";
 import { FormBuilderSettings } from "../../types";
 import { genericSchema } from "../base/FormFields";
+import { Labels } from "../base/labels";
+
+const deLabels: Labels = {
+  title: "Titel",
+  description: "Beschreibung",
+  key: "Schlüssel",
+  ui: "UI",
+  general: "Allgemein",
+  section: "Sektion",
+  optionalObject: "Optionales Objekt",
+  optionalSelectItem: "Optionales Auswahl-Item",
+  optionalGroup: "Optionale Gruppe",
+  optionalFields: "Optionale Felder",
+  markdown: "Markdown",
+  list: "Liste",
+  switch: "Schalter",
+  dmsInput: "DMS Eingabe",
+  multiUserInput: "Multi-Benutzer Eingabe",
+  userInput: "Benutzereingabe",
+  files: "Dateien",
+  select: "Auswählen",
+  multiSelect: "Mehrfachauswahl",
+  time: "Zeit",
+  date: "Datum",
+  checkbox: "Checkbox",
+  floatNumber: "Gleitkommazahl",
+  number: "Zahl",
+  textarea: "Textfeld",
+  text: "Textfeld",
+  options: "Optionen",
+  dynamicObject: "Dynamisches Objekt",
+  dynamicObjectList: "Dynamische Objektliste",
+  containerDescription: "Ich bin eine Beschreibung, die als Absatz oben in der Sektion angezeigt wird",
+  maxColSize: "Größe (max 12)",
+  defaultColSize: "Standardgröße",
+  colSizeSmallDevices: "Größe auf kleinen Geräten",
+  default: "Standard",
+  messages: "Nachrichten",
+  validation: "Validierung",
+  type: "Typ",
+  errorMsgPattern: "Fehlermeldung im Muster",
+  errorMsgMinString: "Mindestens {minLength} Zeichen",
+  errorMsgMaxString: "Maximal {maxLength} Zeichen",
+  errorMsgMinNumber: "Mindestens {minimum}",
+  errorMsgMaxNumber: "Maximal {maximum}",
+  errorMsgMinArray: "Mindestens {minItems} Einträge",
+  errorMsgMaxArray: "Maximal {maxItems} Einträge",
+  validationMin: "Minimum",
+  validationMax: "Maximum",
+  validationAdditionalRules: "Zusätzliche Regeln",
+  dmsSystem: "DMS System",
+  dmsObjectClass: "Objectclass",
+  dmsSchriftstueck: "Document",
+  dmsSachakte: "Factual files",
+  dmsVorgang: "Dossier",
+  dmsEingang: "Inbox",
+  dmsAusgang: "Exit",
+  dmsIntern: "Internal",
+  dmsDefaultDescription: "List of COOs or links to be checked by the input",
+}
 
 const Settings: FormBuilderSettings = {
     iconSettings: {
@@ -36,7 +96,7 @@ const Settings: FormBuilderSettings = {
     conditionalObjectContainerSchema: conditionalObjectContainerSchema,
     sectionSchema: section,
     defaultFormFieldSchema: genericSchema(deLabels),
-    formFieldSchemas: schemaMap
+    formFieldSchemas: schemaMap(deLabels)
 };
 
 export default Settings;

@@ -1,35 +1,4 @@
-export interface Labels {
-  sectionTitle: string;
-  sectionDescription: string;
-  optionsTitle: string;
-  maxColSize: string;
-  defaultColSize: string;
-  colSizeSmallDevices: string;
-  default: string;
-  messages: string;
-  validation: string;
-  type: string;
-  errorMsgPattern: string;
-  errorMsgMinString: string;
-  errorMsgMaxString: string;
-  errorMsgMinNumber: string;
-  errorMsgMaxNumber: string;
-  errorMsgMinArray: string;
-  errorMsgMaxArray: string;
-  validationMin: string;
-  validationMax: string;
-  validationAdditionalRules: string;
-  dmsSystem: string;
-  dmsObjectClass: string;
-  dmsSchriftstueck: string;
-  dmsSachakte: string;
-  dmsVorgang: string;
-  dmsEingang: string;
-  dmsAusgang: string;
-  dmsIntern: string;
-  dmsDefaultDescription: string;
-}
-
+import { Labels } from "@/base/labels";
 
 export function schemaBuilder(fieldType: string, labels: Labels) {
   return {
@@ -43,7 +12,7 @@ export function schemaBuilder(fieldType: string, labels: Labels) {
     },
     allOf: [
       {
-        "title": `${labels.sectionTitle}`,
+        "title": labels.general,
         "type": "object",
         "properties": {
           "fieldType": {
@@ -68,7 +37,7 @@ export function schemaBuilder(fieldType: string, labels: Labels) {
           },
           "title": {
             "type": "string",
-            "title": `${labels.sectionTitle}`,
+            "title": labels.general,
             "x-props": {
               "outlined": true,
               "dense": true
@@ -79,7 +48,7 @@ export function schemaBuilder(fieldType: string, labels: Labels) {
           },
           "description": {
             "type": "string",
-            "title": `${labels.sectionDescription}`,
+            "title": labels.description,
             "x-props": {
               "outlined": true,
               "dense": true
@@ -96,7 +65,7 @@ export function schemaBuilder(fieldType: string, labels: Labels) {
         }
       },
       {
-        "title": `${labels.optionsTitle}`,
+        "title": `${labels.options}`,
         "type": "object",
         "properties": {
           "x-props": {

@@ -6,7 +6,6 @@ import {
   dmsInputSchema,
   fileSchema,
   integerSchema,
-  Labels,
   markdownSchema,
   multiselectSchema,
   multiUserinputSchema,
@@ -18,39 +17,7 @@ import {
   timeSchema,
   userinputSchema
 } from "../base/FormFields";
-
-
-export const enLabels: Labels = {
-  sectionTitle: "General",
-  sectionDescription: "Description",
-  optionsTitle: "Options",
-  maxColSize: "Size (max 12)",
-  defaultColSize: "Default size",
-  colSizeSmallDevices: "Size on small devices",
-  default: "Default",
-  messages: "Messages",
-  validation: "Validation",
-  type: "Type",
-  errorMsgPattern: "Pattern error message",
-  errorMsgMinString: "Minimum {minLength} characters",
-  errorMsgMaxString: "Maximum {maxLength} characters",
-  errorMsgMinNumber: "Minimum {minimum}",
-  errorMsgMaxNumber: "Maximum {maximum}",
-  errorMsgMinArray: "Minimum {minItems} entries",
-  errorMsgMaxArray: "Maximum {maxItems} entries",
-  validationMin: "Minimum",
-  validationMax: "Maximum",
-  validationAdditionalRules: "Additional rules",
-  dmsSystem: "DMS System",
-  dmsObjectClass: "Objectclass",
-  dmsSchriftstueck: "Document",
-  dmsSachakte: "Factual files",
-  dmsVorgang: "Dossier",
-  dmsEingang: "Inbox",
-  dmsAusgang: "Exit",
-  dmsIntern: "Internal",
-  dmsDefaultDescription: "List of COOs or links to be checked by the input",
-};
+import { Labels } from "@/base/labels";
 
 const constSchema = {
   "title": "General",
@@ -90,25 +57,27 @@ const constSchema = {
   }
 };
 
-export const schemaMap: any = {
-  "textarea": textAreaSchema(enLabels),
-  "text": textFeldSchema(enLabels),
-  "integer": integerSchema(enLabels),
-  "number": integerSchema(enLabels),
-  "date": dateSchema(enLabels),
-  "time": timeSchema(enLabels),
-  "boolean": checkboxSchema(enLabels),
-  "select": selectSchema(enLabels),
-  "multiselect": multiselectSchema(enLabels),
-  "file": fileSchema(enLabels),
-  "user-input": userinputSchema(enLabels),
-  "multi-user-input": multiUserinputSchema(enLabels),
-  "dms-input": dmsInputSchema(enLabels),
-  "array": arrayInput(enLabels),
-  "arrayObject": arrayObjectInput(enLabels),
-  "switch": switchSchema(enLabels),
-  "markdown": markdownSchema(enLabels),
-  "const": constSchema,
-  "object": objectInput(enLabels),
-  "objectType": objectInput(enLabels)
+export const schemaMap = (enLabels: Labels): any => {
+  return {
+    "textarea": textAreaSchema(enLabels),
+    "text": textFeldSchema(enLabels),
+    "integer": integerSchema(enLabels),
+    "number": integerSchema(enLabels),
+    "date": dateSchema(enLabels),
+    "time": timeSchema(enLabels),
+    "boolean": checkboxSchema(enLabels),
+    "select": selectSchema(enLabels),
+    "multiselect": multiselectSchema(enLabels),
+    "file": fileSchema(enLabels),
+    "user-input": userinputSchema(enLabels),
+    "multi-user-input": multiUserinputSchema(enLabels),
+    "dms-input": dmsInputSchema(enLabels),
+    "array": arrayInput(enLabels),
+    "arrayObject": arrayObjectInput(enLabels),
+    "switch": switchSchema(enLabels),
+    "markdown": markdownSchema(enLabels),
+    "const": constSchema,
+    "object": objectInput(enLabels),
+    "objectType": objectInput(enLabels)
+  }
 };
