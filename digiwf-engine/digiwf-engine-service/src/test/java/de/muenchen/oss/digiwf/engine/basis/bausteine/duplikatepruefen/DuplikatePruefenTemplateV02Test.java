@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Deployment(resources = {"bausteine/basis/duplikatepruefen/DuplikatePruefenV02.bpmn",
-    "bausteine/basis/duplikatepruefen/feature/Feature_DuplikatePruefenV02.bpmn"})
+    "prozesse/feature/unittests/basis/duplikatepruefen/Feature_DuplikatePruefenV02.bpmn"})
 @ExtendWith(MockitoExtension.class)
 public class DuplikatePruefenTemplateV02Test {
 

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Deployment(resources = { "bausteine/basis/duplikatepruefen/DuplikatePruefenV01.bpmn",
-        "bausteine/basis/duplikatepruefen/feature/Feature_DuplikatePruefen.bpmn" })
+        "prozesse/feature/unittests/basis/duplikatepruefen/Feature_DuplikatePruefen.bpmn" })
 @ExtendWith(MockitoExtension.class)
 public class DuplikatePruefenTemplateTest {
 
