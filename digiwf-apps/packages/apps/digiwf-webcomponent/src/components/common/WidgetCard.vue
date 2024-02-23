@@ -87,8 +87,7 @@ import {
   CCardBody,
   CCardFooter,
   CCardHeader,
-  CSpinner,
-  CCardText
+  CSpinner
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
@@ -123,7 +122,7 @@ const emit = defineEmits<{
 }>();
 
 const showPagination = computed(() => props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1);
-const hasContent = computed(() => props.pageData && props.pageData.totalElements > 0);
+const hasContent = computed(() => props.pageData && props.pageData.totalElements && props.pageData.totalElements > 0);
 
 const frontendURL = computed(() => {
   return `${digiWFBaseURL!.value}/#/${props.linkPath}`;

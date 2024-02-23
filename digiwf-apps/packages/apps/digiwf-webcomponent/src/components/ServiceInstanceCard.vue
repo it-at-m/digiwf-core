@@ -2,7 +2,7 @@
   <widget-card
     :link-path="FRONTEND_INSTANCE_PATH"
     card-title="Meine Vorgänge"
-    link-text="Alle Vorgänge ansehen (DigiWF)"
+    link-text="In DigiWF ansehen"
     :loading="showLoading"
     :page-data="pageData"
     @reload="loadData"
@@ -66,7 +66,7 @@ watch(totalPages, (newTotalPages: number) => {
 
 const pageData = computed<PageData | undefined>(() => {
   if (!data.value) return undefined;
-  const { totalPages, totalElements } = data;
+  const { totalPages, totalElements } = data.value;
   return {
     totalPages,
     number: page.value,
