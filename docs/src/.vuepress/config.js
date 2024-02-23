@@ -205,6 +205,7 @@ module.exports = {
                             children: [
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
+                                'guides/element-template-migration/',
                             ]
                         },
                         {
