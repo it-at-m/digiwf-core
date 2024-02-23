@@ -15,7 +15,7 @@
     "@coreui/vue": "~4.10.2",
     "@jamescoyle/vue-icon": "~0.1.2",
     "@mdi/js": "~7.4.47",
-    "@muenchen/digiwf-engine-api-internal": "~1.5.7",
+    "@muenchen/digiwf-engine-api-internal": "~1.7.2",
     "@unplugin-vue-ce/sub-style": "~1.0.0-beta.19",
     "@vueuse/core": "~10.7.2",
     "vite-plugin-css-injected-by-js": "~3.3.1",

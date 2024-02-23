@@ -32,8 +32,9 @@
           color="primary"
           variant="ghost"
           :disabled="loading"
+          @click="emit('reload')"
         >
-          <span class="me-2">Neu laden</span>
+          <span class="me-2">Aktualisieren</span>
           <svg-icon
             type="mdi"
             :path="mdiReload"
@@ -42,10 +43,29 @@
       </div>
     </c-card-header>
     <c-card-body class="p-0">
-      <slot />
+      <slot
+        v-if="loading"
+        name="placeholder"
+      />
+      <slot
+        v-else-if="hasContent"
+        name="content"
+      />
+      <no-data v-else />
     </c-card-body>
     <c-card-footer>
-      <div class="d-flex w-100 justify-content-end align-items-center">
+      <div
+        class="d-flex w-100 align-items-center"
+        :class="[
+          showPagination ? 'justify-content-between' : 'justify-content-end',
+        ]"
+      >
+        <smart-pagination
+          v-if="showPagination"
+          :active-page="pageData!.number!"
+          :amount-pages="pageData!.totalPages!"
+          @changepage="(page) => emit('changepage', page)"
+        />
         <c-button
           color="primary"
           variant="ghost"
@@ -66,6 +86,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PageData } from "@/types/PageData";
+
 import {
   CButton,
   CCard,
@@ -78,6 +100,8 @@ import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
+import NoData from "@/components/common/NoData.vue";
+import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useInjectBaseURL } from "@/composables/useBaseURL";
 
 const { digiWFBaseURL } = useInjectBaseURL();
@@ -89,12 +113,29 @@ const props = withDefaults(
     loading?: boolean;
     linkText?: string;
     linkPath: string;
+    pageData: PageData | undefined;
   }>(),
   {
     iconPath: mdiClipboardTextOutline,
     loading: false,
     linkText: "In DigiWF öffnen",
   }
+);
+
+const emit = defineEmits<{
+  reload: [];
+  changepage: [page: number];
+}>();
+
+const showPagination = computed(
+  () =>
+    props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1
+);
+const hasContent = computed(
+  () =>
+    props.pageData &&
+    props.pageData.totalElements &&
+    props.pageData.totalElements > 0
 );
 
 const frontendURL = computed(() => {

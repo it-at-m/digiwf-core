@@ -1,4 +1,7 @@
-import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import type {
+  PageServiceInstanceTO,
+  ServiceInstanceTO,
+} from "@muenchen/digiwf-engine-api-internal";
 
 const SERVICE_INSTANCES_DUMMIES: ServiceInstanceTO[] = [
   {
@@ -27,4 +30,10 @@ const SERVICE_INSTANCES_DUMMIES: ServiceInstanceTO[] = [
   },
 ];
 
-export default SERVICE_INSTANCES_DUMMIES;
+const PAGE_SERVICE_INSTANCE_DUMMY: PageServiceInstanceTO = {
+  content: SERVICE_INSTANCES_DUMMIES,
+  totalPages: 2,
+  totalElements: 6,
+};
+
+export default PAGE_SERVICE_INSTANCE_DUMMY;

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { CContainer } from "@coreui/vue";
-import { toRefs } from "vue";
+import { defineProps, toRefs, withDefaults } from "vue";
 
 import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
