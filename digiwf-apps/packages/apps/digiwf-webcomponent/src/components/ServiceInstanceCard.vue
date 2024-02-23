@@ -5,8 +5,8 @@
     link-text="Alle Vorgänge ansehen (DigiWF)"
     :loading="showLoading"
     :page-data="pageData"
-    @reload="reload"
-    @changepage="changePage"
+    @reload="loadData"
+    @changepage="newPage => page = newPage"
   >
     <template #content>
       <c-list-group flush>
@@ -25,7 +25,6 @@
       </c-list-group>
     </template>
   </widget-card>
-  <button @click="sendTest">TEST API CODE</button>
 </template>
 
 <script setup lang="ts">
@@ -47,16 +46,17 @@ const { callGetAssignedProcessInstances } = useServiceInstanceControllerAPI();
 const { hasAccessToken } = useHasAccessToken();
 const loading = ref(false);
 const showLoading = computed(() => !hasAccessToken?.value || loading.value);
+const canLoad = computed(() => hasAccessToken?.value && !loading.value);
 
-const pageSize = 3;
 const page = ref(0);
+const pageSize = 3; // Maybe later set dynamically or as widget parameter?
 
 const serviceInstanceData = ref<PageServiceInstanceTO>(null);
 
+// What happens if access token is there before component mounted?
 watch(hasAccessToken, (token: boolean) => {
   if(token) {
-    // TODO REPLACE WITH REAL CALL;
-    getProcessInstances();
+    loadData();
   }
 })
 
@@ -70,35 +70,18 @@ const pageData = computed<PageData>(() => {
   };
 });
 
-const reload = () => {
-  // TODO IMPLEMENT
-  console.log("TODO IMPLEMENT");
-}
-
-const changePage = (newPage: number) => {
-  page.value = newPage;
-}
-
 watch(page, () => {
-  if(hasAccessToken?.value) {
-    // TODO REPLACE WITH REAL CALL
-    getProcessInstances();
-  }
+  loadData();
 });
 
 // TODO REPLACE METHOD WITH REAL CALL
-const getProcessInstances = async () => {
-  loading.value = true
-  setTimeout(() => {
-    serviceInstanceData.value = PAGE_SERVICE_INSTANCE_DUMMY;
-    loading.value = false;
-  }, 2000);
-}
-
-const sendTest = async () => {
-  const result = await callGetAssignedProcessInstances(1, 2, "test");
-  if (!result) {
-    console.log("ERROR MUST HAVE BEEN OCCURED");
+const loadData = () => {
+  if (canLoad.value) {
+    loading.value = true
+    setTimeout(() => {
+      serviceInstanceData.value = PAGE_SERVICE_INSTANCE_DUMMY;
+      loading.value = false;
+    }, 2000);
   }
-};
+}
 </script>
