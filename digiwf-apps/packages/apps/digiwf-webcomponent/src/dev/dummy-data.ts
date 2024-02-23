@@ -1,4 +1,7 @@
-import type { PageServiceInstanceTO, ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import type {
+  PageServiceInstanceTO,
+  ServiceInstanceTO,
+} from "@muenchen/digiwf-engine-api-internal";
 
 const SERVICE_INSTANCES_DUMMIES: ServiceInstanceTO[] = [
   {
@@ -24,7 +27,7 @@ const SERVICE_INSTANCES_DUMMIES: ServiceInstanceTO[] = [
     endTime: null,
     status: "Antrag geprueft",
     description: "Das ist eine Beschreibung",
-  }
+  },
 ];
 
 const PAGE_SERVICE_INSTANCE_DUMMY: PageServiceInstanceTO = {

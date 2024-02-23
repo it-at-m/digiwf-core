@@ -51,15 +51,20 @@
         v-else-if="hasContent"
         name="content"
       />
-      <no-data v-else/>
+      <no-data v-else />
     </c-card-body>
     <c-card-footer>
-      <div class="d-flex w-100 align-items-center" :class="[showPagination ? 'justify-content-between' : 'justify-content-end']">
+      <div
+        class="d-flex w-100 align-items-center"
+        :class="[
+          showPagination ? 'justify-content-between' : 'justify-content-end',
+        ]"
+      >
         <smart-pagination
           v-if="showPagination"
           :active-page="pageData!.number!"
           :amount-pages="pageData!.totalPages!"
-          @changepage="page => emit('changepage', page)"
+          @changepage="(page) => emit('changepage', page)"
         />
         <c-button
           color="primary"
@@ -81,22 +86,23 @@
 </template>
 
 <script setup lang="ts">
+import type { PageData } from "@/types/PageData";
+
 import {
   CButton,
   CCard,
   CCardBody,
   CCardFooter,
   CCardHeader,
-  CSpinner
+  CSpinner,
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
-import { useInjectBaseURL } from "@/composables/useBaseURL";
-import type { PageData } from "@/types/PageData";
-import SmartPagination from "@/components/common/SmartPagination.vue";
 import NoData from "@/components/common/NoData.vue";
+import SmartPagination from "@/components/common/SmartPagination.vue";
+import { useInjectBaseURL } from "@/composables/useBaseURL";
 
 const { digiWFBaseURL } = useInjectBaseURL();
 
@@ -121,8 +127,16 @@ const emit = defineEmits<{
   changepage: [page: number];
 }>();
 
-const showPagination = computed(() => props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1);
-const hasContent = computed(() => props.pageData && props.pageData.totalElements && props.pageData.totalElements > 0);
+const showPagination = computed(
+  () =>
+    props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1
+);
+const hasContent = computed(
+  () =>
+    props.pageData &&
+    props.pageData.totalElements &&
+    props.pageData.totalElements > 0
+);
 
 const frontendURL = computed(() => {
   return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
