@@ -1,8 +1,8 @@
 <template>
   <widget-card
     :link-path="FRONTEND_INSTANCE_PATH"
-    card-title="Neueste Anträge"
-    link-text="Alle Anträge ansehen (DigiWF)"
+    card-title="Meine Vorgänge"
+    link-text="Alle Vorgänge ansehen (DigiWF)"
     :loading="showLoading"
     :page-data="pageData"
     @reload="reload"

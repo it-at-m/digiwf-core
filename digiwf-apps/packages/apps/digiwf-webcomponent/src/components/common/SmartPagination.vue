@@ -71,11 +71,11 @@ const emit = defineEmits<{
 }>();
 
 const gotoPreviousPage = () => {
-  gotoPage(props.activePage - 1);
+  if (!isOnFirstPage.value) gotoPage(props.activePage - 1);
 };
 
 const gotoNextPage = () => {
-  gotoPage(props.activePage + 1);
+  if (!isOnLastPage.value) gotoPage(props.activePage + 1);
 };
 
 const gotoPage = (page: number) => {
@@ -132,3 +132,9 @@ const isActivePage = (page: number) => page === props.activePage + 1;
 const isOnFirstPage = computed(() => props.activePage === 0);
 const isOnLastPage = computed(() => props.activePage === props.amountPages - 1);
 </script>
+
+<style scoped>
+nav :deep(ul.pagination) {
+  margin-bottom: 0;
+}
+</style>

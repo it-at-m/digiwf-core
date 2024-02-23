@@ -54,7 +54,7 @@
       <c-card-text v-else>Es konnten keine Daten gefunden werden.</c-card-text>
     </c-card-body>
     <c-card-footer>
-      <div class="d-flex w-100 justify-content-between align-items-center">
+      <div class="d-flex w-100 align-items-center" :class="[showPagination ? 'justify-content-between' : 'justify-content-end']">
         <smart-pagination
           v-if="showPagination"
           :active-page="pageData!.number!"
@@ -121,7 +121,7 @@ const emit = defineEmits<{
   changepage: [page: number];
 }>();
 
-const showPagination = computed(() => props.pageData && props.pageData.number && props.pageData.totalPages && props.pageData.totalPages > 1);
+const showPagination = computed(() => props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1);
 const hasContent = computed(() => props.pageData && props.pageData.totalElements > 0);
 
 const frontendURL = computed(() => {
