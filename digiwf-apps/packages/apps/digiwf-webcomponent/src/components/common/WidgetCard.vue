@@ -51,7 +51,7 @@
         v-else-if="hasContent"
         name="content"
       />
-      <c-card-text v-else>Es konnten keine Daten gefunden werden.</c-card-text>
+      <no-data v-else/>
     </c-card-body>
     <c-card-footer>
       <div class="d-flex w-100 align-items-center" :class="[showPagination ? 'justify-content-between' : 'justify-content-end']">
@@ -97,6 +97,7 @@ import { computed } from "vue";
 import { useInjectBaseURL } from "@/composables/useBaseURL";
 import type { PageData } from "@/types/PageData";
 import SmartPagination from "@/components/common/SmartPagination.vue";
+import NoData from "@/components/common/NoData.vue";
 
 const { digiWFBaseURL } = useInjectBaseURL();
 
