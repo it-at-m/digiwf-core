@@ -7,7 +7,7 @@ public class CamundaPrometheusProperties {
     /**
      * Update interval for running metrics providers, which actively execute queries.
      */
-    private int updateInterval;
+    private int updateInterval = 30000;
     /**
      * Flags controlling metrics.
      */
