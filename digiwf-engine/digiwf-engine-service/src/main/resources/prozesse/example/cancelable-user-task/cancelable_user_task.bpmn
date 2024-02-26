@@ -8,10 +8,11 @@
       <bpmn:incoming>Flow_0m59tr4</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0m59tr4" sourceRef="cancelable_user_task" targetRef="Event_02qvtq4" />
-    <bpmn:userTask id="cancelable_user_task" name="Cancelable User Task" camunda:formKey="FeatureCancelUserTask_Task" camunda:assignee="${starterOfInstance}">
+    <bpmn:userTask id="cancelable_user_task" name="Cancelable User Task" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_schema_key">FeatureCancelUserTask_Task</camunda:inputParameter>
           <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
           <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
           <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
