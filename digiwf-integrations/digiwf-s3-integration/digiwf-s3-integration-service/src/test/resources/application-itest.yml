@@ -1,5 +1,7 @@
 refarch.gracefulshutdown.pre-wait-seconds: 0
 
+DIGIWF_ENV: itest
+
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;mode=postgresql

@@ -193,7 +193,7 @@ public class TaskExternalLinksIT {
                 get(RestConstants.BASE_PATH + "/tasks/user")
                     .contentType(MediaType.APPLICATION_JSON)
             )
-            .andDo(print())
+            // .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))
