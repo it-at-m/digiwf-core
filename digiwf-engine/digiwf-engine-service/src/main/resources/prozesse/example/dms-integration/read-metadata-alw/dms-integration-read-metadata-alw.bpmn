@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
   <bpmn:collaboration id="Collaboration_0iserd2">
-    <bpmn:participant id="Participant_141ljpi" name="Read metadata process" processRef="dms-read-metadata-example" />
+    <bpmn:participant id="Participant_141ljpi" name="Read metadata alw process" processRef="dms-read-metadata-alw-example" />
   </bpmn:collaboration>
-  <bpmn:process id="dms-read-metadata-example" name="DMS: Example Read Metadata Integration" isExecutable="true">
+  <bpmn:process id="dms-read-metadata-alw-example" name="DMS: ALW DMS Input" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_06uxuk4" />
-    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-read-metadata_start">
+    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-read-metadata-alw_start">
       <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
@@ -39,7 +39,7 @@
           <camunda:inputParameter name="mail_bottom_text" />
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-read-metadata_check</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-read-metadata-alw_check</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths">path</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

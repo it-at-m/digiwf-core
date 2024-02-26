@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-read-metadata_check",
+  "key": "dms-integration-read-metadata-alw_start",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -22,15 +22,37 @@
               "childrenClass": "pl-0"
             },
             "properties": {
+              "FormField_StartInfo": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "array",
+                "items": {},
+                "x-display": "markdown",
+                "key": "FormField_StartInfo",
+                "readOnly": true,
+                "default": "With this test process get metadata of objects from the alw dms.",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "dmsContent": {
                 "fieldType": "dms-input",
-                "title": "DMS Input für Schriftstücke",
+                "title": "DMS Input für Schriftstücke aus dem ALW DMS",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "key": "dmsContent",
                 "items": {},
                 "objectclass": "Schriftstueck",
-                "dmsSystem": "mucs",
+                "dmsSystem": "alw",
                 "minObjects": 1,
                 "maxObjects": 4,
                 "default": [],
@@ -48,13 +70,13 @@
               },
               "dmsProcedure": {
                 "fieldType": "dms-input",
-                "title": "DMS Input für Vorgang",
+                "title": "DMS Input für Vorgänge aus dem ALW DMS",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "key": "dmsProcedure",
                 "items": {},
                 "objectclass": "Vorgang",
-                "dmsSystem": "mucs",
+                "dmsSystem": "alw",
                 "description": "Beschreibung",
                 "x-options": {
                   "fieldColProps": {

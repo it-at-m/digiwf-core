@@ -393,8 +393,7 @@ gradle-app.setting
 
 **/target/
 **/pom.xml.versionsBackup
-**/application-internal.*
-**/application-*-internal.*
+**/application-*internal.*
 /docs/node/
 
 # ignore direnv files

@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-cancel-object_start",
+  "key": "dms-integration-create-vorgang_start",
   "schema": {
     "type": "object",
     "x-display": "stepper",

@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-read-metadata_start",
+  "key": "dms-integration-read-metadata_check",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -22,31 +22,9 @@
               "childrenClass": "pl-0"
             },
             "properties": {
-              "FormField_StartInfo": {
-                "fieldType": "markdown",
-                "title": "Info",
-                "type": "array",
-                "items": {},
-                "x-display": "markdown",
-                "key": "FormField_StartInfo",
-                "readOnly": true,
-                "default": "With this test process get metadata of objects from the dms.",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
-              },
               "dmsContent": {
                 "fieldType": "dms-input",
-                "title": "DMS Input für Schriftstücke",
+                "title": "DMS Input für Schriftstücke aus dem MUCS DMS",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "key": "dmsContent",
@@ -70,7 +48,7 @@
               },
               "dmsProcedure": {
                 "fieldType": "dms-input",
-                "title": "DMS Input für Vorgang",
+                "title": "DMS Input für Vorgänge aus dem MUCS DMS",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "key": "dmsProcedure",

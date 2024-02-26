@@ -1,5 +1,5 @@
 {
-  "key": "dms-integration-create-vorgang_start",
+  "key": "dms-integration-read-metadata_start",
   "schema": {
     "type": "object",
     "x-display": "stepper",
@@ -25,11 +25,12 @@
               "FormField_StartInfo": {
                 "fieldType": "markdown",
                 "title": "Info",
-                "type": "string",
+                "type": "array",
+                "items": {},
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process create a vorgang with the information from the form below.",
+                "default": "With this test process get metadata of objects from the mucs dms.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -43,59 +44,51 @@
                 },
                 "x-rules": []
               },
-              "title": {
-                "fieldType": "text",
-                "title": "Title",
-                "type": "string",
-                "key": "title",
+              "dmsContent": {
+                "fieldType": "dms-input",
+                "title": "DMS Input für Schriftstücke aus dem MUCS DMS",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "key": "dmsContent",
+                "items": {},
+                "objectclass": "Schriftstueck",
+                "dmsSystem": "mucs",
+                "minObjects": 1,
+                "maxObjects": 4,
+                "default": [],
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                },
-                "x-rules": []
+                }
               },
-              "fileCOO": {
-                "fieldType": "text",
-                "title": "Sachakte (COO)",
-                "type": "string",
-                "key": "fileCOO",
+              "dmsProcedure": {
+                "fieldType": "dms-input",
+                "title": "DMS Input für Vorgänge aus dem MUCS DMS",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "key": "dmsProcedure",
+                "items": {},
+                "objectclass": "Vorgang",
+                "dmsSystem": "mucs",
+                "description": "Beschreibung",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
+                    "sm": 12
+                  },
+                  "messages": {}
                 },
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                },
-                "x-rules": []
-              },
-              "user": {
-                "fieldType": "text",
-                "title": "Dms User",
-                "type": "string",
-                "key": "user",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": []
+                }
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"
