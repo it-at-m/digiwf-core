@@ -2,7 +2,7 @@
   <v-form
     ref="form">
     <dwf-form-renderer
-      :options="vjfsConfig"
+      :options="{locale : 'de', readOnly: readonly || false, markdownit: { breaks: true } }"
       :value="value"
       :schema="schema"
     >
@@ -33,7 +33,6 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-import {defaultVJFSConfig, VJSFConfig} from "../../utils/vjfsConfig";
 
 @Component
 export default class AppJsonRenderer extends Vue {
@@ -47,14 +46,11 @@ export default class AppJsonRenderer extends Vue {
   @Prop()
   readonly!: boolean;
 
-  vjfsConfig: VJSFConfig = {
-    ...defaultVJFSConfig,
-    readonly: this.readonly || false
-  }
-
   @Emit("input")
   input(value: any): any {
     return value;
   }
+
+
 }
 </script>

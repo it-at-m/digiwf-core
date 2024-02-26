@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
@@ -39,9 +38,16 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn", "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegenV02S3.bpmn"})
+@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn",
+        "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn",
+        "prozesse/feature/unittests/dms/vorganganlegen/Feature_VorgangAnlegen.bpmn",
+        "prozesse/feature/unittests/dms/vorganganlegen/Feature_VorgangAnlegenV02S3.bpmn"})
 @ExtendWith(MockitoExtension.class)
 public class VorgangAnlegenTemplateTest {
 

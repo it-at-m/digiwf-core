@@ -114,9 +114,8 @@ export default defineComponent({
         "allOf": [
           {
             "key": "sectionKey1",
-            "title": "Startseite",
+            "title": "Allgemeine Angaben",
             "type": "object",
-            "description": "Beschreibung der Startseite",
             "x-options": {
               "sectionsTitlesClasses": []
             },

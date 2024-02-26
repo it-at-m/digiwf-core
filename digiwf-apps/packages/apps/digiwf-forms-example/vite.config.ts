@@ -17,7 +17,7 @@ export default defineConfig({
     })
   ],
   server: {
-    port: 8085
+    port: 8081
   },
   build: {
     commonjsOptions: {

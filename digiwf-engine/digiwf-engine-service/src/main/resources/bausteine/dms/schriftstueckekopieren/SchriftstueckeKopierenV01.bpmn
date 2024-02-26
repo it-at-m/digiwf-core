@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1a2rosm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
-  <bpmn:process id="SchriftstueckeKopierenV01" name="Schriftstuecke Kopieren Template V01" isExecutable="true">
+  <bpmn:process id="SchriftstueckeKopierenV01" name="Schriftstuecke Kopieren Template V01" isExecutable="true"  camunda:isStartableInTasklist="false">
     <bpmn:startEvent id="StartEvent_Gestartet" name="Schriftstücke kopieren gestartet" camunda:asyncBefore="true">
       <bpmn:outgoing>Flow_0iq3eja</bpmn:outgoing>
     </bpmn:startEvent>

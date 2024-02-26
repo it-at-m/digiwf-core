@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="VorgangZALegenV01" />
   </bpmn:collaboration>
-  <bpmn:process id="VorgangZALegenV01" name="Vorgang z.A. legen Template V01" isExecutable="true" camunda:versionTag="1.0.1">
+  <bpmn:process id="VorgangZALegenV01" name="Vorgang z.A. legen Template V01" isExecutable="true" camunda:isStartableInTasklist="false" camunda:versionTag="1.0.1">
     <bpmn:laneSet id="LaneSet_1bbrvcv">
       <bpmn:lane id="Lane_DigitalWF" name="DigitalWF">
         <bpmn:flowNodeRef>StartEvent_VorgangZuDenAktenZuLegen</bpmn:flowNodeRef>

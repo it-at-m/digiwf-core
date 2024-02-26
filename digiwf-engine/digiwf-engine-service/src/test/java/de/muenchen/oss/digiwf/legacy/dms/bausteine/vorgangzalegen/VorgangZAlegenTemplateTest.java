@@ -22,13 +22,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn", "bausteine/dms/vorgangzalegen/feature/Feature_VorgangZALegen.bpmn" })
+@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn",
+        "prozesse/feature/unittests/dms/vorgangzalegen/Feature_VorgangZALegen.bpmn" })
 @ExtendWith(MockitoExtension.class)
 public class VorgangZAlegenTemplateTest {
 

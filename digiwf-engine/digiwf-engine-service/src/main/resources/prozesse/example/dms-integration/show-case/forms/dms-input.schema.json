@@ -1,0 +1,75 @@
+{
+  "key": "dms-integration-dms-input",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "69195e1b-7512-4f16-9676-1e3e2b2b589e": {
+                "fieldType": "markdown",
+                "title": "Info",
+                "type": "string",
+                "x-display": "markdown",
+                "key": "69195e1b-7512-4f16-9676-1e3e2b2b589e",
+                "default": "1. COO oder Link von einem Schriftstück eingeben.\n2. Es erscheint der Name mit unterlegtem Link auf das Schriftstück.",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "2166d897-058e-4312-ae6f-832c1d96774f": {
+                "fieldType": "dms-input",
+                "title": "DMS Input",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "items": {},
+                "key": "2166d897-058e-4312-ae6f-832c1d96774f",
+                "default": [],
+                "objectclass": "Schriftstueck",
+                "dmsSystem": "mucs",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              }
+            },
+            "key": "ede7c9dc-51fa-49e2-82bb-1a936a21e34f"
+          }
+        ]
+      }
+    ]
+  }
+}

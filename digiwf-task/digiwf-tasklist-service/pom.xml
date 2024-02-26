@@ -20,7 +20,7 @@
         <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
 
         <spin.version>1.22.0</spin.version>
-        <wiremock.version>3.4.1</wiremock.version>
+        <wiremock.version>3.4.2</wiremock.version>
     </properties>
 
     <dependencyManagement>
