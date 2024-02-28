@@ -1,17 +1,79 @@
-import {containerIconMap, defaultContainerIcon, defaultIcon, iconMap} from "./IconMap";
-import {conditionalContainerSchema, conditionalObjectContainerSchema, containerSchema} from "./Container";
-import section from "./Section";
+import { Labels } from "@/base/labels";
+import { FormBuilderSettings } from "../../types";
+import { containerIconMap, defaultContainerIcon, defaultIcon, iconMap } from "../base/IconMap";
 import {
-    containerPalette,
-    formFieldPalette,
-    objectPalette,
-    optionalItem,
-    optionalObject,
-    optionalProperties,
-    sectionPalette
-} from "./ModelerPalette";
-import {genericSchema, schemaMap} from "./FormFields";
-import {FormBuilderSettings} from "../../types";
+  containerPaletteBuilder,
+  formFieldPaletteBuilder,
+  objectPaletteBuilder,
+  optionalItemBuilder,
+  optionalObjectPaletteBuilder,
+  optionalPropertiesBuilder,
+  sectionPaletteBuilder
+} from "../base/ModelerPalette";
+import { genericSchema } from "../base/FormFields";
+import { sectionBuilder } from "../base/Section";
+import { containerSchemaBuilder } from "../base/Container";
+import { schemaMap } from "./FormFields";
+
+export const enLabels: Labels = {
+  title: "Title",
+  description: "Description",
+  key: "Key",
+  ui: "UI",
+  general: "General",
+  section: "Section",
+  optionalObject: "Optional Object",
+  optionalSelectItem: "Optional Select Item",
+  optionalGroup: "Optional Group",
+  optionalFields: "Optional Fields",
+  markdown: "Markdown",
+  list: "List",
+  switch: "Switch",
+  dmsInput: "DMS Input",
+  multiUserInput: "Multi User Input",
+  userInput: "User Input",
+  files: "Files",
+  select: "Select",
+  multiSelect: "Multi Select",
+  time: "Time",
+  date: "Date",
+  checkbox: "Checkbox",
+  floatNumber: "Floating Number",
+  number: "Number",
+  textarea: "Textarea",
+  text: "Textfield",
+  options: "Options",
+  dynamicObject: "Dynamic Object",
+  dynamicObjectList: "Dynamic Object List",
+  containerDescription: "I'm a description shown as a paragraph on top of section",
+  maxColSize: "Size (max 12)",
+  defaultColSize: "Default size",
+  colSizeSmallDevices: "Size on small devices",
+  default: "Default",
+  messages: "Messages",
+  validation: "Validation",
+  type: "Type",
+  errorMsgPattern: "Pattern error message",
+  errorMsgMinString: "Minimum {minLength} characters",
+  errorMsgMaxString: "Maximum {maxLength} characters",
+  errorMsgMinNumber: "Minimum {minimum}",
+  errorMsgMaxNumber: "Maximum {maximum}",
+  errorMsgMinArray: "Minimum {minItems} entries",
+  errorMsgMaxArray: "Maximum {maxItems} entries",
+  validationMin: "Minimum",
+  validationMax: "Maximum",
+  validationAdditionalRules: "Additional rules",
+  dmsSystem: "DMS System",
+  dmsObjectClass: "Objectclass",
+  dmsSchriftstueck: "Document",
+  dmsSachakte: "Factual files",
+  dmsVorgang: "Dossier",
+  dmsEingang: "Inbox",
+  dmsAusgang: "Exit",
+  dmsIntern: "Internal",
+  dmsDefaultDescription: "List of COOs or links to be checked by the input",
+}
+
 
 const Settings: FormBuilderSettings = {
     iconSettings: {
@@ -21,20 +83,20 @@ const Settings: FormBuilderSettings = {
         defaultContainerIcon: defaultContainerIcon
     },
     modelerPalette: {
-        formFields: formFieldPalette,
-        containers: containerPalette,
-        objects: objectPalette,
-        sections: sectionPalette,
-        optionalObject: optionalObject,
-        optionalProperties: optionalProperties,
-        optionalItem: optionalItem
+        formFields: formFieldPaletteBuilder(enLabels),
+        containers: containerPaletteBuilder(enLabels),
+        objects: objectPaletteBuilder(enLabels),
+        sections: sectionPaletteBuilder(enLabels),
+        optionalObject: optionalObjectPaletteBuilder(enLabels),
+        optionalProperties: optionalPropertiesBuilder(enLabels),
+        optionalItem: optionalItemBuilder(enLabels)
     },
-    containerSchema: containerSchema,
-    conditionalContainerSchema: conditionalContainerSchema,
-    conditionalObjectContainerSchema: conditionalObjectContainerSchema,
-    sectionSchema: section,
-    defaultFormFieldSchema: genericSchema,
-    formFieldSchemas: schemaMap
+    containerSchema: containerSchemaBuilder("container", enLabels),
+    conditionalContainerSchema: containerSchemaBuilder("conditionalContainer", enLabels),
+    conditionalObjectContainerSchema: containerSchemaBuilder("conditionalObjectContainer", enLabels),
+    sectionSchema: sectionBuilder(enLabels),
+    defaultFormFieldSchema: genericSchema(enLabels),
+    formFieldSchemas: schemaMap(enLabels)
 }
 
 export default Settings;
