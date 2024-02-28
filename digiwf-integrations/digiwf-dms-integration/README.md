@@ -12,7 +12,8 @@ The following steps are needed to run the integration locally.
 
 | Environment Variable        | Description                                                   |
 |-----------------------------|---------------------------------------------------------------|
-| DMS_INTEGRATION_SERVER_PORT | Port of the Application                                       |
+| MUCS_DMS_INTEGRATION_SERVER_PORT | Port of the MUCS DMS Application                              |
+| ALW_DMS_INTEGRATION_SERVER_PORT  | Port of the ALW DMS Application                               |
 | DIGIWF_ENV                  | Environment in which the services runs                        |
 | KAFKA_SECURITY_PROTOCOL     | Security protocol of kafka (default is PLAINTEXT)             |
 | KAFKA_BOOTSTRAP_SERVER      | kafka server address (default is localhost)                   |
