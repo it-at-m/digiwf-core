@@ -47,7 +47,7 @@ public class DigiwfEmailAutoConfiguration {
     @ConditionalOnMissingBean
     @Bean
     public DigiwfEmailApi digiwfEmailApi(final ResourceLoader resourceLoader, final JavaMailSender javaMailSender) {
-        return new DigiwfEmailApiImpl(javaMailSender, resourceLoader, this.customMailProperties.getFromAddress());
+        return new DigiwfEmailApiImpl(javaMailSender, resourceLoader, this.customMailProperties.getFromAddress(), this.customMailProperties.getDefaultReplyToAddress());
     }
 
 }

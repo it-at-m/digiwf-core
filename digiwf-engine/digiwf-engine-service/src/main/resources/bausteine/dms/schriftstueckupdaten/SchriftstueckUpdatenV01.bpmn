@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="SchriftstueckUpdatenV01" />
   </bpmn:collaboration>
-  <bpmn:process id="SchriftstueckUpdatenV01" name="Schriftstück updaten Template V01" isExecutable="true">
+  <bpmn:process id="SchriftstueckUpdatenV01" name="Schriftstück updaten Template V01" isExecutable="true" camunda:isStartableInTasklist="false">
     <bpmn:laneSet id="LaneSet_1bbrvcv">
       <bpmn:lane id="Lane_DigitalWF" name="DigitalWF">
         <bpmn:flowNodeRef>StartEvent_SchriftstueckUpdaten</bpmn:flowNodeRef>

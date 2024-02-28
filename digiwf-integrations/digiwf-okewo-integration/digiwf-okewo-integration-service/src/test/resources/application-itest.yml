@@ -12,6 +12,8 @@ logging:
     org.apache.kafka.clients.admin: WARN
     org.apache.kafka.clients.consumer: WARN
     org.apache.kafka.clients.producer: WARN
+    kafka.server: WARN
+    org.apache.zookeeper: WARN
 
 spring:
   cloud:

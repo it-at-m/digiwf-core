@@ -2,15 +2,19 @@
   <v-text-field
     :id="schema.key"
     v-model="dateValue"
+    :aria-required="isRequired()"
     :dense="dense"
     :disabled="readOnly"
-    :label="label"
     :outlined="outlined"
     :rules="[validationResult, ...rules]"
     type="date"
     @change="onChange(event)"
     @input="onInput(event)"
   >
+    <template #label>
+      <span>{{ label }}</span>
+      <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+    </template>
     <template #append-outer>
       <v-tooltip v-if="description" :open-on-hover="false" left>
         <template v-slot:activator="{ on }">
@@ -27,6 +31,7 @@
 <script lang="ts">
 import {defineComponent, ref} from "vue";
 import {validateDate} from "@/validation/dateValidation";
+import {checkRequired} from "@/validation/required";
 
 export default defineComponent({
   props: [
@@ -51,6 +56,10 @@ export default defineComponent({
       if (dateValue.value === "") {
         dateValue.value = null;
       }
+    }
+
+    const isRequired = () => {
+      return checkRequired(schema);
     }
 
     const onChange = () => {
@@ -78,6 +87,7 @@ export default defineComponent({
       dateValue,
       validationResult,
       rules,
+      isRequired,
       onChange,
       onInput,
       nativeElement
@@ -89,7 +99,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-
-</style>

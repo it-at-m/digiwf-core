@@ -9,3 +9,4 @@ Folgende ADRs sind vorhanden:
 * [ADR002 Use Webclient](./adr/adr002-use-webclient) 
 * [ADR003 Use hexagonal Architecture style for self-contained systems](./adr/adr003-use-hexagonal-architecture)
 * [ADR004 Use hexagonal Architecture by Java package naming](./adr/adr004-hexagonal-architecture-packages)
+* [ADR005 JUnit 5 für Java Unit Tests](./adr/adr005-junit-5)

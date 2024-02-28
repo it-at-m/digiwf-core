@@ -2,36 +2,41 @@
   <div id="top">
     <v-autocomplete
       v-model="selectedUsers"
+      :aria-required="isRequired()"
       :class="[isReadonly ? 'userInputReadonly' : 'userInput']"
-      :search-input.sync="search"
-      hide-no-data
-      chips
-      small-chips
-      auto-select-first
-      :readonly="isReadonly"
       :disabled="disabled"
-      :rules="rules ? rules : true"
-      :items="entries"
-      :loading="isLoading"
-      :label="label"
-      v-bind="schema['x-props']"
       :filter="filterUsers"
-      item-value="lhmObjectId"
+      :items="entries"
+      :label="label"
+      :loading="isLoading"
+      :readonly="isReadonly"
+      :rules="rules ? rules : true"
+      :search-input.sync="search"
+      auto-select-first
+      chips
+      hide-no-data
       item-text="username"
+      item-value="lhmObjectId"
+      multiple
       placeholder="Benutzer suchen..."
       return-object
-      multiple
+      small-chips
+      v-bind="schema['x-props']"
       @change="change"
     >
+      <template #label>
+        <span>{{ label }}</span>
+        <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+      </template>
       <template
         #selection="data"
       >
         <v-chip
-          class="ma-1 pa-4"
-          v-bind="data.attrs"
-          :input-value="data.selected"
-          small
           :close="!readonly"
+          :input-value="data.selected"
+          class="ma-1 pa-4"
+          small
+          v-bind="data.attrs"
           @click:close="removeUser(data.item)"
         >
           <v-avatar left>
@@ -92,6 +97,7 @@ import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from "@m
 import {AxiosResponse} from "axios";
 import {mucatarURL} from "../../constants";
 import {ApiConfig} from "../../api/ApiConfig";
+import {checkRequired} from "@/components/schema/validation/required";
 
 @Component({
   components: {
@@ -139,6 +145,14 @@ export default class VMultiUserInput extends Vue {
   @Prop()
   schema: string | undefined;
 
+  get isReadonly(): boolean {
+    return this.readonly || this.locked;
+  }
+
+  get entries(): UserTO[] {
+    return this.items.concat(this.selectedUsers);
+  }
+
   input(value: string[]): any {
     return this.on.input(value);
   }
@@ -156,10 +170,6 @@ export default class VMultiUserInput extends Vue {
         this.loadInitialValue(elem);
       }
     }
-  }
-
-  get isReadonly(): boolean {
-    return this.readonly || this.locked;
   }
 
   async loadInitialValue(id: string): Promise<void> {
@@ -195,6 +205,10 @@ export default class VMultiUserInput extends Vue {
     return false;
   }
 
+  isRequired() {
+    return checkRequired(this.schema);
+  }
+
   getNamePrefix(user: UserTO): string {
     return user.forename!.slice(0, 1) + user.surname!.slice(0, 1);
   }
@@ -204,10 +218,6 @@ export default class VMultiUserInput extends Vue {
       return "-";
     }
     return val;
-  }
-
-  get entries(): UserTO[] {
-    return this.items.concat(this.selectedUsers);
   }
 
   @Watch("search")

@@ -1,20 +1,25 @@
 <template>
   <v-text-field
+    :id="schema.key"
     v-model="timeValue"
-    type="time"
-    :label="label"
+    :aria-required="isRequired()"
     :dense="dense"
-    :outlined="outlined"
     :disabled="readOnly"
+    :label="label"
+    :outlined="outlined"
     :rules="[validationResult, ...rules]"
+    type="time"
     @change="onChange(event)"
     @input="onInput(event)"
-    :id="schema.key"
   >
+    <template #label>
+      <span>{{ label }}</span>
+      <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+    </template>
     <template #append-outer>
-      <v-tooltip v-if="description" left :open-on-hover="false">
+      <v-tooltip v-if="description" :open-on-hover="false" left>
         <template v-slot:activator="{ on }">
-          <v-btn icon @click="on.click" @blur="on.blur" retain-focus-on-click>
+          <v-btn icon retain-focus-on-click @blur="on.blur" @click="on.click">
             <v-icon> mdi-information</v-icon>
           </v-btn>
         </template>
@@ -28,6 +33,7 @@
 import {defineComponent, ref} from "vue";
 import {validateTime} from "@/validation/timeValidation";
 import {transformNativeTimeValue, transformToNativeTimeValue} from "@/transformation/transformNativeTimeValue";
+import {checkRequired} from "@/validation/required";
 
 export default defineComponent({
   props: [
@@ -54,6 +60,10 @@ export default defineComponent({
       validationResult.value = validateTime(timeValue.value, nativeElement.value?.validity?.valid);
     }
 
+    const isRequired = () => {
+      return checkRequired(schema);
+    };
+
     const onInput = () => {
       validationResult.value = validateTime(timeValue.value, nativeElement.value?.validity?.valid);
     }
@@ -69,7 +79,8 @@ export default defineComponent({
       rules,
       onChange,
       onInput,
-      nativeElement
+      nativeElement,
+      isRequired
     }
   },
   mounted() {
@@ -77,7 +88,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-
-</style>

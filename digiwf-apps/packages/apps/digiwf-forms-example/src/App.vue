@@ -69,11 +69,11 @@ html, body {
 </style>
 
 <script lang="ts">
-import { DwfFormRenderer } from "@muenchen/digiwf-form-renderer";
-import { DwfFormBuilder } from "@muenchen/digiwf-form-builder";
-import { DwfDateInput, DwfTimeInput } from "@muenchen/digiwf-date-input";
-import { defineComponent, provide, ref } from "vue";
-import { SettingsEN } from "@muenchen/digiwf-form-builder-settings";
+import {DwfFormRenderer} from "@muenchen/digiwf-form-renderer";
+import {DwfFormBuilder} from "@muenchen/digiwf-form-builder";
+import {DwfDateInput, DwfTimeInput} from "@muenchen/digiwf-date-input";
+import {defineComponent, provide, ref} from "vue";
+import {SettingsEN} from "@muenchen/digiwf-form-builder-settings";
 
 export default defineComponent({
   components: {DwfFormRenderer, DwfFormBuilder, DwfDateInput, DwfTimeInput},
@@ -122,254 +122,78 @@ export default defineComponent({
             "allOf": [
               {
                 "containerType": "group",
-                "title": "Custom Errors: Simple Types",
+                "title": "Group",
                 "description": "",
-                "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
                 "x-options": {
                   "childrenClass": "pl-0"
                 },
                 "properties": {
-                  "96d29f1e-bcce-4aee-91e8-1e72d4f9e85a": {
-                    "fieldType": "text",
-                    "title": "Textfield",
+                  "73dff9ab-9107-467f-b7b2-9e35c9eb95e6": {
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "fieldType": "date",
+                    "title": "Date",
+                    "x-display": "custom-date-input",
                     "type": "string",
-                    "key": "96d29f1e-bcce-4aee-91e8-1e72d4f9e85a",
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minLength": "Custom error min",
-                        "maxLength": "Custom error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "x-rules": [],
-                    "minLength": 1,
-                    "maxLength": 2
+                    "format": "date"
                   },
-                  "080662a6-c790-4594-bb25-7a0547e64214": {
-                    "fieldType": "textarea",
-                    "title": "Textarea",
-                    "x-display": "textarea",
+                  "a30d85f7-fb59-4e95-9afd-631ac41b3944": {
+                    "fieldType": "date",
+                    "title": "Date",
+                    "x-display": "custom-date-input",
                     "type": "string",
-                    "key": "080662a6-c790-4594-bb25-7a0547e64214",
+                    "format": "date",
+                    "key": "a30d85f7-fb59-4e95-9afd-631ac41b3944",
                     "x-options": {
                       "fieldColProps": {
                         "cols": 12,
                         "sm": 12
                       },
-                      "messages": {
-                        "minLength": "Custom error min",
-                        "maxLength": "Custom error max"
-                      }
+                      "messages": {}
                     },
                     "x-props": {
                       "outlined": true,
                       "dense": true
                     },
-                    "x-rules": [],
-                    "minLength": 1,
-                    "maxLength": 2
+                    "x-rules": [
+                      "required"
+                    ]
                   },
-                  "18426ea7-209c-449e-9cab-a3e99a5d4961": {
-                    "fieldType": "integer",
-                    "title": "Number",
-                    "type": "integer",
-                    "key": "18426ea7-209c-449e-9cab-a3e99a5d4961",
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minimum": "Custom Error min",
-                        "maximum": "Custom Error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "x-rules": [],
-                    "minimum": 1,
-                    "maximum": 2
-                  },
-                  "53524c20-4c90-48a1-a994-2e9bd1a67977": {
-                    "fieldType": "number",
-                    "title": "Floating Number",
-                    "type": "number",
-                    "key": "53524c20-4c90-48a1-a994-2e9bd1a67977",
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minimum": "Custom Error min",
-                        "maximum": "Custom Error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "x-rules": []
-                  },
-                  "725c5f4c-607f-4fea-980e-0412b6f196c9": {
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "fieldType": "select",
-                    "title": "Select",
+                  "7b06895f-245d-4acb-8145-05bb3c475d98": {
+                    "fieldType": "time",
+                    "title": "Time",
+                    "x-display": "custom-time-input",
                     "type": "string",
-                    "anyOf": []
+                    "format": "time",
+                    "key": "7b06895f-245d-4acb-8145-05bb3c475d98",
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12,
+                        "messages": {}
+                      },
+                      "timePickerProps": {
+                        "format": "24hr"
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "x-rules": [
+                      "required"
+                    ]
                   }
-                }
-              },
-              {
-                "containerType": "group",
-                "title": "Custom Errors: Array Types",
-                "description": "",
-                "key": "7871dbe6-def3-44b5-914d-ad80c8b71ec6",
-                "x-options": {
-                  "childrenClass": "pl-0"
                 },
-                "properties": {
-                  "a89299a1-87b7-4225-a003-7db5a5f9df6d": {
-                    "key": "a89299a1-87b7-4225-a003-7db5a5f9df6d",
-                    "fieldType": "arrayObject",
-                    "title": "Object List",
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {}
-                    },
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minItems": "Custom error min",
-                        "maxItems": "Custom error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": false
-                    },
-                    "minItems": 1,
-                    "maxItems": 2
-                  },
-                  "64392302-7a38-4e91-8e83-50b1958712c4": {
-                    "fieldType": "multi-user-input",
-                    "title": "Mehrfache Benutzerauswahl",
-                    "x-display": "custom-multi-user-input",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "key": "64392302-7a38-4e91-8e83-50b1958712c4",
-                    "default": [],
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minItems": "Custom error min",
-                        "maxItems": "Custom error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "x-rules": [],
-                    "minItems": 1,
-                    "maxItems": 2
-                  },
-                  "ac0573a4-5d09-46ce-96ca-4a84bded621a": {
-                    "fieldType": "multiselect",
-                    "title": "Multiselect",
-                    "type": "array",
-                    "key": "ac0573a4-5d09-46ce-96ca-4a84bded621a",
-                    "default": [],
-                    "items": {
-                      "anyOf": [
-                        {
-                          "title": "1",
-                          "const": "1"
-                        },
-                        {
-                          "title": "2",
-                          "const": "2"
-                        },
-                        {
-                          "title": "3",
-                          "const": "3"
-                        }
-                      ],
-                      "type": "string"
-                    },
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minItems": "Custom error min",
-                        "maxItems": "Custom error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": true
-                    },
-                    "x-rules": [],
-                    "minItems": 1,
-                    "maxItems": 2
-                  },
-                  "ed17d6aa-4ab3-4d34-b851-2baaaecbb2ad": {
-                    "fieldType": "array",
-                    "title": "List",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "key": "ed17d6aa-4ab3-4d34-b851-2baaaecbb2ad",
-                    "default": [],
-                    "x-options": {
-                      "fieldColProps": {
-                        "cols": 12,
-                        "sm": 12
-                      },
-                      "messages": {
-                        "minItems": "Custom error min",
-                        "maxItems": "Custom error max"
-                      }
-                    },
-                    "x-props": {
-                      "outlined": true,
-                      "dense": false
-                    },
-                    "x-rules": [],
-                    "minItems": 1,
-                    "maxItems": 2
-                  }
-                }
+                "key": "5a883352-793e-4777-9ca6-62bba701e89e"
               }
             ]
           }

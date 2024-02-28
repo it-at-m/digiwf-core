@@ -12,21 +12,28 @@ import de.muenchen.oss.digiwf.legacy.dms.muc.process.depositvorgang.DepositVorga
 import de.muenchen.oss.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import de.muenchen.oss.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn", "bausteine/dms/vorgangzalegen/feature/Feature_VorgangZALegen.bpmn" })
+@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn",
+        "prozesse/feature/unittests/dms/vorgangzalegen/Feature_VorgangZALegen.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class VorgangZAlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangZALegen";
@@ -42,14 +49,13 @@ public class VorgangZAlegenTemplateTest {
     public static final String EVENT_ERROR_FEHLENDE_BERECHTIGUNG = "Event_Error_Fehlende_Berechtigung";
     public static final String EVENT_ERROR_VORGANG_GESPERRT = "Event_Error_Vorgang_Gesperrt";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    @RegisterExtension
+    public static ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
+    private final ProcessScenario processScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario processScenario;
-
-    @Mock
-    private ProcessScenario templateScenario;
+    private final ProcessScenario templateScenario = mock(ProcessScenario.class);
 
     @Mock
     private DmsService dmsService;
@@ -60,16 +66,15 @@ public class VorgangZAlegenTemplateTest {
     @Mock
     private DigitalWFFunctions digitalWF;
 
-    @Before
+    @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("depositVorgangDelegate", new DepositVorgangDelegate(this.dmsService));
-        doNothing().when(this.dmsService).depositVorgang(any(), any());
+
+
         Mocks.register("sendMailDelegate", new TestSendMailDelegate());
 
         Mocks.register("digitalwf", this.digitalWF);
-        when(this.digitalWF.urlGruppenaufgaben()).thenReturn("myurl");
 
         Mocks.register("user", this.userFunctions);
 
@@ -80,6 +85,7 @@ public class VorgangZAlegenTemplateTest {
 
         when(this.templateScenario.waitsAtUserTask(TASK_VORGANG_MANUELL_ZU_DEN_AKTEN_LEGEN))
                 .thenReturn(TaskDelegate::complete);
+        
     }
 
     @Test

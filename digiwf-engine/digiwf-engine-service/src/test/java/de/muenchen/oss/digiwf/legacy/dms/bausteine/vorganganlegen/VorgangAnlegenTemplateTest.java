@@ -21,16 +21,16 @@ import de.muenchen.oss.digiwf.legacy.document.domain.DocumentService;
 import de.muenchen.oss.digiwf.legacy.mailing.process.TestSendMailDelegate;
 import de.muenchen.oss.digiwf.legacy.user.process.UserFunctions;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -38,9 +38,17 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn", "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegen.bpmn", "bausteine/dms/vorganganlegen/feature/Feature_VorgangAnlegenV02S3.bpmn"})
+@Deployment(resources = {"bausteine/dms/vorganganlegen/VorgangAnlegenV02.bpmn",
+        "bausteine/dms/vorganganlegen/VorgangAnlegenV01.bpmn",
+        "prozesse/feature/unittests/dms/vorganganlegen/Feature_VorgangAnlegen.bpmn",
+        "prozesse/feature/unittests/dms/vorganganlegen/Feature_VorgangAnlegenV02S3.bpmn"})
+@ExtendWith(MockitoExtension.class)
 public class VorgangAnlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangAnlegen";
@@ -63,33 +71,28 @@ public class VorgangAnlegenTemplateTest {
     public static final String TASK_SPERRE_AKTE_AUFHEBEN = "Task_SperreAkteAufheben";
     public static final String TASK_VORGANG_ZUSTAENDIGKEIT_AENDERN_ODER_VERGABE_VON_SCHREIBRECHTEN_BEAUFTRAGEN = "Task_VorgangZustaendigkeitAendernOderVergabeVonSchreibrechtenBeauftragen";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    private final ProcessScenario processScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario processScenario;
+    private final ProcessScenario templateScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario templateScenario;
+    private final DmsService dmsService = mock(DmsService.class);
 
-    @Mock
-    private DmsService dmsService;
+    private final DocumentService documentService = mock(DocumentService.class);
 
-    @Mock
-    private DocumentService documentService;
+    private final DigitalWFFunctions digitalWF = mock(DigitalWFFunctions.class);
 
-    @Mock
-    private DigitalWFFunctions digitalWF;
+    private final S3Resolver s3Resolver = mock(S3Resolver.class);
 
-    @Mock
-    private S3Resolver s3Resolver;
+    private final UserFunctions user = mock(UserFunctions.class);
 
-    @Mock
-    private UserFunctions user;
+    @RegisterExtension
+    public static ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
 
-    @Before
+
+    @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("searchSachakteDelegate", new SearchSachakteDelegate(this.dmsService));
         when(this.dmsService.searchSachakte(any(), any())).thenReturn(Optional.of("sachakteCOO"));

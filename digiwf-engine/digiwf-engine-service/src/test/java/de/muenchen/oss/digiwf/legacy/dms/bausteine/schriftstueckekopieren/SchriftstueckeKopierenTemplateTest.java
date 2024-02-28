@@ -14,19 +14,18 @@ import de.muenchen.oss.digiwf.legacy.dms.muc.domain.service.DmsService;
 import de.muenchen.oss.digiwf.legacy.dms.muc.process.mapper.MetadataProcessDataMapper;
 import de.muenchen.oss.digiwf.legacy.dms.muc.process.saveschriftstuecke.SaveSchriftstueckeEndListener;
 import de.muenchen.oss.digiwf.legacy.dms.process.CopySchriftstueckeAlwToMucDelegate;
-
 import lombok.val;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,10 +33,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Deployment(resources = { "bausteine/dms/schriftstueckekopieren/SchriftstueckeKopierenV01.bpmn",
-        "bausteine/dms/schriftstueckekopieren/feature/Feature_SchriftstueckeKopieren.bpmn" })
+        "prozesse/feature/unittests/dms/schriftstueckekopieren/Feature_SchriftstueckeKopieren.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class SchriftstueckeKopierenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureSchriftstueckeKopieren";
@@ -51,24 +55,21 @@ public class SchriftstueckeKopierenTemplateTest {
     public static final String VAR_STARTER_OF_INSTANCE = "starterOfInstance";
     public static final String END_EVENT = "Event_1t51ccq";
 
-    @Rule
-    public ProcessEngineRule rule = new ProcessEngineRule();
+    @RegisterExtension
+    public static ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+        .configurationResource("camunda.cfg.xml")
+        .build();
 
-    @Mock
-    private ProcessScenario processScenario;
+    private final ProcessScenario processScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private ProcessScenario templateScenario;
+    private final ProcessScenario templateScenario = mock(ProcessScenario.class);
 
-    @Mock
-    private AlwDmsService kvrDmsService;
+    private final AlwDmsService kvrDmsService = mock(AlwDmsService.class);
 
-    @Mock
-    private DmsService dmsService;
+    private final DmsService dmsService = mock(DmsService.class);
 
-    @Before
+    @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("copySchriftstueckeAlwToMucDelegate", new CopySchriftstueckeAlwToMucDelegate(this.kvrDmsService, this.dmsService));
         Mocks.register("saveSchriftstueckeEndListener", new SaveSchriftstueckeEndListener(new MetadataProcessDataMapper()));
@@ -139,5 +140,4 @@ public class SchriftstueckeKopierenTemplateTest {
         return Arrays.asList(schriftstueck1, schriftstueck1);
 
     }
-
 }

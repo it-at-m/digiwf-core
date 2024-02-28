@@ -105,6 +105,25 @@ export interface ButtonsTO {
 /**
  * 
  * @export
+ * @interface CompleteTO
+ */
+export interface CompleteTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CompleteTO
+     */
+    'taskId': string;
+    /**
+     * 
+     * @type {{ [key: string]: object; }}
+     * @memberof CompleteTO
+     */
+    'variables': { [key: string]: object; };
+}
+/**
+ * 
+ * @export
  * @interface ConfigEntryTO
  */
 export interface ConfigEntryTO {
@@ -541,13 +560,31 @@ export interface PageServiceDefinitionTO {
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
-    'totalElements'?: number;
+    'totalPages'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
-    'totalPages'?: number;
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceDefinitionTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceDefinitionTO
+     */
+    'first'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceDefinitionTO
+     */
+    'last'?: boolean;
     /**
      * 
      * @type {number}
@@ -574,28 +611,10 @@ export interface PageServiceDefinitionTO {
     'sort'?: SortObject;
     /**
      * 
-     * @type {boolean}
-     * @memberof PageServiceDefinitionTO
-     */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageServiceDefinitionTO
-     */
-    'last'?: boolean;
-    /**
-     * 
      * @type {number}
      * @memberof PageServiceDefinitionTO
      */
     'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceDefinitionTO
-     */
-    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -614,13 +633,31 @@ export interface PageServiceInstanceTO {
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
-    'totalElements'?: number;
+    'totalPages'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
-    'totalPages'?: number;
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageServiceInstanceTO
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'first'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageServiceInstanceTO
+     */
+    'last'?: boolean;
     /**
      * 
      * @type {number}
@@ -647,28 +684,10 @@ export interface PageServiceInstanceTO {
     'sort'?: SortObject;
     /**
      * 
-     * @type {boolean}
-     * @memberof PageServiceInstanceTO
-     */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageServiceInstanceTO
-     */
-    'last'?: boolean;
-    /**
-     * 
      * @type {number}
      * @memberof PageServiceInstanceTO
      */
     'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageServiceInstanceTO
-     */
-    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -687,18 +706,6 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'offset'?: number;
-    /**
-     * 
-     * @type {SortObject}
-     * @memberof PageableObject
-     */
-    'sort'?: SortObject;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageableObject
-     */
     'pageNumber'?: number;
     /**
      * 
@@ -706,6 +713,18 @@ export interface PageableObject {
      * @memberof PageableObject
      */
     'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageableObject
+     */
+    'offset'?: number;
+    /**
+     * 
+     * @type {SortObject}
+     * @memberof PageableObject
+     */
+    'sort'?: SortObject;
     /**
      * 
      * @type {boolean}
@@ -793,6 +812,25 @@ export interface SaveFilterTO {
      * @memberof SaveFilterTO
      */
     'pageId': string;
+}
+/**
+ * 
+ * @export
+ * @interface SaveTO
+ */
+export interface SaveTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveTO
+     */
+    'taskId': string;
+    /**
+     * 
+     * @type {{ [key: string]: object; }}
+     * @memberof SaveTO
+     */
+    'variables'?: { [key: string]: object; };
 }
 /**
  * 
@@ -983,6 +1021,12 @@ export interface ServiceInstanceTO {
      * @type {string}
      * @memberof ServiceInstanceTO
      */
+    'definitionKey'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceTO
+     */
     'startTime'?: string;
     /**
      * 
@@ -1014,13 +1058,13 @@ export interface SortObject {
      * @type {boolean}
      * @memberof SortObject
      */
-    'empty'?: boolean;
+    'sorted'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof SortObject
      */
-    'sorted'?: boolean;
+    'empty'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1086,10 +1130,10 @@ export interface StatusDokumentTO {
     'name'?: string;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof StatusDokumentTO
      */
-    'data'?: Array<string>;
+    'data'?: string;
 }
 /**
  * 
@@ -2244,6 +2288,218 @@ export class FormRestControllerApi extends BaseAPI {
 
 
 /**
+ * HumanTaskRestControllerApi - axios parameter creator
+ * @export
+ */
+export const HumanTaskRestControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CompleteTO} completeTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        completeTask: async (completeTO: CompleteTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'completeTO' is not null or undefined
+            assertParamExists('completeTask', 'completeTO', completeTO)
+            const localVarPath = `/rest/task`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(completeTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {SaveTO} saveTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        saveTask: async (saveTO: SaveTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'saveTO' is not null or undefined
+            assertParamExists('saveTask', 'saveTO', saveTO)
+            const localVarPath = `/rest/task`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(saveTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * HumanTaskRestControllerApi - functional programming interface
+ * @export
+ */
+export const HumanTaskRestControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = HumanTaskRestControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CompleteTO} completeTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        async completeTask(completeTO: CompleteTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.completeTask(completeTO, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {SaveTO} saveTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        async saveTask(saveTO: SaveTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveTask(saveTO, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * HumanTaskRestControllerApi - factory interface
+ * @export
+ */
+export const HumanTaskRestControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = HumanTaskRestControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CompleteTO} completeTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        completeTask(completeTO: CompleteTO, options?: any): AxiosPromise<void> {
+            return localVarFp.completeTask(completeTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {SaveTO} saveTO 
+         * @param {*} [options] Override http request option.
+         * @deprecated
+         * @throws {RequiredError}
+         */
+        saveTask(saveTO: SaveTO, options?: any): AxiosPromise<void> {
+            return localVarFp.saveTask(saveTO, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for completeTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiCompleteTaskRequest
+ */
+export interface HumanTaskRestControllerApiCompleteTaskRequest {
+    /**
+     * 
+     * @type {CompleteTO}
+     * @memberof HumanTaskRestControllerApiCompleteTask
+     */
+    readonly completeTO: CompleteTO
+}
+
+/**
+ * Request parameters for saveTask operation in HumanTaskRestControllerApi.
+ * @export
+ * @interface HumanTaskRestControllerApiSaveTaskRequest
+ */
+export interface HumanTaskRestControllerApiSaveTaskRequest {
+    /**
+     * 
+     * @type {SaveTO}
+     * @memberof HumanTaskRestControllerApiSaveTask
+     */
+    readonly saveTO: SaveTO
+}
+
+/**
+ * HumanTaskRestControllerApi - object-oriented interface
+ * @export
+ * @class HumanTaskRestControllerApi
+ * @extends {BaseAPI}
+ */
+export class HumanTaskRestControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {HumanTaskRestControllerApiCompleteTaskRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @deprecated
+     * @throws {RequiredError}
+     * @memberof HumanTaskRestControllerApi
+     */
+    public completeTask(requestParameters: HumanTaskRestControllerApiCompleteTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).completeTask(requestParameters.completeTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {HumanTaskRestControllerApiSaveTaskRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @deprecated
+     * @throws {RequiredError}
+     * @memberof HumanTaskRestControllerApi
+     */
+    public saveTask(requestParameters: HumanTaskRestControllerApiSaveTaskRequest, options?: AxiosRequestConfig) {
+        return HumanTaskRestControllerApiFp(this.configuration).saveTask(requestParameters.saveTO, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * InfoRestControllerApi - axios parameter creator
  * @export
  */
@@ -3148,6 +3404,43 @@ export const ServiceInstanceControllerApiAxiosParamCreator = function (configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRootProcessInstanceDetail: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getRootProcessInstanceDetail', 'id', id)
+            const localVarPath = `/rest/service/instance/root/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication spring_oauth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "spring_oauth", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3180,6 +3473,16 @@ export const ServiceInstanceControllerApiFp = function(configuration?: Configura
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProcessInstanceDetail(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRootProcessInstanceDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServiceInstanceTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRootProcessInstanceDetail(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -3209,6 +3512,15 @@ export const ServiceInstanceControllerApiFactory = function (configuration?: Con
          */
         getProcessInstanceDetail(id: string, options?: any): AxiosPromise<ServiceInstanceDetailTO> {
             return localVarFp.getProcessInstanceDetail(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRootProcessInstanceDetail(id: string, options?: any): AxiosPromise<ServiceInstanceTO> {
+            return localVarFp.getRootProcessInstanceDetail(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3256,6 +3568,20 @@ export interface ServiceInstanceControllerApiGetProcessInstanceDetailRequest {
 }
 
 /**
+ * Request parameters for getRootProcessInstanceDetail operation in ServiceInstanceControllerApi.
+ * @export
+ * @interface ServiceInstanceControllerApiGetRootProcessInstanceDetailRequest
+ */
+export interface ServiceInstanceControllerApiGetRootProcessInstanceDetailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceInstanceControllerApiGetRootProcessInstanceDetail
+     */
+    readonly id: string
+}
+
+/**
  * ServiceInstanceControllerApi - object-oriented interface
  * @export
  * @class ServiceInstanceControllerApi
@@ -3282,6 +3608,17 @@ export class ServiceInstanceControllerApi extends BaseAPI {
      */
     public getProcessInstanceDetail(requestParameters: ServiceInstanceControllerApiGetProcessInstanceDetailRequest, options?: AxiosRequestConfig) {
         return ServiceInstanceControllerApiFp(this.configuration).getProcessInstanceDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ServiceInstanceControllerApiGetRootProcessInstanceDetailRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ServiceInstanceControllerApi
+     */
+    public getRootProcessInstanceDetail(requestParameters: ServiceInstanceControllerApiGetRootProcessInstanceDetailRequest, options?: AxiosRequestConfig) {
+        return ServiceInstanceControllerApiFp(this.configuration).getRootProcessInstanceDetail(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
