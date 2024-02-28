@@ -258,7 +258,7 @@ services:
 
   # enable the cocreation deployment with --profile cocreation if you don't want to run it locally
   digiwf-cocreation-deployment:
-    image: itatm/digiwf-cocreation-deployment:dev
+    image: itatm/digiwf-cocreation-deployment-service:dev
     ports:
       - "9010:8080"
     depends_on:
