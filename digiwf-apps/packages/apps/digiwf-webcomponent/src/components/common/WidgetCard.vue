@@ -118,7 +118,7 @@ const props = withDefaults(
     error?: boolean;
     linkText?: string;
     linkPath: string;
-    pageData: PageData | undefined;
+    pageData: PageData;
   }>(),
   {
     iconPath: mdiClipboardTextOutline,
@@ -135,12 +135,12 @@ const emit = defineEmits<{
 
 const showPagination = computed(
   () =>
-    props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1
+    props.pageData.totalPages &&
+    props.pageData.totalPages > 1
 );
 
 const hasContent = computed(
   () =>
-    props.pageData &&
     props.pageData.totalElements &&
     props.pageData.totalElements > 0
 );
