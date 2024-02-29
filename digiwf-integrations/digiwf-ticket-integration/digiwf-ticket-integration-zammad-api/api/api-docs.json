@@ -1437,12 +1437,6 @@
           }
         }
       }
-    },
-    "securitySchemes": {
-      "mpdz-ticketing-eai-secscheme": {
-        "type": "openIdConnect",
-        "openIdConnectUrl": "https://ssodev.muenchen.de/auth/realms/KM81/.well-known/openid-configuration"
-      }
     }
   }
 }
