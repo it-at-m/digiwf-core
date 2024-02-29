@@ -55,7 +55,7 @@ jobs:
       - name: List GPG keys available
         if: inputs.maven-release == true
         run: |
-          gpg --list-keys
+          gpg --list-secret-keys --keyid-format=long
 
       - name: Perform maven release
         if: inputs.maven-release == true
