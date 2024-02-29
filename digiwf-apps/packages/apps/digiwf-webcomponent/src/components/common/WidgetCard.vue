@@ -47,6 +47,9 @@
         v-if="loading"
         name="placeholder"
       />
+      <error-data
+        v-else-if="error"
+      />
       <slot
         v-else-if="hasContent"
         name="content"
@@ -103,6 +106,7 @@ import { computed } from "vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useInjectBaseURL } from "@/composables/useBaseURL";
+import ErrorData from "@/components/common/ErrorData.vue";
 
 const { digiWFBaseURL } = useInjectBaseURL();
 
@@ -111,6 +115,7 @@ const props = withDefaults(
     iconPath?: string;
     cardTitle: string;
     loading?: boolean;
+    error?: boolean;
     linkText?: string;
     linkPath: string;
     pageData: PageData | undefined;
@@ -118,6 +123,7 @@ const props = withDefaults(
   {
     iconPath: mdiClipboardTextOutline,
     loading: false,
+    error: false,
     linkText: "In DigiWF öffnen",
   }
 );
@@ -131,6 +137,7 @@ const showPagination = computed(
   () =>
     props.pageData && props.pageData.totalPages && props.pageData.totalPages > 1
 );
+
 const hasContent = computed(
   () =>
     props.pageData &&
