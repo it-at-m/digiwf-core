@@ -5,7 +5,7 @@ on:
     types: [opened, edited, synchronize]
 
 jobs:
-  job1:
+  checklist-check:
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
