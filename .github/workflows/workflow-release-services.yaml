@@ -48,11 +48,20 @@ jobs:
       - name: Build with Maven
         run: ./mvnw --batch-mode clean install -DskipTests
 
+      - name: Import GPG key
+        if: inputs.maven-release == true
+        run: echo ${{ secrets.GPG_SECRET_KEYS }} | base64 --decode | gpg --import --no-tty --batch --yes --always-trust
+
+      - name: List GPG keys
+        if: inputs.maven-release == true
+        run: |
+          gpg --list-keys
+          gpg --list-secret-keys --keyid-format=long
+
       - name: Perform maven release
         if: inputs.maven-release == true
-        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
+        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}"
         env:
-          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
           OSSRH_PASSWORD: ${{ secrets.nexus_password }}
 
