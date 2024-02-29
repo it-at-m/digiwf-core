@@ -4,6 +4,7 @@
     card-title="Meine Vorgänge"
     link-text="In DigiWF ansehen"
     :loading="showLoading"
+    :error="error"
     :page-data="pageData"
     @reload="loadData"
     @changepage="(newPage) => (page = newPage)"
@@ -32,7 +33,6 @@
 
 <script setup lang="ts">
 import type { PageData } from "@/types/PageData";
-import type { PageServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
 
 import { CListGroup } from "@coreui/vue";
 import { computed, ref, watch } from "vue";
@@ -41,21 +41,19 @@ import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListItemPlaceholder from "@/components/placeholders/ServiceInstanceListItemPlaceholder.vue";
 import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
 import { useHasAccessToken } from "@/composables/useAccessToken";
-import { useServiceInstanceControllerAPI } from "@/composables/useServiceInstanceControllerAPI";
-import PAGE_SERVICE_INSTANCE_DUMMY from "@/dev/dummy-data";
+import { useGetAssignedProcessInstances } from "@/composables/useGetAssignedProcessInstances";
 import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
-const { callGetAssignedProcessInstances } = useServiceInstanceControllerAPI();
+const { call: getAssignedProcessInstances, loading, error, data } = useGetAssignedProcessInstances();
 
 const { hasAccessToken } = useHasAccessToken();
-const loading = ref(false);
+
 const showLoading = computed(() => !hasAccessToken?.value || loading.value);
 
 const page = ref(0);
 const pageSize = ref(3); // Maybe later set dynamically or as widget parameter?
 
-const data = ref<PageServiceInstanceTO>();
-const totalPages = computed<number | undefined>(() => data.value?.totalPages);
+const totalPages = computed(() => data.value?.totalPages);
 
 watch(
   hasAccessToken,
@@ -66,7 +64,7 @@ watch(
 );
 
 // Change to new last page if page size decreased
-watch(totalPages, (newTotalPages: number) => {
+watch(totalPages, (newTotalPages) => {
   if (newTotalPages && page.value + 1 > newTotalPages) {
     page.value = newTotalPages - 1;
   }
@@ -86,12 +84,7 @@ watch(page, () => {
   loadData();
 });
 
-// TODO REPLACE METHOD WITH REAL CALL
 const loadData = () => {
-  loading.value = true;
-  setTimeout(() => {
-    data.value = PAGE_SERVICE_INSTANCE_DUMMY;
-    loading.value = false;
-  }, 2000);
+  getAssignedProcessInstances(page.value, pageSize.value);
 };
 </script>

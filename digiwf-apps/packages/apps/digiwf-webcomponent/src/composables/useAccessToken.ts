@@ -28,7 +28,7 @@ export function useAccessToken(accessTokenEventName: Ref<string>) {
 }
 
 export function useHasAccessToken() {
-  const hasAccessToken = inject(HAS_ACCESS_TOKEN_INJECT_KEY);
+  const hasAccessToken = inject(HAS_ACCESS_TOKEN_INJECT_KEY)!;
 
   return { hasAccessToken };
 }
