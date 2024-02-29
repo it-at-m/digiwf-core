@@ -7,13 +7,13 @@
     :error="error"
     :page-data="pageData"
     @reload="loadData"
-    @changepage="(newPage) => (page = newPage)"
+    @changepage="setPage"
   >
     <template #content>
       <c-list-group flush>
-        <template v-if="data && data.content">
+        <template v-if="hasContent">
           <service-instance-list-item
-            v-for="serviceInstance in data.content"
+            v-for="serviceInstance in data!.content"
             :key="serviceInstance.id"
             :service-instance="serviceInstance"
           />
@@ -32,28 +32,27 @@
 </template>
 
 <script setup lang="ts">
-import type { PageData } from "@/types/PageData";
-
 import { CListGroup } from "@coreui/vue";
-import { computed, ref, watch } from "vue";
+import { computed, watch } from "vue";
 
 import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListItemPlaceholder from "@/components/placeholders/ServiceInstanceListItemPlaceholder.vue";
 import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
 import { useHasAccessToken } from "@/composables/useAccessToken";
-import { useGetAssignedProcessInstances } from "@/composables/useGetAssignedProcessInstances";
+import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceController/useGetAssignedProcessInstances";
+import { usePagination } from "@/composables/usePagination";
 import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
+const { hasAccessToken } = useHasAccessToken();
 const { call: getAssignedProcessInstances, loading, error, data } = useGetAssignedProcessInstances();
 
-const { hasAccessToken } = useHasAccessToken();
+const totalPages = computed(() => data.value?.totalPages);
+const totalElements = computed(() => data.value?.totalElements);
+
+const { page, pageData, pageSize, setPage } = usePagination(totalPages, totalElements);
 
 const showLoading = computed(() => !hasAccessToken?.value || loading.value);
-
-const page = ref(0);
-const pageSize = ref(3); // Maybe later set dynamically or as widget parameter?
-
-const totalPages = computed(() => data.value?.totalPages);
+const hasContent = computed(() => data.value && data.value.content);
 
 watch(
   hasAccessToken,
@@ -62,23 +61,6 @@ watch(
   },
   { immediate: true }
 );
-
-// Change to new last page if page size decreased
-watch(totalPages, (newTotalPages) => {
-  if (newTotalPages && page.value + 1 > newTotalPages) {
-    page.value = newTotalPages - 1;
-  }
-});
-
-const pageData = computed<PageData | undefined>(() => {
-  if (!data.value) return undefined;
-  const { totalPages, totalElements } = data.value;
-  return {
-    totalPages,
-    number: page.value,
-    totalElements,
-  };
-});
 
 watch(page, () => {
   loadData();
