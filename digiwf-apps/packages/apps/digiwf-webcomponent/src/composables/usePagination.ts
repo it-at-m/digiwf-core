@@ -1,9 +1,12 @@
 import type { PageData } from "@/types/PageData";
 import type { Ref } from "vue";
 
-import { ref, watch, computed, readonly } from "vue";
+import { computed, readonly, ref, watch } from "vue";
 
-export function usePagination(totalPages: Ref<number | undefined>, totalElements: Ref<number | undefined>) {
+export function usePagination(
+  totalPages: Ref<number | undefined>,
+  totalElements: Ref<number | undefined>
+) {
   const pageInternal = ref(0);
   const page = readonly(pageInternal);
 
@@ -12,7 +15,7 @@ export function usePagination(totalPages: Ref<number | undefined>, totalElements
 
   const setPage = (newPage: number) => {
     pageInternal.value = newPage;
-  }
+  };
 
   watch(totalPages, (newTotalPages) => {
     if (newTotalPages && pageInternal.value + 1 > newTotalPages) {
@@ -32,6 +35,6 @@ export function usePagination(totalPages: Ref<number | undefined>, totalElements
     page,
     pageData,
     pageSize,
-    setPage
-  }
+    setPage,
+  };
 }

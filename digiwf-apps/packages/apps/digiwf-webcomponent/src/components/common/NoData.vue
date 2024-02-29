@@ -3,9 +3,7 @@
     <h6 class="mb-3">
       <strong>Keine {{ name }} gefunden</strong>
     </h6>
-    <p class="mb-1">
-      Es konnten keine {{ name }} gefunden werden.
-    </p>
+    <p class="mb-1">Es konnten keine {{ name }} gefunden werden.</p>
   </c-list-group-item>
 </template>
 

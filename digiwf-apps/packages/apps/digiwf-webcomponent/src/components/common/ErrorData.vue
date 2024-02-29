@@ -4,8 +4,8 @@
       <strong>Fehler</strong>
     </h6>
     <p class="mb-1">
-      Beim Abrufen der {{ name }} ist ein Fehler aufgetreten. Versuchen Sie es zu einem
-      späteren Zeitpunkt erneut.
+      Beim Abrufen der {{ name }} ist ein Fehler aufgetreten. Versuchen Sie es
+      zu einem späteren Zeitpunkt erneut.
     </p>
   </c-list-group-item>
 </template>

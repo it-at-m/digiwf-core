@@ -38,18 +38,26 @@ import { computed, watch } from "vue";
 import WidgetCard from "@/components/common/WidgetCard.vue";
 import ServiceInstanceListItemPlaceholder from "@/components/placeholders/ServiceInstanceListItemPlaceholder.vue";
 import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
-import { useHasAccessToken } from "@/composables/useAccessToken";
 import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceController/useGetAssignedProcessInstances";
+import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";
 import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { hasAccessToken } = useHasAccessToken();
-const { call: getAssignedProcessInstances, loading, error, data } = useGetAssignedProcessInstances();
+const {
+  call: getAssignedProcessInstances,
+  loading,
+  error,
+  data,
+} = useGetAssignedProcessInstances();
 
 const totalPages = computed(() => data.value?.totalPages);
 const totalElements = computed(() => data.value?.totalElements);
 
-const { page, pageData, pageSize, setPage } = usePagination(totalPages, totalElements);
+const { page, pageData, pageSize, setPage } = usePagination(
+  totalPages,
+  totalElements
+);
 
 const showLoading = computed(() => !hasAccessToken?.value || loading.value);
 const hasContent = computed(() => data.value && data.value.content);

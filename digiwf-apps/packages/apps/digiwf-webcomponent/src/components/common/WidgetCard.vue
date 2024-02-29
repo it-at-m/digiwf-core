@@ -47,9 +47,7 @@
         v-if="loading"
         name="placeholder"
       />
-      <error-data
-        v-else-if="error"
-      />
+      <error-data v-else-if="error" />
       <slot
         v-else-if="hasContent"
         name="content"
@@ -103,10 +101,10 @@ import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
 import { computed } from "vue";
 
+import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useInjectBaseURL } from "@/composables/useBaseURL";
-import ErrorData from "@/components/common/ErrorData.vue";
 
 const { digiWFBaseURL } = useInjectBaseURL();
 
@@ -134,15 +132,11 @@ const emit = defineEmits<{
 }>();
 
 const showPagination = computed(
-  () =>
-    props.pageData.totalPages &&
-    props.pageData.totalPages > 1
+  () => props.pageData.totalPages && props.pageData.totalPages > 1
 );
 
 const hasContent = computed(
-  () =>
-    props.pageData.totalElements &&
-    props.pageData.totalElements > 0
+  () => props.pageData.totalElements && props.pageData.totalElements > 0
 );
 
 const frontendURL = computed(() => {

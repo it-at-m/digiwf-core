@@ -46,6 +46,6 @@ export function useGetAssignedProcessInstances() {
     call,
     loading,
     error,
-    data
+    data,
   };
 }
