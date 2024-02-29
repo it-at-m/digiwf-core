@@ -19,7 +19,7 @@
 
     <dependencies>
 
-        <!-- alw-integration -->
+        <!-- ticket-integration -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-ticket-integration-starter</artifactId>
