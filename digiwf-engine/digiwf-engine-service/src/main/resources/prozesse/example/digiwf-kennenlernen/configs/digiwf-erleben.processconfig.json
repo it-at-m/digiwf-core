@@ -1,0 +1,44 @@
+{
+  "key": "digiwf-kennenlernen_5405b3dd-3f71-4ff8-96d3-226415433f8b",
+  "statusConfig": [
+    {
+      "key": "Gestartet",
+      "label": "Gestartet",
+      "position": 1
+    },
+    {
+      "key": "Basics-Usertask",
+      "label": "Basics Usertask",
+      "position": 2
+    },
+    {
+      "key": "Basics-Integrationen",
+      "label": "Basics Integrationen",
+      "position": 3
+    },
+    {
+      "key": "Abschluss",
+      "label": "Abschluss",
+      "position": 4
+    },
+    {
+      "key": "Abgeschlossen",
+      "label": "Abgeschlossen",
+      "position": 5
+    }
+  ],
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": "test"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "test"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "digiwf-erleben-uebersicht"
+    }
+  ]
+}

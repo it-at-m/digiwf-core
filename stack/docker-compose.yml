@@ -1,35 +1,6 @@
 # Use this only in dev environments. It's not intended for production usage.
 version: '3.9'
 services:
-
-  digiwf-gateway:
-    image: itatm/digiwf-gateway:dev
-    depends_on:
-      init-keycloak:
-        condition: service_completed_successfully
-    env_file:
-      - local-docker.env
-    ports:
-      - "8083:8083"
-    environment:
-      #
-      # profile specific configuration
-      #
-      SPRING_PROFILES_ACTIVE: "local, docker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - internal
-  # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
-  digiwf-tasklist:
-    image: itatm/digiwf-tasklist:dev
-    ports:
-      - "8091:8080"
-    profiles:
-      - tasklist-frontend
-    networks:
-      - internal
-
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -115,10 +86,10 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_COSYS_INTEGRATION} --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1  
-      
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1     
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_MUCS_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_TICKET_INTEGRATION} --replication-factor 1 --partitions 1  
 
       echo -e 'Resulting topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
@@ -159,7 +130,33 @@ services:
     networks:
       - internal
 
-
+  digiwf-gateway:
+    image: itatm/digiwf-gateway:dev
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - local-docker.env
+    ports:
+      - "8083:8083"
+    environment:
+      #
+      # profile specific configuration
+      #
+      SPRING_PROFILES_ACTIVE: "local, docker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+  # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
+  digiwf-tasklist:
+    image: itatm/digiwf-tasklist:dev
+    ports:
+      - "8091:8080"
+    profiles:
+      - tasklist-frontend
+    networks:
+      - internal
   #
   # Local keycloak. To work properly, you need to change your local hosts file and add an alias to your
   # `127.0.0.1 localhost` line to look like this: `127.0.0.1 localhost keycloak`.

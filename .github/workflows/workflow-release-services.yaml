@@ -34,8 +34,6 @@ jobs:
           server-id: "ossrh"
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.gpg_private_key }}
-          gpg-passphrase: SIGN_KEY_PASS
 
       - name: Prepare mvnw
         run: chmod +x ./mvnw
@@ -48,11 +46,28 @@ jobs:
       - name: Build with Maven
         run: ./mvnw --batch-mode clean install -DskipTests
 
+      #
+      # The GPG key is stored in the secret using the text 'PGP Private Key' format
+      # Import it to GPG keyring and trust it.
+      #
+      - name: Import GPG key
+        if: inputs.maven-release == true
+        run: echo "${{ secrets.gpg_private_key }}" | gpg --import --no-tty --batch --yes --always-trust
+
+      #
+      # Show available keys. This will hide the key name (since it is in the secrets), but show for example expiration date
+      #
+      - name: List GPG keys available
+        if: inputs.maven-release == true
+        run: gpg --list-secret-keys --keyid-format=long
+
+      #
+      # Create a release, passing gpg.keyname and gpg.passphrase directly from the secrets
+      #
       - name: Perform maven release
         if: inputs.maven-release == true
-        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests
+        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}"
         env:
-          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
           OSSRH_PASSWORD: ${{ secrets.nexus_password }}
 
@@ -142,6 +157,13 @@ jobs:
           context: ./digiwf-integrations/digiwf-address-integration/digiwf-address-integration-service
           push: true
           tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }},itatm/digiwf-address-integration-service:dev
+
+      - name: Build and push ticket-integration
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-ticket-integration/digiwf-ticket-integration-service
+          push: true
+          tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }},itatm/digiwf-ticket-integration-service:dev
 
   release-services-camunda-ee:
     runs-on: ubuntu-latest

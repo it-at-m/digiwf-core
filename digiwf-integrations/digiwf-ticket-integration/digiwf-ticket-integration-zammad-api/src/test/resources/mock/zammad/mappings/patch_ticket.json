@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "PATCH",
+    "urlPathTemplate": "/tickets/{ticketId}",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "ticket.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

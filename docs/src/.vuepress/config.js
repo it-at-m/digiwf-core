@@ -187,6 +187,7 @@ module.exports = {
                                 'forms/fields/',
                                 'forms/objects/',
                                 'forms/optional-content/',
+                                'forms/links/',
                                 'forms/accessibility/'
                             ]
                         },
@@ -244,7 +245,8 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-formserver-integration',
-                                'digiwf-dms-integration'
+                                'digiwf-dms-integration',
+                                'digiwf-ticket-integration'
                             ]
                         },
                         {

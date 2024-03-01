@@ -1,0 +1,16 @@
+{
+  "id": "12345",
+  "group_id": "67890",
+  "priority_id": "2",
+  "state_id": "4",
+  "state_external": "external_state_example",
+  "number": "TICKET-001",
+  "title": "Issue with product X",
+  "customer_id": "54321",
+  "note": "Customer reported an issue with product X not functioning as expected.",
+  "close_at": "2023-01-01T12:00:00+00:00",
+  "article_count": 5,
+  "created_at": "2023-01-01T10:00:00+00:00",
+  "article_ids": [],
+  "articles": []
+}

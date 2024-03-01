@@ -141,8 +141,8 @@ export default defineComponent({
 
     const getMetadataOfObjects = (objects: DmsObject[]) => {
       return objects
-        .filter(doc => !!doc.metadata)
-        .map(doc => doc.coo);
+          .filter(doc => !!doc.metadata)
+          .map(doc => doc.coo);
     }
 
     const validate = (number: number) => {

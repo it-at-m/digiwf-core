@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>digiwf-integration-parent</artifactId>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <relativePath>../digiwf-integration-parent</relativePath>
+        <version>1.8.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>digiwf-ticket-integration</artifactId>
+    <name>digiwf-ticket-integration</name>
+    <packaging>pom</packaging>
+    <description>Integration of the Ticket Systems used by DigiWF</description>
+
+    <modules>
+        <module>digiwf-ticket-integration-core</module>
+        <module>digiwf-ticket-integration-starter</module>
+        <module>digiwf-ticket-integration-service</module>
+        <module>digiwf-ticket-integration-zammad-api</module>
+    </modules>
+
+</project>

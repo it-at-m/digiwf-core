@@ -1,0 +1,137 @@
+{
+  "name": "Ticketing: Artikel schreiben",
+  "id": "de.muenchen.digitalwf.templates.ticketing.write-article",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_topic_name",
+        "target": "app_topic_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Message",
+      "type": "String",
+      "editable": false,
+      "value": "genericEvent",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_message_name",
+        "target": "app_message_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "writeArticle",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Ticket ID",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "ticketId",
+        "target": "ticketId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Article",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "article",
+        "target": "article"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Status",
+      "type": "Dropdown",
+      "value": "",
+      "choices": [
+        {
+          "name": "",
+          "value": ""
+        },
+        {
+          "name": "Eingehend",
+          "value": "EINGEHEND"
+        },
+        {
+          "name": "Ausgehend",
+          "value": "AUSGEHEND"
+        },
+        {
+          "name": "Intern",
+          "value": "INTERN"
+        }
+      ],
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "status",
+        "target": "status"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "User",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "userId",
+        "target": "userId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ]
+}
