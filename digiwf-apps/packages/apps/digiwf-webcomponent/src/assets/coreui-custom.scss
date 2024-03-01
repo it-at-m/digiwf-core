@@ -1,3 +1,8 @@
-$primary: orange;
+// General
 $enable-rounded: false;
-$list-group-hover-bg: $primary;
+$enable-ltr: true;
+$enable-rtl: false;
+
+// Default Overrides
+$primary: red;
+$card-cap-bg: purple;
