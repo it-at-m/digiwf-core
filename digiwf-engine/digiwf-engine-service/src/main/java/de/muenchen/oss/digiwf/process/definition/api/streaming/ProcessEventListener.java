@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -28,6 +29,7 @@ public class ProcessEventListener {
     private final UserService userService;
 
     @Bean
+    @Transactional
     public Consumer<Message<StartInstanceTOV01>> startProcessV01() {
         return startInstance -> {
             log.info("Received process start {}", startInstance.getPayload());
