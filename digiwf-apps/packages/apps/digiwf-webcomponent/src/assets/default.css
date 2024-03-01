@@ -1,0 +1,6 @@
+:host {
+    --lhm-widget-color-primary-default: orange;
+    --lhm-widget-color-text-default: black;
+    --lhm-widget-background-color-default: pink;
+    --lhm-widget-font-family-default: Arial, sans-serif;
+}
