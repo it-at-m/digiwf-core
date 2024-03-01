@@ -12,7 +12,7 @@
             v-else
             type="mdi"
             :path="iconPath"
-            class="me-3 text-primary"
+            class="me-3"
             size="36"
           />
           <h5
@@ -68,12 +68,13 @@
           @changepage="(page) => emit('changepage', page)"
         />
         <c-button
-          color="primary"
+          color="link"
           variant="ghost"
           component="a"
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-content-center"
+          role="button"
         >
           <span class="me-2">{{ linkText }}</span>
           <svg-icon
@@ -143,3 +144,13 @@ const frontendURL = computed(() => {
   return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
 });
 </script>
+
+<style scoped>
+svg {
+  color: var(--lhm-widget-color-primary, var(--cui-primary));
+}
+.card {
+  --cui-card-cap-bg: var(--lhm-widget-background-color, var(--lhm-widget-background-color-default));
+  --cui-card-bg: var(--lhm-widget-background-color, var(--lhm-widget-background-color-default));
+}
+</style>
