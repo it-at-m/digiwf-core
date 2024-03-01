@@ -33,7 +33,7 @@ public class ZammadAdapterTest {
         TicketStatus status = TicketStatus.OPEN;
 
         // when
-        zammadAdapter.updateTicket(ticketId, article, status);
+        zammadAdapter.updateTicket(ticketId, article, status, null);
 
         // then
         UpdateTicketDTO updateTicketDTO = new UpdateTicketDTO();

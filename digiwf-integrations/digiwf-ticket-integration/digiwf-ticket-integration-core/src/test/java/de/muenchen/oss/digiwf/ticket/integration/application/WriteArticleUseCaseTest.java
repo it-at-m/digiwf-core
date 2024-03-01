@@ -13,7 +13,7 @@ public class WriteArticleUseCaseTest {
 
     private final TicketOutPort ticketOutPort = Mockito.mock(TicketOutPort.class);
 
-    private final WriteArticleUseCase writeArticleUseCase = new WriteArticleUseCase(ticketOutPort);
+    private final WriteArticleUseCase writeArticleUseCase = new WriteArticleUseCase(ticketOutPort, null);
 
     @Test
     void writeArticle_callsUpdateTicketWithCorrectArguments() {
@@ -23,10 +23,10 @@ public class WriteArticleUseCaseTest {
         TicketStatus status = TicketStatus.OPEN;
 
         // when
-        writeArticleUseCase.writeArticle(ticketId, article, status);
+        writeArticleUseCase.writeArticle(ticketId, article, status, null);
 
         // then
-        verify(ticketOutPort).updateTicket(eq(ticketId), eq(article), eq(status));
+        verify(ticketOutPort).updateTicket(eq(ticketId), eq(article), eq(status), null);
     }
 
 }

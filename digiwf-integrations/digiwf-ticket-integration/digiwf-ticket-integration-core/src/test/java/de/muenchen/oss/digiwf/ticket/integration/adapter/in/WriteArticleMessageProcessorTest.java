@@ -34,7 +34,7 @@ class WriteArticleMessageProcessorTest {
 
     @BeforeEach
     void setup() {
-        Mockito.doNothing().when(writeArticleInPort).writeArticle(any(), any(), any());
+        Mockito.doNothing().when(writeArticleInPort).writeArticle(any(), any(), any(), any());
     }
 
     @NotNull
@@ -70,7 +70,7 @@ class WriteArticleMessageProcessorTest {
         Mockito.verify(writeArticleInPort, Mockito.times(1)).writeArticle(
                 "ticketID123",
                 new Article("mein text", "userID123"),
-                TicketStatus.OPEN);
+                TicketStatus.OPEN, null);
     }
 
 }
