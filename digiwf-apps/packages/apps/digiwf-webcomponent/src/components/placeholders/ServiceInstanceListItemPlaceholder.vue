@@ -1,7 +1,7 @@
 <template>
   <c-list-group-item class="p-3">
     <c-placeholder
-      component="h6"
+      component="h5"
       animation="wave"
       class="mb-3"
     >
