@@ -221,6 +221,8 @@ export default defineComponent({
         isLoading.value = true;
 
         validateFileSize(mydata);
+        validateFileName(file.name);
+
         const presignedUrl = await getPresignedUrlForPost(file, {
           filePath,
           apiEndpoint: apiEndpoint || "",
@@ -265,6 +267,20 @@ export default defineComponent({
       if (mydata.byteLength > maxFileSize * mbInByte) {
         errorMessage.value = "Die Datei muss kleiner als " + maxFileSize + " MB sein.";
         throw new Error("File too large.");
+      }
+    }
+
+    const validateFileName = (name: string) => {
+      const acceptString: string = props.schema.accept || "";
+      const accept: string[] = acceptString.split(",");
+
+      if(accept.length > 0) {
+        const mimeType = getMimeType(name)
+        if(!accept.includes(mimeType)) {
+          const error = `Ungültiger Dateityp. Validate Dateitypen sind ${accept.join(", ")}`
+          errorMessage.value = error;
+          throw new Error(error);
+        }
       }
     }
 
