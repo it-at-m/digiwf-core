@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.2.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="digiwf-kennenlernen_5405b3dd-3f71-4ff8-96d3-226415433f8b" name="DigiWF kennenlernen" isExecutable="true">
+    <bpmn:documentation>Das Online-Tutorial für die Benutzer von DigiWF</bpmn:documentation>
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="digiwf-erleben-start">
+      <bpmn:outgoing>Flow_1w559er</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1w559er" sourceRef="StartEvent_1" targetRef="Event_16v3gqr" />
+    <bpmn:exclusiveGateway id="Gateway_0bn80s0" name="Usertask Management" default="Flow_10z121d">
+      <bpmn:incoming>Flow_0bxlnrx</bpmn:incoming>
+      <bpmn:outgoing>Flow_01yiwb1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10z121d</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_04d78tt" name="Info Integrationen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_description">Demonstration der DigiWF Integrationen</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">info-integrationen</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">digiwf-kennenlernen</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly">test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02kbhse</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hv8lrj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_01yiwb1" sourceRef="Gateway_0bn80s0" targetRef="Event_0d2mt9c">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Usertasks}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_17qj35c" name="Info Usertasks" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">info-user-tasks</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_description">Demonstraton des Usertask Managements mit DigiWF</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">digiwf-kennenlernen</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1iq07ou</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ggm8f8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="Event_16v3gqr" name="Status start">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">process.setStatus("Gestartet")</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1w559er</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bxlnrx</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_0d2mt9c" name="Status Basics Usertasks">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">process.setStatus("Basics-Usertask");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01yiwb1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1iq07ou</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1iq07ou" sourceRef="Event_0d2mt9c" targetRef="Activity_17qj35c" />
+    <bpmn:exclusiveGateway id="Gateway_07uxqah" name="Integrationen" default="Flow_1uaf9cy">
+      <bpmn:incoming>Flow_10z121d</bpmn:incoming>
+      <bpmn:incoming>Flow_00rk9zz</bpmn:incoming>
+      <bpmn:outgoing>Flow_12j9si2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1uaf9cy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0ggm8f8" sourceRef="Activity_17qj35c" targetRef="Gateway_0473wvm" />
+    <bpmn:sequenceFlow id="Flow_10z121d" sourceRef="Gateway_0bn80s0" targetRef="Gateway_07uxqah" />
+    <bpmn:sequenceFlow id="Flow_0bxlnrx" sourceRef="Event_16v3gqr" targetRef="Gateway_0bn80s0" />
+    <bpmn:userTask id="Activity_0gtvicg" name="Beispiel Usertask" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${Usertask_User}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_notification_send_assignee">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">digiwf-kennenlernen</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">beispiel-usertask</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_08kfbcu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sj39hw</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1scnj0d" name="Beispiel Grouptask" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:candidateGroups="${Usertask_Group}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_groups">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_tag">digiwf-kennenlernen</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">beispiel-usertask</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">/test</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly">/test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02bcpbq</bpmn:incoming>
+      <bpmn:outgoing>Flow_154g0sa</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:parallelGateway id="Gateway_0473wvm">
+      <bpmn:incoming>Flow_0ggm8f8</bpmn:incoming>
+      <bpmn:outgoing>Flow_08kfbcu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02bcpbq</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_08kfbcu" sourceRef="Gateway_0473wvm" targetRef="Activity_0gtvicg" />
+    <bpmn:sequenceFlow id="Flow_02bcpbq" sourceRef="Gateway_0473wvm" targetRef="Activity_1scnj0d" />
+    <bpmn:sequenceFlow id="Flow_00rk9zz" sourceRef="Gateway_1x5y1yt" targetRef="Gateway_07uxqah" />
+    <bpmn:sequenceFlow id="Flow_154g0sa" sourceRef="Activity_1scnj0d" targetRef="Gateway_1x5y1yt" />
+    <bpmn:sequenceFlow id="Flow_1sj39hw" sourceRef="Activity_0gtvicg" targetRef="Gateway_1x5y1yt" />
+    <bpmn:sequenceFlow id="Flow_12j9si2" sourceRef="Gateway_07uxqah" targetRef="Event_0q9bx4h">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Integrationen}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_0ci7vqh">
+      <bpmn:incoming>Flow_1uaf9cy</bpmn:incoming>
+      <bpmn:incoming>Flow_05pm79f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f9gx8p</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1uaf9cy" sourceRef="Gateway_07uxqah" targetRef="Gateway_0ci7vqh" />
+    <bpmn:intermediateThrowEvent id="Event_0q9bx4h" name="Status Basics Integrationen">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">process.setStatus("Basics-Integrationen");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12j9si2</bpmn:incoming>
+      <bpmn:outgoing>Flow_02kbhse</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_02kbhse" sourceRef="Event_0q9bx4h" targetRef="Activity_04d78tt" />
+    <bpmn:sequenceFlow id="Flow_05pm79f" sourceRef="Activity_0id21fc" targetRef="Gateway_0ci7vqh" />
+    <bpmn:sequenceFlow id="Flow_0jtcj93" sourceRef="Activity_1td0cxp" targetRef="Activity_0id21fc" />
+    <bpmn:sequenceFlow id="Flow_1hv8lrj" sourceRef="Activity_04d78tt" targetRef="Activity_1td0cxp" />
+    <bpmn:callActivity id="Activity_1td0cxp" name="Lade Dateianhang" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV02" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
+        <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
+        <camunda:in sourceExpression="test" target="path" />
+        <camunda:in sourceExpression="GET" target="action" />
+        <camunda:out source="presignedUrls" target="presignedUrls" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hv8lrj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jtcj93</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_0id21fc" name="Sende Email" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-mail-V02" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="${receiversCc}" target="receiversCc" />
+        <camunda:in sourceExpression="${receiversBcc}" target="receiversBcc" />
+        <camunda:in sourceExpression="${body}" target="body" />
+        <camunda:in sourceExpression="${replyTo}" target="replyTo" />
+        <camunda:in sourceExpression="${attachments}" target="attachments" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="receiversCc" />
+          <camunda:inputParameter name="receiversBcc" />
+          <camunda:inputParameter name="attachments">presignedUrls</camunda:inputParameter>
+          <camunda:inputParameter name="replyTo">no-reply@muenchen.de</camunda:inputParameter>
+          <camunda:inputParameter name="body">${Integration_body}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in sourceExpression="${Integration_mailto}" target="receivers" />
+        <camunda:in sourceExpression="${Integration_subject}" target="subject" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0jtcj93</bpmn:incoming>
+      <bpmn:outgoing>Flow_05pm79f</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_0yj6x7w">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1b1n4ts</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0f9gx8p" sourceRef="Gateway_0ci7vqh" targetRef="Event_0nr0gxt" />
+    <bpmn:sequenceFlow id="Flow_1b1n4ts" sourceRef="Activity_1aapg6v" targetRef="Event_0yj6x7w" />
+    <bpmn:intermediateThrowEvent id="Event_0nr0gxt" name="Status Abschluss">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">process.setStatus("Abschluss");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0f9gx8p</bpmn:incoming>
+      <bpmn:outgoing>Flow_1azfc09</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1azfc09" sourceRef="Event_0nr0gxt" targetRef="Activity_1aapg6v" />
+    <bpmn:userTask id="Activity_1aapg6v" name="Abschluss" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_tag">digiwf-kennenlernen</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_description">Abschluss digiwf-erleben</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">abschluss-demo</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1azfc09</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b1n4ts</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1x5y1yt">
+      <bpmn:incoming>Flow_154g0sa</bpmn:incoming>
+      <bpmn:incoming>Flow_1sj39hw</bpmn:incoming>
+      <bpmn:outgoing>Flow_00rk9zz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="digiwf-kennenlernen_5405b3dd-3f71-4ff8-96d3-226415433f8b">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="112" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0bn80s0_di" bpmnElement="Gateway_0bn80s0" isMarkerVisible="true">
+        <dc:Bounds x="285" y="72" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="278" y="129" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19waagg_di" bpmnElement="Activity_04d78tt">
+        <dc:Bounds x="1190" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_052zds9_di" bpmnElement="Activity_17qj35c">
+        <dc:Bounds x="480" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16v3gqr_di" bpmnElement="Event_16v3gqr">
+        <dc:Bounds x="192" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="182" y="122" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0d2mt9c_di" bpmnElement="Event_0d2mt9c">
+        <dc:Bounds x="382" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="366" y="122" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_07uxqah_di" bpmnElement="Gateway_07uxqah" isMarkerVisible="true">
+        <dc:Bounds x="1015" y="72" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1008" y="132" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19wsc58_di" bpmnElement="Activity_0gtvicg">
+        <dc:Bounds x="740" y="-30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yik61k_di" bpmnElement="Activity_1scnj0d">
+        <dc:Bounds x="740" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_07eieuf_di" bpmnElement="Gateway_0473wvm">
+        <dc:Bounds x="625" y="72" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ci7vqh_di" bpmnElement="Gateway_0ci7vqh" isMarkerVisible="true">
+        <dc:Bounds x="1705" y="72" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0q9bx4h_di" bpmnElement="Event_0q9bx4h">
+        <dc:Bounds x="1102" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1086" y="122" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0m34yqm_di" bpmnElement="Activity_1td0cxp">
+        <dc:Bounds x="1360" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05xk399_di" bpmnElement="Activity_0id21fc">
+        <dc:Bounds x="1530" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yj6x7w_di" bpmnElement="Event_0yj6x7w">
+        <dc:Bounds x="2082" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nr0gxt_di" bpmnElement="Event_0nr0gxt">
+        <dc:Bounds x="1812" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1788" y="122" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_157dbwo_di" bpmnElement="Activity_1aapg6v">
+        <dc:Bounds x="1910" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_035eysc_di" bpmnElement="Gateway_1x5y1yt" isMarkerVisible="true">
+        <dc:Bounds x="885" y="72" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1w559er_di" bpmnElement="Flow_1w559er">
+        <di:waypoint x="148" y="97" />
+        <di:waypoint x="192" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01yiwb1_di" bpmnElement="Flow_01yiwb1">
+        <di:waypoint x="335" y="97" />
+        <di:waypoint x="382" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iq07ou_di" bpmnElement="Flow_1iq07ou">
+        <di:waypoint x="418" y="97" />
+        <di:waypoint x="480" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ggm8f8_di" bpmnElement="Flow_0ggm8f8">
+        <di:waypoint x="580" y="97" />
+        <di:waypoint x="625" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10z121d_di" bpmnElement="Flow_10z121d">
+        <di:waypoint x="310" y="72" />
+        <di:waypoint x="310" y="-60" />
+        <di:waypoint x="1040" y="-60" />
+        <di:waypoint x="1040" y="72" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bxlnrx_di" bpmnElement="Flow_0bxlnrx">
+        <di:waypoint x="228" y="97" />
+        <di:waypoint x="285" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08kfbcu_di" bpmnElement="Flow_08kfbcu">
+        <di:waypoint x="650" y="72" />
+        <di:waypoint x="650" y="10" />
+        <di:waypoint x="740" y="10" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02bcpbq_di" bpmnElement="Flow_02bcpbq">
+        <di:waypoint x="650" y="122" />
+        <di:waypoint x="650" y="180" />
+        <di:waypoint x="740" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00rk9zz_di" bpmnElement="Flow_00rk9zz">
+        <di:waypoint x="935" y="97" />
+        <di:waypoint x="1015" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_154g0sa_di" bpmnElement="Flow_154g0sa">
+        <di:waypoint x="840" y="180" />
+        <di:waypoint x="910" y="180" />
+        <di:waypoint x="910" y="122" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sj39hw_di" bpmnElement="Flow_1sj39hw">
+        <di:waypoint x="840" y="10" />
+        <di:waypoint x="910" y="10" />
+        <di:waypoint x="910" y="72" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12j9si2_di" bpmnElement="Flow_12j9si2">
+        <di:waypoint x="1065" y="97" />
+        <di:waypoint x="1102" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uaf9cy_di" bpmnElement="Flow_1uaf9cy">
+        <di:waypoint x="1040" y="122" />
+        <di:waypoint x="1040" y="270" />
+        <di:waypoint x="1730" y="270" />
+        <di:waypoint x="1730" y="122" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02kbhse_di" bpmnElement="Flow_02kbhse">
+        <di:waypoint x="1138" y="97" />
+        <di:waypoint x="1190" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05pm79f_di" bpmnElement="Flow_05pm79f">
+        <di:waypoint x="1630" y="97" />
+        <di:waypoint x="1705" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jtcj93_di" bpmnElement="Flow_0jtcj93">
+        <di:waypoint x="1460" y="97" />
+        <di:waypoint x="1530" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hv8lrj_di" bpmnElement="Flow_1hv8lrj">
+        <di:waypoint x="1290" y="97" />
+        <di:waypoint x="1360" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f9gx8p_di" bpmnElement="Flow_0f9gx8p">
+        <di:waypoint x="1755" y="97" />
+        <di:waypoint x="1812" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b1n4ts_di" bpmnElement="Flow_1b1n4ts">
+        <di:waypoint x="2010" y="97" />
+        <di:waypoint x="2082" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1azfc09_di" bpmnElement="Flow_1azfc09">
+        <di:waypoint x="1848" y="97" />
+        <di:waypoint x="1910" y="97" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

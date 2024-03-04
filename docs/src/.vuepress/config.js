@@ -205,6 +205,7 @@ module.exports = {
                             children: [
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
+                                'guides/element-template-migration/',
                             ]
                         },
                         {
@@ -245,7 +246,8 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-formserver-integration',
-                                'digiwf-dms-integration'
+                                'digiwf-dms-integration',
+                                'digiwf-ticket-integration'
                             ]
                         },
                         {

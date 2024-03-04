@@ -1,0 +1,104 @@
+{
+    "key": "digiwf-erleben-start",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "",
+        "allOf": [
+            {
+                "title": "DigiWF erleben",
+                "description": "",
+                "type": "object",
+                "key": "abd421f4-d197-4c2b-8919-1a4b934c802a",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": " ",
+                        "description": "",
+                        "key": "ee05e11e-e72f-447d-8543-f7c55dbdff62",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "ea3cf117-03a6-466c-bb88-491c33e703bd": {
+                                "fieldType": "markdown",
+                                "title": "Herzlich Willkommen bei DigiWF",
+                                "type": "string",
+                                "x-display": "markdown",
+                                "key": "ea3cf117-03a6-466c-bb88-491c33e703bd",
+                                "default": "Wir freuen uns, dass Sie sich für DigiWF interessieren.\n\nDieser Prozess hilft Ihnen dabei die Funktionen von DigiWF kennenzulernen. Indem Sie das nachfolgende Dokument ausfüllen, können Sie selbst bestimmen, welche Funktionen Sie kennenlernen möchten.\n\n**Ihr DigiWF Team**",
+                                "readOnly": true,
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    },
+                    {
+                        "containerType": "group",
+                        "title": "Welche DigiWF Features möchten Sie kennenlernen",
+                        "description": "",
+                        "key": "816ad57c-d8b4-4fe7-81fc-b524805d84c0",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "Usertasks": {
+                                "fieldType": "boolean",
+                                "title": "Wollen sie das Usertask Management ausprobieren",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "Usertasks",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "Integrationen": {
+                                "fieldType": "boolean",
+                                "title": "Wollen sie mehr über DigiWF Integrationen erfahren?",
+                                "default": false,
+                                "type": "boolean",
+                                "key": "Integrationen",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

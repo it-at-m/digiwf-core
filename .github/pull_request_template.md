@@ -4,7 +4,7 @@ Short description or comments
 
 ### Reference
 
-Issues: closes #xxx
+Issues: #xxx
 
 ### Screenshots (If UI changed)
 

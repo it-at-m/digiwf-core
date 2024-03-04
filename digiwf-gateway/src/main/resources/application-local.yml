@@ -50,11 +50,19 @@ spring:
             - RemoveResponseHeader=WWW-Authenticate
 
         - id: mucs-dms-integration
-          uri: http://${DMS_INTEGRATION_SERVER_HOST:localhost}:${DMS_INTEGRATION_SERVER_PORT}/
+          uri: http://${MUCS_DMS_INTEGRATION_SERVER_HOST:localhost}:${MUCS_DMS_INTEGRATION_SERVER_PORT}/
           predicates:
             - Path=/api/dms-integration/mucs/rest/**
           filters:
             - RewritePath=/api/dms-integration/mucs/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: alw-dms-integration
+          uri: http://${ALW_DMS_INTEGRATION_SERVER_HOST:localhost}:${ALW_DMS_INTEGRATION_SERVER_PORT}/
+          predicates:
+            - Path=/api/dms-integration/alw/rest/**
+          filters:
+            - RewritePath=/api/dms-integration/alw/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
         - id: frontend

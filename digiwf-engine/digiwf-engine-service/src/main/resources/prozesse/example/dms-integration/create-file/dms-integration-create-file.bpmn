@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Create File process" processRef="create-file-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="create-file-integration-example" name="Example Create File Integration" isExecutable="true">
+  <bpmn:process id="create-file-integration-example" name="DMS: Create File" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-create-file_start">
@@ -32,7 +32,7 @@
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${apentryCOO}" target="apentryCOO" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="fileCOO" target="fileCoo" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>

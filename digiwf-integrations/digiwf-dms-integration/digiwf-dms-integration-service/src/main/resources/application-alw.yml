@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: "dwf-alw-dms-${DIGIWF_ENV}"
+server:
+  port: '${ALW_DMS_INTEGRATION_SERVER_PORT:8080}'

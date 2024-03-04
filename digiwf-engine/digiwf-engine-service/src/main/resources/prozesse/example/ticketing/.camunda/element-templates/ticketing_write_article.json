@@ -1,0 +1,109 @@
+{
+  "name": "Ticketing: Artikel schreiben",
+  "id": "de.muenchen.digitalwf.templates.ticketing.write-article",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration",
+      "type": "String",
+      "value": "ticketIntegration",
+      "editable": false,
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_integration_name",
+        "target": "app_integration_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "writeArticle",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Ticket ID",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "ticketId",
+        "target": "ticketId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Article",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "article",
+        "target": "article"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Status",
+      "type": "Dropdown",
+      "value": "-",
+      "choices": [
+        {
+          "name": "-",
+          "value": "-"
+        },
+        {
+          "name": "Eingehend",
+          "value": "EINGEHEND"
+        },
+        {
+          "name": "Ausgehend",
+          "value": "AUSGEHEND"
+        },
+        {
+          "name": "Intern",
+          "value": "INTERN"
+        }
+      ],
+      "binding": {
+        "type": "camunda:in",
+        "expression": false,
+        "name": "status",
+        "target": "status"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ]
+}

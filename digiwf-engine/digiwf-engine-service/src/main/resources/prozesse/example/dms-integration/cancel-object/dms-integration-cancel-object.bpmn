@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Cancel Object process" processRef="cancel-object-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="cancel-object-integration-example" name="DMS: Example Cancel Object Integration" isExecutable="true">
+  <bpmn:process id="cancel-object-integration-example" name="DMS: Cancel Object" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:sequenceFlow id="Flow_021rbp5" sourceRef="create-procedure" targetRef="Activity_0p6tsoh" />
@@ -14,7 +14,7 @@
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
         <camunda:out source="procedureCOO" target="procedureCoo" />
       </bpmn:extensionElements>
@@ -43,7 +43,7 @@
     <bpmn:callActivity id="Activity_0p6tsoh" name="Cancel Object" camunda:modelerTemplate="de.muenchen.digitalwf.templates.cancel-object" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="cancelObject" target="app_type_name" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${procedureCoo}" target="objectCoo" />
       </bpmn:extensionElements>

@@ -1,0 +1,61 @@
+# DigiWF config
+
+digiwf:
+  security:
+    client-id: ${SSO_TICKET_CLIENT_ID}
+    client-secret: ${SSO_TICKET_CLIENT_SECRET}
+  zammad:
+    baseurl: ${TICKETING_ZAMMAD_URL}
+
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+
+info:
+  application:
+    name: @project.artifactId@
+    version: @project.version@
+
+spring:
+  application.name: @project.artifactId@
+  banner.location: banner.txt
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-ticket-service"
+          destination: dwf-ticket-${DIGIWF_ENV}
+        sendMessage-out-0:
+          destination: dwf-connector-${DIGIWF_ENV}
+
+server:
+  shutdown: "graceful"
+  port: ${TICKETING_INTEGRATION_SERVER_PORT:8080}
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+
+# Config for spring actuator endpoints
+management:
+  server.port: ${server.port}
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+      path-mapping:
+        prometheus: metrics
+  endpoint:
+    health.enabled: true
+    info.enabled: true
+    prometheus.enabled: true
+  info:
+    env:
+      enabled: true

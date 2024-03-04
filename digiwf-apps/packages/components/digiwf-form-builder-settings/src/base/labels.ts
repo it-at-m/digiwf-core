@@ -48,11 +48,5 @@ export interface Labels {
   validationAdditionalRules: string;
   dmsSystem: string;
   dmsObjectClass: string;
-  dmsSchriftstueck: string;
-  dmsSachakte: string;
-  dmsVorgang: string;
-  dmsEingang: string;
-  dmsAusgang: string;
-  dmsIntern: string;
   dmsDefaultDescription: string;
 }

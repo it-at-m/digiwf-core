@@ -7,7 +7,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-core</artifactId>
-        <version>1.7.3-SNAPSHOT</version>
+        <version>1.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-integrations</artifactId>
@@ -26,6 +26,7 @@
         <module>digiwf-example-integration</module>
         <module>digiwf-dms-integration</module>
         <module>digiwf-address-integration</module>
+        <module>digiwf-ticket-integration</module>
     </modules>
 
 </project>

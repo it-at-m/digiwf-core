@@ -65,12 +65,6 @@ export const enLabels: Labels = {
   validationAdditionalRules: "Additional rules",
   dmsSystem: "DMS System",
   dmsObjectClass: "Objectclass",
-  dmsSchriftstueck: "Document",
-  dmsSachakte: "Factual files",
-  dmsVorgang: "Dossier",
-  dmsEingang: "Inbox",
-  dmsAusgang: "Exit",
-  dmsIntern: "Internal",
   dmsDefaultDescription: "List of COOs or links to be checked by the input",
 }
 

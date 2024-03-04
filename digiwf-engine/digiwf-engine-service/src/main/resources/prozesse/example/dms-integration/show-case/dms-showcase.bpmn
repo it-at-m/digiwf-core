@@ -6,22 +6,124 @@
   <bpmn:process id="dms-integration-showcase" name="DMS: Integration Showcase" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
-    <bpmn:callActivity id="Activity_0yve4uj" name="Create Document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-document" calledElement="StreamingTemplateV02">
+    <bpmn:sequenceFlow id="Flow_146q221" sourceRef="Gateway_06ktcp9" targetRef="Event_completed" />
+    <bpmn:sequenceFlow id="Flow_1kntuzh" sourceRef="Activity_1catkgp" targetRef="Activity_10rtq6l" />
+    <bpmn:sequenceFlow id="Flow_1eypdr0" sourceRef="Activity_0rm31hk" targetRef="Activity_1catkgp" />
+    <bpmn:sequenceFlow id="Flow_011us2r" sourceRef="Activity_0rs3rwz" targetRef="Activity_1008tp3" />
+    <bpmn:sequenceFlow id="Flow_12oko5v" sourceRef="Activity_0s9wo6c" targetRef="Activity_0rs3rwz" />
+    <bpmn:sequenceFlow id="Flow_1bivhc9" sourceRef="Activity_1s1aof1" targetRef="Activity_0s9wo6c" />
+    <bpmn:sequenceFlow id="Flow_17v6het" sourceRef="Activity_065a1sj" targetRef="Activity_1s1aof1" />
+    <bpmn:sequenceFlow id="Flow_1t2z215" sourceRef="Activity_1rou7zz" targetRef="Activity_065a1sj" />
+    <bpmn:sequenceFlow id="Flow_1giyxj3" sourceRef="Activity_0yve4uj" targetRef="Activity_1rou7zz" />
+    <bpmn:sequenceFlow id="Flow_0vus27t" sourceRef="Activity_10rtq6l" targetRef="Activity_0yve4uj" />
+    <bpmn:sequenceFlow id="Flow_0lh9h3m" sourceRef="Activity_1cob3fk" targetRef="Gateway_06ktcp9" />
+    <bpmn:sequenceFlow id="Flow_1yh0dxo" sourceRef="Activity_1tl03u1" targetRef="Activity_0rm31hk" />
+    <bpmn:sequenceFlow id="Flow_045oexm" sourceRef="Activity_060pt2t" targetRef="Activity_1tl03u1" />
+    <bpmn:sequenceFlow id="Flow_0nrt030" sourceRef="Activity_11y8wyr" targetRef="Activity_060pt2t" />
+    <bpmn:sequenceFlow id="Flow_0mjwb1n" sourceRef="Activity_0mq81fr" targetRef="Activity_11y8wyr" />
+    <bpmn:sequenceFlow id="Flow_0f5fetm" sourceRef="Activity_1vwpexv" targetRef="Activity_0mq81fr" />
+    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_1vwpexv" />
+    <bpmn:sequenceFlow id="Flow_1dreq82" sourceRef="Activity_1008tp3" targetRef="Gateway_18ocfe2" />
+    <bpmn:sequenceFlow id="Flow_1pbxc3p" sourceRef="Gateway_18ocfe2" targetRef="Activity_1cob3fk">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{system == 'mucsDmsIntegration'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1e267mw" sourceRef="Gateway_18ocfe2" targetRef="Activity_0eciz9f">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{system == 'alwDmsIntegration'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1vm2smz" sourceRef="Activity_0eciz9f" targetRef="Gateway_06ktcp9" />
+    <bpmn:userTask id="Activity_0eciz9f" name="ALW DMS Input" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="createDocument" target="app_type_name" />
-        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="EINGEHEND" target="type" />
-        <camunda:in sourceExpression="${procedureCoo}" target="procedureCoo" />
-        <camunda:in sourceExpression="${documentTitle}" target="title" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="docs/" target="filepaths" />
-        <camunda:out source="documentCoo" target="documentCoo" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">alw-dms-integration-dms-input</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0vus27t</bpmn:incoming>
-      <bpmn:outgoing>Flow_1giyxj3</bpmn:outgoing>
+      <bpmn:incoming>Flow_1e267mw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vm2smz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_18ocfe2">
+      <bpmn:incoming>Flow_1dreq82</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pbxc3p</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1e267mw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_1cob3fk" name="MUCS DMS Input" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-dms-input</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pbxc3p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lh9h3m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-start-form">
+      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:callActivity id="Activity_1vwpexv" name="Suche Sachakte im DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.search-file" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="searchFile" target="app_type_name" />
+        <camunda:in sourceExpression="${search}" target="searchString" />
+        <camunda:in sourceExpression="${value}" target="value" />
+        <camunda:in sourceExpression="${reference}" target="reference" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:out source="fileCoo" target="sachakten" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f5fetm</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:userTask id="Activity_1rou7zz" name="Dokument updaten" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+    <bpmn:scriptTask id="Activity_0mq81fr" name="Erstes COO filtern" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_0f5fetm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mjwb1n</bpmn:outgoing>
+      <bpmn:script>/*
+* Erstes Element aus der Liste der DMS-COOs
+* an eine Variable des Execution-Context uebergeben.
+*/
+const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
+const tFirstCoo = tFileCoos[0];
+execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="Activity_11y8wyr" name="Sachakten kontrollieren" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-check-file</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mjwb1n</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nrt030</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_060pt2t" name="Sachakte anlegen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_description" />
@@ -34,12 +136,134 @@
           <camunda:inputParameter name="mail_bottom_text" />
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_file_paths">updatedocs</camunda:inputParameter>
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-update-document</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">docs</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-create-file</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1giyxj3</bpmn:incoming>
-      <bpmn:outgoing>Flow_1t2z215</bpmn:outgoing>
+      <bpmn:incoming>Flow_0nrt030</bpmn:incoming>
+      <bpmn:outgoing>Flow_045oexm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:callActivity id="Activity_1tl03u1" name="Search Subject Area" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.search-subject-area" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="searchSubjectArea" target="app_type_name" />
+        <camunda:in sourceExpression="${aktenplan}" target="searchString" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:out source="subjectAreaCoo" target="aktenplanCoo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_045oexm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yh0dxo</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_0rm31hk" name="Sachakte anlegen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-file" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="createFile" target="app_type_name" />
+        <camunda:in sourceExpression="${fileTitle}" target="title" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="${aktenplanCoo}" target="apentryCOO" />
+        <camunda:out source="fileCOO" target="fileCOO" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yh0dxo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1eypdr0</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_1catkgp" name="Create Procedure" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-procedure" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="createProcedure" target="app_type_name" />
+        <camunda:in sourceExpression="${title}" target="title" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
+        <camunda:out source="procedureCOO" target="procedureCoo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1eypdr0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kntuzh</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:userTask id="Activity_10rtq6l" name="Dokument erstellen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_file_paths">docs</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-create-document</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1kntuzh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vus27t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
+      <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
+        <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1hzdam7">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1H</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:endEvent id="End_terminated" name="Terminated">
+        <bpmn:incoming>Flow_1tpc9wl</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
+    </bpmn:subProcess>
+    <bpmn:callActivity id="Activity_1008tp3" name="Deposit Object" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.deposit-object" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="depositObject" target="app_type_name" />
+        <camunda:in sourceExpression="${procedureCoo}" target="objectCoo" />
+        <camunda:in sourceExpression="${user}" target="user" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_011us2r</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dreq82</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_0s9wo6c" name="Read Conent" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.read-content" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="readContent" target="app_type_name" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
+        <camunda:in sourceExpression="${contentCoos}" target="contentCoos" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="readdocs" target="filePath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bivhc9</bpmn:incoming>
+      <bpmn:outgoing>Flow_12oko5v</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Activity_065a1sj" name="Update Document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.update-document-in-dms" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="updateDocument" target="app_type_name" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
+        <camunda:in sourceExpression="EINGEHEND" target="type" />
+        <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
+        <camunda:in sourceExpression="${user}" target="user" />
+        <camunda:in sourceExpression="updatedocs/" target="filepaths" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1t2z215</bpmn:incoming>
+      <bpmn:outgoing>Flow_17v6het</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:userTask id="Activity_0rs3rwz" name="Schriftstücke prüfen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_file_paths">readdocs</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-check-documents</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12oko5v</bpmn:incoming>
+      <bpmn:outgoing>Flow_011us2r</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_1s1aof1" name="Schriftstücke lesen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
@@ -61,7 +285,7 @@
       <bpmn:incoming>Flow_17v6het</bpmn:incoming>
       <bpmn:outgoing>Flow_1bivhc9</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_0rs3rwz" name="Schriftstücke prüfen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+    <bpmn:userTask id="Activity_1rou7zz" name="Dokument updaten" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_description" />
@@ -74,296 +298,128 @@
           <camunda:inputParameter name="mail_bottom_text" />
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_file_paths">readdocs</camunda:inputParameter>
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-check-documents</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">updatedocs</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">dms-integration-update-document</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_12oko5v</bpmn:incoming>
-      <bpmn:outgoing>Flow_011us2r</bpmn:outgoing>
+      <bpmn:incoming>Flow_1giyxj3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t2z215</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1cob3fk" name="DMS Input" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+    <bpmn:callActivity id="Activity_0yve4uj" name="Create Document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-document" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_description" />
-          <camunda:inputParameter name="app_task_tag" />
-          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
-          <camunda:inputParameter name="mail_subject" />
-          <camunda:inputParameter name="mail_body" />
-          <camunda:inputParameter name="mail_bottom_text" />
-          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths" />
-          <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-dms-input</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_16bytdz</bpmn:incoming>
-      <bpmn:outgoing>Flow_0lh9h3m</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:endEvent id="Event_completed" name="Ended">
-      <bpmn:incoming>Flow_0lh9h3m</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:callActivity id="Activity_065a1sj" name="Update Document" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.update-document-in-dms" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="updateDocument" target="app_type_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
+        <camunda:in sourceExpression="createDocument" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="EINGEHEND" target="type" />
-        <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
+        <camunda:in sourceExpression="${procedureCoo}" target="procedureCoo" />
+        <camunda:in sourceExpression="${documentTitle}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="updatedocs/" target="filepaths" />
+        <camunda:in sourceExpression="docs/" target="filepaths" />
+        <camunda:out source="documentCoo" target="documentCoo" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1t2z215</bpmn:incoming>
-      <bpmn:outgoing>Flow_17v6het</bpmn:outgoing>
+      <bpmn:incoming>Flow_0vus27t</bpmn:incoming>
+      <bpmn:outgoing>Flow_1giyxj3</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_0s9wo6c" name="Read Conent" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.read-content" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="readContent" target="app_type_name" />
-        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="${contentCoos}" target="contentCoos" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="readdocs" target="filePath" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1bivhc9</bpmn:incoming>
-      <bpmn:outgoing>Flow_12oko5v</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_1008tp3" name="Deposit Object" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.deposit-object" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="depositObject" target="app_type_name" />
-        <camunda:in sourceExpression="${procedureCoo}" target="objectCoo" />
-        <camunda:in sourceExpression="${user}" target="user" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_011us2r</bpmn:incoming>
-      <bpmn:outgoing>Flow_16bytdz</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
-      <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
-        <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
-        <bpmn:timerEventDefinition id="TimerEventDefinition_1hzdam7">
-          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1H</bpmn:timeDuration>
-        </bpmn:timerEventDefinition>
-      </bpmn:startEvent>
-      <bpmn:endEvent id="End_terminated" name="Terminated">
-        <bpmn:incoming>Flow_1tpc9wl</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
-    </bpmn:subProcess>
-    <bpmn:userTask id="Activity_10rtq6l" name="Dokument erstellen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_description" />
-          <camunda:inputParameter name="app_task_tag" />
-          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
-          <camunda:inputParameter name="mail_subject" />
-          <camunda:inputParameter name="mail_body" />
-          <camunda:inputParameter name="mail_bottom_text" />
-          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_file_paths">docs</camunda:inputParameter>
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-create-document</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1kntuzh</bpmn:incoming>
-      <bpmn:outgoing>Flow_0vus27t</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:callActivity id="Activity_1catkgp" name="Create Procedure" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-procedure" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="createProcedure" target="app_type_name" />
-        <camunda:in sourceExpression="${title}" target="title" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
-        <camunda:out source="procedureCOO" target="procedureCoo" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1eypdr0</bpmn:incoming>
-      <bpmn:outgoing>Flow_1kntuzh</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_0rm31hk" name="Sachakte anlegen" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.create-file" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="createFile" target="app_type_name" />
-        <camunda:in sourceExpression="${fileTitle}" target="title" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:in sourceExpression="${aktenplanCoo}" target="apentryCOO" />
-        <camunda:out source="fileCOO" target="fileCOO" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1yh0dxo</bpmn:incoming>
-      <bpmn:outgoing>Flow_1eypdr0</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_1tl03u1" name="Search Subject Area" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.search-subject-area" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="searchSubjectArea" target="app_type_name" />
-        <camunda:in sourceExpression="${aktenplan}" target="searchString" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:out source="subjectAreaCoo" target="aktenplanCoo" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_045oexm</bpmn:incoming>
-      <bpmn:outgoing>Flow_1yh0dxo</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:userTask id="Activity_060pt2t" name="Sachakte anlegen" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_description" />
-          <camunda:inputParameter name="app_task_tag" />
-          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
-          <camunda:inputParameter name="mail_subject" />
-          <camunda:inputParameter name="mail_body" />
-          <camunda:inputParameter name="mail_bottom_text" />
-          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_file_paths">docs</camunda:inputParameter>
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-create-file</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0nrt030</bpmn:incoming>
-      <bpmn:outgoing>Flow_045oexm</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_11y8wyr" name="Sachakten kontrollieren" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_description" />
-          <camunda:inputParameter name="app_task_tag" />
-          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
-          <camunda:inputParameter name="mail_subject" />
-          <camunda:inputParameter name="mail_body" />
-          <camunda:inputParameter name="mail_bottom_text" />
-          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths" />
-          <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">dms-integration-check-file</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0mjwb1n</bpmn:incoming>
-      <bpmn:outgoing>Flow_0nrt030</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:scriptTask id="Activity_0mq81fr" name="Erstes COO filtern" scriptFormat="JavaScript">
-      <bpmn:incoming>Flow_0f5fetm</bpmn:incoming>
-      <bpmn:outgoing>Flow_0mjwb1n</bpmn:outgoing>
-      <bpmn:script>/*
-* Erstes Element aus der Liste der DMS-COOs
-* an eine Variable des Execution-Context uebergeben.
-*/
-const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
-const tFirstCoo = tFileCoos[0];
-execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:callActivity id="Activity_1vwpexv" name="Suche Sachakte im DMS" camunda:modelerTemplate="de.muenchen.digitalwf.templates.mucs-dms.search-file" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="searchFile" target="app_type_name" />
-        <camunda:in sourceExpression="${search}" target="searchString" />
-        <camunda:in sourceExpression="${value}" target="value" />
-        <camunda:in sourceExpression="${reference}" target="reference" />
-        <camunda:in sourceExpression="${user}" target="user" />
-        <camunda:out source="fileCoo" target="sachakten" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
-      <bpmn:outgoing>Flow_0f5fetm</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-start-form">
-      <bpmn:outgoing>Flow_16a04uf</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1kntuzh" sourceRef="Activity_1catkgp" targetRef="Activity_10rtq6l" />
-    <bpmn:sequenceFlow id="Flow_1eypdr0" sourceRef="Activity_0rm31hk" targetRef="Activity_1catkgp" />
-    <bpmn:sequenceFlow id="Flow_16bytdz" sourceRef="Activity_1008tp3" targetRef="Activity_1cob3fk" />
-    <bpmn:sequenceFlow id="Flow_011us2r" sourceRef="Activity_0rs3rwz" targetRef="Activity_1008tp3" />
-    <bpmn:sequenceFlow id="Flow_12oko5v" sourceRef="Activity_0s9wo6c" targetRef="Activity_0rs3rwz" />
-    <bpmn:sequenceFlow id="Flow_1bivhc9" sourceRef="Activity_1s1aof1" targetRef="Activity_0s9wo6c" />
-    <bpmn:sequenceFlow id="Flow_17v6het" sourceRef="Activity_065a1sj" targetRef="Activity_1s1aof1" />
-    <bpmn:sequenceFlow id="Flow_1t2z215" sourceRef="Activity_1rou7zz" targetRef="Activity_065a1sj" />
-    <bpmn:sequenceFlow id="Flow_1giyxj3" sourceRef="Activity_0yve4uj" targetRef="Activity_1rou7zz" />
-    <bpmn:sequenceFlow id="Flow_0vus27t" sourceRef="Activity_10rtq6l" targetRef="Activity_0yve4uj" />
-    <bpmn:sequenceFlow id="Flow_0lh9h3m" sourceRef="Activity_1cob3fk" targetRef="Event_completed" />
-    <bpmn:sequenceFlow id="Flow_1yh0dxo" sourceRef="Activity_1tl03u1" targetRef="Activity_0rm31hk" />
-    <bpmn:sequenceFlow id="Flow_045oexm" sourceRef="Activity_060pt2t" targetRef="Activity_1tl03u1" />
-    <bpmn:sequenceFlow id="Flow_0nrt030" sourceRef="Activity_11y8wyr" targetRef="Activity_060pt2t" />
-    <bpmn:sequenceFlow id="Flow_0mjwb1n" sourceRef="Activity_0mq81fr" targetRef="Activity_11y8wyr" />
-    <bpmn:sequenceFlow id="Flow_0f5fetm" sourceRef="Activity_1vwpexv" targetRef="Activity_0mq81fr" />
-    <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_1vwpexv" />
+    <bpmn:endEvent id="Event_completed" name="Ended">
+      <bpmn:incoming>Flow_146q221</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_06ktcp9">
+      <bpmn:incoming>Flow_0lh9h3m</bpmn:incoming>
+      <bpmn:incoming>Flow_1vm2smz</bpmn:incoming>
+      <bpmn:outgoing>Flow_146q221</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0iserd2">
       <bpmndi:BPMNShape id="Participant_141ljpi_di" bpmnElement="Participant_141ljpi" isHorizontal="true">
-        <dc:Bounds x="160" y="90" width="2940" height="290" />
+        <dc:Bounds x="160" y="90" width="3240" height="290" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1kntuzh_di" bpmnElement="Flow_1kntuzh">
-        <di:waypoint x="1410" y="147" />
-        <di:waypoint x="1490" y="147" />
+      <bpmndi:BPMNEdge id="Flow_1vm2smz_di" bpmnElement="Flow_1vm2smz">
+        <di:waypoint x="3120" y="265" />
+        <di:waypoint x="3230" y="265" />
+        <di:waypoint x="3230" y="175" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1eypdr0_di" bpmnElement="Flow_1eypdr0">
-        <di:waypoint x="1240" y="147" />
-        <di:waypoint x="1310" y="147" />
+      <bpmndi:BPMNEdge id="Flow_1e267mw_di" bpmnElement="Flow_1e267mw">
+        <di:waypoint x="2900" y="175" />
+        <di:waypoint x="2900" y="265" />
+        <di:waypoint x="3020" y="265" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_16bytdz_di" bpmnElement="Flow_16bytdz">
+      <bpmndi:BPMNEdge id="Flow_1pbxc3p_di" bpmnElement="Flow_1pbxc3p">
+        <di:waypoint x="2925" y="150" />
+        <di:waypoint x="3020" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dreq82_di" bpmnElement="Flow_1dreq82">
         <di:waypoint x="2790" y="150" />
-        <di:waypoint x="2860" y="150" />
+        <di:waypoint x="2875" y="150" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_011us2r_di" bpmnElement="Flow_011us2r">
-        <di:waypoint x="2620" y="150" />
-        <di:waypoint x="2690" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_12oko5v_di" bpmnElement="Flow_12oko5v">
-        <di:waypoint x="2460" y="150" />
-        <di:waypoint x="2520" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1bivhc9_di" bpmnElement="Flow_1bivhc9">
-        <di:waypoint x="2280" y="150" />
-        <di:waypoint x="2360" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_17v6het_di" bpmnElement="Flow_17v6het">
-        <di:waypoint x="2120" y="150" />
-        <di:waypoint x="2180" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1t2z215_di" bpmnElement="Flow_1t2z215">
-        <di:waypoint x="1940" y="150" />
-        <di:waypoint x="2020" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1giyxj3_di" bpmnElement="Flow_1giyxj3">
-        <di:waypoint x="1760" y="150" />
-        <di:waypoint x="1840" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vus27t_di" bpmnElement="Flow_0vus27t">
-        <di:waypoint x="1590" y="147" />
-        <di:waypoint x="1660" y="147" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0lh9h3m_di" bpmnElement="Flow_0lh9h3m">
-        <di:waypoint x="2960" y="150" />
-        <di:waypoint x="3032" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1yh0dxo_di" bpmnElement="Flow_1yh0dxo">
-        <di:waypoint x="1070" y="147" />
-        <di:waypoint x="1140" y="147" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_045oexm_di" bpmnElement="Flow_045oexm">
-        <di:waypoint x="910" y="147" />
-        <di:waypoint x="970" y="147" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0nrt030_di" bpmnElement="Flow_0nrt030">
-        <di:waypoint x="740" y="147" />
-        <di:waypoint x="810" y="147" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0mjwb1n_di" bpmnElement="Flow_0mjwb1n">
-        <di:waypoint x="590" y="147" />
-        <di:waypoint x="640" y="147" />
+      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
+        <di:waypoint x="248" y="147" />
+        <di:waypoint x="320" y="147" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0f5fetm_di" bpmnElement="Flow_0f5fetm">
         <di:waypoint x="420" y="147" />
         <di:waypoint x="490" y="147" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_16a04uf_di" bpmnElement="Flow_16a04uf">
-        <di:waypoint x="248" y="147" />
-        <di:waypoint x="320" y="147" />
+      <bpmndi:BPMNEdge id="Flow_0mjwb1n_di" bpmnElement="Flow_0mjwb1n">
+        <di:waypoint x="590" y="147" />
+        <di:waypoint x="640" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nrt030_di" bpmnElement="Flow_0nrt030">
+        <di:waypoint x="740" y="147" />
+        <di:waypoint x="810" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_045oexm_di" bpmnElement="Flow_045oexm">
+        <di:waypoint x="910" y="147" />
+        <di:waypoint x="970" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yh0dxo_di" bpmnElement="Flow_1yh0dxo">
+        <di:waypoint x="1070" y="147" />
+        <di:waypoint x="1140" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lh9h3m_di" bpmnElement="Flow_0lh9h3m">
+        <di:waypoint x="3120" y="150" />
+        <di:waypoint x="3205" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vus27t_di" bpmnElement="Flow_0vus27t">
+        <di:waypoint x="1590" y="147" />
+        <di:waypoint x="1660" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1giyxj3_di" bpmnElement="Flow_1giyxj3">
+        <di:waypoint x="1760" y="150" />
+        <di:waypoint x="1840" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t2z215_di" bpmnElement="Flow_1t2z215">
+        <di:waypoint x="1940" y="150" />
+        <di:waypoint x="2020" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17v6het_di" bpmnElement="Flow_17v6het">
+        <di:waypoint x="2120" y="150" />
+        <di:waypoint x="2180" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bivhc9_di" bpmnElement="Flow_1bivhc9">
+        <di:waypoint x="2280" y="150" />
+        <di:waypoint x="2360" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12oko5v_di" bpmnElement="Flow_12oko5v">
+        <di:waypoint x="2460" y="150" />
+        <di:waypoint x="2520" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_011us2r_di" bpmnElement="Flow_011us2r">
+        <di:waypoint x="2620" y="150" />
+        <di:waypoint x="2690" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1eypdr0_di" bpmnElement="Flow_1eypdr0">
+        <di:waypoint x="1240" y="147" />
+        <di:waypoint x="1310" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kntuzh_di" bpmnElement="Flow_1kntuzh">
+        <di:waypoint x="1410" y="147" />
+        <di:waypoint x="1490" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_146q221_di" bpmnElement="Flow_146q221">
+        <di:waypoint x="3255" y="150" />
+        <di:waypoint x="3312" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_188khbv_di" bpmnElement="Activity_0yve4uj">
         <dc:Bounds x="1660" y="110" width="100" height="80" />
@@ -377,15 +433,6 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
       <bpmndi:BPMNShape id="Activity_0rs3rwz_di" bpmnElement="Activity_0rs3rwz">
         <dc:Bounds x="2520" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1sshzhg_di" bpmnElement="Activity_1cob3fk">
-        <dc:Bounds x="2860" y="110" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_15xklzj_di" bpmnElement="Event_completed">
-        <dc:Bounds x="3032" y="132" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="3035" y="175" width="32" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1c31kr7_di" bpmnElement="Activity_065a1sj">
         <dc:Bounds x="2020" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -394,6 +441,15 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_08ixb9g_di" bpmnElement="Activity_1008tp3">
         <dc:Bounds x="2690" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15xklzj_di" bpmnElement="Event_completed">
+        <dc:Bounds x="3312" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3315" y="175" width="33" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_06ktcp9_di" bpmnElement="Gateway_06ktcp9" isMarkerVisible="true">
+        <dc:Bounds x="3205" y="125" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="600" y="225" width="335" height="130" />
@@ -411,7 +467,7 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
       <bpmndi:BPMNShape id="Event_0dekx0j_di" bpmnElement="End_terminated">
         <dc:Bounds x="852" y="257" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="844" y="300" width="54" height="14" />
+          <dc:Bounds x="844" y="300" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0l4tp1m_di" bpmnElement="Activity_10rtq6l">
@@ -443,6 +499,15 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="212" y="105" width="36" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sshzhg_di" bpmnElement="Activity_1cob3fk">
+        <dc:Bounds x="3020" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_18ocfe2_di" bpmnElement="Gateway_18ocfe2" isMarkerVisible="true">
+        <dc:Bounds x="2875" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0eciz9f_di" bpmnElement="Activity_0eciz9f">
+        <dc:Bounds x="3020" y="225" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Update Document process" processRef="update-document-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="update-document-integration-example" name="Example Update Document Integration" isExecutable="true">
+  <bpmn:process id="update-document-integration-example" name="DMS: Update Document" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Started" camunda:formKey="dms-integration-update-document_start">
@@ -31,7 +31,7 @@
         <camunda:in sourceExpression="updateDocument" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="${type}" target="type" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />

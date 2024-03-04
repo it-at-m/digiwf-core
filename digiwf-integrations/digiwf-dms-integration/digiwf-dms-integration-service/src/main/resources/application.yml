@@ -1,5 +1,5 @@
 server:
-  port: '${DMS_INTEGRATION_SERVER_PORT:8080}'
+  port: '${MUCS_DMS_INTEGRATION_SERVER_PORT:8080}'
   shutdown: graceful
 spring:
   application:
@@ -9,7 +9,7 @@ spring:
       bindings:
         functionRouter-in-0:
           group: "dwf-dms-service"
-          destination: "dwf-dms-${DIGIWF_ENV}"
+          destination: "dwf-mucs-dms-${DIGIWF_ENV},dwf-dms-${DIGIWF_ENV}" #TODO remove dwf-dms-${DIGIWF_ENV} after topic migration
         sendMessage-out-0:
           destination: "dwf-connector-${DIGIWF_ENV}"
   security:
