@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Sinks;
 
 import java.util.function.Consumer;
@@ -26,7 +25,6 @@ public class DeploymentEventListener {
     private final DeploymentMapper mapper;
 
     @Bean
-    @Transactional
     public Consumer<Message<DeploymentEvent>> deploy() {
         return message -> {
             final DeploymentEvent deploymentEvent = message.getPayload();

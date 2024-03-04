@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Consumer;
 
@@ -24,7 +23,6 @@ public class MessageEventListener {
     private final MessageApiMapper messageApiMapper;
 
     @Bean
-    @Transactional
     public Consumer<Message<CorrelateMessageTOV01>> correlateMessageV01() {
         return correlation -> {
             log.info("Received message correlation {}", correlation.getPayload());

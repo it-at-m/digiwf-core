@@ -12,11 +12,13 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.dmn.Dmn;
 import org.camunda.bpm.model.dmn.DmnModelInstance;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ModelDeploymentService {
 
