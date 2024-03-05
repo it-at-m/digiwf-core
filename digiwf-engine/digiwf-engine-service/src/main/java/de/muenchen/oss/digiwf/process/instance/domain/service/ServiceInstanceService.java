@@ -127,13 +127,15 @@ public class ServiceInstanceService {
                     if (historicProcessInstance == null) {
                         throw new IllegalArgumentException("No process instance found for id: " + instanceId);
                     }
-                    return Optional.of(new ServiceInstance(null,
+                    return Optional.of(new ServiceInstance(
+                            null, // Camunda Only Process without DigiWF-Instance-Info
                             instance.getRootProcessInstanceId(),
                             historicProcessInstance.getProcessDefinitionName(),
                             historicProcessInstance.getProcessDefinitionKey(),
                             historicProcessInstance.getStartTime(),
                             historicProcessInstance.getEndTime(),
                             historicProcessInstance.getRemovalTime(),
+                            //No Status/Description on non DigiWF processes
                             null,
                             null,
                             null));
