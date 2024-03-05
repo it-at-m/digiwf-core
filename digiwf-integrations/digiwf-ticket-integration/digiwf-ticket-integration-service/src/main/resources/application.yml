@@ -18,11 +18,11 @@ io:
 
 info:
   application:
-    name: @project.artifactId@
-    version: @project.version@
+    name: '@project.artifactId@'
+    version: '@project.version@'
 
 spring:
-  application.name: @project.artifactId@
+  application.name: ${info.application.name}
   banner.location: banner.txt
   cloud:
     stream:
