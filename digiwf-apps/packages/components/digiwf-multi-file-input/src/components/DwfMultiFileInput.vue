@@ -262,7 +262,10 @@ export default defineComponent({
       }
       isLoading.value = false;
     }
-
+    /**
+     * TODO move to middleware after refactoring
+     * @param mydata
+     */
     const validateFileSize = (mydata: ArrayBuffer) => {
       if (mydata.byteLength > maxFileSize * mbInByte) {
         errorMessage.value = "Die Datei muss kleiner als " + maxFileSize + " MB sein.";
@@ -270,6 +273,10 @@ export default defineComponent({
       }
     }
 
+    /**
+     * TODO move to middleware after refactoring
+     * @param name
+     */
     const validateFileName = (name: string) => {
       const acceptString: string = props.schema.accept || "";
       const accept: string[] = acceptString.split(",");
@@ -284,6 +291,9 @@ export default defineComponent({
       }
     }
 
+    /**
+     * TODO move to middleware after refactoring
+     */
     const validateTotalSize = (): number => {
       const totalSize = documents.value.reduce((accumulator, document) => document.size + accumulator, 0)
       return totalSize / mbInByte;
