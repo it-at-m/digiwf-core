@@ -49,8 +49,6 @@
 </template>
 
 <script lang="ts">
-
-import mime from "mime";
 import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
@@ -63,6 +61,7 @@ import {
   getPresignedUrlForPost
 } from "@/middleware/presignedUrls";
 import {checkRequired} from "@/validation/required";
+import {getMimeType, validateFileType} from "@/validation/fileType";
 
 export default defineComponent({
   props: [
@@ -209,11 +208,6 @@ export default defineComponent({
       return content.length;
     }
 
-    const getMimeType = (filename: string) => {
-      const mimetype = mime.getType(filename);
-      return mimetype ? mimetype : "plain/text";
-    }
-
     const addDocument = async (mydata: any, file: File): Promise<void> => {
       const startTime = new Date().getTime();
       isLoading.value = true;
@@ -278,16 +272,11 @@ export default defineComponent({
      * @param name
      */
     const validateFileName = (name: string) => {
-      const acceptString: string = props.schema.accept || "";
-      const accept: string[] = acceptString.split(",");
 
-      if(accept.length > 0) {
-        const mimeType = getMimeType(name)
-        if(!accept.includes(mimeType)) {
-          const error = `Ungültiger Dateityp. Validate Dateitypen sind ${accept.join(", ")}`
-          errorMessage.value = error;
-          throw new Error(error);
-        }
+      const error = validateFileType(name, props.schema.accept)
+      if(error) {
+        errorMessage.value = error;
+        throw new Error(error);
       }
     }
 
