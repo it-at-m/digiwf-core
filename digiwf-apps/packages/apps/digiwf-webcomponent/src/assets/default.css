@@ -1,6 +1,9 @@
 :host {
-    --lhm-widget-color-primary-default: orange;
-    --lhm-widget-color-text-default: black;
-    --lhm-widget-background-color-default: pink;
-    --lhm-widget-font-family-default: Arial, sans-serif;
+  --lhm-widget-color-primary-default: orange;
+  --lhm-widget-color-text-default: #555;
+  --lhm-widget-color-icon-default: orange;
+  --lhm-widget-color-background-default: white;
+  --lhm-widget-font-family-default: Arial, sans-serif;
+  --lhm-widget-border-radius-default: 0px;
+  --lhm-widget-shadow-default: 0px;
 }
