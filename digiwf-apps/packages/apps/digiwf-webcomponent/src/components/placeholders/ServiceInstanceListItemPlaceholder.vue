@@ -33,7 +33,13 @@ import { CListGroupItem, CPlaceholder } from "@coreui/vue";
 
 <style scoped>
 .list-group-item {
-  --cui-list-group-color: var(--lhm-widget-color-text, var(--lhm-widget-color-text-default));
-  --cui-list-group-bg: var(--lhm-widget-color-background, var(--lhm-widget-color-background-default));
+  --cui-list-group-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
 }
 </style>

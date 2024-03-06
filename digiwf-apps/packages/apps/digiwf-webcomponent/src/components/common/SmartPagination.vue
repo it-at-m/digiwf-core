@@ -141,9 +141,18 @@ svg {
   color: var(--lhm-widget-color-icon, var(--lhm-widget-color-icon-default));
 }
 .page-item {
-  --cui-pagination-color: var(--lhm-widget-color-text, var(--lhm-widget-color-text-default));
-  --cui-pagination-bg: var(--lhm-widget-color-primary, var(--lhm-widget-color-primary-default));
+  --cui-pagination-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-pagination-bg: var(
+    --lhm-widget-color-primary,
+    var(--lhm-widget-color-primary-default)
+  );
   --cui-pagination-border-width: none;
-  --cui-pagination-border-radius: var(--lhm-widget-border-radius, var(--lhm-widget-border-radius-default));
+  --cui-pagination-border-radius: var(
+    --lhm-widget-border-radius,
+    var(--lhm-widget-border-radius-default)
+  );
 }
 </style>
