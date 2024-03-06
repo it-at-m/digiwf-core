@@ -66,7 +66,7 @@ jobs:
       #
       - name: Perform maven release
         if: inputs.maven-release == true
-        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}" -Dmaven.wagon.http.connectionTimeout=600000 -Dmaven.wagon.http.timeout=600000
+        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}" -Daether.connector.http.connectionMaxTtl=1800
         env:
           OSSRH_USERNAME: ${{ secrets.nexus_username }}
           OSSRH_PASSWORD: ${{ secrets.nexus_password }}
