@@ -1,8 +1,8 @@
 # Deployment
 
-Für die neue CoCreation haben wir das Deployment grundlegend verändert, in dem wir Artefaktdeployments synchron mit REST anstelle von asynchronen Messages durchführen.
-Für das Deployment greifen wir auf die Miranum-Deployment-Komponenten zurück und implementieren diese in unseren bestehenden Anwendungen.
-Dabei orientieren wir uns an der [Miranum-Dokumentation](https://miranum.com/docs/components/miranum-ide/miranum-deployment) und passen die Konfigurationen an unsere Bedürfnisse an.
+Mit der neuen CoCreation ändert sich das Deployment grundlegend, in dem Artefaktdeployments synchron mit REST anstelle von asynchronen Messages durchgeführt werden.
+Das Deployment greift auf die Miranum-Deployment-Komponenten zurück und implementiert diese in den bestehenden Anwendungen.
+Die Implementierung orientiert sich hierbei an der [Miranum-Dokumentation](https://miranum.com/docs/components/miranum-ide/miranum-deployment).
 
 > Eine Anwenderdokumentation finden Sie unter [https://digiwf.oss.muenchen.de/modeling/plattform/deployment/](/modeling/plattform/deployment/README.md)
 
