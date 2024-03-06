@@ -49,3 +49,14 @@ const frontendURL = computed(() => {
   }`;
 });
 </script>
+
+<style scoped>
+.list-group-item {
+  --cui-list-group-color: var(--lhm-widget-color-text, var(--lhm-widget-color-text-default));
+  --cui-list-group-bg: var(--lhm-widget-color-background, var(--lhm-widget-color-background-default));
+  --cui-list-group-action-hover-color: var(--lhm-widget-color-text, var(--lhm-widget-color-text-default));
+  --cui-list-group-action-hover-bg: var(--lhm-widget-color-background, var(--lhm-widget-color-background-default));
+  --cui-list-group-action-active-color: var(--lhm-widget-color-text, var(--lhm-widget-color-text-default));
+  --cui-list-group-action-active-bg: var(--lhm-widget-color-background, var(--lhm-widget-color-background-default));
+}
+</style>
