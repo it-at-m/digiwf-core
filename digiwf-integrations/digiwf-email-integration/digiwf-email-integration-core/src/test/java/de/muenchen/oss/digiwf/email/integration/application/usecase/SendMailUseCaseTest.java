@@ -47,7 +47,7 @@ class SendMailUseCaseTest {
 
     @Test
     void sendMail() throws MessagingException {
-        sendMail.sendMail(processInstanceId, type, integrationName, mail);
+        sendMail.sendMailWithText(processInstanceId, type, integrationName, mail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -69,7 +69,7 @@ class SendMailUseCaseTest {
         final FileAttachment fileAttachment = new FileAttachment("test.txt", new ByteArrayDataSource("Anhang Inhalt".getBytes(), "text/plain"));
         when(loadMailAttachmentPort.loadAttachment(presignedUrl)).thenReturn(fileAttachment);
 
-        sendMail.sendMail(processInstanceId, type, integrationName, mail);
+        sendMail.sendMailWithText(processInstanceId, type, integrationName, mail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -86,6 +86,6 @@ class SendMailUseCaseTest {
     @Test
     void sendMailThrowsBpmnError() throws MessagingException {
         doThrow(new MessagingException("Test Exception")).when(mailPort).sendMail(any());
-        assertThatThrownBy(() -> sendMail.sendMail(processInstanceId, type, integrationName, mail)).isInstanceOf(BpmnError.class);
+        assertThatThrownBy(() -> sendMail.sendMailWithText(processInstanceId, type, integrationName, mail)).isInstanceOf(BpmnError.class);
     }
 }

@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMe
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import jakarta.mail.MessagingException;
@@ -35,27 +36,54 @@ public class SendMailUseCase implements SendMail {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMail(final String processInstanceIde, final String type, final String integrationName, @Valid final Mail mail) throws BpmnError {
-        try {
-            // load Attachments
-            final List<FileAttachment> attachments = new ArrayList<>();
-            if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
-                for (val attachment : mail.getAttachments()) {
-                     attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
-                }
+    public void sendMailWithText(final String processInstanceIde, final String type, final String integrationName, @Valid final Mail mail) throws BpmnError {
+        // load Attachments
+        final List<FileAttachment> attachments = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
+            for (val attachment : mail.getAttachments()) {
+                 attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
             }
-            // send mail
-            final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
-                    .receivers(mail.getReceivers())
-                    .subject(mail.getSubject())
-                    .body(mail.getBody())
-                    .replyTo(mail.getReplyTo())
-                    .receiversCc(mail.getReceiversCc())
-                    .receiversBcc(mail.getReceiversBcc())
-                    .attachments(attachments)
-                    .build();
+        }
+        // send mail
+        final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(attachments)
+                .build();
 
-            this.mailPort.sendMail(mailModel);
+        this.sendMail(processInstanceIde,type,integrationName,mailModel);
+    }
+
+    @Override
+    public void sendMailWithTemplate(final String processInstanceIde, final String type, final String integrationName, @Valid final MailWithTemplate mail) throws BpmnError {
+        // load Attachments
+        final List<FileAttachment> attachments = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
+            for (val attachment : mail.getAttachments()) {
+                attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
+            }
+        }
+        // send mail
+        final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                .receivers(mail.getReceivers())
+                .subject(mail.getSubject())
+                .body(mail.getBody())
+                .htmlBody(true)
+                .replyTo(mail.getReplyTo())
+                .receiversCc(mail.getReceiversCc())
+                .receiversBcc(mail.getReceiversBcc())
+                .attachments(attachments)
+                .build();
+        this.sendMail(processInstanceIde,type,integrationName,mailModel);
+    }
+
+    private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel) throws BpmnError {
+        try {
+                  this.mailPort.sendMail(mailModel);
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);

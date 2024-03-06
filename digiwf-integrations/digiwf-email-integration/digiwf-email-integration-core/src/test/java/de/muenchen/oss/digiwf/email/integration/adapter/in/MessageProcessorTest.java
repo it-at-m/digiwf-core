@@ -63,12 +63,12 @@ class MessageProcessorTest {
     void testEmailIntegrationSendsMailSuccessfully() {
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailMock, times(1)).sendMail(processInstanceId, "emailType", "emailIntegration", mail);
+        verify(sendMailMock, times(1)).sendMailWithText(processInstanceId, "emailType", "emailIntegration", mail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMail(any(), any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -81,7 +81,7 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMail(any(), any(), any(), any());
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -94,7 +94,7 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMail(any(), any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
         messageProcessor.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);

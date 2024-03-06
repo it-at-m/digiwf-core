@@ -12,6 +12,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
@@ -72,11 +73,27 @@ public class MailAutoConfiguration {
     }
 
     // Function call had to be renamed for message routing
+    @Bean
+    public Consumer<Message<Mail>> sendMailFromEventBus(final MessageProcessor messageProcessor) {
+        return messageProcessor.emailIntegration();
+    }
+
+    @Bean
+    public Consumer<Message<MailWithTemplate>> sendMailWithTemplate(final MessageProcessor messageProcessor) {
+        return messageProcessor.sendMailWithTemplate();
+    }
+
     @ConditionalOnMissingBean
     @Bean
-    public Consumer<Message<Mail>> sendMailFromEventBus(final ErrorApi errorApi, final SendMail mailUseCase, final MonitoringService monitoringService) {
-        final MessageProcessor messageProcessor = new MessageProcessor(errorApi, mailUseCase, monitoringService);
-        return messageProcessor.emailIntegration();
+    public MessageProcessor createMessageProcessor(
+            final ErrorApi errorApi,
+            final MonitoringService monitoringService,
+            final SendMail mailUseCase
+    ) {
+        return new MessageProcessor(
+                errorApi,
+                mailUseCase,
+                monitoringService);
     }
 
 }
