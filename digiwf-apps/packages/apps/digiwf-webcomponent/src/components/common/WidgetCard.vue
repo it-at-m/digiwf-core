@@ -66,10 +66,6 @@
           :amount-pages="pageData!.totalPages!"
           @changepage="(page) => emit('changepage', page)"
         />
-        <smart-pagination
-          :active-page="2"
-          :amount-pages="5"
-        />
         <c-button
           variant="ghost"
           component="a"
