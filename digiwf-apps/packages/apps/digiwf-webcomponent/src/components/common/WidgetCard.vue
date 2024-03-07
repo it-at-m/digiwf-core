@@ -12,7 +12,7 @@
             v-else
             type="mdi"
             :path="iconPath"
-            class="me-3 text-primary"
+            class="me-3"
             size="36"
           />
           <h5
@@ -29,8 +29,7 @@
           </h5>
         </div>
         <c-button
-          color="primary"
-          variant="ghost"
+          type="submit"
           :disabled="loading"
           @click="emit('reload')"
         >
@@ -68,12 +67,12 @@
           @changepage="(page) => emit('changepage', page)"
         />
         <c-button
-          color="primary"
           variant="ghost"
           component="a"
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-content-center"
+          role="button"
         >
           <span class="me-2">{{ linkText }}</span>
           <svg-icon
@@ -143,3 +142,75 @@ const frontendURL = computed(() => {
   return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
 });
 </script>
+
+<style scoped>
+.spinner-border {
+  color: var(
+    --lhm-widget-color-icon,
+    var(--lhm-widget-color-icon-default)
+  ) !important;
+}
+svg {
+  color: var(
+    --lhm-widget-color-icon,
+    var(--lhm-widget-color-icon-default)
+  );
+}
+.btn-undefined > svg {
+  color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+
+}
+.card {
+  --cui-card-cap-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+  --cui-card-border-radius: var(
+    --lhm-widget-border-radius,
+    var(--lhm-widget-border-radius-default)
+  );
+  --cui-card-inner-border-radius: var(
+    --lhm-widget-border-radius,
+    var(--lhm-widget-border-radius-default)
+  );
+  --cui-card-box-shadow: var(
+    --lhm-widget-shadow,
+    var(--lhm-widget-shadow-default)
+  );
+}
+.card-header {
+  --cui-heading-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+}
+.btn {
+  --cui-btn-box-shadow: none;
+  --cui-btn-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-btn-border-radius: var(
+    --lhm-widget-border-radius,
+    var(--lhm-widget-border-radius-default)
+  );
+  --cui-btn-border-width: none;
+}
+.btn-undefined {
+  --cui-btn-bg: var(
+    --lhm-widget-color-primary,
+    var(--lhm-widget-color-primary-default)
+  );
+  --cui-btn-hover-bg: var(
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
+  );
+  --cui-btn-active-bg: var(
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
+  );
+}
+</style>

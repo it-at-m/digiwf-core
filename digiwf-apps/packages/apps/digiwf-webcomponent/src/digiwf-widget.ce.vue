@@ -32,15 +32,21 @@ useAPI(digiWfBaseUrl, accessToken);
 
 <style lang="scss">
 @import "@/assets/coreui";
+@import "@/assets/default.css";
 
 :root,
 :host {
   @extend :root;
+  font-family: var(
+    --lhm-widget-font-family,
+    var(--lhm-widget-font-family-default)
+  );
 }
+</style>
 
-:host {
-  font-family:
-    Open Sans,
-    sans-serif;
+<style scoped>
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 </style>

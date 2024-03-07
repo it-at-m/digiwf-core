@@ -1,7 +1,7 @@
 <template>
   <c-list-group-item class="p-3">
     <c-placeholder
-      component="h6"
+      component="h5"
       animation="wave"
       class="mb-3"
     >
@@ -30,3 +30,16 @@
 <script setup lang="ts">
 import { CListGroupItem, CPlaceholder } from "@coreui/vue";
 </script>
+
+<style scoped>
+.list-group-item {
+  --cui-list-group-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+}
+</style>

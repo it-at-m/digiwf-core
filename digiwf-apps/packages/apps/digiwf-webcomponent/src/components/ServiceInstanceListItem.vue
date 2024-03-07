@@ -5,9 +5,9 @@
     target="_blank"
     class="p-3"
   >
-    <h6 class="mb-3">
+    <h5 class="mb-3">
       <strong>{{ serviceInstance.definitionName }}</strong>
-    </h6>
+    </h5>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
@@ -50,6 +50,31 @@ const frontendURL = computed(() => {
 });
 </script>
 
-<style scoped lang="scss">
-$list-group-active-color: #222222;
+<style scoped>
+.list-group-item {
+  --cui-list-group-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+  --cui-list-group-action-hover-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-action-hover-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+  --cui-list-group-action-active-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-action-active-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+}
 </style>

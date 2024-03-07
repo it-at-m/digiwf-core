@@ -1,8 +1,8 @@
 <template>
   <c-list-group-item class="p-3">
-    <h6 class="mb-3">
+    <h5 class="mb-3">
       <strong>Keine {{ name }} gefunden</strong>
-    </h6>
+    </h5>
     <p class="mb-1">Es konnten keine {{ name }} gefunden werden.</p>
   </c-list-group-item>
 </template>
@@ -19,3 +19,16 @@ const props = withDefaults(
   }
 );
 </script>
+
+<style scoped>
+.list-group-item {
+  --cui-list-group-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-list-group-bg: var(
+    --lhm-widget-color-background,
+    var(--lhm-widget-color-background-default)
+  );
+}
+</style>

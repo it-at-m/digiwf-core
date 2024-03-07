@@ -85,13 +85,13 @@ const gotoPage = (page: number) => {
 const iconSize = computed(() => {
   switch (props.size) {
     case undefined:
-      return 16;
+      return 15;
     case "lg":
-      return 20;
+      return 19;
     case "sm":
       return 14;
     default:
-      return 16;
+      return 15;
   }
 });
 
@@ -136,5 +136,46 @@ const isOnLastPage = computed(() => props.activePage === props.amountPages - 1);
 <style scoped>
 nav :deep(ul.pagination) {
   margin-bottom: 0;
+}
+svg {
+  color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+}
+.page-item {
+  --cui-pagination-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-pagination-focus-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-pagination-active-color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+  --cui-pagination-border-width: none;
+  --cui-pagination-border-radius: var(
+    --lhm-widget-border-radius,
+    var(--lhm-widget-border-radius-default)
+  );
+  --cui-pagination-bg: var(
+    --lhm-widget-color-primary,
+    var(--lhm-widget-color-primary-default)
+  );
+  --cui-pagination-hover-bg: var(
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
+  );
+  --cui-pagination-active-bg: var(
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
+  );
+  --cui-pagination-focus-bg: var(
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
+  );
 }
 </style>
