@@ -18,6 +18,7 @@ import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -48,6 +49,8 @@ public class AlwMessageProcessor {
                 final Responsibility response = getResponsibilityInPort.getResponsibility(request);
                 final Map<String, Object> result = Map.of(ALW_ZUSTAENDIGE_GRUPPE, response.getOrgUnit());
                 integration.correlateProcessMessage(headers, result);
+            } catch (final HttpStatusCodeException httpStatusCodeException) {
+                integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.OTHER.toString(), httpStatusCodeException.getResponseBodyAsString()));
             } catch (final ConstraintViolationException cve) {
                 integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.VALIDATION_ERROR_CODE.toString(), cve.getMessage()));
             } catch (final AlwException alwException) {
