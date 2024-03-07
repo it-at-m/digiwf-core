@@ -1,7 +1,12 @@
-import {ActionContext} from "vuex";
-import {RootState} from "../index";
-import {FetchUtils, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {
+  FetchUtils,
+  UserRestControllerApiFactory,
+  UserTO,
+} from "@muenchen/digiwf-engine-api-internal";
+import { ActionContext } from "vuex";
+
+import { ApiConfig } from "../../api/ApiConfig";
+import { RootState } from "../index";
 
 export interface UserState {
   info: UserTO;
@@ -12,7 +17,7 @@ export default {
   namespaced: true,
   state: {
     info: {},
-    lastFetch: null
+    lastFetch: null,
   } as UserState,
   getters: {
     shouldUpdate: (state: UserState) => (): boolean => {
@@ -25,7 +30,7 @@ export default {
     },
     info(state: UserState): UserTO {
       return state.info;
-    }
+    },
   },
   mutations: {
     setUser(state: UserState, user: UserTO): void {
@@ -33,10 +38,13 @@ export default {
     },
     setLastFetch(state: UserState): void {
       state.lastFetch = new Date().getTime();
-    }
+    },
   },
   actions: {
-    async getUserInfo(context: ActionContext<UserState, RootState>, forceRefresh: boolean): Promise<void> {
+    async getUserInfo(
+      context: ActionContext<UserState, RootState>,
+      forceRefresh: boolean
+    ): Promise<void> {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
@@ -45,14 +53,17 @@ export default {
       try {
         const res = await UserRestControllerApiFactory(cfg).userinfo();
 
-        context.commit('setUser', res.data);
-        context.commit('setLastFetch');
+        context.commit("setUser", res.data);
+        context.commit("setLastFetch");
       } catch (error: any) {
-        FetchUtils.defaultCatchHandler(error, "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
+        FetchUtils.defaultCatchHandler(
+          error,
+          "Der Benutzer konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+        );
       }
     },
-    setUser({commit}: any, payload: any) {
+    setUser({ commit }: any, payload: any) {
       commit("setUser", payload);
-    }
-  }
+    },
+  },
 };

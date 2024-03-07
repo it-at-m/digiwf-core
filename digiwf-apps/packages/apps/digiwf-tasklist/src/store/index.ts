@@ -1,15 +1,16 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import VuexPersistence from 'vuex-persist';
-import user, {UserState} from './modules/user';
-import menu, {MenuState} from "../store/modules/menu";
-import info, {InfoState} from "../store/modules/info";
-import {filters, FilterState} from "./modules/filters";
-import {accessibility} from "./modules/accessibility";
+import Vue from "vue";
+import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
+
+import info, { InfoState } from "../store/modules/info";
+import menu, { MenuState } from "../store/modules/menu";
+import { accessibility } from "./modules/accessibility";
+import { filters, FilterState } from "./modules/filters";
+import user, { UserState } from "./modules/user";
 
 Vue.use(Vuex);
 
-const debug = process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV !== "production";
 
 export interface RootState {
   userState: UserState;
@@ -20,7 +21,7 @@ export interface RootState {
 
 const vuexLocal = new VuexPersistence<RootState>({
   storage: window.localStorage,
-  modules: ["filters", "accessibility"]
+  modules: ["filters", "accessibility"],
 });
 export const Vuexstore = new Vuex.Store<RootState>({
   modules: {
@@ -28,9 +29,9 @@ export const Vuexstore = new Vuex.Store<RootState>({
     menu,
     info,
     filters,
-    accessibility
+    accessibility,
   },
   strict: debug,
-  plugins: [vuexLocal.plugin]
+  plugins: [vuexLocal.plugin],
 });
 export default Vuexstore;

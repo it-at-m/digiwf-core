@@ -31,9 +31,7 @@
               color="white"
               @click="addDocument"
             >
-              <v-icon>
-                mdi-file-plus-outline
-              </v-icon>
+              <v-icon> mdi-file-plus-outline </v-icon>
             </v-btn>
           </v-fade-transition>
         </div>
@@ -61,17 +59,16 @@
             target="_blank"
             class="documentLink"
             :href="doc.url"
-          >{{ doc.name }}</a>
-          <v-spacer/>
+            >{{ doc.name }}</a
+          >
+          <v-spacer />
           <v-btn
             v-if="!readonly"
             class="removeButton"
             icon
             @click="removeDocument(doc.url)"
           >
-            <v-icon>
-              mdi-delete
-            </v-icon>
+            <v-icon> mdi-delete </v-icon>
           </v-btn>
         </v-flex>
       </div>
@@ -86,7 +83,6 @@
 </template>
 
 <style scoped>
-
 .appendWrapper {
   background-color: #333333;
   border-top-right-radius: 4px;
@@ -122,17 +118,22 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
 </style>
 
 <script lang="ts">
-import {VInput} from "vuetify/lib";
-import {Vue} from "vue-property-decorator";
-import {DmsRestControllerApiFactory, FetchUtils, GetMetadataTO, MetadataTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {
+  DmsRestControllerApiFactory,
+  FetchUtils,
+  GetMetadataTO,
+  MetadataTO,
+} from "@muenchen/digiwf-engine-api-internal";
+import { Vue } from "vue-property-decorator";
+import { VInput } from "vuetify/lib";
+
+import { ApiConfig } from "../../api/ApiConfig";
 
 export default Vue.extend({
-  name: 'BaseDocumentInput',
+  name: "BaseDocumentInput",
   mixins: [VInput as any],
   props: {
     value: Array as () => Array<MetadataTO>,
@@ -147,13 +148,13 @@ export default Vue.extend({
       locked: false,
       requesting: false,
       errorMessage: "",
-      documentInput: ""
+      documentInput: "",
     };
   },
   computed: {
     isReadonly(): boolean {
       return this.readonly || this.locked;
-    }
+    },
   },
   created() {
     if (this.value) {
@@ -162,7 +163,7 @@ export default Vue.extend({
   },
   methods: {
     input(): any {
-      this.$emit('input', this.documents);
+      this.$emit("input", this.documents);
     },
     async addDocument(): Promise<void> {
       if (!this.documentInput) {
@@ -176,7 +177,7 @@ export default Vue.extend({
         this.locked = true;
         //const document = await DmsService.getMetadata({url: this.documentInput});
         const to: GetMetadataTO = {
-          url: this.documentInput
+          url: this.documentInput,
         };
         const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
         const res = await DmsRestControllerApiFactory(cfg).getMetaData(to);
@@ -188,10 +189,9 @@ export default Vue.extend({
           this.requesting = false;
           this.input();
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
-
       } catch (error) {
         setTimeout(() => {
-          this.errorMessage = 'Das Dokument konnte nicht geladen werden.';
+          this.errorMessage = "Das Dokument konnte nicht geladen werden.";
           this.requesting = false;
         }, Math.max(0, 1000 - (new Date().getTime() - startTime)));
       }
@@ -211,8 +211,7 @@ export default Vue.extend({
         return "mdi-file-pdf";
       }
       return "mdi-file";
-    }
+    },
   },
 });
 </script>
-

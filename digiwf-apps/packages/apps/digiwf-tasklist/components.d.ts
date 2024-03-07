@@ -12,7 +12,6 @@ declare module 'vue' {
     AppLoadingButton: typeof import('./src/components/UI/AppLoadingButton.vue')['default']
     AppMenuItem: typeof import('./src/components/UI/appMenu/AppMenuItem.vue')['default']
     AppMenuList: typeof import('./src/components/UI/appMenu/AppMenuList.vue')['default']
-    AppPageableList: typeof import('./src/components/UI/AppPageableList.vue')['default']
     AppPaginationFooter: typeof import('./src/components/UI/AppPaginationFooter.vue')['default']
     AppToast: typeof import('./src/components/UI/AppToast.vue')['default']
     AppViewLayout: typeof import('./src/components/UI/AppViewLayout.vue')['default']

@@ -1,14 +1,14 @@
-import {mergeObjects} from "./mergeObjects";
+import { mergeObjects } from "./mergeObjects";
 
 describe("mergeObjects", () => {
   it("should merge keys of both objects", () => {
     const primaryObject = {
       a: "a",
       c: "c",
-      d: "d"
+      d: "d",
     };
     const secondaryObject = {
-      b: "b"
+      b: "b",
     };
 
     const result = mergeObjects(primaryObject, secondaryObject);
@@ -16,14 +16,14 @@ describe("mergeObjects", () => {
       a: "a",
       b: "b",
       c: "c",
-      d: "d"
+      d: "d",
     });
   });
   it("should prefer value of first object", () => {
     const primaryObject = {
       a: "a",
       c: "c",
-      d: "d"
+      d: "d",
     };
     const secondaryObject = {
       a: "another a",
@@ -36,14 +36,14 @@ describe("mergeObjects", () => {
       a: "a",
       b: "b",
       c: "c",
-      d: "d"
+      d: "d",
     });
   });
   it("should ignore empty strings in primary object", () => {
     const primaryObject = {
       a: " ",
       c: "c",
-      d: "d"
+      d: "d",
     };
     const secondaryObject = {
       a: "another a",
@@ -56,7 +56,7 @@ describe("mergeObjects", () => {
       a: "another a",
       b: "b",
       c: "c",
-      d: "d"
+      d: "d",
     });
   });
 });

@@ -68,9 +68,10 @@ import {ApiConfig} from "../api/ApiConfig";
 import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
 import {invalidProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
-import {validateSchema} from "../utils/validateSchema";
+import {JSFValue, validateSchema} from "../utils/validateSchema";
 import {mergeObjects} from "../utils/mergeObjects";
 import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
+import {JSONSchemaType} from "ajv";
 
 @Component({
   components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
@@ -118,7 +119,7 @@ export default class StartProcess extends SaveLeaveMixin {
       this.process = data;
       // use potential value of query parameter if variable is undefined or empty
       this.formFields = validateSchema(
-        this.process.jsonSchema,
+        this.process.jsonSchema as JSONSchemaType<JSFValue>,
         mergeObjects(this.process?.startForm || {}, inputs)
       );
     });
