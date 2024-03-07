@@ -155,7 +155,17 @@ const frontendURL = computed(() => {
   ) !important;
 }
 svg {
-  color: var(--lhm-widget-color-icon, var(--lhm-widget-color-icon-default));
+  color: var(
+    --lhm-widget-color-icon,
+    var(--lhm-widget-color-icon-default)
+  );
+}
+.btn-undefined > svg {
+  color: var(
+    --lhm-widget-color-text,
+    var(--lhm-widget-color-text-default)
+  );
+
 }
 .card {
   --cui-card-cap-bg: var(
@@ -199,12 +209,12 @@ svg {
     var(--lhm-widget-color-primary-default)
   );
   --cui-btn-hover-bg: var(
-    --lhm-widget-color-primary,
-    var(--lhm-widget-color-primary-default)
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
   );
   --cui-btn-active-bg: var(
-    --lhm-widget-color-primary,
-    var(--lhm-widget-color-primary-default)
+    --lhm-widget-color-hover,
+    var(--lhm-widget-color-hover-default)
   );
 }
 </style>
