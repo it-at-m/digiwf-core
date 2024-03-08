@@ -30,12 +30,10 @@
         @complete-form="startProcess"
       />
     </v-flex>
-    <app-yes-no-dialog
-      :dialogtext="saveLeaveDialogText"
-      :dialogtitle="saveLeaveDialogTitle"
-      :value="saveLeaveDialog"
-      @yes="leave"
-      @no="cancel"
+    <leave-site-dialog
+      :open="saveLeaveDialog"
+      @submit="leave"
+      @cancel="cancel"
     />
   </app-view-layout>
 </template>
@@ -48,13 +46,12 @@
 
 <script lang="ts">
 
-import {Component, Prop, Provide} from "vue-property-decorator";
+import {Component, Prop, Provide, Watch} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import router from "../router";
 import SaveLeaveMixin from "../mixins/saveLeaveMixin";
-import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 
 import {
   FetchUtils,
@@ -72,9 +69,10 @@ import {JSFValue, validateSchema} from "../utils/validateSchema";
 import {mergeObjects} from "../utils/mergeObjects";
 import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
 import {JSONSchemaType} from "ajv";
+import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 
 @Component({
-  components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
+  components: {LeaveSiteDialog, BaseForm, AppToast, AppViewLayout}
 })
 export default class StartProcess extends SaveLeaveMixin {
 
@@ -102,6 +100,11 @@ export default class StartProcess extends SaveLeaveMixin {
 
   @Provide('alwDmsApiEndpoint')
   alwDmsApiEndpoint = ApiConfig.alwDmsBase;
+
+  @Watch("formFields")
+  onFormFieldsChange(){
+    this.setDirty();
+  }
 
   created() {
     const urlQueryParameter = this.$router.currentRoute.query;

@@ -78,6 +78,8 @@
       >
         <template #activator="{ on, attrs }">
           <v-btn
+            aria-label="Aktionen für die Aufgabe"
+            aria-hidden="false"
             icon
             v-bind="attrs"
             @click="
@@ -86,15 +88,14 @@
               }
             "
             v-on.prevent="on"
-            aria-label="Aktionen für die Aufgabe"
-            aria-hidden="false"
           >
             <v-icon
               aria-label="Aktionen für die Aufgabe"
               role="img"
               aria-hidden="false"
-              >mdi-dots-vertical</v-icon
             >
+              mdi-dots-vertical
+            </v-icon>
           </v-btn>
         </template>
         <v-list>
@@ -143,15 +144,13 @@
 </style>
 
 <script lang="ts">
-import { PropType } from "vue";
-
-import { useGetPaginationData } from "../../middleware/paginationData";
-import { HumanTask } from "../../middleware/tasks/tasksModels";
+import {PropType} from "vue";
+import {HumanTask} from "../../middleware/tasks/tasksModels";
 
 export default {
   props: {
     task: {
-      type: Object as PropType<HumanTask>, // HumanTask
+      type: Object as PropType<HumanTask>,
       required: true,
     },
     searchString: {

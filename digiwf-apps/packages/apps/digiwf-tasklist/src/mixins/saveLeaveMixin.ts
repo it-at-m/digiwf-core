@@ -19,10 +19,7 @@ Component.registerHooks([
 @Component
 export default class SaveLeaveMixin extends Vue {
     name = "saveLeaveMixin";
-
-
-    saveLeaveDialogTitle = 'Ungespeicherte Änderungen';
-    saveLeaveDialogText = 'Es sind ungespeicherte Änderungen vorhanden. Wollen Sie die Seite verlassen?';
+    
     saveLeaveDialog = false;
     isSave = false;
     // eslint-disable-next-line

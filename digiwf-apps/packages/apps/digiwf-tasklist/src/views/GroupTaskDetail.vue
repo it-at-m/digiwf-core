@@ -53,19 +53,12 @@
           :value="task.variables"
           :schema="task.schema"
         />
-        <app-yes-no-dialog
-          dialogtitle="Aufgabenzuweisung"
-          :value="showModal"
-          @yes="triggerAssignTask"
-          @no="showModal = false"
-        >
-          <div>
-            Die Aufgabe ist aktuell folgender Person zugewiesen:
-            <h3>{{ task.assigneeFormatted }}</h3>
-            <br>
-            Wollen Sie die Aufgabe übernehmen?
-          </div>
-        </app-yes-no-dialog>
+        <assign-yourself-dialog
+          :assignee-formatted="task.assigneeFormatted || 'Unbekannter Nutzer'"
+          :open="showModal"
+          @cancel="showModal = false"
+          @submit="triggerAssignTask"
+        />
         <assign-task-dialog
           v-if="showAssignDialog"
           :open="true"
@@ -76,7 +69,6 @@
         />
       </v-flex>
     </v-flex>
-
   </app-view-layout>
 </template>
 
@@ -97,14 +89,6 @@
   margin-bottom: 0.3rem;
 }
 
-.buttonWrapper {
-//position: absolute; //top: 50px; //right: 11rem;
-}
-
-.assignButton {
-  width: 8rem;
-//position: fixed;
-}
 
 </style>
 
@@ -121,9 +105,10 @@ import {ApiConfig} from "../api/ApiConfig";
 import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
+import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
 
 @Component({
-  components: {AssignTaskDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
+  components: {AssignYourselfDialog, AssignTaskDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
 })
 export default class GroupTaskDetail extends Vue {
 
@@ -193,9 +178,11 @@ export default class GroupTaskDetail extends Vue {
   closeAssignDialog() {
     this.showAssignDialog = false;
   }
+
   handleSuccessfullyAssignment() {
     router.push("/opengrouptask");
   }
+
   triggerAssignTask() {
     this.showModal = false;
 

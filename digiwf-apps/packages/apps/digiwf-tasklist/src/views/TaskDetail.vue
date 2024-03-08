@@ -110,12 +110,11 @@
         </loading-fab>
       </v-speed-dial>
     </v-flex>
-    <app-yes-no-dialog
-      :dialogtext="saveLeaveDialogText"
-      :dialogtitle="saveLeaveDialogTitle"
-      :value="saveLeaveDialog"
-      @yes="leave"
-      @no="cancel"
+
+    <leave-site-dialog
+      :open="saveLeaveDialog"
+      @submit="leave"
+      @cancel="cancel"
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
@@ -163,7 +162,6 @@ import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import SaveLeaveMixin from "../mixins/saveLeaveMixin";
-import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
 import {FormContext} from "@muenchen/digiwf-multi-file-input";
@@ -182,10 +180,12 @@ import {mergeObjects} from "../utils/mergeObjects";
 import {validateSchema} from "../utils/validateSchema";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
+import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 
 @Component({
   components: {
-    TaskLinks, TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, AppYesNoDialog, LoadingFab
+    LeaveSiteDialog,
+    TaskLinks, TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, LoadingFab
   }
 })
 export default class TaskDetail extends SaveLeaveMixin {
