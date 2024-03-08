@@ -20,7 +20,7 @@
         <apache.commons.validator>1.8.0</apache.commons.validator>
 
         <miranum-ide.version>0.3.2</miranum-ide.version>
-        <ojdbc10.version>19.21.0.0</ojdbc10.version>
+        <ojdbc10.version>19.22.0.0</ojdbc10.version>
         <javafaker.version>1.0.2</javafaker.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <cxf.version>3.6.2</cxf.version>
