@@ -60,6 +60,11 @@ public class SendMailUseCase implements SendMail {
 
     @Override
     public void sendMailWithTemplate(final String processInstanceIde, final String type, final String integrationName, @Valid final MailWithTemplate mail) throws BpmnError {
+        // get body from template
+        Map<String, Object> content = new HashMap<>();
+        content.put("mail",mail);
+        String body = this.mailPort.getBodyFromTemplate(mail.getTemplate(), content);
+
         // load Attachments
         final List<FileAttachment> attachments = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
@@ -67,11 +72,12 @@ public class SendMailUseCase implements SendMail {
                 attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
             }
         }
+
         // send mail
         final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
-                .body(mail.getBody())
+                .body(body)
                 .htmlBody(true)
                 .replyTo(mail.getReplyTo())
                 .receiversCc(mail.getReceiversCc())

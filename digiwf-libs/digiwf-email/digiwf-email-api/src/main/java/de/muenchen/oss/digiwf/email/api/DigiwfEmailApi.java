@@ -14,6 +14,8 @@ public interface DigiwfEmailApi {
 
     void sendMail(@Valid Mail mail, String logoPath) throws MessagingException;
 
+    String getBodyFromTemplate(String templatePath, Map<String, Object> content);
+
     String getEmailBodyFromTemplate(String templatePath, Map<String, String> content);
 
 }

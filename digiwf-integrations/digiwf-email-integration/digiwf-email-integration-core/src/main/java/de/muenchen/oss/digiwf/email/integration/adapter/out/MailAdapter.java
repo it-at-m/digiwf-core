@@ -6,6 +6,8 @@ import de.muenchen.oss.digiwf.email.model.Mail;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 public class MailAdapter implements MailPort {
 
@@ -14,5 +16,10 @@ public class MailAdapter implements MailPort {
     @Override
     public void sendMail(Mail mail) throws MessagingException {
         this.digiwfEmailApi.sendMail(mail);
+    }
+
+    @Override
+    public String getBodyFromTemplate(String templatePath, Map<String, Object> content) {
+        return this.digiwfEmailApi.getBodyFromTemplate(templatePath,content);
     }
 }

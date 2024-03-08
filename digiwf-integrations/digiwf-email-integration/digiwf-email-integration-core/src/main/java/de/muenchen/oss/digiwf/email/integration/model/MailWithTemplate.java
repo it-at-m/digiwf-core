@@ -16,4 +16,26 @@ public class MailWithTemplate extends Mail{
     @NotBlank(message = "No template given")
     private String template;
 
+    /**
+     * Bottom body of the mail.
+     */
+    @NotBlank(message = "No bottom body given")
+    private String bottomBody;
+
+    /**
+     * Button text of the mail.
+     */
+    private String buttonText;
+
+    /**
+     * Button link of the mail.
+     */
+    private String buttonLink;
+
+    /**
+     * Footer of the mail.
+     */
+    @NotBlank(message = "No footer given")
+    private final String footer;
+
 }

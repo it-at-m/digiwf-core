@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.email.impl;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.model.Mail;
+import freemarker.template.Template;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -16,7 +17,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -27,6 +30,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
 
     private final JavaMailSender mailSender;
     private final ResourceLoader resourceLoader;
+    private final FreeMarkerConfigurer freeMarkerConfigurer;
     private final String fromAddress;
     private final String defaultReplyToAddress;
     // use a prepackaged sanitizer to prevent XSS
@@ -86,6 +90,16 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
 
         this.mailSender.send(mimeMessage);
         log.info("Mail {} sent to {}.", mail.getSubject(), mail.getReceivers());
+    }
+
+    @Override
+    public String getBodyFromTemplate(String templatePath, Map<String, Object> content) {
+        try {
+            Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templatePath);
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template,content);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load file: " + templatePath, e);
+        }
     }
 
     @Override
