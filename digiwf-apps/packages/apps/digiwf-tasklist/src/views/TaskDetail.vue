@@ -120,7 +120,7 @@
       :follow-up-date="followUpDate"
       :value="isFollowUpDialogVisible"
       @cancel="closeFollowUp"
-      @save="saveFollowUp"
+      @submit="saveFollowUp"
     />
   </app-view-layout>
 </template>
@@ -329,6 +329,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   saveFollowUp(followUpDate: string) {
+    console.log("saveFollowUp", followUpDate);
     this.followUpDate = followUpDate;
     this.isFollowUpDialogVisible = false;
 
