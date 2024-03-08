@@ -4,6 +4,7 @@
  */
 package de.muenchen.oss.digiwf.ticket.integration.configuration;
 
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.out.s3.S3Adapter;
@@ -31,8 +32,8 @@ public class TicketIntegrationAutoConfiguration {
     }
 
     @Bean
-    public LoadFilePort loadFilePort(final DocumentStorageFileRepository documentStorageFileRepository, final DocumentStorageFolderRepository documentStorageFolderRepository) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, ticketingProperties.getSupportedFileExtensions());
+    public LoadFilePort loadFilePort(final DocumentStorageFileRepository documentStorageFileRepository, final DocumentStorageFolderRepository documentStorageFolderRepository, final ProcessConfigApi processConfigApi) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, ticketingProperties.getSupportedFileExtensions());
     }
 
     @Bean

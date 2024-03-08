@@ -23,7 +23,7 @@ public class WriteArticleUseCaseTest {
         TicketStatus status = TicketStatus.OPEN;
 
         // when
-        writeArticleUseCase.writeArticle(ticketId, article, status, null);
+        writeArticleUseCase.writeArticle(ticketId, article, status, null, null);
 
         // then
         verify(ticketOutPort).updateTicket(eq(ticketId), eq(article), eq(status), null);

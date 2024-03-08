@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_DEFINITION;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -55,7 +57,8 @@ public class TicketMessageProcessor {
             log.debug("Request: {}", request);
             try {
                 writeArticleInPort.writeArticle(
-                        request.getTicketId(), new Article(request.getArticle(), request.getUserId()), mapStatus(request.getStatus()), request.getFilepaths());
+                        request.getTicketId(), new Article(request.getArticle(), request.getUserId()),
+                        mapStatus(request.getStatus()), request.getFilepaths(), headers.get(DIGIWF_PROCESS_DEFINITION).toString());
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
                 handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
