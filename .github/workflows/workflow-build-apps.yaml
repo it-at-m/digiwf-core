@@ -3,8 +3,13 @@ name: Release apps
 on:
   workflow_call:
     inputs:
-      snapshot-release:
-        description: 'Snapshot release?'
+      publish-packages:
+        description: 'Publish packages?'
+        type: boolean
+        required: true
+        default: false
+      build-images:
+        description: 'Build and push images?'
         type: boolean
         required: true
         default: false
@@ -31,25 +36,29 @@ jobs:
       - run: npm run build
 
       - run: lerna publish from-package --yes
-        if: inputs.snapshot-release == false
+        if: inputs.publish-packages == true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Set up QEMU
+        if: inputs.build-images == true
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
+        if: inputs.build-images == true
         uses: docker/setup-buildx-action@v3
 
       - name: Login to DockerHub
+        if: inputs.build-images == true
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push tasklist
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
-          tags: itatm/digiwf-tasklist:${{ inputs.release-version }},itatm/digiwf-tasklist:dev
+          tags: itatm/digiwf-tasklist:${{ inputs.release-version }}
