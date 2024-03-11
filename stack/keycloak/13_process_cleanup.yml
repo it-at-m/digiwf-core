@@ -1,0 +1,17 @@
+id: assign_cleanup_definitions
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addRole:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      clientRole: true
+      name: clientrole_cleanup_definitions
+      description: Special process definitions cleanup role.
+  - assignRole:
+      user: johndoe
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      role: clientrole_cleanup_definitions
+  - assignRoleToClient:
+      roleClientId: ${SSO_ENGINE_CLIENT_ID}
+      role: clientrole_cleanup_definitions
+      clientId: ${SSO_TASK_CLIENT_ID}

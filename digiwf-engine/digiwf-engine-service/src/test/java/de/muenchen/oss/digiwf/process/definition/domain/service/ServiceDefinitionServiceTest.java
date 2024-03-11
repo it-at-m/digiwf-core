@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.process.definition.domain.service;
 import de.muenchen.oss.digiwf.process.definition.domain.mapper.ServiceDefinitionMapper;
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinition;
 import de.muenchen.oss.digiwf.process.instance.domain.service.ServiceInstanceService;
+import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -23,6 +24,7 @@ public class ServiceDefinitionServiceTest {
 
     private final RepositoryService repositoryService = mock(RepositoryService.class, withSettings().defaultAnswer(Answers.RETURNS_DEEP_STUBS));
     private final RuntimeService runtimeService = mock(RuntimeService.class);
+    private final HistoryService historyService = mock(HistoryService.class);
     private final ServiceInstanceService serviceInstanceService = mock(ServiceInstanceService.class);
     private final ServiceDefinitionMapper serviceDefinitionMapper = Mappers.getMapper(ServiceDefinitionMapper.class);
 
@@ -30,7 +32,7 @@ public class ServiceDefinitionServiceTest {
 
     @BeforeEach
     void setup() {
-        unitToTest = new ServiceDefinitionService(repositoryService, runtimeService, serviceDefinitionMapper, serviceInstanceService);
+        unitToTest = new ServiceDefinitionService(repositoryService, runtimeService, historyService, serviceDefinitionMapper, serviceInstanceService);
     }
 
     @Test
