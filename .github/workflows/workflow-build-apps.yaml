@@ -19,7 +19,7 @@ on:
         required: false
 
 jobs:
-  release-apps:
+  build-apps:
     runs-on: ubuntu-latest
     defaults:
       run:

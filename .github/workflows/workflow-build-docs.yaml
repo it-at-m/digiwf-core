@@ -10,7 +10,7 @@ on:
         default: false
 
 jobs:
-  release-docs:
+  build-docs:
     runs-on: ubuntu-latest
     defaults:
       run:

@@ -11,7 +11,7 @@ on:
     types: [ opened, reopened ]
 
 jobs:
-  build-maven:
+  build:
     uses: ./.github/workflows/workflow-build-services.yaml
     with:
       snapshot-release: true
