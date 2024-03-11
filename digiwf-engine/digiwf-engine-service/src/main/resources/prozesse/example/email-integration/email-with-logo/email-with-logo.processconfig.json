@@ -1,5 +1,5 @@
 {
-  "key": "email-example-V02_3fe75308-ab8c-410d-a09b-2b4b856c15fd",
+  "key": "email-with-logo",
   "statusConfig": [
     {
       "key": "Offen",
@@ -28,7 +28,7 @@
     },
     {
       "key": "app_instance_schema_key",
-      "value": "email-example-V02_sendMail"
+      "value": "email-with-logo_sendMail"
     }
   ]
 }

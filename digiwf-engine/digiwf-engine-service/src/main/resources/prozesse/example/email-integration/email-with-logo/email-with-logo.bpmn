@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
-  <bpmn:process id="email-with-link" name="email-with-link" isExecutable="true">
+  <bpmn:process id="email-with-logo" name="email-with-logo" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Start" camunda:formKey="email-with-logo_sendMail">
@@ -31,11 +31,9 @@
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
         <camunda:in sourceExpression="mail-template.ftl" target="template" />
-        <camunda:in sourceExpression="" target="receiversCc" />
-        <camunda:in sourceExpression="" target="receiversBcc" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
         <camunda:in sourceExpression="DigiWF 2.0&#60;br&#62;IT-Referat der Stadt München" target="footer" />
-        <camunda:in sourceExpression="" target="replyTo" />
+        <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
@@ -82,12 +80,9 @@
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
         <camunda:in sourceExpression="mail-template.ftl" target="template" />
-        <camunda:in sourceExpression="" target="receiversCc" />
-        <camunda:in sourceExpression="" target="receiversBcc" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
         <camunda:in sourceExpression="DigiWF 2.0&#60;br&#62;IT-Referat der Stadt München" target="footer" />
-        <camunda:in sourceExpression="" target="replyTo" />
-        <camunda:in sourceExpression="" target="attachments" />
+        <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
@@ -105,7 +100,16 @@
   </bpmn:process>
   <bpmn:error id="Error_06o8l99" name="Error_16pcjfo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-with-link">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-with-logo">
+      <bpmndi:BPMNEdge id="Flow_1hygzke_di" bpmnElement="Flow_1hygzke">
+        <di:waypoint x="470" y="152" />
+        <di:waypoint x="470" y="120" />
+        <di:waypoint x="720" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14w9qe9_di" bpmnElement="Flow_14w9qe9">
+        <di:waypoint x="510" y="210" />
+        <di:waypoint x="562" y="210" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1x9du8r_di" bpmnElement="Flow_1x9du8r">
         <di:waypoint x="610" y="282" />
         <di:waypoint x="610" y="120" />
@@ -136,15 +140,18 @@
         <di:waypoint x="148" y="207" />
         <di:waypoint x="255" y="207" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_14w9qe9_di" bpmnElement="Flow_14w9qe9">
-        <di:waypoint x="510" y="210" />
-        <di:waypoint x="562" y="210" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1hygzke_di" bpmnElement="Flow_1hygzke">
-        <di:waypoint x="470" y="152" />
-        <di:waypoint x="470" y="120" />
-        <di:waypoint x="720" y="120" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="112" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="118" y="232" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0soknkl_di" bpmnElement="Gateway_0soknkl" isMarkerVisible="true">
+        <dc:Bounds x="255" y="182" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="158" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0i7oz0v_di" bpmnElement="Activity_10z9ygh">
         <dc:Bounds x="380" y="300" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -154,6 +161,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1gfmojl_di" bpmnElement="Event_1gfmojl">
         <dc:Bounds x="742" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0d0izic_di" bpmnElement="Event_0d0izic">
+        <dc:Bounds x="562" y="192" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1razbvt_di" bpmnElement="Activity_1u03fez">
         <dc:Bounds x="720" y="80" width="100" height="80" />
@@ -165,26 +175,11 @@
       <bpmndi:BPMNShape id="Activity_00lch6i_di" bpmnElement="Activity_1bl8dys">
         <dc:Bounds x="410" y="170" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0soknkl_di" bpmnElement="Gateway_0soknkl" isMarkerVisible="true">
-        <dc:Bounds x="255" y="182" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="243" y="158" width="75" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="112" y="189" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="118" y="232" width="25" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0d0izic_di" bpmnElement="Event_0d0izic">
-        <dc:Bounds x="562" y="192" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_08cgpl3_di" bpmnElement="Event_08cgpl3">
+        <dc:Bounds x="452" y="152" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0rtubgu_di" bpmnElement="Event_0rtubgu">
         <dc:Bounds x="592" y="282" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_08cgpl3_di" bpmnElement="Event_08cgpl3">
-        <dc:Bounds x="452" y="152" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

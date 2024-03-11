@@ -36,6 +36,6 @@ public class MailWithTemplate extends Mail{
      * Footer of the mail.
      */
     @NotBlank(message = "No footer given")
-    private final String footer;
+    private String footer;
 
 }
