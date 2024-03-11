@@ -1,11 +1,11 @@
 info:
   application:
-    name: @project.artifactId@
-    version: @project.version@
+    name: '@project.artifactId@'
+    version: '@project.version@'
 
 spring:
   application:
-    name: @project.artifactId@
+    name: ${info.application.name}
   # Spring JPA
   datasource:
     url: '${S3INTEGRATION_DATASOURCE_URL}'

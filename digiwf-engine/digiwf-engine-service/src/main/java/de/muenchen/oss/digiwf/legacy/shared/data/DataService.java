@@ -11,8 +11,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service to handle data serialization and deserialization
@@ -20,6 +25,7 @@ import java.util.*;
  * @author externer.dl.horn
  */
 @Service
+@Transactional
 @Deprecated
 @RequiredArgsConstructor
 public class DataService {

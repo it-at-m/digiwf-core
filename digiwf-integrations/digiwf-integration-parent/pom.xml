@@ -10,7 +10,6 @@
         <version>1.8.0-SNAPSHOT</version>
     </parent>
 
-
     <artifactId>digiwf-integration-parent</artifactId>
     <packaging>pom</packaging>
 

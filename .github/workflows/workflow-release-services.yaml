@@ -137,14 +137,21 @@ jobs:
           push: true
           tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
 
-      - name: Build and push dms integration
+      - name: Build and push alw dms integration
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
-          tags: itatm/digiwf-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-dms-integration-service:dev
+          tags: itatm/digiwf-alw-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-dms-integration-service:dev
 
-      - name: Build and push ok evo integration
+      - name: Build and push mucs dms integration
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
+          push: true
+          tags: itatm/digiwf-mucs-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-mucs-dms-integration-service:dev
+
+      - name: Build and push ok ewo integration
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service

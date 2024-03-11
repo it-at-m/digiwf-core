@@ -13,7 +13,7 @@
     <name>digiwf-s3-integration-core</name>
 
     <properties>
-        <minio.version>8.5.8</minio.version>
+        <minio.version>8.5.9</minio.version>
     </properties>
 
     <dependencies>

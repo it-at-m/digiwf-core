@@ -25,7 +25,7 @@ server:
   shutdown: graceful
 spring:
   application:
-    name: @project.artifactId@
+    name: '@project.artifactId@'
   lifecycle:
     timeout-per-shutdown-phase: 1m
   cloud:

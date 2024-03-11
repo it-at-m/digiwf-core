@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.jsonschema.deployment.api.streaming.event.SchemaDe
 import de.muenchen.oss.digiwf.jsonschema.deployment.domain.model.SchemaDeploymentModel;
 import org.mapstruct.Mapper;
 
+@Deprecated
 @Mapper
 public interface SchemaDeploymentMapper {
 

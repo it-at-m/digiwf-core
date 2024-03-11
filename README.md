@@ -21,9 +21,7 @@ Checkout [dev.md](dev.md) to learn more about our projects technical setup.
 
 ## Releases
 
-Release page tbd.
-
-More information on *how we release new versions* checkout [dev.md](dev.md#Release-a-new-version).
+Checkout the [release page](https://github.com/it-at-m/digiwf-core/releases) to get the latest version of the project.
 
 
 ## Contributing
