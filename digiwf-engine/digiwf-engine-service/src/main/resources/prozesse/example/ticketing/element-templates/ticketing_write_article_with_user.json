@@ -80,24 +80,24 @@
       "choices": [
         {
           "name": "Offen",
-          "value": "open"
+          "value": "OPEN"
         },
         {
           "name": "Ausstehende Erinnerung",
-          "value": "pending reminder"
+          "value": "PENDING_REMINDER"
         },
         {
           "name": "Bis zum Abschluss",
-          "value": "pending close"
+          "value": "PENDING_CLOSE"
         },
         {
           "name": "Geschlossen",
-          "value": "closed"
+          "value": "CLOSED"
         }
       ],
       "binding": {
         "type": "camunda:in",
-        "expression": false,
+        "expression": true,
         "name": "status",
         "target": "status"
       },
