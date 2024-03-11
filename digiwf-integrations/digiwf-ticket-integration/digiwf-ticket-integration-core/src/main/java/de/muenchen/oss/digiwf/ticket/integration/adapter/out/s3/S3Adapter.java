@@ -81,11 +81,16 @@ public class S3Adapter implements LoadFilePort {
     }
 
     private Optional<String> getDomainSpecificS3Storage(final String processDefinition) {
-        final ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processDefinition);
-        return processConfig.getConfigs().stream()
-                .filter(cfg -> cfg.getKey().equals(APP_FILE_S3_SYNC_CONFIG))
-                .findAny()
-                .map(ConfigEntryTO::getValue);
+        try {
+            final ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processDefinition);
+            return processConfig.getConfigs().stream()
+                    .filter(cfg -> cfg.getKey().equals(APP_FILE_S3_SYNC_CONFIG))
+                    .findAny()
+                    .map(ConfigEntryTO::getValue);
+        } catch (final Exception e) {
+            return Optional.empty();
+        }
+
     }
 
 }
