@@ -83,6 +83,7 @@ Nachfolgend ist ein Beispiel für ein `CreateDocumentDto`-Objekt aufgeführt:
 {
   "procedureCoo": "",
   "title": "",
+  "date": "",
   "user": "",
   "type": "",
   "filepaths": "",

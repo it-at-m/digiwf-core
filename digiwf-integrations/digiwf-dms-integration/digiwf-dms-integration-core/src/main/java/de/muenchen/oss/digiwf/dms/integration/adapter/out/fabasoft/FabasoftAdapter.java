@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import javax.xml.datatype.DatatypeFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -107,6 +108,11 @@ public class FabasoftAdapter implements
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setDelivery(
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+            );
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();

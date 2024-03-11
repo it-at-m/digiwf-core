@@ -10,6 +10,7 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +94,7 @@ class FabasoftAdapterTest {
                 CreateIncomingGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.EINGEHEND, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", Date.valueOf("2023-12-31"), DocumentType.EINGEHEND, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }
@@ -110,7 +111,7 @@ class FabasoftAdapterTest {
                 CreateOutgoingGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.AUSGEHEND, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", Date.valueOf("2023-12-31"), DocumentType.AUSGEHEND, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }
@@ -127,7 +128,7 @@ class FabasoftAdapterTest {
                 CreateInternalGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.INTERN, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", Date.valueOf("2023-12-31"), DocumentType.INTERN, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }

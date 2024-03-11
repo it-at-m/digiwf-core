@@ -93,6 +93,7 @@ public class MessageProcessor {
                 final String document = this.createDocumentUseCase.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
+                        createDocumentDto.getDate(),
                         createDocumentDto.getUser(),
                         DocumentType.valueOf(createDocumentDto.getType()),
                         createDocumentDto.getFilepathsAsList(),
