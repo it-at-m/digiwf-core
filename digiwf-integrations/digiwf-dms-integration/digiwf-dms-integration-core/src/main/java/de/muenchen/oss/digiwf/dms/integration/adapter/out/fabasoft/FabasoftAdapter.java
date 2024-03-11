@@ -66,14 +66,16 @@ public class FabasoftAdapter implements
         request.setReferrednumber(procedure.getFileCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(procedure.getTitle());
-        request.setFilesubj(procedure.getTitle());
+        if (!procedure.getFileSubj().isBlank()) {
+            request.setFilesubj(procedure.getFileSubj());
+        }
         request.setFiletype("Elektronisch");
 
         final CreateProcedureGIResponse response = this.wsClient.createProcedureGI(request);
 
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
-        return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
+        return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getFileSubj(), procedure.getTitle());
     }
 
     @Override
@@ -391,7 +393,7 @@ public class FabasoftAdapter implements
                 response.getGimetadatatype().getLHMBAI151700Filename(),
                 response.getGimetadatatype().getLHMBAI151700Objclass(),
                 String.format(this.properties.getUiurl(), coo)
-                );
+        );
     }
 
     //------------------------------------- HELPER METHODS -------------------------------------------

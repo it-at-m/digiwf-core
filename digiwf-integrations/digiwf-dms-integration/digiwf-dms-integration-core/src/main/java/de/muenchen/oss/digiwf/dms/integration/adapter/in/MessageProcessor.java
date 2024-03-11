@@ -59,6 +59,7 @@ public class MessageProcessor {
                 final Procedure vorgang = this.createProcedureUseCase.createProcedure(
                         createProcedureDto.getTitle(),
                         createProcedureDto.getFileCOO(),
+                        createProcedureDto.getFileSubj(),
                         createProcedureDto.getUser()
                 );
 
@@ -168,7 +169,7 @@ public class MessageProcessor {
                         searchObjectDto.getValue()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
-                      message.getHeaders().get(TYPE).toString(),
+                        message.getHeaders().get(TYPE).toString(),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of("fileCoo", file));
             });
         };
