@@ -25,6 +25,8 @@
 - **SSO_S3_CLIENT_SECRET** - The client secret of the S3 service.
 - **TICKETING_INTEGRATION_SERVER_PORT** - The port of the ticket integration server.
 
+> Note: The Ticket Integration uses 2 different sso clients from two different realms (s3 and zammad). 
+
 **Configure the supported file extensions**
 
 ```yaml
