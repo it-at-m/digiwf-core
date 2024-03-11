@@ -34,8 +34,9 @@ class ErrorApiImplTest {
     private final String incidentDestination = "incidentMessageDestination";
     private final String bpmnErrorDestination = "bpmnErrorMessageDestination";
     private final String integrationName = "exampleIntegration";
+    private final String typeName = "exampleType";
     private final Map<String, Object> messageHeaders = Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId,
-            DIGIWF_INTEGRATION_NAME, this.integrationName);
+            DIGIWF_INTEGRATION_NAME, this.integrationName, TYPE, this.typeName);
 
 
     @BeforeEach
@@ -47,7 +48,7 @@ class ErrorApiImplTest {
     void testHandleIncident() {
         final boolean success = this.errorApi.handleIncident(messageHeaders, "someErrorMessage");
         assertThat(success).isTrue();
-        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.integrationName, this.incidentDestination);
+        this.verifyIncidentMessageApiCall("someErrorMessage", this.typeName, this.integrationName, this.incidentDestination);
     }
 
     @Test
@@ -79,7 +80,7 @@ class ErrorApiImplTest {
         final IncidentError incidentError = new IncidentError("someErrorMessage");
         final boolean success = this.errorApi.handleIncident(this.messageHeaders, incidentError);
         assertThat(success).isTrue();
-        this.verifyIncidentMessageApiCall("someErrorMessage", this.incidentDestination, this.integrationName, this.incidentDestination);
+        this.verifyIncidentMessageApiCall("someErrorMessage", this.typeName, this.integrationName, this.incidentDestination);
     }
 
     @Test
