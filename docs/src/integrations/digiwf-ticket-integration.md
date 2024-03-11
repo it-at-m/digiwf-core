@@ -22,7 +22,8 @@ Um einen Artikel zu erstellen, müssen Sie die folgenden Daten an die Ticket Int
   "integration": "ticketIntegration",
   "ticketId": "1234",
   "article": "Some text",
-  "status": "OPEN"
+  "status": "OPEN",
+  "filepaths": "path/to/file1;path/to/file2"
 }
 ```
 
@@ -52,7 +53,8 @@ Um einen Artikel mit einem Benutzer zu erstellen, müssen Sie die folgenden Date
   "ticketId": "1234",
   "article": "Some text",
   "userId": "1234",
-  "status": "OPEN"
+  "status": "OPEN",
+  "filepaths": "path/to/file1;path/to/file2"
 }
 ```
 
