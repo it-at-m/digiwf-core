@@ -47,7 +47,6 @@ class WriteArticleUseCaseTest {
 
         final FileContent fileContent = new FileContent("text/plain", "file", "content");
 
-
         // when
         when(loadFilePort.loadFiles(filepaths, "processDefinition")).thenReturn(
                 List.of(fileContent));
