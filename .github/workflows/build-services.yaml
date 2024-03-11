@@ -12,7 +12,6 @@ on:
 
 jobs:
   build-maven:
-    needs: release-version
     uses: ./.github/workflows/workflow-build-services.yaml
     with:
       snapshot-release: true
