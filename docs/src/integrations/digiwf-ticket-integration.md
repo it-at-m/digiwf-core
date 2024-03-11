@@ -39,6 +39,7 @@ verwendet werden.
 | `ticketId`    | String | Die ID des Tickets, zu dem der Artikel hinzugefügt werden soll. | Ja           |
 | `article`     | String | Der Text des Artikels.                                          | Ja           |
 | `status`      | String | Der Status, den das Ticket annehmen soll                        | Nein         |
+| `filepaths`   | Array  | Eine Kommaseparierte Liste von Dateipfaden aus dem S3 Bucket.   | Nein         |
 
 ### Artikel mit Benutzer erstellen
 
@@ -73,9 +74,19 @@ Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die un
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
 sind, können Sie die folgenden Konfigurationen für die DigiWF Ticket Integration verwenden:
 
-| Variable                            | Beschreibung                                                          | Erforderlich |
-|-------------------------------------|-----------------------------------------------------------------------|--------------|
-| `SSO_TICKET_CLIENT_ID`              | Die Id des Clients, der für die Authentifizierung verwendet wird.     | Ja           |
-| `SSO_TICKET_CLIENT_SECRET`          | Das Secret des Clients, der für die Authentifizierung verwendet wird. | Ja           |
-| `TICKETING_ZAMMAD_URL`              | Die URL des Zammad-Servers.                                           | Ja           |
-| `TICKETING_INTEGRATION_SERVER_PORT` | Der Port der Ticketing Integration                                    | Nein         |
+- **DIGIWF_ENV** - The environment of DigiWF, e.g. `local-01`, `dev`, `test`, `demo`.
+- **SSO_TICKET_CLIENT_ID** - The client id of the ticket service.
+- **SSO_TICKET_CLIENT_SECRET** - The client secret of the ticket service.
+- **TICKETING_ZAMMAD_URL** - The URL of the ticket service (e.g. zammad).
+- **ENGINE_REST_ENDPOINT_URL** - The URL of the engine server.
+- **DOCUMENT_STORAGE_HOST** - The host of the document storage service.
+- **DOCUMENT_STORAGE_PORT** - The port of the document storage service.
+- **SSO_ISSUER_URL** - The URL of the SSO issuer.
+- **SSO_BASE_URL** - The base URL of the SSO service.
+- **SSO_REALM** - The realm of the SSO service.
+- **ZAMMAD_SSO_ISSUER_URL** - The URL of the SSO issuer for the ticket service.
+- **ZAMMAD_SSO_BASE_URL** - The base URL of the SSO service for the ticket service.
+- **ZAMMAD_SSO_REALM** - The realm of the SSO service for the ticket service.
+- **SSO_S3_CLIENT_ID** - The client id of the S3 service.
+- **SSO_S3_CLIENT_SECRET** - The client secret of the S3 service.
+- **TICKETING_INTEGRATION_SERVER_PORT** - The port of the ticket integration server.
