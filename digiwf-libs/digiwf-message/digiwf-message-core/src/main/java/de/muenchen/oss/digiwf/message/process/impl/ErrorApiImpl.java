@@ -31,9 +31,9 @@ public class ErrorApiImpl implements ErrorApi {
      * @return
      */
     @Override
-    public boolean handleIncident(final Map<String, Object>  originMessageHeaders, final String errorMessage) {
+    public boolean handleIncident(final Map<String, Object> originMessageHeaders, final String errorMessage) {
         final Map<String, Object> headers = Map.of(
-                TYPE, this.incidentDestination,
+                TYPE, originMessageHeaders.get(TYPE),
                 DIGIWF_PROCESS_INSTANCE_ID, originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID),
                 DIGIWF_INTEGRATION_NAME, originMessageHeaders.get(DIGIWF_INTEGRATION_NAME)
         );
