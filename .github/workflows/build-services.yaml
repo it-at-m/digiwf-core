@@ -8,7 +8,6 @@ on:
       - 'docs/**'
       - 'stack/**'
   pull_request:
-    types: [ opened, reopened ]
 
 jobs:
   build:
