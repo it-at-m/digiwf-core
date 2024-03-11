@@ -6,6 +6,12 @@ digiwf:
   zammad:
     baseurl: ${TICKETING_ZAMMAD_URL}
 
+feign:
+  client:
+    config:
+      digiwf-process-config:
+        url: ${ENGINE_REST_ENDPOINT_URL}
+
 io:
   muenchendigital:
     digiwf:
