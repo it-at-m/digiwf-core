@@ -146,6 +146,11 @@ public class FabasoftAdapter implements
 
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setOutgoingdate(
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+            );
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -178,6 +183,11 @@ public class FabasoftAdapter implements
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setDeliverydate(
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+            );
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
