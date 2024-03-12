@@ -9,10 +9,8 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.datatype.DatatypeFactory;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.time.ZoneId;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -110,8 +108,9 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
+            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
             request.setDelivery(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
             );
         }
 
@@ -148,8 +147,9 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
+            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
             request.setOutgoingdate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
             );
         }
 
@@ -185,8 +185,9 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
+            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
             request.setDeliverydate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
             );
         }
 
