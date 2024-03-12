@@ -34,12 +34,12 @@ public class AlwResponsibilityRestAdapter implements AlwResponsibilityOutPort {
             final Map<String, String> restResponse = this.restTemplate.getForObject(url, Map.class);
             log.debug("Response from ALW personen info service: {}", restResponse);
             return Optional.ofNullable(restResponse).map(response -> response.get(FIELD_SACHBEARBEITER));
-        } catch (HttpStatusCodeException cause) {
+        } catch (final HttpStatusCodeException cause) {
             if (HttpStatus.NOT_FOUND.value() == cause.getRawStatusCode()) {
                 return Optional.empty();
             }
+            throw cause;
         }
-        return Optional.empty();
     }
 
     private String constructAlwRequestUrl(@NonNull final String azrNummer) {
