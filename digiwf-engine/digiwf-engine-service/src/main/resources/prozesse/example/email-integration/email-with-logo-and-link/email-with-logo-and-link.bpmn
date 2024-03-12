@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sduois" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
-  <bpmn:process id="email-with-logo" name="E-Mail: Template mit Logo" isExecutable="true">
+  <bpmn:process id="email-with-logo-and-link" name="E-Mail: Template mit Logo und Link" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
-    <bpmn:startEvent id="StartEvent_1" name="Start" camunda:formKey="email-with-logo_sendMail">
+    <bpmn:startEvent id="StartEvent_1" name="Start" camunda:formKey="email-with-logo-and-link_sendMail">
       <bpmn:extensionElements />
       <bpmn:outgoing>Flow_0ryqzye</bpmn:outgoing>
     </bpmn:startEvent>
@@ -26,7 +26,7 @@
       <bpmn:outgoing>Flow_1lp426t</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_1lp426t" sourceRef="Activity_10z9ygh" targetRef="Activity_1olcqz6" />
-    <bpmn:callActivity id="Activity_1olcqz6" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="Activity_1olcqz6" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo-and-link" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
@@ -38,6 +38,8 @@
         <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
         <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
+        <camunda:in sourceExpression="${FORMFIELD_ButtonText}" target="buttonText" />
+        <camunda:in sourceExpression="${FORMFIELD_ButtonLink}" target="buttonLink" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1lp426t</bpmn:incoming>
       <bpmn:outgoing>Flow_06uw57q</bpmn:outgoing>
@@ -74,7 +76,7 @@
       <bpmn:errorEventDefinition id="ErrorEventDefinition_18b55pi" camunda:errorCodeVariable="bpm_error_code" camunda:errorMessageVariable="bpm_error_message" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1x9du8r" sourceRef="Event_0rtubgu" targetRef="Activity_1u03fez" />
-    <bpmn:callActivity id="Activity_1bl8dys" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="Activity_1bl8dys" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo-and-link" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
@@ -85,6 +87,8 @@
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
         <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
+        <camunda:in sourceExpression="${FORMFIELD_ButtonText}" target="buttonText" />
+        <camunda:in sourceExpression="${FORMFIELD_ButtonLink}" target="buttonLink" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0n9f7m4</bpmn:incoming>
       <bpmn:outgoing>Flow_14w9qe9</bpmn:outgoing>
@@ -98,7 +102,7 @@
   </bpmn:process>
   <bpmn:error id="Error_06o8l99" name="Error_16pcjfo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-with-logo">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="email-with-logo-and-link">
       <bpmndi:BPMNEdge id="Flow_1hygzke_di" bpmnElement="Flow_1hygzke">
         <di:waypoint x="470" y="152" />
         <di:waypoint x="470" y="120" />

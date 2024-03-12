@@ -46,7 +46,7 @@
       }
     },
     {
-      "label": "Template",
+      "label": "E-Mail Template",
       "type": "String",
       "editable": false,
       "value": "mail-template.ftl",
@@ -132,28 +132,13 @@
     },
     {
       "label": "E-Mail Gruß",
-      "type": "Text",
+      "type": "String",
       "value": "Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
       "binding": {
         "type": "camunda:in",
         "expression": true,
         "name": "bottomBody",
         "target": "bottomBody"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
-      "label": "E-Mail Footer",
-      "type": "Text",
-      "editable": false,
-      "value": "DigiWF 2.0<br>IT-Referat der Stadt München",
-      "binding": {
-        "type": "camunda:in",
-        "expression": true,
-        "name": "footer",
-        "target": "footer"
       },
       "constraints": {
         "notEmpty": true

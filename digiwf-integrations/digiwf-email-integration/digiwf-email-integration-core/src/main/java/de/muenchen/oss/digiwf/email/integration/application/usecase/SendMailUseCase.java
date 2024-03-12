@@ -63,6 +63,7 @@ public class SendMailUseCase implements SendMail {
         // get body from template
         Map<String, Object> content = new HashMap<>();
         content.put("mail",mail);
+        content.put("footer", "DigiWF 2.0<br>IT-Referat der Stadt München");
         String body = this.mailPort.getBodyFromTemplate(mail.getTemplate(), content);
 
         // load Attachments

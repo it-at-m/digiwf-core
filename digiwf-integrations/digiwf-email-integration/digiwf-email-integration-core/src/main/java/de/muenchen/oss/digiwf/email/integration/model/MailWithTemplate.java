@@ -32,10 +32,4 @@ public class MailWithTemplate extends Mail{
      */
     private String buttonLink;
 
-    /**
-     * Footer of the mail.
-     */
-    @NotBlank(message = "No footer given")
-    private String footer;
-
 }

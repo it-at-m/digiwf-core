@@ -194,7 +194,7 @@
     <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
         <tr>
             <td style="padding: 30px 10px;width: 100%;font-size: 12px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
-                ${mail.footer}
+                ${footer}
             </td>
         </tr>
     </table>
