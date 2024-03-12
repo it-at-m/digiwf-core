@@ -349,7 +349,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>4.0.3</version>
+                <version>3.6.3</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
