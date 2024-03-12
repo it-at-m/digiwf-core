@@ -79,6 +79,24 @@
                 },
                 "x-rules": []
               },
+              "fileSubj": {
+                "fieldType": "text",
+                "title": "Betreff",
+                "type": "string",
+                "key": "fileSubj",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "user": {
                 "fieldType": "text",
                 "title": "Dms User",
