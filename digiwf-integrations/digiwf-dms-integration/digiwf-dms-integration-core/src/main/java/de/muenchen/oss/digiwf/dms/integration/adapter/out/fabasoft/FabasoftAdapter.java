@@ -9,6 +9,8 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -108,10 +110,7 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
-            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
-            request.setDelivery(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
-            );
+            request.setDelivery(this.convertDate(document.getDate()));
         }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
@@ -147,10 +146,7 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
-            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
-            request.setOutgoingdate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
-            );
+            request.setOutgoingdate(this.convertDate(document.getDate()));
         }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
@@ -185,10 +181,7 @@ public class FabasoftAdapter implements
         request.setShortname(document.getTitle());
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
-            val date = GregorianCalendar.from(document.getDate().atStartOfDay(ZoneId.systemDefault()));
-            request.setDeliverydate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(date)
-            );
+            request.setDeliverydate(this.convertDate(document.getDate()));
         }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
@@ -467,5 +460,9 @@ public class FabasoftAdapter implements
         return response.getGiobjecttype().getLHMBAI151700GIObjectType();
     }
 
-
+    private XMLGregorianCalendar convertDate(final LocalDate date) {
+        return DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(
+                GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()))
+        );
+    }
 }
