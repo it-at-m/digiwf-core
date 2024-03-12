@@ -80,7 +80,7 @@ jobs:
     needs: release-version
     uses: ./.github/workflows/workflow-build-apps.yaml
     with:
-      publish-packages: ${{ github.event.inputs.snapshot-build != 'true' }}
+      publish-packages: ${{ github.event.inputs.snapshot-build == 'false' }}
       build-images: true
       release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
@@ -101,7 +101,7 @@ jobs:
     needs: release-version
     uses: ./.github/workflows/workflow-build-docs.yaml
     with:
-      publish: true
+      publish: ${{ github.event.inputs.snapshot-build == 'false' }}
     secrets: inherit
 
   github-release:
