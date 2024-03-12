@@ -35,6 +35,9 @@
         <camunda:in sourceExpression="${fileSubj}" target="fileSubj" />
         <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="fileSubj">${fileSubj}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>

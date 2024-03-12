@@ -37,6 +37,9 @@
         <camunda:in sourceExpression="${date}" target="date" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="date">${date}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_0gnzyhg</bpmn:outgoing>
