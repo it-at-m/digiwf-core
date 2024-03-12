@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class CreateDocumentDto {
     private String procedureCoo;
 
     private String title;
-    private Date date;
+    private LocalDate date;
 
     private String user;
 

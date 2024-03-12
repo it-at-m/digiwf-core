@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -24,7 +24,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     private final CreateDocumentDto createDocumentDto = new CreateDocumentDto(
             "documentCoo",
             "title",
-            Date.valueOf("2023-12-01"),
+            LocalDate.parse("2023-12-01"),
             "user",
             "EINGEHEND",
             "filepaths",

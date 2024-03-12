@@ -111,7 +111,7 @@ public class FabasoftAdapter implements
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setDelivery(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
             );
         }
 
@@ -149,7 +149,7 @@ public class FabasoftAdapter implements
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setOutgoingdate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
             );
         }
 
@@ -186,7 +186,7 @@ public class FabasoftAdapter implements
         request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setDeliverydate(
-                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(String.valueOf(document.getDate()))
+                    DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(document.getDate().toString())
             );
         }
 

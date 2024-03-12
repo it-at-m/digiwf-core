@@ -9,7 +9,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Validated
@@ -24,7 +24,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
     public String createDocument(
             final String procedureCOO,
             final String title,
-            final Date date,
+            final LocalDate date,
             final String user,
             final DocumentType type,
             final List<String> filepaths,
