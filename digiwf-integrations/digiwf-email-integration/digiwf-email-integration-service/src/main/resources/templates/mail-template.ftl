@@ -167,7 +167,7 @@
         <tr>
             <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
                 ${mail.body}
-                <#if mail.buttonLink??>
+                <#if mail.buttonLink?has_content && mail.buttonText?has_content>
                     <br><br><br>
                     <!-- Button : Begin -->
                     <table cellspacing="0" cellpadding="0" border="0" align="center" style="Margin: auto">
