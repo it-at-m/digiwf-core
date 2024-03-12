@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AlwMessageProcessor {
+public class MessageProcessor {
 
     private static final String ALW_ZUSTAENDIGE_GRUPPE = "alwZustaendigeGruppe";
 

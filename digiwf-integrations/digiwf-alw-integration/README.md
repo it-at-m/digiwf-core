@@ -12,6 +12,20 @@ Provides integration to ALW (Ausländerwesen) service for retrieval of responsib
 For the valid request an AZR number must be provided. This number must contain 12-digits. If the AZR number
 is missing or has a wrong format a VALIDATION ERROR is thrown.
 
+## Configuration
+
+| Environment Variable         | Description                                                                                        |
+|------------------------------|----------------------------------------------------------------------------------------------------|
+| ALW_REST_BASE_URL            | Host url of the alw service                                                                        |
+| ALW_REST_ENDPOINT            | endpoint url of the alw service                                                                    |
+| ALW_REST_USERNAME            | username                                                                                           |
+| ALW_REST_SECRET              | password                                                                                           |
+| ALW_SACHBEARBEITUNG_CONFIG   | location of the responsibility mapping table (default is `/config/alw-sachbearbeitung.properties`) |
+| ALW_PING_ENABLED             | Enables functional pinging on startup (default is `true`)                                          |
+| ALW_PING_AZR_NUMBER          | AZR number used in functional pinging on startup (default is an empty string)                      |
+| DIGIWF_ENV                   | Environment in which the service runs                                                              |
+| ALW_INTEGRATION_SERVER_PORT  | Port of the application                                                                            |
+
 ## Manual Test outside of München Network
 
 1. Start the `docker-compose` setup
@@ -44,7 +58,7 @@ is missing or has a wrong format a VALIDATION ERROR is thrown.
     4. TaskListApplication
        - Activate Spring profile `local,no-ldap,streaming`
        - Add Environment values from `stack/local-docker.env`
-    5. AwlServiceApplication
+    5. AlwServiceApplication
        - Activate Spring profile `local`
        - Add Environment values from `stack/local-docker.env`
 3. Test the functionality with the
