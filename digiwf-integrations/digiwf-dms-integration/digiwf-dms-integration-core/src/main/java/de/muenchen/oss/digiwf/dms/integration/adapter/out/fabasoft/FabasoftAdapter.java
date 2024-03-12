@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.datatype.DatatypeFactory;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class FabasoftAdapter implements
         request.setReferrednumber(procedure.getFileCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(procedure.getTitle());
-        if (!procedure.getFileSubj().isBlank()) {
+        if (StringUtils.isNotBlank(procedure.getFileSubj())) {
             request.setFilesubj(procedure.getFileSubj());
         }
         request.setFiletype("Elektronisch");
