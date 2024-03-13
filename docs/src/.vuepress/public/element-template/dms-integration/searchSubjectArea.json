@@ -16,10 +16,19 @@
       }
     },
     {
-      "label": "Integration Name",
-      "type": "String",
-      "editable": false,
-      "value": "dmsIntegration",
+      "label": "Dms System (Integration Name)",
+      "type": "Dropdown",
+      "value": "mucsDmsIntegration",
+      "choices": [
+        {
+          "name": "mucs",
+          "value": "mucsDmsIntegration"
+        },
+        {
+          "name": "alw",
+          "value": "alwDmsIntegration"
+        }
+      ],
       "binding": {
         "type": "camunda:in",
         "name": "app_integration_name",

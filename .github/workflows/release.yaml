@@ -56,9 +56,16 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Set apps release version env variable
+        if: github.event.inputs.snapshot-build == 'false'
         working-directory: ./digiwf-apps
         run: |
           echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')" >> $GITHUB_ENV
+      - name: Set apps release version env variable for SNAPSHOT release
+        if: github.event.inputs.snapshot-build == 'true'
+        working-directory: ./digiwf-apps
+        run: |
+          echo "APPS_RELEASE_VERSION=$(grep -m1 version lerna.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')-SNAPSHOT" >> $GITHUB_ENV
+
       - name: Remove snapshot from services
         if: github.event.inputs.snapshot-build == 'false'
         run: ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules

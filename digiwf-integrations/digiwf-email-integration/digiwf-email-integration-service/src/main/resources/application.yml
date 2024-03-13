@@ -3,7 +3,7 @@ server:
   shutdown: graceful
 spring:
   application:
-    name: @project.artifactId@
+    name: '@project.artifactId@'
   cloud:
     stream:
       bindings:

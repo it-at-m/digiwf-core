@@ -6,7 +6,6 @@ package de.muenchen.oss.digiwf.humantask.process.listener;
 
 import de.muenchen.oss.digiwf.email.model.Mail;
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.task.IdentityLink;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +69,7 @@ class UserTaskNotificationListenerTest extends BaseUserTaskNotificationListenerT
                 "digitalwf_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
         ), "create");
-        when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
+        when(task.getCandidates()).thenReturn(Collections.emptySet());
 
         final Mail mail = this.notifyUsers(task, this.userTaskDefaultMailContent, 1);
 

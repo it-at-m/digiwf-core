@@ -14,6 +14,8 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
 Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
+Es gibt die Möglichkeit zwischen zwei DMS Systemen zu wählen MUCS und ALW DMS. 
+Für das MUCS DMS wird der Integration Name mucsDmsIntegration verwendet, für das ALW DMS alwDmsIntegration.
 
 ### Sachakte anlegen
 
@@ -21,8 +23,6 @@ Zur asynchronen Erstellung einer Sachakte im Dms, erzeugen Sie zuerst ein `Creat
 TYPE-Header auf `createFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `CreateFileDto`-Objekt aufgeführt:
 
@@ -50,8 +50,6 @@ TYPE-Header auf `createProcedure`. Im Anschluss senden Sie das Objekt an das ent
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `CreateProcedureDto`-Objekt aufgeführt:
 
 ```json
@@ -77,8 +75,6 @@ Zur asynchronen Erstellung eines Dokuments im Dms, erzeugen Sie zuerst ein `Crea
 TYPE-Header auf `createDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `CreateDocumentDto`-Objekt aufgeführt:
 
@@ -111,8 +107,6 @@ TYPE-Header auf `updateDocument`. Im Anschluss senden Sie das Objekt an das ents
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `UpdateDocumentDto`-Objekt aufgeführt:
 
 ```json
@@ -143,8 +137,6 @@ TYPE-Header auf `depositObject`. Im Anschluss senden Sie das Objekt an das entsp
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `DepositObjectDto`-Objekt aufgeführt:
 
 ```json
@@ -169,8 +161,6 @@ Um ein Objekt im Dms zu stornieren, erzeugen Sie zuerst ein `CancelObjectDto`-Ob
 TYPE-Header auf `cancelObject`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `CancelObjectDto`-Objekt aufgeführt:
 
@@ -197,8 +187,6 @@ setzen den
 TYPE-Header auf `readContent`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `ReadContent`-Objekt aufgeführt:
 
@@ -228,8 +216,6 @@ Um eine Sachakte im Dms zu suchen, erzeugen Sie zuerst ein `SearchObjectDto`-Obj
 setzen den TYPE-Header auf `searchFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen
 des Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 
@@ -268,8 +254,6 @@ Um einen Aktenplaneintrag im Dms zu suchen, erzeugen Sie zuerst ein `SearchObjec
 setzen den TYPE-Header auf `searchSubjectArea`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den
 Namen des Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 
@@ -353,16 +337,17 @@ sind, können Sie die folgenden Konfigurationen für die DigiWF Dms Integration 
 
 ### Dms Konfigurationen
 
-| Environment Variable        | Description                                                   |
-|-----------------------------|---------------------------------------------------------------|
-| DMS_INTEGRATION_SERVER_PORT | Port of the Application                                       |
-| DIGIWF_ENV                  | Environment in which the services runs                        |
-| KAFKA_SECURITY_PROTOCOL     | Security protocol of kafka (default is PLAINTEXT)             |
-| KAFKA_BOOTSTRAP_SERVER      | kafka server address (default is localhost)                   |
-| KAFKA_BOOTSTRAP_SERVER_PORT | kafka server port (default is 29092)                          |
-| FABASOFT_DMS_USERNAME       | technical fabasoft dms user                                   |
-| FABASOFT_DMS_PASSWORD       | technical fabasoft dms password                               |
-| FABASOFT_DMS_HOST           | fabasoft url                                                  |
-| FABASOFT_DMS_PORT           | fabasoft port                                                 |
-| FABASOFT_ENABLE_MTOM        | Enables MTOM default is true. Should be disabled with mocking |
+| Environment Variable             | Description                                                   |
+|----------------------------------|---------------------------------------------------------------|
+| MUCS_DMS_INTEGRATION_SERVER_PORT | Port of the MUCS DMS Application                              |
+| ALW_DMS_INTEGRATION_SERVER_PORT  | Port of the ALW DMS Application                               |
+| DIGIWF_ENV                       | Environment in which the services runs                        |
+| KAFKA_SECURITY_PROTOCOL          | Security protocol of kafka (default is PLAINTEXT)             |
+| KAFKA_BOOTSTRAP_SERVER           | kafka server address (default is localhost)                   |
+| KAFKA_BOOTSTRAP_SERVER_PORT      | kafka server port (default is 29092)                          |
+| FABASOFT_DMS_USERNAME            | technical fabasoft dms user                                   |
+| FABASOFT_DMS_PASSWORD            | technical fabasoft dms password                               |
+| FABASOFT_DMS_HOST                | fabasoft url                                                  |
+| FABASOFT_DMS_PORT                | fabasoft port                                                 |
+| FABASOFT_ENABLE_MTOM             | Enables MTOM default is true. Should be disabled with mocking |
 

@@ -6,7 +6,6 @@ package de.muenchen.oss.digiwf.humantask.process.listener;
 
 import de.muenchen.oss.digiwf.email.model.Mail;
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.task.IdentityLink;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -80,7 +79,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_candidate_groups", "false",
                 "app_task_assignee", this.user.getLhmObjectId()
         ), "create");
-        when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
+        when(task.getCandidates()).thenReturn(Collections.emptySet());
 
         final Mail mail = this.notifyUsers(task, this.userTaskDefaultMailContent, 1);
 
@@ -130,7 +129,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "mail_bottom_text", "Some Bottom Text",
                 "mail_subject", "Email Subject"
         ), "create");
-        when(task.getCandidates()).thenReturn(Collections.<IdentityLink>emptySet());
+        when(task.getCandidates()).thenReturn(Collections.emptySet());
         final Map<String, String> customMailContent = Map.of(
                 "%%body_top%%", "Email Body",
                 "%%body_bottom%%", "Some Bottom Text",

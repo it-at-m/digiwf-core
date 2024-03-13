@@ -21,12 +21,11 @@ import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,10 +33,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Deployment(resources = { "bausteine/dms/schriftstueckekopieren/SchriftstueckeKopierenV01.bpmn",
-        "bausteine/dms/schriftstueckekopieren/feature/Feature_SchriftstueckeKopieren.bpmn" })
+        "prozesse/feature/unittests/dms/schriftstueckekopieren/Feature_SchriftstueckeKopieren.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class SchriftstueckeKopierenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureSchriftstueckeKopieren";
@@ -66,7 +70,6 @@ public class SchriftstueckeKopierenTemplateTest {
 
     @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("copySchriftstueckeAlwToMucDelegate", new CopySchriftstueckeAlwToMucDelegate(this.kvrDmsService, this.dmsService));
         Mocks.register("saveSchriftstueckeEndListener", new SaveSchriftstueckeEndListener(new MetadataProcessDataMapper()));

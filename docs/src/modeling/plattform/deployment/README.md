@@ -1,5 +1,9 @@
 # Deployment
 
+tbd. für neue CoCreation
+
+## Legacy CoCreation
+
 Das Deployment von Artefakten kann aus der Co-Creation Umgebungen angestoßen werden.
 
 1. Deployment Dialog über das "Lastwagen Symbol" öffnen

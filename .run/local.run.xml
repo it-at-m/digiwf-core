@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="local" type="CompoundRunConfigurationType">
+    <toRun name="DigiWFConnectorApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="EngineServiceApplicationLocal" type="SpringBootApplicationConfigurationType" />
+    <toRun name="TaskListApplication" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

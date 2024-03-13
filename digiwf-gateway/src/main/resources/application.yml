@@ -1,12 +1,13 @@
 info:
   application:
-    name: ${spring.application.name}
+    name: '@project.artifactId@'
+    version: '@project.version@'
     stage:
       color: ${STAGE_COLOR:#FFCC00}
       displayName: ${STAGE_DISPLAY_NAME:${DIGIWF_ENV}}
 spring:
   application:
-    name: @project.artifactId@
+    name: ${info.application.name}
   main:
     web-application-type: reactive
   jackson:

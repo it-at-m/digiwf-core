@@ -47,8 +47,7 @@ public class SecurityConfiguration {
             authorizeExchangeSpec.pathMatchers(HttpMethod.OPTIONS, "/clients/**").permitAll()
                 .anyExchange().authenticated();
         })
-        .cors(corsSpec -> {
-            })
+        .cors(corsSpec -> {})
         .oauth2ResourceServer(oauth2 ->
           oauth2.jwt(Customizer.withDefaults())
         );

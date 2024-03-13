@@ -29,7 +29,7 @@
                 "x-display": "markdown",
                 "key": "FormField_StartInfo",
                 "readOnly": true,
-                "default": "With this test process search a file with the information from the form below.",
+                "default": "With this test process search for a file (Sachakte) with the information from the form below.\n\n1. Specify a file or a wildcard.\n2. Specify a username.\n3. Optionally specify the reference of a subject date (Fachdatum).\n4. Optionally specify a value of a subject date.",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -116,6 +116,37 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "system": {
+                "fieldType": "select",
+                "title": "Dms System",
+                "type": "string",
+                "key": "system",
+                "default": "mucsDmsIntegration",
+                "anyOf": [
+                  {
+                    "title": "mucs",
+                    "const": "mucsDmsIntegration"
+                  },
+                  {
+                    "title": "alw",
+                    "const": "alwDmsIntegration"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"

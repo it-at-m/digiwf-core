@@ -9,6 +9,7 @@ import de.muenchen.oss.digiwf.task.service.TaskListApplication;
 import de.muenchen.oss.digiwf.task.service.adapter.out.user.MockUserGroupResolverAdapter;
 import de.muenchen.oss.digiwf.task.service.application.port.out.engine.TaskCommandPort;
 import de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures;
+import de.muenchen.oss.digiwf.task.service.infra.metrics.CollectorRegistryMockingConfiguration;
 import de.muenchen.oss.digiwf.task.service.infra.security.TestUser;
 import de.muenchen.oss.digiwf.task.service.infra.security.WithKeycloakUser;
 import io.holunda.camunda.bpm.data.CamundaBpmData;
@@ -30,6 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
@@ -59,6 +61,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @WireMockTest(httpPort = 7080)
 @DirtiesContext
+@ContextConfiguration(classes = {CollectorRegistryMockingConfiguration.class})
 public class TaskExternalLinksIT {
 
     private final Instant followUpDate = Instant.now().plus(2, ChronoUnit.DAYS);
@@ -190,7 +193,7 @@ public class TaskExternalLinksIT {
                 get(RestConstants.BASE_PATH + "/tasks/user")
                     .contentType(MediaType.APPLICATION_JSON)
             )
-            .andDo(print())
+            // .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))
@@ -225,7 +228,7 @@ public class TaskExternalLinksIT {
                 get(RestConstants.BASE_PATH + "/tasks/group/assigned")
                     .contentType(MediaType.APPLICATION_JSON)
             )
-            .andDo(print())
+            // .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))
@@ -260,7 +263,7 @@ public class TaskExternalLinksIT {
                 get(RestConstants.BASE_PATH + "/tasks/group/unassigned")
                     .contentType(MediaType.APPLICATION_JSON)
             )
-            .andDo(print())
+            // .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content", hasSize(1)))

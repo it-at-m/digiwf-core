@@ -12,4 +12,9 @@ public class CustomMailProperties {
      */
     private String fromAddress;
 
+    /**
+     * Default Reply-to mail address, e.g. no-reply@domain
+     */
+    private String defaultReplyToAddress;
+
 }

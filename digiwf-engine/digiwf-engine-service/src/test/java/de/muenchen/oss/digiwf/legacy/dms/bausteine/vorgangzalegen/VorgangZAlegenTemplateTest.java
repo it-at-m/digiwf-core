@@ -19,13 +19,21 @@ import org.camunda.bpm.scenario.Scenario;
 import org.camunda.bpm.scenario.delegate.TaskDelegate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn", "bausteine/dms/vorgangzalegen/feature/Feature_VorgangZALegen.bpmn" })
+@Deployment(resources = { "bausteine/dms/vorgangzalegen/VorgangZALegenV01.bpmn",
+        "prozesse/feature/unittests/dms/vorgangzalegen/Feature_VorgangZALegen.bpmn" })
+@ExtendWith(MockitoExtension.class)
 public class VorgangZAlegenTemplateTest {
 
     public static final String TEMPLATE_KEY = "FeatureVorgangZALegen";
@@ -49,22 +57,24 @@ public class VorgangZAlegenTemplateTest {
 
     private final ProcessScenario templateScenario = mock(ProcessScenario.class);
 
-    private final DmsService dmsService = mock(DmsService.class);
+    @Mock
+    private DmsService dmsService;
 
-    private final UserFunctions userFunctions = mock(UserFunctions.class);
+    @Mock
+    private UserFunctions userFunctions;
 
-    private final DigitalWFFunctions digitalWF = mock(DigitalWFFunctions.class);
+    @Mock
+    private DigitalWFFunctions digitalWF;
 
     @BeforeEach
     public void defaultScenario() throws Exception {
-        MockitoAnnotations.initMocks(this);
 
         Mocks.register("depositVorgangDelegate", new DepositVorgangDelegate(this.dmsService));
-        doNothing().when(this.dmsService).depositVorgang(any(), any());
+
+
         Mocks.register("sendMailDelegate", new TestSendMailDelegate());
 
         Mocks.register("digitalwf", this.digitalWF);
-        when(this.digitalWF.urlGruppenaufgaben()).thenReturn("myurl");
 
         Mocks.register("user", this.userFunctions);
 
@@ -75,6 +85,7 @@ public class VorgangZAlegenTemplateTest {
 
         when(this.templateScenario.waitsAtUserTask(TASK_VORGANG_MANUELL_ZU_DEN_AKTEN_LEGEN))
                 .thenReturn(TaskDelegate::complete);
+        
     }
 
     @Test

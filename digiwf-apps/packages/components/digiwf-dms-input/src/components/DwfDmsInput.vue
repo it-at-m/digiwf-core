@@ -3,16 +3,21 @@
     <v-text-field
       :id="props.schema.key"
       v-model.trim="objectInput"
+      :aria-required="isRequired()"
+      :disabled="requesting"
+      :error="!!errorMessage"
+      :label="label"
       :readonly="props.schema.readOnly"
       :rules="rules"
-      outlined
-      :error="!!errorMessage"
       hide-details
-      :disabled="requesting"
-      :label="label"
+      outlined
       type="text"
       @keydown.enter.prevent="addByButton"
     >
+      <template #label>
+        <span>{{ label }}</span>
+        <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+      </template>
       <template #append>
         <div
           v-if="!props.schema.readOnly"
@@ -25,10 +30,10 @@
             />
             <v-btn
               v-else
-              icon
-              color="primary"
-              @click="addByButton"
               class="ml-6 mb-4"
+              color="primary"
+              icon
+              @click="addByButton"
             >
               <v-icon>
                 mdi-file-plus-outline
@@ -63,8 +68,8 @@
       >
         <dwf-object-preview
           :coo="doc.coo"
-          :metadata="doc.metadata"
           :errormessage="doc.errormessage"
+          :metadata="doc.metadata"
           :readOnly="props.schema.readOnly"
           @remove-object="removeDocument"
         />
@@ -79,6 +84,7 @@
 import {defineComponent, inject, onMounted, ref} from "vue";
 import {getMetadata, Objectclass} from "@/middleware/dmsMiddleware";
 import {Metadata} from "@muenchen/digiwf-dms-api-internal";
+import {checkRequired} from "@/validation/required";
 
 interface DmsObject {
   readonly coo: string;
@@ -102,7 +108,7 @@ export default defineComponent({
     const dmsSystem = props.schema.dmsSystem;
     const requesting = ref<boolean>(false);
     const errorMessage = ref<string | undefined>(undefined);
-    const objectInput = ref<string|undefined>(undefined);
+    const objectInput = ref<string | undefined>(undefined);
     const dmsObjects = ref<DmsObject[]>([]);
     const minObjects = props.schema.minObjects;
     const maxObjects = props.schema.maxObjects;
@@ -122,6 +128,7 @@ export default defineComponent({
     })
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
+    const alwDmsApiEndpoint = inject<string>('alwDmsApiEndpoint');
 
     const onObjectChange = () => {
       if (!props.on) {
@@ -134,8 +141,8 @@ export default defineComponent({
 
     const getMetadataOfObjects = (objects: DmsObject[]) => {
       return objects
-          .map(doc => doc.metadata)
-          .filter(metadata => !!metadata);
+          .filter(doc => !!doc.metadata)
+          .map(doc => doc.coo);
     }
 
     const validate = (number: number) => {
@@ -153,6 +160,8 @@ export default defineComponent({
     const getApiEndpoint = (): string => {
       if (dmsSystem === "mucs" && !!mucsDmsApiEndpoint) {
         return mucsDmsApiEndpoint;
+      } else if (dmsSystem === "alw" && !!alwDmsApiEndpoint) {
+        return alwDmsApiEndpoint;
       }
       return "";
     }
@@ -192,6 +201,10 @@ export default defineComponent({
         })
     }
 
+    const isRequired = () => {
+      return checkRequired(props.schema);
+    }
+
     const removeDocument = (coo: string) => {
       const newDmsObjects = dmsObjects.value.filter(doc => doc.coo !== coo);
       dmsObjects.value = newDmsObjects
@@ -202,7 +215,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-        validate(getMetadataOfObjects(dmsObjects.value).length);
+      validate(getMetadataOfObjects(dmsObjects.value).length);
       if (!!props.value) {
         Promise.all<DmsObject>(props.value.map((metadataOrCoo: Metadata | string) => {
           if (typeof metadataOrCoo === "string") {
@@ -248,13 +261,11 @@ export default defineComponent({
       errorMessage,
       rules,
       addByButton,
-      removeDocument
+      removeDocument,
+      isRequired
     }
 
   }
 });
 
 </script>
-
-<style scoped>
-</style>

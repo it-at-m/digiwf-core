@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_12iu3ip">
     <bpmn:participant id="Participant_LHM" name="LHM" processRef="DokumentStornierenV02" />
   </bpmn:collaboration>
-  <bpmn:process id="DokumentStornierenV02" name="Dokument stornieren Template V02" isExecutable="true">
+  <bpmn:process id="DokumentStornierenV02" name="Dokument stornieren Template V02" isExecutable="true" camunda:isStartableInTasklist="false">
     <bpmn:laneSet id="LaneSet_1bbrvcv">
       <bpmn:lane id="Lane_DigiWF" name="DigiWF">
         <bpmn:flowNodeRef>StartEvent_DokumentStornieren</bpmn:flowNodeRef>

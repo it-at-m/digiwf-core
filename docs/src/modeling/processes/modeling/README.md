@@ -16,6 +16,9 @@ Für die Plattform und Camunda als verwendete Engine sind die folgenden Eigensch
   DigiWF sieht deshalb eine standardmäßig eingestellte Löschfrist von 185 Tagen (ca. 6 Monate) vor. Nach dieser Zeit
   werden die historischen Prozessdaten aus der Datenbank gelöscht. Sollten Sie für Ihren Prozess eine andere Anforderung
   für die Löschzeit haben, können Sie das in dem Properties-Panel des Modelers konfigurieren.
+- **Tasklist Configuration: Startable:** Mit diesem Flag kann gesteuert werden, ob der Prozess unter "Vorgang starten" in 
+  der DigiWF-Taskliste angezeigt wird. Für Prozessbausteine sollte dieses deaktiviert werden.
+  
 
 ![Example Process](~@source/modeling/processes/modeling/example_process.png)
 
@@ -26,12 +29,27 @@ DigiWF speichert in der Prozessinstanz verschiedene Variablen, die für die Mode
 - **starterOfInstance:** Der Benutzer, der die Prozessinstanz über die DigiWF Taskliste gestartet hat.
 - **app_file_context:** Der Kontext, in dem die Datei hochgeladen werden.
 - **app_task_tag:** Der Tag, der für die Aufgabe (Usertask) gesetzt wurde und nach dem gefiltert werden kann. Die Variable ist standardmäßig leer und muss in der Modellierung bei Bedarf gesetzt werden.
+- **app_process_status:** Bezeichnung des aktuellen Status, in der sich die Prozessinstanz befindet
+- **app_process_start_date:** Startzeitpunkt der Prozessinstanz (Nicht zu verwechseln mit Antragseingang)
 
 ::: warning
 Die folgenden Variablen stehen ebenfalls zur Verfügung, sollten aber nicht verwendet werden, da sie bald abgeschafft
 werden.
 :::
 
-- **app_process_status:** Bezeichung des aktuellen Status, in der sich die Prozessinstanz befindet
-- **app_process_status_key:** Key des aktuellen Status, in der sich die Prozessinstanz befindet
+- **app_process_info_id:** Id der aktuellen Prozessinstanz
 - **app_process_description:** Beschreibung der Prozessinstanz die über diese Funktion gesetzt werden kann
+
+## Best Practices
+
+### Der Start von Prozessen sollte immer asynchrone sein
+
+In der Regel sollte der Start eines Prozesses, egal ob None/Message/Timer-Event, mit Async-After konfiguriert werden. 
+Dadurch wird der Prozess korrekt in der Datenbank abgelegt, bevor eine weitere Activity ausgeführt wird. Dies ist notwendig, da sonst 
+ein Fehler in einer folgenden Activity, z.B. Skript-Task, zum kompletten Abbruch des Prozess-Starts führt und somit nicht in der Datenbank 
+gespeichert wird.
+
+![Example Process](~@source/modeling/processes/modeling/async-start.png)
+
+Dieses Verhalten kann man sich aber auch zunutze machen, falls die Eingangsparameter über Skripte oder andere synchrone Checks geprüft werden müssen.
+In dem Fall sollte der Asnyc-After nach der Check-Activity gesetzt werden. 

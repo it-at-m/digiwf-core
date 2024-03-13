@@ -31,17 +31,6 @@
 
       {{ username }}
 
-      <v-btn
-        aria-label="Avatar Icon"
-        text
-        fab
-      >
-        <v-icon
-          aria-label="Avatar Icon"
-          class="white--text">
-          mdi-account-circle
-        </v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -180,14 +169,13 @@ a {
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
-import { InfoTO, ServiceInstanceTO, UserTO, } from "@muenchen/digiwf-engine-api-internal";
+import {Component, Watch} from "vue-property-decorator";
+import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
-import ContrastModeSelection from "./components/UI/ContrastModeSelection.vue";
-import StageInfoService, { StageInfo} from "./api/StageInfoService";
+import StageInfoService, {StageInfo} from "./api/StageInfoService";
 
 @Component({
   components: {AppHelpMenu, AppMenuList}
@@ -228,7 +216,7 @@ export default class App extends Vue {
 
   @Watch("$store.state.user.info")
   setUserName(user: UserTO): void {
-    this.username = user.forename + " " + user.surname;
+    this.username = user.forename && user.surname ? user.forename + " " + user.surname : "";
     // if session is not valid, user is updated to an empty object in redux store
     this.loggedIn = !!user.username;
   }

@@ -1,0 +1,55 @@
+{
+    "key": "abschluss-demo",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "",
+        "allOf": [
+            {
+                "title": " ",
+                "description": "",
+                "type": "object",
+                "key": "ec157da6-ec0e-4c49-bf18-3621e84de4e4",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": " ",
+                        "description": "",
+                        "key": "2d669b05-5fcb-4570-9c6a-07d4b8be2c29",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "456f557b-a9fb-4d46-9ac8-48b8abdbcf4b": {
+                                "fieldType": "markdown",
+                                "title": "Abschluss DigiWF-erleben",
+                                "type": "string",
+                                "x-display": "markdown",
+                                "default": "Herzlichen Glückwunsch, Sie haben die Demo *digiwf-erleben* erfolgreich abgeschlossen! Für weiterführende Informationen und eine detaillierte Dokumentation von DigiWF besuchen Sie bitte unsere Webseite unter [https://digiwf.oss.muenchen.de/](https://digiwf.oss.muenchen.de/). Speziell für die Prozessmodellierung empfehlen wir Ihnen unser Prozess Modellierungshandbuch, das Sie unter [https://digiwf.oss.muenchen.de/modeling/](https://digiwf.oss.muenchen.de/modeling/) finden können. Dort erhalten Sie wertvolle Einblicke und Anleitungen, um Ihre Prozesse optimal zu gestalten.",
+                                "key": "456f557b-a9fb-4d46-9ac8-48b8abdbcf4b",
+                                "readOnly": true,
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

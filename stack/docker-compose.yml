@@ -34,6 +34,23 @@ services:
     networks:
       - internal
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - '8089:8080'
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - internal
+
+
   init-kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -52,10 +69,10 @@ services:
       echo -e 'Creating kafka topics...'
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_TASKS} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_DATA_ENTRIES} --replication-factor 1 --partitions 1
-
+      
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION_DEPLOY} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION} --replication-factor 1 --partitions 1
-
+      
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE_DLQ} --replication-factor 1 --partitions 1
       
@@ -69,8 +86,10 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_COSYS_INTEGRATION} --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1  
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1     
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_MUCS_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_DMS_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_TICKET_INTEGRATION} --replication-factor 1 --partitions 1  
 
       echo -e 'Resulting topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
@@ -190,6 +209,16 @@ services:
     networks:
       - local-keycloak
 
+  pgadmin:
+    image: dpage/pgadmin4:8.2
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: digiwf@muenchen.de
+      PGADMIN_DEFAULT_PASSWORD: test
+    networks:
+      - internal
+
   postgres-engine:
     image: postgres:13.2
     container_name: digiwf-postgres-engine
@@ -236,6 +265,27 @@ services:
     networks:
       - local-keycloak
 
+  # enable the cocreation deployment with --profile cocreation if you don't want to run it locally
+  digiwf-cocreation-deployment:
+    image: itatm/digiwf-cocreation-deployment-service:dev
+    ports:
+      - "9010:8080"
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    profiles:
+      - cocreation
+    env_file:
+      - './local-docker.env'
+    environment:
+      SPRING_PROFILES_ACTIVE: "local"
+      ENGINE_HOST: "http://host.docker.internal"
+#      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
+      SSO_BASE_URL: "http://host.docker.internal:8080/auth"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
 
 networks:
   local-keycloak:
