@@ -1,9 +1,9 @@
 import { defineCustomElement } from "vue";
 
-import DigiWFWidgetCustomElement from "@/digiwf-widget.ce.vue";
+import DigiWFServiceInstancesVueComponent from "@/digiwf-service-instances-webcomponent.ce.vue";
 
 // convert into custom element constructor
-const DigiWFWidget = defineCustomElement(DigiWFWidgetCustomElement);
+const DigiWFServiceInstancesWebComponent = defineCustomElement(DigiWFServiceInstancesVueComponent);
 
 // register
-customElements.define("digiwf-widget", DigiWFWidget);
+customElements.define("digiwf-service-instances-webcomponent", DigiWFServiceInstancesWebComponent);

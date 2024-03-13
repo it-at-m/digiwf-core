@@ -38,8 +38,8 @@ useAPI(digiWfBaseUrl, accessToken);
 :host {
   @extend :root;
   font-family: var(
-    --lhm-widget-font-family,
-    var(--lhm-widget-font-family-default)
+    --digiwf-webcomponent-font-family,
+    var(--digiwf-webcomponent-font-family-default)
   );
 }
 </style>
