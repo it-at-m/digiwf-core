@@ -15,12 +15,13 @@ import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceDefinitio
 import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceStartContextService;
 import de.muenchen.oss.digiwf.process.instance.process.properties.S3Properties;
 import de.muenchen.oss.digiwf.shared.exception.IllegalResourceAccessException;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,6 +32,7 @@ import static de.muenchen.oss.digiwf.process.instance.process.ProcessConstants.P
 
 @Slf4j
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class ServiceDefinitionFacade {
 

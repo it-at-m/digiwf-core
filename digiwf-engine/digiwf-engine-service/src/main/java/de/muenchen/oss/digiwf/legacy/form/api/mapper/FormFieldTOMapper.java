@@ -57,10 +57,7 @@ public abstract class FormFieldTOMapper implements BaseTOMapper<FormFieldTO, For
             return false;
         }
         // allow values formerly persisted
-        if (to.isReadonly()) {
-            return false;
-        }
-        return true;
+        return !to.isReadonly();
     }
 
     private void addSanitaryRule(final FormFieldTO to) {

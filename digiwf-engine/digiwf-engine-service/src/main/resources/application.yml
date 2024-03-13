@@ -1,7 +1,7 @@
 info:
   application:
-    name: @project.artifactId@
-    version: 0.1.0
+    name: '@project.artifactId@'
+    version: '@project.version@'
 camunda:
   bpm:
     authorization:

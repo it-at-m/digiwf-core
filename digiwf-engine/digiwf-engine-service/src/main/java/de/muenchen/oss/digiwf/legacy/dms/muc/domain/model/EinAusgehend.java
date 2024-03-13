@@ -8,5 +8,5 @@ package de.muenchen.oss.digiwf.legacy.dms.muc.domain.model;
  * EinAusgehend ist der Dokumententyp im DMS (Incoming, Outgoing)
  */
 public enum EinAusgehend {
-    EINGEHEND, AUSGEHEND;
+    EINGEHEND, AUSGEHEND
 }

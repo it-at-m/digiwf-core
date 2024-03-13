@@ -116,6 +116,37 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "system": {
+                "fieldType": "select",
+                "title": "Dms System",
+                "type": "string",
+                "key": "system",
+                "default": "mucsDmsIntegration",
+                "anyOf": [
+                  {
+                    "title": "mucs",
+                    "const": "mucsDmsIntegration"
+                  },
+                  {
+                    "title": "alw",
+                    "const": "alwDmsIntegration"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"

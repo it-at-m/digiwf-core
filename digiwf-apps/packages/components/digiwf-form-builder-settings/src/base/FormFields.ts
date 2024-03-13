@@ -919,7 +919,8 @@ export const dmsInputSchema = (labels: Labels) => {
     "title": `${labels.dmsSystem}`,
     "default": "mucs",
     "enum": [
-      "mucs"
+      "mucs",
+      "alw"
     ],
     "x-props": {
       "outlined": true,
@@ -937,14 +938,14 @@ export const dmsInputSchema = (labels: Labels) => {
   (schema.allOf[0].properties as any)["objectclass"] = {
     "type": "string",
     "title": `${labels.dmsObjectClass}`,
-    "default": `${labels.dmsSchriftstueck}`,
+    "default": "Schriftstueck",
     "enum": [
-      `${labels.dmsSachakte}`,
-      `${labels.dmsVorgang}`,
-      `${labels.dmsEingang}`,
-      `${labels.dmsAusgang}`,
-      `${labels.dmsIntern}`,
-      `${labels.dmsSchriftstueck}`,
+      "Sachakte",
+      "Vorgang",
+      "Eingang",
+      "Ausgang",
+      "Intern",
+      "Schriftstueck"
     ],
     "x-props": {
       "outlined": true,

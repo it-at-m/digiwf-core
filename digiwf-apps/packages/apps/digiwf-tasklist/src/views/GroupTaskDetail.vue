@@ -151,6 +151,9 @@ export default class GroupTaskDetail extends Vue {
   @Provide('mucsDmsApiEndpoint')
   mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
 
+  @Provide('alwDmsApiEndpoint')
+  alwDmsApiEndpoint = ApiConfig.alwDmsBase;
+
   created() {
     this.isLoading = true;
     loadTask(this.id)

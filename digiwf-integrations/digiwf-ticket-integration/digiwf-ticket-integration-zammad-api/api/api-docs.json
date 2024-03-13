@@ -1,0 +1,1442 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MPdZ Ticketing EAI API",
+    "description": "Zammad vorgeschaltete EAI, über die die Kommunikation anderer Systeme mit Zammad abläuft.\n\nHas two subsets of API - one <b>internal</b> and one <b>external</b>. The external API are Endpoints that are exposed via API-Gateways to the internet,while the internal API is being used solely by internal services.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://mpdz-ticketing-eai-dev-mpdz-ticketing-eai.apps.capk.muenchen.de",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Articles",
+      "description": "Reading and Creating Articles in Zammad."
+    },
+    {
+      "name": "Users",
+      "description": "Endpoints regarding the reading and creating of Users in Zammad."
+    },
+    {
+      "name": "Tickets",
+      "description": "Reading and Creating Tickets in Zammad."
+    },
+    {
+      "name": "Actuator",
+      "description": "Monitor and interact",
+      "externalDocs": {
+        "description": "Spring Boot Actuator Web API Documentation",
+        "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+      }
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Find user in Zammad by lhmExtId.",
+        "description": "Authorization: READ_USERS",
+        "operationId": "getUserByLhmExtId",
+        "parameters": [
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update an existing User with new Data",
+        "description": "Authorization: WRITE_USERS",
+        "operationId": "updateUserWithUserId",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new User (optionally with lhmExtId)",
+        "description": "Authorization: WRITE_USERS\n\nSemantically, the presence of lhmExtId means that it is a registered citizen; the absence of lhmExtId means that the citizen is/was not registered.",
+        "operationId": "createUserWithLhmExtId",
+        "parameters": [
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/tickets": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Get all Tickets by user.",
+        "description": "User must be identified  by lhmExtID OR lhmObjectID.\nExposes all available attributes.\n\nAuthorization: READ_TICKETS",
+        "operationId": "getAllTicketsByUser",
+        "parameters": [
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "description": "One of lhmExtID or lhmObjectID must be set.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmObjectID",
+            "in": "header",
+            "description": "One of lhmExtID or lhmObjectID must be set.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authlevel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "level1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketInternal"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Create a new Ticket.",
+        "description": "Customer must be identified by specifying lhmExtID in Header.\nExposes all available attributes.\n\nAuthorization: WRITE_TICKETS",
+        "operationId": "createNewTicket",
+        "parameters": [
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "description": "lhmExtID of customer must be set.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketInternal"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/tickets/{ticketID}/articles": {
+      "post": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Create a new Article for a given Ticket.",
+        "description": "User can be identified  by lhmExtId OR lhmObjectID. Anonymous access also possible.\nExposes all available attributes.\n\n⚠ Internal Articles can only be created by users with at least an \"Agent\"-Role in Zammad. When giving a user-context, make sure the user has the appropriate rights.\n\nAuthorization: WRITE_TICKETS\n",
+        "operationId": "createNewArticle",
+        "parameters": [
+          {
+            "name": "ticketID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmObjectID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateArticleDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Article"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/tickets/{ticketId}": {
+      "patch": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Update Ticket.",
+        "description": "User can be identified  by lhmExtId OR lhmObjectID. Anonymous access also possible.\nExposes all available attributes.\n\nAuthorization: WRITE_TICKETS",
+        "operationId": "updateTicket",
+        "parameters": [
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "description": "One of lhmExtID or lhmObjectID can be set.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmObjectID",
+            "in": "header",
+            "description": "One of lhmExtID or lhmObjectID can be set.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketInternal"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/tickets/byNummer/{ticketNumber}": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Get specific Ticket by Ticket-Nummer.",
+        "description": "User can be identified  by lhmExtId OR lhmObjectID. Anonymous access also possible.\nExposes all available attributes.\n\nAuthorization: READ_TICKETS",
+        "operationId": "getTicketByNumberWithUser",
+        "parameters": [
+          {
+            "name": "ticketNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmObjectID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authlevel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "level1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketInternal"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/tickets/byId/{ticketID}": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Get specific Ticket by Ticket-ID.",
+        "description": "User can be identified by lhmExtId OR lhmObjectID. Anonymous access also possible.\nExposes all available attributes.\n\nAuthorization: READ_TICKETS",
+        "operationId": "getTicketByIdWithUser",
+        "parameters": [
+          {
+            "name": "ticketID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmExtID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lhmObjectID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authlevel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "level1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketInternal"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mpdz-ticketing-eai-secscheme": []
+          }
+        ]
+      }
+    },
+    "/actuator": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator root web endpoint",
+        "operationId": "links",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/metrics": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'prometheus'",
+        "operationId": "prometheus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain;version=0.0.4;charset=utf-8": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/openmetrics-text;version=1.0.0;charset=utf-8": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/info": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'info'",
+        "operationId": "info",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/health": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'health'",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/health/**": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'health-path'",
+        "operationId": "health-path",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateUserDTO": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "lhmextid": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "organization_id": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "lhmextid": {
+            "type": "string"
+          },
+          "image": {
+            "type": "object"
+          },
+          "image_source": {
+            "type": "object"
+          },
+          "web": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "fax": {
+            "type": "string"
+          },
+          "mobile": {
+            "type": "string"
+          },
+          "department": {
+            "type": "object"
+          },
+          "street": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object"
+          },
+          "vip": {
+            "type": "boolean"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string"
+          },
+          "last_login": {
+            "type": "object"
+          },
+          "source": {
+            "type": "object"
+          },
+          "login_failed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "out_of_office": {
+            "type": "boolean"
+          },
+          "out_of_office_start_at": {
+            "type": "object"
+          },
+          "out_of_office_end_at": {
+            "type": "object"
+          },
+          "out_of_office_replacement_id": {
+            "type": "object"
+          },
+          "updated_by_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_by_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "role_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "organization_ids": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "authorization_ids": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "karma_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "group_ids": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AttachmentDTO": {
+        "type": "object",
+        "properties": {
+          "mime-type": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateTicketArticleDTO": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentDTO"
+            }
+          }
+        }
+      },
+      "CreateTicketDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "anliegenart": {
+            "type": "string"
+          },
+          "vertrauensniveau": {
+            "type": "string"
+          },
+          "verwendeter_idp_bei_ticketerstellung": {
+            "type": "string"
+          },
+          "direktkennwort": {
+            "type": "string"
+          },
+          "article": {
+            "$ref": "#/components/schemas/CreateTicketArticleDTO"
+          }
+        }
+      },
+      "ArticleAttachment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          },
+          "mime-type": {
+            "type": "string"
+          },
+          "preferences": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "writeOnly": true
+          }
+        }
+      },
+      "ArticleInternal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticket_id": {
+            "type": "string"
+          },
+          "type_id": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "reply_to": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleAttachment"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "email",
+              "phone",
+              "web",
+              "note",
+              "sms",
+              "chat",
+              "fax"
+            ]
+          },
+          "sender": {
+            "type": "string",
+            "enum": [
+              "Agent",
+              "Customer",
+              "System"
+            ]
+          },
+          "from": {
+            "type": "string"
+          },
+          "sender_id": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "cc": {
+            "type": "string"
+          },
+          "message_id": {
+            "type": "string"
+          },
+          "message_id_md5": {
+            "type": "string"
+          },
+          "in_reply_to": {
+            "type": "string"
+          },
+          "references": {
+            "type": "string"
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "updated_by_id": {
+            "type": "string"
+          },
+          "created_by_id": {
+            "type": "string"
+          },
+          "origin_by_id": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          }
+        }
+      },
+      "TicketInternal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "group_id": {
+            "type": "string"
+          },
+          "priority_id": {
+            "type": "string"
+          },
+          "state_id": {
+            "type": "string"
+          },
+          "state_external": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "customer_id": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "close_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "article_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "article_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "organization_id": {
+            "type": "string"
+          },
+          "owner_id": {
+            "type": "string"
+          },
+          "first_response_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "first_response_escalation_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "first_response_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "first_response_diff_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "close_escalation_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "close_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "close_diff_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "update_escalation_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "update_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "update_diff_in_min": {
+            "type": "number",
+            "format": "double"
+          },
+          "last_close_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_contact_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_contact_agent_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_contact_customer_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_owner_update_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "create_article_type_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "create_article_sender_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "escalation_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pending_time": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "time_unit": {
+            "type": "string"
+          },
+          "preferences": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "updated_by_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_by_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vertrauensniveau": {
+            "type": "string"
+          },
+          "verwendeter_idp_bei_ticketerstellung": {
+            "type": "string"
+          },
+          "direktkennwort": {
+            "type": "string"
+          },
+          "ticket_time_accounting_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "state": {
+            "type": "string"
+          },
+          "articles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleInternal"
+            }
+          }
+        }
+      },
+      "CreateArticleDTO": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "email",
+              "phone",
+              "web",
+              "note",
+              "sms",
+              "chat",
+              "fax"
+            ]
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "sender": {
+            "type": "string",
+            "enum": [
+              "Agent",
+              "Customer",
+              "System"
+            ]
+          },
+          "time_unit": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "cc": {
+            "type": "string"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleAttachment"
+            }
+          }
+        }
+      },
+      "Article": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticket_id": {
+            "type": "string"
+          },
+          "type_id": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "reply_to": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleAttachment"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "email",
+              "phone",
+              "web",
+              "note",
+              "sms",
+              "chat",
+              "fax"
+            ]
+          },
+          "sender": {
+            "type": "string",
+            "enum": [
+              "Agent",
+              "Customer",
+              "System"
+            ]
+          },
+          "from": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateTicketArticleDTO": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "email",
+              "phone",
+              "web",
+              "note",
+              "sms",
+              "chat",
+              "fax"
+            ]
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentDTO"
+            }
+          }
+        }
+      },
+      "UpdateTicketDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "group_id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "open",
+              "pending reminder",
+              "pending close",
+              "closed"
+            ]
+          },
+          "pending_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "article": {
+            "$ref": "#/components/schemas/UpdateTicketArticleDTO"
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "hreflang": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "deprecation": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "templated": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

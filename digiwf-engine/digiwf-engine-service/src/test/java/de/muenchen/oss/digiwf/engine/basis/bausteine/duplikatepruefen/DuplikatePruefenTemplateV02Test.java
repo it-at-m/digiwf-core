@@ -42,7 +42,7 @@ public class DuplikatePruefenTemplateV02Test {
 
 
   @RegisterExtension
-  private ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+  private final ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
       .configurationResource("camunda.cfg.xml")
       .build();
 

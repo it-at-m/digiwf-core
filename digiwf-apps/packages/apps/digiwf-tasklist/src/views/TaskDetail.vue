@@ -234,6 +234,9 @@ export default class TaskDetail extends SaveLeaveMixin {
   @Provide('mucsDmsApiEndpoint')
   mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
 
+  @Provide('alwDmsApiEndpoint')
+  alwDmsApiEndpoint = ApiConfig.alwDmsBase;
+
   formFields = {}
 
   created() {

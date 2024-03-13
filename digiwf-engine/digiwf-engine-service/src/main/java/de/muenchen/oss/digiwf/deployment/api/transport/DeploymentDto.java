@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.deployment.api.transport;
 
 import lombok.*;
 
+@Deprecated
 @Data
 @Builder
 @ToString

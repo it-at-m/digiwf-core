@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+
+  wiremock-zammad:
+    image: wiremock/wiremock
+    container_name: wiremock-zammad
+    ports:
+      - "9998:8080"
+    volumes:
+      - ./zammad:/home/wiremock
+    restart: on-failure

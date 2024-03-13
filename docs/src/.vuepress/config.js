@@ -72,10 +72,6 @@ module.exports = {
                         link: '/integrations/'
                     },
                     {
-                        text: 'APIs',
-                        link: '/apis/',
-                    },
-                    {
                         text: 'Release Notes',
                         link: 'https://github.com/it-at-m/digiwf-core/releases'
                     }
@@ -109,6 +105,7 @@ module.exports = {
                                 'components/connector',
                                 'components/tasks',
                                 'components/frontend',
+                                'components/deployment'
                             ]
                         },
                         {
@@ -187,6 +184,7 @@ module.exports = {
                                 'forms/fields/',
                                 'forms/objects/',
                                 'forms/optional-content/',
+                                'forms/links/',
                                 'forms/accessibility/'
                             ]
                         },
@@ -204,6 +202,7 @@ module.exports = {
                             children: [
                                 'guides/modeling-first-process/',
                                 'guides/form-v1-auf-v2/',
+                                'guides/element-template-migration/',
                             ]
                         },
                         {
@@ -213,22 +212,6 @@ module.exports = {
                                 'templates/bpmn/',
                                 'templates/element-templates/',
                                 'templates/examples/'
-                            ]
-                        }
-                    ],
-                    '/apis/': [
-                        {
-                            title: 'Rest',
-                            collapsable: false,
-                            children: [
-                                'rest/',
-                            ]
-                        },
-                        {
-                            title: 'Spring Cloud Stream',
-                            collapsable: false,
-                            children: [
-                                'spring-cloud-stream/',
                             ]
                         }
                     ],
@@ -244,7 +227,8 @@ module.exports = {
                                 'digiwf-mail-integration',
                                 'digiwf-s3-integration',
                                 'digiwf-formserver-integration',
-                                'digiwf-dms-integration'
+                                'digiwf-dms-integration',
+                                'digiwf-ticket-integration'
                             ]
                         },
                         {

@@ -25,4 +25,4 @@ angezeigten Element-Template, der nachfolgenden Liste oder von den [Integrations
 - s3Integration
 - dmsIntegration
 
-![Element-Template-Migration Beispiel](migrate_et_topics_example.png)
+![Element-Template-Migration Beispiel](~@source/modeling/guides/element-template-migration/migrate_et_topics_example.png)

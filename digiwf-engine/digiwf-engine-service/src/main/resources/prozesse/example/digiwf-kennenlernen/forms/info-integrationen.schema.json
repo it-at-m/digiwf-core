@@ -1,0 +1,172 @@
+{
+    "key": "info-integrationen",
+    "schema": {
+        "key": "MyStartForm",
+        "type": "object",
+        "x-display": "",
+        "allOf": [
+            {
+                "key": "sectionKey1",
+                "title": "Basics Usertasks",
+                "type": "object",
+                "x-options": {
+                    "sectionsTitlesClasses": [
+                        "d-none"
+                    ]
+                },
+                "allOf": [
+                    {
+                        "containerType": "group",
+                        "title": "Beschreibung",
+                        "description": "",
+                        "key": "acf8611f-703d-404a-a546-e4f34e1e0f39",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "7f864946-3f62-4f58-9503-b84d794f8eec": {
+                                "fieldType": "markdown",
+                                "title": "Wie funktioniert das Taskmanagment?",
+                                "type": "string",
+                                "x-display": "markdown",
+                                "default": "Das User Task Management von DigiWF ermöglicht es, Aufgaben effizient an einzelne Benutzer oder Benutzergruppen zu verteilen. Sobald eine Benutzeraufgabe erstellt ist, wird dem Benutzer oder der Gruppe eine Aufgabe eingestellt, mit deren Bearbeitung er den Workflow voranzutreiben.",
+                                "key": "7f864946-3f62-4f58-9503-b84d794f8eec",
+                                "readOnly": true,
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    },
+                    {
+                        "containerType": "group",
+                        "title": "Formular",
+                        "description": "",
+                        "key": "831f2c7b-56ce-42d6-8ab6-fb7305da669a",
+                        "x-options": {
+                            "childrenClass": "pl-0"
+                        },
+                        "properties": {
+                            "de6eb258-10bc-403b-a69c-8cf15627e125": {
+                                "fieldType": "markdown",
+                                "title": "Informationen zum Prozess",
+                                "type": "string",
+                                "x-display": "markdown",
+                                "key": "de6eb258-10bc-403b-a69c-8cf15627e125",
+                                "readOnly": true,
+                                "default": "Das User Task Management von DigiWF ermöglicht es, Aufgaben effizient an einzelne Benutzer oder Benutzergruppen zu verteilen. Sobald eine Benutzeraufgabe erstellt ist, wird dem Benutzer oder der Gruppe eine Aufgabe eingestellt, mit deren Bearbeitung er den Workflow voranzutreiben.",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "Integration_mailto": {
+                                "fieldType": "text",
+                                "title": "Empfänger",
+                                "type": "string",
+                                "key": "Integration_mailto",
+                                "default": "johndoe@muenchen.de",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "Integration_subject": {
+                                "fieldType": "text",
+                                "title": "Betreff",
+                                "type": "string",
+                                "key": "Integration_subject",
+                                "default": "DigiWF kennenlernen",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "Integration_Body": {
+                                "fieldType": "textarea",
+                                "title": "Email Text",
+                                "x-display": "textarea",
+                                "type": "string",
+                                "key": "Integration_Body",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
+                            "Integration_attachments": {
+                                "fieldType": "file",
+                                "title": "Email Anhänge",
+                                "x-display": "custom-multi-file-input",
+                                "type": "object",
+                                "properties": {
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "key": "Integration_attachments",
+                                "uuidEnabled": false,
+                                "filePath": "test",
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

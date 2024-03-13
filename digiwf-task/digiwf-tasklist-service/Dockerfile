@@ -1,7 +1,3 @@
-FROM registry.access.redhat.com/ubi8/openjdk-17:latest
-
-EXPOSE 8080
+FROM registry.access.redhat.com/ubi9/openjdk-17:latest
 
 COPY target/*.jar /deployments/spring-boot-application.jar
-
-CMD "java" ${JAVA_OPTIONS} "-jar" "/deployments/spring-boot-application.jar"

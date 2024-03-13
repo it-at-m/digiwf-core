@@ -19,7 +19,8 @@
     "types": [
       "vue",
       "vuetify",
-      "node"
+      "node",
+      "jest"
     ],
     "paths": {
       "@/*": [
