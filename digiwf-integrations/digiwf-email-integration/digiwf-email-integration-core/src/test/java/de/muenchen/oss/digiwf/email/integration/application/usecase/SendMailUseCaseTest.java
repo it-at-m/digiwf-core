@@ -9,8 +9,6 @@ import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
-import freemarker.core.Environment;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.util.ByteArrayDataSource;
