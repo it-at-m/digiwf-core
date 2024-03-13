@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.email.impl;
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.model.Mail;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -21,6 +22,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -93,13 +95,9 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     }
 
     @Override
-    public String getBodyFromTemplate(String templatePath, Map<String, Object> content) {
-        try {
-            Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templatePath);
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template,content);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load file: " + templatePath, e);
-        }
+    public String getBodyFromTemplate(String templateName, Map<String, Object> content) throws IOException, TemplateException {
+        Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templateName);
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template,content);
     }
 
     @Override

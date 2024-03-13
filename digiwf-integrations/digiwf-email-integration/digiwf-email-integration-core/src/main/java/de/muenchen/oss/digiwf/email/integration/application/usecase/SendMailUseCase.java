@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
+import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.val;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,31 +63,38 @@ public class SendMailUseCase implements SendMail {
     @Override
     public void sendMailWithTemplate(final String processInstanceIde, final String type, final String integrationName, @Valid final MailWithTemplate mail) throws BpmnError {
         // get body from template
-        Map<String, Object> content = new HashMap<>();
-        content.put("mail",mail);
-        content.put("footer", "DigiWF 2.0<br>IT-Referat der Stadt München");
-        String body = this.mailPort.getBodyFromTemplate(mail.getTemplate(), content);
+        try {
+            Map<String, Object> content = new HashMap<>();
+            content.put("mail", mail);
+            content.put("footer", "DigiWF 2.0<br>IT-Referat der Stadt München");
+            String body = this.mailPort.getBodyFromTemplate(mail.getTemplate(), content);
 
-        // load Attachments
-        final List<FileAttachment> attachments = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
-            for (val attachment : mail.getAttachments()) {
-                attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
+            // load Attachments
+            final List<FileAttachment> attachments = new ArrayList<>();
+            if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
+                for (val attachment : mail.getAttachments()) {
+                    attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
+                }
             }
-        }
 
-        // send mail
-        final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
-                .receivers(mail.getReceivers())
-                .subject(mail.getSubject())
-                .body(body)
-                .htmlBody(true)
-                .replyTo(mail.getReplyTo())
-                .receiversCc(mail.getReceiversCc())
-                .receiversBcc(mail.getReceiversBcc())
-                .attachments(attachments)
-                .build();
-        this.sendMail(processInstanceIde,type,integrationName,mailModel);
+            // send mail
+            final de.muenchen.oss.digiwf.email.model.Mail mailModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
+                    .receivers(mail.getReceivers())
+                    .subject(mail.getSubject())
+                    .body(body)
+                    .htmlBody(true)
+                    .replyTo(mail.getReplyTo())
+                    .receiversCc(mail.getReceiversCc())
+                    .receiversBcc(mail.getReceiversBcc())
+                    .attachments(attachments)
+                    .build();
+            this.sendMail(processInstanceIde,type,integrationName,mailModel);
+
+        } catch (IOException ioException) {
+            throw new BpmnError("LOAD_TEMPLATE_FAILED", "The template " + mail.getTemplate() + " could not be loaded");
+        } catch (TemplateException templateException) {
+            throw new BpmnError("FILLING_TEMPLATE_FAILED", templateException.getMessage());
+        }
     }
 
     private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel) throws BpmnError {
