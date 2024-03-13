@@ -26,12 +26,12 @@ const props = withDefaults(
 <style scoped>
 .list-group-item {
   --cui-list-group-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
   --cui-list-group-bg: var(
-    --lhm-widget-color-background,
-    var(--lhm-widget-color-background-default)
+    --digiwf-webcomponent-color-background,
+    var(--digiwf-webcomponent-color-background-default)
   );
 }
 </style>

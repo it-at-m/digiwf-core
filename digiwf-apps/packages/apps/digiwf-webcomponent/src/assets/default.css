@@ -1,10 +1,10 @@
 :host {
-  --lhm-widget-color-primary-default: #fc0;
-  --lhm-widget-color-text-default: #444;
-  --lhm-widget-color-icon-default: #FC0;
-  --lhm-widget-color-background-default: white;
-  --lhm-widget-color-hover-default: #FDB813;
-  --lhm-widget-font-family-default: Arial, sans-serif;
-  --lhm-widget-border-radius-default: 0px;
-  --lhm-widget-shadow-default: 0px;
+  --digiwf-webcomponent-color-primary-default: #FC0;
+  --digiwf-webcomponent-color-text-default: #444;
+  --digiwf-webcomponent-color-icon-default: #FC0;
+  --digiwf-webcomponent-color-background-default: #FFF;
+  --digiwf-webcomponent-color-hover-default: #FDB813;
+  --digiwf-webcomponent-font-family-default: Arial, sans-serif;
+  --digiwf-webcomponent-border-radius-default: 0px;
+  --digiwf-webcomponent-shadow-default: 0px;
 }
