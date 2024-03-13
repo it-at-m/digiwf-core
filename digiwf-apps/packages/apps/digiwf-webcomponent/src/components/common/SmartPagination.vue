@@ -139,43 +139,43 @@ nav :deep(ul.pagination) {
 }
 svg {
   color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
 }
 .page-item {
   --cui-pagination-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
   --cui-pagination-focus-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
   --cui-pagination-active-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
   --cui-pagination-border-width: none;
   --cui-pagination-border-radius: var(
-    --lhm-widget-border-radius,
-    var(--lhm-widget-border-radius-default)
+    --digiwf-webcomponent-border-radius,
+    var(--digiwf-webcomponent-border-radius-default)
   );
   --cui-pagination-bg: var(
-    --lhm-widget-color-primary,
-    var(--lhm-widget-color-primary-default)
+    --digiwf-webcomponent-color-primary,
+    var(--digiwf-webcomponent-color-primary-default)
   );
   --cui-pagination-hover-bg: var(
-    --lhm-widget-color-hover,
-    var(--lhm-widget-color-hover-default)
+    --digiwf-webcomponent-color-hover,
+    var(--digiwf-webcomponent-color-hover-default)
   );
   --cui-pagination-active-bg: var(
-    --lhm-widget-color-hover,
-    var(--lhm-widget-color-hover-default)
+    --digiwf-webcomponent-color-hover,
+    var(--digiwf-webcomponent-color-hover-default)
   );
   --cui-pagination-focus-bg: var(
-    --lhm-widget-color-hover,
-    var(--lhm-widget-color-hover-default)
+    --digiwf-webcomponent-color-hover,
+    var(--digiwf-webcomponent-color-hover-default)
   );
 }
 </style>

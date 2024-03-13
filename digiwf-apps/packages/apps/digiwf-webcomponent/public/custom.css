@@ -1,12 +1,12 @@
 :root {
-  --lhm-widget-color-primary: orange;
-  --lhm-widget-color-text: blue;
-  --lhm-widget-color-icon: green;
-  --lhm-widget-color-background: lightblue;
-  --lhm-widget-color-hover: red;
-  --lhm-widget-font-family: Arial, sans-serif;
-  --lhm-widget-border-radius: 100px;
-  --lhm-widget-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+  --digiwf-webcomponent-color-primary: red;
+  --digiwf-webcomponent-color-text: blue;
+  --digiwf-webcomponent-color-icon: green;
+  --digiwf-webcomponent-color-background: lightblue;
+  --digiwf-webcomponent-color-hover: red;
+  --digiwf-webcomponent-font-family: Arial, sans-serif;
+  --digiwf-webcomponent-border-radius: 100px;
+  --digiwf-webcomponent-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }

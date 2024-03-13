@@ -146,71 +146,71 @@ const frontendURL = computed(() => {
 <style scoped>
 .spinner-border {
   color: var(
-    --lhm-widget-color-icon,
-    var(--lhm-widget-color-icon-default)
+    --digiwf-webcomponent-color-icon,
+    var(--digiwf-webcomponent-color-icon-default)
   ) !important;
 }
 svg {
   color: var(
-    --lhm-widget-color-icon,
-    var(--lhm-widget-color-icon-default)
+    --digiwf-webcomponent-color-icon,
+    var(--digiwf-webcomponent-color-icon-default)
   );
 }
 .btn-undefined > svg {
   color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
 
 }
 .card {
   --cui-card-cap-bg: var(
-    --lhm-widget-color-background,
-    var(--lhm-widget-color-background-default)
+    --digiwf-webcomponent-color-background,
+    var(--digiwf-webcomponent-color-background-default)
   );
   --cui-card-border-radius: var(
-    --lhm-widget-border-radius,
-    var(--lhm-widget-border-radius-default)
+    --digiwf-webcomponent-border-radius,
+    var(--digiwf-webcomponent-border-radius-default)
   );
   --cui-card-inner-border-radius: var(
-    --lhm-widget-border-radius,
-    var(--lhm-widget-border-radius-default)
+    --digiwf-webcomponent-border-radius,
+    var(--digiwf-webcomponent-border-radius-default)
   );
   --cui-card-box-shadow: var(
-    --lhm-widget-shadow,
-    var(--lhm-widget-shadow-default)
+    --digiwf-webcomponent-shadow,
+    var(--digiwf-webcomponent-shadow-default)
   );
 }
 .card-header {
   --cui-heading-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
 }
 .btn {
   --cui-btn-box-shadow: none;
   --cui-btn-color: var(
-    --lhm-widget-color-text,
-    var(--lhm-widget-color-text-default)
+    --digiwf-webcomponent-color-text,
+    var(--digiwf-webcomponent-color-text-default)
   );
   --cui-btn-border-radius: var(
-    --lhm-widget-border-radius,
-    var(--lhm-widget-border-radius-default)
+    --digiwf-webcomponent-border-radius,
+    var(--digiwf-webcomponent-border-radius-default)
   );
   --cui-btn-border-width: none;
 }
 .btn-undefined {
   --cui-btn-bg: var(
-    --lhm-widget-color-primary,
-    var(--lhm-widget-color-primary-default)
+    --digiwf-webcomponent-color-primary,
+    var(--digiwf-webcomponent-color-primary-default)
   );
   --cui-btn-hover-bg: var(
-    --lhm-widget-color-hover,
-    var(--lhm-widget-color-hover-default)
+    --digiwf-webcomponent-color-hover,
+    var(--digiwf-webcomponent-color-hover-default)
   );
   --cui-btn-active-bg: var(
-    --lhm-widget-color-hover,
-    var(--lhm-widget-color-hover-default)
+    --digiwf-webcomponent-color-hover,
+    var(--digiwf-webcomponent-color-hover-default)
   );
 }
 </style>
