@@ -1,13 +1,10 @@
 package de.muenchen.oss.digiwf.email.integration.model;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Data
-@RequiredArgsConstructor
-@AllArgsConstructor
 public class MailWithTemplate extends Mail{
 
     /**
@@ -32,4 +29,11 @@ public class MailWithTemplate extends Mail{
      */
     private String buttonLink;
 
+    public MailWithTemplate(String receivers, String receiversCc, String receiversBcc, String subject, String body, String replyTo, List<PresignedUrl> attachments, String template, String bottomBody, String buttonText, String buttonLink) {
+        super(receivers,receiversCc,receiversBcc,subject,body,replyTo,attachments);
+        this.template = template;
+        this.bottomBody = bottomBody;
+        this.buttonText = buttonText;
+        this.buttonLink = buttonLink;
+    }
 }
