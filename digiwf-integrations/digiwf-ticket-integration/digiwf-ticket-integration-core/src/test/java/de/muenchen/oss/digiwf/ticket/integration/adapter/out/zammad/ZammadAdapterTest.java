@@ -68,7 +68,8 @@ class ZammadAdapterTest {
         final AttachmentDTO attachmentDTO = new AttachmentDTO();
         attachmentDTO.setFilename("file");
         attachmentDTO.setMimeType("text/plain");
-        attachmentDTO.setData("data");
+        final String base64Data = java.util.Base64.getEncoder().encodeToString("data".getBytes());
+        attachmentDTO.setData(base64Data);
         articleDTO.attachments(List.of(attachmentDTO));
         updateTicketDTO.setArticle(articleDTO);
         updateTicketDTO.setState(UpdateTicketDTO.StateEnum.OPEN);

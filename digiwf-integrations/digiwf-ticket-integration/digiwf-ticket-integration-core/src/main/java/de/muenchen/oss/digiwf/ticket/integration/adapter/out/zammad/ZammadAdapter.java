@@ -44,7 +44,9 @@ public class ZammadAdapter implements TicketOutPort {
             val attachmentDTO = new AttachmentDTO();
             attachmentDTO.setFilename(file.getName());
             attachmentDTO.setMimeType(file.getMimeType());
-            attachmentDTO.setData(file.getData());
+            // file attachments have to be base64 encoded
+            final String base64Data = java.util.Base64.getEncoder().encodeToString(file.getData().getBytes());
+            attachmentDTO.setData(base64Data);
             attachmentDTOS.add(attachmentDTO);
         });
         if (!attachmentDTOS.isEmpty()) {
