@@ -9,6 +9,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Validated
@@ -23,6 +24,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
     public String createDocument(
             final String procedureCOO,
             final String title,
+            final LocalDate date,
             final String user,
             final DocumentType type,
             final List<String> filepaths,
@@ -31,7 +33,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
 
         final List<Content> contents = loadFilePort.loadFiles(filepaths, fileContext);
 
-        final Document document = new Document(procedureCOO, title, type, contents);
+        final Document document = new Document(procedureCOO, title, date, type, contents);
 
         return createDocumentPort.createDocument(document, user);
 

@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "title": {
                 "fieldType": "text",
@@ -59,7 +61,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "apentryCOO": {
                 "fieldType": "text",
@@ -77,7 +81,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "user": {
                 "fieldType": "text",
@@ -95,7 +101,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "system": {
                 "fieldType": "select",
