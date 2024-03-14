@@ -38,7 +38,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "firstCoo": {
                 "fieldType": "text",
@@ -56,7 +58,9 @@
                   "outlined": true,
                   "dense": false
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "sachakten": {
                 "fieldType": "array",
@@ -78,7 +82,9 @@
                   "outlined": true,
                   "dense": false
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"
