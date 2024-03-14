@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +63,7 @@ public class S3Adapter implements LoadFilePort {
             final Tika tika = new Tika();
             final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3, domainSpecificS3Storage);
             final String mimeType = tika.detect(bytes);
-            final String filename = FilenameUtils.getBaseName(filepath);
+            final String filename = FilenameUtils.getName(filepath);
 
             // check if mimeType exists
             supportedExtensions
@@ -73,7 +72,7 @@ public class S3Adapter implements LoadFilePort {
                     .findAny()
                     .orElseThrow(() -> new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath));
 
-            return new FileContent(mimeType, filename, new String(bytes, StandardCharsets.UTF_8));
+            return new FileContent(mimeType, filename, bytes);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
                        DocumentStorageClientErrorException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);

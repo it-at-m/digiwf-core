@@ -55,7 +55,7 @@ class ZammadAdapterTest {
         final String ticketId = "123";
         final Article article = new Article("mein text", "123");
         final TicketStatus status = TicketStatus.OPEN;
-        final FileContent fileContent = new FileContent("text/plain", "file", "data");
+        final FileContent fileContent = new FileContent("text/plain", "file", "data".getBytes());
 
         // when
         zammadAdapter.updateTicket(ticketId, article, status, List.of(fileContent));

@@ -45,7 +45,7 @@ class WriteArticleUseCaseTest {
         final TicketStatus status = TicketStatus.OPEN;
         final List<String> filepaths = List.of("test/file/path");
 
-        final FileContent fileContent = new FileContent("text/plain", "file", "content");
+        final FileContent fileContent = new FileContent("text/plain", "file", "content".getBytes());
 
         // when
         when(loadFilePort.loadFiles(filepaths, "processDefinition")).thenReturn(

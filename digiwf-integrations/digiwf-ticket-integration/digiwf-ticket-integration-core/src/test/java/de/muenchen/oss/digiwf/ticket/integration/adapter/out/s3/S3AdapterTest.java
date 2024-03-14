@@ -33,7 +33,7 @@ class S3AdapterTest {
 
 
     // test data
-    private final List<String> filepaths = List.of("path/to/file");
+    private final List<String> filepaths = List.of("path/to/file.txt");
     private final String processDefinition = "processDefinition";
 
     @Test
@@ -50,8 +50,8 @@ class S3AdapterTest {
         assertThat(result).hasSize(1);
         final FileContent fileContent = result.get(0);
         assertThat(fileContent.getMimeType()).isEqualTo("text/plain");
-        assertThat(fileContent.getName()).isEqualTo("file");
-        assertThat(fileContent.getData()).isEqualTo("fileContent");
+        assertThat(fileContent.getName()).isEqualTo("file.txt");
+        assertThat(fileContent.getData()).isEqualTo("fileContent".getBytes());
     }
 
     @Test
@@ -73,8 +73,8 @@ class S3AdapterTest {
         assertThat(result).hasSize(1);
         final FileContent fileContent = result.get(0);
         assertThat(fileContent.getMimeType()).isEqualTo("text/plain");
-        assertThat(fileContent.getName()).isEqualTo("file");
-        assertThat(fileContent.getData()).isEqualTo("fileContent");
+        assertThat(fileContent.getName()).isEqualTo("file.txt");
+        assertThat(fileContent.getData()).isEqualTo("fileContent".getBytes());
     }
 
     @Test
@@ -90,7 +90,7 @@ class S3AdapterTest {
         assertThatThrownBy(() -> s3Adapter.loadFiles(filepaths, processDefinition))
                 .isInstanceOf(BpmnError.class)
                 .extracting("errorCode", "errorMessage")
-                .containsExactly("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: path/to/file");
+                .containsExactly("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: path/to/file.txt");
     }
 
 

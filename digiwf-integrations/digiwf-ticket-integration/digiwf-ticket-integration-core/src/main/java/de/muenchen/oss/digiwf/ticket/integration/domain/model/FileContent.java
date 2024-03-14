@@ -8,6 +8,6 @@ import lombok.Data;
 public class FileContent {
     private String mimeType;
     private String name;
-    private String data;
+    private byte[] data;
 
 }
