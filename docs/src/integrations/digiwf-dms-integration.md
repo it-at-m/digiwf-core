@@ -41,7 +41,7 @@ und über das Feld `apentryCOO` übergeben werden.
 
 Verwenden Sie eines der Element-Templates in einer Call Activity, um die Prozessentwicklung zu beschleunigen und
 befüllen Sie es mit den gewünschten Informationen. Eine Liste der Element-Templates finden Sie unter
-[Element Templates](p/modeling/templates/element-templates/).
+[Element Templates](/modeling/templates/element-templates/).
 
 ### Vorgang anlegen
 
@@ -295,7 +295,7 @@ Nachfolgend sind die BPMN Errors aufgeführt, die von der DMS-Integration geworf
 | `NICHT_PLAUSIBEL`                            | Rückmeldung, wenn eine Plausibilitätsprüfung aufschlägt. z.B.: Das Eingangsdatum darf nicht in der Zukunft liegen.                                                                                                            | Eine Plausibilitätsprüfung schlägt fehl                                  | Überprüfen Sie Ihre Eingabe anhand der Fehlermeldung                                           | 
 | `OBJEKT_ZU_GROSS_FUER_UEBERTRAGUNG_MIT_SOAP` | Inhaltsobjekt (objname) ist zu groß (über 100 MB) und kann daher nicht via SOAP übertragen werden.                                                                                                                            | Das Schriftstück ist zu groß                                             | Passen Sie die Größe des Schriftstücks an                                                      |
 
-## Anpassung der DigiWF DMS-Integration
+## DigiWF DMS-Integration anpassen
 
 Die DigiWF DMS-Integration wird als Spring-Boot-Starter-Projekt bereitgestellt. Um die Integration an Ihre Bedürfnisse
 anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@Bean`s überschreiben oder eigene `@Bean`s

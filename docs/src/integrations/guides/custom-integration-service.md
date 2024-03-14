@@ -29,7 +29,7 @@ Die Integration wird über einen Event Broker (z.B. Kafka) angesprochen. Für da
 Bibliothek (../../documentation/libs/digiwf-message) entwickelt, die bereits einige Spring Cloud Stream Komponenten
 bereitstellt, um die Anwendung mit dem Event Broker zu verbinden.
 
-Zunächst muss die digiwf-message Bibliothek als Dependency im **core** Modul eingebunden werden.
+Zunächst muss die **digiwf-message** Bibliothek als Dependency im **core** Modul eingebunden werden.
 
 ```xml
 
@@ -42,7 +42,7 @@ Zunächst muss die digiwf-message Bibliothek als Dependency im **core** Modul ei
 
 Die digiwf-message Bibliothek stellt als Dependency Spring Cloud Stream bereit. Mithilfe von Spring Cloud Stream können
 wir Nachrichten aus einem Message Broker empfangen und verarbeiten. Spring Cloud Stream verfügt über
-eine (https://github.com/spring-cloud/spring-cloud-stream/blob/main/docs/modules/ROOT/pages/spring-cloud-stream/event-routing.adoc#using-application-properties),
+eine [Funktion Routing Funktionalität](https://github.com/spring-cloud/spring-cloud-stream/blob/main/docs/modules/ROOT/pages/spring-cloud-stream/event-routing.adoc#using-application-properties),
 die es ermöglicht, eingehende Nachrichten anhand eines Message Headers an den entsprechenden Spring Cloud Stream
 Consumer weiterzuleiten. Demnach muss die Anwendung nur noch die Consumer implementieren, die die Nachrichten vom Event
 Broker empfangen und verarbeiten.
@@ -122,8 +122,8 @@ public class MessageProcessor {
 
 Wir unterstützen unterschiedliche Möglichkeiten, um Fehler in der Integration an den Prozess zurückzuspielen. Fachliche
 Fehler, die im Prozess verarbeitet werden können, werden als `BpmnError` geworfen. Technische Fehler, die einen Incident
-erzeugen sollen, werden als `IncidentError` geworfen. Weitere Details zum Error Handling sind im Konzept (
-../concept/error-handling.md) beschrieben.
+erzeugen sollen, werden als `IncidentError` geworfen. Weitere Details zum Error Handling sind im Konzept 
+[Fehlerbehandlung Integrationen](../concept/error-handling.md) beschrieben.
 
 Um die Fehlerbehandlung für `BpmnError`s und `IncidentError`s zu implementieren, können die Consumer wie folgt um
 try-catch Blöcke erweitert werden.
@@ -164,7 +164,7 @@ public class MessageProcessor {
 ```
 
 Zusätzlich zur Fehlerbehandlung kann die DLQ- und Retry-Konfiguration für die Consumer in der `application.yml`
-definiert werden. Die verschiedenen Konfigurationsoptionen sind im (../concept/error-handling.md) Konzept beschrieben.
+definiert werden. Die verschiedenen Konfigurationsoptionen sind im [Fehlerbehandlung Integrationen](../concept/error-handling.md) Konzept beschrieben.
 
 ### BpmnError werfen
 

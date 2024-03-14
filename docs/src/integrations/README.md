@@ -3,7 +3,7 @@
 Jede Digiwf-Integration folgt unserem Integrationskonzept (Spring Boot Starter) mit einem:
 
 - **core**, der die Businesslogik beinhaltet
-- **ctarter**-Modul, das den *core* verwendet, um Spring Beans zur Verfügung zu stellen
+- **starter**-Modul, das den *core* verwendet, um Spring Beans zur Verfügung zu stellen
 - **example**-Anwendung, die die Verwendung des Starters zeigt
 - **service**-Anwendung, die bereits vorkonfiguriert ist und direkt verwendet werden kann. Diese Service-Anwendung ist
   üblicherweise als Docker-Image im [dockerhub](https://hub.docker.com/u/itatm) veröffentlicht. Eine solche

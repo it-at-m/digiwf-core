@@ -1099,8 +1099,6 @@ The following JSON object shows the example payload set at the element templates
 The search parameters within JSON object allocated to JSON key `searchPersonErweitert` are optional,
 if parameters are not needed, they can be omitted.
 
-If search parameters are not needed, the `searchPersonErweitert` key can be omitted.
-
 The `datensatzstatus` attribute is mandatory and must have one of the following
 characteristics: `AKTUELL`, `INAKTUELL`, or `OHNE_EINSCHRAENKUNG`.
 

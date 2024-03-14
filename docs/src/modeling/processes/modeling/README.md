@@ -1,4 +1,4 @@
-# Prozessmodellierung
+# Modellierung
 
 Bei der Modellierung von Prozessen in DigiWF können verschiedene Eigenschaften gesetzt werden.
 Für die Plattform und Camunda als verwendete Engine sind die folgenden Eigenschaften wichtig:

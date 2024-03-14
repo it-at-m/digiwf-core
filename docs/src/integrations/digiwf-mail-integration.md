@@ -92,7 +92,7 @@ Call Activity verwenden, um diese Integration zu verwenden.
 
 Die DigiWF E-Mail-Integration wird als Spring Boot Starter-Projekt bereitgestellt. Um die E-Mail-Integration an Ihre
 Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@bean`s überschreiben sowie
-eigene `@bean`s hinzufügen.
+eigene `@Bean`s hinzufügen.
 
 ![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)
 
