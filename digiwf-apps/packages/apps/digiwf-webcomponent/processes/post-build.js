@@ -1,5 +1,5 @@
 import { generateLoaderJs } from './lib/fileGenerator.js';
-import manifest from '../dist/.vite/manifest.json' assert {type: 'json'};
+import manifest from '../dist/src/.vite/manifest.json' assert {type: 'json'};
 
 /**
  * Why this?
@@ -25,7 +25,9 @@ import manifest from '../dist/.vite/manifest.json' assert {type: 'json'};
  */
 
 // read filename from manifest.json
-const filename = manifest['index.html'].file;
+const digiWFServiceInstancesWebComponent = manifest['src/digiwf-service-instances-webcomponent.ts'].file;
+const digiWFHelloWorldWebComponent = manifest['src/digiwf-hello-world-webcomponent.ts'].file;
 
 // generate loaderJs with the app script's filename
-generateLoaderJs(filename);
+generateLoaderJs(digiWFServiceInstancesWebComponent, 'src', 'digiwf-service-instances-webcomponent');
+generateLoaderJs(digiWFHelloWorldWebComponent, 'src', 'digiwf-hello-world-webcomponent');
