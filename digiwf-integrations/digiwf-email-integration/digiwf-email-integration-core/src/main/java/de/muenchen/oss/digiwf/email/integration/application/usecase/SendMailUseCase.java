@@ -93,7 +93,7 @@ public class SendMailUseCase implements SendMail {
         } catch (IOException ioException) {
             throw new BpmnError("LOAD_TEMPLATE_FAILED", "The template " + mail.getTemplate() + " could not be loaded");
         } catch (TemplateException templateException) {
-            throw new BpmnError("FILLING_TEMPLATE_FAILED", templateException.getMessage());
+            throw new BpmnError("TEMPLATE_MERGING_FAILED", templateException.getMessage());
         }
     }
 

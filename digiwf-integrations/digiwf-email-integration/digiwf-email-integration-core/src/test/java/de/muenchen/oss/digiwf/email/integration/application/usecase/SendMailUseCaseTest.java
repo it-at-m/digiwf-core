@@ -151,7 +151,7 @@ class SendMailUseCaseTest {
 
         assertThat(actualMessage).isEqualTo(expectedMessage);
 
-        assertThat(bpmnError.getErrorCode()).isEqualTo("FILLING_TEMPLATE_FAILED");
+        assertThat(bpmnError.getErrorCode()).isEqualTo("TEMPLATE_MERGING_FAILED");
     }
 
 }
