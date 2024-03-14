@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 @RestController
 public class CleanupInstancesAdminRestController {
 
-    public static final String CLEANUP_DEFINITIONS = "clientrole_cleanup_definitions";
+    public static final String CLEANUP_ROLE = "admin";
     private final CleanupProcessDefinitionService cleanupProcessDefinitionService;
 
     @GetMapping("/rest/admin/process-definitions/key")
-    @RolesAllowed(CLEANUP_DEFINITIONS)
+    @RolesAllowed(CLEANUP_ROLE)
     public ResponseEntity<List<String>> retrieveDefinitionsKeys() {
         return ResponseEntity.ok(cleanupProcessDefinitionService.retrieveAllKeys());
     }
 
     @GetMapping("/rest/admin/process-definitions/key/{key}")
-    @RolesAllowed(CLEANUP_DEFINITIONS)
+    @RolesAllowed(CLEANUP_ROLE)
     public ResponseEntity<List<DefinitionInfoDto>> retrieveDefinitionInfo(@PathVariable("key") String key) {
         return ResponseEntity.ok(cleanupProcessDefinitionService
             .getInfoForDefinitionKey(key)
@@ -41,21 +41,21 @@ public class CleanupInstancesAdminRestController {
     }
 
     @PostMapping("/rest/admin/process-definitions/key/{key}/migrate")
-    @RolesAllowed(CLEANUP_DEFINITIONS)
+    @RolesAllowed(CLEANUP_ROLE)
     public ResponseEntity<Void> migrate(@PathVariable("key") String key) {
         cleanupProcessDefinitionService.migrateAutomatically(key);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/rest/admin/process-definitions/key/{key}/obvious")
-    @RolesAllowed(CLEANUP_DEFINITIONS)
+    @RolesAllowed(CLEANUP_ROLE)
     public ResponseEntity<Void> deleteObviousDefinitions(@PathVariable("key") String key, @RequestParam(value = "ignore-historical") Boolean ignoreHistorical) {
         cleanupProcessDefinitionService.deleteObviousDefinitions(key, ignoreHistorical);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/rest/admin/process-definitions/key/{key}/threshold")
-    @RolesAllowed(CLEANUP_DEFINITIONS)
+    @RolesAllowed(CLEANUP_ROLE)
     public ResponseEntity<Void> deleteDefinitionsCascading(@PathVariable("key") String key, @RequestParam(value = "threshold") Integer thresholdCount) {
         cleanupProcessDefinitionService.deleteAboveThreshold(key, thresholdCount);
         return ResponseEntity.noContent().build();
