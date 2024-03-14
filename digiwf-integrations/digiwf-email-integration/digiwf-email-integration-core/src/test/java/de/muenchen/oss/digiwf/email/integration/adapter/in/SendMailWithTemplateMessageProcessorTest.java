@@ -1,9 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
-import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -22,34 +19,30 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class MessageProcessorTest {
-    private final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
-    private final SendMail sendMailMock = Mockito.mock(SendMail.class);
-    private final MonitoringService monitoringServiceMock = Mockito.mock(MonitoringService.class);
-
-    private MessageProcessor messageProcessor;
-    private Message<Mail> message;
-
-    // dummy data
-    private final String processInstanceId = "exampleProcessInstanceId";
-    private final Mail mail = new Mail(
+class SendMailWithTemplateMessageProcessorTest extends MessageProcessorTestBase{
+    private final MailWithTemplate mailWithTemplate = new MailWithTemplate(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
             "This is a test mail",
             "digiwf@muenchen.de",
-            null
+            null,
+            "template",
+            "bottomBody",
+            "buttonText",
+            "buttonLink"
     );
-    private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "emailIntegration", TYPE, "emailType"));
+
+    private Message<MailWithTemplate> message;
 
     @BeforeEach
     void setup() {
-        this.messageProcessor = new MessageProcessor(errorApiMock, sendMailMock, monitoringServiceMock);
-        this.message = new Message<Mail>() {
+        setupBase();
+        this.message = new Message<MailWithTemplate>() {
             @Override
-            public Mail getPayload() {
-                return mail;
+            public MailWithTemplate getPayload() {
+                return mailWithTemplate;
             }
 
             @Override
@@ -61,15 +54,15 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationSendsMailSuccessfully() {
-        messageProcessor.emailIntegration().accept(this.message);
+        messageProcessor.sendMailWithTemplate().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailMock, times(1)).sendMailWithText(processInstanceId, "emailType", "emailIntegration", mail);
+        verify(sendMailMock, times(1)).sendMailWithTemplate(processInstanceId, "emailType", "emailIntegration", mailWithTemplate);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        messageProcessor.sendMailWithTemplate().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -81,8 +74,8 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        messageProcessor.sendMailWithTemplate().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -94,8 +87,8 @@ class MessageProcessorTest {
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        messageProcessor.sendMailWithTemplate().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
