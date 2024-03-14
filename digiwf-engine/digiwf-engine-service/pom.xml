@@ -90,25 +90,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-camunda-prometheus-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
         <!-- Streaming -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
         </dependency>
-
-        <!--
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
-        -->
 
         <!-- Camunda -->
         <dependency>
@@ -160,9 +146,6 @@
             <artifactId>jackson-module-jsonSchema</artifactId>
             <scope>test</scope>
         </dependency>
-
-
-        <!-- Spring security -->
 
         <!-- json etc. -->
         <dependency>
