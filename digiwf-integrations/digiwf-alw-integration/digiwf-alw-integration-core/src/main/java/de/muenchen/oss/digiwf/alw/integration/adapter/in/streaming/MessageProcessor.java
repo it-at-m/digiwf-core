@@ -34,9 +34,17 @@ public class MessageProcessor {
     private final GetResponsibilityInPort getResponsibilityInPort;
 
     /**
-     * All messages from the route "getAlwResponsibility" go here.
+     * This method handles all messages from the route "getAlwResponsibility".
+     * <p>
+     * The consumer can throw the following BPMN error codes:
+     * <ul>
+     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If the responsibility could not be found, either because it was not returned by ALW or the returned one does not match any known responsibility.</li>
+     *   <li>{@link AlwErrorCodes#VALIDATION_ERROR_CODE}": If the requested AZR-Number is not valid. It must consist of 12 digits.</li>
+     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If ALW responds with an unexpected error code.</li>
+     * </ul>
+     * </p>
      *
-     * @return the consumer
+     * @return the consumer that handles the messages from the route "getAlwResponsibility"
      */
     @Bean
     public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility() {
@@ -50,7 +58,8 @@ public class MessageProcessor {
                 final Map<String, Object> result = Map.of(ALW_ZUSTAENDIGE_GRUPPE, response.getOrgUnit());
                 integration.correlateProcessMessage(headers, result);
             } catch (final HttpStatusCodeException httpStatusCodeException) {
-                integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.OTHER.toString(), httpStatusCodeException.getResponseBodyAsString()));
+                integration.handleBpmnError(headers,
+                        new BpmnError(AlwErrorCodes.UNEXPECTED_ERROR.toString(), httpStatusCodeException.getResponseBodyAsString()));
             } catch (final ConstraintViolationException cve) {
                 integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.VALIDATION_ERROR_CODE.toString(), cve.getMessage()));
             } catch (final AlwException alwException) {
