@@ -34,7 +34,7 @@ public class CleanupProcessDefinitionService {
     public void migrateAutomatically(String key) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
         // there should be latest
-        var latest = definitions.stream().filter(ProcessDefinitionWithInstanceInfo::isLatest).findAny().orElseThrow();
+        var latest = definitions.stream().filter(ProcessDefinitionWithInstanceInfo::isLatest).findAny().orElseThrow(() -> new IllegalStateException("Could not find latest definition of process key " + key));
         var remainingWithInstances = definitions.stream().filter(
             processDefinitionWithInstanceInfo -> processDefinitionWithInstanceInfo.instanceCount() > 0
                 && !processDefinitionWithInstanceInfo.isLatest()
@@ -53,29 +53,23 @@ public class CleanupProcessDefinitionService {
         );
     }
 
-    public void deleteObviousDefinitions(String key) {
+    public void deleteObviousDefinitions(String key, boolean ignoreHistorical) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
         var thresholdDate = Instant.now().minus(180, ChronoUnit.DAYS);
         var forDeletion = definitions
             .stream()
-            .filter(definitionWithInstanceInfo -> isObviousForDeletion(definitionWithInstanceInfo, thresholdDate))
+            .filter(definitionWithInstanceInfo -> isObviousForDeletion(definitionWithInstanceInfo, thresholdDate, ignoreHistorical))
             .map(ProcessDefinitionWithInstanceInfo::processDefinitionId)
             .toList();
         var remaining = definitions.stream().map(ProcessDefinitionWithInstanceInfo::processDefinitionId).filter(
             definitionWithInstanceInfo -> !forDeletion.contains(definitionWithInstanceInfo)
         ).toList();
 
-        log.info("Deleting definitions for key {}: {} and left over: {}",
-            key,
-            String.join(",\n", forDeletion),
-            String.join(",\n", remaining));
-        //
-        serviceDefinitionService.deleteDefinitions(true, forDeletion.toArray(new String[0]));
+        deleteProcessDefinitions(key, forDeletion, remaining);
     }
 
 
-    public void deleteCascading(String key) {
-        var thresholdCount = 5;
+    public void deleteAboveThreshold(String key, Integer thresholdCount) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
         if (definitions.size() <= thresholdCount) {
             // nothing to do
@@ -90,7 +84,11 @@ public class CleanupProcessDefinitionService {
             def -> !forDeletion.contains(def)
         ).toList();
 
-        log.info("Deleting definitions for key {}: {} and left over: {}",
+        deleteProcessDefinitions(key, forDeletion, remaining);
+    }
+
+    private void deleteProcessDefinitions(String key, List<String> forDeletion, List<String> remaining) {
+        log.info("Deleting definitions for key {}: \n[\n{}\n] \nand left over: \n[\n{}\n].",
             key,
             String.join(",\n", forDeletion),
             String.join(",\n", remaining));
@@ -99,12 +97,12 @@ public class CleanupProcessDefinitionService {
     }
 
 
-    public boolean isObviousForDeletion(ProcessDefinitionWithInstanceInfo info, Instant thresholdDate) {
+    public boolean isObviousForDeletion(ProcessDefinitionWithInstanceInfo info, Instant thresholdDate, boolean ignoreHistorical) {
         if (info.isLatest()) {
             return false; // never delete latest definition
         }
-        if (info.instanceCount() == 0) {
-            return true; // delete old definitions without instances.
+        if (ignoreHistorical) {
+            return info.instanceCount() == 0; // delete old definitions without instances.
         } else {
             return info.newestProcessInstanceStartTime() != null && info.newestProcessInstanceStartTime().toInstant().isBefore(thresholdDate);
         }

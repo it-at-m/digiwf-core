@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.variable.Variables;
@@ -164,28 +165,26 @@ public class ServiceDefinitionService {
         return definitions
             .stream()
             .map(definition -> {
-                var instanceStartTimes = this
+                var instanceCount = this
                     .runtimeService
                     .createProcessInstanceQuery()
                     .active()
                     .processDefinitionId(definition.getId())
+                    .count();
+                var instanceStartTimes = this
+                    .historyService
+                    .createHistoricProcessInstanceQuery()
+                    .processDefinitionId(definition.getId())
                     .list()
                     .stream()
-                    .map(instance ->
-                        historyService
-                            .createHistoricProcessInstanceQuery()
-                            .processInstanceId(instance.getId())
-                            .active()
-                            .singleResult()
-                            .getStartTime()
-                    )
+                    .map(HistoricProcessInstance::getStartTime)
                     .sorted(Comparator.reverseOrder())
                     .toList();
                 return new ProcessDefinitionWithInstanceInfo(
                     definition.getId(),
                     definition.getVersion(),
                     definition.getId().equals(latest.getId()),
-                    instanceStartTimes.size(),
+                    (int)instanceCount,
                     instanceStartTimes.isEmpty() ? null : instanceStartTimes.get(0)
                 );
             })
@@ -232,7 +231,8 @@ public class ServiceDefinitionService {
         long version,
         boolean isLatest,
         int instanceCount,
-        Date newestProcessInstanceStartTime) {
+        Date newestProcessInstanceStartTime
+    ) {
 
         @Override
         public String toString() {
