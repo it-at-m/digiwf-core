@@ -28,8 +28,7 @@ Die Destinations für die unterschiedlichen Aktionen können über die `applicat
 siehe [Konfiguration](#konfiguration)).
 
 > Usage Examples finden Sie
->
-im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
+> im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
 
 ### MessageApi
 
