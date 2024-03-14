@@ -2,10 +2,15 @@ name: Release Docs
 
 on:
   workflow_call:
-  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish docs?'
+        type: boolean
+        required: true
+        default: false
 
 jobs:
-  release-docs:
+  build-docs:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,6 +26,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - name: Deploy
+        if: inputs.publish == true
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
