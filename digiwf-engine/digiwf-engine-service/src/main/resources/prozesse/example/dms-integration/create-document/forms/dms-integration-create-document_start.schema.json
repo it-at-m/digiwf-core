@@ -81,9 +81,7 @@
                 "title": "Eingangsdatum",
                 "type": "string",
                 "format": "date",
-                "x-rules": [
-                  "required"
-                ]
+                "x-rules": []
               },
               "procedureCoo": {
                 "fieldType": "text",

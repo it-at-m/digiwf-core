@@ -101,9 +101,7 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": [
-                  "required"
-                ]
+                "x-rules": []
               },
               "user": {
                 "fieldType": "text",
