@@ -1,20 +1,20 @@
-# DigiWF Ticket Integration
+# DigiWF Ticket-Integration
 
 ![](https://img.shields.io/badge/Integration_Name-ticketIntegration-informational?style=flat&logoColor=white&color=2c73d2)
 
-Die DigiWF Ticket Integration ermöglicht es Prozessentwicklern, mit einem Ticket-System zu interagieren. Momentan steht
+Die DigiWF Ticket-Integration ermöglicht es Prozessentwicklern, mit einem Ticket-System zu interagieren. Momentan steht
 ein Adapter für Zammad zur Verfügung.
 
 ## Verwendung
 
-Für die Verwendung der DigiWF Ticket Integration stehen mehrere Funktionalitäten zur Verfügung.
+Für die Verwendung der DigiWF Ticket-Integration stehen mehrere Funktionalitäten zur Verfügung:
 
 - Artikel erstellen
 - Artikel mit Benutzer erstellen
 
 ### Artikel erstellen
 
-Um einen Artikel zu erstellen, müssen Sie die folgenden Daten an die Ticket Integration übergeben:
+Um einen Artikel zu erstellen, müssen Sie die folgenden Daten an die Ticket-Integration übergeben:
 
 ```json
 {
@@ -38,11 +38,11 @@ verwendet werden.
 | `integration` | String | Der Name der Integration. In diesem Fall `ticketIntegration`.   | Ja           |
 | `ticketId`    | String | Die ID des Tickets, zu dem der Artikel hinzugefügt werden soll. | Ja           |
 | `article`     | String | Der Text des Artikels.                                          | Ja           |
-| `status`      | String | Der Status, den das Ticket annehmen soll                        | Nein         |
+| `status`      | String | Der Status, den das Ticket annehmen soll.                       | Nein         |
 
 ### Artikel mit Benutzer erstellen
 
-Um einen Artikel mit einem Benutzer zu erstellen, müssen Sie die folgenden Daten an die Ticket Integration übergeben:
+Um einen Artikel mit einem Benutzer zu erstellen, müssen Sie die folgenden Daten an die Ticket-Integration übergeben:
 
 ```json
 {
@@ -55,8 +55,8 @@ Um einen Artikel mit einem Benutzer zu erstellen, müssen Sie die folgenden Date
 }
 ```
 
-Um die Prozessentwicklung zu beschleunigen kann das
-Element-Template [Ticketing: Artikel mit Benutzer schreiben](/element-template/ticket-integration/ticketing_write_article_with_user.json)
+Um die Prozessentwicklung zu beschleunigen, kann das Element-Template
+[Ticketing: Artikel mit Benutzer schreiben](/element-template/ticket-integration/ticketing_write_article_with_user.json)
 verwendet werden.
 
 #### Felder
@@ -69,13 +69,13 @@ Es werden die gleichen Felder wie bei `writeArticle` benötigt, zusätzlich wird
 
 ## Konfigurationen
 
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
+Zusätzlich zu den allgemeinen Konfigurationen für DigiWF-Integrationen, die unter
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF Ticket Integration verwenden:
+sind, können Sie die folgenden Konfigurationen für die DigiWF Ticket-Integration verwenden:
 
 | Variable                            | Beschreibung                                                          | Erforderlich |
 |-------------------------------------|-----------------------------------------------------------------------|--------------|
-| `SSO_TICKET_CLIENT_ID`              | Die Id des Clients, der für die Authentifizierung verwendet wird.     | Ja           |
+| `SSO_TICKET_CLIENT_ID`              | Die ID des Clients, der für die Authentifizierung verwendet wird.     | Ja           |
 | `SSO_TICKET_CLIENT_SECRET`          | Das Secret des Clients, der für die Authentifizierung verwendet wird. | Ja           |
 | `TICKETING_ZAMMAD_URL`              | Die URL des Zammad-Servers.                                           | Ja           |
-| `TICKETING_INTEGRATION_SERVER_PORT` | Der Port der Ticketing Integration                                    | Nein         |
+| `TICKETING_INTEGRATION_SERVER_PORT` | Der Port der Ticketing-Integration.                                   | Nein         |
