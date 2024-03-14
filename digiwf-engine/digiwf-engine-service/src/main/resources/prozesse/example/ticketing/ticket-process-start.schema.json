@@ -66,6 +66,45 @@
                                     "required"
                                 ]
                             },
+                            "Zammad_Status": {
+                                "fieldType": "select",
+                                "title": "Status",
+                                "type": "string",
+                                "key": "Zammad_Status",
+                                "x-display": "select",
+                                "readOnly": false,
+                                "default": "OPEN",
+                                "anyOf": [
+                                    {
+                                        "title": "Open",
+                                        "const": "OPEN"
+                                    },
+                                    {
+                                        "const": "PENDING_CLOSE",
+                                        "title": "Pending Close"
+                                    },
+                                    {
+                                        "const": "PENDING_REMINDER",
+                                        "title": "Pending Reminder"
+                                    },
+                                    {
+                                        "title": "Closed",
+                                        "const": "CLOSED"
+                                    }
+                                ],
+                                "x-options": {
+                                    "fieldColProps": {
+                                        "cols": 12,
+                                        "sm": 12,
+                                        "messages": {}
+                                    }
+                                },
+                                "x-props": {
+                                    "outlined": true,
+                                    "dense": true
+                                },
+                                "x-rules": []
+                            },
                             "Zammad_Files": {
                                 "fieldType": "file",
                                 "title": "Dateien zum Kommentar anfügen",

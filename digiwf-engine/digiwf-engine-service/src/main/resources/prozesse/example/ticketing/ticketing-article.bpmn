@@ -41,7 +41,7 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="ticketIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="writeArticle" target="app_type_name" />
-        <camunda:in sourceExpression="OPEN" target="status" />
+        <camunda:in sourceExpression="${Zammad_Status}" target="status" />
         <camunda:in sourceExpression="${Zammad_Article}" target="article" />
         <camunda:in sourceExpression="${Zammad_Ticket_Id}" target="ticketId" />
         <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
@@ -64,7 +64,7 @@
         <camunda:in sourceExpression="writeArticle" target="app_type_name" />
         <camunda:in sourceExpression="${Zammad_Ticket_Id}" target="ticketId" />
         <camunda:in sourceExpression="${Zammad_Article}" target="article" />
-        <camunda:in sourceExpression="OPEN" target="status" />
+        <camunda:in sourceExpression="${Zammad_Status}" target="status" />
         <camunda:in sourceExpression="${Zammad_User}" target="userId" />
         <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
       </bpmn:extensionElements>
