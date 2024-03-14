@@ -49,7 +49,7 @@ jobs:
           ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
       - name: Build with Maven
-        run: ./mvnw --batch-mode clean install -DskipTests
+        run: ./mvnw --batch-mode clean install
 
       #
       # The GPG key is stored in the secret using the text 'PGP Private Key' format

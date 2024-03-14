@@ -33,6 +33,7 @@ jobs:
           cache-dependency-path: "./digiwf-apps/package-lock.json"
           registry-url: 'https://registry.npmjs.org'
       - run: npm run init
+      - run: npm run test
       - run: npm run build
 
       - run: lerna publish from-package --yes
