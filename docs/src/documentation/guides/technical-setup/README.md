@@ -71,8 +71,8 @@ Anschließend kann das Frontend mit `npm run serve:tasklist` gestartet werden.
 Beim ersten Start des Frontends muss noch ein `npm run init` durchgeführt werden, damit alle notwendigen Dependencies
 installiert werden.
 
-Anschließend kann man im Browser (http://localhost:8083) aufrufen, sich einloggen und zur
-Tasklist [http://localhost:8084](http://localhost:8083) wechseln.
+Anschließend kann man im Browser [http://localhost:8083](http://localhost:8083) aufrufen, sich einloggen und zur
+Tasklist [http://localhost:8084](http://localhost:8084) wechseln.
 Nach erfolgreichem Login kommt eine leere weiße Seite. Das ist gewollt und zeigt, dass der Login erfolgreich war.
 
 Anmelden kann man sich mit dem Nutzernamen "johndoe" und dem Passwort "test".

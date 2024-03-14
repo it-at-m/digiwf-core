@@ -22,4 +22,4 @@ können auch Formulare für Benutzeraufgaben per Drag & Drop erstellt werden.
 
 Wenn Sie - ähnlich wie in der Landeshauptstadt München - viele Prozesse mit vielen Benutzeraufgaben haben und eine
 heterogene Backend-Landschaft, die Sie in Ihre Prozesse integrieren müssen, haben, sollten Sie sich unbedingt einmal
-DigiWF anschauen. (/imprint).
+DigiWF anschauen. [Kontaktieren Sie uns einfach per E-Mail](/imprint).

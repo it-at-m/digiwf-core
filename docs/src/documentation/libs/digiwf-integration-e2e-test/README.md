@@ -86,16 +86,16 @@ Die `DigiWFWiremockUtility` kann erst nach dem Start von Wiremock verwendet werd
 
 ```java
 // GET Requests without Basic Auth
-DigiWFWiremockUtility.setupGET("/some/url",expectedResponse);
+DigiWFWiremockUtility.setupGET("/some/url", expectedResponse);
 
-// GET Requests with Basic Auth
-        DigiWFWiremockUtility.setupGETWithBasicAuth("/some/url","johndoe","password",expectedResponse);
+        // GET Requests with Basic Auth
+        DigiWFWiremockUtility.setupGETWithBasicAuth("/some/url", "johndoe", "password", expectedResponse);
 
-// POST Requests without Basic Auth
-        DigiWFWiremockUtility.setupPOST("/some/url",requestBody,expectedResponse);
+        // POST Requests without Basic Auth
+        DigiWFWiremockUtility.setupPOST("/some/url", requestBody, expectedResponse);
 
-// POST Requests with Basic Auth
-        DigiWFWiremockUtility.setupPOSTWithBasicAuth("/some/url",requestBody,"johndoe","password",expectedResponse);
+        // POST Requests with Basic Auth
+        DigiWFWiremockUtility.setupPOSTWithBasicAuth("/some/url", requestBody, "johndoe", "password", expectedResponse);
 ```
 
 Nachfolgend ist ein vollständiges Beispiel für einen End-to-End Test mit Wiremock aufgeführt:

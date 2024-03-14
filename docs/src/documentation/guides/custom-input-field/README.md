@@ -8,7 +8,7 @@ In DigiWF können eigene Eingabefelder definiert werden. Hier wird beschrieben, 
    angelegt.
 2. `lerna.json` wird aktualisiert und das neue NPM-Paket ergänzt.
 
-Wichtig ist, dass sichergestellt wird, dass der Paketname korrekt gesetzt ist.
+Wichtig ist, dass sichergestellt wird, dass der Package-Name korrekt gesetzt ist.
 
 ## 2. Erweitern der Formulareinstellungen
 

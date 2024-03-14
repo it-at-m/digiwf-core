@@ -17,8 +17,8 @@ kommunizieren können. Die *Art* der Services ist nicht auf die Verbindung zwisc
 System beschränkt, sondern auch verschiedene Microservices können direkt angebunden werden.
 
 Im `run` weiß der Business Process Layer (DigiWF Core) nichts von einem Integrations-Service. Die beiden sind lose
-gekoppelt. Im `build` müssen die Services oder Service-Operationen, die aus einem Prozess heraus aufgerufen werden
-sollen, dagegen bekannt sein. Die Verbindung erfolgt hier über ein `Element Template` [^1]. Ein solches Template ist im
+gekoppelt. Im `build` müssen die Services bzw. Service-Operationen, die man aus einem Prozess heraus möchte, dagegen 
+bekannt sein. Die Verbindung erfolgt hier über ein `Element Template` [^1]. Ein solches Template ist im
 Grundegenommen ein Input-/Output-Mapping. Das bedeutet, dass die Daten aus dem Prozess auf die erwarteten
 Daten der Operation abgebildet werden und umgekehrt.
 

@@ -2,7 +2,7 @@
 
 ## BPMN-Prozess
 
-!(~@source/documentation/featureprocesses/cosys/cosys-feature-process.png)
+![Cosys Feature Prozess.](~@source/documentation/featureprocesses/cosys/cosys-feature-process.png)
 
 ## Beschreibung
 

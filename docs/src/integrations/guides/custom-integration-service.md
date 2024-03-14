@@ -1,14 +1,14 @@
 # Eigene Integration erstellen
 
 Um ein Drittsystem an DigiWF anzubinden, muss eine Integration erstellt werden.
-Hierfür haben wir ein (../concept/integration-service.md) definiert, auf dessen Basis die Umsetzung einer Integration
+Hierfür haben wir ein [Integrationskonzept](../concept/integration-service.md) definiert, auf dessen Basis die Umsetzung einer Integration
 beschrieben wird.
 
-> Zur Vereinfachung der Integrationsentwicklung haben wir die Bibliothek (../../documentation/libs/digiwf-message)
+> Zur Vereinfachung der Integrationsentwicklung haben wir die Bibliothek [digiwf-message](../../documentation/libs/digiwf-message)
 > entwickelt.
 
 Ein Beispiel für eine Integration ist in
-unserem (https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-example-integration) hinterlegt.
+unserem [Github Repository](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-example-integration) hinterlegt.
 
 ## Anwendungsaufbau
 
@@ -26,7 +26,7 @@ Anwendung ist bereits vorkonfiguriert und kann direkt verwendet werden.
 ## Nachrichtenverarbeitung
 
 Die Integration wird über einen Event Broker (z.B. Kafka) angesprochen. Für das Messaging haben wir bereits die
-Bibliothek (../../documentation/libs/digiwf-message) entwickelt, die bereits einige Spring Cloud Stream Komponenten
+Bibliothek [digiwf-message](../../documentation/libs/digiwf-message) entwickelt, die bereits einige Spring Cloud Stream Komponenten
 bereitstellt, um die Anwendung mit dem Event Broker zu verbinden.
 
 Zunächst muss die **digiwf-message** Bibliothek als Dependency im **core** Modul eingebunden werden.
