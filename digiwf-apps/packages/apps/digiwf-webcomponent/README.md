@@ -4,14 +4,23 @@ This repository contains different WebComponents for integrating different DigiW
 
 Currently the following WebComponents are provided:
 - `digiwf-service-instances-webcomponent`: Displays current Service Instance objects of a user in a list-style manner with pagination
+- `digiwf-hello-world-webcomponent`: Show a simple "Hello World" message
 
 ## Usage
 
 1. Add `script`-Import to webpage:
 
+For `digiwf-service-instances-webcomponent`:
 ```html
 <script
-  src="hostname/loader.js"
+  src="hostname/loader-digiwf-service-instances-webcomponent.js"
+></script>
+```
+
+For `digiwf-hello-world-webcomponent`:
+```html
+<script
+  src="hostname/loader-digiwf-hello-world-webcomponent.js"
 ></script>
 ```
 
@@ -19,8 +28,14 @@ Currently the following WebComponents are provided:
 
 2. Add Element to page with appropriate config
 
+For `digiwf-service-instances-webcomponent`:
 ```html
-<digiwf-service-instances-webcomponent digi-wf-base-url="ADD_HOSTNAME_OF_DIGIWF_GATEWAY_HERE"/>
+<digiwf-service-instances-webcomponent digi-wf-base-url="ADD_HOSTNAME_OF_DIGIWF_GATEWAY_HERE" access-token-event-name="OPTIONAL"><digiwf-service-instances-webcomponent/>
+```
+
+For `digiwf-hello-world-webcomponent`:
+```html
+<digiwf-hello-world-webcomponent></digiwf-hello-world-webcomponent>
 ```
 
 ## WebComponent Properties
@@ -71,6 +86,8 @@ To set those variables from outside the component you can either use
 
 #### Setting CSS Vaiables via WebComponent-Selector: This will provide the variables only to the specified WebComponent
 
+e.g. for WebComponent `digiwf-service-instances-webcomponent`
+
 ```css
 digiwf-service-instances-webcomponent {
 --digiwf-webcomponent-color-primary: orange;
@@ -85,11 +102,11 @@ digiwf-service-instances-webcomponent {
 4. ...Integrate into your own dev-site alongside your WebComponent:
 
 ```html
-<!-- Load login-fragment from local dev-server -->
+<!-- Load webcomponent from local dev-server -->
 <script
-  src="http://127.0.0.1:8085/src/main.ts"
+  src="http://127.0.0.1:8085/src/digiwf-service-instances-webcomponent.ts"
   type="module"
 ></script>
 
-<digiwf-service-instances-webcomponent digi-wf-base-url="http://localhost:8085"/>
+<digiwf-service-instances-webcomponent digi-wf-base-url="http://localhost:8085"></digiwf-service-instances-webcomponent>
 ```
