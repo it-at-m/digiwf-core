@@ -1,37 +1,40 @@
-# DigiWF Email
+# DigiWF E-Mail
 
-Mit der **DigiWF E-Mail** Bibliothek wird der E-Mail Versand mit Spring Mail an einer zentralen Stelle in DigiWF implementiert.
+Mit der **DigiWF E-Mail**-Bibliothek wird der E-Mail-Versand mit Spring Mail an einer zentralen Stelle in DigiWF
+implementiert.
 
 ## Verwendung
 
-Die **DigiWF E-Mail** Bibliothek stellt die `EmailApi` bereit, die verwendet wird, um E-Mails zu versenden.
-Die `EmailApi` stellt mehrere Methoden zum E-Mail Versand bereit, denen jeweils ein `Mail` Objekt übergeben wird.
+Die **DigiWF E-Mail**-Bibliothek stellt die `EmailApi` bereit, die verwendet wird, um E-Mails zu versenden.
+Die `EmailApi` bietet mehrere Methoden zum E-Mail-Versand, denen jeweils ein `Mail`-Objekt übergeben wird.
 
 ```java
 @Autowired
 DigiwfEmailApi digiwfEmailApi;
 
-Mail mail = Mail.builder()
+Mail mail=Mail.builder()
         .receivers("receiver1@example.com,receiver2@example.com")
         .subject("Subject")
         .body("E-Mail Body")
         .build();
-digiwfEmailApi.sendMail(mail);
+        digiwfEmailApi.sendMail(mail);
 ```
 
-Im `Mail` Objekt müssen die Empfänger, der Betreff und der Inhalt der E-Mail angegeben werden.
-Zusätzlich können die Absender, CC-Empfänger, BCC-Empfänger sowie eine Reply-To Addresse angegeben werden.
+Im `Mail`-Objekt müssen die Empfänger, der Betreff und der Inhalt der E-Mail angegeben werden.
+Zusätzlich können die Absender, CC-Empfänger, BCC-Empfänger sowie eine Reply-To-Adresse angegeben werden.
 
 **E-Mails mit Anhängen**
 
-Um Anhänge per Email zu versenden, kann dem `Mail` Objekt eine Liste von `FileAttachment` Objekten hinzugefügt werden.
+Um Anhänge per E-Mail zu versenden, kann dem `Mail`-Objekt eine Liste von `FileAttachment`-Objekten hinzugefügt werden.
 Diese bestehen aus einem Dateinamen und einem `ByteArrayDataSource`, der den Inhalt der Datei enthält.
 
 ## Konfiguration
 
-Die E-Mail Konfiguration erlaubt es einen default Wert für den Absender der E-Mails zu setzen mit der Property `io.muenchendigital.digiwf.mail.fromAddress`.
-Zusätzlich kann eine Standard-Reply-To Adresse gesetzt werden für technische Mails ohne Rückkanal mit der Property `io.muenchendigital.digiwf.mail.defaultReplyToAddress`.
-Alle weiteren Konfiguration werden direkt über die Spring Mail Konfiguration vorgenommen.
+Die E-Mail-Konfiguration erlaubt es, einen default Wert für den Absender der E-Mails mit der
+Property `io.muenchendigital.digiwf.mail.fromAddress` zu setzen.
+Zusätzlich kann eine Standard-Reply-To-Adresse für technische Mails ohne Rückkanal mit der
+Property `io.muenchendigital.digiwf.mail.defaultReplyToAddress` festgelegt werden.
+Alle weiteren Konfigurationen werden direkt über die Spring-Mail-Konfiguration vorgenommen.
 
 ```yaml
 # digiwf-email config
@@ -43,27 +46,27 @@ io:
 # spring mail config
 spring:
   mail:
-  port: ${MAIL_PORT}
-  host: ${MAIL_HOST}
-  username: ${MAIL_USERNAME}
-  password: ${MAIL_PASSWORD}
-  properties:
-    mail:
-      debug: false
-      tls: true
-      transport:
-        protocol: smtp
-      smtp:
-        port: ${MAIL_PORT}
-        host: ${MAIL_HOST}
-        connectiontimeout: '10000'
-        timeout: '10000'
-        auth: true
-        ssl:
-          trust: '*'
-          checkserveridentity: false
-        socketFactory:
-          fallback: true
-        starttls:
-          enable: true
+    port: ${MAIL_PORT}
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        debug: false
+        tls: true
+        transport:
+          protocol: smtp
+        smtp:
+          port: ${MAIL_PORT}
+          host: ${MAIL_HOST}
+          connectiontimeout: '10000'
+          timeout: '10000'
+          auth: true
+          ssl:
+            trust: '*'
+            checkserveridentity: false
+          socketFactory:
+            fallback: true
+          starttls:
+            enable: true
 ```
