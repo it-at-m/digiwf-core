@@ -48,7 +48,6 @@ public class FabasoftAdapter implements
         request.setUserlogin(user);
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setApentry(file.getApentryCOO());
-        request.setFilesubj(file.getTitle());
         request.setShortname(file.getTitle());
         request.setApentrysearch(true); // looks for free parent entry
 
