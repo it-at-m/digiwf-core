@@ -30,7 +30,7 @@ public class ZammadAdapter implements TicketOutPort {
 
     }
 
-    private UpdateTicketDTO mapToDTO(String ticketId, Article article, TicketStatus status , List<FileContent> attachments) {
+    private UpdateTicketDTO mapToDTO(String ticketId, Article article, TicketStatus status, List<FileContent> attachments) {
         val ticketUpdateDto = new UpdateTicketDTO();
         // Note: TicketId is required in body and url
         ticketUpdateDto.setId(ticketId);
@@ -64,7 +64,7 @@ public class ZammadAdapter implements TicketOutPort {
             case OPEN -> UpdateTicketDTO.StateEnum.OPEN;
             case CLOSED -> UpdateTicketDTO.StateEnum.CLOSED;
             case PENDING_CLOSE -> UpdateTicketDTO.StateEnum.PENDING_CLOSE;
-            default -> null;
+            case PENDING_REMINDER -> UpdateTicketDTO.StateEnum.PENDING_REMINDER;
         };
     }
 }
