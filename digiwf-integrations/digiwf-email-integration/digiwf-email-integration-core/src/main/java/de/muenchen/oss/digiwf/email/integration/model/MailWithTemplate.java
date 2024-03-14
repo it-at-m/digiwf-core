@@ -1,10 +1,15 @@
 package de.muenchen.oss.digiwf.email.integration.model;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class MailWithTemplate extends Mail{
 
     /**

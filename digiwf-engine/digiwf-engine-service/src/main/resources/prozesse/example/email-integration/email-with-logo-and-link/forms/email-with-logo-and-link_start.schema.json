@@ -72,7 +72,9 @@
                                     "outlined": true,
                                     "dense": true
                                 },
-                                "x-rules": []
+                                "x-rules": [
+                                    "required"
+                                ]
                             },
                             "FORMFIELD_Subject": {
                                 "fieldType": "text",
@@ -91,7 +93,9 @@
                                     "outlined": true,
                                     "dense": true
                                 },
-                                "x-rules": []
+                                "x-rules": [
+                                    "required"
+                                ]
                             },
                             "FORMFIELD_Body": {
                                 "fieldType": "textarea",
@@ -111,7 +115,9 @@
                                     "outlined": true,
                                     "dense": true
                                 },
-                                "x-rules": []
+                                "x-rules": [
+                                    "required"
+                                ]
                             },
                             "FORMFIELD_ButtonLink": {
                                 "fieldType": "text",
@@ -130,7 +136,9 @@
                                     "outlined": true,
                                     "dense": true
                                 },
-                                "x-rules": []
+                                "x-rules": [
+                                    "required"
+                                ]
                             },
                             "FORMFIELD_ButtonText": {
                                 "fieldType": "text",
@@ -149,7 +157,9 @@
                                     "outlined": true,
                                     "dense": true
                                 },
-                                "x-rules": []
+                                "x-rules": [
+                                    "required"
+                                ]
                             }
                         }
                     },
