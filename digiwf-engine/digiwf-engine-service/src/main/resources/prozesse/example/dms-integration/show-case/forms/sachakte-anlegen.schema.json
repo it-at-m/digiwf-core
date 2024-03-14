@@ -106,6 +106,26 @@
                   "required"
                 ]
               },
+              "fileSubj": {
+                "fieldType": "text",
+                "title": "Betreff des Vorgangs",
+                "type": "string",
+                "key": "title",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
               "user": {
                 "fieldType": "text",
                 "title": "Dms User",
