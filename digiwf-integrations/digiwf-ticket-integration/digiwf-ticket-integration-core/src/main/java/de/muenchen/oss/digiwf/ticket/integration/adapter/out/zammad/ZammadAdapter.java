@@ -63,8 +63,6 @@ public class ZammadAdapter implements TicketOutPort {
         return switch (status) {
             case OPEN -> UpdateTicketDTO.StateEnum.OPEN;
             case CLOSED -> UpdateTicketDTO.StateEnum.CLOSED;
-            case PENDING_CLOSE -> UpdateTicketDTO.StateEnum.PENDING_CLOSE;
-            case PENDING_REMINDER -> UpdateTicketDTO.StateEnum.PENDING_REMINDER;
         };
     }
 }
