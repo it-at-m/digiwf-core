@@ -283,6 +283,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   handleCompleteTask(model: any) {
+    console.log("handleCompleteTask", model);
     this.isCompleting = true;
     completeTask(this.id, model)
       .then(result => {
@@ -329,7 +330,6 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   saveFollowUp(followUpDate: string) {
-    console.log("saveFollowUp", followUpDate);
     this.followUpDate = followUpDate;
     this.isFollowUpDialogVisible = false;
 
@@ -363,6 +363,7 @@ export default class TaskDetail extends SaveLeaveMixin {
   }
 
   modelChanged(model: any) {
+    console.log("modelChanged: ", model)
     this.model = model;
     this.hasChanges = true;
   }

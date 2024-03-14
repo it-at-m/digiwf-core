@@ -24,6 +24,7 @@ declare module 'vue' {
     BaseMarkdownOutput: typeof import('./src/components/form/BaseMarkdownOutput.vue')['default']
     CsvOutput: typeof import('./src/components/form/CsvOutput.vue')['default']
     DwfButton: typeof import('./src/components/common/DwfButton.vue')['default']
+    DwfFormRendererFrame: typeof import('./src/components/schema/DwfFormRendererFrame.vue')['default']
     FileOutput: typeof import('./src/components/form/FileOutput.vue')['default']
     GroupTaskItem: typeof import('./src/components/task/GroupTaskItem.vue')['default']
     HelpIcon: typeof import('./src/components/UI/icons/HelpIcon.vue')['default']
