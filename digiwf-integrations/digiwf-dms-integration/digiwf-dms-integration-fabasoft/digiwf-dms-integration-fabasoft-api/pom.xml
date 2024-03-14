@@ -11,16 +11,11 @@
 
     <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
 
-    <properties>
-        <cxf.version>4.0.3</cxf.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -29,14 +24,15 @@
                             <goal>wsdl2java</goal>
                         </goals>
                         <configuration>
-                            <sourceRoot>target/generated/cxf</sourceRoot>
+                            <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                            <additionalJvmArgs>-Dlogback.configurationFile=${project.basedir}/src/test/resources/logback-codegen.xml</additionalJvmArgs>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/fabasoft.wsdl</wsdl>
+                                    <wsdlLocation>classpath:fabasoft.wsdl</wsdlLocation>
                                     <extraargs>
                                         <extraarg>-quiet</extraarg>
                                     </extraargs>
-                                    <wsdlLocation>classpath:fabasoft.wsdl</wsdlLocation>
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/binding.xml</bindingFile>
                                     </bindingFiles>
