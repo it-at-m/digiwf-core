@@ -123,9 +123,7 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": [
-                  "required"
-                ]
+                "x-rules": []
               },
               "system": {
                 "fieldType": "select",
