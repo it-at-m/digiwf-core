@@ -108,7 +108,6 @@ public class FabasoftAdapter implements
         request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setDelivery(this.convertDate(document.getDate()));
         }
@@ -144,7 +143,6 @@ public class FabasoftAdapter implements
         request.setBusinessapp(this.properties.getBusinessapp());
 
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setOutgoingdate(this.convertDate(document.getDate()));
         }
@@ -179,7 +177,6 @@ public class FabasoftAdapter implements
         request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
         if (document.getDate() != null) {
             request.setDeliverydate(this.convertDate(document.getDate()));
         }
