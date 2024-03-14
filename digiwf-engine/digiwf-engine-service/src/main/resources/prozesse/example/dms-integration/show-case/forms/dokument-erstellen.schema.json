@@ -66,6 +66,24 @@
                   "required"
                 ]
               },
+              "date": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "date",
+                "x-display": "custom-date-input",
+                "title": "Eingangsdatum",
+                "type": "string",
+                "format": "date",
+                "x-rules": []
+              },
               "docs": {
                 "fieldType": "file",
                 "title": "Dateien",
