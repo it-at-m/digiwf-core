@@ -173,7 +173,11 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
+        <camunda:in sourceExpression="${fileSubj}" target="fileSubj" />
         <camunda:out source="procedureCOO" target="procedureCoo" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="fileSubj">${execution.getVariable("fileSubj")}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1eypdr0</bpmn:incoming>
       <bpmn:outgoing>Flow_1kntuzh</bpmn:outgoing>
@@ -315,7 +319,11 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
         <camunda:in sourceExpression="${documentTitle}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="docs/" target="filepaths" />
+        <camunda:in sourceExpression="${date}" target="date" />
         <camunda:out source="documentCoo" target="documentCoo" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="date">${execution.getVariable("date")}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vus27t</bpmn:incoming>
       <bpmn:outgoing>Flow_1giyxj3</bpmn:outgoing>

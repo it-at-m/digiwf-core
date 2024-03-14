@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "fileCoos": {
                 "fieldType": "array",
@@ -63,7 +65,9 @@
                   "outlined": true,
                   "dense": false
                 },
-                "x-rules": [],
+                "x-rules": [
+                  "required"
+                ],
                 "minItems": 1
               },
               "user": {
@@ -82,7 +86,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "system": {
                 "fieldType": "select",

@@ -1,5 +1,4 @@
 # DigiWF config
-
 digiwf:
   security:
     client-id: ${SSO_TICKET_CLIENT_ID}
@@ -7,9 +6,19 @@ digiwf:
   zammad:
     baseurl: ${TICKETING_ZAMMAD_URL}
 
+feign:
+  client:
+    config:
+      digiwf-process-config:
+        url: ${ENGINE_REST_ENDPOINT_URL}
+
 io:
   muenchendigital:
     digiwf:
+      s3:
+        client:
+          document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+          securityEnabled: true
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
@@ -32,6 +41,33 @@ spring:
           destination: dwf-ticket-${DIGIWF_ENV}
         sendMessage-out-0:
           destination: dwf-connector-${DIGIWF_ENV}
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: user_name
+          zammad-keycloak:
+            issuer-uri: ${ZAMMAD_SSO_ISSUER_URL}
+            user-info-uri: ${ZAMMAD_SSO_BASE_URL}/realms/${ZAMMAD_SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${ZAMMAD_SSO_BASE_URL}/realms/${ZAMMAD_SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: user_name
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_S3_CLIENT_ID}
+            client-secret: ${SSO_S3_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
+          zammad:
+            provider: zammad-keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_TICKET_CLIENT_ID}
+            client-secret: ${SSO_TICKET_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
 
 server:
   shutdown: "graceful"
@@ -59,3 +95,22 @@ management:
   info:
     env:
       enabled: true
+de:
+  muenchen:
+    oss:
+      digiwf:
+        ticketing:
+          supportedFileExtensions:
+            - "application/pdf"
+            - "text/plain"
+            - "image/png"
+            - "image/jpeg"
+            - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            - "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            - "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            - "application/vnd.visio2013"
+            - "application/vnd.ms-project"
+            - "application/vnd.oasis.opendocument.formula"
+            - "application/vnd.oasis.opendocument.presentation"
+            - "application/vnd.oasis.opendocument.spreadsheet"
+            - "application/vnd.oasis.opendocument.text"

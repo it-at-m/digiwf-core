@@ -6,11 +6,13 @@ import de.muenchen.oss.digiwf.dms.integration.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,7 +48,6 @@ public class FabasoftAdapter implements
         request.setUserlogin(user);
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setApentry(file.getApentryCOO());
-        request.setFilesubj(file.getTitle());
         request.setShortname(file.getTitle());
         request.setApentrysearch(true); // looks for free parent entry
 
@@ -66,14 +67,16 @@ public class FabasoftAdapter implements
         request.setReferrednumber(procedure.getFileCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(procedure.getTitle());
-        request.setFilesubj(procedure.getTitle());
+        if (StringUtils.isNotBlank(procedure.getFileSubj())) {
+            request.setFilesubj(procedure.getFileSubj());
+        }
         request.setFiletype("Elektronisch");
 
         final CreateProcedureGIResponse response = this.wsClient.createProcedureGI(request);
 
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
-        return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getTitle());
+        return new Procedure(response.getObjid(), procedure.getFileCOO(), procedure.getFileSubj(), procedure.getTitle());
     }
 
     @Override
@@ -104,7 +107,9 @@ public class FabasoftAdapter implements
         request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setDelivery(this.convertDate(document.getDate()));
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -137,7 +142,9 @@ public class FabasoftAdapter implements
         request.setBusinessapp(this.properties.getBusinessapp());
 
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setOutgoingdate(this.convertDate(document.getDate()));
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -169,7 +176,9 @@ public class FabasoftAdapter implements
         request.setReferrednumber(document.getProcedureCOO());
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setShortname(document.getTitle());
-        request.setFilesubj(document.getTitle());
+        if (document.getDate() != null) {
+            request.setDeliverydate(this.convertDate(document.getDate()));
+        }
 
         final ArrayOfLHMBAI151700GIAttachmentType attachmentType = new ArrayOfLHMBAI151700GIAttachmentType();
         final List<LHMBAI151700GIAttachmentType> files = attachmentType.getLHMBAI151700GIAttachmentType();
@@ -391,7 +400,7 @@ public class FabasoftAdapter implements
                 response.getGimetadatatype().getLHMBAI151700Filename(),
                 response.getGimetadatatype().getLHMBAI151700Objclass(),
                 String.format(this.properties.getUiurl(), coo)
-                );
+        );
     }
 
     //------------------------------------- HELPER METHODS -------------------------------------------
@@ -447,5 +456,9 @@ public class FabasoftAdapter implements
         return response.getGiobjecttype().getLHMBAI151700GIObjectType();
     }
 
-
+    private XMLGregorianCalendar convertDate(final LocalDate date) {
+        return DatatypeFactory.newDefaultInstance().newXMLGregorianCalendar(
+                GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()))
+        );
+    }
 }

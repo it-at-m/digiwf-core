@@ -14,7 +14,7 @@ Zudem können DMS-Strukturen angelegt und verwaltet werden, darunter:
 
 Durch die DMS-Integration wird die Interaktion mit einem DMS-System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden. Es gibt die Möglichkeit zwischen zwei
-DMS-Systemen zu wählen: MUCS und ALW DMS. Für das MUCS DMS wird der Integration-Name `mucsDmsIntegration` verwendet, für
+DMS-Systemen zu wählen: MUCS- und ALW-DMS. Für das MUCS DMS wird der Integration-Name `mucsDmsIntegration` verwendet, für
 das ALW DMS `alwDmsIntegration`.
 
 ### Sachakte anlegen
@@ -56,6 +56,7 @@ Nachfolgend ist ein Beispiel für ein `CreateProcedureDto`-Objekt aufgeführt:
 {
   "fileCOO": "",
   "title": "",
+  "fileSubj": "",
   "user": ""
 }
 ```
@@ -82,6 +83,7 @@ Nachfolgend ist ein Beispiel für ein `CreateDocumentDto`-Objekt aufgeführt:
 {
   "procedureCoo": "",
   "title": "",
+  "date": "",
   "user": "",
   "type": "",
   "filepaths": "",
