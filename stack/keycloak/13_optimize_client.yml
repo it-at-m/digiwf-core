@@ -1,0 +1,11 @@
+id: optimize-client
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addSimpleClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      secret: ${SSO_OPTIMIZE_CLIENT_SECRET}
+      publicClient: false
+  - updateClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      serviceAccountsEnabled: true

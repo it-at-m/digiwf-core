@@ -28,4 +28,37 @@
         <module>digiwf-process</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <activation>
+                <property>
+                    <name>camunda-ee</name>
+                </property>
+            </activation>
+            <id>camunda-ee</id>
+            <properties>
+
+            </properties>
+            <repositories>
+                <repository>
+                    <id>camunda-bpm-nexus-ee</id>
+                    <name>camunda-bpm-nexus</name>
+                    <url>https://camunda.jfrog.io/artifactory/private/</url>
+                </repository>
+                <repository>
+                    <id>camunda-optimize</id>
+                    <name>camunda-optimize</name>
+                    <url>https://artifacts.camunda.com/artifactory/camunda-optimize</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+            </repositories>
+
+            <modules>
+                <module>digiwf-optimize-plugins</module>
+            </modules>
+
+        </profile>
+    </profiles>
+
 </project>

@@ -77,6 +77,7 @@ public class SecurityConfiguration {
             }
         )
         .csrf(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
         .oauth2ResourceServer(server -> server
             .jwt(jwt -> jwt
                 .jwtAuthenticationConverter(jwtAuthenticationConverter)
