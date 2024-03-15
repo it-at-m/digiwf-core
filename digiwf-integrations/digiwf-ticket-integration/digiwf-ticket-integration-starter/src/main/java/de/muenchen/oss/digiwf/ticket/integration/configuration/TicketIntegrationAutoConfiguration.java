@@ -12,7 +12,7 @@ import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.ZammadAdapte
 import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.TicketsApi;
 import de.muenchen.oss.digiwf.ticket.integration.application.WriteArticleUseCase;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
-import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.TicketOutPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,13 +32,13 @@ public class TicketIntegrationAutoConfiguration {
     }
 
     @Bean
-    public LoadFilePort loadFilePort(final DocumentStorageFileRepository documentStorageFileRepository, final DocumentStorageFolderRepository documentStorageFolderRepository, final ProcessConfigApi processConfigApi) {
+    public LoadFileOutPort loadFileOutPort(final DocumentStorageFileRepository documentStorageFileRepository, final DocumentStorageFolderRepository documentStorageFolderRepository, final ProcessConfigApi processConfigApi) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, ticketingProperties.getSupportedFileExtensions());
     }
 
     @Bean
-    public WriteArticleInPort writeArticleUseCase(final TicketOutPort ticketOutPort, final LoadFilePort loadFilePort) {
-        return new WriteArticleUseCase(ticketOutPort, loadFilePort);
+    public WriteArticleInPort writeArticleUseCase(final TicketOutPort ticketOutPort, final LoadFileOutPort loadFileOutPort) {
+        return new WriteArticleUseCase(ticketOutPort, loadFileOutPort);
     }
 
 }
