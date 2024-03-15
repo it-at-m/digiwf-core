@@ -4,7 +4,7 @@
  */
 package de.muenchen.oss.digiwf.alw.integration.configuration;
 
-import de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming.AlwMessageProcessor;
+import de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming.MessageProcessor;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestConfig;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.integration.IntegrationOutAdapter;
@@ -72,14 +72,14 @@ public class AlwAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public AlwMessageProcessor messageProcessor(final IntegrationOutPort integration,
-                                                final GetResponsibilityInPort getResponsibilityInPort) {
-        return new AlwMessageProcessor(integration, getResponsibilityInPort);
+    public MessageProcessor messageProcessor(final IntegrationOutPort integration,
+                                             final GetResponsibilityInPort getResponsibilityInPort) {
+        return new MessageProcessor(integration, getResponsibilityInPort);
     }
 
     @ConditionalOnMissingBean
     @Bean
-    public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility(final AlwMessageProcessor messageProcessor) {
+    public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility(final MessageProcessor messageProcessor) {
         return messageProcessor.getAlwResponsibility();
     }
 
