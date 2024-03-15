@@ -12,14 +12,11 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class MessageProcessor {
@@ -33,7 +30,6 @@ public class MessageProcessor {
 
     private final String RESPONSE = "response";
 
-    @Bean
     public Consumer<Message<SearchAdressenDeutschlandDto>> searchAddressesGermany() {
         return message -> {
             try {
@@ -49,7 +45,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<CheckAdresseMuenchenDto>> checkAddressMunich() {
         return message -> {
             try {
@@ -65,7 +60,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<ListAdressenMuenchenDto>> listAddressesMunich() {
         return message -> {
             try {
@@ -81,7 +75,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<ListAenderungenMuenchenDto>> listChangesMunich() {
         return message -> {
             try {
@@ -97,7 +90,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<SearchAdressenMuenchenDto>> searchAddressesMunich() {
         return message -> {
             try {
@@ -113,7 +105,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<SearchAdressenGeoMuenchenDto>> searchAddressesGeoMunich() {
         return message -> {
             try {
@@ -129,7 +120,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<StrassenIdDto>> findStreetByIdMunich() {
         return message -> {
             try {
@@ -145,7 +135,6 @@ public class MessageProcessor {
         };
     }
 
-    @Bean
     public Consumer<Message<ListStrassenDto>> listStreetMunich() {
         return message -> {
             try {
@@ -160,5 +149,4 @@ public class MessageProcessor {
             }
         };
     }
-
 }
