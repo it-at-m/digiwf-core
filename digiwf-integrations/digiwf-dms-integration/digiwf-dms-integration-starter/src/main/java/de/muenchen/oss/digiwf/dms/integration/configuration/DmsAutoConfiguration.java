@@ -43,6 +43,12 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public LHMBAI151700GIWSDSoap wsCleint(final FabasoftClientConfiguration fabasoftClientConfiguration) {
+        return fabasoftClientConfiguration.dmsWsClient();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
     }
