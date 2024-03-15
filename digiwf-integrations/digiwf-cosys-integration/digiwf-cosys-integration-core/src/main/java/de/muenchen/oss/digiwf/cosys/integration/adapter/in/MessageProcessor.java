@@ -9,17 +9,13 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class MessageProcessor {
 
@@ -32,8 +28,6 @@ public class MessageProcessor {
      *
      * @return the consumer
      */
-    @ConditionalOnMissingBean
-    @Bean
     public Consumer<Message<GenerateDocument>> cosysIntegration() {
         return message -> {
             try {

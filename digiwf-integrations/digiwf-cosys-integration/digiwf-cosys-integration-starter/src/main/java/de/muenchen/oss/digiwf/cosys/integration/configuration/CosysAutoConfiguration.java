@@ -129,4 +129,16 @@ public class CosysAutoConfiguration {
         final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
         return messageProcessor.cosysIntegration();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MessageProcessor messageProcessor(final CreateDocumentInPort createDocumentInPort, final ErrorApi errorApi) {
+        return new MessageProcessor(createDocumentInPort, errorApi);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public Consumer<Message<GenerateDocument>> cosysIntegration(final MessageProcessor messageProcessor) {
+        return messageProcessor.cosysIntegration();
+    }
 }
