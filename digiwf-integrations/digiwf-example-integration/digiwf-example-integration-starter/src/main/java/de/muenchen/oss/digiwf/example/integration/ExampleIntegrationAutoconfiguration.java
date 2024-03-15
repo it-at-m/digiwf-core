@@ -13,10 +13,12 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import java.util.function.Consumer;
 
+@Configuration
 @RequiredArgsConstructor
 @ComponentScan(basePackages = {"de.muenchen.oss.digiwf.example.integration.core"})
 public class ExampleIntegrationAutoconfiguration {
