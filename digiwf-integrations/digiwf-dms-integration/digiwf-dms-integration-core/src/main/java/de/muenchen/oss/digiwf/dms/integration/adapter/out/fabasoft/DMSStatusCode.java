@@ -25,7 +25,7 @@ public enum DMSStatusCode {
 
     private final int statuscode;
 
-    DMSStatusCode(final int statuscode) {
+    private DMSStatusCode(final int statuscode) {
         this.statuscode = statuscode;
     }
 
