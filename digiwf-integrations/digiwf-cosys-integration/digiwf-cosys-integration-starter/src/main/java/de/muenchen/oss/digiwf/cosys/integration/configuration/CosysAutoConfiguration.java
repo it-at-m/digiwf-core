@@ -123,13 +123,6 @@ public class CosysAutoConfiguration {
         return new CosysAdapter(cosysConfiguration, generationApi);
     }
 
-    // Function call had to be renamed for message routing
-    @Bean
-    public Consumer<Message<GenerateDocument>> createCosysDocument(final CreateDocumentInPort documentUseCase, final ErrorApi errorApi) {
-        final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
-        return messageProcessor.cosysIntegration();
-    }
-
     @Bean
     @ConditionalOnMissingBean
     public MessageProcessor messageProcessor(final CreateDocumentInPort createDocumentInPort, final ErrorApi errorApi) {
@@ -137,7 +130,6 @@ public class CosysAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public Consumer<Message<GenerateDocument>> cosysIntegration(final MessageProcessor messageProcessor) {
         return messageProcessor.cosysIntegration();
     }

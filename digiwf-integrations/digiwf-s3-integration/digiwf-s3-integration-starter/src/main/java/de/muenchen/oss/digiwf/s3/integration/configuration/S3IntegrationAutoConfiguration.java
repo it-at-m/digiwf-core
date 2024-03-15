@@ -83,7 +83,6 @@ public class S3IntegrationAutoConfiguration {
         return new IntegrationOutAdapter(processApi, errorApi);
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final MessageProcessor messageProcessor) {
         return messageProcessor.createPresignedUrl();

@@ -57,7 +57,6 @@ public class TicketIntegrationAutoConfiguration {
         return new TicketMessageProcessor(writeArticleInPort, processApi, errorApi);
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<WriteArticleDto>> writeArticle(final TicketMessageProcessor messageProcessor) {
         return messageProcessor.writeArticle();

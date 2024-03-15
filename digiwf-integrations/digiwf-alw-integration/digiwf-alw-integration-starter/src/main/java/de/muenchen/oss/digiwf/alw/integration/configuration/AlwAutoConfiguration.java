@@ -77,7 +77,6 @@ public class AlwAutoConfiguration {
         return new MessageProcessor(integration, getResponsibilityInPort);
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility(final MessageProcessor messageProcessor) {
         return messageProcessor.getAlwResponsibility();

@@ -71,8 +71,6 @@ public class MailAutoConfiguration {
         return new MailAdapter(digiwfEmailApi);
     }
 
-    // Function call had to be renamed for message routing
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<Mail>> sendMailFromEventBus(final ErrorApi errorApi, final SendMail mailUseCase, final MonitoringService monitoringService) {
         final MessageProcessor messageProcessor = new MessageProcessor(errorApi, mailUseCase, monitoringService);

@@ -183,49 +183,41 @@ public class AddressServiceIntegrationAutoConfiguration {
         );
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<SearchAdressenDeutschlandDto>> searchAddressesGermany(final MessageProcessor messageProcessor) {
         return messageProcessor.searchAddressesGermany();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<CheckAdresseMuenchenDto>> checkAddressMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.checkAddressMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<ListAdressenMuenchenDto>> listAddressesMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.listAddressesMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<ListAenderungenMuenchenDto>> listChangesMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.listChangesMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<SearchAdressenMuenchenDto>> searchAddressesMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.searchAddressesMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<SearchAdressenGeoMuenchenDto>> searchAddressesGeoMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.searchAddressesGeoMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<StrassenIdDto>> findStreetByIdMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.findStreetByIdMunich();
     }
 
-    @ConditionalOnMissingBean
     @Bean
     public Consumer<Message<ListStrassenDto>> listStreetMunich(final MessageProcessor messageProcessor) {
         return messageProcessor.listStreetMunich();

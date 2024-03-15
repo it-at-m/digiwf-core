@@ -20,6 +20,7 @@ import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearch
 import de.muenchen.oss.digiwf.okewo.integration.properties.OkEwoIntegrationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -99,17 +100,19 @@ public class OkEwoIntegrationAutoConfiguration {
         return new URL(hostUrl.getProtocol(), hostUrl.getHost(), hostUrl.getPort(), url.getFile()).toString();
     }
 
+    @ConditionalOnMissingBean
     @Bean
     public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
         return new IntegrationOutAdapter(processApi, errorApi);
     }
 
+    @ConditionalOnMissingBean
     @Bean
     public OkEwoClientOutPort okEwoClientOutPort(final PersonErweitertApi personErweitertApi, final PersonApi personApi) {
         return new OkEwoAdapter(personErweitertApi, personApi);
     }
 
-
+    @ConditionalOnMissingBean
     @Bean
     public MessageProcessor messageProcessor(final IntegrationOutPort integrationOutPort,
                                              final GetPersonInPort getPersonInPort,
