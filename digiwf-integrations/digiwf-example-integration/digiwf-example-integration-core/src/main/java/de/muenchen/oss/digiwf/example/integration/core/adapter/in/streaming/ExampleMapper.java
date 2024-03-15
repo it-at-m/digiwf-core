@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.example.integration.core.adapter;
+package de.muenchen.oss.digiwf.example.integration.core.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.example.integration.core.domain.ExampleModel;
 import org.mapstruct.Mapper;
