@@ -6,14 +6,11 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
-@Configuration
 @RequiredArgsConstructor
 public class MessageProcessor {
 
@@ -21,7 +18,6 @@ public class MessageProcessor {
     private final ExampleInPort exampleInPort;
     private final ExampleMapper exampleMapper;
 
-    @Bean
     public Consumer<Message<ExampleDto>> exampleIntegration() {
         return message -> withErrorHandling(message, () -> {
             final ExampleDto exampleDto = message.getPayload();
