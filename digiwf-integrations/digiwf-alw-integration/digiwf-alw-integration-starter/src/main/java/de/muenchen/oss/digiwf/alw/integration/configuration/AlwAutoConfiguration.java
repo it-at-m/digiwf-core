@@ -22,6 +22,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 import org.springframework.web.client.RestTemplate;
 
@@ -83,6 +84,7 @@ public class AlwAutoConfiguration {
     }
 
     @ConditionalOnMissingBean
+    @Profile("!alw-emulation")
     @Bean
     public AlwResponsibilityRestAdapter alwResponsibilityRestAdapter(final RestTemplate restTemplate,
                                                                      final AlwResponsibilityRestConfig alwResponsibilityRestConfig) {
@@ -90,6 +92,7 @@ public class AlwAutoConfiguration {
     }
 
     @ConditionalOnMissingBean
+    @Profile("alw-emulation")
     @Bean
     public AlwResponsibilityEmulationAdapter alwResponsibilityEmulationAdapter(final AlwResponsibilityRestConfig alwResponsibilityRestConfig) {
         return new AlwResponsibilityEmulationAdapter(alwResponsibilityRestConfig);
