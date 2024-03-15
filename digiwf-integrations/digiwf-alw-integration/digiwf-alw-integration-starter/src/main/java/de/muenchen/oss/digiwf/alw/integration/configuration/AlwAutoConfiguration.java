@@ -5,11 +5,11 @@
 package de.muenchen.oss.digiwf.alw.integration.configuration;
 
 import de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming.MessageProcessor;
+import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityEmulationAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestConfig;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.integration.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.alw.integration.application.port.in.GetResponsibilityInPort;
-import de.muenchen.oss.digiwf.alw.integration.application.port.out.AlwResponsibilityOutPort;
 import de.muenchen.oss.digiwf.alw.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.AlwPingConfig;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
@@ -85,8 +85,14 @@ public class AlwAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public AlwResponsibilityOutPort alwResponsibilityOutPort(final RestTemplate restTemplate,
-                                                             final AlwResponsibilityRestConfig alwResponsibilityRestConfig) {
+    public AlwResponsibilityRestAdapter alwResponsibilityRestAdapter(final RestTemplate restTemplate,
+                                                                     final AlwResponsibilityRestConfig alwResponsibilityRestConfig) {
         return new AlwResponsibilityRestAdapter(restTemplate, alwResponsibilityRestConfig);
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public AlwResponsibilityEmulationAdapter alwResponsibilityEmulationAdapter(final AlwResponsibilityRestConfig alwResponsibilityRestConfig) {
+        return new AlwResponsibilityEmulationAdapter(alwResponsibilityRestConfig);
     }
 }
