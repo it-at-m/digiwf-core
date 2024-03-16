@@ -1,22 +1,30 @@
 package de.muenchen.oss.digiwf.legacy.dms.muc.domain.service;
 
-import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.*;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.Dokument;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.EinAusgehend;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.Metadata;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.NeueSachakte;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.NeuerVorgang;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.NeuesDokument;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.NeuesSchriftstueck;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.Sachakte;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.Schriftstueck;
+import de.muenchen.oss.digiwf.legacy.dms.muc.domain.model.Vorgang;
 import de.muenchen.oss.digiwf.legacy.dms.muc.external.client.DmsClient;
 import de.muenchen.oss.digiwf.legacy.dms.muc.external.transport.DMSObjectClass;
 import de.muenchen.oss.digiwf.legacy.dms.muc.external.transport.DMSSearchResult;
 import de.muenchen.oss.digiwf.legacy.dms.muc.properties.DmsProperties;
 import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
-import jakarta.validation.constraints.NotBlank;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -30,6 +38,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DmsService {
 
@@ -289,12 +298,7 @@ public class DmsService {
      * @return
      */
     private String urlEncode(final String string) {
-        try {
-            return URLEncoder.encode(string, Charset.defaultCharset().name());
-        } catch (final UnsupportedEncodingException e) {
-            log.warn("Url encoding failed for {}", string, e);
-            return string;
-        }
+        return URLEncoder.encode(string, Charset.defaultCharset());
     }
 
     private String parseUrl(final String url) {

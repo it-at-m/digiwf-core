@@ -32,8 +32,12 @@
         <camunda:in sourceExpression="${title}" target="title" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCOO}" target="fileCOO" />
+        <camunda:in sourceExpression="${fileSubj}" target="fileSubj" />
         <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="proCOO" target="sachakteCoo" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="fileSubj">${execution.getVariable("fileSubj")}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_021rbp5</bpmn:outgoing>

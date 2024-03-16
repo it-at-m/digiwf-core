@@ -28,11 +28,32 @@
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-s3-integration-client-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-process-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-ticket-integration-zammad-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- tika -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${tika.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers-standard-package</artifactId>
+            <version>${tika.version}</version>
         </dependency>
 
         <!-- Testing -->

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Deprecated
 @Service("digitalWfFormService")
+@Transactional
 @RequiredArgsConstructor
 public class FormService {
 

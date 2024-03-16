@@ -1,0 +1,69 @@
+{
+  "key": "check-alw-responsibility",
+  "schema": {
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Erster Abschnitt",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Group",
+            "description": "",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "azrNummer": {
+                "fieldType": "text",
+                "title": "AZR",
+                "type": "string",
+                "key": "azrNummer",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "alwZustaendigeGruppe": {
+                "fieldType": "text",
+                "title": "Gruppe",
+                "type": "string",
+                "key": "alwZustaendigeGruppe",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -17,6 +17,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import static de.muenchen.oss.digiwf.task.TaskVariables.TASK_ASSIGNEE;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DocumentService {
 

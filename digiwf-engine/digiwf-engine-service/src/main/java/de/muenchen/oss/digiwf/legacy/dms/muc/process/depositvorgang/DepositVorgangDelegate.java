@@ -9,7 +9,6 @@ import de.muenchen.oss.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -46,8 +45,7 @@ public class DepositVorgangDelegate implements JavaDelegate {
             this.dmsClient.depositVorgang(vorgangCoo, userLogin);
         } catch (final Exception ex) {
             log.error("Could not deposit vorgang: {}", ex.getMessage());
-            if (ex instanceof DMSException) {
-                final DMSException dmsException = (DMSException) ex;
+            if (ex instanceof DMSException dmsException) {
                 if (DMSStatusCode.OBJEKT_GESPERRT.equals(dmsException.getStatusCode()) ||
                         DMSStatusCode.FEHLENDE_BERECHTIGUNG.equals(dmsException.getStatusCode()) ||
                         DMSStatusCode.UNGUELTIGE_ADRESSE.equals(dmsException.getStatusCode())) {

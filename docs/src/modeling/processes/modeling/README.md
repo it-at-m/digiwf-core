@@ -39,3 +39,17 @@ werden.
 
 - **app_process_info_id:** Id der aktuellen Prozessinstanz
 - **app_process_description:** Beschreibung der Prozessinstanz die über diese Funktion gesetzt werden kann
+
+## Best Practices
+
+### Der Start von Prozessen sollte immer asynchrone sein
+
+In der Regel sollte der Start eines Prozesses, egal ob None/Message/Timer-Event, mit Async-After konfiguriert werden. 
+Dadurch wird der Prozess korrekt in der Datenbank abgelegt, bevor eine weitere Activity ausgeführt wird. Dies ist notwendig, da sonst 
+ein Fehler in einer folgenden Activity, z.B. Skript-Task, zum kompletten Abbruch des Prozess-Starts führt und somit nicht in der Datenbank 
+gespeichert wird.
+
+![Example Process](~@source/modeling/processes/modeling/async-start.png)
+
+Dieses Verhalten kann man sich aber auch zunutze machen, falls die Eingangsparameter über Skripte oder andere synchrone Checks geprüft werden müssen.
+In dem Fall sollte der Asnyc-After nach der Check-Activity gesetzt werden. 

@@ -10,6 +10,8 @@ import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import de.muenchen.oss.digiwf.shared.exception.ObjectNotFoundException;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * Rest Api to interact with the process configuration.
@@ -43,6 +42,7 @@ public class ProcessConfigurationController {
      * @param to process config that should be created
      * @return process config
      */
+    @Deprecated
     @PostMapping
     @PreAuthorize("hasAuthority(T(de.muenchen.oss.digiwf.shared.security.AuthoritiesEnum).BACKEND_DEPLOY_RESOURCE.name())")
     public ResponseEntity<ProcessConfigTO> createConfig(@RequestBody @Valid final ProcessConfigTO to) {

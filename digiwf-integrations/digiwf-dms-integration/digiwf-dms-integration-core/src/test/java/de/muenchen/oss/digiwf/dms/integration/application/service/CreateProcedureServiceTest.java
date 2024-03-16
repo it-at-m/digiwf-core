@@ -16,12 +16,11 @@ class CreateProcedureServiceTest {
     @Test
     void createProcedure() {
 
-        when(this.createProcedurePort.createProcedure(any(), any())).thenReturn(new Procedure("fileCOO", "title"));
+        when(this.createProcedurePort.createProcedure(any(), any())).thenReturn(new Procedure("fileCOO", "title", "subject"));
 
-        createProcedureService.createProcedure("title", "fileCOO", "user");
+        createProcedureService.createProcedure("title", "fileCOO", "subject", "user");
 
-        verify(this.createProcedurePort, times(1)).createProcedure(new Procedure("fileCOO", "title"), "user");
+        verify(this.createProcedurePort, times(1)).createProcedure(new Procedure("fileCOO", "title", "subject"), "user");
     }
-
 
 }

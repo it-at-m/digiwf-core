@@ -2,40 +2,19 @@ name: build services
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
+      - 'digiwf-apps/**'
+      - 'docs/**'
+      - 'stack/**'
   pull_request:
-    types: [opened, reopened]
 
 jobs:
-  build-maven:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-          cache: "maven"
-          server-id: camunda-bpm-nexus-ee
-          server-username: CAMUNDA_USER_REF
-          server-password: CAMUNDA_TOKEN_REF
-
-      - name: Prepare mvnw
-        run: chmod +x ./mvnw
-
-      - name: Build with Maven
-        run: ./mvnw --batch-mode --update-snapshots --no-transfer-progress verify
-        env:
-          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
-          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./digiwf-coverage/target/coverage/
-          fail_ci_if_error: false
-          files: ./digiwf-coverage/target/coverage/jacoco.xml
-          flags: unittests
-          name: digiwf-core
-          verbose: true
+  build:
+    uses: ./.github/workflows/workflow-build-services.yaml
+    with:
+      snapshot-release: true
+      build-images: ${{ github.ref_name == 'dev' }}
+      release-version: dev
+      maven-release: false
+    secrets: inherit

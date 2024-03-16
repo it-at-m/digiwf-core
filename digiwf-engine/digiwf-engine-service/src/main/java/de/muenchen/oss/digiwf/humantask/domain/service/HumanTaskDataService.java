@@ -22,6 +22,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
@@ -33,6 +34,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class HumanTaskDataService {
 

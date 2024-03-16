@@ -18,6 +18,7 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ServiceDefinitionService {
 
