@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMe
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.model.BasicMail;
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -39,7 +39,7 @@ public class SendMailInPortUseCase implements SendMailInPort {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMailWithText(final String processInstanceIde, final String type, final String integrationName, @Valid final Mail mail) throws BpmnError {
+    public void sendMailWithText(final String processInstanceIde, final String type, final String integrationName, @Valid final TextMail mail) throws BpmnError {
         de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
         mailModel.setBody(mail.getBody());
 

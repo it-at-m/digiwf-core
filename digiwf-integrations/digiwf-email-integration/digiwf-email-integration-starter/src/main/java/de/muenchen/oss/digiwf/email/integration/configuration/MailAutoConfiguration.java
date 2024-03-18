@@ -12,7 +12,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAtt
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailInPortUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
@@ -74,7 +74,7 @@ public class MailAutoConfiguration {
 
     // Function call had to be renamed for message routing
     @Bean
-    public Consumer<Message<Mail>> sendMailFromEventBus(final MessageProcessor messageProcessor) {
+    public Consumer<Message<TextMail>> sendMailFromEventBus(final MessageProcessor messageProcessor) {
         return messageProcessor.emailIntegration();
     }
 

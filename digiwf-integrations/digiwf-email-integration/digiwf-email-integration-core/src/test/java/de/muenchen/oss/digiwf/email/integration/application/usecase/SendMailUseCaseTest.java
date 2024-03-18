@@ -5,7 +5,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPo
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
@@ -32,7 +32,7 @@ class SendMailUseCaseTest {
 
     private SendMailInPort sendMailInPort;
 
-    private final Mail mail = new Mail(
+    private final TextMail mail = new TextMail(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",

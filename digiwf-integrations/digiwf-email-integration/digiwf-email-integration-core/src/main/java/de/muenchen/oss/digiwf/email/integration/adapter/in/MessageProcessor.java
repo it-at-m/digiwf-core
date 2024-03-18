@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -23,7 +23,7 @@ public class MessageProcessor {
     private final SendMailInPort mailUseCase;
     private final MonitoringService monitoringService;
 
-    public Consumer<Message<Mail>> emailIntegration() {
+    public Consumer<Message<TextMail>> emailIntegration() {
 
         return message -> {
             withErrorHandling(message, () -> {

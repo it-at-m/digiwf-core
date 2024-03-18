@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase{
-    private final Mail mail = new Mail(
+    private final TextMail mail = new TextMail(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
@@ -30,14 +30,14 @@ class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase{
             null
     );
 
-    private Message<Mail> message;
+    private Message<TextMail> message;
 
     @BeforeEach
     void setup() {
         setupBase();
-        this.message = new Message<Mail>() {
+        this.message = new Message<TextMail>() {
             @Override
-            public Mail getPayload() {
+            public TextMail getPayload() {
                 return mail;
             }
 
