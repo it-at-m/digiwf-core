@@ -97,9 +97,9 @@
                                     "required"
                                 ]
                             },
-                            "FORMFIELD_Body": {
+                            "FORMFIELD_Text": {
                                 "fieldType": "textarea",
-                                "title": "Email",
+                                "title": "Email Text",
                                 "x-display": "textarea",
                                 "type": "string",
                                 "key": "FORMFIELD_Body",

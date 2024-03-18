@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Object contains all the information needed to send a mail.
@@ -14,29 +15,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Mail {
-
-    /**
-     * Receiver addresses of the mail, comma separated.
-     */
-    @NotBlank(message = "No receivers given")
-    private String receivers;
-
-    /**
-     * CC-Receiver addresses of the mail, comma separated.
-     */
-    private String receiversCc;
-
-    /**
-     * BCC-Receiver addresses of the mail, comma separated.
-     */
-    private String receiversBcc;
-
-    /**
-     * Subject of the mail.
-     */
-    @NotBlank(message = "No subject given")
-    private String subject;
+public class Mail extends BasicMail {
 
     /**
      * Body of the mail.
@@ -44,12 +23,9 @@ public class Mail {
     @NotBlank(message = "No body given")
     private String body;
 
-    /**
-     * Reply to address
-     */
-    private String replyTo;
-
-    @Valid
-    private List<PresignedUrl> attachments;
+    public Mail(String receivers, String receiversCc, String receiversBcc, String subject, String body, String replyTo, List<PresignedUrl> attachments) {
+        super(receivers,receiversCc,receiversBcc,subject,replyTo,attachments);
+        this.body = body;
+    }
 
 }

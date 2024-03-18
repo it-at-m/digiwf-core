@@ -123,8 +123,8 @@
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "body",
-        "target": "body"
+        "name": "text",
+        "target": "text"
       },
       "constraints": {
         "notEmpty": true

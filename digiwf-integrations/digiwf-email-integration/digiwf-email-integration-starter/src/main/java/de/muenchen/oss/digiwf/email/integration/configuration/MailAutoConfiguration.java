@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.configuration;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.MailWithLogoAndLinkDto;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MessageProcessor;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.MailAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
@@ -12,7 +13,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
+import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
@@ -79,8 +80,8 @@ public class MailAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<MailWithTemplate>> sendMailWithTemplate(final MessageProcessor messageProcessor) {
-        return messageProcessor.sendMailWithTemplate();
+    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithTemplate(final MessageProcessor messageProcessor) {
+        return messageProcessor.sendMailWithLogoAndLink();
     }
 
     @ConditionalOnMissingBean

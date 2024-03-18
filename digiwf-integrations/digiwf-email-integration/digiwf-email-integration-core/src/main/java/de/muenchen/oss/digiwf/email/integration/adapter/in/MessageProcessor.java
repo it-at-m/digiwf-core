@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.email.integration.adapter.in;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
+import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
@@ -11,6 +11,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
@@ -36,15 +37,16 @@ public class MessageProcessor {
         };
     }
 
-    public Consumer<Message<MailWithTemplate>> sendMailWithTemplate() {
+    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink() {
 
         return message -> {
+            MailWithLogoAndLinkDto mail = message.getPayload();
             withErrorHandling(message, () -> {
                 this.mailUseCase.sendMailWithTemplate(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
-                        message.getPayload());
+                        convertToTemplateMail(mail, mail.getTemplate(), Map.of("mail",mail)));
                 this.monitoringService.sendMailSucceeded();
             });
         };
@@ -63,6 +65,18 @@ public class MessageProcessor {
             this.monitoringService.sendMailFailed();
             this.errorApi.handleIncident(message.getHeaders(), incidentError);
         }
+    }
+
+    private TemplateMail convertToTemplateMail (BasicMailDto basicMail, String template, Map<String,Object> content) {
+        return new TemplateMail(
+                basicMail.getReceivers(),
+                basicMail.getReceiversCc(),
+                basicMail.getReceiversBcc(),
+                basicMail.getSubject(),
+                basicMail.getReplyTo(),
+                basicMail.getAttachments(),
+                template,
+                content);
     }
 
 }

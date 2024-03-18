@@ -1,11 +1,12 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
+import de.muenchen.oss.digiwf.email.integration.adapter.in.MailWithLogoAndLinkDto;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import de.muenchen.oss.digiwf.email.integration.model.MailWithTemplate;
+import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -41,18 +42,29 @@ class SendMailUseCaseTest {
             null
     );
 
-    private final MailWithTemplate mailWithTemplate = new MailWithTemplate(
+    private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
-            "This is a test mail",
             "digiwf@muenchen.de",
             null,
             "template",
+            "text",
             "bottomBody",
             "buttonText",
             "buttonLink"
+    );
+
+    private final TemplateMail templateMail = new TemplateMail(
+            "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
+            "receiverCC@muenchen.de",
+            "receiverBCC@muenchen.de",
+            "Test Mail",
+            "digiwf@muenchen.de",
+            null,
+            "template",
+            Map.of("mail",mailWithLogoAndLinkDto)
     );
 
     private final String processInstanceId = "processInstanceId";
@@ -111,7 +123,7 @@ class SendMailUseCaseTest {
     @Test
     void sendMailWithTemplate() throws MessagingException, TemplateException, IOException {
         when(mailPort.getBodyFromTemplate(anyString(),anyMap())).thenReturn("generated body");
-        sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, mailWithTemplate);
+        sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, templateMail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -129,9 +141,9 @@ class SendMailUseCaseTest {
     @Test
     void sendMailWithTemplateThrowsIOException() throws TemplateException, IOException {
         doThrow(new IOException("IO Exception")).when(mailPort).getBodyFromTemplate(anyString(),anyMap());
-        BpmnError bpmnError = catchThrowableOfType(() -> sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, mailWithTemplate), BpmnError.class);
+        BpmnError bpmnError = catchThrowableOfType(() -> sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, templateMail), BpmnError.class);
 
-        String expectedMessage = "The template " + mailWithTemplate.getTemplate() + " could not be loaded";
+        String expectedMessage = "The template " + templateMail.getTemplate() + " could not be loaded";
         String actualMessage = bpmnError.getErrorMessage();
 
         assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -144,7 +156,7 @@ class SendMailUseCaseTest {
         TemplateException templateException = mock(TemplateException.class);
         when(templateException.getMessage()).thenReturn("Template Exception Message");
         doThrow(templateException).when(mailPort).getBodyFromTemplate(anyString(),anyMap());
-        BpmnError bpmnError = catchThrowableOfType(() -> sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, mailWithTemplate), BpmnError.class);
+        BpmnError bpmnError = catchThrowableOfType(() -> sendMail.sendMailWithTemplate(processInstanceId, type, integrationName, templateMail), BpmnError.class);
 
         String expectedMessage = "Template Exception Message";
         String actualMessage = bpmnError.getErrorMessage();

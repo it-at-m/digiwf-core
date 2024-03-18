@@ -35,7 +35,7 @@
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
-        <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
+        <camunda:in sourceExpression="${FORMFIELD_Text}" target="text" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
         <camunda:in sourceExpression="${presignedUrls}" target="attachments" />
         <camunda:in sourceExpression="${FORMFIELD_ButtonText}" target="buttonText" />
@@ -85,7 +85,7 @@
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
         <camunda:in sourceExpression="digiwf.itm@muenchen.de" target="replyTo" />
         <camunda:in sourceExpression="${FORMFIELD_Subject}" target="subject" />
-        <camunda:in sourceExpression="${FORMFIELD_Body}" target="body" />
+        <camunda:in sourceExpression="${FORMFIELD_Text}" target="text" />
         <camunda:in sourceExpression="Mit freundlichen Grüßen&#60;br&#62;Ihr DigiWF-Team" target="bottomBody" />
         <camunda:in sourceExpression="${FORMFIELD_ButtonText}" target="buttonText" />
         <camunda:in sourceExpression="${FORMFIELD_ButtonLink}" target="buttonLink" />
