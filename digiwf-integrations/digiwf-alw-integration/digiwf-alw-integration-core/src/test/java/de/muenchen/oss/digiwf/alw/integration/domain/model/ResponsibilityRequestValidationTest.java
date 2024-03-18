@@ -22,19 +22,19 @@ class ResponsibilityRequestValidationTest {
         .hasSize(1)
         .element(0)
         .extracting(ConstraintViolation::getMessage)
-        .isEqualTo("AZR-Number must not be null or empty");
+        .isEqualTo("The AZR-Number is required and cannot be null or empty.");
 
     assertThat(validator.validate(ResponsibilityRequest.builder().azrNummer("1234567890").build()))
         .hasSize(1)
         .element(0)
         .extracting(ConstraintViolation::getMessage)
-        .isEqualTo("AZR-Number is not valid, it must contain 12 digits");
+        .isEqualTo("AZR-Number is invalid; it must contain 12 digits.");
 
     assertThat(validator.validate(ResponsibilityRequest.builder().azrNummer("1234567890AB").build()))
         .hasSize(1)
         .element(0)
         .extracting(ConstraintViolation::getMessage)
-        .isEqualTo("AZR-Number is not valid, it must contain 12 digits");
+        .isEqualTo("AZR-Number is invalid; it must contain 12 digits.");
 
 
     assertThat(validator.validate(ResponsibilityRequest.builder().azrNummer("123456789012").build()))

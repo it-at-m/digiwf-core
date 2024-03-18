@@ -50,6 +50,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>

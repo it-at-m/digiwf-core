@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.alw.integration.api.controller;
 
-import de.muenchen.oss.digiwf.alw.integration.AwlServiceApplication;
+import de.muenchen.oss.digiwf.alw.integration.AlwServiceApplication;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestAdapter;
 import de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = {
-    AwlServiceApplication.class
+    AlwServiceApplication.class
 },
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
