@@ -72,10 +72,10 @@ Nachfolgend ist ein Beispiel Event für eine Email mit einem Dateianhang aufgef�
 }
 ```
 
-### Email mit Template senden
+### Email mit Logo und Link senden
 
-Das Senden einer Email mit einem Template funktioniert wie das oben beschriebene Senden einer E-Mail.
-Der Header `type` im Email Event muss jedoch auf `sendMailWithTemplate` gesetzt werden.
+Das Senden einer Email mit Logo und Link funktioniert wie das oben beschriebene Senden einer E-Mail.
+Der Header `type` im Email Event muss jedoch auf `sendMailWithLogoAndLink` gesetzt werden.
 
 Nachfolgend ist ein Beispiel Event für eine Email mit Template aufgeführt:
 
@@ -85,7 +85,7 @@ Nachfolgend ist ein Beispiel Event für eine Email mit Template aufgeführt:
   "receiversCc": "receivers-on-cc@example.com",
   "receiversBcc": "receivers-on-bcc@example.com",
   "subject": "My important email",
-  "body": "Some text I want to send",
+  "text": "Some text I want to send",
   "replyTo": "replyto@example.com",
   "attachments": [],
   "template": "mail-template.ftl",
@@ -95,7 +95,7 @@ Nachfolgend ist ein Beispiel Event für eine Email mit Template aufgeführt:
 }
 ```
 
-Der Link und Text des Buttons sind optional, müssen jedoch immer zusammen angegeben werden.
+`buttonText` und `buttonLink` sind optional, müssen jedoch immer zusammen angegeben werden.
 Anhänge können wie oben beschrieben übergeben werden. 
 
 ### Fehlerbehandlung

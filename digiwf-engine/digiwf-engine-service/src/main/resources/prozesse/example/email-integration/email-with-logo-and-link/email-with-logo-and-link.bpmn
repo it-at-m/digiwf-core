@@ -29,7 +29,7 @@
     <bpmn:callActivity id="Activity_1olcqz6" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo-and-link" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
+        <camunda:in sourceExpression="sendMailWithLogoAndLink" target="app_type_name" />
         <camunda:in sourceExpression="mail-template.ftl" target="template" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />
@@ -79,7 +79,7 @@
     <bpmn:callActivity id="Activity_1bl8dys" name="Email senden" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email-with-logo-and-link" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="sendMailWithTemplate" target="app_type_name" />
+        <camunda:in sourceExpression="sendMailWithLogoAndLink" target="app_type_name" />
         <camunda:in sourceExpression="mail-template.ftl" target="template" />
         <camunda:out source="mailSentStatus" target="mailSentStatus" />
         <camunda:in sourceExpression="${FORMFIELD_Receiver}" target="receivers" />

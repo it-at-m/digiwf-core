@@ -34,7 +34,7 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "sendMailWithTemplate",
+      "value": "sendMailWithLogoAndLink",
       "binding": {
         "type": "camunda:in",
         "expression": true,

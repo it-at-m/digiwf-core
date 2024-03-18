@@ -13,7 +13,6 @@ import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
-import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
@@ -80,7 +79,7 @@ public class MailAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithTemplate(final MessageProcessor messageProcessor) {
+    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink(final MessageProcessor messageProcessor) {
         return messageProcessor.sendMailWithLogoAndLink();
     }
 
