@@ -38,9 +38,9 @@ public class MessageProcessor {
      * <p>
      * The consumer can throw the following BPMN error codes:
      * <ul>
-     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If the responsibility could not be found, either because it was not returned by ALW or the returned one does not match any known responsibility.</li>
-     *   <li>{@link AlwErrorCodes#VALIDATION_ERROR_CODE}": If the requested AZR-Number is not valid. It must consist of 12 digits.</li>
-     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If ALW responds with an unexpected error code.</li>
+     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}: If the responsibility could not be found, either because it was not returned by ALW or the returned one does not match any known responsibility.</li>
+     *   <li>{@link AlwErrorCodes#VALIDATION_ERROR_CODE}: If the requested AZR-Number is not valid. It must consist of 12 digits.</li>
+     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}: If ALW responds with an unexpected error code.</li>
      * </ul>
      * </p>
      *

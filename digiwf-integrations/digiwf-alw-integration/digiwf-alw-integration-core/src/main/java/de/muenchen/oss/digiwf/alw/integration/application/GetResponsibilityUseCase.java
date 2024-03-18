@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.alw.integration.application.port.out.OrgStructureM
 import de.muenchen.oss.digiwf.alw.integration.domain.exception.AlwException;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.Responsibility;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
@@ -23,7 +24,7 @@ public class GetResponsibilityUseCase implements GetResponsibilityInPort {
 
     @Override
     @NonNull
-    public Responsibility getResponsibility(@NonNull ResponsibilityRequest request) throws AlwException {
+    public Responsibility getResponsibility(@NonNull @Valid ResponsibilityRequest request) throws AlwException {
         val sachbearbeiter = alwResponsibilityOutPort.getResponsibleSachbearbeiter(request.getAzrNummer())
                 .orElseThrow(() -> new AlwException("Could not find ALW responsible for " + request.getAzrNummer()));
         val mappedResponsibility = orgStructureMapper.map(sachbearbeiter);

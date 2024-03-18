@@ -1,12 +1,12 @@
 package de.muenchen.oss.digiwf.alw.integration.adapter.out.alw;
 
 import de.muenchen.oss.digiwf.alw.integration.application.port.out.AlwResponsibilityOutPort;
-import de.muenchen.oss.digiwf.alw.integration.domain.model.validation.AzrNumber;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +27,7 @@ public class AlwResponsibilityRestAdapter implements AlwResponsibilityOutPort {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<String> getResponsibleSachbearbeiter(final @AzrNumber String azrNumber) {
+    public Optional<String> getResponsibleSachbearbeiter(final String azrNumber) {
         final String url = constructAlwRequestUrl(azrNumber);
         log.info("Connecting to {} for ALW personen info request", url);
         try {
@@ -35,7 +35,7 @@ public class AlwResponsibilityRestAdapter implements AlwResponsibilityOutPort {
             log.debug("Response from ALW personen info service: {}", restResponse);
             return Optional.ofNullable(restResponse).map(response -> response.get(FIELD_SACHBEARBEITER));
         } catch (final HttpStatusCodeException cause) {
-            if (HttpStatus.NOT_FOUND.value() == cause.getRawStatusCode()) {
+            if (HttpStatus.NOT_FOUND.value() == cause.getStatusCode().value()) {
                 return Optional.empty();
             }
             throw cause;
