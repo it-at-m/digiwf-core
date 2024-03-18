@@ -1,7 +1,8 @@
-import { callGetUserInfoFromTaskService } from "../../api/user/userApiCalls";
-import { queryClient } from "../queryClient";
-import { mapUserResponse } from "./userMapper";
-import { User } from "./userModels";
+import {callGetCurrentUserInfo, callGetUserInfoFromTaskService} from "../../api/user/userApiCalls";
+import {queryClient} from "../queryClient";
+import {mapUserResponse, mapUserTOToUser} from "./userMapper";
+import {User} from "./userModels";
+import {useQuery} from "@tanstack/vue-query";
 
 export const getUserInfo = (id: string) =>
   queryClient.fetchQuery<User>({
@@ -9,5 +10,15 @@ export const getUserInfo = (id: string) =>
     queryFn: () =>
       callGetUserInfoFromTaskService(id).then((data) =>
         Promise.resolve(mapUserResponse(data))
+      ),
+  });
+
+export const useCurrentUserInfo = () =>
+  useQuery<User>({
+    queryKey: ["current-user-info"],
+    queryFn: () =>
+      callGetCurrentUserInfo().then((data) => {
+          return Promise.resolve(mapUserTOToUser(data));
+        }
       ),
   });

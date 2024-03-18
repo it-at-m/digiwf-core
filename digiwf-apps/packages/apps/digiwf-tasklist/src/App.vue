@@ -29,7 +29,7 @@
         @closeKeyBindingsDialoge="closeKeyBindingsDialoge"
       />
 
-      {{ username }}
+      {{ user?.fullInfo }}
 
     </v-app-bar>
 
@@ -168,88 +168,92 @@ a {
 
 
 <script lang="ts">
-import Vue from "vue";
-import {Component, Watch} from "vue-property-decorator";
-import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
-import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
-import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
+import {defineComponent, ref, watch} from "vue";
+import {InfoTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
 import StageInfoService, {StageInfo} from "./api/StageInfoService";
+import {useStore} from "./hooks/store";
+import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
+import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
+import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
+import {useGetProcessInstances} from "./middleware/processInstances/processInstancesMiddleware";
+import {useCurrentUserInfo} from "./middleware/user/userMiddleware";
 
-@Component({
-  components: {AppHelpMenu, AppMenuList}
-})
-export default class App extends Vue {
-  drawer = true;
-  processInstancesCount: number | null = null;
-  username = "";
-  appInfo: InfoTO | null = null;
-  loginLoading = false;
-  loggedIn = true;
-  showKeyBindingsModal = false;
-  stage: StageInfo = StageInfoService.getDefaultStageInfo();
+export default defineComponent({
+  components: {AppHelpMenu, AppMenuList, AppKeyBindingsDialog},
+  setup: () => {
+    const drawer = ref(true);
+    const processInstancesCount = ref<number | null>(null);
+    const appInfo = ref<InfoTO | null>(null);
+    const loggedIn = ref(true);
+    const showKeyBindingsModal = ref(false);
+    const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
-  created(): void {
-    this.loadData();
-  }
+    const store = useStore();
 
-  loadData(refresh = false): void {
-    StageInfoService.getStageInfo().then((stageInfo) => {
-      this.stage = stageInfo;
+    const {data: processInstances} = useGetProcessInstances(ref(0), ref(10), ref(undefined));
+    const {data: user, loading: loginLoading, refetch: refetchUser} = useCurrentUserInfo();
+
+    const loadData = () => {
+      StageInfoService.getStageInfo().then((stageInfo) => {
+        stage.value = stageInfo;
+      });
+      store.dispatch("info/getInfo", false);
+      drawer.value = store.getters["menu/open"];
+    };
+
+    watch(processInstances, () => {
+      processInstancesCount.value = processInstances.value
+        ? processInstances.value.totalElements
+        : 0;
     });
-    this.$store.dispatch("user/getUserInfo", refresh);
-    this.$store.dispatch("info/getInfo", refresh);
-    this.drawer = this.$store.getters["menu/open"];
-  }
 
-  getUser(): void {
-    this.loginLoading = true;
-    this.$store.dispatch("user/getUserInfo", true);
-    this.loginLoading = false;
-  }
+    watch(() => store.state.menu.open, (menuOpen) => {
+      drawer.value = (menuOpen as boolean);
+    });
 
-  @Watch("$store.state.menu.open")
-  onMenuChanged(menuOpen: boolean): void {
-    this.drawer = menuOpen;
-  }
+    watch(() => store.state.info.info, (info: InfoTO) => {
+      appInfo.value = info;
+    });
 
-  @Watch("$store.state.user.info")
-  setUserName(user: UserTO): void {
-    this.username = user.forename && user.surname ? user.forename + " " + user.surname : "";
-    // if session is not valid, user is updated to an empty object in redux store
-    this.loggedIn = !!user.username;
-  }
 
-  @Watch("$store.state.processInstances.processInstances")
-  setMyProcessInstancesCount(processInstances: ServiceInstanceTO[]): void {
-    this.processInstancesCount = processInstances.length;
-  }
+    const login = (): void => {
+      const popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
 
-  @Watch("$store.state.info.info")
-  setAppInfo(info: InfoTO): void {
-    this.appInfo = info;
-  }
+      popup?.focus();
+      const timer = setInterval(() => {
+        if (popup?.closed ?? true) {
+          clearInterval(timer);
+          refetchUser();
+          queryClient.refetchQueries();
+        }
+      }, 1000);
+    };
 
-  login(): void {
-    let popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
+    const openKeyBindingsDialoge = (): void => {
+      showKeyBindingsModal.value = true;
+    };
 
-    popup?.focus();
-    let timer = setInterval(() => {
-      if (popup?.closed ?? true) {
-        clearInterval(timer);
-        this.getUser();
-        queryClient.refetchQueries();
-      }
-    }, 1000);
-  }
+    const closeKeyBindingsDialoge = (): void => {
+      showKeyBindingsModal.value = false;
+    };
 
-  openKeyBindingsDialoge(): void {
-    this.showKeyBindingsModal = true;
-  }
+    loadData();
 
-  closeKeyBindingsDialoge(): void {
-    this.showKeyBindingsModal = false;
+    return {
+      drawer,
+      appInfo,
+      user,
+      openKeyBindingsDialoge,
+      closeKeyBindingsDialoge,
+      login,
+      loggedIn,
+      showKeyBindingsModal,
+      loginLoading,
+      processInstancesCount,
+      stage
+    };
   }
-}
+});
 </script>

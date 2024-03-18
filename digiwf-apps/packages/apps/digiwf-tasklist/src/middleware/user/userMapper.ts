@@ -1,6 +1,7 @@
 import { UserProfile } from "@muenchen/digiwf-task-api-internal";
 
 import { User } from "./userModels";
+import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 export const mapUserResponse = (response: UserProfile): User => ({
   lhmObjectId: response.userId,
@@ -8,4 +9,12 @@ export const mapUserResponse = (response: UserProfile): User => ({
   surname: response.lastName,
   ou: response.primaryOrgUnit,
   fullInfo: `${response.firstName} ${response.lastName} (${response.primaryOrgUnit})`,
+});
+
+export const mapUserTOToUser = (response: UserTO): User => ({
+  lhmObjectId: response.lhmObjectId || "-",
+  firstName: response.forename || "-",
+  surname: response.surname || "-",
+  ou: response.ou || "-",
+  fullInfo: `${response.forename} ${response.surname} (${response.ou})`,
 });

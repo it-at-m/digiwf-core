@@ -19,7 +19,7 @@ export type AppToastType = "error" | "info";
 export default defineComponent({
   props: {
     message: {
-      type: String,
+      type: Object, // normally string, but it is used with Error Object too, FIXME
       required: true
     },
     type: {
@@ -28,20 +28,4 @@ export default defineComponent({
     }
   }
 });
-
-
-// import {Component, Prop, Vue} from "vue-property-decorator";
-//
-//
-//
-// @Component
-// export default class AppToast extends Vue {
-//
-//   @Prop()
-//   message!: string;
-//
-//   @Prop()
-//   type!: 'error' | 'info'
-//
-// }
 </script>
