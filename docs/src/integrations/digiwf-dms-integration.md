@@ -14,7 +14,7 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
 Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
-Es gibt die Möglichkeit zwischen zwei DMS Systemen zu wählen MUCS und ALW DMS. 
+Es gibt die Möglichkeit zwischen zwei DMS Systemen zu wählen MUCS und ALW DMS.
 Für das MUCS DMS wird der Integration Name mucsDmsIntegration verwendet, für das ALW DMS alwDmsIntegration.
 
 ### Sachakte anlegen
@@ -56,6 +56,7 @@ Nachfolgend ist ein Beispiel für ein `CreateProcedureDto`-Objekt aufgeführt:
 {
   "fileCOO": "",
   "title": "",
+  "fileSubj": "",
   "user": ""
 }
 ```
@@ -82,6 +83,7 @@ Nachfolgend ist ein Beispiel für ein `CreateDocumentDto`-Objekt aufgeführt:
 {
   "procedureCoo": "",
   "title": "",
+  "date": "",
   "user": "",
   "type": "",
   "filepaths": "",
@@ -239,7 +241,8 @@ mitgegeben werden. Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt a
 }
 ```
 
-Die Dms Integration sucht nach der entsprechenden Sachakte und gibt eine COO-Liste derjenigen Sachakten zurück, auf die die Suchkriterien zutreffen.
+Die Dms Integration sucht nach der entsprechenden Sachakte und gibt eine COO-Liste derjenigen Sachakten zurück, auf die
+die Suchkriterien zutreffen.
 Kann keine gefunden werden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 
 **Verwendung in BPMN Prozessen**

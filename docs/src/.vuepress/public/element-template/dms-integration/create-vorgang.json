@@ -69,6 +69,32 @@
       }
     },
     {
+      "label": "Betreff",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "fileSubj",
+        "target": "fileSubj"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${fileSubj}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fileSubj"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
       "label": "User",
       "type": "String",
       "value": "",
