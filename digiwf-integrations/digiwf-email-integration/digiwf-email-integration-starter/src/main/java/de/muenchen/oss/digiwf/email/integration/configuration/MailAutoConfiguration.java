@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.email.integration.configuration;
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MailWithLogoAndLinkDto;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.MailOutAdapter;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.MailAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.S3Adapter;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
@@ -69,7 +69,7 @@ public class MailAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public MailOutPort getMailPort(final DigiwfEmailApi digiwfEmailApi) {
-        return new MailOutAdapter(digiwfEmailApi);
+        return new MailAdapter(digiwfEmailApi);
     }
 
     // Function call had to be renamed for message routing

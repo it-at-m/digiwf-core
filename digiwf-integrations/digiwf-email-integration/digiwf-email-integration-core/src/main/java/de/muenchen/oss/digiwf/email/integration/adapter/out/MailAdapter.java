@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class MailOutAdapter implements MailOutPort {
+public class MailAdapter implements MailOutPort {
 
     private final DigiwfEmailApi digiwfEmailApi;
 

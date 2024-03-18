@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class SendMailInPortUseCaseTest {
+class SendMailUseCaseTest {
 
     private final LoadMailAttachmentOutPort loadMailAttachmentOutPort = mock(LoadMailAttachmentOutPort.class);
     private final CorrelateMessageOutPort correlateMessageOutPort = mock(CorrelateMessageOutPort.class);
