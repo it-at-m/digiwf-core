@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import org.mockito.Mockito;
@@ -13,7 +13,7 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 public class MessageProcessorTestBase {
 
     protected final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
-    protected final SendMail sendMailMock = Mockito.mock(SendMail.class);
+    protected final SendMailInPort sendMailInPortMock = Mockito.mock(SendMailInPort.class);
     protected final MonitoringService monitoringServiceMock = Mockito.mock(MonitoringService.class);
 
     // dummy data
@@ -25,7 +25,7 @@ public class MessageProcessorTestBase {
     protected void setupBase() {
         this.messageProcessor = new MessageProcessor(
                 errorApiMock,
-                sendMailMock,
+                sendMailInPortMock,
                 monitoringServiceMock);
     }
 

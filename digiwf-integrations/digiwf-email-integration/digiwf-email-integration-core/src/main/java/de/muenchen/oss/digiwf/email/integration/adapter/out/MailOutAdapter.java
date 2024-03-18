@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.model.Mail;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class MailAdapter implements MailPort {
+public class MailOutAdapter implements MailOutPort {
 
     private final DigiwfEmailApi digiwfEmailApi;
 

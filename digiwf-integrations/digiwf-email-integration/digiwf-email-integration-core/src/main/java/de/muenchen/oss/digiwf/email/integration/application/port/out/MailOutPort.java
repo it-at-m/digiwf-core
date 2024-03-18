@@ -7,7 +7,7 @@ import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.util.Map;
 
-public interface MailPort {
+public interface MailOutPort {
 
     void sendMail(Mail mail) throws MessagingException;
 

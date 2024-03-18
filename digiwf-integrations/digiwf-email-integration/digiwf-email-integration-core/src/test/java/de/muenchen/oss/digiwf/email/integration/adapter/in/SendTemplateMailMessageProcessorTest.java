@@ -67,12 +67,12 @@ class SendTemplateMailMessageProcessorTest extends MessageProcessorTestBase{
         );
         messageProcessor.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailMock, times(1)).sendMailWithTemplate(processInstanceId, "emailType", "emailIntegration", templateMail);
+        verify(sendMailInPortMock, times(1)).sendMailWithTemplate(processInstanceId, "emailType", "emailIntegration", templateMail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
         messageProcessor.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -85,7 +85,7 @@ class SendTemplateMailMessageProcessorTest extends MessageProcessorTestBase{
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
         messageProcessor.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -98,7 +98,7 @@ class SendTemplateMailMessageProcessorTest extends MessageProcessorTestBase{
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailMock).sendMailWithTemplate(any(), any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
         messageProcessor.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);

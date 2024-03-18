@@ -18,7 +18,7 @@ class MailAdapterTest {
 
     @Test
     void sendMail() throws MessagingException {
-        final MailAdapter mailAdapter = new MailAdapter(digiwfEmailApi);
+        final MailOutAdapter mailAdapter = new MailOutAdapter(digiwfEmailApi);
         final Mail mail = Mail.builder()
                 .receivers("receivers")
                 .subject("subject")
@@ -33,7 +33,7 @@ class MailAdapterTest {
 
     @Test
     void getBodyFromTemplate() throws TemplateException, IOException {
-        final MailAdapter mailAdapter = new MailAdapter(digiwfEmailApi);
+        final MailOutAdapter mailAdapter = new MailOutAdapter(digiwfEmailApi);
         when(digiwfEmailApi.getBodyFromTemplate(anyString(),anyMap())).thenReturn("generated body");
         String body = mailAdapter.getBodyFromTemplate("template", Map.of("key","value"));
 

@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
@@ -20,7 +20,7 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 public class MessageProcessor {
 
     private final ErrorApi errorApi;
-    private final SendMail mailUseCase;
+    private final SendMailInPort mailUseCase;
     private final MonitoringService monitoringService;
 
     public Consumer<Message<Mail>> emailIntegration() {

@@ -3,14 +3,14 @@ package de.muenchen.oss.digiwf.email.integration.configuration;
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MailWithLogoAndLinkDto;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.MailAdapter;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.MailOutAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.S3Adapter;
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
-import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailInPortUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -35,17 +35,17 @@ public class MailAutoConfiguration {
     private final MetricsProperties metricsProperties;
 
     /**
-     * Configures the {@link SendMail} use case.
+     * Configures the {@link SendMailInPort} use case.
      *
      * @param loadAttachmentPort   LoadMailAttachmentPort
-     * @param correlateMessagePort CorrelateMessagePort
-     * @param mailPort             MailPort
+     * @param correlateMessageOutPort CorrelateMessagePort
+     * @param mailOutPort             MailPort
      * @return configured SendMail use case
      */
     @Bean
     @ConditionalOnMissingBean
-    public SendMail getSendMailUseCase(final LoadMailAttachmentPort loadAttachmentPort, final CorrelateMessagePort correlateMessagePort, final MailPort mailPort) {
-        return new SendMailUseCase(loadAttachmentPort, correlateMessagePort, mailPort);
+    public SendMailInPort getSendMailUseCase(final LoadMailAttachmentOutPort loadAttachmentPort, final CorrelateMessageOutPort correlateMessageOutPort, final MailOutPort mailOutPort) {
+        return new SendMailInPortUseCase(loadAttachmentPort, correlateMessageOutPort, mailOutPort);
     }
 
     @Bean
@@ -56,20 +56,20 @@ public class MailAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CorrelateMessagePort getCorrelateMessagePort(final ProcessApi processApi) {
+    public CorrelateMessageOutPort getCorrelateMessagePort(final ProcessApi processApi) {
         return new ProcessAdapter(processApi);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadMailAttachmentPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository) {
+    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository) {
         return new S3Adapter(s3FileTransferRepository);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public MailPort getMailPort(final DigiwfEmailApi digiwfEmailApi) {
-        return new MailAdapter(digiwfEmailApi);
+    public MailOutPort getMailPort(final DigiwfEmailApi digiwfEmailApi) {
+        return new MailOutAdapter(digiwfEmailApi);
     }
 
     // Function call had to be renamed for message routing
@@ -88,7 +88,7 @@ public class MailAutoConfiguration {
     public MessageProcessor createMessageProcessor(
             final ErrorApi errorApi,
             final MonitoringService monitoringService,
-            final SendMail mailUseCase
+            final SendMailInPort mailUseCase
     ) {
         return new MessageProcessor(
                 errorApi,

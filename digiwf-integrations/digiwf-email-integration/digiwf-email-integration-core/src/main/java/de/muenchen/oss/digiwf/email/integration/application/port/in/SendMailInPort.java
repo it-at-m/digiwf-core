@@ -4,7 +4,7 @@ import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import jakarta.validation.Valid;
 
-public interface SendMail {
+public interface SendMailInPort {
 
     void sendMailWithText(final String processInstanceId, final String type, final String integrationName, @Valid final Mail mail);
     void sendMailWithTemplate(final String processInstanceId, final String type, final String integrationName, @Valid final TemplateMail mail);

@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMail;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.MailPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.model.BasicMail;
 import de.muenchen.oss.digiwf.email.integration.model.Mail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
@@ -27,11 +27,11 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Validated
-public class SendMailUseCase implements SendMail {
+public class SendMailInPortUseCase implements SendMailInPort {
 
-    private final LoadMailAttachmentPort loadAttachmentPort;
-    private final CorrelateMessagePort correlateMessagePort;
-    private final MailPort mailPort;
+    private final LoadMailAttachmentOutPort loadAttachmentPort;
+    private final CorrelateMessageOutPort correlateMessageOutPort;
+    private final MailOutPort mailOutPort;
 
     /**
      * Send a mail.
@@ -52,7 +52,7 @@ public class SendMailUseCase implements SendMail {
         try {
             Map<String, Object> content = new HashMap<>(mail.getContent());
             content.put("footer", "DigiWF 2.0<br>IT-Referat der Stadt München");
-            String body = this.mailPort.getBodyFromTemplate(mail.getTemplate(), content);
+            String body = this.mailOutPort.getBodyFromTemplate(mail.getTemplate(), content);
 
             de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
             mailModel.setBody(body);
@@ -88,11 +88,11 @@ public class SendMailUseCase implements SendMail {
 
     private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel) throws BpmnError {
         try {
-                  this.mailPort.sendMail(mailModel);
+                  this.mailOutPort.sendMail(mailModel);
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);
-            this.correlateMessagePort.correlateMessage(processInstanceIde, type, integrationName, correlatePayload);
+            this.correlateMessageOutPort.correlateMessage(processInstanceIde, type, integrationName, correlatePayload);
         } catch (final MessagingException ex) {
             log.error("Sending mail failed with exception: {}", ex.getMessage());
             throw new BpmnError("MAIL_SENDING_FAILED", ex.getMessage());
