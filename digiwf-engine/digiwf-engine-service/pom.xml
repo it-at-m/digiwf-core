@@ -332,7 +332,6 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>4.0.3</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -349,9 +348,6 @@
                                     <wsdlLocation>classpath:dms.wsdl</wsdlLocation>
                                     <extraargs>
                                         <extraarg>-quiet</extraarg>
-                                        <!--
-                                        <extraarg>-verbose</extraarg>
-                                        -->
                                     </extraargs>
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/binding.xml</bindingFile>
