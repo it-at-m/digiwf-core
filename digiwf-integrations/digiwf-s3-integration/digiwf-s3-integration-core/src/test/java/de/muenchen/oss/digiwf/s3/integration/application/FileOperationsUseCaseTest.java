@@ -81,7 +81,7 @@ class FileOperationsUseCaseTest {
     // GET, PUT, DELETE
     actions.forEach(action -> {
       try {
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFile)).thenReturn(Set.of(pathToFile));
+        Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
         Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
         final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(List.of(pathToFile), action, expiresInMinutes);
