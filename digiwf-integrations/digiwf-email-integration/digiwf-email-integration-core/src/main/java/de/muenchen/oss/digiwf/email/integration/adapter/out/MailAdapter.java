@@ -22,6 +22,6 @@ public class MailAdapter implements MailOutPort {
 
     @Override
     public String getBodyFromTemplate(String templateName, Map<String, Object> content) throws TemplateException, IOException {
-        return this.digiwfEmailApi.getBodyFromTemplate(templateName,content);
+        return this.digiwfEmailApi.getBodyFromTemplate(templateName, content);
     }
 }

@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase{
+class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase {
     private final TextMail mail = new TextMail(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",

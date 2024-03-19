@@ -97,7 +97,7 @@ public class DigiwfEmailApiImpl implements DigiwfEmailApi {
     @Override
     public String getBodyFromTemplate(String templateName, Map<String, Object> content) throws IOException, TemplateException {
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templateName);
-        return FreeMarkerTemplateUtils.processTemplateIntoString(template,content);
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, content);
     }
 
     @Override

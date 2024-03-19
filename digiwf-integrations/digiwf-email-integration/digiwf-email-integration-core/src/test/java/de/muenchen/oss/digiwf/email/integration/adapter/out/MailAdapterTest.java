@@ -34,11 +34,11 @@ class MailAdapterTest {
     @Test
     void getBodyFromTemplate() throws TemplateException, IOException {
         final MailAdapter mailAdapter = new MailAdapter(digiwfEmailApi);
-        when(digiwfEmailApi.getBodyFromTemplate(anyString(),anyMap())).thenReturn("generated body");
-        String body = mailAdapter.getBodyFromTemplate("template", Map.of("key","value"));
+        when(digiwfEmailApi.getBodyFromTemplate(anyString(), anyMap())).thenReturn("generated body");
+        String body = mailAdapter.getBodyFromTemplate("template", Map.of("key", "value"));
 
         assertThat(body).isEqualTo("generated body");
-        verify(digiwfEmailApi).getBodyFromTemplate("template", Map.of("key","value"));
+        verify(digiwfEmailApi).getBodyFromTemplate("template", Map.of("key", "value"));
     }
 
 }

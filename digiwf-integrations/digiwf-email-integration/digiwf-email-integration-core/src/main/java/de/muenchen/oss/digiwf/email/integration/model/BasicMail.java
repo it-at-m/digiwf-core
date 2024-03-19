@@ -34,7 +34,6 @@ public class BasicMail {
      */
     @NotBlank(message = "No subject given")
     private String subject;
-    
 
     /**
      * Reply to address

@@ -57,7 +57,7 @@ class DigiwfEmailApiImplTest {
     @BeforeEach
     void setUp() {
         when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
-        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, freeMarkerConfigurer,"digiwf@muenchen.de", defaultReplyTo);
+        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, freeMarkerConfigurer, "digiwf@muenchen.de", defaultReplyTo);
     }
 
     @Test
@@ -220,7 +220,7 @@ class DigiwfEmailApiImplTest {
     @Test
     void testGetBodyFromFreemarkerTemplate() throws IOException, TemplateException {
         final String templateName = "test-template.ftl";
-        Map<String, Object> content = Map.of("data","test");
+        Map<String, Object> content = Map.of("data", "test");
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
         configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
         when(this.freeMarkerConfigurer.getConfiguration()).thenReturn(configuration);
@@ -268,8 +268,8 @@ class DigiwfEmailApiImplTest {
         assertThatThrownBy(() -> {
             this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content"));
         })
-            .isInstanceOf(RuntimeException.class)
-            .hasMessageContaining("Email Template not found: " + templatePath);
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Email Template not found: " + templatePath);
     }
 
     private Resource getResourceForText(final String text, final boolean resourceExists) {

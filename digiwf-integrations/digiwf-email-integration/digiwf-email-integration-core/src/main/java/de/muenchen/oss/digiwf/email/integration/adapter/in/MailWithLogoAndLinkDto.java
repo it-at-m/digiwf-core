@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class MailWithLogoAndLinkDto extends BasicMailDto{
+public class MailWithLogoAndLinkDto extends BasicMailDto {
 
     /**
      * Template of the mail.
@@ -45,7 +44,7 @@ public class MailWithLogoAndLinkDto extends BasicMailDto{
     private String buttonLink;
 
     public MailWithLogoAndLinkDto(String receivers, String receiversCc, String receiversBcc, String subject, String replyTo, List<PresignedUrl> attachments, String template, String text, String bottomBody, String buttonText, String buttonLink) {
-        super(receivers,receiversCc,receiversBcc,subject,replyTo,attachments);
+        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments);
         this.template = template;
         this.text = text;
         this.bottomBody = bottomBody;

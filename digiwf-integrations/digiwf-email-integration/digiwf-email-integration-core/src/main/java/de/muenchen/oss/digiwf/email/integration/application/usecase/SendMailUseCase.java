@@ -27,9 +27,9 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Validated
-public class SendMailInPortUseCase implements SendMailInPort {
+public class SendMailUseCase implements SendMailInPort {
 
-    private final LoadMailAttachmentOutPort loadAttachmentPort;
+    private final LoadMailAttachmentOutPort loadAttachmentOutPort;
     private final CorrelateMessageOutPort correlateMessageOutPort;
     private final MailOutPort mailOutPort;
 
@@ -43,7 +43,7 @@ public class SendMailInPortUseCase implements SendMailInPort {
         de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
         mailModel.setBody(mail.getBody());
 
-        this.sendMail(processInstanceIde,type,integrationName,mailModel);
+        this.sendMail(processInstanceIde, type, integrationName, mailModel);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SendMailInPortUseCase implements SendMailInPort {
             mailModel.setBody(body);
             mailModel.setHtmlBody(true);
 
-            this.sendMail(processInstanceIde,type,integrationName,mailModel);
+            this.sendMail(processInstanceIde, type, integrationName, mailModel);
 
         } catch (IOException ioException) {
             throw new BpmnError("LOAD_TEMPLATE_FAILED", "The template " + mail.getTemplate() + " could not be loaded");
@@ -67,12 +67,12 @@ public class SendMailInPortUseCase implements SendMailInPort {
         }
     }
 
-    private de.muenchen.oss.digiwf.email.model.Mail createMail (BasicMail mail) {
+    private de.muenchen.oss.digiwf.email.model.Mail createMail(BasicMail mail) {
         // load Attachments
         final List<FileAttachment> attachments = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
             for (val attachment : mail.getAttachments()) {
-                attachments.add(this.loadAttachmentPort.loadAttachment(attachment));
+                attachments.add(this.loadAttachmentOutPort.loadAttachment(attachment));
             }
         }
         // send mail
@@ -88,7 +88,7 @@ public class SendMailInPortUseCase implements SendMailInPort {
 
     private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel) throws BpmnError {
         try {
-                  this.mailOutPort.sendMail(mailModel);
+            this.mailOutPort.sendMail(mailModel);
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);

@@ -20,14 +20,14 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 public class MessageProcessor {
 
     private final ErrorApi errorApi;
-    private final SendMailInPort mailUseCase;
+    private final SendMailInPort mailInPort;
     private final MonitoringService monitoringService;
 
     public Consumer<Message<TextMail>> emailIntegration() {
 
         return message -> {
             withErrorHandling(message, () -> {
-                this.mailUseCase.sendMailWithText(
+                this.mailInPort.sendMailWithText(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
@@ -40,13 +40,13 @@ public class MessageProcessor {
     public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink() {
 
         return message -> {
-            MailWithLogoAndLinkDto mail = message.getPayload();
             withErrorHandling(message, () -> {
-                this.mailUseCase.sendMailWithTemplate(
+                MailWithLogoAndLinkDto mail = message.getPayload();
+                this.mailInPort.sendMailWithTemplate(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
-                        convertToTemplateMail(mail, mail.getTemplate(), Map.of("mail",mail)));
+                        convertToTemplateMail(mail, mail.getTemplate(), Map.of("mail", mail)));
                 this.monitoringService.sendMailSucceeded();
             });
         };
@@ -67,7 +67,7 @@ public class MessageProcessor {
         }
     }
 
-    private TemplateMail convertToTemplateMail (BasicMailDto basicMail, String template, Map<String,Object> content) {
+    private TemplateMail convertToTemplateMail(BasicMailDto basicMail, String template, Map<String, Object> content) {
         return new TemplateMail(
                 basicMail.getReceivers(),
                 basicMail.getReceiversCc(),

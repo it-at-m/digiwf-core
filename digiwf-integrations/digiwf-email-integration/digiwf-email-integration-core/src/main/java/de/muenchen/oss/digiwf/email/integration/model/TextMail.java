@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class TextMail extends BasicMail {
     private String body;
 
     public TextMail(String receivers, String receiversCc, String receiversBcc, String subject, String body, String replyTo, List<PresignedUrl> attachments) {
-        super(receivers,receiversCc,receiversBcc,subject,replyTo,attachments);
+        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments);
         this.body = body;
     }
 

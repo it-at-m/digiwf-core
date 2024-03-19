@@ -10,7 +10,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPo
 import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
-import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailInPortUseCase;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -45,7 +45,7 @@ public class MailAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SendMailInPort getSendMailUseCase(final LoadMailAttachmentOutPort loadAttachmentPort, final CorrelateMessageOutPort correlateMessageOutPort, final MailOutPort mailOutPort) {
-        return new SendMailInPortUseCase(loadAttachmentPort, correlateMessageOutPort, mailOutPort);
+        return new SendMailUseCase(loadAttachmentPort, correlateMessageOutPort, mailOutPort);
     }
 
     @Bean

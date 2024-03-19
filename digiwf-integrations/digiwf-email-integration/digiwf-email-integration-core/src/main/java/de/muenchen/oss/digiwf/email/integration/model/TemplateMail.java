@@ -13,7 +13,7 @@ import java.util.Map;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class TemplateMail extends BasicMail{
+public class TemplateMail extends BasicMail {
 
     /**
      * Template of the mail.
@@ -25,10 +25,10 @@ public class TemplateMail extends BasicMail{
      * Bottom body of the mail.
      */
     @NotEmpty(message = "No content given")
-    private Map<String,Object> content;
+    private Map<String, Object> content;
 
-    public TemplateMail(String receivers, String receiversCc, String receiversBcc, String subject, String replyTo, List<PresignedUrl> attachments, String template, Map<String,Object> content) {
-        super(receivers,receiversCc,receiversBcc,subject,replyTo,attachments);
+    public TemplateMail(String receivers, String receiversCc, String receiversBcc, String subject, String replyTo, List<PresignedUrl> attachments, String template, Map<String, Object> content) {
+        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments);
         this.template = template;
         this.content = content;
     }

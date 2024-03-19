@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBase{
+class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBase {
 
     private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
@@ -63,7 +63,7 @@ class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBa
                 "digiwf@muenchen.de",
                 null,
                 "template",
-                Map.of("mail",mailWithLogoAndLinkDto)
+                Map.of("mail", mailWithLogoAndLinkDto)
         );
         messageProcessor.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
