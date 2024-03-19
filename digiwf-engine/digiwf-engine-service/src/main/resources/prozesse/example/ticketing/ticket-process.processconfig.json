@@ -15,18 +15,6 @@
   "statusDokument": "",
   "configs": [
     {
-      "key": "ignore_fields_on_start",
-      "value": "1"
-    },
-    {
-      "key": "app_file_s3_sync_config",
-      "value": "http://127.0.0.1:8086"
-    },
-    {
-      "key": "app_instance_schema_key",
-      "value": "Zammad_Start_Form"
-    },
-    {
       "key": "app_file_paths_readonly",
       "value": "zammad"
     },
