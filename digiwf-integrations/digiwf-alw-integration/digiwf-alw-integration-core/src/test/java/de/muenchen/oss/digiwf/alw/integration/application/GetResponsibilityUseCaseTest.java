@@ -49,7 +49,7 @@ class GetResponsibilityUseCaseTest {
   void finds_responsible_without_mapping() throws Exception {
     when(alwResponsibilityMock.getResponsibleSachbearbeiter(any())).thenReturn(Optional.of("UNKNOWN"));
     val alwException = assertThrows(AlwException.class, () -> getResponsibility.getResponsibility(ResponsibilityRequest.builder().azrNummer("123456789012").build()));
-    assertThat(alwException.getMessage()).isEqualTo("Responsible UNKNOWN for azr 123456789012 does not match any know responsibility!");
+    assertThat(alwException.getMessage()).isEqualTo("Responsible UNKNOWN for azr 123456789012 does not match any known responsibility!");
     verify(alwResponsibilityMock).getResponsibleSachbearbeiter("123456789012");
   }
 

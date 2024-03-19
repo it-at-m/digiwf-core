@@ -19,6 +19,8 @@ public class WriteArticleDto {
     private String filepaths;
 
     public List<String> getFilepaths() {
+        if (filepaths == null)
+            return List.of();
         return Arrays.asList(filepaths.split(";"));
     }
 

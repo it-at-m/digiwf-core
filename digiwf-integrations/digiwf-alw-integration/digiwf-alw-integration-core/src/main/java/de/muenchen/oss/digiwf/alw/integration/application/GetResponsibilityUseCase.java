@@ -29,7 +29,7 @@ public class GetResponsibilityUseCase implements GetResponsibilityInPort {
                 .orElseThrow(() -> new AlwException("Could not find ALW responsible for " + request.getAzrNummer()));
         val mappedResponsibility = orgStructureMapper.map(sachbearbeiter);
         if (Strings.isEmpty(mappedResponsibility))
-            throw new AlwException(String.format("Responsible %s for azr %s does not match any know responsibility!", sachbearbeiter, request.getAzrNummer()));
+            throw new AlwException(String.format("Responsible %s for azr %s does not match any known responsibility!", sachbearbeiter, request.getAzrNummer()));
         return Responsibility.builder().orgUnit(orgStructureMapper.map(sachbearbeiter)).build();
     }
 }

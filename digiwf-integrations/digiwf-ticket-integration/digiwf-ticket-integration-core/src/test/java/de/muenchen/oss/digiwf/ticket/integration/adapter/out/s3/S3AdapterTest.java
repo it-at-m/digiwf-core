@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
@@ -18,7 +19,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,9 +39,9 @@ class S3AdapterTest {
     private final String processDefinition = "processDefinition";
 
     @Test
-    void test_load_single_file_successfully() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+    void test_load_single_file_successfully() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         // Set up mock behavior
-        when(documentStorageFileRepository.getFile(anyString(), anyInt(), any())).thenReturn("fileContent".getBytes());
+        when(documentStorageFileRepository.getFile(anyString(), anyInt())).thenReturn("fileContent".getBytes());
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(), anyString())).thenReturn(Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
@@ -78,10 +80,10 @@ class S3AdapterTest {
     }
 
     @Test
-    void test_load_file_throws_bpmn_error_for_unsupported_types() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+    void test_load_file_throws_bpmn_error_for_unsupported_types() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         // Set up mock behavior
-        when(documentStorageFileRepository.getFile(anyString(), anyInt(), any())).thenReturn("fileContent".getBytes());
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(), anyString())).thenReturn(Mono.just(Collections.emptySet()));
+        when(documentStorageFileRepository.getFile(anyString(), anyInt())).thenReturn("fileContent".getBytes());
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString())).thenReturn(Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, List.of("application/pdf"));

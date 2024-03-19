@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFilePort;
@@ -49,11 +50,16 @@ public class S3Adapter implements LoadFilePort {
     private List<FileContent> getFilesFromFolder(String folderpath, final String domainSpecificS3Storage) {
         try {
             final List<FileContent> contents = new ArrayList<>();
-            final Set<String> filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath, domainSpecificS3Storage).block();
+            final Set<String> filepath;
+            if (domainSpecificS3Storage != null) {
+                filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath, domainSpecificS3Storage).block();
+            } else {
+                filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
+            }
             filepath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException e) {
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
@@ -61,7 +67,12 @@ public class S3Adapter implements LoadFilePort {
     private FileContent getFile(String filepath, final String domainSpecificS3Storage) {
         try {
             final Tika tika = new Tika();
-            final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3, domainSpecificS3Storage);
+            final byte[] bytes;
+            if (domainSpecificS3Storage != null) {
+                bytes = this.documentStorageFileRepository.getFile(filepath, 3, domainSpecificS3Storage);
+            } else {
+                bytes = this.documentStorageFileRepository.getFile(filepath, 3);
+            }
             final String mimeType = tika.detect(bytes);
             final String filename = FilenameUtils.getName(filepath);
 
@@ -74,7 +85,7 @@ public class S3Adapter implements LoadFilePort {
 
             return new FileContent(mimeType, filename, bytes);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException e) {
+                       DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
