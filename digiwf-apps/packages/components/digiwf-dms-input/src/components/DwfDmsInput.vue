@@ -128,6 +128,7 @@ export default defineComponent({
     })
 
     const mucsDmsApiEndpoint = inject<string>('mucsDmsApiEndpoint');
+    const alwDmsApiEndpoint = inject<string>('alwDmsApiEndpoint');
 
     const onObjectChange = () => {
       if (!props.on) {
@@ -159,6 +160,8 @@ export default defineComponent({
     const getApiEndpoint = (): string => {
       if (dmsSystem === "mucs" && !!mucsDmsApiEndpoint) {
         return mucsDmsApiEndpoint;
+      } else if (dmsSystem === "alw" && !!alwDmsApiEndpoint) {
+        return alwDmsApiEndpoint;
       }
       return "";
     }

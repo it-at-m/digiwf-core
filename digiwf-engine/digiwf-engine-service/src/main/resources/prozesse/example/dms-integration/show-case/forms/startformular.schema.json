@@ -41,7 +41,40 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "system": {
+                "fieldType": "select",
+                "title": "Dms System in dem der Showcase durchgeführt werden soll",
+                "type": "string",
+                "key": "system",
+                "default": "mucsDmsIntegration",
+                "anyOf": [
+                  {
+                    "title": "mucs",
+                    "const": "mucsDmsIntegration"
+                  },
+                  {
+                    "title": "alw",
+                    "const": "alwDmsIntegration"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
               },
               "search": {
                 "fieldType": "text",
@@ -59,7 +92,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "user": {
                 "fieldType": "text",
@@ -77,7 +112,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "reference": {
                 "fieldType": "text",

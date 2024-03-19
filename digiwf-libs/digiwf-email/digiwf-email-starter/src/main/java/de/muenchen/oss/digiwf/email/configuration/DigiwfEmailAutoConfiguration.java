@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.util.Properties;
 
@@ -46,8 +47,16 @@ public class DigiwfEmailAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public DigiwfEmailApi digiwfEmailApi(final ResourceLoader resourceLoader, final JavaMailSender javaMailSender) {
-        return new DigiwfEmailApiImpl(javaMailSender, resourceLoader, this.customMailProperties.getFromAddress(), this.customMailProperties.getDefaultReplyToAddress());
+    public DigiwfEmailApi digiwfEmailApi(final ResourceLoader resourceLoader, final JavaMailSender javaMailSender, final FreeMarkerConfigurer freeMarkerConfigurer) {
+        return new DigiwfEmailApiImpl(javaMailSender, resourceLoader, freeMarkerConfigurer, this.customMailProperties.getFromAddress(), this.customMailProperties.getDefaultReplyToAddress());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FreeMarkerConfigurer freemarkerConfig() {
+        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+        freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates/");
+        return freeMarkerConfigurer;
     }
 
 }

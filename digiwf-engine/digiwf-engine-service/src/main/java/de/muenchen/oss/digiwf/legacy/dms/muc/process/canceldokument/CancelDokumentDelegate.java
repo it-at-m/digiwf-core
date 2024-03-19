@@ -9,7 +9,6 @@ import de.muenchen.oss.digiwf.legacy.dms.muc.external.transport.DMSStatusCode;
 import io.holunda.camunda.bpm.data.factory.VariableFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -55,8 +54,7 @@ public class CancelDokumentDelegate implements JavaDelegate {
         } catch (final Exception error) {
             log.error("Could not cancel documents: {}", error.getMessage());
             // check if object is locked if it is a DMSException
-            if (error instanceof DMSException) {
-                final DMSException dmsException = (DMSException) error;
+            if (error instanceof DMSException dmsException) {
                 if (dmsException.getStatusCode() == DMSStatusCode.OBJEKT_GESPERRT) {
                     throw new BpmnError(dmsException.getStatusCode().name(), dmsException.getMessage());
                 }

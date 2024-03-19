@@ -1,0 +1,248 @@
+name: Release services
+
+on:
+  workflow_call:
+    inputs:
+      snapshot-release:
+        description: 'Snapshot release?'
+        type: boolean
+        required: true
+        default: false
+      maven-release:
+        description: 'Maven release?'
+        type: boolean
+        required: true
+        default: true
+      build-images:
+        description: 'Build and push images?'
+        type: boolean
+        required: true
+        default: false
+      release-version:
+        description: 'Services release version'
+        type: string
+        required: false
+
+jobs:
+  build-services:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: "maven"
+          server-id: "ossrh"
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
+
+      - name: Remove SNAPSHOT
+        if: inputs.snapshot-release == false
+        run: |
+          ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
+
+      - name: Build with Maven
+        run: ./mvnw --batch-mode clean install
+
+      #
+      # The GPG key is stored in the secret using the text 'PGP Private Key' format
+      # Import it to GPG keyring and trust it.
+      #
+      - name: Import GPG key
+        if: inputs.maven-release == true
+        run: echo "${{ secrets.gpg_private_key }}" | gpg --import --no-tty --batch --yes --always-trust
+
+      #
+      # Show available keys. This will hide the key name (since it is in the secrets), but show for example expiration date
+      #
+      - name: List GPG keys available
+        if: inputs.maven-release == true
+        run: gpg --list-secret-keys --keyid-format=long
+
+      #
+      # Create a release, passing gpg.keyname and gpg.passphrase directly from the secrets
+      #
+      - name: Perform maven release
+        if: inputs.maven-release == true
+        run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}" -Daether.connector.http.connectionMaxTtl=1800
+        env:
+          OSSRH_USERNAME: ${{ secrets.nexus_username }}
+          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
+
+      - name: Set up QEMU
+        if: inputs.build-images == true
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        if: inputs.build-images == true
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: inputs.build-images == true
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_KEY }}
+
+      - name: Build and push connector
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-connector/digiwf-camunda-connector-service
+          push: true
+          tags: itatm/digiwf-camunda-connector-service:${{ inputs.release-version }}
+
+      - name: Build and push gateway
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-gateway
+          push: true
+          tags: itatm/digiwf-gateway:${{ inputs.release-version }}
+
+      - name: Build and push cosys
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
+          push: true
+          tags: itatm/digiwf-cosys-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push email integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
+          push: true
+          tags: itatm/digiwf-email-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push alw-integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
+          push: true
+          tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push s3-integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
+          push: true
+          tags: itatm/digiwf-s3-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push oss engine
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-engine/digiwf-engine-service
+          push: true
+          tags: itatm/digiwf-engine-service-community:${{ inputs.release-version }}
+
+      - name: Build and push tasklist backend
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-task/digiwf-tasklist-service
+          push: true
+          tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }}
+
+      - name: Build and push alw dms integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
+          push: true
+          tags: itatm/digiwf-alw-dms-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push mucs dms integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
+          push: true
+          tags: itatm/digiwf-mucs-dms-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push ok ewo integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
+          push: true
+          tags: itatm/digiwf-okewo-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push address-integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-address-integration/digiwf-address-integration-service
+          push: true
+          tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }}
+
+      - name: Build and push ticket-integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-ticket-integration/digiwf-ticket-integration-service
+          push: true
+          tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }}
+
+  build-services-camunda-ee:
+    if: inputs.build-images == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          server-id: camunda-bpm-nexus-ee
+          server-username: CAMUNDA_USER_REF
+          server-password: CAMUNDA_TOKEN_REF
+
+      - name: Prepare mvnw
+        run: chmod +x ./mvnw
+
+      - name: Remove SNAPSHOT
+        if: inputs.snapshot-build== false
+        run: |
+          ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
+
+      - name: Build with Maven
+        run: ./mvnw --batch-mode -P camunda-ee,!camunda-ce install -DskipTests -ntp
+        env:
+          CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
+          CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_KEY }}
+
+      - name: Build and push engine
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-engine/digiwf-engine-service
+          push: true
+          tags: itatm/digiwf-engine-service:${{ inputs.release-version }}
+
+      - name: Build and push engine rest
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-engine/digiwf-engine-rest-service
+          push: true
+          tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }}

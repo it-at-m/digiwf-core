@@ -7,6 +7,10 @@ import de.muenchen.oss.digiwf.deployment.domain.model.DeploymentStatusModel;
 import de.muenchen.oss.digiwf.process.config.api.mapper.ProcessConfigApiMapper;
 import de.muenchen.oss.digiwf.process.config.api.transport.ProcessConfigTO;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +19,6 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Sinks;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
 import java.io.IOException;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -34,6 +34,7 @@ public class ConfigurationDeploymentEventListener {
     private final ProcessConfigApiMapper processConfigApiMapper;
     private final Sinks.Many<Message<DeploymentStatusModel>> statusEmitter;
 
+    @Deprecated
     @Bean
     public Consumer<Message<DeploymentEvent>> deployConfiguration() {
         return message -> {

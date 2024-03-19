@@ -16,10 +16,19 @@
       }
     },
     {
-      "label": "Integration Name",
-      "type": "String",
-      "editable": false,
-      "value": "dmsIntegration",
+      "label": "Dms System (Integration Name)",
+      "type": "Dropdown",
+      "value": "mucsDmsIntegration",
+      "choices": [
+        {
+          "name": "mucs",
+          "value": "mucsDmsIntegration"
+        },
+        {
+          "name": "alw",
+          "value": "alwDmsIntegration"
+        }
+      ],
       "binding": {
         "type": "camunda:in",
         "name": "app_integration_name",
@@ -61,7 +70,7 @@
       }
     },
     {
-      "label": " Vorgang (COO)",
+      "label": "Vorgang (COO)",
       "type": "String",
       "value": "",
       "binding": {
@@ -83,6 +92,33 @@
         "expression": true,
         "name": "title",
         "target": "title"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Datum",
+      "type": "String",
+      "value": "",
+      "description": "Ein-/Ausgangsdatum",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "date",
+        "target": "date"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${date}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "date"
       },
       "constraints": {
         "notEmpty": true

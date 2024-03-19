@@ -1,10 +1,9 @@
 ### Description
-
-Short description or comments
+<!-- Brief explanation of the changes and their impact -->
 
 ### Reference
 
-Issues: closes #xxx
+Issues: #xxx
 
 ### Screenshots (If UI changed)
 

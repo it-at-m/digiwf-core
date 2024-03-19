@@ -17,8 +17,16 @@
 ## Email Integration
 
 <DownloadArtifact
-    artifact="sendMailV02.json"
+    artifact="email-integration/sendMailV02.json"
     type="element-template" />
+
+<DownloadArtifact
+artifact="email-integration/sendMailWithLogo.json"
+type="element-template" />
+
+<DownloadArtifact
+artifact="email-integration/sendMailWithLogoAndLink.json"
+type="element-template" />
 
 ## Address-Service Integration
 

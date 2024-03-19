@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Search File process" processRef="search-file-integration-example" />
   </bpmn:collaboration>
-  <bpmn:process id="search-file-integration-example" name="DMS: Example Search File Integration" isExecutable="true">
+  <bpmn:process id="search-file-integration-example" name="DMS: Search File" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_0or3gci" />
@@ -27,7 +27,7 @@
     <bpmn:callActivity id="Activity_0or3gci" name="Search Sachakte" camunda:modelerTemplate="de.muenchen.digitalwf.templates.search-file" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="searchFile" target="app_type_name" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:out source="fileCoo" target="sachakten" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${search}" target="searchString" />

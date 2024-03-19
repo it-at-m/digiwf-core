@@ -16,10 +16,19 @@
       }
     },
     {
-      "label": "Integration Name",
-      "type": "String",
-      "editable": false,
-      "value": "dmsIntegration",
+      "label": "Dms System (Integration Name)",
+      "type": "Dropdown",
+      "value": "mucsDmsIntegration",
+      "choices": [
+        {
+          "name": "mucs",
+          "value": "mucsDmsIntegration"
+        },
+        {
+          "name": "alw",
+          "value": "alwDmsIntegration"
+        }
+      ],
       "binding": {
         "type": "camunda:in",
         "name": "app_integration_name",
@@ -54,6 +63,32 @@
         "expression": true,
         "name": "title",
         "target": "title"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Betreff",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "fileSubj",
+        "target": "fileSubj"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${fileSubj}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "fileSubj"
       },
       "constraints": {
         "notEmpty": true

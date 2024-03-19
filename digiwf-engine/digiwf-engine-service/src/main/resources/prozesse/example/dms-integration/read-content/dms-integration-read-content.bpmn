@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0iserd2">
     <bpmn:participant id="Participant_141ljpi" name="Read content process" processRef="dms-read-content-example" />
   </bpmn:collaboration>
-  <bpmn:process id="dms-read-content-example" name="DMS: Example Read Cotent Integration" isExecutable="true">
+  <bpmn:process id="dms-read-content-example" name="DMS: Read Cotent" isExecutable="true">
     <bpmn:documentation />
     <bpmn:extensionElements />
     <bpmn:sequenceFlow id="Flow_16a04uf" sourceRef="StartEvent_1" targetRef="Activity_1uusxk1" />
@@ -30,7 +30,7 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="readContent" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="dmsIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="${fileCoos}" target="contentCoos" />
         <camunda:in sourceExpression="path" target="filePath" />

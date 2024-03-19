@@ -39,19 +39,60 @@ Die Daten, die an CoSys übergeben werden, müssen zuvor definiert werden.
 | GUID                       | Eindeutiger Bezeichner der Cosys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
 | Daten                      | Daten als JSON Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |
 
-## Email
+## E-Mail
 
-Um eine Email zu versenden, muss eine CallActivity modelliert werden, die ein `sendMail` Element Template verwendet.
+Um eine E-Mail zu versenden, muss eine CallActivity modelliert werden.
+Es stehen verschiedene E-Mail Templates zur Verfügung.
+
+### E-Mail versenden
+
+Um eine einfache E-Mail zu versenden wird das Element Template `Mail: E-Mail senden V02`  verwendet.
 
 **Properties**
 
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Event Topic           | Das Topic der Email Integration                                                    | dwf-email-local-01         |
-| Receiver              | Email Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Testemail                  |
-| Body                  | Email Text                                                                         | Das ist ein Test           |
-| Reply-To Address      | Email Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
+| Subject               | Betreff                                                                            | Test E-Mail                      |
+| Body                  | E-Mail Text                                                                         | Das ist ein Test           |
+| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
+| Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |
+
+
+### E-Mail mit Logo versenden
+
+Um eine E-Mail mit Logo zu versenden wird das Element Template `Mail: E-Mail mit Logo senden`  verwendet.
+
+**Properties**
+
+| Property              | Beschreibung                                                                       | Beispiel                   |
+|-----------------------|------------------------------------------------------------------------------------|----------------------------|
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
+| Subject               | Betreff                                                                            | Test E-Mail                |
+| E-Mail Text                  | E-Mail Text                                                                         | Das ist ein Test           |
+| E-Mail Gruß                  | E-Mail Gruß                                                                         | Mit freundlichen Grüßen    |
+| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
+| Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |
+
+### E-Mail mit Logo und Link versenden
+
+Um eine E-Mail mit Logo zu versenden wird das Element Template `Mail: E-Mail mit Logo und Link senden`  verwendet.
+
+**Properties**
+
+| Property              | Beschreibung                                                                       | Beispiel                   |
+|-----------------------|------------------------------------------------------------------------------------|----------------------------|
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
+| Subject               | Betreff                                                                            | Test E-Mail                      |
+| E-Mail Text                  | E-Mail Text                                                                         | Das ist ein Test           |
+| E-Mail Gruß                  | E-Mail Gruß                                                                         | Mit freundlichen Grüßen    |
+| Link Bezeichnung                  | Bezeichung, die auf dem Button angezeigt wird                                      | Beispielseite öffnen       |
+| Link URL               | Link, auf den der Button verlinkt                                                  | example.com                |
+| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                      | test@example.com           |
 | Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
 | Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |

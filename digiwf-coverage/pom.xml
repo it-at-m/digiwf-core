@@ -118,6 +118,11 @@
             <artifactId>digiwf-address-integration-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-ticket-integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- digiwf-libs -->
         <dependency>

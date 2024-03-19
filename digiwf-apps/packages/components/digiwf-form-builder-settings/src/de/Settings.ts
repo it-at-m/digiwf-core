@@ -64,13 +64,7 @@ const deLabels: Labels = {
   validationMax: "Maximum",
   validationAdditionalRules: "Zusätzliche Regeln",
   dmsSystem: "DMS System",
-  dmsObjectClass: "Objectclass",
-  dmsSchriftstueck: "Document",
-  dmsSachakte: "Factual files",
-  dmsVorgang: "Dossier",
-  dmsEingang: "Inbox",
-  dmsAusgang: "Exit",
-  dmsIntern: "Internal",
+  dmsObjectClass: "Objektklasse",
   dmsDefaultDescription: "List of COOs or links to be checked by the input",
 }
 

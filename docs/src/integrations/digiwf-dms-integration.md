@@ -14,6 +14,8 @@ Zudem können Dms Strukturen angelegt und verwaltete werden, darunter:
 
 Durch die DMS Integration wird die Interaktion mit einem DMS System ermöglicht, darunter die Ablage von Dokumenten.
 Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
+Es gibt die Möglichkeit zwischen zwei DMS Systemen zu wählen MUCS und ALW DMS.
+Für das MUCS DMS wird der Integration Name mucsDmsIntegration verwendet, für das ALW DMS alwDmsIntegration.
 
 ### Sachakte anlegen
 
@@ -21,8 +23,6 @@ Zur asynchronen Erstellung einer Sachakte im Dms, erzeugen Sie zuerst ein `Creat
 TYPE-Header auf `createFile`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `CreateFileDto`-Objekt aufgeführt:
 
@@ -50,14 +50,13 @@ TYPE-Header auf `createProcedure`. Im Anschluss senden Sie das Objekt an das ent
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `CreateProcedureDto`-Objekt aufgeführt:
 
 ```json
 {
   "fileCOO": "",
   "title": "",
+  "fileSubj": "",
   "user": ""
 }
 ```
@@ -78,14 +77,13 @@ TYPE-Header auf `createDocument`. Im Anschluss senden Sie das Objekt an das ents
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `CreateDocumentDto`-Objekt aufgeführt:
 
 ```json
 {
   "procedureCoo": "",
   "title": "",
+  "date": "",
   "user": "",
   "type": "",
   "filepaths": "",
@@ -110,8 +108,6 @@ Zum Updaten eines Dokuments im Dms, erzeugen Sie zuerst ein `UpdateDocumentDto`-
 TYPE-Header auf `updateDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `UpdateDocumentDto`-Objekt aufgeführt:
 
@@ -143,8 +139,6 @@ TYPE-Header auf `depositObject`. Im Anschluss senden Sie das Objekt an das entsp
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `DepositObjectDto`-Objekt aufgeführt:
 
 ```json
@@ -169,8 +163,6 @@ Um ein Objekt im Dms zu stornieren, erzeugen Sie zuerst ein `CancelObjectDto`-Ob
 TYPE-Header auf `cancelObject`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `CancelObjectDto`-Objekt aufgeführt:
 
@@ -197,8 +189,6 @@ setzen den
 TYPE-Header auf `readContent`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des
 Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `ReadContent`-Objekt aufgeführt:
 
@@ -229,8 +219,6 @@ setzen den TYPE-Header auf `searchFile`. Im Anschluss senden Sie das Objekt an d
 des Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
 
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
-
 Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 
 ```json
@@ -253,7 +241,8 @@ mitgegeben werden. Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt a
 }
 ```
 
-Die Dms Integration sucht nach der entsprechenden Sachakte und gibt eine COO-Liste derjenigen Sachakten zurück, auf die die Suchkriterien zutreffen.
+Die Dms Integration sucht nach der entsprechenden Sachakte und gibt eine COO-Liste derjenigen Sachakten zurück, auf die
+die Suchkriterien zutreffen.
 Kann keine gefunden werden, wird ein `OBJECT_NOT_FOUND` BPMN Error geworfen.
 
 **Verwendung in BPMN Prozessen**
@@ -268,8 +257,6 @@ Um einen Aktenplaneintrag im Dms zu suchen, erzeugen Sie zuerst ein `SearchObjec
 setzen den TYPE-Header auf `searchSubjectArea`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den
 Namen des Topics können Sie in der Konfiguration des Dms Integration Services unter
 spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
-
-> Standardmäßig heißen die Topics *dwf-dms-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
 Nachfolgend ist ein Beispiel für ein `SearchObject`-Objekt aufgeführt:
 
@@ -299,21 +286,24 @@ Nachfolgend sind die BPMN Errors aufgeführt, die von der dms Integration geworf
 
 #### BPMN Error
 
-| Error Code                                   | Error Message                                                                                                                                                                                                                 | Beschreibung                                                            | Handlungsempfehlung                                                                            | 
-|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `LOAD_FILE_FAILED`                           | An file could not be loaded from url: filepath                                                                                                                                                                                | Die Datei konnte nicht geladen werden                                   | Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist                                  |
-| `LOAD_FOLDER_FAILED`                         | An folder could not be loaded from url: folderpath                                                                                                                                                                            | Der Ordner konnte nicht geladen werden                                  | Stellen Sie sicher, dass der Ornder im S3 Bucket vorhanden ist                                 |
-| `FILE_TYPE_NOT_SUPPORTED`                    | The type of this file is not supported: filepath                                                                                                                                                                              | Der Dateityp der Datei wird nicht unterstützt                           | Die Datei kann nicht in DMS abgelegt werden                                                    | 
-| `OBJEKT_GESPERRT`                            | Das Objekt "Objektname", „Objektadresse“ ist seit DD.MM.YYYY HH:MM:SS von Benutzername gesperrt.                                                                                                                              | Das Objekt befindet sich aktuell in Bearbeitung und ist daher gesperrt  | Stellen Sie sicher, dass das Objekt sich nicht in Bearbeitung befindet                         | 
-| `FEHLENDE_BERECHTIGUNG`                      | Ihre Rechte für Objekt `<COO-Adresse>` (Eigentümer/in `<Benutzername>`) reichen nicht aus.                                                                                                                                    | Zum Ausführen der Aktion fehlt dem übergeben Bentuzter die Berechtigung | Stellen Sie sicher, dass der Benutzer die notwendigen Berechtigungen hat                       | 
-| `UNGUELTIGE_ADRESSE`                         | Ungültiger Input Parameter: Objektadresse `<im Aufruf angegebene COO-Adresse>`                                                                                                                                                | Eine falsche oder nicht existierende COO-Adresse wurde übergeben        | Stellen Sie sicher, dass die richtige COO-Adresse übergeben wird                               | 
-| `MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE`       | Unter dem Objekt “Objektname, COO-Adresse” dürfen keine weiteren Objekte angelegt werden, da dem Objekt bereits über 1000 untergeordnete Objekte zugeordnet sind.                                                             | Das übergeordnete Objekt enthält über 1000 Objekte                      | Es muss ein neues übergeordnetes Objekt erstellt werden                                        | 
-| `AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE`        | Das übergebene Objekt mit der COO-Adresse `<COO Adresse>` ist ungültig, da das übergebene Objekt von der Objektklasse `<Objektklasse>` ist und dies nicht mit der/den erwarteten Objektklasse `<Objektklasse>` übereinstimmt. | Das auszulesende Objekt entspricht nicht der erwarteten Objektklasse    | Stellen Sie sicher, dass die etwartete Objektklasse mit dem auszulesenden Objekt übereinstimmt | 
-| `HINWEIS_LESEN_VON_STORNIERTEM_OBJEKT`       | Das übergebene Objekt mit der COO-Adresse `<COO-Adresse>` ist storniert.                                                                                                                                                      | Das übergebene Objekt ist storniert                                     | Das Objekt kann nicht gelesen werden                                                           | 
-| `FALSCHE_ZUGRIFFSDEFINITION`                 | Ungültiger Input Parameter: “Zugriffsdefinition“ : `<Wert>` enthält einen ungültigen Wert.                                                                                                                                    | Die übergebene Zugriffsdefinition ist ungültig                          | Stellen Sie sicher, dass eine gültige Zugriffsdefinition übergeben wird                        | 
-| `FALSCHER_AKTENPLANEINTRAG`                  | Die Akte kann nicht erzeugt werden, da der übergebene Aktenplaneintrag `[objname]+[COO-Adresse]` keine Betreffseinheit ist.                                                                                                   | Der übergebene Aktenplaneintrag ist keine Betreffseinheit               | Stellen Sie sicher, dass der übergebene Aktenplaneintrag eine Betreffseinheit ist              | 
-| `NICHT_PLAUSIBEL`                            | Rückmeldung, wenn eine Plausibilitätsprüfung aufschlägt. z.B.: Das Eingangsdatum darf nicht in der Zukunft liegen.                                                                                                            | Eine Plausibilitätsprüfung schlägt fehl                                 | Überprüfen Sie Ihre Eingabe anhand der Fehlermeldung                                           | 
-| `OBJEKT_ZU_GROSS_FUER_UEBERTRAGUNG_MIT_SOAP` | Inhaltsobjekt (objname) ist zu groß (über 100 MB) und kann daher nicht via SOAP übertragen werden.                                                                                                                            | Das Schriftstück ist zu groß                                            | Passen Sie die Größe des Schriftstücks an                                                      | 
+| Error Code                                   | Error Message                                                                                                                                                                                                                 | Beschreibung                                                                      | Handlungsempfehlung                                                                            | 
+|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| `LOAD_FILE_FAILED`                           | An file could not be loaded from url: filepath                                                                                                                                                                                | Die Datei konnte nicht geladen werden                                             | Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist                                  |
+| `LOAD_FOLDER_FAILED`                         | An folder could not be loaded from url: folderpath                                                                                                                                                                            | Der Ordner konnte nicht geladen werden                                            | Stellen Sie sicher, dass der Ornder im S3 Bucket vorhanden ist                                 |
+| `FILE_TYPE_NOT_SUPPORTED`                    | The type of this file is not supported: filepath                                                                                                                                                                              | Der Dateityp der Datei wird nicht unterstützt                                     | Die Datei kann nicht in DMS abgelegt werden                                                    | 
+| `OBJEKT_GESPERRT`                            | Das Objekt "Objektname", „Objektadresse“ ist seit DD.MM.YYYY HH:MM:SS von Benutzername gesperrt.                                                                                                                              | Das Objekt befindet sich aktuell in Bearbeitung und ist daher gesperrt            | Stellen Sie sicher, dass das Objekt sich nicht in Bearbeitung befindet                         | 
+| `FEHLENDE_BERECHTIGUNG`                      | Ihre Rechte für Objekt `<COO-Adresse>` (Eigentümer/in `<Benutzername>`) reichen nicht aus.                                                                                                                                    | Zum Ausführen der Aktion fehlt dem übergeben Bentuzter die Berechtigung           | Stellen Sie sicher, dass der Benutzer die notwendigen Berechtigungen hat                       | 
+| `UNGUELTIGE_ADRESSE`                         | Ungültiger Input Parameter: Objektadresse `<im Aufruf angegebene COO-Adresse>`                                                                                                                                                | Eine falsche oder nicht existierende COO-Adresse wurde übergeben                  | Stellen Sie sicher, dass die richtige COO-Adresse übergeben wird                               | 
+| `MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE`       | Unter dem Objekt “Objektname, COO-Adresse” dürfen keine weiteren Objekte angelegt werden, da dem Objekt bereits über 1000 untergeordnete Objekte zugeordnet sind.                                                             | Das übergeordnete Objekt enthält über 1000 Objekte                                | Es muss ein neues übergeordnetes Objekt erstellt werden                                        | 
+| `AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE`        | Das übergebene Objekt mit der COO-Adresse `<COO Adresse>` ist ungültig, da das übergebene Objekt von der Objektklasse `<Objektklasse>` ist und dies nicht mit der/den erwarteten Objektklasse `<Objektklasse>` übereinstimmt. | Das auszulesende Objekt entspricht nicht der erwarteten Objektklasse              | Stellen Sie sicher, dass die etwartete Objektklasse mit dem auszulesenden Objekt übereinstimmt | 
+| `HINWEIS_LESEN_VON_STORNIERTEM_OBJEKT`       | Das übergebene Objekt mit der COO-Adresse `<COO-Adresse>` ist storniert.                                                                                                                                                      | Das übergebene Objekt ist storniert                                               | Das Objekt kann nicht gelesen werden                                                           | 
+| `FALSCHE_ZUGRIFFSDEFINITION`                 | Ungültiger Input Parameter: “Zugriffsdefinition“ : `<Wert>` enthält einen ungültigen Wert.                                                                                                                                    | Die übergebene Zugriffsdefinition ist ungültig                                    | Stellen Sie sicher, dass eine gültige Zugriffsdefinition übergeben wird                        | 
+| `FALSCHER_AKTENPLANEINTRAG`                  | Die Akte kann nicht erzeugt werden, da der übergebene Aktenplaneintrag `[objname]+[COO-Adresse]` keine Betreffseinheit ist.                                                                                                   | Der übergebene Aktenplaneintrag ist keine Betreffseinheit                         | Stellen Sie sicher, dass der übergebene Aktenplaneintrag eine Betreffseinheit ist              | 
+| `NICHT_PLAUSIBEL`                            | Rückmeldung, wenn eine Plausibilitätsprüfung aufschlägt. z.B.: Das Eingangsdatum darf nicht in der Zukunft liegen.                                                                                                            | Eine Plausibilitätsprüfung schlägt fehl                                           | Überprüfen Sie Ihre Eingabe anhand der Fehlermeldung                                           | 
+| `OBJEKT_ZU_GROSS_FUER_UEBERTRAGUNG_MIT_SOAP` | Inhaltsobjekt (objname) ist zu groß (über 100 MB) und kann daher nicht via SOAP übertragen werden.                                                                                                                            | Das Schriftstück ist zu groß                                                      | Passen Sie die Größe des Schriftstücks an                                                      |  
+| `AKTE_HAT_OFFENE_PROZESSE`                   | Akte / Vorgang hat offene Prozesse und z.A. kann nicht erfolgen                                                                                                                                                               | Es liegt in der Akte oder dem Vorgang noch ein nicht abgeschlossender Prozess vor | Prozesse durch manuellen Eingriff beenden lassen                                               |  
+| `AKTE_BEREITS_ZA`                            | Akte / Vorgang ist schon z.A. geschrieben                                                                                                                                                                                     | Die Akte oder der Vorgang ist bereits z.A. gesetzt                                | Bei Bedarf sicherstellen, warum schon z.A. gesetzt. Eventuell kein Handlungsbedarf             |  
+| `ROLLE_NICHT_IDENTIFIZIERBAR`                | Rolle nicht identifizierbar                                                                                                                                                                                                   | Übergebene Rolle liegt nicht in der eAkte vor.                                    | Stellen Sie sicher, dass genutzte Rollen auch in der eAkte angelegt sind.                      | 
 
 ## DigiWF Dms Integration anpassen
 
@@ -353,16 +343,17 @@ sind, können Sie die folgenden Konfigurationen für die DigiWF Dms Integration 
 
 ### Dms Konfigurationen
 
-| Environment Variable        | Description                                                   |
-|-----------------------------|---------------------------------------------------------------|
-| DMS_INTEGRATION_SERVER_PORT | Port of the Application                                       |
-| DIGIWF_ENV                  | Environment in which the services runs                        |
-| KAFKA_SECURITY_PROTOCOL     | Security protocol of kafka (default is PLAINTEXT)             |
-| KAFKA_BOOTSTRAP_SERVER      | kafka server address (default is localhost)                   |
-| KAFKA_BOOTSTRAP_SERVER_PORT | kafka server port (default is 29092)                          |
-| FABASOFT_DMS_USERNAME       | technical fabasoft dms user                                   |
-| FABASOFT_DMS_PASSWORD       | technical fabasoft dms password                               |
-| FABASOFT_DMS_HOST           | fabasoft url                                                  |
-| FABASOFT_DMS_PORT           | fabasoft port                                                 |
-| FABASOFT_ENABLE_MTOM        | Enables MTOM default is true. Should be disabled with mocking |
+| Environment Variable             | Description                                                   |
+|----------------------------------|---------------------------------------------------------------|
+| MUCS_DMS_INTEGRATION_SERVER_PORT | Port of the MUCS DMS Application                              |
+| ALW_DMS_INTEGRATION_SERVER_PORT  | Port of the ALW DMS Application                               |
+| DIGIWF_ENV                       | Environment in which the services runs                        |
+| KAFKA_SECURITY_PROTOCOL          | Security protocol of kafka (default is PLAINTEXT)             |
+| KAFKA_BOOTSTRAP_SERVER           | kafka server address (default is localhost)                   |
+| KAFKA_BOOTSTRAP_SERVER_PORT      | kafka server port (default is 29092)                          |
+| FABASOFT_DMS_USERNAME            | technical fabasoft dms user                                   |
+| FABASOFT_DMS_PASSWORD            | technical fabasoft dms password                               |
+| FABASOFT_DMS_HOST                | fabasoft url                                                  |
+| FABASOFT_DMS_PORT                | fabasoft port                                                 |
+| FABASOFT_ENABLE_MTOM             | Enables MTOM default is true. Should be disabled with mocking |
 

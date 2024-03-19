@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.process.instance.infrastructure.repository.Process
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Optional;
  * @author martin.dietrich
  */
 @Service
+@Transactional
 @AllArgsConstructor
 @Slf4j
 public class RemovaltimeUpdateService {
