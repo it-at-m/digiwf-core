@@ -7,7 +7,7 @@ changes:
       secret: ${SSO_S3_CLIENT_SECRET}
       publicClient: false
       redirectUris:
-        - http://localhost:${S3_INTEGRATION_SERVER_PORT}/*
+        - ${HOST}:${S3_INTEGRATION_SERVER_PORT}/*
   - updateClient:
       clientId: ${SSO_S3_CLIENT_ID}
       serviceAccountsEnabled: true

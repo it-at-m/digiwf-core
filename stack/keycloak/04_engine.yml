@@ -7,10 +7,11 @@ changes:
       secret: ${SSO_ENGINE_CLIENT_SECRET}
       publicClient: false
       redirectUris:
-        - http://localhost:39146/*
-        - http://localhost:8082/*
-        - http://localhost:8083/*
-        - http://localhost:8084/*
+        - ${HOST}:39146/*
+        - ${HOST}:8082/*
+        - ${HOST}:8083/*
+        - ${HOST}:8084/*
+        - ${HOST}/*
   - addRole:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       clientRole: true

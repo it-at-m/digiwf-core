@@ -1,0 +1,315 @@
+# Use this only in dev environments. It's not intended for production usage.
+version: '3.9'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '22181:2181'
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks:
+      - internal
+    restart: always
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - '9092:9092'
+      - '29092:29092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - internal
+    restart: always
+
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    env_file:
+      - docker.env
+    entrypoint: [ '/bin/bash', '-c' ]
+    networks:
+      - internal
+    command: |
+      "      
+      # blocks until kafka is reachable
+      echo -e 'Currently available topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      
+      echo -e 'Creating kafka topics...'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_TASKS} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_DATA_ENTRIES} --replication-factor 1 --partitions 1
+
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION_DEPLOY} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_COCREATION} --replication-factor 1 --partitions 1
+
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPIC_ENGINE_DLQ} --replication-factor 1 --partitions 1
+      
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_DLQ} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_INCIDENT} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_CONNECTOR_BPMNERROR} --replication-factor 1 --partitions 1
+      
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_EMAIL_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_CLIENT_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_S3_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_COSYS_INTEGRATION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_ALW_INTEGRATION} --replication-factor 1 --partitions 1  
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic $${KAFKA_TOPICS_DMS_INTEGRATION} --replication-factor 1 --partitions 1
+
+      echo -e 'Resulting topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
+
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: Test1234
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./minio:/data
+    networks:
+      - internal
+    restart: always
+
+  init-minio:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+        mc config host add minio http://minio:9000 minio Test1234;
+        mc mb minio/digiwf-bucket;
+        exit 0;
+      "
+    networks:
+      - internal
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - '1025:1025' # smtp server
+      - '9025:8025' # ui
+    networks:
+      - internal
+    restart: always
+
+  digiwf-tasklist:
+    image: docker.io/library/digiwf-tasklist:latest
+    ports:
+      - "8091:8080"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-cosys:
+    image: docker.io/library/digiwf-cosys:latest
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - docker.env
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker, streaming" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-s3:
+    image: docker.io/library/digiwf-s3:latest
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - docker.env
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    ports:
+      - "8086:8086"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-connector:
+    image: docker.io/library/digiwf-connector:latest
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - docker.env
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker, no-mail, no-ldap, streaming" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-engine:
+    image: docker.io/library/digiwf-engine:latest
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - docker.env
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker, no-mail, no-ldap, streaming"
+      KAFKA_BOOTSTRAP_SERVER: kafka
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-tasklist-service:
+    image: docker.io/library/digiwf-tasklist-service:latest
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    env_file:
+      - docker.env
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker, no-mail, no-ldap" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  digiwf-gateway:
+    image: docker.io/library/digiwf-gateway-service:latest
+    depends_on:
+      digiwf-engine:
+        condition: service_started
+    env_file:
+      - docker.env
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, docker, e2edocker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
+    restart: always
+
+  keycloak:
+    container_name: digiwf-keycloak
+    image: ${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:20.0.3}
+    depends_on:
+      - postgres-keycloak
+    ports:
+      - '8080:8080'
+    command: 'start-dev --http-relative-path /auth'
+    env_file:
+      - './docker.env'
+    environment:
+#      KC_HOSTNAME: ${HOST} # this hostname must be resolved to 127.0.0.1 locally. Add it to your hosts file.
+      KC_HOSTNAME_STRICT: 'false'
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
+      KC_DB_USERNAME: keycloak-user
+      KC_DB_PASSWORD: keycloak-secret
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - local-keycloak
+      - internal
+    restart: always
+
+  init-keycloak:
+    image: klg71/keycloakmigration
+    depends_on:
+      - keycloak
+    env_file:
+      - './docker.env'
+    environment:
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: admin
+      BASEURL: http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
+      WAIT_FOR_KEYCLOAK: 'true'
+      KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
+    volumes:
+      - './keycloak:/migration'
+    networks:
+      - local-keycloak
+
+  postgres-engine:
+    image: postgres:13.2
+    container_name: digiwf-postgres-engine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: enginedb
+    ports:
+      - '25433:5432'
+    networks:
+      - internal
+    restart: always
+
+  postgres-tasklist:
+    image: postgres:13.2
+    container_name: digiwf-postgres-tasklist
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: tasklistdb
+    ports:
+      - '25432:5432'
+    networks:
+      - internal
+    restart: always
+
+  postgres-s3:
+    image: postgres:13.2
+    container_name: digiwf-postgres-s3
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: s3db
+    ports:
+      - '25434:5432'
+    networks:
+      - internal
+    restart: always
+
+  postgres-keycloak:
+    image: postgres:13.2
+    container_name: digiwf-postgres-keycloak
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak-user
+      POSTGRES_PASSWORD: keycloak-secret
+    networks:
+      - local-keycloak
+    restart: always
+
+
+networks:
+  local-keycloak:
+  internal:
