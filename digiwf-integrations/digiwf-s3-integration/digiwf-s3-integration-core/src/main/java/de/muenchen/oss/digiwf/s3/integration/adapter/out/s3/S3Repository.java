@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class S3Repository {
 
+    /** Response code from S3 storage when an object cannot be found. */
+    private static final String RESPONSE_CODE_NO_SUCH_KEY = "NoSuchKey";
+
     private final String bucketName;
     private final String s3Url;
     private final Optional<String> s3ProxyUrl;
@@ -49,13 +52,20 @@ public class S3Repository {
         }
     }
 
+    /**
+     * Checks whether a file exists in the specified path.
+     *
+     * @param path the path of the file to be checked
+     * @return true if the file exists, false otherwise
+     * @throws FileSystemAccessException if there is an exception while accessing the file system
+     */
     public boolean fileExists(final String path) throws FileSystemAccessException {
         try {
             client.statObject(StatObjectArgs.builder()
                     .bucket(bucketName).object(path).build());
         } catch (final ErrorResponseException errorResponseException) {
-            if ("NoSuchKey".equals(errorResponseException.errorResponse().code())) return false;
-            else new FileSystemAccessException(errorResponseException.errorResponse().code(), errorResponseException);
+            if (RESPONSE_CODE_NO_SUCH_KEY.equals(errorResponseException.errorResponse().code())) return false;
+            else throw new FileSystemAccessException(errorResponseException.errorResponse().code(), errorResponseException);
         } catch (InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException |
                 NoSuchAlgorithmException | ServerException | XmlParserException exception) {
             final String message = String.format("Failed to request metadata for file %s.", path);
