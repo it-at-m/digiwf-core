@@ -26,7 +26,7 @@ execution.setVariable('app_task_external_links', externalLinks);
 Die Links werden als Liste in der Prozessvariable `app_task_external_links` gespeichert und müssen mit Objekten vom
 Typ `TaskExternalReference` gefüllt werden. Hierbei sind zwei Parameter für den Konstruktor erforderlich:
 
-1. Der Typ (siehe Abschnitt (#unterstutzte-typen)).
+1. Der Typ (siehe Abschnitt [Unterstützte Typen](#unterstutzte-typen)).
 2. Die ID oder URL für die Generierung des Links. Der Wert ist vom Typen abhängig.
 
 ## Unterstützte Typen

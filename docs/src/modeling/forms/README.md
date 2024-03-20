@@ -30,7 +30,7 @@ Formulare bestehen aus folgenden Elementen:
   in der Konfiguration des Editors beispielsweise ein Stepper konfiguriert werden.
 - **Gruppe:** Eine Gruppe kann in der Modellierung als Container für Felder verwendet werden.
 - **Feld:** Eine Eingabemaske für einen Wert. Hierfür stehen unterschiedliche Typen zur Verfügung, die im Abschnitt
-- [Felder](/modeling/forms/fields/) beschrieben sind.
+[Felder](/modeling/forms/fields/) beschrieben sind.
 
 ![Formular Struktur](~@source/modeling/forms/form-structure.png)
 
