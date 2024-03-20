@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Die Konfiguration von Spring-Boot-Systemen erfolgt über verschiedene Mechanismen. So wird die Konfiguration über
+Die Konfiguration von Spring Boot-Systemen erfolgt über verschiedene Mechanismen. So wird die Konfiguration über
 Properties-Dateien (in Properties- oder YAML-Form) und die Verwendung von Umgebungsvariablen unterstützt. Die
 Anwendungen werden einmalig gebaut und dann in den verschiedenen Stufen unterschiedlich konfiguriert und an den
 Betrieb in der jeweiligen Stufenumgebung angepasst. Die **Konfigurierbarkeit** der Anwendung muss dabei so
@@ -24,7 +24,7 @@ Die Standardisierung der Konfiguration muss auf verschiedenen Ebenen erfolgen:
 
 ## Decision
 
-Für die Konfiguration von Spring-Boot-Anwendungen verwenden wir eine Konfiguration, die in `application.yml` abgelegt
+Für die Konfiguration von Spring Boot-Anwendungen verwenden wir eine Konfiguration, die in `application.yml` abgelegt
 wird und zusammen mit dem Quelltext in ein Spring-Boot JAR-Archiv eingepackt wird. Dabei enthält die Datei eine
 Standardkonfiguration der Anwendung. Wenn die Einstellung eines Konfigurationsparameters umgebungsspezifisch ist, wird
 dazu eine Umgebungsvariable eingeführt und in der Konfigurationsdatei referenziert.
@@ -46,7 +46,7 @@ Anwendung via Docker notwendig, können die Variablen auch über die Docker-Umge
 
 Von der Nutzung von Spring-Profilen wird grundsätzlich abgeraten, da dadurch das Verhalten des Systems nachträglich
 verändert wird. Eine Ausnahme bildet das `test`/`itest`-Profil, das zum Testen des Systems aktiviert wird, um
-Spring-Boot-Tests außerhalb der Umgebung durchführen zu können. Das System sollte nach Möglichkeit sowohl lokal als auch
+Spring Boot-Tests außerhalb der Umgebung durchführen zu können. Das System sollte nach Möglichkeit sowohl lokal als auch
 in den Stages ohne Profile (also in der Standard-Konfiguration mit angewandten umgebungsspezifischen Anpassungen)
 betrieben werden.
 
