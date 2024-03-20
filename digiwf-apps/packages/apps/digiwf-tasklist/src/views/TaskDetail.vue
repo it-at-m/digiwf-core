@@ -1,5 +1,5 @@
 <template>
-  <app-view-layout>
+  <app-view-layout :ref="el">
     <v-flex v-if="errorMessage">
       <AppToast
         :message="errorMessage"
@@ -82,7 +82,7 @@
           :has-error="hasSaveError"
           color="white"
           button-text="Aufgabe zwischenspeichern"
-          @on-click="saveTask"
+          @on-click="onSaveTaskClick"
         >
           <v-icon> mdi-content-save</v-icon>
         </loading-fab>
@@ -112,9 +112,9 @@
     </v-flex>
 
     <leave-site-dialog
-      :open="saveLeaveDialog"
-      @submit="leave"
-      @cancel="cancel"
+      :open="saveLeaveDialogOpen"
+      @submit="onLeaveDialogSubmit"
+      @cancel="onLeaveDialogCancel"
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
@@ -156,15 +156,12 @@
 }
 </style>
 
-<script lang="ts">
-import {Component, Prop, Provide} from "vue-property-decorator";
+<script lang="ts" setup>
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import SaveLeaveMixin from "../mixins/saveLeaveMixin";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {
   cancelTask,
@@ -175,202 +172,216 @@ import {
   saveTask
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-import router from "../router";
 import {mergeObjects} from "../utils/mergeObjects";
 import {validateSchema} from "../utils/validateSchema";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
+import {onMounted, provide, ref} from "vue";
+import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
+import {NavigationGuardNext} from "vue-router/types/router";
 
-@Component({
-  components: {
-    LeaveSiteDialog,
-    TaskLinks, TaskFollowUpDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout, LoadingFab
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
   }
-})
-export default class TaskDetail extends SaveLeaveMixin {
+});
 
-  task: HumanTaskDetails | null = null;
-  followUpDate: string | null = "";
-  model: any = null;
+const task = ref<HumanTaskDetails | null>(null);
+const followUpDate = ref("");
+const model = ref<any>();
 
-  errorMessage = "";
-  hasChanges = false;
+const errorMessage = ref("");
+const hasChanges = ref(false);
 
-  isSaving = false;
-  hasSaveError = false;
-  isCompleting = false;
-  hasCompleteError = false;
-  isCancelling = false;
-  hasCancelError = false
-  cancelText = "Aufgabe Abbrechen";
+const isSaving = ref(false);
+const hasSaveError = ref(false);
+const isCompleting = ref(false);
+const hasCompleteError = ref(false);
+const isCancelling = ref(false);
+const hasCancelError = ref(false);
+const cancelText = ref("Aufgabe Abbrechen");
 
-  isDownloading = false;
-  hasDownloadError = false;
-  hasDownloadButton = false;
-  downloadButtonText = "Dokument herunterladen";
+const isDownloading = ref(false);
+const hasDownloadError = ref(false);
+const hasDownloadButton = ref(false);
+const downloadButtonText = ref("Dokument herunterladen");
 
-  isFollowUpDialogVisible = false;
+const isFollowUpDialogVisible = ref(false);
 
-  /**
-   * toggle for showing fab menu
-   */
-  fab = false;
+const el = ref<any>(null);
 
-  @Prop()
-  id!: string;
+const saveLeaveDialogOpen = ref(false);
+const next = ref<NavigationGuardNext | null>(null);
+/**
+ * toggle for showing fab menu
+ */
+const fab = ref(false);
 
-  @Provide('formContext')
-  get formContext(): FormContext {
-    return {id: this.id, type: "task"};
+provide("formContext", {id: props.id, type: "task"});
+provide("apiEndpoint", ApiConfig.base);
+provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
+provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
+provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
+
+const router = useRouter();
+
+const formFields = ref<any>({});
+
+onBeforeRouteLeave((to, from, nxt) => {
+  if (isDirty()) {
+    saveLeaveDialogOpen.value = true;
+    next.value = nxt;
+  } else {
+    saveLeaveDialogOpen.value = false;
+    nxt();
   }
+});
 
-  @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
+const onLeaveDialogSubmit = () => {
+  const nextCallback = next.value;
+  if (nextCallback) {
+    nextCallback();
+  }
+};
 
-  @Provide('taskServiceApiEndpoint')
-  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+const onLeaveDialogCancel = () => {
+  saveLeaveDialogOpen.value = false;
+};
 
-  @Provide('mucsDmsApiEndpoint')
-  mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
 
-  @Provide('alwDmsApiEndpoint')
-  alwDmsApiEndpoint = ApiConfig.alwDmsBase;
+const onInit = () => {
+  loadTask(props.id).then(({data, error}) => {
+    if (data) {
+      task.value = data.task;
+      model.value = data.model;
+      followUpDate.value = data.followUpDate;
+      cancelText.value = data.cancelText;
+      hasDownloadButton.value = data.hasDownloadButton;
+      downloadButtonText.value = data.downloadButtonText;
 
-  formFields = {}
+      const urlQueryParameter = router.currentRoute.query;
 
-  created() {
-    loadTask(this.id).then(({data, error}) => {
-      if (data) {
-        this.task = data.task;
-        this.model = data.model;
-        this.followUpDate = data.followUpDate;
-        this.cancelText = data.cancelText;
-        this.hasDownloadButton = data.hasDownloadButton;
-        this.downloadButtonText = data.downloadButtonText;
+      const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-        const urlQueryParameter = this.$router.currentRoute.query;
+      if (task.value.form) {
+        formFields.value = mergeObjects(task.value.variables, inputs);
+      } else {
 
-        const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
-
-        if(this.task.form) {
-
-          this.formFields = mergeObjects(this.task.variables, inputs);
-
-        } else {
-
-          // use potential value of query parameter if variable is undefined or empty
-          this.formFields =
-            validateSchema(
-              this.task.schema,
-              mergeObjects(this.task.variables, inputs)
-            );
-        }
+        // use potential value of query parameter if variable is undefined or empty
+        formFields.value =
+          validateSchema(
+            task.value.schema,
+            mergeObjects(task.value.variables, inputs)
+          );
       }
-      if (error) {
-        this.errorMessage = error;
+    }
+    if (error) {
+      errorMessage.value = error;
+    }
+  });
+};
+
+onMounted(() => {
+  // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
+  el.value?.querySelector(".v-speed-dial__list")
+    .addEventListener("click", (e: Event) => {
+      e.stopPropagation();
+    });
+});
+
+const handleCompleteTask = (model: any) => {
+  console.log("handleCompleteTask", model);
+  isCompleting.value = true;
+  completeTask(props.id, model)
+    .then(result => {
+      isCompleting.value = false;
+      hasCompleteError.value = result.isError;
+      errorMessage.value = result.errorMessage || "";
+      if (!result.isError) {
+        hasChanges.value = false;
+        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
       }
     });
-  }
+};
 
-  mounted() {
-    // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
-    this.$el
-      .querySelector(".v-speed-dial__list")!
-      .addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-  }
+const onSaveTaskClick = (): Promise<void> => {
+  isSaving.value = true;
+  hasSaveError.value = false;
 
-  handleCompleteTask(model: any) {
-    console.log("handleCompleteTask", model);
-    this.isCompleting = true;
-    completeTask(this.id, model)
-      .then(result => {
-        this.isCompleting = false;
-        this.hasCompleteError = result.isError;
-        this.errorMessage = result.errorMessage || "";
-        if (!result.isError) {
-          this.hasChanges = false;
-          router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
-        }
-      });
-  }
-
-  async saveTask(): Promise<void> {
-    this.isSaving = true;
-    this.hasSaveError = false;
-
-    return saveTask(this.id, this.model).then((result) => {
-      this.isSaving = false;
-      this.errorMessage = result.errorMessage || "";
-      this.hasSaveError = result.isError;
+  return saveTask(props.id, model.value)
+    .then((result) => {
+      isSaving.value = false;
+      errorMessage.value = result.errorMessage || "";
+      hasSaveError.value = result.isError;
       if (!result.isError) {
-        this.hasChanges = false;
+        hasChanges.value = false;
       }
 
       return result.isError
         ? Promise.reject()
         : Promise.resolve();
     });
-  }
+};
 
-  openFollowUp(): void {
-    this.isFollowUpDialogVisible = true;
-    this.fab = false;
-  }
+const openFollowUp = (): void => {
+  isFollowUpDialogVisible.value = true;
+  fab.value = false;
+};
 
-  closeFollowUp(): void {
-    this.isFollowUpDialogVisible = false;
-  }
+const closeFollowUp = (): void => {
+  isFollowUpDialogVisible.value = false;
+};
 
-  switchFab():
-    void {
-    this.fab = !this.fab;
-  }
+const switchFab = () => {
+  fab.value = !fab.value;
+};
 
-  saveFollowUp(followUpDate: string) {
-    this.followUpDate = followUpDate;
-    this.isFollowUpDialogVisible = false;
+const saveFollowUp = (newFollowUpDate: string) => {
+  followUpDate.value = newFollowUpDate;
+  isFollowUpDialogVisible.value = false;
 
-    (this.hasChanges
-      ? this.saveTask()
-      : Promise.resolve())
-      .then(() => {
-        deferTask(this.id, followUpDate)
-          .then(result => {
-            this.errorMessage = result.errorMessage || "";
-          });
-      });
-  }
-
-  handleCancelTask() {
-    this.isCancelling = true;
-    cancelTask(this.id).then(result => {
-      this.isCancelling = false;
-      this.hasCancelError = result.isError;
-      this.errorMessage = result.errorMessage || "";
+  (hasChanges.value
+    ? onSaveTaskClick()
+    : Promise.resolve())
+    .then(() => {
+      deferTask(props.id, newFollowUpDate)
+        .then(result => {
+          errorMessage.value = result.errorMessage || "";
+        });
     });
-  }
+};
 
-  downloadPDF() {
-    this.isDownloading = true;
-    this.hasDownloadError = false;
-    downloadPDFFromEngine(this.id).then(result => {
-      this.errorMessage = result.errorMessage || "";
-      this.hasDownloadError = result.isError;
-    });
-  }
+const handleCancelTask = () => {
+  isCancelling.value = true;
+  cancelTask(props.id).then(result => {
+    isCancelling.value = false;
+    hasCancelError.value = result.isError;
+    errorMessage.value = result.errorMessage || "";
+  });
+};
 
-  modelChanged(model: any) {
-    console.log("modelChanged: ", model)
-    this.model = model;
-    this.hasChanges = true;
-  }
+const downloadPDF = () => {
+  isDownloading.value = true;
+  hasDownloadError.value = false;
+  downloadPDFFromEngine(props.id).then(result => {
+    errorMessage.value = result.errorMessage || "";
+    hasDownloadError.value = result.isError;
+  });
+};
 
-  isDirty(): boolean {
-    return this.hasChanges;
-  }
-}
+const modelChanged = (newModel: any) => {
+  console.log("modelChanged: ", newModel);
+  model.value = newModel;
+  hasChanges.value = true;
+};
+
+const isDirty = (): boolean => {
+  return hasChanges.value;
+};
+
+
+onInit();
 
 </script>

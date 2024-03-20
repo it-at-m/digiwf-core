@@ -152,6 +152,7 @@ import {
 import AppJsonRenderer from "@/components/schema/AppJsonRenderer.vue";
 import {ApiConfig} from "../api/ApiConfig";
 import {provide, ref} from "vue";
+import {callGetProcessInstance} from "../api/processInstances/processInstancesApiCalls";
 
 const props = defineProps({
   processId: {
@@ -162,7 +163,7 @@ const props = defineProps({
 
 const processInstanceDetail = ref<ServiceInstanceDetailTO | null>(null);
 const errorMessage = ref("");
-const panel = [0, 1];
+const panel = ref([0, 1]);
 
 provide("formContext", {id: props.processId, type: "instance"});
 
@@ -172,16 +173,15 @@ const onInit = () => {
   loadProcessInstanceDetail();
 };
 
-const loadProcessInstanceDetail = async (): Promise<void> => {
-  try {
-    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-    const res = await ServiceInstanceControllerApiFactory(cfg).getProcessInstanceDetail(props.processId);
-    processInstanceDetail.value = res.data;
-
-    errorMessage.value = "";
-  } catch (error) {
-    errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
-  }
+const loadProcessInstanceDetail = () => {
+  callGetProcessInstance(props.processId)
+    .then(data => {
+      processInstanceDetail.value = data;
+      errorMessage.value = "";
+    })
+    .catch(() => {
+      errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
+    });
 };
 
 const currentStatus = (): number => {

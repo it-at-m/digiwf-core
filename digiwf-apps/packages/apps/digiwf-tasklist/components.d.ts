@@ -45,7 +45,6 @@ declare module 'vue' {
     TaskLinks: typeof import('./src/components/task/links/TaskLinks.vue')['default']
     TaskList: typeof import('./src/components/task/TaskList.vue')['default']
     TaskListFilter: typeof import('./src/components/task/TaskListFilter.vue')['default']
-    TheSnackbar: typeof import('./src/components/TheSnackbar.vue')['default']
     UserFilterBadge: typeof import('./src/components/task/filter/UserFilterBadge.vue')['default']
     VAlert: typeof import('vuetify/lib')['VAlert']
     VApp: typeof import('vuetify/lib')['VApp']

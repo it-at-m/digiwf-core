@@ -77,8 +77,8 @@ const process = ref<ServiceDefinitionDetailTO | null>(null);
 const errorMessage = ref("");
 const isCompleting = ref(false);
 const hasCompleteError = ref(false);
-const saveLeaveDialogOpen = ref(false);
 
+const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
 
 const initalFormFields = ref<any>({});
@@ -90,7 +90,6 @@ provide("formContext", {id: props.processKey, type: "start"});
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
-
 
 onBeforeRouteLeave((to, from, nxt) => {
   if (valuesChanged()) {
