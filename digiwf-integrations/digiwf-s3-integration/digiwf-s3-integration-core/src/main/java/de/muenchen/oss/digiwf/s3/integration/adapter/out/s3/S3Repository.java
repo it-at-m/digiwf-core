@@ -78,8 +78,14 @@ public class S3Repository {
     /**
      * Returns the paths to the files in a given folder.
      *
-     * @param folder The folder. The path must be absolute and without specifying the bucket. Example 1: Folder in bucket: "BUCKET/folder" Specification in
-     *               parameter: "folder" Example 2: Folder in bucket: "BUCKET/folder/subfolder" Specification in parameter: "folder/subfolder"
+     * @param folder The folder.
+     *               The path must be absolute and without specifying the bucket.
+     *               Example 1:
+     *               Folder in bucket: "BUCKET/folder"
+     *               Specification in parameter: "folder"
+     *               Example 2:
+     *               Folder in bucket: "BUCKET/folder/subfolder"
+     *               Specification in parameter: "folder/subfolder"
      * @return the paths to the files in a given folder. Also returns the paths to the files in subfolders.
      * @throws FileSystemAccessException if the paths cannot be downloaded.
      */
@@ -107,8 +113,11 @@ public class S3Repository {
     /**
      * Deletes the file given in the parameter.
      *
-     * @param pathToFile The path to the file. The path must be absolute and without specifying the bucket. Example: File in bucket:
-     *                   "BUCKET/outerFolder/innerFolder/thefile.csv" Specification in parameter: "outerFolder/innerFolder/thefile.csv"
+     * @param pathToFile The path to the file.
+     *                   The path must be absolute and without specifying the bucket.
+     *                   Example:
+     *                   File in bucket: "BUCKET/outerFolder/innerFolder/thefile.csv"
+     *                   Specification in parameter: "outerFolder/innerFolder/thefile.csv"
      * @throws FileSystemAccessException if the file cannot be deleted.
      */
     public void deleteFile(final String pathToFile) throws FileSystemAccessException {
@@ -130,8 +139,11 @@ public class S3Repository {
     /**
      * Creates the presigned URL fora file to the given file path.
      *
-     * @param pathToFile       The path to the file. The path must be absolute and without specifying the bucket. Example: File in bucket:
-     *                         "BUCKET/outerFolder/innerFolder/thefile.csv" Specification in parameter: "outerFolder/innerFolder/thefile.csv"
+     * @param pathToFile       The path to the file.
+     *                         The path must be absolute and without specifying the bucket.
+     *                         Example:
+     *                         File in bucket: "BUCKET/outerFolder/innerFolder/thefile.csv"
+     *                         Specification in parameter: "outerFolder/innerFolder/thefile.csv"
      * @param action           to determine the file permissions.
      * @param expiresInMinutes to define the validity period of the presigned URL.
      * @return the presigned URL for a file.
