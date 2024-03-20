@@ -17,7 +17,7 @@
         :is-loading="isCompleting"
         :has-error="hasCompleteError"
         color="primary"
-        @on-click="completeForm"
+        @click="completeForm"
       >
         {{ form.buttons.complete.buttonText }}
       </app-loading-button>

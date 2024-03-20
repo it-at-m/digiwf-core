@@ -4,7 +4,7 @@
     style="padding-left: 0.1rem; padding-right: 1.2rem"
     :color="color"
     :disabled="isLoading"
-    @click="click"
+    @click="$emit('click')"
   >
     <div class="buttonGroup">
       <v-icon
@@ -43,40 +43,36 @@
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import {defineComponent} from "vue";
 
-@Component
-export default class AppLoadingButton extends Vue {
-
-  @Prop()
-  isLoading: boolean | undefined;
-
-  @Prop()
-  hasError: boolean | undefined;
-
-  @Prop()
-  buttonText!: string;
-
-  @Prop()
-  color!: string | undefined;
-
-  get loadingClass(): string {
-    return this.isLoading ? "" : "isNotLoading";
+export default defineComponent({
+  props: {
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: undefined
+    },
+    hasError: {
+      type: Boolean,
+      required: false,
+      default: undefined
+    },
+    buttonText: {
+      type: String,
+      required: true
+    },
+    color: {
+      type: String,
+      required: false,
+      default: undefined
+    },
+  },
+  emits: ["click"],
+  setup: (props) => {
+    return {
+      loadingClass: () => props.isLoading ? "" : "isNotLoading",
+      loadingColor: () => props.color === "primary" ? "white" : "primary"
+    };
   }
-
-  get loadingColor(): string {
-    return this.color === "primary" ? "white" : "primary";
-  }
-
-  @Emit("on-click")
-  onClick(): boolean {
-    return true;
-  }
-
-  click(): void {
-
-    this.onClick();
-  }
-
-}
+});
 </script>

@@ -1,7 +1,7 @@
 import {
   FetchUtils,
-  PageServiceInstanceTO,
-  ServiceInstanceControllerApiFactory,
+  PageServiceInstanceTO, ServiceDefinitionControllerApiFactory,
+  ServiceInstanceControllerApiFactory, StartInstanceTO,
 } from "@muenchen/digiwf-engine-api-internal";
 
 import { ApiConfig } from "../ApiConfig";
@@ -15,4 +15,18 @@ export const callGetProcessInstances = (
   return ServiceInstanceControllerApiFactory(cfg)
     .getAssignedInstances(page, size, query)
     .then((response) => Promise.resolve<PageServiceInstanceTO>(response.data));
+};
+
+
+export const callPostProcessInstance = (processKey: string, variables: any): Promise<void> => {
+  const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
+
+  const request: StartInstanceTO = {
+    key: processKey,
+    variables
+  };
+
+  return ServiceDefinitionControllerApiFactory(cfg)
+    .startInstance(request)
+    .then(() => Promise.resolve());
 };

@@ -106,7 +106,6 @@ export default defineComponent({
     };
 
     return {
-      currentValue,
       complete,
       form,
       onInput,
