@@ -81,7 +81,7 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der Cosys-Integration gewo
 
 Die DigiWF Cosys Integration wird als Spring Boot Starter Projekt bereitgestellt.
 Um die Cosys Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
-bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
+bereitgestellten `@Bean`s überschreiben sowie eigene `@Bean`s hinzufügen.
 
 Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
 

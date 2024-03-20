@@ -54,7 +54,7 @@ Durch den "set-cookie" Header erhält das Frontend die neue Session.
 
 ## Request nach Ablauf der Session
 
-Wenn die Session abgelaufen ist, muss sie "halbautomatisch erneuert werden".
+Wenn die Session abgelaufen ist, muss diese "halbautomatisch erneuert werden".
 
 > **_Note:_** Hier ist wichtig, dass es sich um die Session und nicht um den Access- oder Refreshtoken handelt.
 

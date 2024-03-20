@@ -10,7 +10,7 @@ abgerufen werden.
 
 ## Beschreibung
 
-Mit dem Prozess `example-email-V02` ermöglicht kann das Versenden von E-Mails mit und ohne Anhang getestet werden.
+Mit dem Prozess `example-email-V02` kann das Versenden von E-Mails mit und ohne Anhang getestet werden.
 
 Alle relevanten Daten für die E-Mail können im Startformular des Prozesses angegeben werden und anschließend wird die
 E-Mail versendet. Falls das Versenden der E-Mail fehlschlägt (z.B. weil keine gültige E-Mail-Adresse als Empfänger

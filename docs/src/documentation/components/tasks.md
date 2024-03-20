@@ -2,8 +2,9 @@
 
 Im Zuge der Automatisierung und Digitalisierung von Prozessen wird eine task-orientierte Arbeitsweise eingeführt. Dabei
 werden durch das System einzelne Benutzeraufgaben erstellt und einem Kreis von Mitarbeitern zugewiesen. Die Aufgabe
-erscheint als Eintrag in einer **Aufgabenliste**. Beim Öffnen der Aufgabe wird dem Benutzer über ein **Aufgabenformular
-** der Kontext der Aufgabe angezeigt und für den Abschluss der Aufgabe notwendige Eingabefelder eingeblendet.
+erscheint als Eintrag in einer **Aufgabenliste**. Beim Öffnen der Aufgabe wird dem Benutzer über ein
+**Aufgabenformular** der Kontext der Aufgabe angezeigt und für den Abschluss der Aufgabe notwendige Eingabefelder
+eingeblendet.
 
 ## Ist
 
@@ -94,13 +95,17 @@ Kafka-Topic `dwf-taskmanagement-tasks-<STAGE>` versandt. Dabei werden `polyflow-
 -Komponenten auf der Engine-Seite deployed.
 
 Besonders zu beachten ist hier, dass durch die Nutzung von Axon die Kommunikation der Task-Events anders als die
-restliche Plattform funktioniert. Alle [Events](https://docs.axoniq.io/reference-guide/axon-framework/events) zu den Tasks
+restliche Plattform funktioniert. Alle [Events](https://docs.axoniq.io/reference-guide/axon-framework/events) zu den
+Tasks
 werden zunächst in der Datenbank in der Tabelle `domain_event_entry` abgelegt. Von dort aus greift
-ein [Kafka-Consumer](https://docs.axoniq.io/reference-guide/extensions/kafka) die Events ab und schickt sie über Kafka an das Task
+ein [Kafka-Consumer](https://docs.axoniq.io/reference-guide/extensions/kafka) die Events ab und schickt sie über Kafka
+an das Task
 Management. Damit der Stand des Kafka-Consumers in der Tabelle nicht verloren geht, wird in der `token_entry`-Tabelle
-der [Status gespeichert](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#token-store). Sollte es
+der [Status gespeichert](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#token-store).
+Sollte es
 mehrere Instanzen des Connectors geben, kann nur eine von diesen den Token führen, sodass
-eine [Mehrfachverarbeitung](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#tracking-tokens)verhindert
+eine [Mehrfachverarbeitung](https://docs.axoniq.io/reference-guide/axon-framework/events/event-processors/streaming#tracking-tokens)
+verhindert
 wird.
 
 ## Task Management
@@ -111,7 +116,8 @@ Taskliste übermittelt. Wenn der Task abgeschlossen wird, übernimmt das Task Ma
 schickt diese im Erfolgsfall via REST an die Prozess Engine.
 
 Bei der Verarbeitung der Aufgaben über Kafka ist zu beachten,
-dass [Axon keine Consumer-Groups nutzt](https://docs.axoniq.io/reference-guide/extensions/kafka#consuming-events-with-a-streamable-message-source). Der
+dass [Axon keine Consumer-Groups nutzt](https://docs.axoniq.io/reference-guide/extensions/kafka#consuming-events-with-a-streamable-message-source).
+Der
 Stand innerhalb des Event-Streams wird mit einem Token in der Datenbank verfolgt und damit über mehrere Instanzen
 synchronisiert.
 
@@ -123,4 +129,5 @@ diesem Access Token wird das `lhmObjectID`-Claim gelesen und gegen das LDAP übe
 
 Bei der Kommunikation zwischen den Systemen wird ein technischer Benutzer (Service Account der Anwendung) genutzt. Um
 die Identität des aufrufenden Benutzers zu transportieren, wird ein zusätzlicher spezieller
-HTTP-Header `X-Authorization-Username` verwendet. Der Header trägt den Benutzernamen des Aufrufbenutzers (LDAP `lhmObjectID`).
+HTTP-Header `X-Authorization-Username` verwendet. Der Header trägt den Benutzernamen des Aufrufbenutzers (
+LDAP `lhmObjectID`).

@@ -13,7 +13,7 @@ In diesem Artikel erklären wir die Namenskonventionen für unsere Themen und li
 <prefix>-<domain>-<usage-context>-<environment>
 ```
 
-Jeder DigiWF Topic-Name besteht aus diesen 4 Teilen:
+Jeder DigiWF Topic-Name hat die folgenden Bestandteile:
 
 - **prefix** wird verwendet, um die Themen einer bestimmten Anwendung zuzuordnen. Im Zusammenhang mit DigiWF ist dieses
   Präfix normalerweise `dwf`.

@@ -23,7 +23,7 @@ Checkout the [release page](https://github.com/it-at-m/digiwf-core/releases) to 
 
 ## Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any
 contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please open an issue with the tag "enhancement", fork the repo,
