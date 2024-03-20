@@ -12,8 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Application class for starting the micro-service.
  */
 @SpringBootApplication
-public class AwlServiceApplication {
+public class AlwServiceApplication {
   public static void main(final String[] args) {
-    SpringApplication.run(AwlServiceApplication.class, args);
+    SpringApplication.run(AlwServiceApplication.class, args);
   }
 }

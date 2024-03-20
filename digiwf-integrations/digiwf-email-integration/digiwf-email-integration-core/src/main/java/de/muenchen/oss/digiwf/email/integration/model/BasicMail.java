@@ -1,20 +1,17 @@
 package de.muenchen.oss.digiwf.email.integration.model;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
-/**
- * Object contains all the information needed to send a mail.
- */
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Mail {
+public class BasicMail {
 
     /**
      * Receiver addresses of the mail, comma separated.
@@ -37,12 +34,6 @@ public class Mail {
      */
     @NotBlank(message = "No subject given")
     private String subject;
-
-    /**
-     * Body of the mail.
-     */
-    @NotBlank(message = "No body given")
-    private String body;
 
     /**
      * Reply to address

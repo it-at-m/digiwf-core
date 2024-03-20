@@ -7,12 +7,14 @@ können mit dieser Integration E-Mail-Kommunikation in ihre BPMN-Prozesse integr
 
 Die E-Mail-Integration ermöglicht sowohl das Senden einfacher E-Mails als auch von E-Mails mit Dateianhängen. Die
 Dateianhänge können aus einem S3 Bucket geladen werden.
+Zudem ist es möglich den E-Mail Body durch Templates zu generieren und somit ein Logo und einen Link in der E-Mail anzeigen zu lassen.
 
 ## Verwendung
 
 Die E-Mail-Integration ermöglicht es den Benutzern von DigiWF, E-Mails aus einem Prozess heraus zu senden. Hierbei
 können sowohl einfache E-Mails als auch E-Mails mit Dateianhängen versendet werden. Die Dateianhänge werden hierbei aus
 einem S3 Bucket geladen. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
+Der Body der E-Mail kann mit reinem Text oder durch ein Template mit einem Logo und einem Link befüllt werden. 
 
 ### E-Mail senden
 
@@ -66,6 +68,32 @@ Nachfolgend ist ein Beispiel-Event für eine E-Mail mit einem Dateianhang aufgef
 }
 ```
 
+### Email mit Logo und Link senden
+
+Das Senden einer Email mit Logo und Link funktioniert wie das oben beschriebene Senden einer E-Mail.
+Der Header `type` im Email Event muss jedoch auf `sendMailWithLogoAndLink` gesetzt werden.
+
+Nachfolgend ist ein Beispiel Event für eine Email mit Template aufgeführt:
+
+```json
+{
+  "receivers": "receivers@example.com",
+  "receiversCc": "receivers-on-cc@example.com",
+  "receiversBcc": "receivers-on-bcc@example.com",
+  "subject": "My important email",
+  "text": "Some text I want to send",
+  "replyTo": "replyto@example.com",
+  "attachments": [],
+  "template": "mail-template.ftl",
+  "bottomBody": "Some greeting",
+  "buttonText": "Some button text",
+  "buttonLink": "example.com"
+}
+```
+
+`buttonText` und `buttonLink` sind optional, müssen jedoch immer zusammen angegeben werden.
+Anhänge können wie oben beschrieben übergeben werden. 
+
 ### Fehlerbehandlung
 
 Bei der Fehlerbehandlung wird zwischen BPMN-Errors und Incident-Errors unterschieden. BPMN-Errors können im Prozess
@@ -82,11 +110,14 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration gew
 | `MAIL_SENDING_FAILED`     | Fehlermeldung der auftretenden `MailException`                   | Die E-Mail konnte nicht versand werden. Es kann sein, dass die E-Mail-Adressen nicht valide sind oder ein technischer Fehler aufgetreten ist | Analysieren Sie die Fehlermeldung, korrigieren invalide E-Mail-Adressen und versuchen es erneut.                               |
 | `LOAD_FILE_FAILED`        | An attachment could not be loaded from presigned url: attachment | Die Datei konnte nicht geladen werden                                                                                                        | Stellen Sie sicher, dass die presigned URL nicht abgelaufen ist. Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist |
 | `FILE_TYPE_NOT_SUPPORTED` | File type not supported of the attachment: attachment            | Der Dateityp der Datei wird nicht unterstützt oder wurde nicht erkannt                                                                       | Die Datei kann nicht als E-Mail-Anhang versendet werden.                                                                       | 
+| `LOAD_TEMPLATE_FAILED`    | The template *template* could not be loaded                      | Das Template konnte nicht geladen werden.                                                                                                  | Überprüfen Sie ob der Templatename richtig ist und versuchen Sie es erneut.                                                    | 
+| `TEMPLATE_MERGING_FAILED` | Fehlermeldung der auftretenden `TemplateException`               | Das Template konnte nicht mit den übergebenen Daten befüllt werden.                                                                        | Überprüfen Sie die übergebenen Daten und versuchen Sie es erneut.                                                              | 
 
 ### Ressourcen
 
 Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMail.json](/element-template/sendMail.json) in einer
-Call Activity verwenden, um diese Integration zu verwenden.
+Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
+und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json)
 
 ## DigiWF Mail Integration anpassen
 
