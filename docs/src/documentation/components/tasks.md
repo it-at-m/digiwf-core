@@ -54,7 +54,8 @@ Ab dem 01.04.2023 dürfen die Camunda-Felder für Assignment nicht mehr verwende
 - Eine Aufgabe sich selbst zuweisen (Änderung des Assignees).
 - Eine Aufgabenzuweisung entfernen (kann nur vom Bearbeiter entfernt werden, und nur wenn es Candidate Users oder
   Canndidate Groups gibt, damit die Aufgabe noch auffindbar ist).
-- Reassign (eine Aufgabe einem anderen Benutzer zuweisen), wird über eine Sondervariable abgebildet (pro Task oder pro
+- Reassign (eine Aufgabe wird einem anderen Benutzer zugewiesen)
+- Dispatch (eine Zuweisung an jemand anderen) wird über eine Sondervariable abgebildet (pro Task oder pro
   Instanz).
 
 **Variablen zur Abbildung**
