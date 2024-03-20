@@ -39,7 +39,7 @@ erstellt und integriert werden:
 - Integrationsartefakte zur Kommunikation mit der On-Premise- oder Cloud-Infrastruktur
 - (Mikro-)Services
 
-Es können beliebige Technologien verwendet werden, aber die beste Unterstützung erhalten Sie, wenn VueJS (mit VuetifyJs)
+Es können beliebige Technologien verwendet werden, aber die beste Unterstützung erhält man, wenn VueJS (mit VuetifyJs)
 im Frontend und Spring Boot in den Integrations- oder anderen Services verwendet werden. Es gibt nur zwei
 Voraussetzungen:
 

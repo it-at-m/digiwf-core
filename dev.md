@@ -99,8 +99,7 @@ If you want to develop the frontend, you can also use the dev server.
 ### DigiWF-Engine (Backend)
 
 Run the [DigiWF-Engine](digiwf-engine/digiwf-engine-service) with the profiles `local`, `streaming`, `no-security`,
-and `no-ldap`. Additionally, set the
-environment variable `DIGIWF_ENV=local-01`.
+and `no-ldap`. Additionally, set the environment variable `DIGIWF_ENV=local-01`.
 
 ### API Gateway
 
@@ -153,7 +152,7 @@ For updating the version of the project, we use the Maven-versions plugin.
 
 #### Update to a new patch version
 
-1. Run `./mvnw versions:set -DprocessAllModules -DnextSnapshot -Pfrontend -Pdocs`
+1. Run `./mvnw versions:set -DprocessAllModules -DnextSnapshot -Pfrontend -Pdocs`.
 2. Check if the update is correct.
 3. If the update is correct, run `./mvnw versions:commit`; otherwise, run `./mvnw versions:revert`.
 

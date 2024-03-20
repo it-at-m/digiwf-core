@@ -8,8 +8,8 @@ accepted
 
 Die Konfiguration von Spring-Boot-Systemen erfolgt über verschiedene Mechanismen. So wird die Konfiguration über
 Properties-Dateien (in Properties- oder YAML-Form) und die Verwendung von Umgebungsvariablen unterstützt. Die
-Anwendungen werden einmalig gebaut und dann in den verschiedenen Stufen unterschiedlich konfiguriert und an den
-Betrieb in der jeweiligen Stufenumgebung angepasst. Die **Konfigurierbarkeit** der Anwendung muss dabei so
+Anwendungen werden einmalig gebaut und dann in den verschiedenen Stages unterschiedlich konfiguriert und an den
+Betrieb in der jeweiligen Stage-Umgebung angepasst. Die **Konfigurierbarkeit** der Anwendung muss dabei so
 sichergestellt werden, dass es für die Entwickler und Betrieb einfach ist, die Konfiguration zu erstellen und
 anzupassen. Die Verwendung von unterschiedlichen Methoden erschwert die Konfigurierbarkeit des Systems, führt zu
 Fehlern in der Konfiguration und zu erhöhtem Aufwand bei Entwicklung und Betrieb.

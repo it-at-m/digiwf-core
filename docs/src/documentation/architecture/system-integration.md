@@ -3,7 +3,7 @@
 Eine Kernfunktionalität von DigiWF ist die Integration von Prozessen in die Backend-Infrastruktur. Dabei spielt es keine
 Rolle, ob die Anwendungen, die in einem Workflow verwendet werden sollen, on prem gehostet werden oder in der Cloud
 laufen.
-Wichtig ist lediglich, dass sie eine Schnittstelle besitzen - bzw. wenn sie keine haben, kann die Anwendung immer noch
+Wichtig ist lediglich, dass sie eine Schnittstelle besitzen - bzw. wenn sie keine haben, können die Anwendungen immer noch
 über einen RPA Dienst angebunden werden.
 
 ## Integrationsarchitektur
@@ -17,8 +17,8 @@ kommunizieren können. Die *Art* der Services ist nicht auf die Verbindung zwisc
 System beschränkt, sondern auch verschiedene Microservices können direkt angebunden werden.
 
 Im `run` weiß der Business Process Layer (DigiWF Core) nichts von einem Integrations-Service. Die beiden sind lose
-gekoppelt. Im `build` müssen die Services bzw. Service-Operationen, die man aus einem Prozess heraus möchte, dagegen 
-bekannt sein. Die Verbindung erfolgt hier über ein `Element Template` [^1]. Ein solches Template ist im
+gekoppelt. Im `build` müssen die Services bzw. Service-Operationen, die man aus einem Prozess heraus aufrufen möchte, 
+dagegen bekannt sein. Die Verbindung erfolgt hier über ein `Element Template` [^1]. Ein solches Template ist im
 Grundegenommen ein Input-/Output-Mapping. Das bedeutet, dass die Daten aus dem Prozess auf die erwarteten
 Daten der Operation abgebildet werden und umgekehrt.
 
@@ -51,8 +51,8 @@ behandelt. Wenn der `digiwf-mail-integration-starter` eingebunden wird, erhält 
 S3-Service. Mails können Dateianhänge enthalten, die man nicht im Prozess haben möchte. Daher werden eingehende Anhänge
 vorab im Dateispeicher gespeichert und die Referenz an den Prozess weitergegeben. Bei ausgehenden Mails ist es genau
 andersherum. Der Prozess stellt eine Referenz auf die Datei(en) bereit, damit diese aus dem Dateispeicher geladen und an
-die E-Mail angehängt werden können. Diese Logik ist bereits im "digiwf-mail-integration-starter" und
-im `digiwf-mail-integration-starter` enthalten, sodass im Idealfall nichts mehr programmiert werden muss, um einen
+die E-Mail angehängt werden können. Diese Logik ist bereits im `digiwf-mail-integration-starter` und
+im `digiwf-s3-integration-client-starter` enthalten, sodass im Idealfall nichts mehr programmiert werden muss, um einen
 Mail-Server anzubinden. Man erstellt lediglich ein Spring-Boot-Projekt (z. B. über [^3]), bindet
 die Starter ein und kann mit der richtigen Konfiguration sofort arbeiten.
 
