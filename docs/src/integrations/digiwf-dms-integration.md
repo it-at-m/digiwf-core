@@ -192,7 +192,10 @@ Hier ist ein Beispiel für ein `ReadContent`-Objekt:
 
 ```json
 {
-  "contentCoos":,
+  "contentCoos": [
+    "coo1",
+    "coo2"
+  ],
   "filePath": "folder",
   "fileContext": "processContext",
   "user": "test"

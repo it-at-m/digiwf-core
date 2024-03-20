@@ -85,13 +85,13 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration gew
 
 ### Ressourcen
 
-Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates (/element-template/sendMail.json) in einer
+Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMail.json](/element-template/sendMail.json) in einer
 Call Activity verwenden, um diese Integration zu verwenden.
 
 ## DigiWF Mail Integration anpassen
 
 Die DigiWF E-Mail-Integration wird als Spring Boot Starter-Projekt bereitgestellt. Um die E-Mail-Integration an Ihre
-Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@bean`s überschreiben sowie
+Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@Bean`s überschreiben sowie
 eigene `@Bean`s hinzufügen.
 
 ![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)

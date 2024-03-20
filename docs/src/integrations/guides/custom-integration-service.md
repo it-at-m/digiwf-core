@@ -42,7 +42,7 @@ Zunächst muss die **digiwf-message** Bibliothek als Dependency im **core** Modu
 
 Die digiwf-message Bibliothek stellt als Dependency Spring Cloud Stream bereit. Mithilfe von Spring Cloud Stream können
 wir Nachrichten aus einem Message Broker empfangen und verarbeiten. Spring Cloud Stream verfügt über
-eine [Funktion Routing Funktionalität](https://github.com/spring-cloud/spring-cloud-stream/blob/main/docs/modules/ROOT/pages/spring-cloud-stream/event-routing.adoc#using-application-properties),
+eine [Routing-Funktionalität](https://github.com/spring-cloud/spring-cloud-stream/blob/main/docs/modules/ROOT/pages/spring-cloud-stream/event-routing.adoc#using-application-properties),
 die es ermöglicht, eingehende Nachrichten anhand eines Message Headers an den entsprechenden Spring Cloud Stream
 Consumer weiterzuleiten. Demnach muss die Anwendung nur noch die Consumer implementieren, die die Nachrichten vom Event
 Broker empfangen und verarbeiten.

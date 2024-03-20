@@ -113,11 +113,11 @@ Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die un
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
 sind, können Sie die folgenden Konfigurationen für die DigiWF Cosys Integration verwenden:
 
-### Cosys Konfiguration
+### CoSys Konfiguration
 
 | Eigenschaft                                            | Bedeutung             |
 |--------------------------------------------------------|-----------------------|
-| `io.muenchendigital.digiwf.cosys.url`                  | URL des Cosys-Servers |
+| `io.muenchendigital.digiwf.cosys.url`                  | URL des CoSys-Servers |
 | `io.muenchendigital.digiwf.cosys.merge.datafile`       |                       |
 | `io.muenchendigital.digiwf.cosys.merge.inputLanguage`  | Sprache Eingabe       |
 | `io.muenchendigital.digiwf.cosys.merge.outputLanguage` | Sprache Ausgabe       |
