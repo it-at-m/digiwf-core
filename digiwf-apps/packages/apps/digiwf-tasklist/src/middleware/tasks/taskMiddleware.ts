@@ -1,6 +1,6 @@
 import { PageOfTasks, Task } from "@muenchen/digiwf-task-api-internal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { computed, ref, Ref } from "vue";
+import {computed, inject, ref, Ref} from "vue";
 
 import { ApiCallError } from "../../api/defaultErrorHandler";
 import {
@@ -34,6 +34,7 @@ import {
   mapTaskFromTaskService,
 } from "./taskMapper";
 import { HumanTask, HumanTaskDetails, TaskVariables } from "./tasksModels";
+import {User} from "../user/userModels";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
   const currentValue = tag.value;
@@ -436,8 +437,7 @@ interface AssignTaskResult {
   readonly isError: boolean;
 }
 
-export const assignTask = (taskId: string): Promise<AssignTaskResult> => {
-  const userId = store.getters["user/info"].lhmObjectId;
+export const assignTask = (taskId: string, userId: string): Promise<AssignTaskResult> => {
   return callPostAssignTaskInTaskService(taskId, userId)
     .then(() => {
       router.push({ path: "/task/" + taskId });

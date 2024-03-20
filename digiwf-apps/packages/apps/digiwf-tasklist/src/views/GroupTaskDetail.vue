@@ -92,103 +92,105 @@
 
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
 
-import {Component, Prop, Provide, Vue} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "../router";
 import {UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
 import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
+import {inject, provide, ref} from "vue";
+import {useRouter} from "vue-router/composables";
+import {useStore} from "../hooks/store";
+import {User} from "../middleware/user/userModels";
 
-@Component({
-  components: {AssignYourselfDialog, AssignTaskDialog, BaseForm, AppToast, TaskForm: BaseForm, AppViewLayout}
-})
-export default class GroupTaskDetail extends Vue {
 
-  task: HumanTaskDetails | null = null;
-  isLoading = false;
-  errorMessage = "";
-  showModal = false;
-
-  showAssignDialog = false;
-
-  @Prop()
-  id!: string;
-
-  @Provide('formContext')
-  get formContext(): FormContext {
-    return {id: this.id, type: "task"};
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
   }
+});
 
-  @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
+const task = ref<HumanTaskDetails | null>(null);
+const isLoading = ref(false);
+const errorMessage = ref("");
+const showModal = ref(false);
 
-  @Provide('taskServiceApiEndpoint')
-  taskServiceApiEndpoint = ApiConfig.tasklistBase;
+const showAssignDialog = ref(false);
 
-  @Provide('mucsDmsApiEndpoint')
-  mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
+const router = useRouter();
+const store = useStore();
 
-  @Provide('alwDmsApiEndpoint')
-  alwDmsApiEndpoint = ApiConfig.alwDmsBase;
+const userId = inject<User>("user")?.lhmObjectId;
 
-  created() {
-    this.isLoading = true;
-    loadTask(this.id)
-      .then(result => {
-        this.isLoading = false;
-        if (result.data) {
-          this.task = result.data.task;
-          this.errorMessage = "";
-        }
-        if (result.error) {
-          this.errorMessage = result.error;
-        }
-      });
-  }
+provide("formContext", {id: props.id, type: "task"});
+provide("apiEndpoint", ApiConfig.base);
+provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
+provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
+provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
-  checkTaskAssignment() {
-    loadTask(this.id)
-      .then(result => {
-        if (result.data?.task?.assigneeId) {
-          const currentUser: UserTO = this.$store.getters['user/info'];
-          if (this.task?.assigneeId != currentUser.lhmObjectId) {
-            this.showModal = true;
-            setTimeout(() => this.showModal = false, 10000);
-          } else {
-            router.push({path: '/task/' + this.id});
-          }
-        } else {
-          this.triggerAssignTask();
-        }
-      });
-  }
-
-  openAssignDialog() {
-    this.showAssignDialog = true;
-  }
-
-  closeAssignDialog() {
-    this.showAssignDialog = false;
-  }
-
-  handleSuccessfullyAssignment() {
-    router.push("/opengrouptask");
-  }
-
-  triggerAssignTask() {
-    this.showModal = false;
-
-    assignTask(this.id).then((result) => {
-      this.errorMessage = result.isError ? "Die Aufgabe konnte nicht zugewiesen werden." : "";
+const onInit = () => {
+  isLoading.value = true;
+  loadTask(props.id)
+    .then(result => {
+      isLoading.value = false;
+      if (result.data) {
+        task.value = result.data.task;
+        errorMessage.value = "";
+      }
+      if (result.error) {
+        errorMessage.value = result.error;
+      }
     });
+};
+
+const checkTaskAssignment = () => {
+  loadTask(props.id)
+    .then(result => {
+      if (result.data?.task?.assigneeId) {
+        const currentUser: UserTO = store.getters['user/info'];
+        if (task.value?.assigneeId != currentUser.lhmObjectId) {
+          showModal.value = true;
+          setTimeout(() => showModal.value = false, 10000);
+        } else {
+          router.push({path: '/task/' + props.id});
+        }
+      } else {
+        triggerAssignTask();
+      }
+    });
+};
+
+const openAssignDialog = () => {
+  showAssignDialog.value = true;
+};
+
+const closeAssignDialog = () => {
+  showAssignDialog.value = false;
+};
+
+const handleSuccessfullyAssignment = () => {
+  router.push("/opengrouptask");
+};
+
+const triggerAssignTask = () => {
+  showModal.value = false;
+
+  if(!userId) {
+    errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
+    return ;
   }
-}
+  assignTask(props.id, userId).then((result) => {
+    errorMessage.value = result.isError ? "Die Aufgabe konnte nicht zugewiesen werden." : "";
+  });
+};
+
+
+onInit();
+
 </script>

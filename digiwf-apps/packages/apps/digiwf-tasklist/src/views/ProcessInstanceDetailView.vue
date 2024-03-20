@@ -15,21 +15,21 @@
         alt-labels
         elevation="1"
         style="background-color: #fafafa;"
-        :value="currentStatus"
+        :value="currentStatus()"
       >
         <v-stepper-header style="padding: 30px 0">
-          <template v-for="(status, index) in processInstanceDetail.processConfig.statusConfig">
+          <template v-for="(status, index) in processInstanceDetail.processConfig?.statusConfig">
             <v-stepper-step
 
               :key="status.position"
               :step="status.position"
               class="text-center flex-grow-1"
-              :complete="status.position <= currentStatus"
+              :complete="status.position <= currentStatus()"
             >
               <span class="text-center">{{ status.label }}</span>
             </v-stepper-step>
             <v-divider
-              v-if="index !== processInstanceDetail.processConfig.statusConfig.length - 1"
+              v-if="index !== processInstanceDetail.processConfig?.statusConfig?.length - 1"
               :key="status.position+'dev'"
             />
           </template>
@@ -62,7 +62,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    v-for="(item, index) in sortedHistoricTasks"
+                    v-for="(item, index) in sortedHistoricTasks()"
                     :key="index"
                   >
                     <td class="cell noWrap">
@@ -137,9 +137,8 @@
 
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
 
-import {Component, Prop, Provide, Vue} from "vue-property-decorator";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import {DateTime} from "luxon";
@@ -151,76 +150,68 @@ import {
   StatusConfigTO
 } from '@muenchen/digiwf-engine-api-internal';
 import AppJsonRenderer from "@/components/schema/AppJsonRenderer.vue";
-import {FormContext} from "@muenchen/digiwf-multi-file-input";
 import {ApiConfig} from "../api/ApiConfig";
+import {provide, ref} from "vue";
 
-@Component({
-  components: {AppJsonRenderer, AppToast, AppViewLayout}
-})
-export default class ProcessInstanceDetailView extends Vue {
-
-  processInstanceDetail: ServiceInstanceDetailTO | null = null;
-  errorMessage = "";
-  panel = [0, 1]
-
-  @Prop()
-  processId!: string;
-
-  @Provide('formContext')
-  get formContext(): FormContext {
-    return {id: this.processId, type: "instance"}
-  };
-
-  @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
-
-  created() {
-    this.loadProcessInstanceDetail();
+const props = defineProps({
+  processId: {
+    type: String,
+    required: true
   }
+});
 
-  async loadProcessInstanceDetail(): Promise<void> {
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-      const res = await ServiceInstanceControllerApiFactory(cfg).getProcessInstanceDetail(this.processId);
-      this.processInstanceDetail = res.data;
+const processInstanceDetail = ref<ServiceInstanceDetailTO | null>(null);
+const errorMessage = ref("");
+const panel = [0, 1];
 
-      this.errorMessage = "";
-    } catch (error) {
-      this.errorMessage = 'Der Vorgang konnte nicht geladen werden.';
-    }
+provide("formContext", {id: props.processId, type: "instance"});
+
+provide("apiEndpoint", ApiConfig.base);
+
+const onInit = () => {
+  loadProcessInstanceDetail();
+};
+
+const loadProcessInstanceDetail = async (): Promise<void> => {
+  try {
+    const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
+    const res = await ServiceInstanceControllerApiFactory(cfg).getProcessInstanceDetail(props.processId);
+    processInstanceDetail.value = res.data;
+
+    errorMessage.value = "";
+  } catch (error) {
+    errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
   }
+};
 
-  get currentStatus(): number {
-    return this.processInstanceDetail?.processConfig?.statusConfig?.find((status: StatusConfigTO) => status.key === this.processInstanceDetail?.statusKey)?.position || 1;
+const currentStatus = (): number => {
+  return processInstanceDetail.value?.processConfig?.statusConfig
+    ?.find((status: StatusConfigTO) => status.key === processInstanceDetail.value?.statusKey)?.position || 1;
+};
+
+const sortedHistoricTasks = (): HistoryTask[] => {
+  if (processInstanceDetail.value?.historyTasks) {
+    return processInstanceDetail.value.historyTasks.filter(Boolean).sort((a, b) => {
+      if (!a.endTime) { // no endtime => a is after b
+        return 1;
+      }
+      if (!b.endTime) { // no endtime => b is after a
+        return -1;
+      }
+      return a.endTime.localeCompare(b.endTime);
+    });
   }
+  return [];
+};
 
-  get sortedHistoricTasks(): HistoryTask[] {
-    if (this.processInstanceDetail !== null && this.processInstanceDetail!.historyTasks !== null) {
-      return this.processInstanceDetail!.historyTasks!.filter(Boolean).sort((a, b) => {
-        if (!a.endTime) { // no endtime => a is after b
-          return 1;
-        }
-        if (!b.endTime) { // no endtime => b is after a
-          return -1;
-        }
-        return a.endTime!.localeCompare(b.endTime!);
-      });
-    }
-    return [];
+const formatEndTaskText = (item: HistoryTask): string => {
+  if (item.endTime) {
+    return DateTime.fromISO(item.endTime).toLocaleString(DateTime.DATETIME_SHORT);
   }
+  return "offen";
+};
 
-  formatEndTaskText(item: HistoryTask): string {
-    if (item.endTime) {
-      return DateTime.fromISO(item.endTime!).toLocaleString(DateTime.DATETIME_SHORT);
-    }
-    return "offen";
-  }
-
-  openTask(id: string): void {
-    let route = this.$router.resolve({path: "/task/" + id});
-    window.open(route.href);
-  }
+onInit();
 
 
-}
 </script>

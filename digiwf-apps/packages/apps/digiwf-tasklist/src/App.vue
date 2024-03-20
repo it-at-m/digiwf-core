@@ -168,7 +168,7 @@ a {
 
 
 <script lang="ts">
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, provide, ref, watch} from "vue";
 import {InfoTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
 import {apiGatewayUrl} from "./utils/envVariables";
 import {queryClient} from "./middleware/queryClient";
@@ -194,6 +194,9 @@ export default defineComponent({
 
     const {data: processInstances} = useGetProcessInstances(ref(0), ref(10), ref(undefined));
     const {data: user, loading: loginLoading, refetch: refetchUser} = useCurrentUserInfo();
+
+    provide("user", user.value);
+
 
     const loadData = () => {
       StageInfoService.getStageInfo().then((stageInfo) => {
