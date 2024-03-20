@@ -8,7 +8,7 @@ accepted
 
 Für die Maschine-zu-Maschine-Kommunikation wird ein WebClient benötigt, der die HTTP-Zugriffe kapselt. Die Verwendung
 verschiedener WebClients erschwert die Konfiguration und Übertragbarkeit der Software und sollte daher vermieden werden.
-Spring-Boot bringt einen WebClient (reaktiv oder auch nicht) mit, es existieren aber auch weitere WebClients (okhttp,
+Spring Boot bringt einen WebClient (reaktiv oder auch nicht) mit, es existieren aber auch weitere WebClients (okhttp,
 apache, feign).
 
 ## Decision
