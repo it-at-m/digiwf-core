@@ -19,7 +19,13 @@
   >
     <template #label>
       <span>{{ label }}</span>
-      <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+      <span
+        v-if="isRequired()"
+        aria-hidden="true"
+        style="font-weight: bold; color: red"
+      >
+        *</span
+      >
     </template>
     <template #selection="data">
       {{ getFullName(data.item) }}
@@ -31,9 +37,12 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
-          <v-list-item-subtitle>{{ castNoAttrAvailable(data.item.email) }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{
+            castNoAttrAvailable(data.item.email)
+          }}</v-list-item-subtitle>
           <v-list-item-subtitle>
-            {{ castNoAttrAvailable(data.item.department) }} <span class="dot">&#8226;</span>
+            {{ castNoAttrAvailable(data.item.department) }}
+            <span class="dot">&#8226;</span>
             {{ castNoAttrAvailable(data.item.ou) }}
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -56,58 +65,68 @@
 </style>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from "vue-property-decorator";
-import {FetchUtils, SearchUserTO, UserRestControllerApiFactory, UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {AxiosResponse} from 'axios';
-import {ApiConfig} from "../../api/ApiConfig";
-import {checkRequired} from "./validation/required";
-import {defineComponent, PropType, ref, watch} from "vue";
-import {callGetUserById, callGetUserByUsername, callSearchUser} from "../../api/user/userApiCalls";
-import {mucatarURL} from "../../constants";
+import {
+  FetchUtils,
+  SearchUserTO,
+  UserRestControllerApiFactory,
+  UserTO,
+} from "@muenchen/digiwf-engine-api-internal";
+import { AxiosResponse } from "axios";
+import { defineComponent, PropType, ref, watch } from "vue";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+
+import { ApiConfig } from "../../api/ApiConfig";
+import {
+  callGetUserById,
+  callGetUserByUsername,
+  callSearchUser,
+} from "../../api/user/userApiCalls";
+import { mucatarURL } from "../../constants";
+import { checkRequired } from "./validation/required";
 
 export interface OnProperty {
   input: (value: any) => void;
 }
 
-
 export default defineComponent({
   props: {
-    value: { // lhmObjectId of selected user
+    value: {
+      // lhmObjectId of selected user
       type: String,
       required: false,
-      default: undefined
+      default: undefined,
     },
     label: {
       type: String,
-      required: true
+      required: true,
     },
 
     rules: {
       type: Array, // https://v2.vuetifyjs.com/en/api/v-autocomplete/#props
       required: false,
-      default: undefined // FIXME: correct? (in html code default value is true)
+      default: undefined, // FIXME: correct? (in html code default value is true)
     },
     on: {
       type: Object as PropType<OnProperty>,
       required: false,
-      default: undefined
+      default: undefined,
     },
     schema: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   setup: (props: any) => {
     const schemaObj = JSON.parse(JSON.stringify(props.schema));
     const readonly: boolean = schemaObj.readOnly || false;
-    const ldapGroups = schemaObj['ldap-groups'];
+    const ldapGroups = schemaObj["ldap-groups"];
 
     /**
      * users which is already selected with complete user information.
      * each entry of props.value should have an entry in selectedUser
      */
-    const selectedUser = ref<UserTO |undefined>(undefined);
+    const selectedUser = ref<UserTO | undefined>(undefined);
 
     const searchText = ref("");
     const items = ref<UserTO[]>([]); // search result
@@ -120,7 +139,6 @@ export default defineComponent({
     const lastSearch = ref("");
 
     const noDataText = ref<string>("Tippen, um Suche zu starten");
-
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -137,13 +155,12 @@ export default defineComponent({
     const loadUser = (idOrUsername: string) => {
       const isId = idOrUsername.match(/^-?\d+$/);
       locked.value = true;
-      (
-        isId
-          ? callGetUserById(idOrUsername)
-          : callGetUserByUsername(idOrUsername)
+      (isId
+        ? callGetUserById(idOrUsername)
+        : callGetUserByUsername(idOrUsername)
       )
-        .then(user => {
-          selectedUser.value =  user;
+        .then((user) => {
+          selectedUser.value = user;
           errorMessage.value = "";
         })
         .catch(() => {
@@ -154,12 +171,11 @@ export default defineComponent({
         });
     };
 
-    const getFullName = (user: UserTO): string => `${user.forename} ${user.surname}`;
+    const getFullName = (user: UserTO): string =>
+      `${user.forename} ${user.surname}`;
 
     const filterUsers = (item: UserTO, queryText: string): boolean => {
-      return getFullName(item)
-        .toLowerCase()
-        .includes(queryText.toLowerCase());
+      return getFullName(item).toLowerCase().includes(queryText.toLowerCase());
     };
 
     const isRequired = () => checkRequired(props.schema);
@@ -170,7 +186,6 @@ export default defineComponent({
     };
 
     const mucatarUrl = (uid: string) => mucatarURL(uid);
-
 
     const searchUsersBySearchString = (searchString: string) => {
       if (!searchString || searchString.length < 3) return;
@@ -184,7 +199,7 @@ export default defineComponent({
       noDataText.value = "Benutzer werden gesucht...";
 
       callSearchUser(lastSearch.value, ldapGroups)
-        .then(users => {
+        .then((users) => {
           if (lastSearch.value === searchText.value.slice(0, 3)) {
             items.value = users;
           }
@@ -216,7 +231,6 @@ export default defineComponent({
       return val;
     };
 
-
     /*
       load initial value
      */
@@ -224,7 +238,7 @@ export default defineComponent({
     if (readonly) {
       items.value = [selectedUser.value]; // in readonly: show initial values in autocomplete
     }
-    if (props.value ) {
+    if (props.value) {
       loadUser(props.value);
     }
 
@@ -243,9 +257,8 @@ export default defineComponent({
       removeUser,
       mucatarUrl,
       castNoAttrAvailable,
-      getNamePrefix
+      getNamePrefix,
     };
-  }
+  },
 });
 </script>
-

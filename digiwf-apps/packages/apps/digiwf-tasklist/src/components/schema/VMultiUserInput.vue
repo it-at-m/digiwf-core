@@ -30,11 +30,11 @@
           v-if="isRequired()"
           aria-hidden="true"
           style="font-weight: bold; color: red"
-        > *</span>
+        >
+          *</span
+        >
       </template>
-      <template
-        #selection="data"
-      >
+      <template #selection="data">
         <v-chip
           :close="!readonly"
           :input-value="data.selected"
@@ -64,7 +64,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
-            <v-list-item-subtitle v-html="data.item.ou"/>
+            <v-list-item-subtitle v-html="data.item.ou" />
           </v-list-item-content>
         </template>
       </template>
@@ -73,7 +73,6 @@
 </template>
 
 <style>
-
 /* Hide Expand/Collapse-Icon */
 #top .v-autocomplete .v-input__append-inner > div {
   display: none;
@@ -85,11 +84,16 @@
 </style>
 
 <script lang="ts">
-import {UserTO} from "@muenchen/digiwf-engine-api-internal";
-import {mucatarURL} from "../../constants";
-import {checkRequired} from "./validation/required";
-import {defineComponent, PropType, ref, watch} from "vue";
-import {callGetUserById, callGetUserByUsername, callSearchUser} from "../../api/user/userApiCalls";
+import { UserTO } from "@muenchen/digiwf-engine-api-internal";
+import { defineComponent, PropType, ref, watch } from "vue";
+
+import {
+  callGetUserById,
+  callGetUserByUsername,
+  callSearchUser,
+} from "../../api/user/userApiCalls";
+import { mucatarURL } from "../../constants";
+import { checkRequired } from "./validation/required";
 
 export interface OnProperty {
   input: (value: any) => void;
@@ -100,40 +104,41 @@ export default defineComponent({
     valid: {
       type: Boolean,
       required: false,
-      default: true
+      default: true,
     },
     hasFocused: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
-    value: { // lhmObjectIds of all selected users
+    value: {
+      // lhmObjectIds of all selected users
       type: Array as PropType<string[]>,
-      required: true
+      required: true,
     },
     label: {
       type: String,
-      required: true
+      required: true,
     },
     rules: {
       type: Array, // https://v2.vuetifyjs.com/en/api/v-autocomplete/#props
       required: false,
-      default: undefined // FIXME: correct? (in html code default value is true)
+      default: undefined, // FIXME: correct? (in html code default value is true)
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     on: {
       type: Object as PropType<OnProperty>,
       required: false,
-      default: undefined
+      default: undefined,
     },
     schema: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
     // @Prop()
     // options: any; FIXME: check if it es necessary, can't find usage right now
     //
@@ -145,7 +150,7 @@ export default defineComponent({
   setup: (props: any) => {
     const schemaObj = JSON.parse(JSON.stringify(props.schema));
     const readonly: boolean = schemaObj.readOnly || false;
-    const ldapGroups = schemaObj['ldap-groups'];
+    const ldapGroups = schemaObj["ldap-groups"];
 
     /**
      * all users which are already selected with complete user information.
@@ -162,7 +167,6 @@ export default defineComponent({
     const locked = ref(false);
     const errorMessage = ref("");
     const lastSearch = ref("");
-
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -181,40 +185,39 @@ export default defineComponent({
     const loadUser = (idOrUsername: string) => {
       const isId = idOrUsername.match(/^-?\d+$/);
       locked.value = true;
-      (
-        isId
-         ? callGetUserById(idOrUsername)
+      (isId
+        ? callGetUserById(idOrUsername)
         : callGetUserByUsername(idOrUsername)
       )
-        .then(user => {
+        .then((user) => {
           selectedUsers.value = [...selectedUsers.value, user];
           errorMessage.value = "";
         })
         .catch(() => {
           errorMessage.value = "Ein Benutzer konnte nicht geladen werden.";
         })
-      .finally(() => {
-        locked.value = false;
-      });
+        .finally(() => {
+          locked.value = false;
+        });
     };
 
-    const getFullName = (user: UserTO): string => `${user.forename} ${user.surname}`;
+    const getFullName = (user: UserTO): string =>
+      `${user.forename} ${user.surname}`;
 
     const filterUsers = (item: UserTO, queryText: string): boolean => {
-      return getFullName(item)
-        .toLowerCase()
-        .includes(queryText.toLowerCase());
+      return getFullName(item).toLowerCase().includes(queryText.toLowerCase());
     };
 
     const isRequired = () => checkRequired(props.schema);
 
     const removeUser = (user: UserTO): void => {
       resetInput();
-      selectedUsers.value = selectedUsers.value.filter(it => it.lhmObjectId !== user.lhmObjectId);
+      selectedUsers.value = selectedUsers.value.filter(
+        (it) => it.lhmObjectId !== user.lhmObjectId
+      );
     };
 
     const mucatarUrl = (uid: string) => mucatarURL(uid);
-
 
     const searchUsersBySearchString = (searchString: string) => {
       if (!searchString || searchString.length < 3) return;
@@ -226,7 +229,7 @@ export default defineComponent({
       isLoading.value = true;
 
       callSearchUser(lastSearch.value, ldapGroups)
-        .then(users => {
+        .then((users) => {
           if (lastSearch.value === searchText.value.slice(0, 3)) {
             items.value = users;
           }
@@ -242,7 +245,7 @@ export default defineComponent({
 
     const change = (): void => {
       const selectedLhmObjectIds = selectedUsers.value
-        .map(a => a.lhmObjectId)
+        .map((a) => a.lhmObjectId)
         .filter((it): it is string => !!it);
       input(selectedLhmObjectIds);
     };
@@ -262,12 +265,9 @@ export default defineComponent({
     }
     if (props.value && props.value.length > 0) {
       locked.value = true;
-      Promise.all(
-        props.value.map(loadUser)
-      )
-        .finally(() => {
-          locked.value = false;
-        });
+      Promise.all(props.value.map(loadUser)).finally(() => {
+        locked.value = false;
+      });
     }
 
     return {
@@ -285,7 +285,6 @@ export default defineComponent({
       removeUser,
       mucatarUrl,
     };
-  }
+  },
 });
-
 </script>

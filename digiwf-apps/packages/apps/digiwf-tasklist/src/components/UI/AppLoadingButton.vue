@@ -10,14 +10,14 @@
       <v-icon
         v-if="hasError"
         small
-        style="margin-right: 0.5rem; width: 0.7rem;"
+        style="margin-right: 0.5rem; width: 0.7rem"
         :color="loadingColor"
       >
         mdi-alert
       </v-icon>
       <v-progress-circular
         v-else
-        style="margin-right: 0.5rem; width: 0.7rem;"
+        style="margin-right: 0.5rem; width: 0.7rem"
         :class="loadingClass"
         width="2"
         :color="loadingColor"
@@ -29,7 +29,6 @@
 </template>
 
 <style scoped>
-
 .buttonGroup {
   display: flex;
   justify-content: center;
@@ -39,40 +38,39 @@
 .isNotLoading {
   visibility: hidden;
 }
-
 </style>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
     isLoading: {
       type: Boolean,
       required: false,
-      default: undefined
+      default: undefined,
     },
     hasError: {
       type: Boolean,
       required: false,
-      default: undefined
+      default: undefined,
     },
     buttonText: {
       type: String,
-      required: true
+      required: true,
     },
     color: {
       type: String,
       required: false,
-      default: undefined
+      default: undefined,
     },
   },
   emits: ["click"],
   setup: (props) => {
     return {
-      loadingClass: () => props.isLoading ? "" : "isNotLoading",
-      loadingColor: () => props.color === "primary" ? "white" : "primary"
+      loadingClass: () => (props.isLoading ? "" : "isNotLoading"),
+      loadingColor: () => (props.color === "primary" ? "white" : "primary"),
     };
-  }
+  },
 });
 </script>

@@ -6,9 +6,7 @@
         type="error"
       />
     </v-flex>
-    <v-flex
-      v-if="process !== null"
-    >
+    <v-flex v-if="process !== null">
       <h1>{{ process.name }}</h1>
       <p>{{ process.description }}</p>
       <base-form
@@ -46,31 +44,30 @@
 </style>
 
 <script lang="ts" setup>
+import { ServiceDefinitionDetailTO } from "@muenchen/digiwf-engine-api-internal";
+import { JSONSchemaType } from "ajv";
+import { provide, ref } from "vue";
+import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
+import { NavigationGuardNext } from "vue-router/types/router";
 
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-
-import {ServiceDefinitionDetailTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../api/ApiConfig";
-import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
-import {invalidProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
-import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
-import {JSFValue, validateSchema} from "../utils/validateSchema";
-import {mergeObjects} from "../utils/mergeObjects";
-import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
-import {JSONSchemaType} from "ajv";
+import AppViewLayout from "@/components/UI/AppViewLayout.vue";
+import { ApiConfig } from "../api/ApiConfig";
+import { callPostProcessInstance } from "../api/processInstances/processInstancesApiCalls";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
-import {provide, ref} from "vue";
-import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
-import {NavigationGuardNext} from "vue-router/types/router";
-import {callPostProcessInstance} from "../api/processInstances/processInstancesApiCalls";
+import { loadProcess } from "../middleware/processDefinitions/processDefinitionMiddleware";
+import { invalidProcessInstances } from "../middleware/processInstances/processInstancesMiddleware";
+import { invalidUserTasks } from "../middleware/tasks/taskMiddleware";
+import { mergeObjects } from "../utils/mergeObjects";
+import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
+import { JSFValue, validateSchema } from "../utils/validateSchema";
 
 const props = defineProps({
   processKey: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const process = ref<ServiceDefinitionDetailTO | null>(null);
@@ -86,7 +83,7 @@ const formFields = ref<any>({});
 
 const router = useRouter();
 
-provide("formContext", {id: props.processKey, type: "start"});
+provide("formContext", { id: props.processKey, type: "start" });
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
@@ -116,29 +113,30 @@ const onInit = () => {
   const urlQueryParameter = router.currentRoute.query;
   const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-  loadProcess(props.processKey)
-    .then(({data, error}) => {
-      if (error) {
-        errorMessage.value = error;
-        return;
-      }
-      if (!data) {
-        errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
-        return;
-      }
-      process.value = data;
-      // use potential value of query parameter if variable is undefined or empty
-      const initValue = validateSchema(
-        process.value.jsonSchema as JSONSchemaType<JSFValue>,
-        mergeObjects(process.value?.startForm || {}, inputs)
-      );
-      initalFormFields.value = initValue;
-      formFields.value = initValue;
-    });
+  loadProcess(props.processKey).then(({ data, error }) => {
+    if (error) {
+      errorMessage.value = error;
+      return;
+    }
+    if (!data) {
+      errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
+      return;
+    }
+    process.value = data;
+    // use potential value of query parameter if variable is undefined or empty
+    const initValue = validateSchema(
+      process.value.jsonSchema as JSONSchemaType<JSFValue>,
+      mergeObjects(process.value?.startForm || {}, inputs)
+    );
+    initalFormFields.value = initValue;
+    formFields.value = initValue;
+  });
 };
 
 const valuesChanged = () => {
-  return JSON.stringify(initalFormFields.value) !== JSON.stringify(formFields.value);
+  return (
+    JSON.stringify(initalFormFields.value) !== JSON.stringify(formFields.value)
+  );
 };
 
 const startProcess = (model: any) => {
@@ -151,10 +149,10 @@ const startProcess = (model: any) => {
       invalidUserTasks();
       invalidProcessInstances();
       // hier eventuell zum userTask routen
-      router.push({path: '/process'});
+      router.push({ path: "/process" });
     })
     .catch(() => {
-      errorMessage.value = 'Der Vorgang konnte nicht gestartet werden.';
+      errorMessage.value = "Der Vorgang konnte nicht gestartet werden.";
       hasCompleteError.value = true;
     });
 };
@@ -164,5 +162,4 @@ const onAppJsonFormInput = (newValue: any) => {
 };
 
 onInit();
-
 </script>

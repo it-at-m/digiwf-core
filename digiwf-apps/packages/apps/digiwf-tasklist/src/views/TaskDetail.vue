@@ -14,9 +14,7 @@
         v-if="task.links.length > 0"
         style="margin-bottom: 1em"
       >
-        <task-links
-          :links="task.links"
-        />
+        <task-links :links="task.links" />
       </v-flex>
 
       <base-form
@@ -50,15 +48,13 @@
           <v-btn
             color="white"
             fab
-            :aria-label="fab ? 'Weitere Aktionen schließen' : 'Weitere Aktionen öffnen' "
+            :aria-label="
+              fab ? 'Weitere Aktionen schließen' : 'Weitere Aktionen öffnen'
+            "
             @click="switchFab"
           >
-            <v-icon v-if="fab">
-              mdi-close
-            </v-icon>
-            <v-icon v-else>
-              mdi-dots-vertical
-            </v-icon>
+            <v-icon v-if="fab"> mdi-close </v-icon>
+            <v-icon v-else> mdi-dots-vertical </v-icon>
           </v-btn>
         </template>
         <v-tooltip bottom>
@@ -125,9 +121,7 @@
   </app-view-layout>
 </template>
 
-
 <style scoped>
-
 .taskForm {
   margin-top: 1rem;
 }
@@ -157,35 +151,36 @@
 </style>
 
 <script lang="ts" setup>
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
+import { onMounted, provide, ref } from "vue";
+import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
+import { NavigationGuardNext } from "vue-router/types/router";
+
 import BaseForm from "@/components/form/BaseForm.vue";
-import AppToast from "@/components/UI/AppToast.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
+import AppToast from "@/components/UI/AppToast.vue";
+import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import {ApiConfig} from "../api/ApiConfig";
+import { ApiConfig } from "../api/ApiConfig";
+import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
+import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
   cancelTask,
   completeTask,
   deferTask,
   downloadPDFFromEngine,
   loadTask,
-  saveTask
+  saveTask,
 } from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
-import {mergeObjects} from "../utils/mergeObjects";
-import {validateSchema} from "../utils/validateSchema";
-import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
-import TaskLinks from "../components/task/links/TaskLinks.vue";
-import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
-import {onMounted, provide, ref} from "vue";
-import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
-import {NavigationGuardNext} from "vue-router/types/router";
+import { HumanTaskDetails } from "../middleware/tasks/tasksModels";
+import { mergeObjects } from "../utils/mergeObjects";
+import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
+import { validateSchema } from "../utils/validateSchema";
 
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const task = ref<HumanTaskDetails | null>(null);
@@ -219,7 +214,7 @@ const next = ref<NavigationGuardNext | null>(null);
  */
 const fab = ref(false);
 
-provide("formContext", {id: props.id, type: "task"});
+provide("formContext", { id: props.id, type: "task" });
 provide("apiEndpoint", ApiConfig.base);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
@@ -250,9 +245,8 @@ const onLeaveDialogCancel = () => {
   saveLeaveDialogOpen.value = false;
 };
 
-
 const onInit = () => {
-  loadTask(props.id).then(({data, error}) => {
+  loadTask(props.id).then(({ data, error }) => {
     if (data) {
       task.value = data.task;
       model.value = data.model;
@@ -263,18 +257,18 @@ const onInit = () => {
 
       const urlQueryParameter = router.currentRoute.query;
 
-      const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
+      const inputs = parseQueryParameterInputs(
+        urlQueryParameter.inputs as string
+      );
 
       if (task.value.form) {
         formFields.value = mergeObjects(task.value.variables, inputs);
       } else {
-
         // use potential value of query parameter if variable is undefined or empty
-        formFields.value =
-          validateSchema(
-            task.value.schema,
-            mergeObjects(task.value.variables, inputs)
-          );
+        formFields.value = validateSchema(
+          task.value.schema,
+          mergeObjects(task.value.variables, inputs)
+        );
       }
     }
     if (error) {
@@ -285,7 +279,8 @@ const onInit = () => {
 
 onMounted(() => {
   // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
-  el.value?.querySelector(".v-speed-dial__list")
+  el.value
+    ?.querySelector(".v-speed-dial__list")
     .addEventListener("click", (e: Event) => {
       e.stopPropagation();
     });
@@ -294,35 +289,31 @@ onMounted(() => {
 const handleCompleteTask = (model: any) => {
   console.log("handleCompleteTask", model);
   isCompleting.value = true;
-  completeTask(props.id, model)
-    .then(result => {
-      isCompleting.value = false;
-      hasCompleteError.value = result.isError;
-      errorMessage.value = result.errorMessage || "";
-      if (!result.isError) {
-        hasChanges.value = false;
-        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
-      }
-    });
+  completeTask(props.id, model).then((result) => {
+    isCompleting.value = false;
+    hasCompleteError.value = result.isError;
+    errorMessage.value = result.errorMessage || "";
+    if (!result.isError) {
+      hasChanges.value = false;
+      router.push({ path: "/task" }); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
+    }
+  });
 };
 
 const onSaveTaskClick = (): Promise<void> => {
   isSaving.value = true;
   hasSaveError.value = false;
 
-  return saveTask(props.id, model.value)
-    .then((result) => {
-      isSaving.value = false;
-      errorMessage.value = result.errorMessage || "";
-      hasSaveError.value = result.isError;
-      if (!result.isError) {
-        hasChanges.value = false;
-      }
+  return saveTask(props.id, model.value).then((result) => {
+    isSaving.value = false;
+    errorMessage.value = result.errorMessage || "";
+    hasSaveError.value = result.isError;
+    if (!result.isError) {
+      hasChanges.value = false;
+    }
 
-      return result.isError
-        ? Promise.reject()
-        : Promise.resolve();
-    });
+    return result.isError ? Promise.reject() : Promise.resolve();
+  });
 };
 
 const openFollowUp = (): void => {
@@ -342,20 +333,16 @@ const saveFollowUp = (newFollowUpDate: string) => {
   followUpDate.value = newFollowUpDate;
   isFollowUpDialogVisible.value = false;
 
-  (hasChanges.value
-    ? onSaveTaskClick()
-    : Promise.resolve())
-    .then(() => {
-      deferTask(props.id, newFollowUpDate)
-        .then(result => {
-          errorMessage.value = result.errorMessage || "";
-        });
+  (hasChanges.value ? onSaveTaskClick() : Promise.resolve()).then(() => {
+    deferTask(props.id, newFollowUpDate).then((result) => {
+      errorMessage.value = result.errorMessage || "";
     });
+  });
 };
 
 const handleCancelTask = () => {
   isCancelling.value = true;
-  cancelTask(props.id).then(result => {
+  cancelTask(props.id).then((result) => {
     isCancelling.value = false;
     hasCancelError.value = result.isError;
     errorMessage.value = result.errorMessage || "";
@@ -365,7 +352,7 @@ const handleCancelTask = () => {
 const downloadPDF = () => {
   isDownloading.value = true;
   hasDownloadError.value = false;
-  downloadPDFFromEngine(props.id).then(result => {
+  downloadPDFFromEngine(props.id).then((result) => {
     errorMessage.value = result.errorMessage || "";
     hasDownloadError.value = result.isError;
   });
@@ -381,7 +368,5 @@ const isDirty = (): boolean => {
   return hasChanges.value;
 };
 
-
 onInit();
-
 </script>

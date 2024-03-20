@@ -1,6 +1,5 @@
 <template>
-  <v-form
-    ref="form">
+  <v-form ref="form">
     <dwf-form-renderer-frame
       :schema="schema"
       :value="value"
@@ -10,11 +9,12 @@
 </template>
 
 <script lang="ts">
-import {PropType} from "vue";
+import { PropType } from "vue";
+
 import DwfFormRendererFrame from "./DwfFormRendererFrame.vue";
 
 export default {
-  components: {DwfFormRendererFrame},
+  components: { DwfFormRendererFrame },
   props: {
     value: {
       type: Object,
@@ -26,14 +26,13 @@ export default {
     },
     readonly: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: {
     input: {
-      type: Function as PropType<(value: any) => any>
-    }
-  }
+      type: Function as PropType<(value: any) => any>,
+    },
+  },
 };
-
 </script>

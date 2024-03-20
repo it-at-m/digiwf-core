@@ -1,11 +1,10 @@
 <script lang="ts">
-
 export default {
   props: {
     readonly: {
-      type:Boolean,
+      type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     value: {
       type: Object,
@@ -15,41 +14,34 @@ export default {
       type: Object,
       required: true,
     },
-  }
+  },
 };
-
 </script>
 
 <template>
   <dwf-form-renderer
-    :options="{locale : 'de', readOnly: readonly || false, markdownit: { breaks: true } }"
+    :options="{
+      locale: 'de',
+      readOnly: readonly || false,
+      markdownit: { breaks: true },
+    }"
     :value="value"
     :schema="schema"
   >
     <template #custom-date-input="context">
-      <dwf-date-input
-        v-bind="context"
-      />
+      <dwf-date-input v-bind="context" />
     </template>
     <template #custom-dms-input="context">
-      <dwf-dms-input
-        v-bind="context"
-      />
+      <dwf-dms-input v-bind="context" />
     </template>
     <template #custom-time-input="context">
-      <dwf-time-input
-        v-bind="context"
-      />
+      <dwf-time-input v-bind="context" />
     </template>
     <template #custom-user-input="context">
-      <v-user-input
-        v-bind="context"
-      />
+      <v-user-input v-bind="context" />
     </template>
     <template #custom-multi-user-input="context">
-      <v-multi-user-input
-        v-bind="context"
-      />
+      <v-multi-user-input v-bind="context" />
     </template>
     <template #custom-multi-file-input="context">
       <dwf-multi-file-input
@@ -60,6 +52,4 @@ export default {
   </dwf-form-renderer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

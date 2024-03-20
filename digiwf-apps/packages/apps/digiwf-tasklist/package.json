@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "test": "jest src --coverage",
-    "lint": "prettier src --check --ignore-path ./legacy-ignore.prettierignore"
+    "prettier": "prettier src --write --ignore-path ./legacy-ignore.prettierignore"
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",

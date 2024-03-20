@@ -17,7 +17,7 @@
             :color="color === 'secondary' ? 'white' : 'primary'"
             indeterminate
           />
-          <slot v-else/>
+          <slot v-else />
         </div>
       </v-btn>
     </template>
@@ -38,7 +38,7 @@
 </style>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -57,7 +57,7 @@ export default defineComponent({
     color: {
       type: String,
       required: false,
-      default: undefined
+      default: undefined,
     },
     disabled: {
       type: Boolean,

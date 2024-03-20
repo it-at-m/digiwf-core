@@ -11,7 +11,8 @@
       </v-card-title>
       <div class="ma-8">
         <p style="margin-bottom: 1rem">
-          Die Aufgabe wird Ihnen zum gewählten Zeitpunkt wieder in "Meine Aufgaben" angezeigt.
+          Die Aufgabe wird Ihnen zum gewählten Zeitpunkt wieder in "Meine
+          Aufgaben" angezeigt.
         </p>
         <v-menu
           v-model="dateSelectionOpen"
@@ -23,7 +24,10 @@
         >
           <template #activator="{ on, attrs }">
             <v-text-field
-              style="pointer-events: auto!important; background-color: white !important;"
+              style="
+                pointer-events: auto !important;
+                background-color: white !important;
+              "
               outlined
               clearable
               hide-details
@@ -44,10 +48,10 @@
           />
         </v-menu>
       </div>
-      <v-divider/>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer/>
+        <v-spacer />
         <v-btn
           text
           @click="$emit('cancel')"
@@ -66,36 +70,37 @@
 </template>
 
 <script lang="ts">
-import {DateTime} from "luxon";
-import {defineComponent, ref} from "vue";
+import { DateTime } from "luxon";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {
     value: {
       type: Boolean,
-      required: true
+      required: true,
     },
     followUpDate: {
       type: String,
       required: false,
-      default: ""
-    }
+      default: "",
+    },
   },
   emits: ["cancel", "submit"],
   setup: (props) => {
-
     const dateSelection = ref<string>(props.followUpDate);
     const dateSelectionOpen = ref<boolean>(false);
 
     return {
       dateSelection,
       dateSelectionOpen,
-      computedDateSelection: () => dateSelection.value
-        ? DateTime.fromFormat(dateSelection.value, "yy-MM-dd").toLocaleString(DateTime.DATE_SHORT)
-        : "",
-      updateDateSelection: (v: string) => dateSelection.value = v
-
+      computedDateSelection: () =>
+        dateSelection.value
+          ? DateTime.fromFormat(dateSelection.value, "yy-MM-dd").toLocaleString(
+              DateTime.DATE_SHORT
+            )
+          : "",
+      updateDateSelection: (v: string) => (dateSelection.value = v),
     };
-  }
+  },
 });
 </script>

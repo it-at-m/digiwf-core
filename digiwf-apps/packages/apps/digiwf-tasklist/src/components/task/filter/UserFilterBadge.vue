@@ -21,7 +21,7 @@ export default {
     },
   },
   emits: ["clear"],
-  setup: (props:  { userId: string }) => {
+  setup: (props: { userId: string }) => {
     const user = ref<string>("-");
     getUserInfo(props.userId)
       .then((data) => {

@@ -6,14 +6,12 @@
     width="800"
   >
     <v-card>
-      <v-card-title>
-        Aufgabenzuweisung
-      </v-card-title>
+      <v-card-title> Aufgabenzuweisung </v-card-title>
       <v-card-text>
         <div>
           Die Aufgabe ist aktuell folgender Person zugewiesen:
           <h3>{{ assigneeFormatted }}</h3>
-          <br>
+          <br />
           Wollen Sie die Aufgabe übernehmen?
         </div>
       </v-card-text>
@@ -41,23 +39,22 @@
 </template>
 
 <script lang="ts">
-
-import {PropType} from "vue";
+import { PropType } from "vue";
 
 export default {
   props: {
     open: {
       type: Boolean,
-      required: true
+      required: true,
     },
     assigneeFormatted: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: {
     cancel: Function as PropType<() => void>,
     submit: Function as PropType<() => void>,
-  }
+  },
 };
 </script>

@@ -144,8 +144,9 @@
 </style>
 
 <script lang="ts">
-import {PropType} from "vue";
-import {HumanTask} from "../../middleware/tasks/tasksModels";
+import { PropType } from "vue";
+
+import { HumanTask } from "../../middleware/tasks/tasksModels";
 
 export default {
   props: {

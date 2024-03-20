@@ -10,20 +10,32 @@
       <!-- header -->
       <v-flex style="justify-content: space-between">
         <v-row>
-          <v-col cols="12" sm="6">
+          <v-col
+            cols="12"
+            sm="6"
+          >
             <span class="processName">{{ task.processName }}</span>
             <h1>{{ task.name }}</h1>
             <span>{{ task.description }}</span>
           </v-col>
-          <v-col cols="12" sm="6" style="display: flex">
-            <v-flex style="align-items: flex-end; justify-content: flex-end; display: flex; padding-bottom: 10pt">
+          <v-col
+            cols="12"
+            sm="6"
+            style="display: flex"
+          >
+            <v-flex
+              style="
+                align-items: flex-end;
+                justify-content: flex-end;
+                display: flex;
+                padding-bottom: 10pt;
+              "
+            >
               <v-btn
                 color="primary"
                 @click="checkTaskAssignment"
               >
-                <v-icon left>
-                  mdi-pencil
-                </v-icon>
+                <v-icon left> mdi-pencil </v-icon>
                 Bearbeiten
               </v-btn>
               <v-btn
@@ -31,9 +43,7 @@
                 color="primary"
                 @click="openAssignDialog"
               >
-                <v-icon left>
-                  mdi-send-outline
-                </v-icon>
+                <v-icon left> mdi-send-outline </v-icon>
                 Zuweisen
               </v-btn>
             </v-flex>
@@ -72,9 +82,7 @@
   </app-view-layout>
 </template>
 
-
 <style scoped>
-
 .taskForm {
   margin-top: 1rem;
 }
@@ -88,32 +96,29 @@
   align-items: center;
   margin-bottom: 0.3rem;
 }
-
-
 </style>
 
 <script lang="ts" setup>
+import { UserTO } from "@muenchen/digiwf-engine-api-internal";
+import { inject, provide, ref } from "vue";
+import { useRouter } from "vue-router/composables";
 
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import {UserTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../api/ApiConfig";
-import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import AppViewLayout from "@/components/UI/AppViewLayout.vue";
+import { ApiConfig } from "../api/ApiConfig";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
-import {inject, provide, ref} from "vue";
-import {useRouter} from "vue-router/composables";
-import {useStore} from "../hooks/store";
-import {User} from "../middleware/user/userModels";
-
+import { useStore } from "../hooks/store";
+import { assignTask, loadTask } from "../middleware/tasks/taskMiddleware";
+import { HumanTaskDetails } from "../middleware/tasks/tasksModels";
+import { User } from "../middleware/user/userModels";
 
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const task = ref<HumanTaskDetails | null>(null);
@@ -128,7 +133,7 @@ const store = useStore();
 
 const userId = inject<User>("user")?.lhmObjectId;
 
-provide("formContext", {id: props.id, type: "task"});
+provide("formContext", { id: props.id, type: "task" });
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
@@ -136,34 +141,32 @@ provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
 const onInit = () => {
   isLoading.value = true;
-  loadTask(props.id)
-    .then(result => {
-      isLoading.value = false;
-      if (result.data) {
-        task.value = result.data.task;
-        errorMessage.value = "";
-      }
-      if (result.error) {
-        errorMessage.value = result.error;
-      }
-    });
+  loadTask(props.id).then((result) => {
+    isLoading.value = false;
+    if (result.data) {
+      task.value = result.data.task;
+      errorMessage.value = "";
+    }
+    if (result.error) {
+      errorMessage.value = result.error;
+    }
+  });
 };
 
 const checkTaskAssignment = () => {
-  loadTask(props.id)
-    .then(result => {
-      if (result.data?.task?.assigneeId) {
-        const currentUser: UserTO = store.getters['user/info'];
-        if (task.value?.assigneeId != currentUser.lhmObjectId) {
-          showModal.value = true;
-          setTimeout(() => showModal.value = false, 10000);
-        } else {
-          router.push({path: '/task/' + props.id});
-        }
+  loadTask(props.id).then((result) => {
+    if (result.data?.task?.assigneeId) {
+      const currentUser: UserTO = store.getters["user/info"];
+      if (task.value?.assigneeId != currentUser.lhmObjectId) {
+        showModal.value = true;
+        setTimeout(() => (showModal.value = false), 10000);
       } else {
-        triggerAssignTask();
+        router.push({ path: "/task/" + props.id });
       }
-    });
+    } else {
+      triggerAssignTask();
+    }
+  });
 };
 
 const openAssignDialog = () => {
@@ -181,16 +184,16 @@ const handleSuccessfullyAssignment = () => {
 const triggerAssignTask = () => {
   showModal.value = false;
 
-  if(!userId) {
+  if (!userId) {
     errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
-    return ;
+    return;
   }
   assignTask(props.id, userId).then((result) => {
-    errorMessage.value = result.isError ? "Die Aufgabe konnte nicht zugewiesen werden." : "";
+    errorMessage.value = result.isError
+      ? "Die Aufgabe konnte nicht zugewiesen werden."
+      : "";
   });
 };
 
-
 onInit();
-
 </script>

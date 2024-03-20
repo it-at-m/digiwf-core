@@ -1,7 +1,7 @@
+import { UserTO } from "@muenchen/digiwf-engine-api-internal";
 import { UserProfile } from "@muenchen/digiwf-task-api-internal";
 
 import { User } from "./userModels";
-import {UserTO} from "@muenchen/digiwf-engine-api-internal";
 
 export const mapUserResponse = (response: UserProfile): User => ({
   lhmObjectId: response.userId,

@@ -6,11 +6,10 @@
     width="800"
   >
     <v-card>
-      <v-card-title>
-        Ungespeicherte Änderungen
-      </v-card-title>
+      <v-card-title> Ungespeicherte Änderungen </v-card-title>
       <v-card-text>
-        Es sind ungespeicherte Änderungen vorhanden. Wollen Sie die Seite verlassen?
+        Es sind ungespeicherte Änderungen vorhanden. Wollen Sie die Seite
+        verlassen?
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -36,19 +35,18 @@
 </template>
 
 <script lang="ts">
-
-import {PropType} from "vue";
+import { PropType } from "vue";
 
 export default {
   props: {
     open: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: {
     cancel: Function as PropType<() => void>,
     submit: Function as PropType<() => void>,
-  }
+  },
 };
 </script>

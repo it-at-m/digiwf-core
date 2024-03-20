@@ -150,8 +150,9 @@
 </template>
 
 <script lang="ts">
-import {PropType, ref} from "vue";
-import {HumanTask} from "../../middleware/tasks/tasksModels";
+import { PropType, ref } from "vue";
+
+import { HumanTask } from "../../middleware/tasks/tasksModels";
 import AssignTaskDialog from "./AssignTaskDialog.vue";
 
 export default {

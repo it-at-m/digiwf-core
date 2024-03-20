@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-
-import {defineComponent, PropType} from "vue";
+import { defineComponent, PropType } from "vue";
 
 export type AppToastType = "error" | "info";
 
@@ -20,12 +19,12 @@ export default defineComponent({
   props: {
     message: {
       type: Object, // normally string, but it is used with Error Object too, FIXME
-      required: true
+      required: true,
     },
     type: {
       type: Object as PropType<AppToastType>,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>

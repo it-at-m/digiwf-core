@@ -8,7 +8,7 @@ import {
   UserProfile,
 } from "@muenchen/digiwf-task-api-internal";
 
-import {ApiConfig} from "../ApiConfig";
+import { ApiConfig } from "../ApiConfig";
 
 export const callGetUserInfoFromTaskService = (
   id: string
@@ -56,6 +56,7 @@ export const callSearchUser = (
 
 export const callGetCurrentUserInfo = (): Promise<UserTO> => {
   const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
-  return UserRestControllerApiFactory(cfg).userinfo()
+  return UserRestControllerApiFactory(cfg)
+    .userinfo()
     .then((res) => Promise.resolve(res.data));
 };
