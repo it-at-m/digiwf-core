@@ -1,34 +1,31 @@
-# DigiWF Mail Integration
+# DigiWF E-Mail-Integration
 
 ![](https://img.shields.io/badge/Integration_Name-emailIntegration-informational?style=flat&logoColor=white&color=2c73d2)
 
-Die DigiWF Email Integration ist eine Integration, die es Benutzern ermöglicht, Emails über die DigiWF-Plattform zu
-senden.
-Mit dieser Integration können Prozessentwickler Email-Kommunikation in ihre BPMN Prozesse integrieren.
+Die DigiWF E-Mail-Integration ermöglicht es Benutzern, E-Mails über die DigiWF-Plattform zu senden. Prozessentwickler
+können mit dieser Integration E-Mail-Kommunikation in ihre BPMN-Prozesse integrieren.
 
-Die Email Integration erlaubt sowohl einfache Emails als auch Emails mit Dateianhängen zu versenden.
-Dateianhänge können hierbei aus einem S3 Bucket geladen werden.
+Die E-Mail-Integration ermöglicht sowohl das Senden einfacher E-Mails als auch von E-Mails mit Dateianhängen. Die
+Dateianhänge können aus einem S3 Bucket geladen werden.
 Zudem ist es möglich den E-Mail Body durch Templates zu generieren und somit ein Logo und einen Link in der E-Mail anzeigen zu lassen.
 
 ## Verwendung
 
-Die Email Integration erlaubt es den User von DigiWF Emails aus einem Prozess heraus zusenden.
-Hierbei können sowohl einfache Emails als auch Emails mit Dateianhängen versendet werden.
-Die Dateianhänge werden hierbei aus einem S3 Bucket geladen.
+Die E-Mail-Integration ermöglicht es den Benutzern von DigiWF, E-Mails aus einem Prozess heraus zu senden. Hierbei
+können sowohl einfache E-Mails als auch E-Mails mit Dateianhängen versendet werden. Die Dateianhänge werden hierbei aus
+einem S3 Bucket geladen. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 Der Body der E-Mail kann mit reinem Text oder durch ein Template mit einem Logo und einem Link befüllt werden. 
-Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 
-### Email senden
+### E-Mail senden
 
-Um eine Email mit der Email Integration zu senden, müssen Sie ein Email Event an das Kafka Topic der Email Integration
-senden.
-Den Namen des Topics können Sie in der Konfiguration der Email Integration
-unter `spring.cloud.stream.bindings.functionRouter-in-0.destination` finden.
-Zusätzlich muss im Email Event der Header `type` auf `sendMailFromEventBus` gesetzt werden.
+Um eine E-Mail mit der E-Mail-Integration zu senden, muss ein E-Mail-Event an das Kafka-Topic der E-Mail-Integration
+gesendet werden. Den Namen des Topics können Sie in der Konfiguration der E-Mail-Integration
+unter `spring.cloud.stream.bindings.functionRouter-in-0.destination` finden. Zusätzlich muss im E-Mail-Event der
+Header `type` auf `sendMailFromEventBus` gesetzt werden.
 
 > Standardmäßig heißen die Topics *dwf-email-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
-Nachfolgend ist ein Beispiel Event für eine Email aufgeführt:
+Nachfolgend ist ein Beispiel-Event für eine E-Mail aufgeführt:
 
 ```json
 {
@@ -42,17 +39,16 @@ Nachfolgend ist ein Beispiel Event für eine Email aufgeführt:
 }
 ```
 
-### Email mit Dateianhang senden
+### E-Mail mit Dateianhang senden
 
-Sie können Dateien aus einem S3 Bucket an die Emails anhängen, die Sie senden.
-Dafür müssen Sie vorab presigned URLs für die Dateianhänge mit der S3 Integration erstellen und diese
-unter `attachments` dem Mail Event mitgeben.
-Die Email Integration lädt die Dateien herunter und fügt sie der Email vor dem Versenden als Anhang hinzu.
+Sie können Dateien aus einem S3 Bucket an die E-Mails anhängen, die Sie senden. Dafür müssen Sie vorab presigned URLs
+für die Dateianhänge mit der S3-Integration erstellen und diese unter `attachments` dem Mail-Event mitgeben. Die
+E-Mail-Integration lädt die Dateien herunter und fügt sie der E-Mail vor dem Versenden als Anhang hinzu.
 
-**Hinweis**: Die Email Integration unterstützt nur presigned URLs, die mit der GET-Aktion erstellt wurden.
-Alle anderen Dateiaktionen funktionieren nicht und führen zu einem Fehler.
+**Hinweis**: Die E-Mail-Integration unterstützt nur presigned URLs, die mit der GET-Aktion erstellt wurden. Alle anderen
+Dateiaktionen funktionieren nicht und führen zu einem Fehler.
 
-Nachfolgend ist ein Beispiel Event für eine Email mit einem Dateianhang aufgeführt:
+Nachfolgend ist ein Beispiel-Event für eine E-Mail mit einem Dateianhang aufgeführt:
 
 ```json
 {
@@ -100,42 +96,40 @@ Anhänge können wie oben beschrieben übergeben werden.
 
 ### Fehlerbehandlung
 
-Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.
-BPMN Errors können im Prozess behandelt werden, während Incident Errors nicht im Prozess behandelt werden können
-und einen Incident erzeugen.
+Bei der Fehlerbehandlung wird zwischen BPMN-Errors und Incident-Errors unterschieden. BPMN-Errors können im Prozess
+behandelt werden, während Incident-Errors nicht im Prozess behandelt werden können und einen Incident erzeugen.
 
-Nachfolgend sind die BPMN Errors aufgeführt, die von der Email Integration geworfen werden können:
+Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration geworfen werden können:
 
-#### BPMN Error
+#### BPMN-Error
 
-| Error Code                | Error Message                                                    | Beschreibung                                                                                                                               | Handlungsempfehlung                                                                                                            | 
-|---------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `VALIDATION_ERROR`        | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen Email Daten sind nicht valide.                                                                                             | Korrigieren Sie die Daten und versuchen es erneut                                                                              |
-| `MESSAGING_EXCEPTION`     | Fehlermeldung der auftretenden `MessagingException`              | Die Email konnte mit den übergebenen Daten nicht erstellt werden.                                                                          | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut.                                                              | 
-| `MAIL_SENDING_FAILED`     | Fehlermeldung der auftretenden `MailException`                   | Die Email konnte nicht versand werden. Es kann sein, dass die Email Adressen nicht valide sind oder ein technischer Fehler aufgetreten ist | Analysieren Sie die Fehlermeldung, korrigieren invalide Email Adressen und versuchen es erneut.                                |
-| `LOAD_FILE_FAILED`        | An attachment could not be loaded from presigned url: attachment | Die Datei konnte nicht geladen werden                                                                                                      | Stellen Sie sicher, dass die presigned Url nicht abgelaufen ist. Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist |
-| `FILE_TYPE_NOT_SUPPORTED` | File type not supported of the attachment: attachment            | Der Dateityp der Datei wird nicht unterstützt oder wurde nicht erkannt                                                                     | Die Datei kann nicht als Email Anhang versendet werden.                                                                        | 
+| Error Code                | Error Message                                                    | Beschreibung                                                                                                                                 | Handlungsempfehlung                                                                                                            | 
+|---------------------------|------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| `VALIDATION_ERROR`        | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen E-Mail-Daten sind nicht valide.                                                                                              | Korrigieren Sie die Daten und versuchen es erneut                                                                              |
+| `MESSAGING_EXCEPTION`     | Fehlermeldung der auftretenden `MessagingException`              | Die E-Mail konnte mit den übergebenen Daten nicht erstellt werden.                                                                           | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut.                                                              | 
+| `MAIL_SENDING_FAILED`     | Fehlermeldung der auftretenden `MailException`                   | Die E-Mail konnte nicht versand werden. Es kann sein, dass die E-Mail-Adressen nicht valide sind oder ein technischer Fehler aufgetreten ist | Analysieren Sie die Fehlermeldung, korrigieren invalide E-Mail-Adressen und versuchen es erneut.                               |
+| `LOAD_FILE_FAILED`        | An attachment could not be loaded from presigned url: attachment | Die Datei konnte nicht geladen werden                                                                                                        | Stellen Sie sicher, dass die presigned URL nicht abgelaufen ist. Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist |
+| `FILE_TYPE_NOT_SUPPORTED` | File type not supported of the attachment: attachment            | Der Dateityp der Datei wird nicht unterstützt oder wurde nicht erkannt                                                                       | Die Datei kann nicht als E-Mail-Anhang versendet werden.                                                                       | 
 | `LOAD_TEMPLATE_FAILED`    | The template *template* could not be loaded                      | Das Template konnte nicht geladen werden.                                                                                                  | Überprüfen Sie ob der Templatename richtig ist und versuchen Sie es erneut.                                                    | 
 | `TEMPLATE_MERGING_FAILED` | Fehlermeldung der auftretenden `TemplateException`               | Das Template konnte nicht mit den übergebenen Daten befüllt werden.                                                                        | Überprüfen Sie die übergebenen Daten und versuchen Sie es erneut.                                                              | 
 
 ### Ressourcen
 
-Um die Prozessentwicklung zu beschleunigen, können Sie die
+Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMail.json](/element-template/sendMail.json) in einer
 Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
 und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json)
-in einer Call Activity verwenden, um diese Integration zu verwenden.
 
 ## DigiWF Mail Integration anpassen
 
-Die DigiWF Mail Integration wird als Spring Boot Starter Projekt bereitgestellt.
-Um die Email Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
-bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
+Die DigiWF E-Mail-Integration wird als Spring Boot Starter-Projekt bereitgestellt. Um die E-Mail-Integration an Ihre
+Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@Bean`s überschreiben sowie
+eigene `@Bean`s hinzufügen.
 
 ![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)
 
 Den `digiwf-email-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
 
-**Mit maven**
+**Mit Maven**
 
 ```xml
 
@@ -146,7 +140,7 @@ Den `digiwf-email-integration-starter` können Sie wie folgt in Ihr Projekt einb
 </dependency>
 ```
 
-**Mit gradle**
+**Mit Gradle**
 
 ```gradle
 implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
@@ -161,17 +155,17 @@ Modul vertraut und fügen Sie Ihre eigenen `@bean`s hinzu oder überschreiben Si
 
 Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF Mail Integration verwenden:
+sind, können Sie die folgenden Konfigurationen für die DigiWF E-Mail-Integration verwenden:
 
-|                                                               |                                                                                                                |
-|---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `io.muenchendigital.digiwf.mail.fromAddress`                  | Die Absenderadresse, die für alle Emails verwendet wird, die über die DigiWF Mail Integration gesendet werden. |
-| `io.muenchendigital.digiwf.mail.defaultReplyToAddress`        | Eine Standard-Reply-To-Mailadresse für technische Mails, auf die nicht geantwortet werden soll.                |
-| `io.muenchendigital.digiwf.mail.metrics.totalMailCounterName` | Der Name des Micrometer Counters, der die Anzahl der gesendeten Emails zählt.                                  |
-| `io.muenchendigital.digiwf.mail.metrics.failureCounterName`   | Der Name des Micrometer Counters, der die Anzahl der fehlgeschlagenen Emails zählt.                            |
+|                                                               |                                                                                                                   |
+|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| `io.muenchendigital.digiwf.mail.fromAddress`                  | Die Absenderadresse, die für alle E-Mails verwendet wird, die über die DigiWF E-Mail-Integration gesendet werden. |
+| `io.muenchendigital.digiwf.mail.defaultReplyToAddress`        | Eine Standard-Reply-To-E-Mail-Adresse für technische E-Mails, auf die nicht geantwortet werden soll.              |
+| `io.muenchendigital.digiwf.mail.metrics.totalMailCounterName` | Der Name des Micrometer-Counters, der die Anzahl der gesendeten E-Mails zählt.                                    |
+| `io.muenchendigital.digiwf.mail.metrics.failureCounterName`   | Der Name des Micrometer-Counters, der die Anzahl der fehlgeschlagenen E-Mails zählt.                              |
 
 ```yaml
-# Konfigurationen für die DigiWF Mail Integration
+# Konfigurationen für die DigiWF E-Mail-Integration
 io:
   muenchendigital:
     digiwf:

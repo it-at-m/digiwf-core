@@ -4,20 +4,21 @@
 
 ::: tip
 Objekte sollten bei der Modellierung in einer eigenen Gruppe modelliert werden.
-Das verwendete Framework zur Anzeige von Formularen setzt Objekte immer ans Ende einer Gruppe,
-egal an welche Stelle sie sich bei der Modellierung befinden.
-Die trifft auch auf Dateien zu, da es sich hierbei um ein Objekt handelt.
+Das Framework zur Anzeige von Formularen setzt Objekte immer ans Ende einer Gruppe,
+unabhängig davon, wo sie in der Modellierung platziert sind.
+Das gilt auch für Dateien, da es sich hierbei um ein Objekt handelt.
 :::
 
 ## Dynamisches Objekt
- Ein dynamisches Objekt kann in der Modellierung als Container für Felder verwendet werden.
+
+Ein dynamisches Objekt kann in der Modellierung als Container für Felder verwendet werden.
 
 ![Dynamisches Objekt](~@source/modeling/forms/objects/dynamic-object.png)
 
- Bei der Speicherung der Daten als JSON Objekt, wird für den `Key` des Objektes ein eigener Eintrag mit
- untergeordneten Feldern erstellt, die sich aus den enthaltenen Feldern ergeben.
- 
-Das folgende Objekt 
+Beim Speichern der Daten als JSON-Objekt wird für den `Key` des Objekts ein eigener Eintrag mit
+untergeordneten Feldern erstellt, die sich aus den enthaltenen Feldern ergeben.
+
+Das folgende Objekt
 
 ![Dynamisches Objekt](~@source/modeling/forms/objects/dynamic-object-example.png)
 
@@ -39,7 +40,7 @@ Bei der Modellierung verhält sich eine Objekt-Liste wie ein `Dynamisches Objekt
 
 ![Objekt-Liste](~@source/modeling/forms/objects/object-list.png)
 
-Die folgende Objekt-Liste
+Die folgende Objektliste
 
 ![Objekt-Liste](~@source/modeling/forms/objects/object-list-example.png)
 
@@ -58,12 +59,11 @@ würde wie folgt gespeichert werden:
 ```
 
 ::: tip
-Wenn Objekt-Listen in Kombination mit Datei-Feldern verwendet werden, sollte darauf geachtet werden,
-dass die Einstellung `Eindeutiger Indentifikator?` im Datei-Feld aktiv ist
+Wenn Objektlisten in Kombination mit Datei-Feldern verwendet werden, sollte darauf geachtet werden,
+dass die Einstellung `Eindeutiger Indentifikator?` im Datei-Feld aktiviert ist.
 :::
 
 #### Anzeige
-Im Formular wird die Objekt-Liste wie folgt dargestellt:
+Im Formular wird die Objektliste wie folgt dargestellt:
 
 ![Objekt-Liste](~@source/modeling/forms/objects/object-list-form.png)
-
