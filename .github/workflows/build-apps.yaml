@@ -2,25 +2,15 @@ name: build apps
 
 on:
   push:
-    branches:
-      - '**'
+    paths:
+      - 'digiwf-apps/**'
   pull_request:
-    types: [ opened, reopened ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./digiwf-apps
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '16'
-          cache: 'npm'
-          cache-dependency-path: "./digiwf-apps/package-lock.json"
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm run init
-      - run: npm run test
-      - run: npm run build
+    uses: ./.github/workflows/workflow-build-apps.yaml
+    with:
+      publish-packages: false
+      build-images: ${{ github.ref_name == 'dev' }}
+      release-version: 'dev'
+    secrets: inherit

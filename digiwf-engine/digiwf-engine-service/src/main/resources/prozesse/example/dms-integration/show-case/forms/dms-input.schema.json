@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "2166d897-058e-4312-ae6f-832c1d96774f": {
                 "fieldType": "dms-input",

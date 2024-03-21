@@ -79,25 +79,25 @@
       "value": "-",
       "choices": [
         {
-          "name": "-",
-          "value": "-"
+          "name": "Offen",
+          "value": "OPEN"
         },
         {
-          "name": "Eingehend",
-          "value": "EINGEHEND"
+          "name": "Ausstehende Erinnerung",
+          "value": "PENDING_REMINDER"
         },
         {
-          "name": "Ausgehend",
-          "value": "AUSGEHEND"
+          "name": "Bis zum Abschluss",
+          "value": "PENDING_CLOSE"
         },
         {
-          "name": "Intern",
-          "value": "INTERN"
+          "name": "Geschlossen",
+          "value": "CLOSED"
         }
       ],
       "binding": {
         "type": "camunda:in",
-        "expression": false,
+        "expression": true,
         "name": "status",
         "target": "status"
       },
@@ -114,6 +114,20 @@
         "expression": true,
         "name": "userId",
         "target": "userId"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Pfad(e) im S3",
+      "type": "String",
+      "value": "${app_file_context}/",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "filepaths",
+        "target": "filepaths"
       },
       "constraints": {
         "notEmpty": true

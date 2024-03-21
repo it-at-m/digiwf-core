@@ -78,31 +78,35 @@ jobs:
   release-apps:
     if: github.event.inputs.apps == 'true'
     needs: release-version
-    uses: ./.github/workflows/workflow-release-apps.yaml
+    uses: ./.github/workflows/workflow-build-apps.yaml
     with:
-      snapshot-release: ${{ github.event.inputs.snapshot-build == 'true' }}
+      publish-packages: ${{ github.event.inputs.snapshot-build == 'false' }}
+      build-images: true
       release-version: ${{ needs.release-version.outputs.apps-release-version }}
     secrets: inherit
 
   release-services:
     if: github.event.inputs.services == 'true'
     needs: release-version
-    uses: ./.github/workflows/workflow-release-services.yaml
+    uses: ./.github/workflows/workflow-build-services.yaml
     with:
       snapshot-release: ${{ github.event.inputs.snapshot-build == 'true' }}
       release-version: ${{ needs.release-version.outputs.services-release-version }}
       maven-release: ${{ github.event.inputs.maven == 'true' }}
+      build-images: true
     secrets: inherit
 
   release-docs:
     if: github.event.inputs.docs == 'true'
     needs: release-version
-    uses: ./.github/workflows/workflow-release-docs.yaml
+    uses: ./.github/workflows/workflow-build-docs.yaml
+    with:
+      publish: ${{ github.event.inputs.snapshot-build == 'false' }}
     secrets: inherit
 
   github-release:
     if: github.event.inputs.snapshot-build == 'false' && always() && !contains(needs.*.result, 'failure')
-    needs: [release-apps, release-services, release-docs]
+    needs: [ release-apps, release-services, release-docs ]
     uses: ./.github/workflows/workflow-github-release.yaml
     with:
       release-tag: ${{ github.event.inputs.release-tag }}

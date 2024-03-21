@@ -13,13 +13,18 @@ on:
         type: boolean
         required: true
         default: true
+      build-images:
+        description: 'Build and push images?'
+        type: boolean
+        required: true
+        default: false
       release-version:
         description: 'Services release version'
         type: string
         required: false
 
 jobs:
-  release-services:
+  build-services:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -44,7 +49,7 @@ jobs:
           ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
       - name: Build with Maven
-        run: ./mvnw --batch-mode clean install -DskipTests
+        run: ./mvnw --batch-mode clean install
 
       #
       # The GPG key is stored in the secret using the text 'PGP Private Key' format
@@ -72,107 +77,124 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.nexus_password }}
 
       - name: Set up QEMU
+        if: inputs.build-images == true
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
+        if: inputs.build-images == true
         uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
+        if: inputs.build-images == true
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Build and push connector
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
-          tags: itatm/digiwf-camunda-connector-service:${{ inputs.release-version }},itatm/digiwf-camunda-connector-service:dev
+          tags: itatm/digiwf-camunda-connector-service:${{ inputs.release-version }}
 
       - name: Build and push gateway
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-gateway
           push: true
-          tags: itatm/digiwf-gateway:${{ inputs.release-version }},itatm/digiwf-gateway:dev
+          tags: itatm/digiwf-gateway:${{ inputs.release-version }}
 
       - name: Build and push cosys
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
-          tags: itatm/digiwf-cosys-integration-service:${{ inputs.release-version }},itatm/digiwf-cosys-integration-service:dev
+          tags: itatm/digiwf-cosys-integration-service:${{ inputs.release-version }}
 
       - name: Build and push email integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
           push: true
-          tags: itatm/digiwf-email-integration-service:${{ inputs.release-version }},itatm/digiwf-email-integration-service:dev
+          tags: itatm/digiwf-email-integration-service:${{ inputs.release-version }}
 
       - name: Build and push alw-integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
           push: true
-          tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-integration-service:dev
+          tags: itatm/digiwf-alw-integration-service:${{ inputs.release-version }}
 
       - name: Build and push s3-integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
           push: true
-          tags: itatm/digiwf-s3-integration-service:${{ inputs.release-version }},itatm/digiwf-s3-integration-service:dev
+          tags: itatm/digiwf-s3-integration-service:${{ inputs.release-version }}
 
       - name: Build and push oss engine
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
-          tags: itatm/digiwf-engine-service-community:${{ inputs.release-version }},itatm/digiwf-engine-service-community:dev
+          tags: itatm/digiwf-engine-service-community:${{ inputs.release-version }}
 
       - name: Build and push tasklist backend
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-task/digiwf-tasklist-service
           push: true
-          tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }},itatm/digiwf-tasklist-backend-service:dev
+          tags: itatm/digiwf-tasklist-backend-service:${{ inputs.release-version }}
 
       - name: Build and push alw dms integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
-          tags: itatm/digiwf-alw-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-alw-dms-integration-service:dev
+          tags: itatm/digiwf-alw-dms-integration-service:${{ inputs.release-version }}
 
       - name: Build and push mucs dms integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
-          tags: itatm/digiwf-mucs-dms-integration-service:${{ inputs.release-version }},itatm/digiwf-mucs-dms-integration-service:dev
+          tags: itatm/digiwf-mucs-dms-integration-service:${{ inputs.release-version }}
 
       - name: Build and push ok ewo integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
           push: true
-          tags: itatm/digiwf-okewo-integration-service:${{ inputs.release-version }},itatm/digiwf-okewo-integration-service:dev
+          tags: itatm/digiwf-okewo-integration-service:${{ inputs.release-version }}
 
       - name: Build and push address-integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-address-integration/digiwf-address-integration-service
           push: true
-          tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }},itatm/digiwf-address-integration-service:dev
+          tags: itatm/digiwf-address-integration-service:${{ inputs.release-version }}
 
       - name: Build and push ticket-integration
+        if: inputs.build-images == true
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-integrations/digiwf-ticket-integration/digiwf-ticket-integration-service
           push: true
-          tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }},itatm/digiwf-ticket-integration-service:dev
+          tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }}
 
-  release-services-camunda-ee:
+  build-services-camunda-ee:
+    if: inputs.build-images == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -216,11 +238,11 @@ jobs:
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
-          tags: itatm/digiwf-engine-service:${{ inputs.release-version }},itatm/digiwf-engine-service:dev
+          tags: itatm/digiwf-engine-service:${{ inputs.release-version }}
 
       - name: Build and push engine rest
         uses: docker/build-push-action@v5
         with:
           context: ./digiwf-engine/digiwf-engine-rest-service
           push: true
-          tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }},itatm/digiwf-engine-rest-service:dev
+          tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }}
