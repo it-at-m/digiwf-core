@@ -43,10 +43,12 @@ For `digiwf-hello-world-webcomponent`:
 When adding these WebComponents to your website you can configure the behaviour by changing these properties
 accordingly.
 
-|                           | Description                                                                                        | Type   | Required | Default         |
-|---------------------------|----------------------------------------------------------------------------------------------------|--------|----------|-----------------|
-| `digi-wf-base-url`        | The URL of the DigiWF-Gateway, used for loading the data and redirecting when clicking UI elements | `String` | `true`    |                 |
-| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`    | `access-token-loaded` |
+|                           | Description                                                                                        | Type     | Required | Default               |
+|---------------------------|----------------------------------------------------------------------------------------------------|----------|----------|-----------------------|
+| `digi-wf-base-url`        | The URL of the DigiWF-Gateway, used for loading the data and redirecting when clicking UI elements | `String` | `true`   |                       |
+| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`  | `access-token-loaded` |
+| `page-size`               | The amount of elements to display per page                                                         | `number` | `false`  | `4`                   |
+| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                             | `number` | `false`  | `3`                   |
 
 ## Events
 

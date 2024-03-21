@@ -4,11 +4,14 @@ import { FetchUtils } from "@muenchen/digiwf-engine-api-internal";
 import { inject, readonly, ref } from "vue";
 
 import { SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY } from "@/composables/useAPI";
+import { useInjectParameters } from "@/composables/useParameters";
 
 export function useGetAssignedProcessInstances() {
   const serviceInstanceControllerAPI = inject(
     SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY
   )!;
+
+  const { pageSize } = useInjectParameters();
 
   const loadingInternal = ref(false);
   const errorInternal = ref(false);
@@ -19,9 +22,7 @@ export function useGetAssignedProcessInstances() {
   const data = readonly(dataInternal);
 
   const call = async (
-    page: number,
-    size: number,
-    query?: string
+    page: number
   ): Promise<void> => {
     const service = serviceInstanceControllerAPI.value;
 
@@ -30,8 +31,8 @@ export function useGetAssignedProcessInstances() {
     try {
       const result = await service.getAssignedInstances(
         page,
-        size,
-        query,
+        pageSize?.value,
+        undefined,
         FetchUtils.getGETConfig()
       );
       dataInternal.value = result.data;

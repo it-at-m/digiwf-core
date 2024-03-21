@@ -10,9 +10,6 @@ export function usePagination(
   const pageInternal = ref(0);
   const page = readonly(pageInternal);
 
-  const pageSizeInternal = ref(3);
-  const pageSize = readonly(pageSizeInternal);
-
   const setPage = (newPage: number) => {
     pageInternal.value = newPage;
   };
@@ -34,7 +31,6 @@ export function usePagination(
   return {
     page,
     pageData,
-    pageSize,
     setPage,
   };
 }
