@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,12 +31,13 @@ class CreateDocumentServiceTest {
         when(this.loadFilePort.loadFiles(any(), any())).thenReturn(List.of(content));
 
         when(this.createDocumentPort.createDocument(any(), any())).thenReturn("documentCOO");
+        LocalDate testDate = LocalDate.parse("2023-12-01");
 
-        createDocumentService.createDocument("procedureCOO", "title", "user", DocumentType.EINGEHEND, filepaths, "filecontext");
+        createDocumentService.createDocument("procedureCOO", "title", testDate, "user", DocumentType.EINGEHEND, filepaths, "filecontext");
 
         verify(this.loadFilePort, times(1)).loadFiles(filepaths, "filecontext");
 
-        verify(this.createDocumentPort, times(1)).createDocument(new Document("procedureCOO", "title", DocumentType.EINGEHEND, List.of(content)), "user");
+        verify(this.createDocumentPort, times(1)).createDocument(new Document("procedureCOO", "title", testDate, DocumentType.EINGEHEND, List.of(content)), "user");
 
     }
 }

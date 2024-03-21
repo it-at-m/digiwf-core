@@ -49,8 +49,6 @@
 </template>
 
 <script lang="ts">
-
-import mime from "mime";
 import globalAxios from "axios";
 //@ts-ignore
 import {v4 as uuidv4} from 'uuid';
@@ -63,6 +61,7 @@ import {
   getPresignedUrlForPost
 } from "@/middleware/presignedUrls";
 import {checkRequired} from "@/validation/required";
+import {getMimeType, validateFileType} from "@/validation/fileType";
 
 export default defineComponent({
   props: [
@@ -209,11 +208,6 @@ export default defineComponent({
       return content.length;
     }
 
-    const getMimeType = (filename: string) => {
-      const mimetype = mime.getType(filename);
-      return mimetype ? mimetype : "plain/text";
-    }
-
     const addDocument = async (mydata: any, file: File): Promise<void> => {
       const startTime = new Date().getTime();
       isLoading.value = true;
@@ -221,6 +215,8 @@ export default defineComponent({
         isLoading.value = true;
 
         validateFileSize(mydata);
+        validateFileName(file.name);
+
         const presignedUrl = await getPresignedUrlForPost(file, {
           filePath,
           apiEndpoint: apiEndpoint || "",
@@ -260,7 +256,10 @@ export default defineComponent({
       }
       isLoading.value = false;
     }
-
+    /**
+     * TODO move to middleware after refactoring
+     * @param mydata
+     */
     const validateFileSize = (mydata: ArrayBuffer) => {
       if (mydata.byteLength > maxFileSize * mbInByte) {
         errorMessage.value = "Die Datei muss kleiner als " + maxFileSize + " MB sein.";
@@ -268,6 +267,22 @@ export default defineComponent({
       }
     }
 
+    /**
+     * TODO move to middleware after refactoring
+     * @param name
+     */
+    const validateFileName = (name: string) => {
+
+      const error = validateFileType(name, props.schema.accept)
+      if(error) {
+        errorMessage.value = error;
+        throw new Error(error);
+      }
+    }
+
+    /**
+     * TODO move to middleware after refactoring
+     */
     const validateTotalSize = (): number => {
       const totalSize = documents.value.reduce((accumulator, document) => document.size + accumulator, 0)
       return totalSize / mbInByte;

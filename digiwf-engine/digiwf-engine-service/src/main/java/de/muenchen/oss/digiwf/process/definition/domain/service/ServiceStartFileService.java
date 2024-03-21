@@ -17,6 +17,7 @@ import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapt
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@Transactional
 public class ServiceStartFileService extends AbstractFileService {
 
     private final ServiceStartContextService serviceStartContextService;

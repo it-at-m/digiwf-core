@@ -9,11 +9,12 @@ import de.muenchen.oss.digiwf.process.instance.infrastructure.entity.ServiceInst
 import de.muenchen.oss.digiwf.process.instance.infrastructure.repository.ProcessInstanceInfoRepository;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.runtime.ProcessInstanceQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.mockito.Answers;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,13 +23,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 class ServiceInstanceServiceTest {
 
-    private final HistoryService historyService = mock(HistoryService.class);
+    private final HistoryService historyService = mock(HistoryService.class, withSettings().defaultAnswer(Answers.RETURNS_DEEP_STUBS));
     private final ProcessConfigService processConfigService = mock(ProcessConfigService.class);
     private final ServiceInstanceAuthService serviceInstanceAuthService = mock(ServiceInstanceAuthService.class);
-    private final RuntimeService runtimeService = mock(RuntimeService.class);
+    private final RuntimeService runtimeService = mock(RuntimeService.class, withSettings().defaultAnswer(Answers.RETURNS_DEEP_STUBS));
     private final ProcessInstanceInfoRepository processInstanceInfoRepository = mock(ProcessInstanceInfoRepository.class);
     private final HistoryTaskMapper historyTaskMapper = mock(HistoryTaskMapper.class);
     private final JsonSchemaService jsonSchemaService = mock(JsonSchemaService.class);
@@ -55,11 +57,37 @@ class ServiceInstanceServiceTest {
                 .definitionKey("exampleDefinitionKey")
                 .build();
 
-        when(runtimeService.createProcessInstanceQuery()).thenReturn(mock(ProcessInstanceQuery.class));
-        when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId)).thenReturn(mock(ProcessInstanceQuery.class));
         when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(instance);
         when(instance.getRootProcessInstanceId()).thenReturn(rootInstanceId);
         when(processInstanceInfoRepository.findByInstanceId(rootInstanceId)).thenReturn(Optional.of(entity));
+
+        // Act
+        final ServiceInstance result = serviceInstanceService.getRootProcessInstance(instanceId);
+
+        // Assert
+        assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("instanceId", rootInstanceId)
+                .hasFieldOrPropertyWithValue("definitionName", "exampleDefinitionName")
+                .hasFieldOrPropertyWithValue("definitionKey", "exampleDefinitionKey");
+    }
+
+    @Test
+    void test_getRootProcessInstanceReturnsRootInstanceWithoutProcessinfo() {
+        // Arrange
+        final String rootInstanceId = "rootInstanceId";
+        final String instanceId = "callActivityInstanceId";
+
+        final ProcessInstance instance = mock(ProcessInstance.class);
+
+        final HistoricProcessInstance historicProcessInstance = mock(HistoricProcessInstance.class);
+        when(historicProcessInstance.getProcessDefinitionName()).thenReturn("exampleDefinitionName");
+        when(historicProcessInstance.getProcessDefinitionKey()).thenReturn("exampleDefinitionKey");
+
+        when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(instance);
+        when(historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(historicProcessInstance);
+        when(instance.getRootProcessInstanceId()).thenReturn(rootInstanceId);
+        when(processInstanceInfoRepository.findByInstanceId(rootInstanceId)).thenReturn(Optional.empty());
 
         // Act
         final ServiceInstance result = serviceInstanceService.getRootProcessInstance(instanceId);
@@ -85,11 +113,10 @@ class ServiceInstanceServiceTest {
                 .definitionKey("exampleDefinitionKey")
                 .build();
 
-        when(runtimeService.createProcessInstanceQuery()).thenReturn(mock(ProcessInstanceQuery.class));
-        when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId)).thenReturn(mock(ProcessInstanceQuery.class));
         when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(instance);
         when(instance.getRootProcessInstanceId()).thenReturn(instanceId);
         when(processInstanceInfoRepository.findByInstanceId(instanceId)).thenReturn(Optional.of(entity));
+        when(historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(null);
 
         // Act
         final ServiceInstance result = serviceInstanceService.getRootProcessInstance(instanceId);
@@ -109,8 +136,6 @@ class ServiceInstanceServiceTest {
 
         final ProcessInstance instance = mock(ProcessInstance.class);
 
-        when(runtimeService.createProcessInstanceQuery()).thenReturn(mock(ProcessInstanceQuery.class));
-        when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId)).thenReturn(mock(ProcessInstanceQuery.class));
         when(runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult()).thenReturn(null);
 
         assertThatThrownBy(() -> serviceInstanceService.getRootProcessInstance(instanceId))

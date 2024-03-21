@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.alw.integration.domain.model;
 
-import lombok.*;
-
-import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Describes responsibility.
@@ -11,9 +11,9 @@ import jakarta.validation.constraints.NotNull;
 @RequiredArgsConstructor
 @Builder
 public class Responsibility {
-  /**
-   * Organizational unit responsible.
-   */
-  @NotNull
-  private final String orgUnit;
+
+    /**
+     * Organizational unit responsible.
+     */
+    private final String orgUnit;
 }

@@ -72,10 +72,6 @@ module.exports = {
                         link: '/integrations/'
                     },
                     {
-                        text: 'APIs',
-                        link: '/apis/',
-                    },
-                    {
                         text: 'Release Notes',
                         link: 'https://github.com/it-at-m/digiwf-core/releases'
                     }
@@ -109,6 +105,7 @@ module.exports = {
                                 'components/connector',
                                 'components/tasks',
                                 'components/frontend',
+                                'components/deployment'
                             ]
                         },
                         {
@@ -215,22 +212,6 @@ module.exports = {
                                 'templates/bpmn/',
                                 'templates/element-templates/',
                                 'templates/examples/'
-                            ]
-                        }
-                    ],
-                    '/apis/': [
-                        {
-                            title: 'Rest',
-                            collapsable: false,
-                            children: [
-                                'rest/',
-                            ]
-                        },
-                        {
-                            title: 'Spring Cloud Stream',
-                            collapsable: false,
-                            children: [
-                                'spring-cloud-stream/',
                             ]
                         }
                     ],

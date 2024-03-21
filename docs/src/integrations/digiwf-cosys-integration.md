@@ -2,16 +2,22 @@
 
 ![](https://img.shields.io/badge/Integration_Name-cosysIntegration-informational?style=flat&logoColor=white&color=2c73d2)
 
-Die Cosys Integration ermöglicht eine asynchrone Erstellung von Dokumenten in [Cosys](https://www.cib.de/cosys/) mit anschließender Speicherung in einem S3 Speicher. 
-Mit dieser Integration können Dokumente erstellt und in einem S3-kompatiblen Speicher abgelegt werden. Diese Dokumente können im Anschluss beispielweise in einer E-Mail versendet werden.    
+Die Cosys-Integration ermöglicht die asynchrone Erstellung von Dokumenten in [Cosys](https://www.cib.de/cosys/) mit
+anschließender Speicherung in einem S3-Speicher. Mit dieser Integration können Dokumente erstellt und in einem
+S3-kompatiblen Speicher abgelegt werden. Diese Dokumente können anschließend beispielsweise in einer E-Mail versendet
+werden.
 
 ## Verwendung
 
-Durch die Cosys Integration wird die Erstellungen von Dokumenten ermöglicht, die anschließend in einem S3 Speicher abgelegt werden. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden. 
+Durch die Cosys-Integration wird die Erstellung von Dokumenten ermöglicht, die anschließend in einem S3-Speicher
+abgelegt werden. Zusätzlich kann direkt im Prozess auf untenstehende Fehler reagiert werden.
 
 ### Dokument erstellen
 
-Zur asynchronen Erstellung eines Dokumentens in Cosys, erzeugen Sie zuerst ein `GenerateDocument`-Objekt und setzen den TYPE-Header auf `createCosysDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka Topic. Den Namen des Topics können Sie in der Konfiguration der Cosys Integration unter spring.cloud.stream.bindings.functionRouter-in-0.destination finden.
+Zur asynchronen Erstellung eines Dokuments in Cosys erzeugen Sie zuerst ein `GenerateDocument`-Objekt und setzen den
+TYPE-Header auf `createCosysDocument`. Im Anschluss senden Sie das Objekt an das entsprechende Kafka-Topic. Den Namen
+des Topics finden Sie in der Konfiguration der Cosys-Integration
+unter `spring.cloud.stream.bindings.functionRouter-in-0.destination`.
 
 > Standardmäßig heißen die Topics *dwf-cosys-${DIGIWF_ENV}*, wobei DIGIWF_ENV die aktuelle Umgebung ist.
 
@@ -33,55 +39,61 @@ Nachfolgend ist ein Beispiel für ein `GenerateDocument`-Objekt aufgeführt:
 }
 ```
 
-Die Cosys Integration erzeugt ein Dokument mit den angegebenen Variablen und speichert dieses in einem S3 Speicher. Dafür muss vorab eine `presigned URL` für das Dokument erstellt werden. Diese wird in der Variable `documentStorageUrls` übergeben. 
+Die Cosys-Integration erzeugt ein Dokument mit den angegebenen Variablen und speichert dieses in einem S3-Speicher.
+Dafür muss vorab eine `presigned URL` für das Dokument erstellt werden. Diese wird in der Variable `documentStorageUrls`
+übergeben.
 
-In der Variable `documentStorageUrls`  wird lediglich eine einzige `presigned URL` akzeptiert und es können die Aktionen `POST` oder `PUT` verwendet werden.
-Die Aktion `POST` wird für die Erstellung neuer Dateien im S3 Speicher verwendet und die Aktion `PUT` um ein bereits vorhandenes Dokument zu überschreiben.
+In der Variable `documentStorageUrls` wird lediglich eine einzige `presigned URL` akzeptiert und es können die
+Aktionen `POST` oder `PUT` verwendet werden. Die Aktion `POST` wird für die Erstellung neuer Dateien im S3-Speicher
+verwendet und die Aktion `PUT`, um ein bereits vorhandenes Dokument zu überschreiben.
 
-**Verwendung in BPMN Prozessen**
+**Verwendung in BPMN-Prozessen**
 
-Verwenden Sie eines unsere Element-Templates in einer Call Activity um die Prozessentwicklung zu beschleunigen und befüllen Sie es mit den gewünschten Informationen.
-Eine Liste der Element-Templates finden Sie unter [Element Templates](/modeling/templates/element-templates/).
+Verwenden Sie eines unserer Element-Templates in einer Call Activity, um die Prozessentwicklung zu beschleunigen, und
+befüllen Sie es mit den gewünschten Informationen. Eine Liste der Element-Templates finden Sie unter 
+[Element Templates](/modeling/templates/element-templates/).
 
-Zur Erstellung von presigned URLs können Sie das Element-Template s3_create_presigned_url (siehe [Element Template](/modeling/templates/element-templates/)) in einer Call Activity verwenden und das Ergebnis an die Cosys Integration übergeben. 
+Zur Erstellung von `presigned URLs` können Sie das Element-Template `s3_create_presigned_url` (siehe 
+[Element Template](/modeling/templates/element-templates/)) in einer Call Activity verwenden und das Ergebnis an die Cosys-Integration
+übergeben.
 
-In der folgenden Grafik wird ein Beispiel für einen BPMN Prozess dargestellt. Wie oben beschrieben, wird zuerst eine presigned URL erstellt bevor ein Dokument erstellt wird. 
+In der folgenden Grafik wird ein Beispiel für einen BPMN-Prozess dargestellt. Wie oben beschrieben, wird zuerst
+eine `presigned URL` erstellt, bevor ein Dokument erstellt wird.
 
 ![Cosys Feature Prozess.](~@source/documentation/featureprocesses/cosys/cosys-feature-process.png)
 
 ### Fehlerbehandlung
 
-Bei der Fehlerbehandlung wird zwischen BPMN Errors und Incident Errors unterschieden.
-BPMN Errors können im Prozess behandelt werden, während Incident Errors nicht im Prozess behandelt werden können
-und einen Incident erzeugen.
+Bei der Fehlerbehandlung wird zwischen BPMN-Errors und Incident-Errors unterschieden. BPMN-Errors können im Prozess
+behandelt werden, während Incident-Errors nicht im Prozess behandelt werden können und einen Incident erzeugen.
 
-Nachfolgend sind die BPMN Errors aufgeführt, die von der Cosys Integration geworfen werden können:
+Nachfolgend sind die BPMN-Errors aufgeführt, die von der Cosys-Integration geworfen werden können:
 
 #### BPMN Error
 
-| Error Code                | Error Message                                                    | Beschreibung                                                                                                                                                     | Handlungsempfehlung                                               | 
-|---------------------------|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `VALIDATION_ERROR`        | Fehlermeldung der auftretenden `ValidationException`             | Die übergebenen Daten sind nicht valide.                                                                                                                | Korrigieren Sie die Daten und versuchen es erneut                 |
-| `S3_FILE_SAVE_ERROR`      | Document could not be saved.                                     | Die in Cosys erzeugte Datei kann nicht im S3 Storage gespeichert werden. Die übergebene Presigned Url ist fehlerhaft (nicht valide, abgelaufen, falsche Action). | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut. | 
-| `COSYS_DOCUMENT_CREATION_FAILED`     | Document could not be created.                   | Das Dokument konnte nicht erstellt werden. Es kann sein, dass ein technischer Fehler aufgetreten ist                                                             | Analysieren Sie die Fehlermeldung und versuchen es erneut.        |
-
+| Error Code                       | Error Message                                        | Beschreibung                                                                                                                                                        | Handlungsempfehlung                                               |
+|----------------------------------|------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `VALIDATION_ERROR`               | Fehlermeldung der auftretenden `ValidationException` | Die übergebenen Daten sind nicht valide.                                                                                                                            | Korrigieren Sie die Daten und versuchen es erneut                 |
+| `S3_FILE_SAVE_ERROR`             | Document could not be saved.                         | Die in Cosys erzeugte Datei kann nicht im S3 Storage gespeichert werden. Die übergebene `presigned URL` ist fehlerhaft (nicht valide, abgelaufen, falsche Action). | Überprüfen Sie, ob die Daten valide sind und versuchen es erneut. | 
+| `COSYS_DOCUMENT_CREATION_FAILED` | Document could not be created.                       | Das Dokument konnte nicht erstellt werden. Es kann sein, dass ein technischer Fehler aufgetreten ist.                                                               | Analysieren Sie die Fehlermeldung und versuchen es erneut.        |
 
 ## DigiWF Cosys Integration anpassen
 
 Die DigiWF Cosys Integration wird als Spring Boot Starter Projekt bereitgestellt.
 Um die Cosys Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
-bereitgestellten `@bean`s überschreiben sowie eigene `@bean`s hinzufügen.
+bereitgestellten `@Bean`s überschreiben sowie eigene `@Bean`s hinzufügen.
 
 Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
 
 **Mit Maven**
 
 ```xml
-   <dependency>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-cosys-integration-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
+
+<dependency>
+    <groupId>de.muenchen.oss.digiwf</groupId>
+    <artifactId>digiwf-cosys-integration-starter</artifactId>
+    <version>${digiwf.version}</version>
+</dependency>
 ```
 
 **Mit Gradle**
@@ -101,18 +113,18 @@ Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die un
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
 sind, können Sie die folgenden Konfigurationen für die DigiWF Cosys Integration verwenden:
 
-### Cosys Konfigurationen
+### CoSys Konfiguration
 
 | Eigenschaft                                            | Bedeutung             |
 |--------------------------------------------------------|-----------------------|
-| `io.muenchendigital.digiwf.cosys.url`                  | URL des Cosys Servers |
+| `io.muenchendigital.digiwf.cosys.url`                  | URL des CoSys-Servers |
 | `io.muenchendigital.digiwf.cosys.merge.datafile`       |                       |
 | `io.muenchendigital.digiwf.cosys.merge.inputLanguage`  | Sprache Eingabe       |
 | `io.muenchendigital.digiwf.cosys.merge.outputLanguage` | Sprache Ausgabe       |
 | `io.muenchendigital.digiwf.cosys.merge.keepFields`     |                       |
 
-### S3 Konfigurationen
+### S3 Konfiguration
 
-| Eigenschaft                                                | Bedeutung             |
-|------------------------------------------------------------|-----------------------|
-| `io.muenchendigital.digiwf.s3.client.document-storage-url` | 	Document Storage URL |
+| Eigenschaft                                                | Bedeutung            |
+|------------------------------------------------------------|----------------------|
+| `io.muenchendigital.digiwf.s3.client.document-storage-url` | Document Storage URL |

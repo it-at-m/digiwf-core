@@ -8,7 +8,7 @@ io:
         timeout: 1500
         username: ${ALW_REST_USERNAME}
         password: ${ALW_REST_SECRET}
-        sachbearbeitung-mapping-config-url: ${ALW_SACHBEARBEITUNG_CONFIG}
+        sachbearbeitung-mapping-config-url: ${ALW_SACHBEARBEITUNG_CONFIG:/config/alw-sachbearbeitung.properties}
         functional-ping:
           enabled: ${ALW_PING_ENABLED:true}
           azr-number: ${ALW_PING_AZR_NUMBER:}

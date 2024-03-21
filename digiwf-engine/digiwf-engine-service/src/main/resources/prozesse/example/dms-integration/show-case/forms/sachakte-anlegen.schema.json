@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "aktenplan": {
                 "fieldType": "text",
@@ -80,7 +82,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "title": {
                 "fieldType": "text",
@@ -98,7 +102,29 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "fileSubj": {
+                "fieldType": "text",
+                "title": "Betreff des Vorgangs",
+                "type": "string",
+                "key": "title",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
               },
               "user": {
                 "fieldType": "text",
@@ -116,7 +142,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               }
             },
             "key": "f9d53bb5-e08a-454b-bcdf-9b654f3331e5"

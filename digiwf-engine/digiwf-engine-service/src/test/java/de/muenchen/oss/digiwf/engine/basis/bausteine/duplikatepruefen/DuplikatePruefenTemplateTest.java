@@ -41,7 +41,7 @@ public class DuplikatePruefenTemplateTest {
     public static final String EVENT_END_ERROR = "Event_End_Error";
 
     @RegisterExtension
-    private ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
+    private final ProcessEngineExtension processEngineExtension = ProcessEngineExtension.builder()
         .configurationResource("camunda.cfg.xml")
         .build();
 

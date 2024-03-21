@@ -46,9 +46,7 @@ public class CleanUpDatabaseFilesWithoutCorrespondingS3FolderUseCase implements 
   boolean shouldDatabaseFileBeDeleted(final File file) {
     boolean deleteDatabaseFile = false;
     try {
-      final String pathToFolder = FileOperationsUseCase.getPathToFolder(file.getPathToFile());
-      final Set<String> pathToFiles = this.s3Repository.getFilePathsFromFolder(pathToFolder);
-      final boolean noSuchFileExistsInS3 = !pathToFiles.contains(file.getPathToFile());
+      final boolean noSuchFileExistsInS3 = !this.s3Repository.fileExists(file.getPathToFile());
       final LocalDate creationDate = file.getCreatedTime().toLocalDate();
       final boolean folderCreatedMoreThanAMonthAgo = creationDate.isBefore(LocalDate.now().minusMonths(1));
       deleteDatabaseFile = noSuchFileExistsInS3 && folderCreatedMoreThanAMonthAgo;

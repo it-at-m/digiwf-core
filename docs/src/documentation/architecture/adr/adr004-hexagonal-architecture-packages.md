@@ -6,15 +6,17 @@ accepted
 
 ## Context
 
-Die Struktur von Java packages ermöglicht eine schnelle Navigation im Quelltext und kann zur Qualität und Einheitlichkeit des 
-Quelltextes beitragen. Es gibt verschiedene Stile die Java Packages zu strukturieren - diese Entscheidung legt den Strukturstil fest.
+Die Struktur von Java-Packages ermöglicht eine schnelle Navigation im Quelltext und kann zur Qualität und
+Einheitlichkeit des Quelltextes beitragen. Es gibt verschiedene Stile, die Java Packages zu strukturieren - diese
+Entscheidung legt den Strukturstil fest.
 
 ## Decision
 
-Durch die Verwendung von Hexagonal Architecture [ADR003](adr003-use-hexagonal-architecture) ist der Architekturstil vorgegeben. Die Benennung der Java Packages 
-folgt dem gewählten Architekturstil. Die Einhaltung dieser Benennung sollte mithilfe eines ArchUnit Tests geprüft werden.
+Durch die Verwendung der Hexagonal Architecture [ADR003](adr003-use-hexagonal-architecture) ist der Architekturstil vorgegeben.
+Die Benennung der Java Packages folgt dem gewählten Architekturstil. Die Einhaltung dieser Benennung sollte mithilfe
+eines ArchUnit-Tests geprüft werden.
 
-Hier ist ein Beispiel wie die Package Struktur aussehen kann:
+Hier ist ein Beispiel, wie die Package-Struktur aussehen kann:
 
 ``` 
    └── <context-name>
@@ -71,6 +73,3 @@ Hier ist ein Beispiel wie die Package Struktur aussehen kann:
                 └── MapstructConfiguration.java
 
 ```
-
-
-

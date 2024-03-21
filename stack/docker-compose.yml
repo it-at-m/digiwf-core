@@ -256,6 +256,27 @@ services:
     networks:
       - local-keycloak
 
+  # enable the cocreation deployment with --profile cocreation if you don't want to run it locally
+  digiwf-cocreation-deployment:
+    image: itatm/digiwf-cocreation-deployment-service:dev
+    ports:
+      - "9010:8080"
+    depends_on:
+      init-keycloak:
+        condition: service_completed_successfully
+    profiles:
+      - cocreation
+    env_file:
+      - './local-docker.env'
+    environment:
+      SPRING_PROFILES_ACTIVE: "local"
+      ENGINE_HOST: "http://host.docker.internal"
+#      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
+      SSO_BASE_URL: "http://host.docker.internal:8080/auth"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - internal
 
 networks:
   local-keycloak:

@@ -1,8 +1,9 @@
-# Nutzung Feature Toggles für Migrationen
+# Nutzung von Feature Toggles für Migrationen
 
-Für die Ablösung der Taskverwaltung aus der Engine in einen eigenständigen Service war die Nutzung von Feature Toggles notwendig.
+Für die Ablösung der Taskverwaltung aus der Engine in einen eigenständigen Service war die Nutzung von Feature Toggles
+notwendig.
 
-Links zu Tasks: 
+Links zu Tasks:
 
 * [Einführung des Feature Toggles](feature-toggle-taskservice-integration)
 * [Ausbau des Feature Toggles](feature-toggle-taskservice-integration)
@@ -11,50 +12,59 @@ Links zu Tasks:
 
 ![Grundsätzliche Funktionsweise des Parallelbetriebs](~@source/images/platform/guides/taskservice-integration/overview.png)
 
-Die Einstellungen werden hauptsächlich über das Api Gateway vorgenommen. 
+Die Einstellungen werden hauptsächlich über das API-Gateway vorgenommen.
 
-Feature Toggles werden dann bei dem Betrieb über Cookie-Header an das Frontend übersendet und da ausgewertet.
+Feature Toggles werden dann bei Betrieb über Cookie-Header an das Frontend übertragen und dort ausgewertet.
 
-Um einen parallelen Betrieb gewährleisten zu können benötigt es folgende Dinge: 
+Um einen parallelen Betrieb zu gewährleisten, sind folgende Dinge erforderlich:
 
-* Unabhängige Api Clients für Taskservice und Engine Service
-* ein zentrales Model im Frontend 
-* Mapper welche aus den Response Entities auf das zentrale Model mappen
-* Feature Toggle Handler welche steuern welcher Api-Client verwendet wird.
+* Unabhängige API-Clients für den Taskservice und den Engineservice
+* Ein zentrales Model im Frontend
+* Mapper, die von den Response Entities auf das zentrale Model mappen
+* Feature-Toggle-Handler, die steuern, welcher API-Client verwendet wird.
 
-### Unabhängige Api Clients für Taskservice und Engine Service
+### Unabhängige API-Clients für den Taskservice und den Engineservice
 
-Es werden beide Api Clients parallel verwendet. Diese sind unabhängig voneinander und werden separat konfiguriert.
+Beide API-Clients werden parallel verwendet. Sie sind unabhängig voneinander und werden separat konfiguriert.
 
-### ein zentrales Model im Frontend
+### Ein zentrales Model im Frontend
 
-Es wurde ein eigenes Model für die Verarbeitung der Tasks entwickelt. Die UI Schicht kennt nur noch dieses Modell.
+Es wurde ein eigenes Model für die Verarbeitung der Tasks entwickelt. Die UI-Schicht kennt nur noch dieses Modell.
 
-### Mapper welche aus den Response Entities auf das zentrale Model mappen
+### Mapper, die von den Response Entities auf das zentrale Model mappen
 
-Um von den unterschiedlichen Response Entities auf das einheitliche Model zu gelangen wurden jeweilige Mapperfunktionen gebaut.
-Diese werden in der Middleware gesteuert.
+Um von den unterschiedlichen Response Entities auf das einheitliche Model zu gelangen, wurden jeweilige
+Mapperfunktionen gebaut. Diese werden in der Middleware gesteuert.
 
-### Feature Toggle Handler welche steuern welcher Api-Client verwendet wird.
+### Feature-Toggle-Handler, die steuern, welcher API-Client verwendet wird.
 
-Das Auslesen der Cookies wird abstrahiert. Änderungen von seitens des Nutzers werden im localStorage gespeichert. Bei jedem Request wird geschaut welcher Api Client verwendet werden soll. 
+Das Auslesen der Cookies wird abstrahiert. Änderungen seitens des Nutzers werden im localStorage gespeichert. Bei jedem
+Request wird geprüft, welcher API-Client verwendet werden soll.
 
-## Konfiguration über das Api Gateway
+## Konfiguration über das API-Gateway
 
-Voraussetzungen für den Parallelbetrieb ist die Definition der Routings für den Taskservice. Beispiel ist in der [lokalen Config](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-gateway/src/main/resources/application-local.yml) des API Gateways zu finden.
+Voraussetzung für den Parallelbetrieb ist die Definition der Routings für den Taskservice. Ein Beispiel hierfür ist in
+der [lokalen Config](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-gateway/src/main/resources/application-local.yml)
+des API-Gateways zu finden.
 
-Die Konfiguration des Frontends erfolgt über Environment Variablen im Api Gateway. Folgende Environment Variablen können konfiguriert werden:
+Die Konfiguration des Frontends erfolgt über Environment-Variablen im API-Gateway. Folgende Environment-Variablen können
+konfiguriert werden:
 
 ### FEATURE_USE_TASK_SERVICE
-Mögliche Werte: "true", "false" 
 
-Wenn die Environment Variable auf "true" gesetzt wird, werden alle verfügbaren Schnittstellen des Taskservices genutzt. Alle anderen werden weiterhin an den Engine Service angefragt.
+Mögliche Werte: "true", "false"
 
-Wenn die Environment Variable auf "false" gesetzt wird, werden weiterhin alle Requests an den Engine Service gestellt.
+Wenn die Environment-Variable auf "true" gesetzt wird, werden alle verfügbaren Schnittstellen des Taskservices genutzt.
+Alle anderen werden weiterhin an den Engineservice angefragt.
+
+Wenn die Environment-Variable auf "false" gesetzt wird, werden weiterhin alle Requests an den Engineservice gestellt.
 
 ### FEATURE_SHOW_BETA_BUTTON
-Mögliche Werte: "true", "false". 
 
-Wenn die Environment Variable auf "true" gesetzt wird, wird über den Avatar ein Kontextmenü bereitgestellt in dem der Nutzer zwischen der Nutzung der API des neuen Taskservices und des Engine Services entscheiden können. Die Entscheidung überschreibt den Wert von _FEATURE_USE_TASK_SERVICE_
+Mögliche Werte: "true", "false"
 
-Wenn die Environment Variable auf "false" gesetzt wird, wird kein Kontextmenü angezeigt.
+Wenn die Environment-Variable auf "true" gesetzt wird, wird über den Avatar ein Kontextmenü bereitgestellt, in dem der
+Nutzer zwischen der Nutzung der API des neuen Taskservices und des Engineservices entscheiden kann. Die Entscheidung
+überschreibt den Wert von _FEATURE_USE_TASK_SERVICE_.
+
+Wenn die Environment-Variable auf "false" gesetzt wird, wird kein Kontextmenü angezeigt.

@@ -12,11 +12,11 @@ import de.muenchen.oss.digiwf.legacy.dms.alwdms.properties.AlwDmsProperties;
 import de.muenchen.oss.digiwf.legacy.user.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
 /**
@@ -26,6 +26,7 @@ import org.springframework.web.client.HttpServerErrorException;
  */
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AlwDmsService {
 

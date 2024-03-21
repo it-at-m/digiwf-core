@@ -2,28 +2,16 @@ name: build docs
 
 on:
   push:
-    branches:
-      - '**'
-  pull_request:
-    types: [ opened, reopened ]
     paths:
       - 'docs/**'
+  pull_request:
 
 env:
   NODE_OPTIONS: '--openssl-legacy-provider'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./docs
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: "./digiwf-apps/package-lock.json"
-      - run: npm install
-      - run: npm run build
+    uses: ./.github/workflows/workflow-build-docs.yaml
+    with:
+      publish: false
+    secrets: inherit

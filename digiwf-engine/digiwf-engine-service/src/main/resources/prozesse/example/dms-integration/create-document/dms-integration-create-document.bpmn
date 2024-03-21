@@ -34,8 +34,12 @@
         <camunda:in sourceExpression="${system}" target="app_integration_name" />
         <camunda:in sourceExpression="${procedureCoo}" target="procedureCoo" />
         <camunda:in sourceExpression="${title}" target="title" />
+        <camunda:in sourceExpression="${date}" target="date" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="date">${execution.getVariable("date")}</camunda:inputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_0gnzyhg</bpmn:outgoing>
