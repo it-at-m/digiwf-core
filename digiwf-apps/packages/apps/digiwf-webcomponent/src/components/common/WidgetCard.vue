@@ -64,6 +64,7 @@
           v-if="showPagination"
           :active-page="pageData!.number!"
           :amount-pages="pageData!.totalPages!"
+          :max-pages-visible="maxPagesVisible"
           @changepage="(page) => emit('changepage', page)"
         />
         <c-button
@@ -104,8 +105,10 @@ import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useInjectBaseURL } from "@/composables/useBaseURL";
+import { useInjectParameters } from "@/composables/useParameters";
 
 const { digiWFBaseURL } = useInjectBaseURL();
+const { maxPagesVisible } = useInjectParameters();
 
 const props = withDefaults(
   defineProps<{
@@ -161,7 +164,6 @@ svg {
     --digiwf-webcomponent-color-text,
     var(--digiwf-webcomponent-color-text-default)
   );
-
 }
 .card {
   --cui-card-cap-bg: var(

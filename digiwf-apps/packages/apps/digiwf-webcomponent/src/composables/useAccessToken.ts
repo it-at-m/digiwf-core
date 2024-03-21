@@ -4,7 +4,7 @@ import type { ComputedRef, InjectionKey, Ref } from "vue";
 import { useEventListener } from "@vueuse/core";
 import { computed, inject, provide, ref } from "vue";
 
-export const HAS_ACCESS_TOKEN_INJECT_KEY = Symbol() as InjectionKey<
+const HAS_ACCESS_TOKEN_INJECT_KEY = Symbol() as InjectionKey<
   ComputedRef<boolean>
 >;
 
@@ -13,7 +13,7 @@ export function useAccessToken(accessTokenEventName: Ref<string>) {
 
   useEventListener(
     document,
-    accessTokenEventName.value,
+    accessTokenEventName!.value,
     (event: AccessTokenLoadedEvent) => {
       accessToken.value = event.detail.accessToken;
     }

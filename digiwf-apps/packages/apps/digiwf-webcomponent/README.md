@@ -3,6 +3,7 @@
 This repository contains different WebComponents for integrating different DigiWF functionality into other applications.
 
 Currently the following WebComponents are provided:
+
 - `digiwf-service-instances-webcomponent`: Displays current Service Instance objects of a user in a list-style manner with pagination
 - `digiwf-hello-world-webcomponent`: Show a simple "Hello World" message
 
@@ -11,17 +12,15 @@ Currently the following WebComponents are provided:
 1. Add `script`-Import to webpage:
 
 For `digiwf-service-instances-webcomponent`:
+
 ```html
-<script
-  src="hostname/loader-digiwf-service-instances-webcomponent.js"
-></script>
+<script src="hostname/loader-digiwf-service-instances-webcomponent.js"></script>
 ```
 
 For `digiwf-hello-world-webcomponent`:
+
 ```html
-<script
-  src="hostname/loader-digiwf-hello-world-webcomponent.js"
-></script>
+<script src="hostname/loader-digiwf-hello-world-webcomponent.js"></script>
 ```
 
 **Info:** `hostname` must be replaced with the hostname of the service that hosts the WebComponent as static files
@@ -29,11 +28,17 @@ For `digiwf-hello-world-webcomponent`:
 2. Add Element to page with appropriate config
 
 For `digiwf-service-instances-webcomponent`:
+
 ```html
-<digiwf-service-instances-webcomponent digi-wf-base-url="ADD_HOSTNAME_OF_DIGIWF_GATEWAY_HERE" access-token-event-name="OPTIONAL"><digiwf-service-instances-webcomponent/>
+<digiwf-service-instances-webcomponent
+  digi-wf-base-url="ADD_HOSTNAME_OF_DIGIWF_GATEWAY_HERE"
+  access-token-event-name="OPTIONAL"
+  ><digiwf-service-instances-webcomponent
+/></digiwf-service-instances-webcomponent>
 ```
 
 For `digiwf-hello-world-webcomponent`:
+
 ```html
 <digiwf-hello-world-webcomponent></digiwf-hello-world-webcomponent>
 ```
@@ -43,10 +48,12 @@ For `digiwf-hello-world-webcomponent`:
 When adding these WebComponents to your website you can configure the behaviour by changing these properties
 accordingly.
 
-|                           | Description                                                                                        | Type   | Required | Default         |
-|---------------------------|----------------------------------------------------------------------------------------------------|--------|----------|-----------------|
-| `digi-wf-base-url`        | The URL of the DigiWF-Gateway, used for loading the data and redirecting when clicking UI elements | `String` | `true`    |                 |
-| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`    | `access-token-loaded` |
+|                           | Description                                                                                        | Type     | Required | Default               |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
+| `digi-wf-base-url`        | The URL of the DigiWF-Gateway, used for loading the data and redirecting when clicking UI elements | `String` | `true`   |                       |
+| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`  | `access-token-loaded` |
+| `page-size`               | The amount of elements to display per page                                                         | `number` | `false`  | `4`                   |
+| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                             | `number` | `false`  | `5`                   |
 
 ## Events
 
@@ -63,8 +70,8 @@ If a variable gets not provided, a specific default value will be used automatic
 
 The following CSS variables are provided:
 
-|                               | Description                                                                                  | Default             |
-|-------------------------------|----------------------------------------------------------------------------------------------|---------------------|
+|                                        | Description                                                                                  | Default             |
+| -------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
 | `digiwf-webcomponent-color-primary`    | Sets the `background-color` property used for input elements (e.g. buttons, pagination)      | `#FC0`              |
 | `digiwf-webcomponent-color-text`       | Sets the `color` property for all text-based HTML-tags                                       | `#444`              |
 | `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`              |
@@ -80,7 +87,7 @@ To set those variables from outside the component you can either use
 
 ```css
 :root {
---digiwf-webcomponent-color-primary: orange;
+  --digiwf-webcomponent-color-primary: orange;
 }
 ```
 
@@ -90,7 +97,7 @@ e.g. for WebComponent `digiwf-service-instances-webcomponent`
 
 ```css
 digiwf-service-instances-webcomponent {
---digiwf-webcomponent-color-primary: orange;
+  --digiwf-webcomponent-color-primary: orange;
 }
 ```
 
@@ -108,5 +115,7 @@ digiwf-service-instances-webcomponent {
   type="module"
 ></script>
 
-<digiwf-service-instances-webcomponent digi-wf-base-url="http://localhost:8085"></digiwf-service-instances-webcomponent>
+<digiwf-service-instances-webcomponent
+  digi-wf-base-url="http://localhost:8085"
+></digiwf-service-instances-webcomponent>
 ```
