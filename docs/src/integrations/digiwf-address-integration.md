@@ -7,13 +7,13 @@ zu Adressen sowie Straßen abgerufen werden können.
 
 ## Verwendung
 
-Die Address Integration bietet 3 verschiedene APIs an, um Adressen und Straßen abzurufen.
+Die Address Integration bietet drei verschiedene APIs an, um Adressen und Straßen abzurufen.
 
 ### Adressen bundesweit
 
-Die Adressdienstanfragen müssen über die in `addressServiceIntegration.json` definierte Element-Template gemacht werden.
-Der Dienst und die Vorlage bieten acht Arten von Anfragen.
-Der Anfragetyp kann über das Dropdown-Menü der Elementvorlage im Feld `Event Type` festgelegt werden.
+Die Adressdienstanfragen müssen über das in `addressServiceIntegration.json` definierte Element-Template gemacht werden.
+Der Dienst und die Vorlage bieten acht Arten von Anfragen. Der Anfragetyp kann über das Dropdown-Menü der Elementvorlage
+im Feld `Event Type` festgelegt werden.
 
 * `searchAdressenBundesweit`
 * `checkAdresseMuenchen`
@@ -24,18 +24,19 @@ Der Anfragetyp kann über das Dropdown-Menü der Elementvorlage im Feld `Event T
 * `findStrasseByIdMuenchen`
 * `listStrassenMuenchen`
 
-Für jeden Anfragetyp muss das Datenpaket als JSON-Objekt im Anfragefeld der Elementvorlage definiert werden.
-Die Antwort ist ebenfalls ein JSON-Objekt.
-Ein entscheidendes und obligatorisches JSON-Objektattribut für eine Anfrage ist `eventType`.
-Dieses Attribut ist für die korrekte Deserialisierung des JSON-Datenpakets der Anfrage innerhalb des Integrationsservices erforderlich
+Für jeden Anfragetyp muss das Datenpaket als JSON-Objekt im Anfragefeld der Elementvorlage definiert werden. Die Antwort
+ist ebenfalls ein JSON-Objekt. Ein entscheidendes und obligatorisches JSON-Objektattribut für eine Anfrage
+ist `eventType`. Dieses Attribut ist für die korrekte Deserialisierung des JSON-Datenpakets der Anfrage innerhalb des
+Integrationsservices erforderlich.
 
-Die genauen Eigenschaften der Anfrage- und Antwortattribute, die unten beschrieben sind, finden Sie unter folgendem Link:
+Die genauen Eigenschaften der Anfrage- und Antwortattribute, die unten beschrieben sind, finden Sie unter folgendem
+Link:
 
 https://address-service-test.muenchen.de/swagger-ui/index.html
 
 #### searchAdressenBundesweit
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -165,7 +166,7 @@ Die Antwort lautet wie folgt:
 
 #### checkAdresseMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -247,7 +248,7 @@ Die Antwort lautet wie folgt:
 
 #### listAdressenMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -259,7 +260,6 @@ Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des E
   "plz": "amet Lorem fugiat",
   "mittelschule": "amet Lorem fugiat",
   "grundschule": "amet Lorem fugiat",
-  "polizeiinspektio": "amet Lorem fugiat",
   "polizeiinspektion": "eu incididunt",
   "stimmbezirk": -93305045,
   "stimmkreis": -93305045,
@@ -492,7 +492,7 @@ Die Antwort lautet wie folgt:
 
 #### listAenderungenMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -764,7 +764,7 @@ Die Antwort lautet wie folgt:
 
 #### searchAdressenMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -997,7 +997,7 @@ Die Antwort lautet wie folgt:
 
 ##### searchAdressenGeoMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -1149,7 +1149,7 @@ Die Antwort lautet wie folgt:
 
 #### findStrasseByIdMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -1185,7 +1185,7 @@ Die Antwort lautet wie folgt:
 
 #### listStrassenMuenchen
 
-Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Teamplates gesetzt ist:
+Das folgende JSON-Objekt zeigt das Beispiel-Datenpaket, das im Anfragefeld des Element-Templates gesetzt ist:
 
 ```json
 {
@@ -1265,31 +1265,34 @@ Die Antwort lautet wie folgt:
 
 | Error Code         | Error Message                                                            | Beschreibung                                                                            | Handlungsempfehlung                                                             | 
 |--------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| `ADDRESS_SERVICE_CLIENT_ERROR` | Die Fehlermeldung des Stadt München Address Services wird weitergegeben. | Beim Aufrufen des Address Services ist ein Client Fehler aufgetreten (HTTP Status 4xx). | Analysieren sie die Fehlermeldung und versuchen den Request nochmals zu senden. | 
+| `ADDRESS_SERVICE_CLIENT_ERROR` | Die Fehlermeldung des Stadt München Address Services wird weitergegeben. | Beim Aufrufen des Address Services ist ein Client Fehler aufgetreten (HTTP Status 4xx). | Analysieren Sie die Fehlermeldung und versuchen Sie, den Request erneut zu senden. | 
 
 ## DigiWF Address Integration anpassen
 
-Die Integration wurde in einer hexagonalen Architektur implementiert, um Anpassbarkeit und Erweiterbarkeit zu gewährleisten.
-Um die Funktionen der Integration zu erweitern bzw. zu ersetzen, müssen lediglich die Port Interfaces überschrieben und als `@bean`
-bereitgestellt werden. Dadurch wird unsere Standard-Implementierung durch die eigene Implementierung ersetzt.
+Die Integration wurde in einer hexagonalen Architektur implementiert, um Anpassbarkeit und Erweiterbarkeit zu
+gewährleisten.
+Um die Funktionen der Integration zu erweitern bzw. zu ersetzen, müssen lediglich die Port-Interfaces überschrieben und
+als `@Bean`
+bereitgestellt werden. Dadurch wird unsere Standardimplementierung durch die eigene Implementierung ersetzt.
 
-Die Port Definitionen finden Sie unter dem Pfad: [digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port)
+Die Port-Definitionen finden Sie unter dem Pfad: [digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port)
 
 ### Address-Client anpassen
 
 Der Address-Client ist für die Kommunikation mit dem Address-Service der Stadt München zuständig.
-Der Client wurde in einem eigenen Maven Modul als Bibliothek implementiert, um die Abhängigkeiten zu kapseln.
-Die Implementierung des Clients kann ebenfalls erweitert bzw. zu ersetzt werden durch die Implementierung der API Interfaces `AddressGermanyApi`, `AddressMunichApi` und `StreetsMunichApi`.
-Die Implementierung dieser Interfaces muss ebenfalls als `@bean` bereitgestellt werden.
+Der Client wurde in einem eigenen Maven-Modul als Bibliothek implementiert, um die Abhängigkeiten zu kapseln.
+Die Implementierung des Clients kann ebenfalls erweitert bzw. ersetzt werden durch die Implementierung der
+API-Interfaces `AddressGermanyApi`, `AddressMunichApi` und `StreetsMunichApi`.
+Die Implementierung dieser Interfaces muss ebenfalls als `@Bean` bereitgestellt werden.
 
-Die API Interfaces finden Sie unter dem Pfad: [digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api)
+Die API-Interfaces finden Sie unter dem Pfad: [digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api)
 
 ## Konfigurationen
 
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
+Zusätzlich zu den allgemeinen Konfigurationen für DigiWF-Integrationen, die unter
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
 sind, können Sie die folgenden Konfigurationen für die DigiWF Address Integration verwenden:
 
 | Eigenschaft                                  | Bedeutung                |
 |----------------------------------------------|--------------------------|
-| `de.muenchen.oss.digiwf.address.service.url` | URL des Address Services |
+| `de.muenchen.oss.digiwf.address.service.url` | URL des Address-Services |
