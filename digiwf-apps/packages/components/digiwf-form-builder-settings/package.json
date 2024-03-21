@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier src --write"
   },
   "files": [
     "dist/*",
@@ -20,7 +21,9 @@
   "devDependencies": {
     "@types/jest": "^29.2.5",
     "jest": "29.3.1",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.0.5",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@muenchen/prettier-codeformat": "^1.0.1"
   },
   "gitHead": "b2b458745431c62fd6a055d9b3c32ce14b0c8435"
 }

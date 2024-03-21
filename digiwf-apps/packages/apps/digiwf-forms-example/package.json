@@ -19,6 +19,8 @@
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
-    "@mdi/font": "^7.0.96"
+    "@mdi/font": "^7.0.96",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@muenchen/prettier-codeformat": "^1.0.1"
   }
 }

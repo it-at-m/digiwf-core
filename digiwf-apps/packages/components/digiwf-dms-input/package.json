@@ -16,7 +16,9 @@
   },
   "devDependencies": {
     "axios": "^1.6.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@muenchen/prettier-codeformat": "^1.0.1"
   },
   "files": [
     "dist/*",

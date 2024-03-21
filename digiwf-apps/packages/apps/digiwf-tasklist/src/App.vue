@@ -191,7 +191,7 @@ export default defineComponent({
     );
     const {
       data: user,
-      loading: loginLoading,
+      isLoading: loginLoading,
       refetch: refetchUser,
     } = useCurrentUserInfo();
 
