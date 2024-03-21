@@ -299,8 +299,6 @@
                         <extensions>true</extensions>
                         <configuration>
                             <tokenAuth>true</tokenAuth>
-                            <stagingProgressPauseDurationSeconds>15</stagingProgressPauseDurationSeconds>
-                            <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
                         </configuration>
                     </plugin>
 
