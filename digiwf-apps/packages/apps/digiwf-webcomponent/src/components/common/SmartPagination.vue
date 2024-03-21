@@ -45,6 +45,7 @@ import { CPagination, CPaginationItem } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiArrowLeftBold, mdiArrowRightBold } from "@mdi/js";
 import { computed, defineEmits, defineProps, withDefaults } from "vue";
+
 import { MAX_PAGES_VISIBLE_DEFAULT } from "@/util/constants";
 
 const props = withDefaults(

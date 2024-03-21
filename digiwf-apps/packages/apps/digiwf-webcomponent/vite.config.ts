@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from "node:url"
+import { fileURLToPath, URL } from "node:url";
 
 import { viteVueCESubStyle } from "@unplugin-vue-ce/sub-style";
 import vue from "@vitejs/plugin-vue";
@@ -41,14 +41,16 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       input: {
-        'digiwf-service-instances-webcomponent': './src/digiwf-service-instances-webcomponent.ts',
-        'digiwf-hello-world-webcomponent': './src/digiwf-hello-world-webcomponent.ts',
+        "digiwf-service-instances-webcomponent":
+          "./src/digiwf-service-instances-webcomponent.ts",
+        "digiwf-hello-world-webcomponent":
+          "./src/digiwf-hello-world-webcomponent.ts",
       },
       output: {
-        entryFileNames: 'entry-[name]-[hash].js',
-        dir: "dist/src"
-      }
-    }
+        entryFileNames: "entry-[name]-[hash].js",
+        dir: "dist/src",
+      },
+    },
   },
   esbuild: {
     drop: ["console", "debugger"],

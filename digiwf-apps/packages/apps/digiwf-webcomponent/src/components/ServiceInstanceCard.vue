@@ -41,8 +41,8 @@ import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
 import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceController/useGetAssignedProcessInstances";
 import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";
-import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 import { useInjectParameters } from "@/composables/useParameters";
+import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { hasAccessToken } = useHasAccessToken();
 const {
@@ -56,10 +56,7 @@ const { pageSize } = useInjectParameters();
 const totalPages = computed(() => data.value?.totalPages);
 const totalElements = computed(() => data.value?.totalElements);
 
-const { page, pageData, setPage } = usePagination(
-  totalPages,
-  totalElements
-);
+const { page, pageData, setPage } = usePagination(totalPages, totalElements);
 
 const showLoading = computed(() => !hasAccessToken?.value || loading.value);
 const hasContent = computed(() => data.value && data.value.content);

@@ -21,9 +21,7 @@ export function useGetAssignedProcessInstances() {
   const error = readonly(errorInternal);
   const data = readonly(dataInternal);
 
-  const call = async (
-    page: number
-  ): Promise<void> => {
+  const call = async (page: number): Promise<void> => {
     const service = serviceInstanceControllerAPI.value;
 
     loadingInternal.value = true;

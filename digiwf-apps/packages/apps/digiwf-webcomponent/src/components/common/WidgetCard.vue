@@ -164,7 +164,6 @@ svg {
     --digiwf-webcomponent-color-text,
     var(--digiwf-webcomponent-color-text-default)
   );
-
 }
 .card {
   --cui-card-cap-bg: var(
