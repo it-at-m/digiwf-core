@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -16,7 +16,7 @@ import org.apache.tika.Tika;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements LoadMailAttachmentPort {
+public class S3Adapter implements LoadMailAttachmentOutPort {
 
     private final S3FileTransferRepository s3FileTransferRepository;
 

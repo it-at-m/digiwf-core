@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.connector.core.domain.IntegrationNameConfigExcepti
 import de.muenchen.oss.digiwf.connector.core.domain.ProcessDefinitionLoadingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
@@ -52,6 +53,8 @@ public class CamundaClient implements ExternalTaskHandler {
             externalTaskService.handleFailure(externalTask, e.getMessage(), e.getDetailedMessage(), 0, 0);
         } catch (final ProcessDefinitionLoadingException e) {
             externalTaskService.handleFailure(externalTask, e.getMessage(), e.getDetailedMessage(), 0, 0);
+        } catch (final Exception e) {
+            externalTaskService.handleFailure(externalTask, e.getMessage(), ExceptionUtils.getStackTrace(e),0, 0);
         }
     }
 

@@ -1,6 +1,6 @@
 # Projekte
 
-Projekte bilden eine Klammer um die verschiedenen Artefakte, die bei der Modellierung von Geschäftsprozessen verwendet
+Projekte dienen als Rahmen für die verschiedenen Artefakte, die bei der Modellierung von Geschäftsprozessen verwendet
 werden.
 
 - [BPMN-Diagramme](/modeling/processes/modeling/)
@@ -8,21 +8,21 @@ werden.
 - [Formulare](/modeling/forms/)
 - [Prozesskonfigurationen](/modeling/processes/config/)
 
-Die verschiedenen Artefakte können in einem Projekt geteilt werden, um die Zusammenarbeit zwischen
-unterschiedlichen Benutzern zu erleichtern.
+Die verschiedenen Artefakte können in einem Projekt geteilt werden, um die Zusammenarbeit zwischen verschiedenen
+Benutzern zu erleichtern.
 
-## Projekt anlegen
+## Projekt erstellen
 
-Ein neues Projekt kann in der Co-Creation-Plattform angelegt werden.
+Ein neues Projekt kann in der Co-Creation-Plattform erstellt werden.
 
 ![Projekt anlegen](~@source/modeling/plattform/project/create.png)
 
-## Rollen und Rechte
+## Rollen und Berechtigungen
 
-In Co-Creation-Projekten ist es wichtig, dass die Benutzer unterschiedliche Rollen und Rechte haben, um den Prozess der
-Zusammenarbeit und der Artefaktverwaltung zu steuern. Dabei gibt es verschiedene Aktionen, für die unterschiedliche
-Rollen und Rechte benötigt werden, wie beispielsweise das Anlegen von Artefakten, das Löschen von Artefakten, das Teilen
-von Artefakten und das Deployen von Prozessen.
+In Co-Creation-Projekten ist es wichtig, dass Benutzer unterschiedliche Rollen und Berechtigungen haben, um den Prozess
+der Zusammenarbeit und der Artefaktverwaltung zu steuern. Es gibt verschiedene Aktionen, für die unterschiedliche Rollen
+und Berechtigungen erforderlich sind, wie beispielsweise das Erstellen von Artefakten, das Löschen von Artefakten, das
+Teilen von Artefakten und das Deployen von Prozessen.
 
 Folgende Rollen stehen in der Co-Creation-Plattform zur Verfügung:
 
@@ -36,18 +36,18 @@ Folgende Rollen stehen in der Co-Creation-Plattform zur Verfügung:
     - Milestone erstellen
     - Artefakte herunterladen
 - Administrator
-    - Artefakte löschen
-    - Artefakte deployen
+    - Löschen von Artefakten
+    - Bereitstellen von Artefakten
 - Besitzer
 
 ::: tip
 Die Rollen bauen aufeinander auf.
-Der ``Administrator`` hat bspw. auch alle Rechte, die ein ``Mitglied`` hat.
+Ein ``Administrator`` hat beispielsweise auch alle Rechte, die ein ``Mitglied`` hat.
 :::
 
 ## Benutzer einladen
 
-Benutzer können in einem Projekt eingeladen werden, um an der Erstellung bzw. Bearbeitung von Artefakten mitzuwirken.
+Benutzer können in ein Projekt eingeladen werden, um bei der Erstellung bzw. Bearbeitung von Artefakten mitzuwirken.
 Dazu kann im jeweiligen Projekt im Menü *Mitglieder verwalten* geöffnet werden.
 
 ![Mitglieder verwalten](~@source/modeling/plattform/project/members.png)
@@ -55,7 +55,7 @@ Dazu kann im jeweiligen Projekt im Menü *Mitglieder verwalten* geöffnet werden
 Anschließend kann ein Benutzer hinzugefügt und die entsprechende Rolle zugewiesen werden.
 
 ::: warning
-Ein Benutzer kann erst hinzugefügt werden, nachdem dieser sich erstmalig in der Plattform angemeldet hat.
+Ein Benutzer kann erst hinzugefügt werden, nachdem er sich zum ersten Mal in der Plattform angemeldet hat.
 :::
 
 ![Mitglied hinzufügen](~@source/modeling/plattform/project/add_member.png)

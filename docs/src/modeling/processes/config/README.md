@@ -64,10 +64,10 @@ wie Notepad++ oder Visual Studio Code zurückzugreifen.
 
 ```
 
-- **Key:** Der Key des Prozesses, für den die Konfiguration gültig ist
+- **Key:** Der Key des Prozesses, für den die Konfiguration gültig ist.
 - **statusDokument:** Die ID des Statusdokuments, das für den Prozess verwendet werden soll. Dieses kann im Prozess über
-  die Funktion ``processconfig.getStatusDokument()`` abgefragt werden
-- **statusConfig:** Die Konfiguration der Statuswerte. Die Positionen der Statuswerte werden automatisch sortiert
+  die Funktion ``processconfig.getStatusDokument()`` abgefragt werden.
+- **statusConfig:** Die Konfiguration der Statuswerte. Die Positionen der Statuswerte werden automatisch sortiert.
 - **configs:** Eine Key-/ Value-Map, die bei der Modellierung frei definiert und verwendet werden kann. Auf
   Konfigurationen kann im Prozess über die Funktion ``processconfig.get('configKey')`` zugegriffen werden.
 
@@ -78,14 +78,19 @@ In den configs können zudem DigiWF-spezifische Einstellungen angegeben werden:
   die nicht im Formular enthalten sind. Stattdessen werden die Daten lediglich gefiltert und nicht in der Engine
   persistiert.
 - **app_file_s3_async_config:** Wird die Einstellung gesetzt, dann wird der Wert als Konfiguration für den S3-Service
-  verwendet. Dabei handelt es sich um das Topic für den verwendeten S3-Service. Die Konfig wird von der Plattform 
-  autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
+  verwendet. Dabei handelt es sich um das Topic für den verwendeten S3-Service. Die Konfiguration wird von der Plattform
+  automatisch gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden
+  soll.
 - **app_file_s3_sync_config:** Wird die Einstellung gesetzt, dann wird der Wert als Konfiguration für den S3-Service
-  verwendet. Dabei handelt es sich um die URL des verwendeten S3-Service. Die Konfig wird von der Plattform 
-  autom. gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden soll.
-- **app_instance_schema_key:** Das Schema, das in der Prozessinstanzübersicht (Meine Vorgänge) verwendet werden soll, um Daten
+  verwendet. Dabei handelt es sich um die URL des verwendeten S3-Service. Die Konfiguration wird von der Plattform
+  automatisch gesetzt und nur benötigt, wenn ein eigener S3-Service für die Ausführung des Prozesses verwendet werden
+  soll.
+- **app_instance_schema_key:** Das Schema, das in der Prozessinstanzübersicht (Meine Vorgänge) verwendet werden soll, um
+  Daten
   anzuzeigen.
-- **app_file_paths_readonly:** Die Dateipfade, die im Formular bei Prozessstart gelesen werden können
-- **app_file_paths:** Die Dateipfade, die im Formular bei Prozessstart geschrieben werden können
-- **app_instance_file_paths_readonly:** Die Dateipfade, die in der Prozessinstanzübersicht (Meine Vorgänge) gelesen werden können
-- **app_instance_file_paths:** Die Dateipfade, auf die in der Prozessinstanzübersicht (Meine Vorgänge) geschrieben werden kann.
+- **app_file_paths_readonly:** Die Dateipfade, die im Formular bei Prozessstart gelesen werden können.
+- **app_file_paths:** Die Dateipfade, die im Formular bei Prozessstart geschrieben werden können.
+- **app_instance_file_paths_readonly:** Die Dateipfade, die in der Prozessinstanzübersicht (Meine Vorgänge) gelesen
+  werden können.
+- **app_instance_file_paths:** Die Dateipfade, auf die in der Prozessinstanzübersicht (Meine Vorgänge) geschrieben
+  werden kann.

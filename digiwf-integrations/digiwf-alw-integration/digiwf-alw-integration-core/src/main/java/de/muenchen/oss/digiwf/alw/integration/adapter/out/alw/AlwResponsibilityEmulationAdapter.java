@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.alw.integration.adapter.out.alw;
 
 import de.muenchen.oss.digiwf.alw.integration.application.port.out.AlwResponsibilityOutPort;
-import de.muenchen.oss.digiwf.alw.integration.domain.model.validation.AzrNumber;
 import de.muenchen.oss.digiwf.alw.integration.infrastructure.SachbearbeitungMapperConfig;
 import jakarta.annotation.Resource;
 import lombok.NonNull;
@@ -19,7 +18,7 @@ public class AlwResponsibilityEmulationAdapter implements AlwResponsibilityOutPo
     private Map<String, String> sachbearbeitungMap;
 
     @Override
-    public Optional<String> getResponsibleSachbearbeiter(@AzrNumber String azrNumber) {
+    public Optional<String> getResponsibleSachbearbeiter(@NonNull final String azrNumber) {
         final String url = constructAlwRequestUrl(azrNumber);
         log.info("Mocked request to {} for ALW personen info request", url);
         return sachbearbeitungMap.keySet().stream().findFirst();

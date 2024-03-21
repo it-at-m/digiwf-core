@@ -14,6 +14,7 @@ jobs:
     uses: ./.github/workflows/workflow-build-services.yaml
     with:
       snapshot-release: true
+      upload-codecov: true
       build-images: ${{ github.ref_name == 'dev' }}
       release-version: dev
       maven-release: false

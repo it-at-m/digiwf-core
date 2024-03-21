@@ -1,30 +1,30 @@
 # Formularfelder
 
-Für die Modellierung von Formularen stehen verschiedene Felder zur Verfügung.
-Alle Felder haben folgende Konfigurationen gemeinsam, die über den `Edit` Button geöffnet werden können:
+Für die Modellierung von Formularen stehen verschiedene Felder zur Verfügung. Alle Felder haben folgende Konfigurationen
+gemeinsam, die über den `Edit` Button geöffnet werden können:
 
 ### Allgemein
 
-- **Key:** Der Schlüssel unter dem der Wert gespeichert wird
-- **Titel:** Der Titel des Formularfelds
-- **Beschreibung:** Ein Infotext der über ein Tooltip am Formularfeld angezeigt werden kann
-- **Readonly:** Gibt an ob der Bearbeiter:in das Feld nur lesen darf. **!ACHTUNG!** Wenn die Checkbox gesetzt wurde und
+- **Key:** Der Schlüssel, unter dem der Wert gespeichert wird.
+- **Titel:** Der Titel des Formularfelds.
+- **Beschreibung:** Ein Infotext, der über ein Tooltip am Formularfeld angezeigt werden kann.
+- **Readonly:** Gibt an, ob der Bearbeiter das Feld nur lesen darf. **!ACHTUNG!** Wenn die Checkbox gesetzt wurde und
   der Haken entfernt wird, ist im Schema *false* als Wert hinterlegt. Dies kann dazu führen, dass *readonly* bei
   Objekten nicht richtig vererbt wird.
-- **Default:** Der Wert mit dem das Formular vorbefüllt wird
+- **Default:** Der Wert, mit dem das Formular vorbefüllt wird.
 
 ![Formular Editor](~@source/modeling/forms/fields/edit-field.png)
 
-Außer dem **Allgemein** Tab, gibt es noch weiter Einstellungsmöglichkeiten.
+Außer dem **Allgemein** Tab, gibt es noch weitere Einstellungsmöglichkeiten.
 
 ### Optionen
 
 In den Optionen können Oberflächenelemente konfiguriert und Übersetzungstexte konfiguriert werden.
 
-- **Dense:** Gibt an ob das Formularfeld schmaler angeordnet werden soll
-- **Outlined:** Gibt an ob das Formularfeld mit einer Rahmen angezeigt werden soll
+- **Dense:** Gibt an, ob das Formularfeld schmaler angeordnet werden soll.
+- **Outlined:** Gibt an, ob das Formularfeld mit einem Rahmen angezeigt werden soll.
 - **Standardgröße:** Die Größe auf normalen Endgeräten.
-- **Größe auf kleinen Geräten:** Die Größe auf mobilen Endgeräten
+- **Größe auf kleinen Geräten:** Die Größe auf mobilen Endgeräten.
 
 ![Formular Editor](~@source/modeling/forms/fields/edit-field-options.png)
 
@@ -32,10 +32,10 @@ In den Optionen können Oberflächenelemente konfiguriert und Übersetzungstexte
 
 Validierungen schränken den Wertebereich der Eingabe ein.
 
-- **Pattern:** Ein regulärer Ausdruck, der die Eingabe einschränkt
-- **required:** Gibt an ob das Feld ein Pflichtfeld ist
-- **min. Länge:** Die minimale Länge der Eingabe
-- **max. Länge:** Die maximale Länge der Eingabe
+- **Pattern:** Ein regulärer Ausdruck, der die Eingabe einschränkt.
+- **required:** Gibt an, ob das Feld ein Pflichtfeld ist.
+- **min. Länge:** Die minimale Länge der Eingabe.
+- **max. Länge:** Die maximale Länge der Eingabe.
 
 Die Validierungen können je nach Feldtyp variieren.
 
@@ -43,8 +43,7 @@ Die Validierungen können je nach Feldtyp variieren.
 
 ## Textfeld
 
-Ein Textfeld ist ein Feld, in das ein Text eingegeben werden kann.
-Dieses besteht aus einer Zeile.
+Ein Textfeld ist ein Feld, in das ein Text eingegeben werden kann. Dieses besteht aus einer Zeile.
 
 ![Formular Editor](~@source/modeling/forms/fields/textfield.png)
 
@@ -56,8 +55,8 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ## Textarea
 
-Eine Textarea ist ein Feld, in das ein Text eingegeben werden kann.
-Im Gegensatz zum Textfeld besteht dieses aus mehreren Zeilen.
+Eine Textarea ist ein Feld, in das ein Text eingegeben werden kann. Im Gegensatz zum Textfeld besteht dieses aus
+mehreren Zeilen.
 
 ![Formular Editor](~@source/modeling/forms/fields/textarea.png)
 
@@ -68,13 +67,15 @@ Im Formular wird das Feld wie folgt angezeigt:
 ![Formular Editor](~@source/modeling/forms/fields/textarea-form.png)
 
 ::: tip
-Für längere Inhalte, die readonly angezeigt werden sollen, ist dieses Feld zu empfehlen. Bei einem Text Input ist die Höhe des Felds häufig nicht ausreichend, um die komplette Eingabe anzuzeigen. 
- :::
+Für längere Inhalte, die "readonly" angezeigt werden sollen, ist dieses Feld zu empfehlen. Bei einem Text Input ist die
+Höhe des Felds häufig nicht ausreichend, um die komplette Eingabe anzuzeigen.
+:::
 
 ::: tip
-Es ist sinnvoll bei einer textarea die Regel maxLength zu konfigurieren, da die Datenbank eine **Limitierung von 2000 Zeichen** pro Feld hat. 
- :::
- 
+Es ist sinnvoll, bei einer Textarea die Regel `maxLength` zu konfigurieren, da die Datenbank eine **Limitierung von 2000
+Zeichen** pro Feld hat.
+:::
+
 ## Zahl
 
 Ein Zahl ist ein Feld, in das eine Ganzzahl eingegeben werden kann.
@@ -89,8 +90,8 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ## Gleitkommazahl
 
-In dieses Feld kann eine Gleitkommazahl eingegeben werden.
-Im Gegensatz zum Zahl Feld, ist hier ein ``,`` als Trennzeichen erlaubt.
+In dieses Feld kann eine Gleitkommazahl eingegeben werden. Im Gegensatz zum Zahl Feld ist hier ein `.` als Trennzeichen
+erlaubt.
 
 ![Formular Editor](~@source/modeling/forms/fields/float.png)
 
@@ -102,13 +103,16 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ## Checkbox
 
-Eine Checkbox ist ein Feld, das ein Ja/Nein Wert repräsentiert.
+Eine Checkbox ist ein Feld, das einen Ja/Nein Wert repräsentiert.
 
 ::: tip
-Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschließen, dann ist es sinnvoll eine Checkbox in Kombination mit der required Regel zu verwenden. Die eigenet sich bspw. für AGBs oder Hinweisetexte die bestätigt werden müssen. 
-  :::
+Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschließen, dann ist es sinnvoll, eine Checkbox
+in Kombination mit der "required" Regel zu verwenden. Diese eignet sich beispielsweise für AGBs oder Hinweistexte, die
+bestätigt werden müssen.
+:::
 
 ## Datum
+
 Über dieses Feld kann ein Datum eingegeben werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/date.png)
@@ -117,7 +121,7 @@ Sollte vom Bearbeiter etwas bestätigt werden müssen, um das Formular abzuschli
 
 Im Formular wird das Feld wie folgt angezeigt.
 
-Das Datum kann wahlweise über die Tastatur eingegeben, oder über den Pop-Up-Kalender ausgewählt werden:
+Das Datum kann wahlweise über die Tastatur eingegeben oder über den Pop-Up-Kalender ausgewählt werden:
 
 ![Formular Editor](~@source/modeling/forms/fields/date-form.png)
 
@@ -129,14 +133,14 @@ Das Datum kann wahlweise über die Tastatur eingegeben, oder über den Pop-Up-Ka
 
 #### Anzeige
 
-Im Formular wird das Feld wie folgt angezeigt, über das Kontextmenü kann die Uhrzeit ausgewählt werden:
+Im Formular wird das Feld wie folgt angezeigt. Über das Kontextmenü kann die Uhrzeit ausgewählt werden:
 
 ![Formular Editor](~@source/modeling/forms/fields/time-form.png)
 
 ## Auswahl
 
-In diesem Feld kann eine Auswahl aus vordefinierten Werten getroffen werden.
-Diese werden können bei der Erstellung im Contextmenü hinzugefügt werden.
+In diesem Feld kann eine Auswahl aus vordefinierten Werten getroffen werden. Diese können bei der Erstellung im
+Kontextmenü hinzugefügt werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/select.png)
 
@@ -145,7 +149,7 @@ Diese werden können bei der Erstellung im Contextmenü hinzugefügt werden.
 Auswahlmöglichkeiten können über das Kontextmenü hinzugefügt werden.
 
 - **Titel:** Anzeige im Formular
-- **Wert:** Der Wert der gespeichert wird
+- **Wert:** Der Wert, der gespeichert wird
 
 ![Formular Editor](~@source/modeling/forms/fields/select-context.png)
 
@@ -172,8 +176,8 @@ Die Mehrfachauswahl ist eine Auswahlmöglichkeit, bei der mehrere Werte ausgewä
 
 #### Einstellungen
 
-Die Einstellungsmöglichkeiten sind nahezu die gleichen wie bei der Auswahl.
-Es gibt lediglich einen Unterschied bei der Auswahl and Anzeigemöglichkeiten.
+Die Einstellungsmöglichkeiten sind nahezu die gleichen wie bei der Auswahl. Es gibt lediglich einen Unterschied bei der
+Auswahl an Anzeigemöglichkeiten.
 
 - **select** Die Auswahlmöglichkeiten werden als Dropdown angezeigt
 - **checkbox** Die Auswahlmöglichkeiten werden als Checkboxen angezeigt
@@ -195,7 +199,8 @@ Für folgende Dateitypen kann der Input eine Preview anzeigen:
 
 * pdf
 
-Der Upload ist standardmäßig auf max. 10 Dateien mit je max. 10MB beschränkt. Diese Beschränkungen können konfiguriert werden.
+Der Upload ist standardmäßig auf max. 10 Dateien mit je max. 10MB beschränkt. Diese Beschränkungen können konfiguriert
+werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/file-configs.png)
 
@@ -203,21 +208,25 @@ Der Upload ist standardmäßig auf max. 10 Dateien mit je max. 10MB beschränkt.
 
 - **Dateipfad** Über den Dateipfad kann der Pfad angegeben werden, in dem die Dateien gespeichert werden sollen oder aus
   dem Dateien geladen werden sollen.
-  - Das Datei-Upload-Feld zeigt jeweils nur Dateien aus dem angegebenen Ordner an. Dateien aus Unterordnern werden nicht angezeigt.
-- **Eindeutiger Indentifikator** Erzegut einen eindeutigen Identifikator, der an den Dateipfad angehängt wird. Diese
+    - Das Datei-Upload-Feld zeigt jeweils nur Dateien aus dem angegebenen Ordner an. Dateien aus Unterordnern werden
+      nicht angezeigt.
+- **Eindeutiger Identifikator** Erzeugt einen eindeutigen Identifikator, der an den Dateipfad angehängt wird. Diese
   Einstellung sollte in Objektlisten verwendet werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/files-context.png)
 
 #### Konfiguration
 
-Das Datei-Upload-Feld benötigt eine zusätzliche Konfiguration im Usertask des Prozesses, damit Dateien gespeichert und gelesen werden können.
+Das Datei-Upload-Feld benötigt eine zusätzliche Konfiguration im Usertask des Prozesses, damit Dateien gespeichert und
+gelesen werden können.
 
-In den Inputparameter *S3 Pfade für Schreibrechtigungen* (`app_file_paths`) und *S3 Pfade für Leseberechtigungen* (`app_file_paths_readonly`) müssen im Usertask der/die Ordner angegeben werden, auf die der User zugreifen darf.
-Wird ein Datei-Upload-Feld bei Prozessstart verwendet, müssen die beiden Parameter als Prozessconfig gesetzt werden.
-Ordnernamen können als Semicolon separierte Liste angegeben werden (z.B. `ordner1;ordner2`).
+In den Inputparametern *S3 Pfade für Schreibrechtigungen* (`app_file_paths`) und *S3 Pfade für
+Leseberechtigungen* (`app_file_paths_readonly`) müssen im Usertask der oder die Ordner angegeben werden, auf die der
+User zugreifen darf. Wird ein Datei-Upload-Feld bei Prozessstart verwendet, müssen die beiden Parameter als
+Prozessconfig gesetzt werden. Ordnernamen können als Semikolon-separierte Liste angegeben werden (
+z.B. `ordner1;ordner2`).
 
-Weitere Informationen zur Konfiguration von Prozessen finden Sie unter
+Weitere Informationen zur Konfiguration von Prozessen finden Sie unter:
 
 - [Benutzeraufgaben](/modeling/user-tasks/modeling/#template)
 - [Prozesskonfiguration](/modeling/processes/config/)
@@ -229,7 +238,7 @@ Im Formular wird das Feld wie folgt angezeigt:
 ![Formular Editor](~@source/modeling/forms/fields/files-form.png)
 
 ::: warning
-Das Datei-Upload Feld (multi-file input) wird immer in voller Breite (12 Spalten) angezeigt.
+Das Datei-Upload-Feld (multi-file input) wird immer in voller Breite (12 Spalten) angezeigt.
 Auch wenn die Breite des Feldes konfiguriert werden kann wird es trotzdem in voller Breite angezeigt.
 Dieser Fehler ist bekannt und kann aktuell nicht behoben werden ([siehe](https://github.com/it-at-m/digiwf-core/issues/1001#issuecomment-1812056615)).
 :::
@@ -240,7 +249,7 @@ Dieser Fehler ist bekannt und kann aktuell nicht behoben werden ([siehe](https:/
 
 #### Einstellungen
 
-- **Ldap Gruppen** über die Ldap Gruppen kann die Auswahl der Benutzer in der Oberfläche eingegrenzt werden.
+- **LDAP-Gruppen** Über die LDAP-Gruppen kann die Auswahl der Benutzer in der Oberfläche eingegrenzt werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/user.png)
 
@@ -252,15 +261,15 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ## Mehrfache Benutzerauswahl
 
-Über dieses Feld können mehrere Benutzer ausgewählt werden.
-Bei den Einstellungsmöglichkeiten unterscheidet es sich nicht von der Benutzerauswahl.
+Über dieses Feld können mehrere Benutzer ausgewählt werden. Bei den Einstellungsmöglichkeiten unterscheidet es sich
+nicht von der Benutzerauswahl.
 
 ![Formular Editor](~@source/modeling/forms/fields/multiuser.png)
 
 ## Schalter
 
-Bei diesem Feld handelt es sich um einen Schalter, der einen Ja/Nein Wert repräsentiert.
-Dieser unterscheidet sich ledglich in der Anzeige von der Checkbox.
+Bei diesem Feld handelt es sich um einen Schalter, der einen Ja/Nein Wert repräsentiert. Dieser unterscheidet sich
+lediglich in der Anzeige von der Checkbox.
 
 ![Formular Editor](~@source/modeling/forms/fields/switch.png)
 
@@ -290,13 +299,13 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ## Markdown
 
-Über dieses Feld kann ein Markdown Text eingegeben oder angezeigt werden.
+Über dieses Feld kann ein Markdown-Text eingegeben oder angezeigt werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/markdown.png)
 
 ::: tip
-Dieses Feld wird häufig verwendet, um in Verbindung mit einem `default` Wert und `readonly`
-dem Benutzer formatierte Inhalte anzuzeigen.
+Dieses Feld wird häufig verwendet, um in Verbindung mit einem `default` Wert und `readonly` dem Benutzer formatierte
+Inhalte anzuzeigen.
 :::
 
 #### Anzeige
@@ -305,26 +314,28 @@ Im Formular wird das Feld wie folgt angezeigt:
 
 ![Formular Editor](~@source/modeling/forms/fields/markdown-form.png)
 
-## DMS Input
+## DMS-Input
 
-Über dieses Feld können die Metadaten von einem DMS Objekt abgerufen und angezeigt werden.
+Über dieses Feld können die Metadaten von einem DMS-Objekt abgerufen und angezeigt werden.
 
 ![Formular Editor](~@source/modeling/forms/fields/dms-input.png)
 
 #### Einstellungen
 
-- **Objektklasse** Über die Objektklasse wird das DMS Objekt ausgewählt, von dem die Metadaten abgerufen werden sollen. Es muss eine Objektklasse ausgwählt werden. Die folgenden Objektklassen stehen zur Auswahl:
+- **Objektklasse** Über die Objektklasse wird das DMS-Objekt ausgewählt, von dem die Metadaten abgerufen werden sollen.
+  Es muss eine Objektklasse ausgewählt werden. Die folgenden Objektklassen stehen zur Auswahl:
     - Sachakte
     - Vorgang
     - Eingang
     - Ausgang
     - Intern
     - Schriftstueck
-- **Default** Über den Default Wert kann eine Liste an COOs oder Links zu Objekten angegeben werden. Die Metadaten werden beim Öffnen des Formluars aus dem DMS geladen.
-
-- **Minimale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte mindestens über den Input übergeben werden müssen. Der DMS Input kann somit als Pflichtfeld deklariert werden.
-- **Maximale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte maximal über den Input übergeben werden dürfen.
-
+- **Default** Über den Default-Wert kann eine Liste an COOs oder Links zu Objekten angegeben werden. Die Metadaten
+  werden beim Öffnen des Formulars aus dem DMS geladen.
+- **Minimale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte mindestens über den Input übergeben
+  werden müssen. Der DMS-Input kann somit als Pflichtfeld deklariert werden.
+- **Maximale Anzahl an Objekten** Über dieses Feld wird definiert, wie viele Objekte maximal über den Input übergeben
+  werden dürfen.
 
 #### Anzeige
 
