@@ -31,10 +31,8 @@ For `digiwf-service-instances-webcomponent`:
 
 ```html
 <digiwf-service-instances-webcomponent
-  digi-wf-base-url="ADD_HOSTNAME_OF_DIGIWF_GATEWAY_HERE"
   access-token-event-name="OPTIONAL"
-  ><digiwf-service-instances-webcomponent
-/></digiwf-service-instances-webcomponent>
+></digiwf-service-instances-webcomponent>
 ```
 
 For `digiwf-hello-world-webcomponent`:
@@ -50,7 +48,6 @@ accordingly.
 
 |                           | Description                                                                                        | Type     | Required | Default               |
 | ------------------------- | -------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
-| `digi-wf-base-url`        | The URL of the DigiWF-Gateway, used for loading the data and redirecting when clicking UI elements | `String` | `true`   |                       |
 | `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`  | `access-token-loaded` |
 | `page-size`               | The amount of elements to display per page                                                         | `number` | `false`  | `4`                   |
 | `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                             | `number` | `false`  | `5`                   |
@@ -111,11 +108,9 @@ digiwf-service-instances-webcomponent {
 ```html
 <!-- Load webcomponent from local dev-server -->
 <script
-  src="http://127.0.0.1:8085/src/digiwf-service-instances-webcomponent.ts"
+  src="http://localhost:8085/src/digiwf-service-instances-webcomponent.ts"
   type="module"
 ></script>
 
-<digiwf-service-instances-webcomponent
-  digi-wf-base-url="http://localhost:8085"
-></digiwf-service-instances-webcomponent>
+<digiwf-service-instances-webcomponent></digiwf-service-instances-webcomponent>
 ```
