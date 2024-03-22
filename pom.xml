@@ -299,6 +299,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <tokenAuth>true</tokenAuth>
+                            <deploymentName>${project.name}:${project.version}</deploymentName>
                         </configuration>
                     </plugin>
 
