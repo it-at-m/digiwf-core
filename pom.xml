@@ -300,6 +300,34 @@
                         <configuration>
                             <tokenAuth>true</tokenAuth>
                             <deploymentName>digiwf-core:${project.version}</deploymentName>
+                            <excludeArtifacts>
+                                <!-- find . -type d \( -name '*-service' -o -name '*-example' \) -printf '%f\n' | sort | uniq | awk '{print "<artifact>" $0 "</artifact>"}' -->
+                                <artifact>custom-integration-service</artifact>
+                                <artifact>digiwf-address-integration-service</artifact>
+                                <artifact>digiwf-alw-integration-service</artifact>
+                                <artifact>digiwf-camunda-connector-service</artifact>
+                                <artifact>digiwf-camunda-prometheus-example</artifact>
+                                <artifact>digiwf-cosys-integration-example</artifact>
+                                <artifact>digiwf-cosys-integration-service</artifact>
+                                <artifact>digiwf-dms-integration-fabasoft-mock-service</artifact>
+                                <artifact>digiwf-dms-integration-service</artifact>
+                                <artifact>digiwf-email-integration-example</artifact>
+                                <artifact>digiwf-email-integration-service</artifact>
+                                <artifact>digiwf-engine-rest-service</artifact>
+                                <artifact>digiwf-engine-service</artifact>
+                                <artifact>digiwf-example-integration-example</artifact>
+                                <artifact>digiwf-example-integration-service</artifact>
+                                <artifact>digiwf-forms-example</artifact>
+                                <artifact>digiwf-message-example</artifact>
+                                <artifact>digiwf-okewo-integration-service</artifact>
+                                <artifact>digiwf-process-example</artifact>
+                                <artifact>digiwf-s3-integration-client-example</artifact>
+                                <artifact>digiwf-s3-integration-service</artifact>
+                                <artifact>digiwf-schema-registry-client-example</artifact>
+                                <artifact>digiwf-schema-registry-service</artifact>
+                                <artifact>digiwf-tasklist-service</artifact>
+                                <artifact>digiwf-ticket-integration-service</artifact>
+                            </excludeArtifacts>
                         </configuration>
                     </plugin>
 
