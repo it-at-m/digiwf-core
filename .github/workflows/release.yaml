@@ -42,6 +42,7 @@ on:
 
 jobs:
   release-version:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +77,7 @@ jobs:
       services-release-version: ${{ env.SERVICES_RELEASE_VERSION }}
 
   release-apps:
-    if: github.event.inputs.apps == 'true'
+    if: false
     needs: release-version
     uses: ./.github/workflows/workflow-build-apps.yaml
     with:
@@ -86,7 +87,7 @@ jobs:
     secrets: inherit
 
   release-services:
-    if: github.event.inputs.services == 'true'
+    if: false
     needs: release-version
     uses: ./.github/workflows/workflow-build-services.yaml
     with:
@@ -97,7 +98,7 @@ jobs:
     secrets: inherit
 
   release-docs:
-    if: github.event.inputs.docs == 'true'
+    if: false
     needs: release-version
     uses: ./.github/workflows/workflow-build-docs.yaml
     with:
@@ -105,7 +106,7 @@ jobs:
     secrets: inherit
 
   github-release:
-    if: github.event.inputs.snapshot-build == 'false' && always() && !contains(needs.*.result, 'failure')
+    if: false
     needs: [ release-apps, release-services, release-docs ]
     uses: ./.github/workflows/workflow-github-release.yaml
     with:
@@ -113,7 +114,7 @@ jobs:
     secrets: inherit
 
   bump-versions:
-    if: github.event.inputs.snapshot-build == 'false' && always() && !contains(needs.*.result, 'failure')
+    if: false
     needs: github-release
     uses: ./.github/workflows/workflow-bump-version.yaml
     with:

@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    if: false
     uses: ./.github/workflows/workflow-build-services.yaml
     with:
       snapshot-release: true
