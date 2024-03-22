@@ -81,6 +81,7 @@ class FileOperationsUseCaseTest {
     // GET, PUT, DELETE
     actions.forEach(action -> {
       try {
+        Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
         Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFile)).thenReturn(Set.of(pathToFile));
         Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
@@ -218,6 +219,7 @@ class FileOperationsUseCaseTest {
     final int expiresInMinutes = 5;
     final String presignedUrl = "THE_PRESIGNED_URL";
 
+    Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
     Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
     Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, Method.GET, expiresInMinutes)).thenReturn(presignedUrl);
 
@@ -238,6 +240,7 @@ class FileOperationsUseCaseTest {
     fileData.setPathToFile(pathToFile);
     fileData.setExpiresInMinutes(5);
 
+    Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
     Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
     Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.saveFile(fileData));
     // happy path is tested in updateFile
@@ -336,10 +339,10 @@ class FileOperationsUseCaseTest {
     final int expiresInMinutes = 5;
 
     Mockito.reset(this.s3Repository);
-    Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
+    Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
     this.fileOperations.deleteFile(pathToFile, expiresInMinutes);
     Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.DELETE, expiresInMinutes);
-    Mockito.verify(this.s3Repository, Mockito.times(1)).getFilePathsFromFolder(pathToFolder);
+    Mockito.verify(this.s3Repository, Mockito.times(1)).fileExists(pathToFile);
   }
 
   @Test

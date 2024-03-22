@@ -48,7 +48,7 @@ class ExampleProcessExitTimerTest {
   }
 
   @Test
-  @Deployment(resources = {"prozesse/example/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV02.bpmn"})
+  @Deployment(resources = {"prozesse/example/email-integration/email-integration/email-integration.bpmn", "dummy/StreamingTemplateV02.bpmn"})
   void terminates_email_integration_process_after_timer_job_is_triggered() {
 
     ProcessInstance instance = processEngineExtension.getRuntimeService().startProcessInstanceByKey("email-integration-example",

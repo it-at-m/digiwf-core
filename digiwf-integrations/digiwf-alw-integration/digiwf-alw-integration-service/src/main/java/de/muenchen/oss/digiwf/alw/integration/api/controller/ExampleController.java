@@ -57,8 +57,8 @@ public class ExampleController {
     return ok(response.getOrgUnit());
   }
 
-  @GetMapping(value = "/getAlwZustaendigkeitEventBus")
-  public void testGetAlwZustaendigkeitEventBus() {
+  @GetMapping(value = "/getAlwResponsibility")
+  public void testgetAlwResponsibility() {
     val headers = new HashMap<String, Object>();
     headers.put("type", "getAlwResponsibility");
     headers.put("digiwf.messagename", "message1");

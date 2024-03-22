@@ -1,9 +1,9 @@
 # Topics
 
-Die DigiWF-Anwendungen kommunizieren mit einem `Event Bus`, um Ereignisse auszutauschen, die innerhalb der
-DigiWF-Plattform auftreten.
-Intern verwendet die DigiWF-Anwendung Spring Cloud Stream als Abstraktionsschicht, um mit dem "Event Bus" zu
-interagieren. Daher ist der `Event Bus` austauschbar, solange ein Spring Cloud Stream Binder existiert.
+Die DigiWF-Anwendungen kommunizieren über einen `Event Bus`, um Ereignisse auszutauschen, die innerhalb der
+DigiWF-Plattform auftreten. Intern verwendet die DigiWF-Anwendung Spring Cloud Stream als Abstraktionsschicht, um mit
+dem "Event Bus" zu interagieren. Daher ist der `Event Bus` austauschbar, solange ein Spring Cloud Stream Binder
+existiert.
 
 In diesem Artikel erklären wir die Namenskonventionen für unsere Themen und listen die derzeit existierenden Themen auf.
 
@@ -13,7 +13,7 @@ In diesem Artikel erklären wir die Namenskonventionen für unsere Themen und li
 <prefix>-<domain>-<usage-context>-<environment>
 ```
 
-Jeder DigiWF Topic-name besteht aus diesen 3 Teilen:
+Jeder DigiWF Topic-Name hat die folgenden Bestandteile:
 
 - **prefix** wird verwendet, um die Themen einer bestimmten Anwendung zuzuordnen. Im Zusammenhang mit DigiWF ist dieses
   Präfix normalerweise `dwf`.
@@ -23,20 +23,20 @@ Jeder DigiWF Topic-name besteht aus diesen 3 Teilen:
   hinzugefügt. Der `<usage context>` ist optional.
 - **environment** ist das Suffix, das die Umgebung beschreibt, in der die Anwendungen laufen.
 
-Examples:
+Beispiele:
 
 - `dwf-connector-${DIGIWF_ENV}` ist das Topic des DigiWF Connectors, an das die Integrationen Nachrichten senden.
-- `dwf-email-${DIGIWF_ENV}` ist das Topic der DigiWF Email Integration
+- `dwf-email-${DIGIWF_ENV}` ist das Topic der DigiWF Email Integration.
 
 ## Verfügbare Topics
 
 Derzeit existieren die Umgebungen `dev`, `test`, `demo`, `processestest`, `processesdemo`, `processeshotfix`
 und `local-01`. `dev`, `test` und `demo` sind unsere CI/CD-Stages und `local-01` wird für die Entwicklung verwendet.
-Die `processes*` Umgebungen werden von Prozessmodellierern genutzt für das Testen ihrer Prozesse.
+Die `processes*` Umgebungen werden von Prozessmodellierern genutzt, um ihre Prozesse zu testen.
 
 ### [Task](/documentation/components/tasks)
 
-Die digiwf-task verwendet zwei topics um die User Tasks oder Daten zu empfangen. Diese sind:
+Die digiwf-task verwendet zwei Topics, um die User Tasks oder Daten zu empfangen. Diese sind:
 
 ```
 dwf-taskmanagement-tasks-<STAGE>
@@ -46,11 +46,9 @@ dwf-taskmanagement-data-<STAGE>
 ### [Connector](/documentation/components/connector)
 
 Der DigiWF Connector ermöglicht eine nahtlose Verbindung zwischen der Camunda Engine (DigiWF Engine) und den DigiWF
-Integrationen.
-Der Connector leitet Nachrichten der Engine an die Integrationen weiter und leitet die Antworten der Integrationen an
-die Engine zurück.
-Wenn hierbei Fehler auftreten wird über die jeweiligen Topics ein BPMN Error oder ein Incident an die Engine
-zurückgeleitet.
+Integrationen. Der Connector leitet Nachrichten der Engine an die Integrationen weiter und leitet die Antworten der
+Integrationen an die Engine zurück. Wenn hierbei Fehler auftreten, wird über die jeweiligen Topics ein BPMN Error oder
+ein Incident an die Engine zurückgeleitet.
 
 ```
 dwf-connector-<ENV>
@@ -62,8 +60,8 @@ dwf-connector-<ENV>-dlq
 ### [Integrationen](/integrations/)
 
 Die DigiWF Integrationen sind die Schnittstellen zu den externen Systemen. Sie sind in der Lage, Nachrichten vom
-Connector zu empfangen und Nachrichten an den Connector zu senden.
-Im Fehlerfall senden die Integrationen BPMN Errors oder Incidents an den Connector zurück.
+Connector zu empfangen und Nachrichten an den Connector zu senden. Im Fehlerfall senden die Integrationen BPMN Errors
+oder Incidents an den Connector zurück.
 
 #### [Address Integration](/integrations/digiwf-address-integration)
 
@@ -120,8 +118,8 @@ dwf-s3-<ENV>
 > aktuellen Version der DigiWF Engine noch vorhanden sind.
 
 Die digiwf-engine verwendet den Spring Cloud Stream Function Router, um Ereignisse basierend auf dem `type` Header an
-die entsprechenden Spring Cloud Funktionen weiterzuleiten.
-Daher benötigt jede Nachricht, die an `dwf-digiwf-engine-<ENV>` gesendet wird, den Header `type`.
+die entsprechenden Spring Cloud Funktionen weiterzuleiten. Daher benötigt jede Nachricht, die
+an `dwf-digiwf-engine-<ENV>` gesendet wird, den Header `type`.
 
 ```
 dwf-digiwf-engine-<ENV>
@@ -147,9 +145,9 @@ dwf-cocreation-<ENV>
 ```
 
 Der digiwf-engine Service ist ein Consumer des Themas `dwf-cocreation-<ENV>` und stellt die Artefakte (bpmn-, dmn- oder
-json-Form) aus eingehenden Bereitstellungsereignissen für die camunda-Engine bereit.
-Die digiwf-engine verwendet den Spring Cloud Stream Function Router, um Events basierend auf dem Header `type` an die
-entsprechenden Spring Cloud Funktionen weiterzuleiten.
+json-Form) aus eingehenden Bereitstellungsereignissen für die camunda-Engine bereit. Die digiwf-engine verwendet den
+Spring Cloud Stream Function Router, um Events basierend auf dem Header `type` an die entsprechenden Spring Cloud
+Funktionen weiterzuleiten.
 
 Die folgenden Werte für den Header `type` werden derzeit unterstützt:
 
@@ -165,4 +163,3 @@ dwf-cocreation-deploy-<ENV>
 Nach jedem Deployment sendet die digiwf-engine ein Deployment-Status-Ereignis an das
 Topic `dwf-cocreation-deploy-<ENV>`, das die Abonnenten des Topics über den Erfolg oder Misserfolg des Deployments
 informiert.
-

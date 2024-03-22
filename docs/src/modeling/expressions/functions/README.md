@@ -1,7 +1,7 @@
 # Funktionen
 
 DigiWF stellt für die Modellierung verschiedene Basisfunktionen bereit. Die folgenden Funktionen können keinem
-spezfischen Kapitel im Modellierungshandbuch zugewiesen werden und sind deshalb unter diesem Abschnitt zusammengefasst.
+spezifischen Kapitel im Modellierungshandbuch zugewiesen werden und sind deshalb unter diesem Abschnitt zusammengefasst.
 
 ::: tip
 In den jeweiligen Abschnitten können sich weitere Funktionen enthalten, beispielsweise für Prozesse oder
@@ -18,18 +18,18 @@ Konfigurationen.
 
 ## User
 
-Über User Funktionen können bestimmte Informationen zu einem Benutzer abgerufen werden.
+Über User-Funktionen können bestimmte Informationen zu einem Benutzer abgerufen werden.
 
-| Funktion              | Beschreibung                             | Beispiel                     |
-|-----------------------|------------------------------------------|------------------------------|
-| `firstname(userId)`   | Liefert den Vornamen des Benutzers       | `${user.firstname('260')}`   |
-| `lastname(userId)`    | Liefert den Nachnamen des Benutzers      | `${user.lastname('260')}`    |
-| `username(userId)`    | Liefert den Usernamen des Benutzers      | `${user.username('260')}`    |
-| `email(userId)`       | Liefert die E-Mail-Adresse des Benutzers | `${user.email('260')}`       |
-| `salutation(userId)`  | Liefert die Anrede des Benutzers         | `${user.salutation('260')}`  |
-| `phone(userId)`       | Liefert die Telefonnummer des Benutzers  | `${user.phone('260')}`       |
-| `ou(userId)`          | Liefert die OU des Benutzers             | `${user.ou('260')}`          |
-| `get(userId)`         | Liefert den gesamten Benutzer            | `${user.get('260')}`         |
+| Funktion             | Beschreibung                             | Beispiel                    |
+|----------------------|------------------------------------------|-----------------------------|
+| `firstname(userId)`  | Liefert den Vornamen des Benutzers       | `${user.firstname('260')}`  |
+| `lastname(userId)`   | Liefert den Nachnamen des Benutzers      | `${user.lastname('260')}`   |
+| `username(userId)`   | Liefert den Benutzernamen des Benutzers  | `${user.username('260')}`   |
+| `email(userId)`      | Liefert die E-Mail-Adresse des Benutzers | `${user.email('260')}`      |
+| `salutation(userId)` | Liefert die Anrede des Benutzers         | `${user.salutation('260')}` |
+| `phone(userId)`      | Liefert die Telefonnummer des Benutzers  | `${user.phone('260')}`      |
+| `ou(userId)`         | Liefert die OU des Benutzers             | `${user.ou('260')}`         |
+| `get(userId)`        | Liefert den gesamten Benutzer            | `${user.get('260')}`        |
 
 Als Parameter können auch Variablen übergeben werden. In dieser Variable muss sich jedoch eine `lhmObjectID` befinden.
 Beispiel: `${user.firstname(starterOfInstance)}`
@@ -45,7 +45,10 @@ interagieren. Über die `execution` sind eine Vielzahl an Funktionen bereit, fol
 | `setVariable(key, value)` | Setzt eine bestimmte Variable im Execution Context         | `${execution.setVariable('meineVariable', 'Mein Wert')}` |
 | `hasVariable(key)`        | Prüft, ob eine Variable im Execution Context vorhanden ist | `${execution.hasVariable('meineVariable')}`              |
 
-Um auf die Elemente einer Liste zugreifen zu können, muss die Variable zunächst geparst werden. Das unten stehende Beispiel aus einem Script-Task zeigt den Zugriff auf das erste Element einer Liste, das in eine neue Variable gespeichert wird.
+Um auf die Elemente einer Liste zugreifen zu können, muss die Variable zunächst geparst werden. Das unten stehende
+Beispiel aus einem Script-Task zeigt den Zugriff auf das erste Element einer Liste, das in eine neue Variable
+gespeichert wird.
+
 ```
 /*
 * Erstes Element aus der Liste der DMS-COOs

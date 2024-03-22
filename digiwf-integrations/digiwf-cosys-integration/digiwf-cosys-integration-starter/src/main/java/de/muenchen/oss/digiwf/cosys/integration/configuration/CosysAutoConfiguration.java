@@ -2,18 +2,18 @@ package de.muenchen.oss.digiwf.cosys.integration.configuration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.muenchen.oss.digiwf.cosys.integration.ApiClient;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.in.MessageProcessor;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.CosysAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.ProcessAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.S3Adapter;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocument;
-import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessagePort;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
-import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.cosys.integration.ApiClient;
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessageOutPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
+import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
@@ -25,13 +25,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.messaging.Message;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,34 +101,36 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocument getCreateDocumentUseCase(final SaveFileToStoragePort saveFileToStoragePort, final CorrelateMessagePort correlateMessagePort, final GenerateDocumentPort generateDocumentPort) {
-        return new CreateDocumentUseCase(saveFileToStoragePort, correlateMessagePort, generateDocumentPort);
+    public CreateDocumentInPort getCreateDocumentInPort(final SaveFileToStorageOutPort saveFileToStorageOutPort, final CorrelateMessageOutPort correlateMessageOutPort, final GenerateDocumentOutPort generateDocumentOutPort) {
+        return new CreateDocumentUseCase(saveFileToStorageOutPort, correlateMessageOutPort, generateDocumentOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CorrelateMessagePort getCorrelateMessagePort(final ProcessApi processApi) {
+    public CorrelateMessageOutPort getCorrelateMessageOutPort(final ProcessApi processApi) {
         return new ProcessAdapter(processApi);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SaveFileToStoragePort getSaveFileToStoragePort(final S3FileTransferRepository s3FileTransferRepository) {
+    public SaveFileToStorageOutPort getSaveFileToStorageOutPort(final S3FileTransferRepository s3FileTransferRepository) {
         return new S3Adapter(s3FileTransferRepository);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public GenerateDocumentPort getGenerateDocumentPort(final CosysConfiguration cosysConfiguration, final GenerationApi generationApi) {
+    public GenerateDocumentOutPort getGenerateDocumentOutPort(final CosysConfiguration cosysConfiguration, final GenerationApi generationApi) {
         return new CosysAdapter(cosysConfiguration, generationApi);
     }
 
-    // Function call had to be renamed for message routing
     @Bean
-    public Consumer<Message<GenerateDocument>> createCosysDocument(final CreateDocument documentUseCase, final ErrorApi errorApi) {
-        final MessageProcessor messageProcessor = new MessageProcessor(documentUseCase, errorApi);
-        return messageProcessor.cosysIntegration();
+    @ConditionalOnMissingBean
+    public MessageProcessor messageProcessor(final CreateDocumentInPort createDocumentInPort, final ErrorApi errorApi) {
+        return new MessageProcessor(createDocumentInPort, errorApi);
     }
 
-
+    @Bean
+    public Consumer<Message<GenerateDocument>> cosysIntegration(final MessageProcessor messageProcessor) {
+        return messageProcessor.cosysIntegration();
+    }
 }

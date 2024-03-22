@@ -4,17 +4,14 @@ tbd. für neue CoCreation
 
 ## Legacy CoCreation
 
-Das Deployment von Artefakten kann aus der Co-Creation Umgebungen angestoßen werden.
+In der Legacy CoCreation Umgebung kann das Deployment von Artefakten aus der Plattform angestoßen werden.
 
-1. Deployment Dialog über das "Lastwagen Symbol" öffnen
-2. Umgebung auswählen
-3. Artefakte auswählen (es kann nur der aktuellste Meilenstein veröffentlicht werden)
+1. Öffne den Deployment-Dialog über das "Lastwagen-Symbol"
+2. Wähle die Umgebung aus
+3. Wähle die Artefakte aus (es kann nur der aktuellste Meilenstein veröffentlicht werden)
 
 ::: tip
-
-Es können nicht alle Artefakte deployed werden.
-Artefakte wie Element Templates sind lediglich für die Modellierung relevant
-
+Nicht alle Artefakte können deployed werden. Artefakte wie Elementvorlagen sind lediglich für die Modellierung relevant.
 :::
 
 ![Deployment Dialog](~@source/modeling/plattform/deployment/deployment_dialog.png)

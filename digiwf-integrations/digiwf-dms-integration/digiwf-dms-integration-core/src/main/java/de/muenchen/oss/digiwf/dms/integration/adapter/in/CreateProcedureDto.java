@@ -16,6 +16,8 @@ public class CreateProcedureDto {
 
     private String title;
 
+    private String fileSubj;
+
     private String user;
 
 }

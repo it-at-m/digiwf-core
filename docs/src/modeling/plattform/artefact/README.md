@@ -1,6 +1,6 @@
 # Artefakte
 
-Die Plattform DigiWF bietet verschiedene Artefakte, die bei der Modellierung von Geschäftsprozessen unterstützen. Im
+Die Plattform DigiWF bietet verschiedene Artefakte an, die bei der Modellierung von Geschäftsprozessen unterstützen. Im
 Folgenden findest du eine kurze Beschreibung der wichtigsten Artefakte:
 
 - BPMN: BPMN steht für "Business Process Model and Notation" und ist eine grafische Notationssprache, die es ermöglicht,
@@ -28,16 +28,14 @@ Formulare, Prozesskonfigurationen und Templates zentral verwaltet und geteilt we
 ## Artefakt hinzufügen
 
 In einem [Projekt](/modeling/plattform/project/) können verschiedene Artefakte, wie BPMN-Diagramme, DMN-Modelle,
-Formulare und Prozesskonfigurationen verwaltet werden.
-Um ein neues Artefakt hinzuzufügen, kann im Menü `+` das entsprechende Artefakt ausgewählt werden.
+Formulare und Prozesskonfigurationen verwaltet werden. Um ein neues Artefakt hinzuzufügen, kann im Menü `+` das
+entsprechende Artefakt ausgewählt werden.
 
 ![Artefakt hinzufügen](add_artefact.png)
 
 ## Artefakt versionieren
 
-Um ein Artefakt zu versionieren, kann ein *Milestone* erstellt werden.
-Dies erlaubt es dem Projektteam, verschiedene Entwicklungsstufen des Artefakts zu speichern.
-Die Aktion kann im Kontextmenüs des Artefakts ausgeführt werden.
+Um ein Artefakt zu versionieren, kann ein *Milestone* erstellt werden. Dies erlaubt es dem Projektteam, verschiedene
+Entwicklungsstufen des Artefakts zu speichern. Die Aktion kann im Kontextmenü des Artefakts ausgeführt werden.
 
 ![Milestone erstellen](~@source/modeling/plattform/artefact/create_milestone.png)
-

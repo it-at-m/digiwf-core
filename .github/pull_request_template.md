@@ -1,6 +1,5 @@
 ### Description
-
-Short description or comments
+<!-- Brief explanation of the changes and their impact -->
 
 ### Reference
 

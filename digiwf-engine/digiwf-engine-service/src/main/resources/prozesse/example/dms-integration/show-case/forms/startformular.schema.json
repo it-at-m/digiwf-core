@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "system": {
                 "fieldType": "select",
@@ -90,7 +92,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "user": {
                 "fieldType": "text",
@@ -108,7 +112,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "reference": {
                 "fieldType": "text",
