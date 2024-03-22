@@ -42,7 +42,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "dmsContent": {
                 "fieldType": "dms-input",

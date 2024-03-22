@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import jakarta.validation.ValidationException;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -32,7 +32,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.doNothing().when(updateDocumentUseCaseMock).updateDocument(
+        Mockito.doNothing().when(updateDocumentInPortMock).updateDocument(
                 updateDocumentDto.getDocumentCoo(),
                 updateDocumentDto.getUser(),
                 DocumentType.valueOf(updateDocumentDto.getType()),
@@ -56,7 +56,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDmsIntegrationUpdateDocumentSuccessfully() {
         messageProcessor.updateDocument().accept(this.message);
-        verify(updateDocumentUseCaseMock, times(1)).updateDocument(
+        verify(updateDocumentInPortMock, times(1)).updateDocument(
                 updateDocumentDto.getDocumentCoo(),
                 updateDocumentDto.getUser(),
                 DocumentType.valueOf(updateDocumentDto.getType()),
@@ -66,7 +66,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationUpdateDocumentHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(updateDocumentUseCaseMock).updateDocument(any(), any(), any(),any(),any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(updateDocumentInPortMock).updateDocument(any(), any(), any(), any(), any());
         messageProcessor.updateDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
@@ -76,7 +76,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsUpdateDocumentIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(updateDocumentUseCaseMock).updateDocument(any(), any(), any(),any(),any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(updateDocumentInPortMock).updateDocument(any(), any(), any(), any(), any());
         messageProcessor.updateDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

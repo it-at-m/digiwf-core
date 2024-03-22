@@ -31,7 +31,7 @@
     {
       "label": "Event Type",
       "type": "String",
-      "value": "getAlwZustaendigkeitEventBus",
+      "value": "getAlwResponsibility",
       "binding": {
         "type": "camunda:in",
         "expression": true,

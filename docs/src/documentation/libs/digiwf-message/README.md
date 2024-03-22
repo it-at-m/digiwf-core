@@ -2,32 +2,27 @@
 
 [![](https://img.shields.io/badge/Example-digiwf_message_example-informational?style=flat&logo=Github&logoColor=white&color=D4B300)](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/)
 
-Die **DigiWF Message** Bibliothek ist eine Abstraktionsschicht, um die Kommunikation zwischen den verschiedenen
-Komponenten
-zu vereinfachen und technische Komplexität zu reduzieren.
+Die **DigiWF Message** Bibliothek ist eine Abstraktionsschicht, die die Kommunikation zwischen verschiedenen
+Komponenten vereinfacht und die technische Komplexität reduziert.
 
-Die Idee hinter der **DigiWF Message** Bibliothek ist, die immer wiederkehrenden Spring Cloud Stream Konfigurationen
-an einer zentralen Stelle zu lösen und eine Api bereitzustellen, um diese zu nutzen.
-Dadurch muss ein Integrations-Developer nicht mehr in die Tiefe der Spring Cloud Stream Konfigurationen einsteigen und
-kann sich auf die Implementierung der Integration fokussieren.
+Die Idee hinter der **DigiWF Message** Bibliothek ist, immer wiederkehrende Spring Cloud Stream Konfigurationen an einer
+zentralen Stelle zu lösen und eine API bereitzustellen, um diese zu nutzen. Dadurch muss ein Integrations-Developer
+nicht mehr in die Tiefe der Spring Cloud Stream Konfigurationen einsteigen und kann sich auf die Implementierung der
+Integration fokussieren.
 
-Die Bibliothek stellt für das Versenden von Nachrichten eigene APIs bereit, die Nachrichten an einen Message Broker
-senden.
-Zusätzlich stellt die Bibliothek auch einen Spring Cloud Stream `RoutingCallback` für das Konsumieren und Weiterleiten
-von Nachrichten bereit (Function Routing).
+Die Bibliothek stellt eigene APIs für das Versenden von Nachrichten bereit, die Nachrichten an einen Message Broker
+senden. Zusätzlich stellt die Bibliothek auch einen Spring Cloud Stream `RoutingCallback` für das Konsumieren und
+Weiterleiten von Nachrichten bereit (Function Routing).
 
 ## Verwendung
 
 Die **DigiWF Message** Bibliothek stellt die MessageApi bereit, die verwendet wird, um Nachrichten zu versenden.
-
-Zusätzlich werden APIs für wiederkehrende Nachrichten bereitgestellt, die wiederum auf der MessageApi aufbauen.
-Hierfür haben wir die ProcessApi und die ErrorApi geschaffen.
-Die ProcessApi kann verwendet werden, um in DigiWF Prozesse zu starten, Messages an Prozesse zu korrelieren und
-Fehlerbehandlung durchzuführen.
-Die ErrorApi stellt die Exceptions `BpmnError` für fachliche Fehler und `IncidentError` für technische Fehler bereit,
-die geworfen und in der Anwendung abgefangen werden können.
-Zusätzlich werden wie auch bei der ProcessApi Methoden bereitgestellt, um Nachrichten an die entsprechenden
-Destinations (Zieltopics) zu senden.
+Zusätzlich werden APIs für wiederkehrende Nachrichten bereitgestellt, die wiederum auf der MessageApi aufbauen. Hierfür
+haben wir die ProcessApi und die ErrorApi geschaffen. Die ProcessApi kann verwendet werden, um in DigiWF Prozesse zu
+starten, Messages an Prozesse zu korrelieren und Fehlerbehandlung durchzuführen. Die ErrorApi stellt die
+Exceptions `BpmnError` für fachliche Fehler und `IncidentError` für technische Fehler bereit, die geworfen und in der
+Anwendung abgefangen werden können. Zusätzlich werden wie auch bei der ProcessApi Methoden bereitgestellt, um
+Nachrichten an die entsprechenden Destinations (Zieltopics) zu senden.
 
 Die Destinations für die unterschiedlichen Aktionen können über die `application.yml` konfiguriert werden (
 siehe [Konfiguration](#konfiguration)).
@@ -37,15 +32,13 @@ siehe [Konfiguration](#konfiguration)).
 
 ### MessageApi
 
-Die MessageApi stellt die Methode `sendMessage` bereit, die verwendet werden kann, um eine Nachricht an eine bestimmte
-*Destination* zu senden.
-Eine Message besteht aus einem `payload` und `headers`.
-Der Payload enthält die Daten, die übermittelt werden sollen.
-Die Headers sind ein Key, Value Paar, das zusätzliche Informationen zu der Nachricht enthält.
+Die MessageApi stellt die Methode `sendMessage` zur Verfügung, die verwendet wird, um eine Nachricht an eine bestimmte
+*Destination* zu senden. Eine Message besteht aus einem `payload` und `headers`. Der Payload enthält die Daten, die
+übermittelt werden sollen. Die Headers sind ein Key-Value-Paar, das zusätzliche Informationen zur Nachricht enthält.
 
 > Bei DigiWF verwenden wir Spring Cloud Stream, um Nachrichten an Kafka (Message Broker) zu senden.
 > Der Payload ist hierbei das Event, das an Kafka gesendet wird.
-> Die Headers enthalten wichtige Informationen, wie beispielsweise die Prozessinstanz Id, den Type des Events, usw.
+> Die Headers enthalten wichtige Informationen, wie beispielsweise die Prozessinstanz Id, den Type des Events usw.
 
 **Usage Example**
 
@@ -73,9 +66,8 @@ public class MessageServiceExample {
 ### ProcessApi
 
 Die `ProcessApi`-Schnittstelle stellt Methoden zum Starten von Prozessen und Korrelieren von Nachrichten in Prozessen
-bereit.
-Im Hintergrund nutzt die ProcessAPI die MessageApi, um die Nachrichten an die entsprechenden Destinations zu senden.
-Die Destinations für die unterschiedlichen Aktionen können über die `application.yml` konfiguriert werden.
+bereit. Im Hintergrund nutzt die ProcessAPI die MessageApi, um die Nachrichten an die entsprechenden Destinations zu
+senden. Die Destinations für die unterschiedlichen Aktionen können über die `application.yml` konfiguriert werden.
 
 **Usage Example**
 
@@ -100,10 +92,9 @@ public class ProcessService {
 
 ### ErrorApi
 
-Die ErrorApi definiert Methoden zum Behandeln von Fehlern in einem BPMN-Prozess.
-Dabei wird zwischen fachlichen (`BpmnError`) und technischen Fehlern (`IncidentError`) unterschieden.
-BpmnError können im Prozess abgefangen werden und verarbeitet werden. Hingegen ein IncidentError führt zu einem Incident
-im Prozess.
+Die ErrorApi definiert Methoden zum Behandeln von Fehlern in einem BPMN-Prozess. Dabei wird zwischen
+fachlichen (`BpmnError`) und technischen Fehlern (`IncidentError`) unterschieden. BpmnError können im Prozess abgefangen
+und verarbeitet werden. Ein IncidentError führt hingegen zu einem Incident im Prozess.
 
 Die ErrorApi stellt Exceptions für die beiden Fehler bereit, die geworfen und in der Anwendung abgefangen werden können.
 Für die Fehlerbehandlung werden ebenfalls Methoden bereitgestellt, die Nachrichten an die konfigurierten Destinations
@@ -148,28 +139,26 @@ public class Example {
 ## Spring Cloud Stream Komponenten
 
 Die DigiWF Message Bibliothek stellt Spring Cloud Stream Komponenten bereit, die verwendet werden können, um Nachrichten
-an Kafka zu senden und zu empfangen.
-Hierfür werden Event Emitter (`Sinks`) und ein Function Router (`RoutingCallback`) bereitgestellt.
+an Kafka zu senden und zu empfangen. Hierfür werden Event Emitter (`Sinks`) und ein Function Router (`RoutingCallback`)
+bereitgestellt.
 
 ### Event Emitter
 
 Es wird ein Event Emitter `sendMessage` bereitgestellt. Dieser wird verwendet, um Nachrichten an die entsprechenden
-Destinations zu senden.
-Intern verwendet die MessageApi den `spring.cloud.stream.sendto.destination` Header, der ausgehende Nachrichten
-automatisch an das Topic, das als Destination angegeben wurde, sendet.
+Destinations zu senden. Intern verwendet die MessageApi den `spring.cloud.stream.sendto.destination` Header, der
+ausgehende Nachrichten automatisch an das Topic sendet, das als Destination angegeben wurde.
 
-Jedoch muss, damit Spring Cloud Stream Nachrichten versenden kann ein ausgehender Channel konfiguriert werden.
-Hierfür empfiehlt es sich, die `spring.cloud.stream.bindings.sendMessage-out-0.destination` Property zu setzen und
+Jedoch muss, damit Spring Cloud Stream Nachrichten versenden kann, ein ausgehender Channel konfiguriert werden. Hierfür
+empfiehlt es sich, die `spring.cloud.stream.bindings.sendMessage-out-0.destination` Property zu setzen und
 unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definieren.
 
 ### Function Router
 
-Neben dem Versenden von Nachrichten über die Event Emitter, können auch Nachrichten über den Function Router empfangen
-werden.
-Hierfür stellen wir einen `RoutingCallback` bereit, der die eingehenden Nachrichten anhand des Headers `type` an die
-Consumer der Anwendung routed.
-Das Mapping zwischen dem Header `type`, der aus den eingehenden Nachrichten ausgelesen wird und den Consumer Funktionen
-wird in der `application.yml` über die Property `de.muenchen.oss.digiwf.message.typeMappings` konfiguriert.
+Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten über den Function Router empfangen
+werden. Hierfür stellen wir einen `RoutingCallback` bereit, der die eingehenden Nachrichten anhand des Headers `type` an
+die Consumer der Anwendung routed. Das Mapping zwischen dem Header `type`, der aus den eingehenden Nachrichten
+ausgelesen wird, und den Consumer Funktionen wird in der `application.yml` über die
+Property `de.muenchen.oss.digiwf.message.typeMappings` konfiguriert.
 
 ## Konfiguration
 
@@ -196,9 +185,8 @@ io:
 ## Anpassbarkeit
 
 Für die ErrorApi, ProcessApi und MessageApi stellen wir eine Standardimplementierung bereit, die auf Spring Cloud Stream
-basiert.
-Möchte man diese Implementierung ändern kann man die entsprechenden Schnittstellen implementieren und als Bean
+basiert. Möchte man diese Implementierung ändern, kann man die entsprechenden Schnittstellen implementieren und als Bean
 bereitstellen.
 
-Ein Beispiel für eine MessageApi implementierung, die lediglich die Nachrichten logged findet
-sich [in unserem Example](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/src/main/java/io/muenchendigital/digiwf/message/example/adapter/NoStreamingMessageAdapter.java).
+Ein Beispiel für eine MessageApi implementierung, die lediglich die Nachrichten loggt, findet
+man [in unserem Example](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/src/main/java/io/muenchendigital/digiwf/message/example/adapter/NoStreamingMessageAdapter.java).

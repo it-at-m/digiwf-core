@@ -41,7 +41,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "title": {
                 "fieldType": "text",
@@ -59,13 +61,35 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "fileCOO": {
                 "fieldType": "text",
                 "title": "Sachakte (COO)",
                 "type": "string",
                 "key": "fileCOO",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "fileSubj": {
+                "fieldType": "text",
+                "title": "Betreff",
+                "type": "string",
+                "key": "fileSubj",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -95,7 +119,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "system": {
                 "fieldType": "select",

@@ -1,0 +1,186 @@
+{
+  "name": "E-Mail mit Logo senden",
+  "id": "de.muenchen.digitalwf.templates.send-email-with-logo",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration Name",
+      "type": "String",
+      "editable": false,
+      "value": "emailIntegration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "sendMailWithLogoAndLink",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Template",
+      "type": "String",
+      "editable": false,
+      "value": "mail-template.ftl",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "template",
+        "target": "template"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Receiver",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receivers",
+        "target": "receivers"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Receiver (CC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receiversCc",
+        "target": "receiversCc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Receiver (BCC)",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "receiversBcc",
+        "target": "receiversBcc"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Subject",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "subject",
+        "target": "subject"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Text",
+      "type": "Text",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "text",
+        "target": "text"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "E-Mail Gruß",
+      "type": "String",
+      "value": "Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "bottomBody",
+        "target": "bottomBody"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Reply-To Address",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "replyTo",
+        "target": "replyTo"
+      }
+    },
+    {
+      "label": "Attachment Paths (S3)",
+      "type": "String",
+      "value": "",
+      "description": "Array of presigned urls created with s3 integration",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "attachments",
+        "target": "attachments"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Dispatch Status",
+      "value": "mailSentStatus",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "mailSentStatus"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    }
+  ]
+}

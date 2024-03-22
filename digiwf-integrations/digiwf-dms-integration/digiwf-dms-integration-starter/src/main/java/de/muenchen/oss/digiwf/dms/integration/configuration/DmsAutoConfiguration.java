@@ -10,7 +10,7 @@ import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftPrope
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
-import de.muenchen.oss.digiwf.dms.integration.application.service.*;
+import de.muenchen.oss.digiwf.dms.integration.application.usecase.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
@@ -43,68 +43,74 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public LHMBAI151700GIWSDSoap wsCleint(final FabasoftClientConfiguration fabasoftClientConfiguration) {
+        return fabasoftClientConfiguration.dmsWsClient();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateFileUseCase createFileUseCase(final CreateFilePort createFilePort) {
-        return new CreateFileService(createFilePort);
+    public CreateFileInPort createFileInPort(final CreateFileOutPort createFileOutPort) {
+        return new CreateFileUseCase(createFileOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateProcedureUseCase createProcedureUseCase(final CreateProcedurePort createProcedurePort) {
-        return new CreateProcedureService(createProcedurePort);
+    public CreateProcedureInPort createProcedureInPort(final CreateProcedureOutPort createProcedureOutPort) {
+        return new CreateProcedureUseCase(createProcedureOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocumentUseCase createDocumentUseCase(final CreateDocumentPort createDocumentPort, LoadFilePort loadFilePort) {
-        return new CreateDocumentService(createDocumentPort, loadFilePort);
+    public CreateDocumentInPort createDocumentInPort(final CreateDocumentOutPort createDocumentOutPort, LoadFileOutPort loadFileOutPort) {
+        return new CreateDocumentUseCase(createDocumentOutPort, loadFileOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public UpdateDocumentUseCase updateDocumentUseCase(final UpdateDocumentPort updateDocumentPort, LoadFilePort loadFilePort) {
-        return new UpdateDocumentService(updateDocumentPort, loadFilePort);
+    public UpdateDocumentInPort updateDocumentInPort(final UpdateDocumentOutPort updateDocumentOutPort, LoadFileOutPort loadFileOutPort) {
+        return new UpdateDocumentUseCase(updateDocumentOutPort, loadFileOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public DepositObjectUseCase depositObjectUseCase(DepositObjectPort depositObjectPort) {
-        return new DepositObjectService(depositObjectPort);
+    public DepositObjectInPort depositObjectInPort(DepositObjectOutPort depositObjectOutPort) {
+        return new DepositObjectUseCase(depositObjectOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CancelObjectUseCase cancelObjectUseCase(CancelObjectPort cancelObjectPort) {
-        return new CancelObjectService(cancelObjectPort);
+    public CancelObjectInPort cancelObjectInPort(CancelObjectOutPort cancelObjectOutPort) {
+        return new CancelObjectUseCase(cancelObjectOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ReadContentUseCase readContentUseCase(ReadContentPort readContentPort, TransferContentPort transferContentPort) {
-        return new ReadContentService(transferContentPort, readContentPort);
+    public ReadContentInPort readContentInPort(ReadContentOutPort readContentOutPort, TransferContentOutPort transferContentOutPort) {
+        return new ReadContentUseCase(transferContentOutPort, readContentOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SearchFileUseCase searchFileUseCase(SearchFilePort searchFilePort) {
-        return new SearchFileService(searchFilePort);
+    public SearchFileInPort searchFileInPort(SearchFileOutPort searchFileOutPort) {
+        return new SearchFileUseCase(searchFileOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SearchSubjectAreaUseCase searchSubjectAreaUseCase(SearchSubjectAreaPort searchSubjectAreaPort) {
-        return new SearchSubjectAreaService(searchSubjectAreaPort);
+    public SearchSubjectAreaInPort searchSubjectAreaInPort(SearchSubjectAreaOutPort searchSubjectAreaOutPort) {
+        return new SearchSubjectAreaUseCase(searchSubjectAreaOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ReadMetadataUseCase readMetadataUseCase(ReadMetadataPort readMetadataPort, DmsUserPort dmsUserPort) {
-        return new ReadMetadataService(readMetadataPort, dmsUserPort);
+    public ReadMetadataInPort readMetadataInPort(ReadMetadataOutPort readMetadataOutPort, DmsUserOutPort dmsUserOutPort) {
+        return new ReadMetadataUseCase(readMetadataOutPort, dmsUserOutPort);
     }
 
     @Bean
@@ -155,14 +161,14 @@ public class DmsAutoConfiguration {
     @Profile("!local")
     @Bean
     @ConditionalOnMissingBean
-    public DmsUserAdapter dmsUserAdapter (final UserAuthenticationProvider userAuthenticationProvider) {
+    public DmsUserAdapter dmsUserAdapter(final UserAuthenticationProvider userAuthenticationProvider) {
         return new DmsUserAdapter(userAuthenticationProvider);
     }
 
     @Profile("local")
     @Bean
     @ConditionalOnMissingBean
-    public MockDmsUserAdapter mockDmsUserAdapter () {
+    public MockDmsUserAdapter mockDmsUserAdapter() {
         return new MockDmsUserAdapter();
     }
 
@@ -171,28 +177,28 @@ public class DmsAutoConfiguration {
     public MessageProcessor createMessageProcessor(
             final ProcessApi processApi,
             final ErrorApi errorApi,
-            final CreateFileUseCase createFileUseCase,
-            final CreateProcedureUseCase createProcedureUseCase,
-            final CreateDocumentUseCase createDocumentUseCase,
-            final UpdateDocumentUseCase updateDocumentUseCase,
-            final DepositObjectUseCase depositObjectUseCase,
-            final CancelObjectUseCase cancelObjectUseCase,
-            final ReadContentUseCase readContentUseCase,
-            final SearchFileUseCase searchFileUseCase,
-            final SearchSubjectAreaUseCase searchSubjectAreaUseCase
+            final CreateFileInPort createFileInPort,
+            final CreateProcedureInPort createProcedureInPort,
+            final CreateDocumentInPort createDocumentInPort,
+            final UpdateDocumentInPort updateDocumentInPort,
+            final DepositObjectInPort depositObjectInPort,
+            final CancelObjectInPort cancelObjectInPort,
+            final ReadContentInPort readContentInPort,
+            final SearchFileInPort searchFileInPort,
+            final SearchSubjectAreaInPort searchSubjectAreaInPort
     ) {
         return new MessageProcessor(
                 processApi,
                 errorApi,
-                createFileUseCase,
-                createProcedureUseCase,
-                createDocumentUseCase,
-                updateDocumentUseCase,
-                depositObjectUseCase,
-                cancelObjectUseCase,
-                readContentUseCase,
-                searchFileUseCase,
-                searchSubjectAreaUseCase);
+                createFileInPort,
+                createProcedureInPort,
+                createDocumentInPort,
+                updateDocumentInPort,
+                depositObjectInPort,
+                cancelObjectInPort,
+                readContentInPort,
+                searchFileInPort,
+                searchSubjectAreaInPort);
     }
 
 }

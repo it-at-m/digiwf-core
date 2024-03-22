@@ -195,10 +195,7 @@ public class FileOperationsUseCase implements FileOperationsInPort {
   }
 
   private boolean fileExists(final String filePath) throws FileSystemAccessException {
-    final String pathToFolder = getPathToFolder(filePath);
-    final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolder);
-    // if file does not exist throw an error
-    return filePathsInFolder.contains(filePath);
+    return this.s3Repository.fileExists(filePath);
   }
 
   /**

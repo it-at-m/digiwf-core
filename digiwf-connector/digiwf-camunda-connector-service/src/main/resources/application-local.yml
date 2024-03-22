@@ -1,3 +1,7 @@
+camunda:
+  bpm:
+    client:
+      disable-backoff-strategy: true
 digiwf:
   streaming:
     connector:

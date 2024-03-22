@@ -4,6 +4,8 @@ import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.impl.DigiwfEmailApiImpl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.email.model.Mail;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
@@ -16,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -35,9 +38,9 @@ import static org.mockito.Mockito.when;
 
 class DigiwfEmailApiImplTest {
 
-
     private final JavaMailSender javaMailSender = mock(JavaMailSender.class);
     private final ResourceLoader resourceLoader = mock(ResourceLoader.class);
+    private final FreeMarkerConfigurer freeMarkerConfigurer = mock(FreeMarkerConfigurer.class);
     private DigiwfEmailApi digiwfEmailApi;
 
     // test data
@@ -54,7 +57,7 @@ class DigiwfEmailApiImplTest {
     @BeforeEach
     void setUp() {
         when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
-        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, "digiwf@muenchen.de", defaultReplyTo);
+        this.digiwfEmailApi = new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, freeMarkerConfigurer, "digiwf@muenchen.de", defaultReplyTo);
     }
 
     @Test
@@ -86,7 +89,7 @@ class DigiwfEmailApiImplTest {
                 .subject(this.subject)
                 .body(this.body)
                 .build();
-        new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, customAddress.getAddress(), null).sendMail(mail);
+        new DigiwfEmailApiImpl(this.javaMailSender, this.resourceLoader, freeMarkerConfigurer, customAddress.getAddress(), null).sendMail(mail);
 
         final ArgumentCaptor<MimeMessage> messageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
         verify(this.javaMailSender).send(messageArgumentCaptor.capture());
@@ -215,6 +218,19 @@ class DigiwfEmailApiImplTest {
     }
 
     @Test
+    void testGetBodyFromFreemarkerTemplate() throws IOException, TemplateException {
+        final String templateName = "test-template.ftl";
+        Map<String, Object> content = Map.of("data", "test");
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
+        when(this.freeMarkerConfigurer.getConfiguration()).thenReturn(configuration);
+
+        final String result = this.digiwfEmailApi.getBodyFromTemplate(templateName, content);
+
+        assertThat(result.contains("test")).isTrue();
+    }
+
+    @Test
     void testGetEmailBodyFromTemplate() {
         when(this.resourceLoader.getResource(anyString())).thenReturn(this.getResourceForText("This is a test mail", true));
 
@@ -252,8 +268,8 @@ class DigiwfEmailApiImplTest {
         assertThatThrownBy(() -> {
             this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, Map.of("content", "some content"));
         })
-            .isInstanceOf(RuntimeException.class)
-            .hasMessageContaining("Email Template not found: " + templatePath);
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Email Template not found: " + templatePath);
     }
 
     private Resource getResourceForText(final String text, final boolean resourceExists) {

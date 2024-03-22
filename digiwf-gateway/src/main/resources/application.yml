@@ -35,6 +35,12 @@ spring:
             client-secret: ${SSO_ENGINE_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
             provider: keycloak
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/public/**]':
+            allowedOriginPatterns: ${PUBLIC_ALLOWED_ORIGINS}
 
 server:
   port: ${GATEWAY_SERVER_PORT:8082}

@@ -1,6 +1,6 @@
 # ADR-Number-Title
 
-Title should be in form <action-verb>-<object>, e.g. configure-service, format-code, select-database.
+The title should be in the form of <action-verb>-<object>, e.g. `configure-service`, `format-code`, `select-database`.
 
 ## Status
 

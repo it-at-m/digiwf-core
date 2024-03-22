@@ -2,7 +2,7 @@
 
 <!-- Link available element-templates below -->
 
-## Cosys Integration
+## CoSys Integration
 
 <DownloadArtifact
     artifact="cosys_generate_document_template_V02.json"
@@ -14,11 +14,19 @@
     artifact="s3_create_presigned_url_template.json"
     type="element-template" />
 
-## Email Integration
+## E-Mail Integration
 
 <DownloadArtifact
-    artifact="sendMailV02.json"
+    artifact="email-integration/sendMailV02.json"
     type="element-template" />
+
+<DownloadArtifact
+artifact="email-integration/sendMailWithLogo.json"
+type="element-template" />
+
+<DownloadArtifact
+artifact="email-integration/sendMailWithLogoAndLink.json"
+type="element-template" />
 
 ## Address-Service Integration
 
@@ -50,7 +58,7 @@
     artifact="address-integration/searchAdressenMuenchen.json"
     type="element-template" />
 
-## Dms Integration
+## DMS Integration
 
 <DownloadArtifact
     artifact="dms-integration/create-vorgang.json"

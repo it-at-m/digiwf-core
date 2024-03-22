@@ -39,7 +39,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "readdocs": {
                 "fieldType": "file",
@@ -69,7 +71,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               }
             },
             "key": "400de930-0857-41a6-af11-b721f08be61d"

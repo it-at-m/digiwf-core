@@ -10,8 +10,8 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -61,7 +61,7 @@ class FabasoftAdapterTest {
                 CreateProcedureGI.class, (u) -> "new procedure".equals(u.getShortname()),
                 response);
 
-        val procedure = new Procedure("fileCOO", "new procedure");
+        val procedure = new Procedure("fileCOO", "new procedure", "custom file subject");
 
         val procedureResponse = fabasoftAdapter.createProcedure(procedure, "user");
 
@@ -94,7 +94,7 @@ class FabasoftAdapterTest {
                 CreateIncomingGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.EINGEHEND, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", LocalDate.parse("2023-12-31"), DocumentType.EINGEHEND, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }
@@ -111,7 +111,7 @@ class FabasoftAdapterTest {
                 CreateOutgoingGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.AUSGEHEND, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", LocalDate.parse("2023-12-31"), DocumentType.AUSGEHEND, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }
@@ -128,7 +128,7 @@ class FabasoftAdapterTest {
                 CreateInternalGI.class, (u) -> true,
                 response);
 
-        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", DocumentType.INTERN, List.of(content)), "user");
+        val documentResponse = fabasoftAdapter.createDocument(new Document("procedureCOO", "title", LocalDate.parse("2023-12-31"), DocumentType.INTERN, List.of(content)), "user");
 
         assertEquals(documentResponse, "documentCOO");
     }
@@ -284,8 +284,7 @@ class FabasoftAdapterTest {
         val value = Optional.ofNullable(searchObjNameGI.getValue()).orElse("");
         if (reference.isEmpty()) return true;
         if (value.isEmpty()) return false;
-        if (reference.equals("reference") && !value.equals("value")) return false;
-        return true;
+        return !reference.equals("reference") || value.equals("value");
     }
 
     @Test
