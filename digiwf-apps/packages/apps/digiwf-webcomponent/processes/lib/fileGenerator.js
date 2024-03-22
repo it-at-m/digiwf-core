@@ -11,8 +11,8 @@ export function generateLoaderJs(filename, subdirectory, suffix) {
     encoding: "utf-8",
   });
   // replace the correct placeholder with the actual filename
-  const loaderJsReplaced = loaderJsTemplate.replace(
-    "{{filename}}",
+  const loaderJsReplaced = loaderJsTemplate.replaceAll(
+    "{{path}}",
     `${subdirectory}/${filename}`
   );
   // write script to the dist folder as loader.js.template
