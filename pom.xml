@@ -299,7 +299,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <tokenAuth>true</tokenAuth>
-                            <deploymentName>digiwf-core:${project.version}</deploymentName>
+                            <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
                             <excludeArtifacts>
                                 <!-- find . -type d \( -name '*-service' -o -name '*-example' \) -printf '%f\n' | sort | uniq | awk '{print "<artifact>" $0 "</artifact>"}' -->
                                 <artifact>custom-integration-service</artifact>
