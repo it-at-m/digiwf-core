@@ -11,7 +11,7 @@ import { defineProps, toRefs, withDefaults } from "vue";
 import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
 import { useAPI } from "@/composables/useAPI";
-import { useProvideBaseURL } from "@/composables/useBaseURL";
+import { useBaseURL } from "@/composables/useBaseURL";
 import { useProvideParameters } from "@/composables/useParameters";
 import {
   ACCESS_TOKEN_EVENT_NAME_DEFAULT,
@@ -21,7 +21,6 @@ import {
 
 const props = withDefaults(
   defineProps<{
-    digiWfBaseUrl: string;
     accessTokenEventName?: string;
     pageSize?: number;
     maxPagesVisible?: number;
@@ -32,14 +31,14 @@ const props = withDefaults(
     maxPagesVisible: MAX_PAGES_VISIBLE_DEFAULT,
   }
 );
-const { digiWfBaseUrl, accessTokenEventName, pageSize, maxPagesVisible } =
+const { accessTokenEventName, pageSize, maxPagesVisible } =
   toRefs(props);
 
-useProvideBaseURL(digiWfBaseUrl);
 useProvideParameters(pageSize, maxPagesVisible);
 
+const { baseURL } = useBaseURL();
 const { accessToken } = useAccessToken(accessTokenEventName);
-useAPI(digiWfBaseUrl, accessToken);
+useAPI(baseURL, accessToken);
 </script>
 
 <style lang="scss">

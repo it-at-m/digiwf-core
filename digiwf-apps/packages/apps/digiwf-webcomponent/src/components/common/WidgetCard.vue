@@ -104,10 +104,10 @@ import { computed } from "vue";
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
-import { useInjectBaseURL } from "@/composables/useBaseURL";
 import { useInjectParameters } from "@/composables/useParameters";
+import { useBaseURL } from "@/composables/useBaseURL";
 
-const { digiWFBaseURL } = useInjectBaseURL();
+const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
 
 const props = withDefaults(
@@ -142,7 +142,7 @@ const hasContent = computed(
 );
 
 const frontendURL = computed(() => {
-  return `${digiWFBaseURL!.value}/#/${props.linkPath}`;
+  return `${baseURL!.value}/#/${props.linkPath}`;
 });
 </script>
 
