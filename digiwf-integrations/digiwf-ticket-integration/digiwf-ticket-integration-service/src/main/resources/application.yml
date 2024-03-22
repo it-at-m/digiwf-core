@@ -51,9 +51,9 @@ spring:
             jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
             user-name-attribute: user_name
           zammad-keycloak:
-            issuer-uri: ${ZAMMAD_SSO_ISSUER_URL}
-            user-info-uri: ${ZAMMAD_SSO_BASE_URL}/realms/${ZAMMAD_SSO_REALM}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${ZAMMAD_SSO_BASE_URL}/realms/${ZAMMAD_SSO_REALM}/protocol/openid-connect/certs
+            issuer-uri: ${SSO_ZAMMAD_ISSUER_URL}
+            user-info-uri: ${SSO_ZAMMAD_BASE_URL}/realms/${SSO_ZAMMAD_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_ZAMMAD_BASE_URL}/realms/${SSO_ZAMMAD_REALM}/protocol/openid-connect/certs
             user-name-attribute: user_name
         registration:
           s3:
@@ -65,8 +65,8 @@ spring:
           zammad:
             provider: zammad-keycloak
             authorization-grant-type: client_credentials
-            client-id: ${SSO_TICKET_CLIENT_ID}
-            client-secret: ${SSO_TICKET_CLIENT_SECRET}
+            client-id: ${SSO_ZAMMAD_CLIENT_ID}
+            client-secret: ${SSO_ZAMMAD_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
 
 server:

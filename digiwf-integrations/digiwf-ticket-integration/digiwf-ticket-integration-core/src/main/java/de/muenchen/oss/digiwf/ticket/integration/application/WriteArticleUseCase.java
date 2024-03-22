@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.ticket.integration.application;
 
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
-import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.TicketOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
@@ -18,12 +18,12 @@ import java.util.List;
 public class WriteArticleUseCase implements WriteArticleInPort {
 
     private final TicketOutPort ticketOutPort;
-    private final LoadFilePort loadFilePort;
+    private final LoadFileOutPort loadFileOutPort;
 
     @Override
     public void writeArticle(@NotBlank String ticketId, @NotNull Article article, TicketStatus status, final List<String> filepaths, final String processDefinition) {
         if ((filepaths != null) && !filepaths.isEmpty()) {
-            List<FileContent> fileContents = loadFilePort.loadFiles(filepaths, processDefinition);
+            List<FileContent> fileContents = loadFileOutPort.loadFiles(filepaths, processDefinition);
             ticketOutPort.updateTicket(ticketId, article, status, fileContents);
             return;
         }

@@ -15,16 +15,13 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class MessageProcessor {
 
@@ -38,15 +35,14 @@ public class MessageProcessor {
      * <p>
      * The consumer can throw the following BPMN error codes:
      * <ul>
-     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If the responsibility could not be found, either because it was not returned by ALW or the returned one does not match any known responsibility.</li>
-     *   <li>{@link AlwErrorCodes#VALIDATION_ERROR_CODE}": If the requested AZR-Number is not valid. It must consist of 12 digits.</li>
-     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}": If ALW responds with an unexpected error code.</li>
+     *   <li>{@link AlwErrorCodes#RESPONSIBILITY_NOT_FOUND}: If the responsibility could not be found, either because it was not returned by ALW or the returned one does not match any known responsibility.</li>
+     *   <li>{@link AlwErrorCodes#VALIDATION_ERROR_CODE}: If the requested AZR-Number is not valid. It must consist of 12 digits.</li>
+     *   <li>{@link AlwErrorCodes#UNEXPECTED_ERROR}: If ALW responds with an unexpected error code.</li>
      * </ul>
      * </p>
      *
      * @return the consumer that handles the messages from the route "getAlwResponsibility"
      */
-    @Bean
     public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility() {
         return message -> {
             log.info("Processing new request from eventbus");

@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.s3.integration;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
+import de.muenchen.oss.digiwf.s3.integration.configuration.S3IntegrationAutoConfiguration;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;
@@ -20,37 +21,37 @@ import java.util.function.Consumer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
-    classes = S3IntegrationApplication.class
+        classes = {S3IntegrationApplication.class, S3IntegrationAutoConfiguration.class}
 )
 @ActiveProfiles({"itest", "local"})
 @EnableAutoConfiguration(
-    exclude = {
-        SpringSecurityAutoConfiguration.class,
-        OAuth2ClientAutoConfiguration.class,
-        OAuth2ResourceServerAutoConfiguration.class
-    }
+        exclude = {
+                SpringSecurityAutoConfiguration.class,
+                OAuth2ClientAutoConfiguration.class,
+                OAuth2ResourceServerAutoConfiguration.class
+        }
 )
 @EmbeddedKafka(
-    partitions = 1,
-    topics = {
-        "${spring.cloud.stream.bindings.functionRouter-in-0.destination}",
-        "${spring.cloud.stream.bindings.sendMessage-out-0.destination}"
-    }
+        partitions = 1,
+        topics = {
+                "${spring.cloud.stream.bindings.functionRouter-in-0.destination}",
+                "${spring.cloud.stream.bindings.sendMessage-out-0.destination}"
+        }
 )
 public class ServiceIntegrationITest {
 
-  @MockBean
-  private UserAuthenticationProvider provider;
+    @MockBean
+    private UserAuthenticationProvider provider;
 
-  @Autowired(required = false)
-  private CreatePresignedUrlsInPort port;
+    @Autowired(required = false)
+    private CreatePresignedUrlsInPort port;
 
-  @Autowired(required = false)
-  private Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl;
+    @Autowired(required = false)
+    private Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl;
 
-  @Test
-  void starts_service() {
-    assertThat(port).isNotNull();
-    assertThat(createPresignedUrl).isNotNull();
-  }
+    @Test
+    void starts_service() {
+        assertThat(port).isNotNull();
+        assertThat(createPresignedUrl).isNotNull();
+    }
 }

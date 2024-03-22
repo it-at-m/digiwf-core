@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Configuration
 @ComponentScan(
         basePackages = {
                 "de.muenchen.oss.digiwf.s3.integration.gen",
@@ -48,7 +50,7 @@ public class S3IntegrationClientAutoConfiguration {
 
     @PostConstruct
     public void init() {
-      log.info("[DIGIWF-S3-INTEGRATION-CLIENT]: Staring integration client, security is {}.", s3IntegrationClientProperties.isEnableSecurity() ? "enabled" : "disabled" );
+        log.info("[DIGIWF-S3-INTEGRATION-CLIENT]: Staring integration client, security is {}.", s3IntegrationClientProperties.isEnableSecurity() ? "enabled" : "disabled");
     }
 
     @Bean

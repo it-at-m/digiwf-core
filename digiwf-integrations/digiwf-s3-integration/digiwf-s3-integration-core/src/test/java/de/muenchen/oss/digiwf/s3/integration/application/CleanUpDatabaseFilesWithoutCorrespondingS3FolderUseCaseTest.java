@@ -43,21 +43,22 @@ class CleanUpDatabaseFilesWithoutCorrespondingS3FolderUseCaseTest {
 
     // Creation date is more than one month ago.
     file.setCreatedTime(LocalDateTime.now().minusMonths(1).minusDays(1));
-    Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
-        .thenReturn(new HashSet<>(List.of(file.getPathToFile())));
+    Mockito.when(this.s3Repository.fileExists(file.getPathToFile()))
+        .thenReturn(true);
     assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
-    Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
-        .thenReturn(new HashSet<>(List.of()));
+
+    Mockito.when(this.s3Repository.fileExists(file.getPathToFile()))
+            .thenReturn(false);
     assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isTrue();
 
     // Creation date is exactly one month or less ago.
     file.setCreatedTime(LocalDateTime.now().minusMonths(1));
-    Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
-        .thenReturn(new HashSet<>(List.of(file.getPathToFile())));
+    Mockito.when(this.s3Repository.fileExists(file.getPathToFile()))
+            .thenReturn(true);
     assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
 
-    Mockito.when(this.s3Repository.getFilePathsFromFolder("folder"))
-        .thenReturn(new HashSet<>(List.of()));
+    Mockito.when(this.s3Repository.fileExists(file.getPathToFile()))
+            .thenReturn(false);
     assertThat(this.cleanUpDatabaseFolderWithoutCorrespondingS3Folder.shouldDatabaseFileBeDeleted(file)).isFalse();
   }
 

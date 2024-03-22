@@ -11,59 +11,54 @@ and on the other hand the service `digiwf-okewo-integration-service` which is pr
 
 #### Error handling
 
-The errors occurring during the rest request are divided into three error categories.
-These are client-side errors, server-side errors and errors that cannot be assigned to either the client or the server.
-Each of these three error categories is assigned its own exception, which is then thrown when the methods in the
-repository classes `OkEwoPersonRepository` and `OkEwoPersonErweitertRepository` are called.
+Errors that occur during the REST request are divided into three categories: client-side errors, server-side errors, and
+errors that cannot be assigned to either the client or the server. Each of these categories has its own exception, which
+is thrown when the methods in the repository classes `OkEwoPersonRepository` and `OkEwoPersonErweitertRepository` are
+called.
 
 ### Service provided as an image
 
 The service is provided via Dockerhub as
 an [Image](https://hub.docker.com/repository/docker/itatm/digiwf-okewo-integration-service).
 The source code for the service can be found in
-submodule [digiwf-okewo-integration-service](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service)
-.
+the
+submodule [digiwf-okewo-integration-service](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service).
 
-The requests to OK.EWO are expected by the service over kafka event bus messages.
-To provide the event bus functionality via kafka,
+The service expects requests to OK.EWO via Kafka event bus messages. To provide the event bus functionality via Kafka,
 the [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils) are used.
 
 #### Service Configuration
 
-An example configuration can be found within the properties files.
+Example configurations can be found in the following properties files:
 
 * `application.yml`: `digiwf-okewo-integration-service/src/main/resources/application.yml`
 * `application-local.yml`: `digiwf-okewo-integration-service/src/main/resources/application.yml`
 
-The file `application.yml` contains the configuration according graceful shutdown, metrics, ports, ...
+The `application.yml` file contains configuration for graceful shutdown, metrics, ports, and more.
 
-The file `application-local.yml` provides the event bus and OK.EWO relevant configuration.
-The event bus configuration is implemented
-according [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started).
+The `application-local.yml` file provides the event bus and OK.EWO relevant configuration. The event bus configuration
+is implemented according to the [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-spring-cloudstream-utils#getting-started).
 
 #### Service API usage
 
-The OK.EWO requests have to be made via the element template defined in `okEwoIntegration.json`.
-The service and the template are providing four types of requests.
-The request type can be defined via the element template dropdown in field `Event Type`.
+Requests to OK.EWO must be made via the element template defined in `okEwoIntegration.json`. The service and template
+provide four types of requests, which can be selected in the element template dropdown in the `Event Type` field:
 
 * `getPerson`
 * `searchPerson`
 * `getPersonErweitert`
 * `searchPersonErweitert`
 
-For each request type, the payload has to be defined in the element templates request field as a JSON object.
-The response is also an JSON object.
-A crucial and mandatory JSON object attribute for a request is `eventType`.
-This attribute is necessary for correct deserialization of the requests JSON payload within the integration service.
+For each request type, the payload must be defined in the element template request field as a JSON object. The response
+is also a JSON object. A crucial and mandatory JSON object attribute for a request is `eventType`. This attribute is
+necessary for correct deserialization of the request's JSON payload within the integration service.
 
 The date and time information within the request and response payloads are provided in ISO standard.
 
 ##### getPerson
 
-Gets a Person on the basis of an Ordnungsmerkmal.
-
-The following JSON object shows the example payload set at the element templates request field.
+Gets a person based on an Ordnungsmerkmal. The payload for this request type should be a JSON object with the following
+structure:
 
 ```json
 {
@@ -72,7 +67,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+The response will be a JSON object.
 
 ```json
 {
@@ -173,13 +168,13 @@ The response is as follows.
 
 ##### searchPerson
 
-Searches Persons based on search parameters.
+This function searches for persons based on specified search parameters.
 
-The following JSON object shows the example payload set at the element templates request field.
-The search parameters within JSON object allocated to JSON key `searchPerson` are optional,
-if parameters are not needed, they can be omitted.
+The example payload for the request field should be a JSON object. The search parameters allocated to the `searchPerson`
+key within the JSON object are optional. If parameters are not needed, they can be omitted.
 
-A mandatory attribute is `datensatzstatus` with the characteristics `AKTUELL`, `INAKTUELL` or `OHNE_EINSCHRAENKUNG`.
+The `datensatzstatus` attribute is mandatory and must have one of the following
+characteristics: `AKTUELL`, `INAKTUELL`, or `OHNE_EINSCHRAENKUNG`.
 
 ```json
 {
@@ -406,7 +401,7 @@ The response is as follows.
 
 ##### getPersonErweitert
 
-Gets a PersonErweitert on the basis of an Ordnungsmerkmal.
+This function retrieves a `PersonErweitert` based on a specified `Ordnungsmerkmal`.
 
 The following JSON object shows the example payload set at the element templates request field.
 
@@ -417,7 +412,7 @@ The following JSON object shows the example payload set at the element templates
 }
 ```
 
-The response is as follows.
+The response will be returned as follows.
 
 ```json
 {
@@ -1098,13 +1093,14 @@ The response is as follows.
 
 ##### searchPersonErweitert
 
-Searches PersonErweitert based on search parameters.
+This function searches for `PersonErweitert` based on specified search parameters.
 
 The following JSON object shows the example payload set at the element templates request field.
 The search parameters within JSON object allocated to JSON key `searchPersonErweitert` are optional,
 if parameters are not needed, they can be omitted.
 
-A mandatory attribute is `datensatzstatus` with the characteristics `AKTUELL`, `INAKTUELL` or `OHNE_EINSCHRAENKUNG`.
+The `datensatzstatus` attribute is mandatory and must have one of the following
+characteristics: `AKTUELL`, `INAKTUELL`, or `OHNE_EINSCHRAENKUNG`.
 
 ```json
 {
@@ -1133,7 +1129,7 @@ A mandatory attribute is `datensatzstatus` with the characteristics `AKTUELL`, `
 }
 ```
 
-The response is as follows.
+The response will be returned as follows.
 
 ```json
 {
@@ -2492,8 +2488,10 @@ The response is as follows.
 
 #### Error handling
 
-If client-side errors, server-side errors or errors that cannot be assigned to either the client or the server occur
-during the rest request within the service, an error response is returned to the caller via the event bus.
+In case of client-side errors, server-side errors, or errors that cannot be assigned to either the client or the server
+occurring during the REST request within the service, an error response is returned to the caller via the event bus.
+
+The error response will have the following JSON object structure:
 
 ```json
 {

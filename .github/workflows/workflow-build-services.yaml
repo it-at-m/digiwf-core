@@ -8,6 +8,10 @@ on:
         type: boolean
         required: true
         default: false
+      upload-codecov:
+        description: 'Upload codecov?'
+        type: boolean
+        default: false
       maven-release:
         description: 'Maven release?'
         type: boolean
@@ -50,6 +54,18 @@ jobs:
 
       - name: Build with Maven
         run: ./mvnw --batch-mode clean install
+
+      - name: Upload coverage to Codecov
+        if: inputs.upload-codecov == true
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./digiwf-coverage/target/coverage/
+          fail_ci_if_error: false
+          files: ./digiwf-coverage/target/coverage/jacoco.xml
+          flags: unittests
+          name: digiwf-core
+          verbose: true
 
       #
       # The GPG key is stored in the secret using the text 'PGP Private Key' format

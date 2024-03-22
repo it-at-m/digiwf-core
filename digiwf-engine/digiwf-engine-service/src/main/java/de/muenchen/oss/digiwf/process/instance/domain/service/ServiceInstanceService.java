@@ -20,6 +20,7 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -119,7 +120,29 @@ public class ServiceInstanceService {
 
         return this.processInstanceInfoRepository.findByInstanceId(instance.getRootProcessInstanceId())
                 .map(this.serviceInstanceMapper::map2Model)
-                .orElseThrow();
+                .or(() -> {
+                    //TODO Remove after #545 is fixed
+                    final HistoricProcessInstance historicProcessInstance = this.historyService.createHistoricProcessInstanceQuery()
+                            .processInstanceId(instanceId)
+                            .singleResult();
+
+                    if (historicProcessInstance == null) {
+                        throw new IllegalArgumentException("No process instance found for id: " + instanceId);
+                    }
+                    return Optional.of(new ServiceInstance(
+                            null, // Camunda Only Process without DigiWF-Instance-Info
+                            instance.getRootProcessInstanceId(),
+                            historicProcessInstance.getProcessDefinitionName(),
+                            historicProcessInstance.getProcessDefinitionKey(),
+                            historicProcessInstance.getStartTime(),
+                            historicProcessInstance.getEndTime(),
+                            historicProcessInstance.getRemovalTime(),
+                            //No Status/Description on non DigiWF processes
+                            null,
+                            null,
+                            null));
+                }).orElseThrow();
+
     }
 
     /**
