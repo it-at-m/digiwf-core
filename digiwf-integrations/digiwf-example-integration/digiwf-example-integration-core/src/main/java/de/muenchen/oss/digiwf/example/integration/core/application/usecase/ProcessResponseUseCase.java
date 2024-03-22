@@ -16,17 +16,17 @@ public class ProcessResponseUseCase implements ProcessResponseInPort {
 
 
     @Override
-    public void correlateMessage(Map<String, Object> originMessageHeaders, Map<String, Object> message) {
+    public void correlateMessage(final Map<String, Object> originMessageHeaders, final Map<String, Object> message) {
         processResponseOutPort.correlateMessage(originMessageHeaders, message);
     }
 
     @Override
-    public boolean handleBpmnError(Map<String, Object> originMessageHeaders, BpmnError bpmnError) {
+    public boolean handleBpmnError(final Map<String, Object> originMessageHeaders, final BpmnError bpmnError) {
         return processResponseOutPort.handleBpmnError(originMessageHeaders, bpmnError);
     }
 
     @Override
-    public boolean handleIncident(Map<String, Object> originMessageHeaders, IncidentError incidentError) {
+    public boolean handleIncident(final Map<String, Object> originMessageHeaders, final IncidentError incidentError) {
         return processResponseOutPort.handleIncident(originMessageHeaders, incidentError);
     }
 }

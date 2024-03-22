@@ -20,7 +20,7 @@ public class ProcessAdapter implements ProcessResponseOutPort {
     private final ErrorApi errorApi;
 
     @Override
-    public void correlateMessage(Map<String, Object> originMessageHeaders, Map<String, Object> message) {
+    public void correlateMessage(final Map<String, Object> originMessageHeaders, final Map<String, Object> message) {
         String processInstanceId = Objects.requireNonNull(originMessageHeaders.get(DIGIWF_PROCESS_INSTANCE_ID).toString());
         String type = Objects.requireNonNull(originMessageHeaders.get(TYPE).toString());
         String integrationName = Objects.requireNonNull(originMessageHeaders.get(DIGIWF_INTEGRATION_NAME).toString());
@@ -29,12 +29,12 @@ public class ProcessAdapter implements ProcessResponseOutPort {
     }
 
     @Override
-    public boolean handleBpmnError(Map<String, Object> originMessageHeaders, BpmnError bpmnError) {
+    public boolean handleBpmnError(final Map<String, Object> originMessageHeaders, final BpmnError bpmnError) {
         return errorApi.handleBpmnError(originMessageHeaders, bpmnError);
     }
 
     @Override
-    public boolean handleIncident(Map<String, Object> originMessageHeaders, IncidentError incidentError) {
+    public boolean handleIncident(final Map<String, Object> originMessageHeaders, final IncidentError incidentError) {
         return errorApi.handleIncident(originMessageHeaders, incidentError);
     }
 }

@@ -6,9 +6,9 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import java.util.Map;
 
 public interface ProcessResponseOutPort {
-    void correlateMessage(Map<String, Object> originMessageHeaders, Map<String, Object> message);
+    void correlateMessage(final Map<String, Object> originMessageHeaders, final Map<String, Object> message);
 
-    boolean handleBpmnError(Map<String, Object> originMessageHeaders, BpmnError bpmnError);
+    boolean handleBpmnError(final Map<String, Object> originMessageHeaders, final BpmnError bpmnError);
 
-    boolean handleIncident(Map<String, Object> originMessageHeaders, IncidentError incidentError);
+    boolean handleIncident(final Map<String, Object> originMessageHeaders, final IncidentError incidentError);
 }
