@@ -18,6 +18,7 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +37,7 @@ import static de.muenchen.oss.digiwf.process.instance.process.ProcessConstants.P
  */
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ServiceInstanceInitializationService {
 
