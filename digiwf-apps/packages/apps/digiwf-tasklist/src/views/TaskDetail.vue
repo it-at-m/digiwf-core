@@ -14,7 +14,9 @@
         v-if="task.links.length > 0"
         style="margin-bottom: 1em"
       >
-        <task-links :links="task.links" />
+        <task-links
+          :links="task.links || []"
+        />
       </v-flex>
 
       <base-form
@@ -53,8 +55,12 @@
             "
             @click="switchFab"
           >
-            <v-icon v-if="fab"> mdi-close </v-icon>
-            <v-icon v-else> mdi-dots-vertical </v-icon>
+            <v-icon v-if="fab">
+              mdi-close
+            </v-icon>
+            <v-icon v-else>
+              mdi-dots-vertical
+            </v-icon>
           </v-btn>
         </template>
         <v-tooltip bottom>
@@ -151,16 +157,16 @@
 </style>
 
 <script lang="ts" setup>
-import { onMounted, provide, ref } from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
-import { NavigationGuardNext } from "vue-router/types/router";
+import {onMounted, provide, ref, watch} from "vue";
+import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
+import {NavigationGuardNext} from "vue-router/types/router";
 
 import BaseForm from "@/components/form/BaseForm.vue";
 import TaskFollowUpDialog from "@/components/task/TaskFollowUpDialog.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import LoadingFab from "@/components/UI/LoadingFab.vue";
-import { ApiConfig } from "../api/ApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
@@ -171,10 +177,10 @@ import {
   loadTask,
   saveTask,
 } from "../middleware/tasks/taskMiddleware";
-import { HumanTaskDetails } from "../middleware/tasks/tasksModels";
-import { mergeObjects } from "../utils/mergeObjects";
-import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
-import { validateSchema } from "../utils/validateSchema";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {mergeObjects} from "../utils/mergeObjects";
+import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
+import {validateSchema} from "../utils/validateSchema";
 
 const props = defineProps({
   id: {
@@ -182,6 +188,9 @@ const props = defineProps({
     required: true,
   },
 });
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const taskId = props.id!;
 
 const task = ref<HumanTaskDetails | null>(null);
 const followUpDate = ref("");
@@ -214,7 +223,7 @@ const next = ref<NavigationGuardNext | null>(null);
  */
 const fab = ref(false);
 
-provide("formContext", { id: props.id, type: "task" });
+provide("formContext", {id: props.id, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
@@ -246,35 +255,37 @@ const onLeaveDialogCancel = () => {
 };
 
 const onInit = () => {
-  loadTask(props.id).then(({ data, error }) => {
-    if (data) {
-      task.value = data.task;
-      model.value = data.model;
-      followUpDate.value = data.followUpDate;
-      cancelText.value = data.cancelText;
-      hasDownloadButton.value = data.hasDownloadButton;
-      downloadButtonText.value = data.downloadButtonText;
+  loadTask(taskId)
+    .then(({data, error}) => {
+      if (data) {
+        task.value = data.task;
+        model.value = data.model;
+        followUpDate.value = data.followUpDate;
+        cancelText.value = data.cancelText;
+        hasDownloadButton.value = data.hasDownloadButton;
+        downloadButtonText.value = data.downloadButtonText;
 
-      const urlQueryParameter = router.currentRoute.query;
+        const urlQueryParameter = router.currentRoute.query;
 
-      const inputs = parseQueryParameterInputs(
-        urlQueryParameter.inputs as string
-      );
-
-      if (task.value.form) {
-        formFields.value = mergeObjects(task.value.variables, inputs);
-      } else {
-        // use potential value of query parameter if variable is undefined or empty
-        formFields.value = validateSchema(
-          task.value.schema,
-          mergeObjects(task.value.variables, inputs)
+        const inputs = parseQueryParameterInputs(
+          urlQueryParameter.inputs as string
         );
+
+        if (data.task.form) {
+          formFields.value = mergeObjects(data.task.variables, inputs);
+        } else {
+          // use potential value of query parameter if variable is undefined or empty
+          formFields.value = validateSchema(
+            data.task.schema,
+            mergeObjects(data.task.variables, inputs)
+          );
+        }
       }
-    }
-    if (error) {
-      errorMessage.value = error;
-    }
-  });
+      if (error) {
+        errorMessage.value = error;
+      }
+      hasChanges.value = false;
+    });
 };
 
 onMounted(() => {
@@ -287,24 +298,24 @@ onMounted(() => {
 });
 
 const handleCompleteTask = (model: any) => {
-  console.log("handleCompleteTask", model);
   isCompleting.value = true;
-  completeTask(props.id, model).then((result) => {
-    isCompleting.value = false;
-    hasCompleteError.value = result.isError;
-    errorMessage.value = result.errorMessage || "";
-    if (!result.isError) {
-      hasChanges.value = false;
-      router.push({ path: "/task" }); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
-    }
-  });
+  completeTask(taskId, model)
+    .then((result) => {
+      isCompleting.value = false;
+      hasCompleteError.value = result.isError;
+      errorMessage.value = result.errorMessage || "";
+      if (!result.isError) {
+        hasChanges.value = false;
+        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
+      }
+    });
 };
 
 const onSaveTaskClick = (): Promise<void> => {
   isSaving.value = true;
   hasSaveError.value = false;
 
-  return saveTask(props.id, model.value).then((result) => {
+  return saveTask(taskId, model.value).then((result) => {
     isSaving.value = false;
     errorMessage.value = result.errorMessage || "";
     hasSaveError.value = result.isError;
@@ -334,7 +345,7 @@ const saveFollowUp = (newFollowUpDate: string) => {
   isFollowUpDialogVisible.value = false;
 
   (hasChanges.value ? onSaveTaskClick() : Promise.resolve()).then(() => {
-    deferTask(props.id, newFollowUpDate).then((result) => {
+    deferTask(taskId, newFollowUpDate).then((result) => {
       errorMessage.value = result.errorMessage || "";
     });
   });
@@ -342,7 +353,7 @@ const saveFollowUp = (newFollowUpDate: string) => {
 
 const handleCancelTask = () => {
   isCancelling.value = true;
-  cancelTask(props.id).then((result) => {
+  cancelTask(taskId).then((result) => {
     isCancelling.value = false;
     hasCancelError.value = result.isError;
     errorMessage.value = result.errorMessage || "";
@@ -352,14 +363,13 @@ const handleCancelTask = () => {
 const downloadPDF = () => {
   isDownloading.value = true;
   hasDownloadError.value = false;
-  downloadPDFFromEngine(props.id).then((result) => {
+  downloadPDFFromEngine(taskId).then((result) => {
     errorMessage.value = result.errorMessage || "";
     hasDownloadError.value = result.isError;
   });
 };
 
 const modelChanged = (newModel: any) => {
-  console.log("modelChanged: ", newModel);
   model.value = newModel;
   hasChanges.value = true;
 };

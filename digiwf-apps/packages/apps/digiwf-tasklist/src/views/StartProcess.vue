@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ServiceDefinitionDetailTO } from "@muenchen/digiwf-engine-api-internal";
 import { JSONSchemaType } from "ajv";
-import { provide, ref } from "vue";
+import {provide, ref, defineProps, watch} from "vue";
 import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
 import { NavigationGuardNext } from "vue-router/types/router";
 
@@ -70,18 +70,28 @@ const props = defineProps({
   },
 });
 
+// eslint-disable-next-line
+const processKey: string = props.processKey!;
+
+
 const process = ref<ServiceDefinitionDetailTO | null>(null);
 const errorMessage = ref("");
 const isCompleting = ref(false);
 const hasCompleteError = ref(false);
 
+const isDirty = ref(false);
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
 
-const initalFormFields = ref<any>({});
+const initialFormFields = ref<any>({});
 const formFields = ref<any>({});
 
 const router = useRouter();
+
+
+watch(formFields, () => {
+  setDirty();
+});
 
 provide("formContext", { id: props.processKey, type: "start" });
 provide("apiEndpoint", ApiConfig.base);
@@ -89,7 +99,7 @@ provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 
 onBeforeRouteLeave((to, from, nxt) => {
-  if (valuesChanged()) {
+  if (valuesChanged() && isDirty.value) {
     saveLeaveDialogOpen.value = true;
     next.value = nxt;
   } else {
@@ -113,7 +123,7 @@ const onInit = () => {
   const urlQueryParameter = router.currentRoute.query;
   const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-  loadProcess(props.processKey).then(({ data, error }) => {
+  loadProcess(processKey).then(({ data, error }) => {
     if (error) {
       errorMessage.value = error;
       return;
@@ -125,17 +135,18 @@ const onInit = () => {
     process.value = data;
     // use potential value of query parameter if variable is undefined or empty
     const initValue = validateSchema(
-      process.value.jsonSchema as JSONSchemaType<JSFValue>,
+      process.value?.jsonSchema as JSONSchemaType<JSFValue>,
       mergeObjects(process.value?.startForm || {}, inputs)
     );
-    initalFormFields.value = initValue;
+    initialFormFields.value = initValue;
     formFields.value = initValue;
+    isDirty.value = false;
   });
 };
 
 const valuesChanged = () => {
   return (
-    JSON.stringify(initalFormFields.value) !== JSON.stringify(formFields.value)
+    JSON.stringify(initialFormFields.value) !== JSON.stringify(formFields.value)
   );
 };
 
@@ -143,9 +154,10 @@ const startProcess = (model: any) => {
   isCompleting.value = true;
   hasCompleteError.value = false;
 
-  callPostProcessInstance(props.processKey, model)
+  callPostProcessInstance(processKey, model)
     .then(() => {
       errorMessage.value = "";
+      isDirty.value = false;
       invalidUserTasks();
       invalidProcessInstances();
       // hier eventuell zum userTask routen
@@ -159,6 +171,10 @@ const startProcess = (model: any) => {
 
 const onAppJsonFormInput = (newValue: any) => {
   formFields.value = newValue;
+};
+
+const setDirty = () => {
+  isDirty.value = true;
 };
 
 onInit();

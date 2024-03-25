@@ -99,20 +99,20 @@
 </style>
 
 <script lang="ts" setup>
-import { UserTO } from "@muenchen/digiwf-engine-api-internal";
-import { inject, provide, ref } from "vue";
-import { useRouter } from "vue-router/composables";
+import {UserTO} from "@muenchen/digiwf-engine-api-internal";
+import {provide, ref} from "vue";
+import {useRouter} from "vue-router/composables";
 
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import { ApiConfig } from "../api/ApiConfig";
+import {ApiConfig} from "../api/ApiConfig";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
-import { useStore } from "../hooks/store";
-import { assignTask, loadTask } from "../middleware/tasks/taskMiddleware";
-import { HumanTaskDetails } from "../middleware/tasks/tasksModels";
-import { User } from "../middleware/user/userModels";
+import {useStore} from "../hooks/store";
+import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {useCurrentUserInfo} from "../middleware/user/userMiddleware";
 
 const props = defineProps({
   id: {
@@ -120,6 +120,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const taskId: string = props.id!;
 
 const task = ref<HumanTaskDetails | null>(null);
 const isLoading = ref(false);
@@ -131,9 +135,9 @@ const showAssignDialog = ref(false);
 const router = useRouter();
 const store = useStore();
 
-const userId = inject<User>("user")?.lhmObjectId;
+const {data: currentUser} = useCurrentUserInfo();
 
-provide("formContext", { id: props.id, type: "task" });
+provide("formContext", { id: taskId, type: "task" });
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
@@ -141,7 +145,7 @@ provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
 const onInit = () => {
   isLoading.value = true;
-  loadTask(props.id).then((result) => {
+  loadTask(taskId).then((result) => {
     isLoading.value = false;
     if (result.data) {
       task.value = result.data.task;
@@ -154,14 +158,14 @@ const onInit = () => {
 };
 
 const checkTaskAssignment = () => {
-  loadTask(props.id).then((result) => {
+  loadTask(taskId).then((result) => {
     if (result.data?.task?.assigneeId) {
       const currentUser: UserTO = store.getters["user/info"];
       if (task.value?.assigneeId != currentUser.lhmObjectId) {
         showModal.value = true;
         setTimeout(() => (showModal.value = false), 10000);
       } else {
-        router.push({ path: "/task/" + props.id });
+        router.push({ path: "/task/" + taskId });
       }
     } else {
       triggerAssignTask();
@@ -184,11 +188,13 @@ const handleSuccessfullyAssignment = () => {
 const triggerAssignTask = () => {
   showModal.value = false;
 
-  if (!userId) {
+  const lhmObjectId = currentUser.value?.lhmObjectId;
+
+  if (!lhmObjectId) {
     errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
     return;
   }
-  assignTask(props.id, userId).then((result) => {
+  assignTask(taskId, lhmObjectId).then((result) => {
     errorMessage.value = result.isError
       ? "Die Aufgabe konnte nicht zugewiesen werden."
       : "";
