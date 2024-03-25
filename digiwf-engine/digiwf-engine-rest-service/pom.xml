@@ -8,7 +8,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.9.1-SNAPSHOT</version>
+        <version>1.9.2-SNAPSHOT</version>
     </parent>
 
     <properties>
