@@ -25,21 +25,21 @@ public class MessageProcessor {
 
     private final ProcessApi processApi;
     private final ErrorApi errorApi;
-    private final CreateFileUseCase createFileUseCase;
-    private final CreateProcedureUseCase createProcedureUseCase;
-    private final CreateDocumentUseCase createDocumentUseCase;
-    private final UpdateDocumentUseCase updateDocumentUseCase;
-    private final DepositObjectUseCase depositObjectUseCase;
-    private final CancelObjectUseCase cancelObjectUseCase;
-    private final ReadContentUseCase readContentUseCase;
-    private final SearchFileUseCase searchFileUseCase;
-    private final SearchSubjectAreaUseCase searchSubjectAreaUseCase;
+    private final CreateFileInPort createFileInPort;
+    private final CreateProcedureInPort createProcedureInPort;
+    private final CreateDocumentInPort createDocumentInPort;
+    private final UpdateDocumentInPort updateDocumentInPort;
+    private final DepositObjectInPort depositObjectInPort;
+    private final CancelObjectInPort cancelObjectInPort;
+    private final ReadContentInPort readContentInPort;
+    private final SearchFileInPort searchFileInPort;
+    private final SearchSubjectAreaInPort searchSubjectAreaInPort;
 
     public Consumer<Message<CreateFileDto>> createFile() {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateFileDto createFileDto = message.getPayload();
-                final String file = this.createFileUseCase.createFile(
+                final String file = this.createFileInPort.createFile(
                         createFileDto.getTitle(),
                         createFileDto.getApentryCOO(),
                         createFileDto.getUser()
@@ -56,7 +56,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateProcedureDto createProcedureDto = message.getPayload();
-                final Procedure vorgang = this.createProcedureUseCase.createProcedure(
+                final Procedure vorgang = this.createProcedureInPort.createProcedure(
                         createProcedureDto.getTitle(),
                         createProcedureDto.getFileCOO(),
                         createProcedureDto.getFileSubj(),
@@ -74,7 +74,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final DepositObjectDto depositObjectDto = message.getPayload();
-                this.depositObjectUseCase.depositObject(
+                this.depositObjectInPort.depositObject(
                         depositObjectDto.getObjectCoo(),
                         depositObjectDto.getUser()
                 );
@@ -90,7 +90,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
-                final String document = this.createDocumentUseCase.createDocument(
+                final String document = this.createDocumentInPort.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getDate(),
@@ -111,7 +111,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final UpdateDocumentDto updateDocumentDto = message.getPayload();
-                this.updateDocumentUseCase.updateDocument(
+                this.updateDocumentInPort.updateDocument(
                         updateDocumentDto.getDocumentCoo(),
                         updateDocumentDto.getUser(),
                         DocumentType.valueOf(updateDocumentDto.getType()),
@@ -130,7 +130,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CancelObjectDto cancelObjectDto = message.getPayload();
-                this.cancelObjectUseCase.cancelObject(
+                this.cancelObjectInPort.cancelObject(
                         cancelObjectDto.getObjectCoo(),
                         cancelObjectDto.getUser()
                 );
@@ -146,7 +146,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final ReadContentDto readContentDto = message.getPayload();
-                this.readContentUseCase.readContent(
+                this.readContentInPort.readContent(
                         readContentDto.getContentCoos(),
                         readContentDto.getUser(),
                         readContentDto.getFilePath(),
@@ -163,7 +163,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final SearchObjectDto searchObjectDto = message.getPayload();
-                final List<String> file = this.searchFileUseCase.searchFile(
+                final List<String> file = this.searchFileInPort.searchFile(
                         searchObjectDto.getSearchString(),
                         searchObjectDto.getUser(),
                         searchObjectDto.getReference(),
@@ -180,7 +180,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final SearchObjectDto searchObjectDto = message.getPayload();
-                final String subjectArea = this.searchSubjectAreaUseCase.searchSubjectArea(
+                final String subjectArea = this.searchSubjectAreaInPort.searchSubjectArea(
                         searchObjectDto.getSearchString(),
                         searchObjectDto.getUser()
                 );

@@ -6,11 +6,9 @@ package de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSD;
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.soap.SOAPBinding;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Configuration of the Webservice Client.
@@ -22,7 +20,6 @@ public class FabasoftClientConfiguration {
 
     private final FabasoftProperties properties;
 
-    @Bean
     public LHMBAI151700GIWSDSoap dmsWsClient() {
         final LHMBAI151700GIWSD service = new LHMBAI151700GIWSD();
         final LHMBAI151700GIWSDSoap soapClient = service.getLHMBAI151700GIWSDSoap();
@@ -35,5 +32,4 @@ public class FabasoftClientConfiguration {
         }
         return soapClient;
     }
-
 }

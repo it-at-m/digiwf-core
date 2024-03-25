@@ -72,7 +72,6 @@ public class MailAutoConfiguration {
         return new MailAdapter(digiwfEmailApi);
     }
 
-    // Function call had to be renamed for message routing
     @Bean
     public Consumer<Message<TextMail>> sendMailFromEventBus(final MessageProcessor messageProcessor) {
         return messageProcessor.emailIntegration();
