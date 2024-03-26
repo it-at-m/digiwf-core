@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceDefinitio
 import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceDefinitionService.ProcessDefinitionWithInstanceInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -17,6 +18,9 @@ import java.util.List;
 public class CleanupProcessDefinitionService {
 
     private final ServiceDefinitionService serviceDefinitionService;
+
+    @Value("${digiwf.cleanup.threshhold-in-days:180}")
+    private int cleanupThreshholdInDays;
 
     public List<ProcessDefinitionWithInstanceInfo> getInfoForDefinitionKey(String key) {
         return serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
@@ -55,7 +59,7 @@ public class CleanupProcessDefinitionService {
 
     public void deleteObviousDefinitions(String key, boolean ignoreHistorical) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
-        var thresholdDate = Instant.now().minus(180, ChronoUnit.DAYS);
+        var thresholdDate = Instant.now().minus(cleanupThreshholdInDays, ChronoUnit.DAYS);
         var forDeletion = definitions
             .stream()
             .filter(definitionWithInstanceInfo -> isObviousForDeletion(definitionWithInstanceInfo, thresholdDate, ignoreHistorical))
