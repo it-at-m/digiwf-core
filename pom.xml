@@ -299,6 +299,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <tokenAuth>true</tokenAuth>
+                            <autoPublish>true</autoPublish>
                             <deploymentName>${project.groupId}:${project.version}</deploymentName>
                             <excludeArtifacts>
                                 <!-- find . -type d \( -name '*-service' -o -name '*-example' \) -printf '%f\n' | sort | uniq | awk '{print "<artifact>" $0 "</artifact>"}' -->
