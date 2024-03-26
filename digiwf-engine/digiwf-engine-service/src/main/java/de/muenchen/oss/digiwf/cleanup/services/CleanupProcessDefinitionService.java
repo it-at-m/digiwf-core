@@ -24,7 +24,7 @@ public class CleanupProcessDefinitionService {
 
     public List<String> retrieveAllKeys() {
         return serviceDefinitionService
-            .getServiceDefinitions()
+            .getServiceDefinitions(false)
             .stream()
             .peek(def -> log.error("Definition: {} [{}]", def.getName(), def.getKey()))
             .map(ServiceDefinition::getKey)

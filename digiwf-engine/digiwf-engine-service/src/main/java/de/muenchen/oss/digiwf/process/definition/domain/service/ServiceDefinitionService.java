@@ -19,6 +19,7 @@ import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.stereotype.Service;
@@ -111,9 +112,15 @@ public class ServiceDefinitionService {
      *
      * @return all service definitions
      */
-    public List<ServiceDefinition> getServiceDefinitions() {
-        final List<ProcessDefinition> serviceDefinitions = this.repositoryService.createProcessDefinitionQuery()
-            .startableInTasklist()
+    public List<ServiceDefinition> getServiceDefinitions(boolean onlyStartableInTasklist) {
+
+         ProcessDefinitionQuery processDefinitionQuery = this.repositoryService.createProcessDefinitionQuery();
+
+         if(onlyStartableInTasklist){
+             processDefinitionQuery.startableInTasklist();
+         }
+
+        List<ProcessDefinition> serviceDefinitions = processDefinitionQuery
             .active()
             .latestVersion()
             .list();
