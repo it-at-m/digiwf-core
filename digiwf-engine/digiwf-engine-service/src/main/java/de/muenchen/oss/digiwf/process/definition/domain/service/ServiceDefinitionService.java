@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.process.definition.domain.mapper.ServiceDefinition
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinition;
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinitionDetail;
 import de.muenchen.oss.digiwf.process.definition.domain.model.StartContext;
+import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
 import de.muenchen.oss.digiwf.process.instance.domain.service.ServiceInstanceService;
 import de.muenchen.oss.digiwf.process.instance.process.ProcessConstants;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,12 @@ import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -51,9 +55,16 @@ public class ServiceDefinitionService {
     public void startInstance(final ServiceDefinitionDetail detail, final String businessKey, final Map<String, Object> variables, final String userId, final StartContext startContext) {
         log.debug("Start Process: " + detail.getKey());
 
-        //add variables
+        //create service instance
+        final ServiceInstance serviceInstance = this.serviceInstanceService.creatServiceInstance(detail.getName(), detail.getKey());
+
+        //add other serializer
         variables.put(ProcessConstants.PROCESS_STARTER_OF_INSTANCE, userId);
+        variables.put(ProcessConstants.PROCESS_START_DATE, ZonedDateTime.now().format( DateTimeFormatter.ISO_INSTANT ));
+        variables.put(ProcessConstants.PROCESS_STATUS, "Gestartet");
         variables.put(ProcessConstants.PROCESS_FILE_CONTEXT, startContext.getFileContext());
+        variables.put(ProcessConstants.PROCESS_INFO_ID, Variables.stringValue(serviceInstance.getId(), true));
+
 
         //start instance
         ProcessInstance processInstance;
@@ -62,6 +73,12 @@ public class ServiceDefinitionService {
         } else {
             processInstance = this.runtimeService.startProcessInstanceByKey(detail.getKey(), businessKey, variables);
         }
+
+        //Authorization hinzufügen
+        this.serviceInstanceService.authorizeServiceInstance(processInstance.getId(), userId);
+
+        //Update processInstanceId
+        this.serviceInstanceService.updateInstanceId(serviceInstance.getId(), processInstance.getId());
 
         log.info("process instance for key {} started: {}", detail.getKey(), processInstance.getId());
     }

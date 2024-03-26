@@ -41,13 +41,9 @@ werden.
 - **app_process_info_id:** ID der aktuellen Prozessinstanz.
 - **app_process_description:** Beschreibung der Prozessinstanz, die über diese Funktion gesetzt werden kann.
 
-## Prozess-Start
+## Best Practices
 
-Neue Prozessinstanzen können auf [verschiedene Art und Weise gestartet](https://docs.camunda.org/manual/current/reference/bpmn20/events/start-events/) 
-werden, z.B. None-, Timer- oder Message-Events. Während des Starts initialisiert DigiWF die oben genannten Variablen
-sowie alle benötigten DigiWF-Daten außerhalb von Camunda.
-
-### Best Practices: Der Start von Prozessen sollte immer asynchron sein
+### Der Start von Prozessen sollte immer asynchron sein
 
 In der Regel sollte der Start eines Prozesses, egal ob None/Message/Timer-Event, mit Async-After konfiguriert werden.
 Dadurch wird der Prozess korrekt in der Datenbank abgelegt, bevor eine weitere Activity ausgeführt wird. Dies ist
