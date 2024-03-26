@@ -105,11 +105,9 @@ public class CleanupProcessDefinitionService {
         if (info.isLatest()) {
             return false; // never delete latest definition
         }
-        if (ignoreHistorical) {
-            return info.instanceCount() == 0; // delete old definitions without instances.
-        } else {
-            return info.newestProcessInstanceStartTime() != null && info.newestProcessInstanceStartTime().toInstant().isBefore(thresholdDate);
-        }
+       if (info.instanceCount() == 0) return true;
+       if (ignoreHistorical) return false;
+       return info.newestProcessInstanceStartTime() != null && info.newestProcessInstanceStartTime().toInstant().isBefore(thresholdDate);
     }
 
 }
