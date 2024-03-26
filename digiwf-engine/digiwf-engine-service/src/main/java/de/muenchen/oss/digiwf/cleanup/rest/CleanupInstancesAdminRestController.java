@@ -4,7 +4,12 @@ import de.muenchen.oss.digiwf.cleanup.services.CleanupProcessDefinitionService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
@@ -49,8 +54,8 @@ public class CleanupInstancesAdminRestController {
 
     @DeleteMapping("/rest/admin/process-definitions/key/{key}/obvious")
     @RolesAllowed(CLEANUP_ROLE)
-    public ResponseEntity<Void> deleteObviousDefinitions(@PathVariable("key") String key, @RequestParam(value = "ignore-historical") Boolean ignoreHistorical) {
-        cleanupProcessDefinitionService.deleteObviousDefinitions(key, ignoreHistorical);
+    public ResponseEntity<Void> deleteObviousDefinitions(@PathVariable("key") String key, @RequestParam(value = "remove-with-historical-process-instances", defaultValue = "false") Boolean removeWithHistoricalProcessInstances) {
+        cleanupProcessDefinitionService.deleteObviousDefinitions(key, removeWithHistoricalProcessInstances);
         return ResponseEntity.noContent().build();
     }
 

@@ -57,12 +57,12 @@ public class CleanupProcessDefinitionService {
         );
     }
 
-    public void deleteObviousDefinitions(String key, boolean ignoreHistorical) {
+    public void deleteObviousDefinitions(String key, boolean removeWithHistoricalProcessInstances) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
         var thresholdDate = Instant.now().minus(cleanupThreshholdInDays, ChronoUnit.DAYS);
         var forDeletion = definitions
             .stream()
-            .filter(definitionWithInstanceInfo -> isObviousForDeletion(definitionWithInstanceInfo, thresholdDate, ignoreHistorical))
+            .filter(definitionWithInstanceInfo -> isObviousForDeletion(definitionWithInstanceInfo, thresholdDate, removeWithHistoricalProcessInstances))
             .map(ProcessDefinitionWithInstanceInfo::processDefinitionId)
             .toList();
         var remaining = definitions.stream().map(ProcessDefinitionWithInstanceInfo::processDefinitionId).filter(
@@ -101,13 +101,14 @@ public class CleanupProcessDefinitionService {
     }
 
 
-    public boolean isObviousForDeletion(ProcessDefinitionWithInstanceInfo info, Instant thresholdDate, boolean ignoreHistorical) {
+    public boolean isObviousForDeletion(ProcessDefinitionWithInstanceInfo info, Instant thresholdDate, boolean removeWithHistoricalProcessInstances) {
         if (info.isLatest()) {
             return false; // never delete latest definition
         }
        if (info.instanceCount() == 0) return true;
-       if (ignoreHistorical) return false;
-       return info.newestProcessInstanceStartTime() != null && info.newestProcessInstanceStartTime().toInstant().isBefore(thresholdDate);
+
+       if (!removeWithHistoricalProcessInstances) return false;
+       else return info.newestProcessInstanceStartTime() != null && info.newestProcessInstanceStartTime().toInstant().isBefore(thresholdDate);
     }
 
 }

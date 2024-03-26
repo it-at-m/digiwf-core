@@ -42,8 +42,8 @@ Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
     console.log(response.body)
 %}
 
-### Delete obvious (all definitions with 0 instances)
-DELETE {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}/obvious?ignore-historical=false
+### Delete obvious (all definitions with 0 instances older than 185 days)
+DELETE {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}/obvious?remove-with-historical-process-instances=false
 Content-Type: application/json
 Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
 
