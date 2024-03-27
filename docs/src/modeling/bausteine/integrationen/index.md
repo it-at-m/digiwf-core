@@ -127,7 +127,7 @@ Um eine Sachakte anzulegen, wird das Element Template `DMS: Sachakte erstellen` 
 | Title                          | Name der Sachakte                                                             | Sachaktenname           |
 | User                           | Benutzername des Benutzers, über den die Sachakte erstellt werden soll        | max.mustermann          |
 | Aktenplan (Coo)                | Objekt-ID des Aktenplankennzeichnes, in dem die Sachakte erstellt werden soll | COO.1234.5678.9.1234567 |
-| Out: File (Coo)                | Objekt-ID der Sachakte                                                        | COO.9876.5432.1.9876543 |
+| Out: File (Coo)                | Objekt-ID der erstellten Sachakte                                             | COO.9876.5432.1.9876543 |
 
 ### Vorgang anlegen
 
@@ -135,14 +135,14 @@ Um einen Vorgang anzulegen, wird das Element Template `DMS: Vorgang anlegen` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                           | Beispiel                |
-|-------------------------------|------------------------------------------------------------------------|-------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw           |
-| Title                         | Name des Vorgangs                                                      | Vorgangsname            |
-| Betreff                       | Betreff des Vorgangs                                                   | Vorgangsbetreff         |
-| User                          | Benutzername des Benutzers, über den der Vorgangs angelegt werden soll | max.mustermann          |
-| Sachakte (Coo)                | Objekt-ID der Sachakte, in dem der Vorgang erstellt werden soll        | COO.1234.5678.9.1234567 |
-| Out: Procedure (Coo)          | Objekt-ID des Vorgangs                                                 | COO.9876.5432.1.9876543 |
+| Property                      | Beschreibung                                                          | Beispiel                |
+|-------------------------------|-----------------------------------------------------------------------|-------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                            | mucs bzw. alw           |
+| Title                         | Name des Vorgangs                                                     | Vorgangsname            |
+| Betreff                       | Betreff des Vorgangs                                                  | Vorgangsbetreff         |
+| User                          | Benutzername des Benutzers, über den der Vorgang angelegt werden soll | max.mustermann          |
+| Sachakte (Coo)                | Objekt-ID der Sachakte, in der der Vorgang erstellt werden soll       | COO.1234.5678.9.1234567 |
+| Out: Procedure (Coo)          | Objekt-ID des angelegten Vorgangs                                     | COO.9876.5432.1.9876543 |
 
 ### Dokument anlegen
 
@@ -155,10 +155,10 @@ Um ein Dokument anzulegen, wird das Element Template `DMS: Dokument anlegen` ver
 | Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw                        |
 | Vorgang (Coo)                 | Objekt-ID des Vorgangs, in dem das Dokument erstellt werden soll       | COO.1234.5678.9.1234567              |
 | Title                         | Name des Dokuments                                                     | Dokumentname                         |
-| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 01.01.2024                           |
+| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 2024-01-31                           |
 | User                          | Benutzername des Benutzers, über den das Dokument angelegt werden soll | max.mustermann                       |
 | Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern mit einem Komma getrennt               | ordnername/,odner/filename.pdf       |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf       |
 | Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543              |
 
 ### Dokument updaten
@@ -173,7 +173,7 @@ Um ein Dokument upzudaten, wird das Element Template `DMS: Dokument updaten` ver
 | Dokument (Coo)                | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567              |
 | User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                       |
 | Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern mit einem Komma getrennt                | ordnername/,odner/filename.pdf       |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf       |
 
 ### Objekt zu den Akten legen
 
@@ -205,12 +205,12 @@ Um Schriftstücke zu lesen und in den S3-Speicher zu übertragen, wird das Eleme
 
 **Properties**
 
-| Property                      | Beschreibung                                                               | Beispiel                                                                          |
-|-------------------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                 | mucs bzw. alw                                                                     |
-| Content-Coos                  | Array von Objekt-IDs der Schriftstücke, die gelesen werden soll            | <pre>[<br/> "COO.1234.5678.9.1234567",<br/> "COO.9876.5432.1.9876543"<br/>]</pre> |
-| User                          | Benutzername des Benutzers, über den die Schriftstücke gelesen werden soll | max.mustermann                                                                    |
-| Pfad im S3                    | Ordner im S3, in den die Schriftstücke übertragen werden sollen            | ordnername                                                                        |
+| Property                      | Beschreibung                                                               | Beispiel                                                  |
+|-------------------------------|----------------------------------------------------------------------------|-----------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                 | mucs bzw. alw                                             |
+| Content-Coos                  | Array mit den Objekt-IDs der Schriftstücke, die gelesen werden soll        | ["COO.1234.5678.9.1234567",<br/>COO.9876.5432.1.9876543"] |
+| User                          | Benutzername des Benutzers, über den die Schriftstücke gelesen werden soll | max.mustermann                                            |
+| Pfad im S3                    | Ordner im S3, in den die Schriftstücke übertragen werden sollen            | ordnername                                                |
 
 ### Sachackte suchen
 
@@ -218,14 +218,14 @@ Um eine Sachakte zu suchen, wird das Element Template `DMS: Sachakte suchen` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                          | Beispiel                           |
-|-------------------------------|-----------------------------------------------------------------------|------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                            | mucs bzw. alw                      |
-| Suche                         | Suchstring mit Namen bzw. Teilen des Namens der gesuchten Sachakte    | \*Teil_des_Sachaktenames\*         |
-| User                          | Benutzername des Benutzers, über den die Sachakte gesucht werden soll | max.mustermann                     |
-| Fachdatum Referenz            | Referenz des Fachdatums                                               | stringReferenz bzw. numberReferenz |
-| Fachdatum Wert                | Wert des Fachdatums                                                   | bespielString bzw. 42              |
-| Out: Sachakten (Coo)          | Objekt-ID der Sachakte                                                | COO.9876.5432.1.9876543            |
+| Property                      | Beschreibung                                                          | Beispiel                                                   |
+|-------------------------------|-----------------------------------------------------------------------|------------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                            | mucs bzw. alw                                              |
+| Suche                         | Suchstring mit Namen bzw. Teilen des Namens der gesuchten Sachakte    | \*Teil_des_Sachaktenames\*                                 |
+| User                          | Benutzername des Benutzers, über den die Sachakte gesucht werden soll | max.mustermann                                             |
+| Fachdatum Referenz            | Referenz des Fachdatums                                               | stringReferenz bzw. numberReferenz                         |
+| Fachdatum Wert                | Wert des Fachdatums                                                   | beispielString bzw. 42                                     |
+| Out: Sachakten (Coo)          | Array mit den Objekt-IDs der gefundenen Sachakten                     | ["COO.1234.5678.9.1234567",<br/>"COO.9876.5432.1.9876543"] |
 
 ### Aktenplaneintrag suchen
 
