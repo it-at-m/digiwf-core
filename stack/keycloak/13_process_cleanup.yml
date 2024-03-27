@@ -5,13 +5,13 @@ changes:
   - addRole:
       clientId: ${SSO_ENGINE_CLIENT_ID}
       clientRole: true
-      name: clientrole_cleanup_definitions
+      name: admin
       description: Special process definitions cleanup role.
   - assignRole:
       user: johndoe
       clientId: ${SSO_ENGINE_CLIENT_ID}
-      role: clientrole_cleanup_definitions
+      role: admin
   - assignRoleToClient:
       roleClientId: ${SSO_ENGINE_CLIENT_ID}
-      role: clientrole_cleanup_definitions
+      role: admin
       clientId: ${SSO_TASK_CLIENT_ID}
