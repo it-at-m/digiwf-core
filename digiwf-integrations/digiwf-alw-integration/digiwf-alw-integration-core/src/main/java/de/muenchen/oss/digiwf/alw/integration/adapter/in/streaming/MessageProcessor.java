@@ -15,16 +15,13 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class MessageProcessor {
 
@@ -46,7 +43,6 @@ public class MessageProcessor {
      *
      * @return the consumer that handles the messages from the route "getAlwResponsibility"
      */
-    @Bean
     public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility() {
         return message -> {
             log.info("Processing new request from eventbus");
