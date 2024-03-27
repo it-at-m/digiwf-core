@@ -61,8 +61,8 @@ public class CleanupInstancesAdminRestController {
 
     @DeleteMapping("/rest/admin/process-definitions/key/{key}/threshold")
     @RolesAllowed(CLEANUP_ROLE)
-    public ResponseEntity<Void> deleteDefinitionsCascading(@PathVariable("key") String key, @RequestParam(value = "threshold") Integer thresholdCount) {
-        cleanupProcessDefinitionService.deleteAboveThreshold(key, thresholdCount);
+    public ResponseEntity<Void> deleteDefinitionsCascading(@PathVariable("key") String key, @RequestParam(value = "threshold") Integer thresholdCount, @RequestParam(value = "remove-with-historical-process-instances", defaultValue = "false") Boolean removeWithHistoricalProcessInstances) {
+        cleanupProcessDefinitionService.deleteAboveThreshold(key, thresholdCount, removeWithHistoricalProcessInstances);
         return ResponseEntity.noContent().build();
     }
 

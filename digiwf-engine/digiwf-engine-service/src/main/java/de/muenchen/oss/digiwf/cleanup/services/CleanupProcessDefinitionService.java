@@ -73,7 +73,7 @@ public class CleanupProcessDefinitionService {
     }
 
 
-    public void deleteAboveThreshold(String key, Integer thresholdCount) {
+    public void deleteAboveThreshold(String key, Integer thresholdCount, boolean removeWithHistoricalProcessInstances) {
         var definitions = serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
         if (definitions.size() <= thresholdCount) {
             // nothing to do
@@ -82,6 +82,7 @@ public class CleanupProcessDefinitionService {
         var forDeletion = definitions
             .stream()
             .limit(definitions.size() - thresholdCount) // take the definitions with lower version in order to get the last <thresholdCount> remaining
+            .filter(info -> removeWithHistoricalProcessInstances || info.instanceCount() > 0) // only remove definitions with instances if removeWithHistoricalProcessInstances is true
             .map(ProcessDefinitionWithInstanceInfo::processDefinitionId)
             .toList();
         var remaining = definitions.stream().map(ProcessDefinitionWithInstanceInfo::processDefinitionId).filter(
