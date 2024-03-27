@@ -4,9 +4,8 @@ import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceInstanceI
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +14,7 @@ public class ProcessStartListener {
     private final RepositoryService repositoryService;
     private final ServiceInstanceInitializationService initializationService;
 
-    @TransactionalEventListener(condition = "#execution.eventName.equals('start')", phase = TransactionPhase.BEFORE_COMMIT, fallbackExecution = true)
+    @EventListener(condition = "#execution.eventName.equals('start')")
     public void startProcessInstance(DelegateExecution execution) {
         if (isModelElementOfType("startEvent", execution)
                 && isProcessStartEvent(execution)
