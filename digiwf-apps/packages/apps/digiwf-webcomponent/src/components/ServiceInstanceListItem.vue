@@ -4,6 +4,9 @@
     :href="frontendURL"
     target="_blank"
     class="p-3"
+    :title="getNewTabDescription(linkText)"
+    role="link"
+    :aria-label="getNewTabDescription(linkText)"
   >
     <h2 class="mb-3">
       <strong>{{ serviceInstance.definitionName }}</strong>
@@ -33,6 +36,7 @@ import { computed } from "vue";
 
 import { useBaseURL } from "@/composables/useBaseURL";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
+import { getNewTabDescription } from "@/util/functions";
 
 const { baseURL } = useBaseURL();
 
@@ -48,6 +52,8 @@ const frontendURL = computed(() => {
     props.serviceInstance.id
   }`;
 });
+
+const linkText = "Vorgang in DigiWF öffnen";
 </script>
 
 <style scoped>

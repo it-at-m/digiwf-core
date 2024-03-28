@@ -9,6 +9,7 @@
             :path="mdiLoading"
             class="me-3 loader-icon"
             size="36"
+            aria-label="Daten werden geladen..."
           />
           <svg-icon
             v-else
@@ -16,6 +17,7 @@
             :path="iconPath"
             class="me-3"
             size="36"
+            aria-hidden="true"
           />
           <h1 class="mb-0 p-0">
             <strong>{{ cardTitle }}</strong>
@@ -26,10 +28,13 @@
           :disabled="loading"
           title="Daten aktualisieren"
           @click="emit('reload')"
+          aria-label="Daten aktualisieren"
+          :aria-disabled="loading"
         >
           <svg-icon
             type="mdi"
             :path="mdiReload"
+            aria-hidden="true"
           />
         </c-button>
       </div>
@@ -66,13 +71,15 @@
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-items-center"
-          role="button"
-          :title="linkText"
+          :title="getNewTabDescription(linkText)"
+          role="link"
+          :aria-label="getNewTabDescription(linkText)"
         >
           <span class="me-2 footer-text">{{ linkText }}</span>
           <svg-icon
             type="mdi"
             :path="mdiOpenInNew"
+            aria-hidden="true"
           />
         </c-button>
       </div>
@@ -104,6 +111,7 @@ import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useInjectParameters } from "@/composables/useParameters";
+import {getNewTabDescription} from "@/util/functions";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();

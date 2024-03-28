@@ -4,3 +4,4 @@ export const FRONTEND_INSTANCE_PATH = "instance";
 export const ACCESS_TOKEN_EVENT_NAME_DEFAULT = "access-token-loaded";
 export const PAGE_SIZE_DEFAULT = 4;
 export const MAX_PAGES_VISIBLE_DEFAULT = 5;
+export const NEW_TAB_SUFFIX = "(wird in neuem Tab geöffnet)"
