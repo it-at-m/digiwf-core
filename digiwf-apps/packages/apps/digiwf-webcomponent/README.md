@@ -68,13 +68,17 @@ If a variable gets not provided, a specific default value will be used automatic
 The following CSS variables are provided:
 
 |                                        | Description                                                                                  | Default             |
-| -------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
+|----------------------------------------|----------------------------------------------------------------------------------------------|---------------------|
 | `digiwf-webcomponent-color-primary`    | Sets the `background-color` property used for input elements (e.g. buttons, pagination)      | `#FC0`              |
 | `digiwf-webcomponent-color-text`       | Sets the `color` property for all text-based HTML-tags                                       | `#444`              |
 | `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`              |
 | `digiwf-webcomponent-color-background` | Sets the `background-color` property                                                         | `#FFF`              |
 | `digiwf-webcomponent-color-hover`      | Sets the `background-color` property when hovering input elements (e.g. buttons, pagination) | `#FDB813`           |
 | `digiwf-webcomponent-font-family`      | Sets the `font-family` property                                                              | `Arial, sans-serif` |
+| `digiwf-webcomponent-font-size-text`   | Sets the `font-size` property for text                                                       | `1rem`              |
+| `digiwf-webcomponent-font-size-title`  | Sets the `font-size` property for the title of each element                                  | `TODO`              |
+| `digiwf-webcomponent-font-size-header` | Sets the `font-size` property for the header of the WebComponent                             | `TODO`              |
+| `digiwf-webcomponent-font-size-footer` | Sets the `font-size` property for the footer of the WebComponent                             | `TODO`              |
 | `digiwf-webcomponent-border-radius`    | Sets the `border-radius` property of the surrounding container and all input elements        | `0px`               |
 | `digiwf-webcomponent-shadow`           | Sets the `shadow` property of the surrounding container                                      | `0px`               |
 
