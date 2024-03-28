@@ -4,7 +4,12 @@
   --digiwf-webcomponent-color-icon-default: #fc0;
   --digiwf-webcomponent-color-background-default: #fff;
   --digiwf-webcomponent-color-hover-default: #fdb813;
+  --digiwf-webcomponent-color-separator-default: #dadada;
   --digiwf-webcomponent-font-family-default: Arial, sans-serif;
+  --digiwf-webcomponent-font-size-text-default: 1rem;
+  --digiwf-webcomponent-font-size-title-default: 1.1rem;
+  --digiwf-webcomponent-font-size-header-default: 1.3rem;
+  --digiwf-webcomponent-font-size-footer-default: 1rem;
   --digiwf-webcomponent-border-radius-default: 0px;
   --digiwf-webcomponent-shadow-default: 0px;
 }

@@ -31,8 +31,7 @@ const props = withDefaults(
     maxPagesVisible: MAX_PAGES_VISIBLE_DEFAULT,
   }
 );
-const { accessTokenEventName, pageSize, maxPagesVisible } =
-  toRefs(props);
+const { accessTokenEventName, pageSize, maxPagesVisible } = toRefs(props);
 
 useProvideParameters(pageSize, maxPagesVisible);
 
@@ -52,6 +51,7 @@ useAPI(baseURL, accessToken);
     --digiwf-webcomponent-font-family,
     var(--digiwf-webcomponent-font-family-default)
   );
+  line-height: 1.5;
 }
 </style>
 

@@ -5,9 +5,9 @@
     target="_blank"
     class="p-3"
   >
-    <h5 class="mb-3">
+    <h2 class="mb-3">
       <strong>{{ serviceInstance.definitionName }}</strong>
-    </h5>
+    </h2>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
@@ -31,8 +31,8 @@ import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
 import { computed } from "vue";
 
-import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 import { useBaseURL } from "@/composables/useBaseURL";
+import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
@@ -75,6 +75,18 @@ const frontendURL = computed(() => {
   --cui-list-group-action-active-bg: var(
     --digiwf-webcomponent-color-background,
     var(--digiwf-webcomponent-color-background-default)
+  );
+}
+p {
+  font-size: var(
+    --digiwf-webcomponent-font-size-text,
+    var(--digiwf-webcomponent-font-size-text-default)
+  );
+}
+h2 {
+  font-size: var(
+    --digiwf-webcomponent-font-size-title,
+    var(--digiwf-webcomponent-font-size-title-default)
   );
 }
 </style>

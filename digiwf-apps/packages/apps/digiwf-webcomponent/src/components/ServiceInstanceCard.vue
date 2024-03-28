@@ -77,3 +77,12 @@ const loadData = () => {
   getAssignedProcessInstances(page.value);
 };
 </script>
+
+<style scoped>
+.list-group {
+  --cui-list-group-border-color: var(
+    --digiwf-webcomponent-color-separator,
+    var(--digiwf-webcomponent-color-separator-default)
+  );
+}
+</style>

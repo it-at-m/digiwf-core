@@ -1,14 +1,11 @@
 <template>
   <c-list-group-item class="p-3">
     <c-placeholder
-      component="h5"
+      component="h2"
       animation="wave"
       class="mb-3"
     >
-      <c-placeholder
-        :xs="6"
-        size="lg"
-      />
+      <c-placeholder :xs="6" />
     </c-placeholder>
     <c-placeholder
       component="p"
@@ -40,6 +37,18 @@ import { CListGroupItem, CPlaceholder } from "@coreui/vue";
   --cui-list-group-bg: var(
     --digiwf-webcomponent-color-background,
     var(--digiwf-webcomponent-color-background-default)
+  );
+}
+p {
+  font-size: var(
+    --digiwf-webcomponent-font-size-text,
+    var(--digiwf-webcomponent-font-size-text-default)
+  );
+}
+h2 {
+  font-size: var(
+    --digiwf-webcomponent-font-size-title,
+    var(--digiwf-webcomponent-font-size-title-default)
   );
 }
 </style>
