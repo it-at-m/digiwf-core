@@ -3,10 +3,12 @@
     <c-card-header>
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <c-spinner
+          <svg-icon
             v-if="loading"
-            color="primary"
-            class="me-3"
+            type="mdi"
+            :path="mdiLoading"
+            class="me-3 loader-icon"
+            size="36"
           />
           <svg-icon
             v-else
@@ -15,25 +17,18 @@
             class="me-3"
             size="36"
           />
-          <h5
-            v-if="loading"
-            class="mb-0"
-          >
-            <strong>{{ cardTitle }} werden geladen...</strong>
-          </h5>
-          <h5
-            v-else
+          <h1
             class="mb-0 p-0"
           >
             <strong>{{ cardTitle }}</strong>
-          </h5>
+          </h1>
         </div>
         <c-button
           type="submit"
           :disabled="loading"
           @click="emit('reload')"
+          title="Daten aktualisieren"
         >
-          <span class="me-2">Aktualisieren</span>
           <svg-icon
             type="mdi"
             :path="mdiReload"
@@ -72,10 +67,11 @@
           component="a"
           :href="frontendURL"
           target="_blank"
-          class="d-flex justify-content-around align-content-center"
+          class="d-flex justify-content-around align-items-center"
           role="button"
+          :title="linkText"
         >
-          <span class="me-2">{{ linkText }}</span>
+          <span class="me-2 footer-text">{{ linkText }}</span>
           <svg-icon
             type="mdi"
             :path="mdiOpenInNew"
@@ -94,11 +90,10 @@ import {
   CCard,
   CCardBody,
   CCardFooter,
-  CCardHeader,
-  CSpinner,
+  CCardHeader
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload } from "@mdi/js";
+import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload, mdiLoading } from "@mdi/js";
 import { computed } from "vue";
 
 import ErrorData from "@/components/common/ErrorData.vue";
@@ -147,17 +142,18 @@ const frontendURL = computed(() => {
 </script>
 
 <style scoped>
-.spinner-border {
-  color: var(
-    --digiwf-webcomponent-color-icon,
-    var(--digiwf-webcomponent-color-icon-default)
-  ) !important;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {  transform: rotate(359deg); }
 }
 svg {
   color: var(
     --digiwf-webcomponent-color-icon,
     var(--digiwf-webcomponent-color-icon-default)
   );
+}
+.loader-icon {
+  animation: spin 1s ease-in-out infinite;
 }
 .btn-undefined > svg {
   color: var(
@@ -214,5 +210,11 @@ svg {
     --digiwf-webcomponent-color-hover,
     var(--digiwf-webcomponent-color-hover-default)
   );
+}
+h1 {
+  font-size: var(--digiwf-webcomponent-font-size-header, var(--digiwf-webcomponent-font-size-header-default))
+}
+.footer-text {
+  font-size: var(--digiwf-webcomponent-font-size-footer, var(--digiwf-webcomponent-font-size-footer-default))
 }
 </style>

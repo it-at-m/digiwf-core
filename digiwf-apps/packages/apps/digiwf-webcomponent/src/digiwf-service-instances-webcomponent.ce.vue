@@ -52,6 +52,7 @@ useAPI(baseURL, accessToken);
     --digiwf-webcomponent-font-family,
     var(--digiwf-webcomponent-font-family-default)
   );
+  line-height: 1.5;
 }
 </style>
 
