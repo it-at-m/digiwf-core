@@ -36,11 +36,11 @@
         Task wird aktuell einer Person zugewiesen
       </p>
       <p
-        v-if="task.followUpDate"
+        v-if="task.followUpDateFormatted"
         class="grey--text"
         style="font-size: 0.9rem"
       >
-        Wiedervorlage am {{ task.followUpDate }}
+        Wiedervorlage am {{ task.followUpDateFormatted }}
       </p>
       <p>
         <text-highlight :queries="searchString">

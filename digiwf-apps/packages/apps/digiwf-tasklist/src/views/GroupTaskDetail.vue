@@ -35,7 +35,7 @@
                 color="primary"
                 @click="checkTaskAssignment"
               >
-                <v-icon left> mdi-pencil </v-icon>
+                <v-icon left> mdi-pencil</v-icon>
                 Bearbeiten
               </v-btn>
               <v-btn
@@ -43,7 +43,7 @@
                 color="primary"
                 @click="openAssignDialog"
               >
-                <v-icon left> mdi-send-outline </v-icon>
+                <v-icon left> mdi-send-outline</v-icon>
                 Zuweisen
               </v-btn>
             </v-flex>
@@ -137,7 +137,7 @@ const store = useStore();
 
 const {data: currentUser} = useCurrentUserInfo();
 
-provide("formContext", { id: taskId, type: "task" });
+provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
@@ -160,12 +160,12 @@ const onInit = () => {
 const checkTaskAssignment = () => {
   loadTask(taskId).then((result) => {
     if (result.data?.task?.assigneeId) {
-      const currentUser: UserTO = store.getters["user/info"];
-      if (task.value?.assigneeId != currentUser.lhmObjectId) {
+      const lhmObjectId = currentUser.value?.lhmObjectId;
+      if (task.value?.assigneeId != lhmObjectId) {
         showModal.value = true;
         setTimeout(() => (showModal.value = false), 10000);
       } else {
-        router.push({ path: "/task/" + taskId });
+        router.push({path: "/task/" + taskId});
       }
     } else {
       triggerAssignTask();
