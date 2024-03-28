@@ -178,6 +178,8 @@ svg {
     --digiwf-webcomponent-shadow,
     var(--digiwf-webcomponent-shadow-default)
   );
+  --cui-card-border-color: var(--digiwf-webcomponent-color-separator, var(--digiwf-webcomponent-color-separator-default));
+  border-color: transparent;
 }
 .card-header {
   --cui-heading-color: var(

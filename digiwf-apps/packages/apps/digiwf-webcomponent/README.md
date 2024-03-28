@@ -74,11 +74,12 @@ The following CSS variables are provided:
 | `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`              |
 | `digiwf-webcomponent-color-background` | Sets the `background-color` property                                                         | `#FFF`              |
 | `digiwf-webcomponent-color-hover`      | Sets the `background-color` property when hovering input elements (e.g. buttons, pagination) | `#FDB813`           |
+| `digiwf-webcomponent-color-separator`  | Sets the `border-color` property of the separating line between list elements                | `#DADADA`           |
 | `digiwf-webcomponent-font-family`      | Sets the `font-family` property                                                              | `Arial, sans-serif` |
-| `digiwf-webcomponent-font-size-text`   | Sets the `font-size` property for text                                                       | `1rem`              |
-| `digiwf-webcomponent-font-size-title`  | Sets the `font-size` property for the title of each element                                  | `TODO`              |
-| `digiwf-webcomponent-font-size-header` | Sets the `font-size` property for the header of the WebComponent                             | `TODO`              |
-| `digiwf-webcomponent-font-size-footer` | Sets the `font-size` property for the footer of the WebComponent                             | `TODO`              |
+| `digiwf-webcomponent-font-size-text`   | Sets the `font-size` property for text                                                       | `1.0rem`            |
+| `digiwf-webcomponent-font-size-title`  | Sets the `font-size` property for the title of each element                                  | `1.1rem`            |
+| `digiwf-webcomponent-font-size-header` | Sets the `font-size` property for the header of the WebComponent                             | `1.3rem`            |
+| `digiwf-webcomponent-font-size-footer` | Sets the `font-size` property for the footer of the WebComponent                             | `1.0rem`            |
 | `digiwf-webcomponent-border-radius`    | Sets the `border-radius` property of the surrounding container and all input elements        | `0px`               |
 | `digiwf-webcomponent-shadow`           | Sets the `shadow` property of the surrounding container                                      | `0px`               |
 
