@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { CListGroupItem } from "@coreui/vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     name?: string;
   }>(),
@@ -35,9 +35,15 @@ const props = withDefaults(
   );
 }
 p {
-  font-size: var(--digiwf-webcomponent-font-size-text, var(--digiwf-webcomponent-font-size-text-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-text,
+    var(--digiwf-webcomponent-font-size-text-default)
+  );
 }
 h2 {
-  font-size: var(--digiwf-webcomponent-font-size-title, var(--digiwf-webcomponent-font-size-title-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-title,
+    var(--digiwf-webcomponent-font-size-title-default)
+  );
 }
 </style>

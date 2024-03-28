@@ -5,9 +5,7 @@
       animation="wave"
       class="mb-3"
     >
-      <c-placeholder
-        :xs="6"
-      />
+      <c-placeholder :xs="6" />
     </c-placeholder>
     <c-placeholder
       component="p"
@@ -42,9 +40,15 @@ import { CListGroupItem, CPlaceholder } from "@coreui/vue";
   );
 }
 p {
-  font-size: var(--digiwf-webcomponent-font-size-text, var(--digiwf-webcomponent-font-size-text-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-text,
+    var(--digiwf-webcomponent-font-size-text-default)
+  );
 }
 h2 {
-  font-size: var(--digiwf-webcomponent-font-size-title, var(--digiwf-webcomponent-font-size-title-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-title,
+    var(--digiwf-webcomponent-font-size-title-default)
+  );
 }
 </style>

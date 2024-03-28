@@ -46,11 +46,11 @@ For `digiwf-hello-world-webcomponent`:
 When adding these WebComponents to your website you can configure the behaviour by changing these properties
 accordingly.
 
-|                           | Description                                                                                        | Type     | Required | Default               |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
-| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application  | `String` | `false`  | `access-token-loaded` |
-| `page-size`               | The amount of elements to display per page                                                         | `number` | `false`  | `4`                   |
-| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                             | `number` | `false`  | `5`                   |
+|                           | Description                                                                                       | Type     | Required | Default               |
+| ------------------------- | ------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
+| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application | `String` | `false`  | `access-token-loaded` |
+| `page-size`               | The amount of elements to display per page                                                        | `number` | `false`  | `4`                   |
+| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                            | `number` | `false`  | `5`                   |
 
 ## Events
 
@@ -68,7 +68,7 @@ If a variable gets not provided, a specific default value will be used automatic
 The following CSS variables are provided:
 
 |                                        | Description                                                                                  | Default             |
-|----------------------------------------|----------------------------------------------------------------------------------------------|---------------------|
+| -------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
 | `digiwf-webcomponent-color-primary`    | Sets the `background-color` property used for input elements (e.g. buttons, pagination)      | `#FC0`              |
 | `digiwf-webcomponent-color-text`       | Sets the `color` property for all text-based HTML-tags                                       | `#444`              |
 | `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`              |

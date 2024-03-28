@@ -17,17 +17,15 @@
             class="me-3"
             size="36"
           />
-          <h1
-            class="mb-0 p-0"
-          >
+          <h1 class="mb-0 p-0">
             <strong>{{ cardTitle }}</strong>
           </h1>
         </div>
         <c-button
           type="submit"
           :disabled="loading"
-          @click="emit('reload')"
           title="Daten aktualisieren"
+          @click="emit('reload')"
         >
           <svg-icon
             type="mdi"
@@ -90,17 +88,22 @@ import {
   CCard,
   CCardBody,
   CCardFooter,
-  CCardHeader
+  CCardHeader,
 } from "@coreui/vue";
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiClipboardTextOutline, mdiOpenInNew, mdiReload, mdiLoading } from "@mdi/js";
+import {
+  mdiClipboardTextOutline,
+  mdiLoading,
+  mdiOpenInNew,
+  mdiReload,
+} from "@mdi/js";
 import { computed } from "vue";
 
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
-import { useInjectParameters } from "@/composables/useParameters";
 import { useBaseURL } from "@/composables/useBaseURL";
+import { useInjectParameters } from "@/composables/useParameters";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
@@ -143,8 +146,12 @@ const frontendURL = computed(() => {
 
 <style scoped>
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% {  transform: rotate(359deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
 }
 svg {
   color: var(
@@ -178,7 +185,10 @@ svg {
     --digiwf-webcomponent-shadow,
     var(--digiwf-webcomponent-shadow-default)
   );
-  --cui-card-border-color: var(--digiwf-webcomponent-color-separator, var(--digiwf-webcomponent-color-separator-default));
+  --cui-card-border-color: var(
+    --digiwf-webcomponent-color-separator,
+    var(--digiwf-webcomponent-color-separator-default)
+  );
   border-color: transparent;
 }
 .card-header {
@@ -214,9 +224,15 @@ svg {
   );
 }
 h1 {
-  font-size: var(--digiwf-webcomponent-font-size-header, var(--digiwf-webcomponent-font-size-header-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-header,
+    var(--digiwf-webcomponent-font-size-header-default)
+  );
 }
 .footer-text {
-  font-size: var(--digiwf-webcomponent-font-size-footer, var(--digiwf-webcomponent-font-size-footer-default))
+  font-size: var(
+    --digiwf-webcomponent-font-size-footer,
+    var(--digiwf-webcomponent-font-size-footer-default)
+  );
 }
 </style>

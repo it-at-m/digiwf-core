@@ -31,8 +31,7 @@ const props = withDefaults(
     maxPagesVisible: MAX_PAGES_VISIBLE_DEFAULT,
   }
 );
-const { accessTokenEventName, pageSize, maxPagesVisible } =
-  toRefs(props);
+const { accessTokenEventName, pageSize, maxPagesVisible } = toRefs(props);
 
 useProvideParameters(pageSize, maxPagesVisible);
 

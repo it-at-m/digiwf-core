@@ -80,6 +80,9 @@ const loadData = () => {
 
 <style scoped>
 .list-group {
-  --cui-list-group-border-color: var(--digiwf-webcomponent-color-separator, var(--digiwf-webcomponent-color-separator-default));
+  --cui-list-group-border-color: var(
+    --digiwf-webcomponent-color-separator,
+    var(--digiwf-webcomponent-color-separator-default)
+  );
 }
 </style>
