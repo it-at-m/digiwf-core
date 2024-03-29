@@ -14,7 +14,7 @@
     <name>digiwf-s3-integration-service</name>
 
     <properties>
-        <apache.commons.io>2.15.1</apache.commons.io>
+        <apache.commons.io>2.16.0</apache.commons.io>
     </properties>
 
     <dependencies>
