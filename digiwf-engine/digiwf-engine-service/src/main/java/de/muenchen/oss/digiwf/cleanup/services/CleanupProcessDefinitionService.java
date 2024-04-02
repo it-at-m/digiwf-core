@@ -3,7 +3,6 @@ package de.muenchen.oss.digiwf.cleanup.services;
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinition;
 import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceDefinitionService;
 import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceDefinitionService.ProcessDefinitionWithInstanceInfo;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,16 @@ import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class CleanupProcessDefinitionService {
 
     private final ServiceDefinitionService serviceDefinitionService;
 
-    @Value("${digiwf.cleanup.threshhold-in-days:180}")
-    private int cleanupThreshholdInDays;
+    private final int cleanupThreshholdInDays;
+
+    public CleanupProcessDefinitionService(ServiceDefinitionService serviceDefinitionService, @Value("${digiwf.cleanup.threshhold-in-days:180}") int cleanupThreshholdInDays) {
+        this.serviceDefinitionService = serviceDefinitionService;
+        this.cleanupThreshholdInDays = cleanupThreshholdInDays;
+    }
 
     public List<ProcessDefinitionWithInstanceInfo> getInfoForDefinitionKey(String key) {
         return serviceDefinitionService.getProcessDefinitionsWithInstanceInfoByKey(key);
@@ -82,7 +84,7 @@ public class CleanupProcessDefinitionService {
         var forDeletion = definitions
             .stream()
             .limit(definitions.size() - thresholdCount) // take the definitions with lower version in order to get the last <thresholdCount> remaining
-            .filter(info -> removeWithHistoricalProcessInstances || info.instanceCount() > 0) // only remove definitions with instances if removeWithHistoricalProcessInstances is true
+            .filter(info -> removeWithHistoricalProcessInstances || info.instanceCount() == 0) // only remove definitions with instances if removeWithHistoricalProcessInstances is true
             .map(ProcessDefinitionWithInstanceInfo::processDefinitionId)
             .toList();
         var remaining = definitions.stream().map(ProcessDefinitionWithInstanceInfo::processDefinitionId).filter(
