@@ -76,6 +76,8 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: true
+    properties:
+      hibernate.id.optimizer.pooled.preferred: "none" # disabled to prevent Axon global index from getting out of sync on multiple instances
   flyway:
     enabled: true
     locations: "classpath:db/migration/{vendor}"
