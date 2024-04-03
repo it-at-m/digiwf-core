@@ -38,6 +38,7 @@ spring:
   cloud:
     gateway:
       globalcors:
+        add-to-simple-url-handler-mapping: true
         cors-configurations:
           '[/public/**]':
             allowedOriginPatterns: ${ALLOWED_ORIGINS_PUBLIC}
