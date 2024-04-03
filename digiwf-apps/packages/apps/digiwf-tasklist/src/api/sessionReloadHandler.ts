@@ -14,20 +14,17 @@ export const startSessionReloading = () => {
       console.warn("session timeout to small, do not start heartbeat.");
       return;
     }
-    const intervalId = setInterval(
-      () => {
-        callSessionInformation()
-          .then((sessionInformation) => {
-            if (!sessionInformation.timeoutInSeconds) {
-              clearInterval(intervalId);
-            }
-          })
-          .catch(() => {
+    const intervalId = setInterval(() => {
+      callSessionInformation()
+        .then((sessionInformation) => {
+          if (!sessionInformation.timeoutInSeconds) {
             clearInterval(intervalId);
-          });
-      },
-      (timeoutInSeconds - 5) * 1000
-    );
+          }
+        })
+        .catch(() => {
+          clearInterval(intervalId);
+        });
+    }, (timeoutInSeconds - 5) * 1000);
   });
 };
 
