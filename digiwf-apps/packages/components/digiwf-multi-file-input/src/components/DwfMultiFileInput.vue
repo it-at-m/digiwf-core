@@ -63,8 +63,17 @@ import {
 } from "@/middleware/presignedUrls";
 import {checkRequired} from "@/validation/required";
 import {getMimeType, validateFileType} from "@/validation/fileType";
+import DwfFilePreview from "@/components/DwfFilePreview.vue";
 
+/**
+ * existing bug!. Prepend icon cannot be overridden for set tabindex="-1". More information https://github.com/vuetifyjs/vuetify/issues/9580
+ */
 export default defineComponent({
+  computed: {
+    DwfFilePreview() {
+      return DwfFilePreview
+    }
+  },
   props: [
     'valid',
     'readonly',

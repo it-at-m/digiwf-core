@@ -1,6 +1,6 @@
 <template>
   <div>
-      <v-card class="doc-card mb-2 stephan-test" elevation="2" outlined max-width="350px" @click="openInTab()">
+      <v-card class="doc-card mb-2" elevation="2" outlined max-width="350px" @click="openInTab()">
         <v-card-title class="text-subtitle-1 title">
           <div class="d-flex align-start flex-row">
             <v-icon left size="30" class="mr-2" :aria-label="document.name">
@@ -30,7 +30,7 @@
 
             <div v-else class="preview-text">Keine Vorschau verfügbar</div>
             <div>
-              <div class="footer">{{ formatBytes(0) }}</div>
+              <div class="footer">{{ documentSize }}</div>
               <template v-if="!readonly">
                 <v-btn
                     class="remove-button ma-1"
@@ -61,7 +61,7 @@ export default defineComponent({
   emits: ['remove-document'],
   setup(props, {emit}) {
 
-    const calcByteCharacters = computed(() => atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
+      const calcByteCharacters = computed(() => atob(props.document.data.substr(`data:${props.document.type};base64,`.length)));
 
     const icon = computed(() => fileIcons[props.document.type] ?? "mdi-file");
 
@@ -83,7 +83,7 @@ export default defineComponent({
       isImage,
       isPdf,
       openInTab,
-      formatBytes,
+      documentSize: formatBytes(props.document.size),
       removeDocument
     }
   }
