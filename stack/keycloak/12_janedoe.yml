@@ -20,7 +20,7 @@ changes:
         - client: ${SSO_ENGINE_CLIENT_ID}
           role: clientrole_deployer
         - client: ${SSO_ENGINE_CLIENT_ID}
-          role: clientrole_task_importer
+          role: admin
   - updateUserPassword:
       name: janedoe
       password: "test"

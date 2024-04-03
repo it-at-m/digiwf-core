@@ -35,6 +35,7 @@ public class ModelDeploymentService {
             if (deploymentModel.getArtifactType().equalsIgnoreCase("bpmn")) {
                 final BpmnModelInstance model = Bpmn.readModelFromStream(new ByteArrayInputStream(deploymentModel.getFile().getBytes()));
                 Bpmn.validateModel(model);
+
                 deployment = this.deploy(model, resourceName, deploymentName);
             } else if (deploymentModel.getArtifactType().equalsIgnoreCase("dmn")) {
                 final DmnModelInstance model = Dmn.readModelFromStream(new ByteArrayInputStream(deploymentModel.getFile().getBytes()));

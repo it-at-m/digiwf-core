@@ -1,6 +1,8 @@
 package de.muenchen.oss.digiwf.task.importer;
 
 import io.holunda.polyflow.taskpool.collector.task.TaskServiceCollectorService;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -13,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.security.RolesAllowed;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.noContent;
@@ -25,7 +25,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 @Transactional
 public class TaskImporterService {
 
-    public static final String CLIENT_IMPORT_TASKS = "clientrole_task_importer";
+    public static final String CLIENT_IMPORT_TASKS_ROLE = "admin";
     private final TaskServiceCollectorService taskServiceCollectorService;
     private final TaskService taskService;
     private final ProcessEngineConfiguration engineConfiguration;
@@ -37,7 +37,7 @@ public class TaskImporterService {
     }
 
     @PostMapping("/rest/admin/tasks/enrich")
-    @RolesAllowed(CLIENT_IMPORT_TASKS)
+    @RolesAllowed(CLIENT_IMPORT_TASKS_ROLE)
     public ResponseEntity<Void> enrichExistingTasks() {
         log.info("Starting task enrichment");
         val taskIds = taskService.createTaskQuery()
@@ -54,7 +54,7 @@ public class TaskImporterService {
     }
 
     @PostMapping("/rest/admin/tasks/import")
-    @RolesAllowed(CLIENT_IMPORT_TASKS)
+    @RolesAllowed(CLIENT_IMPORT_TASKS_ROLE)
     public ResponseEntity<Void> importExistingTasks() {
         log.info("Starting import of tasks.");
         taskServiceCollectorService.collectAndPopulateExistingTasks(

@@ -103,7 +103,7 @@ public class ServiceDefinitionFacade {
             @Nullable
             final String query
             ) {
-        final List<ServiceDefinition> serviceDefinitions = this.serviceDefinitionService.getServiceDefinitions().stream()
+        final List<ServiceDefinition> serviceDefinitions = this.serviceDefinitionService.getServiceDefinitions(true).stream()
                 .filter(definition -> this.serviceDefinitionAuthService.allowedToStartDefinition(userId, groups, definition.getKey()))
                 .collect(Collectors.toList());
         return serviceDefinitionPageMapper.toPage(serviceDefinitions, page, size, query);
