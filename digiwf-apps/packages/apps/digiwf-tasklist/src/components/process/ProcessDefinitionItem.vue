@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-list-item
-      :aria-label="'Vorgang '+item.name+ ' starten'"
+      :aria-label="'Vorgang ' + item.name + ' starten'"
       class="d-flex justify-space-between"
-      :to="'/process/'+item.key"
+      :to="'/process/' + item.key"
       data-cy="process-definition-item"
       :data-element-key="item.key"
     >
@@ -19,9 +19,7 @@
             {{ item.name }}
           </text-highlight>
         </h2>
-        <p
-          data-cy="description"
-        >
+        <p data-cy="description">
           <text-highlight :queries="searchString">
             {{ item.description }}
           </text-highlight>
@@ -40,22 +38,35 @@
               icon
               v-bind="attrs"
               data-cy="dropdown-menu-button"
-              @click="(event) => { event.preventDefault()}"
+              @click="
+                (event) => {
+                  event.preventDefault();
+                }
+              "
               v-on.prevent="on"
               aria-label="Aktionen für den Vorgang"
               aria-hidden="false"
             >
-              <v-icon aria-label="Aktionen für den Vorgang" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
+              <v-icon
+                aria-label="Aktionen für den Vorgang"
+                role="img"
+                aria-hidden="false"
+                >mdi-dots-vertical</v-icon
+              >
             </v-btn>
           </template>
           <v-list>
             <v-list-item
-              :aria-label="'Vorgang '+item.name+ ' starten'"
+              :aria-label="'Vorgang ' + item.name + ' starten'"
               link
-              :to="'/process/'+item.key"
+              :to="'/process/' + item.key"
               data-cy="start-button"
               :data-process-definition-key="item.key"
-              @click="(event) => { event.preventDefault()}"
+              @click="
+                (event) => {
+                  event.preventDefault();
+                }
+              "
             >
               <v-list-item-title>Starten</v-list-item-title>
             </v-list-item>
@@ -63,37 +74,36 @@
         </v-menu>
       </v-flex>
     </v-list-item>
-    <hr class="hrDivider">
+    <hr class="hrDivider" />
   </div>
 </template>
 
 <script lang="ts">
-import {PropType} from "vue";
-import {ProcessDefinition} from "../../middleware/processDefinitions/processDefinitionMiddleware";
+import { PropType } from "vue";
+
+import { ProcessDefinition } from "../../middleware/processDefinitions/processDefinitionMiddleware";
 
 export default {
   props: {
     item: {
       type: Object as PropType<ProcessDefinition>,
-      required: true
+      required: true,
     },
     searchString: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   emits: {
     click: {
-      type: Function as PropType<(id: string) => void>
-    }
-  }
+      type: Function as PropType<(id: string) => void>,
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .processTitle {
   font-size: 1.2rem;
 }
-
 </style>

@@ -13,7 +13,8 @@
     "serve:forms": "lerna run dev --stream --scope=@muenchen/digiwf-forms-example",
     "serve:tasklist": "lerna run dev --stream --scope=@muenchen/digiwf-tasklist",
     "serve:all": "lerna run dev --stream --parallel",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "prettier": "lerna run prettier"
   },
   "author": {
     "name": "Dominik horn",
@@ -21,12 +22,12 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@muenchen/prettier-codeformat": "^1.0.1",
     "@types/node": "^16.16.0",
     "@vitejs/plugin-vue2": "^2.0.0",
     "eslint": "^8.21.0",
     "install": "^0.13.0",
     "lerna": "^5.4.3",
-    "npm": "^8.18.0",
     "sass": "~1.32.6",
     "typescript": "^5.3.3",
     "unplugin-vue-components": "^0.22.4",

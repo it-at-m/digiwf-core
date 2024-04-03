@@ -1,1 +1,1 @@
-export {default as DwfMultiFileInput} from './components/DwfMultiFileInput.vue';
+export { default as DwfMultiFileInput } from "./components/DwfMultiFileInput.vue";

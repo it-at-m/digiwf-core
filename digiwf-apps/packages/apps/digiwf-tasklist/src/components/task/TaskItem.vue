@@ -1,9 +1,16 @@
 <template>
   <v-list-item
-    :aria-label="task.inFinishProcess ? 'Aufgabe wird gerade abgeschlossen' :'Aufgabe '+ task.name+ ' öffnen'"
+    :aria-label="
+      task.inFinishProcess
+        ? 'Aufgabe wird gerade abgeschlossen'
+        : 'Aufgabe ' + task.name + ' öffnen'
+    "
     class="d-flex align-center"
-    :style="task.inFinishProcess && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
-    :to="!task.inFinishProcess ? {path: '/task/'+task.id } : ''"
+    :style="
+      task.inFinishProcess &&
+      'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'
+    "
+    :to="!task.inFinishProcess ? { path: '/task/' + task.id } : ''"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
@@ -71,22 +78,36 @@
       >
         <template #activator="{ on, attrs }">
           <v-btn
-            icon
-            v-bind="attrs"
-            @click="(event) => { event.preventDefault()}"
-            v-on.prevent="on"
             aria-label="Aktionen für die Aufgabe"
             aria-hidden="false"
+            icon
+            v-bind="attrs"
+            @click="
+              (event) => {
+                event.preventDefault();
+              }
+            "
+            v-on.prevent="on"
           >
-            <v-icon aria-label="Aktionen für die Aufgabe" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
+            <v-icon
+              aria-label="Aktionen für die Aufgabe"
+              role="img"
+              aria-hidden="false"
+            >
+              mdi-dots-vertical
+            </v-icon>
           </v-btn>
         </template>
         <v-list>
           <v-list-item
-            :aria-label="'Aufgabe '+task.name+ ' öffnen'"
+            :aria-label="'Aufgabe ' + task.name + ' öffnen'"
             link
-            :to="{ path: '/task/'+task.id }"
-            @click="(event) => { event.preventDefault()}"
+            :to="{ path: '/task/' + task.id }"
+            @click="
+              (event) => {
+                event.preventDefault();
+              }
+            "
           >
             <div>Öffnen</div>
           </v-list-item>
@@ -97,7 +118,6 @@
 </template>
 
 <style scoped>
-
 .taskColumn {
   margin: 0 0 0 8px;
   align-self: baseline;
@@ -121,30 +141,28 @@
 .taskInfo span {
   margin-right: 0.5rem;
 }
-
 </style>
 
 <script lang="ts">
-import {HumanTask} from "../../middleware/tasks/tasksModels";
-import {PropType} from "vue";
-import {useGetPaginationData} from "../../middleware/paginationData";
+import { PropType } from "vue";
+
+import { HumanTask } from "../../middleware/tasks/tasksModels";
 
 export default {
   props: {
     task: {
-      type: Object as PropType<HumanTask>, // HumanTask
-      required: true
+      type: Object as PropType<HumanTask>,
+      required: true,
     },
     searchString: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   emits: {
     clickTag: {
-      type: Function as PropType<(tag: string) => void>
+      type: Function as PropType<(tag: string) => void>,
     },
   },
 };
-
 </script>
