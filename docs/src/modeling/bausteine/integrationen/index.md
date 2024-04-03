@@ -52,10 +52,10 @@ Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail se
 
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Test E-Mail                      |
-| Body                  | E-Mail-Text                                                                         | Das ist ein Test           |
-| Reply-To Address      | E-Mail-Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
+| Subject               | Betreff                                                                            | Test E-Mail                |
+| Body                  | E-Mail-Text                                                                        | Das ist ein Test           |
+| Reply-To Address      | E-Mail-Adresse, an die geantwortet werden soll                                     | test@example.com           |
 | Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
 | Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
@@ -69,11 +69,11 @@ Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail mi
 
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
 | Subject               | Betreff                                                                            | Test E-Mail                |
-| E-Mail Text                  | E-Mail Text                                                                         | Das ist ein Test           |
-| E-Mail Gruß                  | E-Mail Gruß                                                                         | Mit freundlichen Grüßen    |
-| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| E-Mail Text           | E-Mail Text                                                                        | Das ist ein Test           |
+| E-Mail Gruß           | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
+| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
 | Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
 | Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |
@@ -86,13 +86,13 @@ Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail mi
 
 | Property              | Beschreibung                                                                       | Beispiel                   |
 |-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                      | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Test E-Mail                      |
-| E-Mail Text                  | E-Mail Text                                                                         | Das ist ein Test           |
-| E-Mail Gruß                  | E-Mail Gruß                                                                         | Mit freundlichen Grüßen    |
-| Link Bezeichnung                  | Bezeichung, die auf dem Button angezeigt wird                                      | Beispielseite öffnen       |
-| Link URL               | Link, auf den der Button verlinkt                                                  | example.com                |
-| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                      | test@example.com           |
+| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
+| Subject               | Betreff                                                                            | Test E-Mail                |
+| E-Mail Text           | E-Mail Text                                                                        | Das ist ein Test           |
+| E-Mail Gruß           | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
+| Link Bezeichnung      | Bezeichung, die auf dem Button angezeigt wird                                      | Beispielseite öffnen       |
+| Link URL              | Link, auf den der Button verlinkt                                                  | example.com                |
+| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
 | Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
 | Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
