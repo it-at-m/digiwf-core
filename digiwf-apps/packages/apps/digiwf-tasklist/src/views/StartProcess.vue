@@ -62,6 +62,7 @@ import { invalidUserTasks } from "../middleware/tasks/taskMiddleware";
 import { mergeObjects } from "../utils/mergeObjects";
 import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
 import { JSFValue, validateSchema } from "../utils/validateSchema";
+import {useSnackbarContext} from "../middleware/snackbar";
 
 const props = defineProps({
   processKey: {
@@ -87,6 +88,8 @@ const initialFormFields = ref<any>({});
 const formFields = ref<any>({});
 
 const router = useRouter();
+
+const {showMessage} = useSnackbarContext();
 
 
 watch(formFields, () => {
@@ -160,6 +163,7 @@ const startProcess = (model: any) => {
       isDirty.value = false;
       invalidUserTasks();
       invalidProcessInstances();
+      showMessage(`Vorgang ${process.value?.name} wurde erfolgreich gestartet`);
       // hier eventuell zum userTask routen
       router.push({ path: "/process" });
     })

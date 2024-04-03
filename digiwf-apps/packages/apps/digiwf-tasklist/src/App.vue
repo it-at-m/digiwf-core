@@ -86,6 +86,9 @@
           <router-view />
         </v-fade-transition>
       </v-container>
+      <notifcation />
+      <snackbar />
+      <dwf-button aria-label="" @click="showMessage">test </dwf-button>
     </v-main>
   </v-app>
 </template>
@@ -171,9 +174,13 @@ import { useGetProcessInstances } from "./middleware/processInstances/processIns
 import { queryClient } from "./middleware/queryClient";
 import { useCurrentUserInfo } from "./middleware/user/userMiddleware";
 import { apiGatewayUrl } from "./utils/envVariables";
+import {SNACKBAR_CONTEXT_KEY, useNotification} from "./middleware/snackbar";
+import Snackbar from "./components/common/Snackbar.vue";
+import DwfButton from "./components/common/DwfButton.vue";
+import Notifcation from "./components/common/Notifcation.vue";
 
 export default defineComponent({
-  components: { AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
+  components: {Notifcation, DwfButton, Snackbar, AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
   setup: () => {
     const drawer = ref(true);
     const processInstancesCount = ref<number | null>(null);
@@ -183,6 +190,8 @@ export default defineComponent({
     const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
     const store = useStore();
+    const snackbarContext = useNotification();
+    provide(SNACKBAR_CONTEXT_KEY, snackbarContext);
 
     const { data: processInstances } = useGetProcessInstances(
       ref(0),
@@ -260,6 +269,8 @@ export default defineComponent({
       loginLoading,
       processInstancesCount,
       stage,
+
+      showMessage: () => snackbarContext.showMessage(" app geht")
     };
   },
 });
