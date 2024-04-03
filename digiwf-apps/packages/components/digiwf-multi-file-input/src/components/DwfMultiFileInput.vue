@@ -20,7 +20,7 @@
       aria-label="Datei hochladen"
     >
       <template #label>
-        <span>{{ label }}</span>
+        <span tabindex="0">{{ label }}</span>
         <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red" aria-label="Eingabe ist ein Pflichtfeld"> *</span>
       </template>
       <template #append-outer>
