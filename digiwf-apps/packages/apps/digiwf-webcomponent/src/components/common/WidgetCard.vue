@@ -39,7 +39,7 @@
         </c-button>
       </div>
     </c-card-header>
-    <c-card-body class="p-0">
+    <c-card-body class="p-0" aria-live="polite">
       <slot
         v-if="loading"
         name="placeholder"

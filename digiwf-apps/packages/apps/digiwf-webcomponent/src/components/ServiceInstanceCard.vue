@@ -21,7 +21,7 @@
       </c-list-group>
     </template>
     <template #placeholder>
-      <c-list-group flush>
+      <c-list-group flush aria-label="Vorgänge werden geladen" aria-busy="true">
         <service-instance-list-item-placeholder
           v-for="i in pageSize"
           :key="i"

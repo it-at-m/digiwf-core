@@ -1,17 +1,19 @@
 <template>
-  <c-list-group-item class="p-3">
-    <h2 class="mb-3">
-      <strong>Fehler</strong>
-    </h2>
-    <p class="mb-1">
-      Beim Abrufen der {{ name }} ist ein Fehler aufgetreten. Versuchen Sie es
-      zu einem späteren Zeitpunkt erneut.
-    </p>
-  </c-list-group-item>
+  <c-list-group flush>
+    <c-list-group-item class="p-3">
+      <h2 class="mb-3">
+        <strong>Fehler</strong>
+      </h2>
+      <p class="mb-1">
+        Beim Abrufen der {{ name }} ist ein Fehler aufgetreten. Versuchen Sie es
+        zu einem späteren Zeitpunkt erneut.
+      </p>
+    </c-list-group-item>
+  </c-list-group>
 </template>
 
 <script setup lang="ts">
-import { CListGroupItem } from "@coreui/vue";
+import { CListGroup, CListGroupItem } from "@coreui/vue";
 
 withDefaults(
   defineProps<{
