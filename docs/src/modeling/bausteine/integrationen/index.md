@@ -170,7 +170,7 @@ Um ein Dokument upzudaten, wird das Element Template `DMS: Dokument updaten` ver
 | Property                      | Beschreibung                                                            | Beispiel                             |
 |-------------------------------|-------------------------------------------------------------------------|--------------------------------------|
 | Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                              | mucs bzw. alw                        |
-| Dokument (Coo)                | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567              |
+| Dokument-COO                  | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567              |
 | User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                       |
 | Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern |
 | Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf       |
@@ -212,7 +212,7 @@ Um Schriftstücke zu lesen und in den S3-Speicher zu übertragen, wird das Eleme
 | User                          | Benutzername des Benutzers, über den die Schriftstücke gelesen werden soll | max.mustermann                                            |
 | Pfad im S3                    | Ordner im S3, in den die Schriftstücke übertragen werden sollen            | ordnername                                                |
 
-### Sachackte suchen
+### Sachakte suchen
 
 Um eine Sachakte zu suchen, wird das Element Template `DMS: Sachakte suchen` verwendet.
 
