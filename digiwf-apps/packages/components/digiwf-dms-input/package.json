@@ -1,24 +1,24 @@
 {
   "name": "@muenchen/digiwf-dms-input",
   "description": "Customized component with possibility to read metadata from dms objects",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "module": "dist/digiwf-dms-input.mjs",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "@muenchen/digiwf-dms-api-internal": "^1.9.0"
+    "@muenchen/digiwf-dms-api-internal": "^1.10.0"
   },
   "peerDependencies": {
     "vue": "^2.7.0",
     "vuetify": "^2.6.0"
   },
   "devDependencies": {
-    "axios": "^1.6.0",
-    "uuid": "^8.3.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
-    "@muenchen/prettier-codeformat": "^1.0.1"
+    "@muenchen/prettier-codeformat": "^1.0.1",
+    "axios": "^1.6.0",
+    "uuid": "^8.3.2"
   },
   "files": [
     "dist/*",

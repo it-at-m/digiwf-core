@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-multi-file-input",
   "description": "Form renderer",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "module": "dist/digiwf-multi-file-input.mjs",
   "scripts": {
     "build": "vite build",
@@ -9,8 +9,8 @@
     "test": "jest src"
   },
   "dependencies": {
-    "@muenchen/digiwf-engine-api-internal": "^1.9.0",
-    "@muenchen/digiwf-task-api-internal": "^1.9.0"
+    "@muenchen/digiwf-engine-api-internal": "^1.10.0",
+    "@muenchen/digiwf-task-api-internal": "^1.10.0"
   },
   "peerDependencies": {
     "vue": "^2.7.0",
@@ -18,6 +18,8 @@
     "vuetify": "^2.6.0"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@muenchen/prettier-codeformat": "^1.0.1",
     "@types/jest": "^27.5.2",
     "@types/mime": "^2.0.3",
     "@types/node": "^16.9.1",
@@ -29,9 +31,7 @@
     "mime": "^3.0.0",
     "ts-jest": "^28.0.8",
     "uuid": "^8.3.2",
-    "vue-pdf-embed": "^1.1.2",
-    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
-    "@muenchen/prettier-codeformat": "^1.0.1"
+    "vue-pdf-embed": "^1.1.2"
   },
   "files": [
     "dist/*",
