@@ -6,23 +6,28 @@ package de.muenchen.oss.digiwf.engine.incidents;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.model.Mail;
+import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
+import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.impl.incident.DefaultIncidentHandler;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.Incident;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-
 
 /**
  * Handler getting active in case of incidents and can react e.g. by sending an information mail.
@@ -39,6 +44,13 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
     @Autowired
     @Lazy
     private RepositoryService repositoryService;
+
+    @Autowired
+    @Lazy
+    private RuntimeService runtimeService;
+
+    @Autowired
+    private ProcessConfigService processConfigService;
 
     @Value("${digiwf.incident.cockpitUrl:#{null}}")
     private String cockpitUrl;
@@ -61,33 +73,37 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
         log.warn("Incident occurred");
         final IncidentEntity incidentEntity = (IncidentEntity) super.handleIncident(context, message);
 
-        if (Strings.isEmpty(this.toAddress)) {
-            log.debug("Notification on incidents if not configured");
+        val processInstanceId = incidentEntity.getProcessInstanceId();
+        val rootProcessInstanceId = runtimeService
+                .createProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult()
+                .getRootProcessInstanceId();
+
+        val rootProcessDefinitionId = runtimeService
+                .createProcessInstanceQuery()
+                .processInstanceId(rootProcessInstanceId)
+                .singleResult()
+                .getProcessDefinitionId();
+        val processConfig = processConfigService.getProcessConfig(rootProcessDefinitionId.split(":")[0]);
+
+        var notificationAddresses = processConfig.orElse(new ProcessConfig()).getIncidentNotificationAddresses();
+
+        if (Strings.isEmpty(notificationAddresses)) notificationAddresses = this.toAddress;
+
+        if (Strings.isEmpty(notificationAddresses)) {
+            log.debug("Notification on incidents is not configured");
             return incidentEntity;
         }
 
         try {
             String processName = this.getProcessName(incidentEntity.getProcessDefinitionId());
-            val link = this.cockpitUrl +
-                    "camunda/app/cockpit/default/#/process-instance/" +
-                    incidentEntity.getProcessInstanceId() +
-                    "/runtime";
-            final String emailText = processName.isBlank() ?
-                    "In der Anwendung ist ein Incident aufgetreten." :
-                    "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
-
-            final Map<String, String> emailContent = Map.of(
-                    "%%body_top%%", emailText,
-                    "%%body_bottom%%", "Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
-                    "%%button_link%%", link,
-                    "%%button_text%%", "Fehler im Cockpit anzeigen",
-                    "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
-            );
+            final Map<String, String> emailContent = getEMailContent(incidentEntity, processName);
             final String templatePath = "bausteine/mail/templatewithlink/mail-template.tpl";
             final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
 
             final Mail mail = Mail.builder()
-                    .receivers(this.toAddress)
+                    .receivers(notificationAddresses)
                     .subject(this.environment + ": Incident aufgetreten")
                     .body(emailBody)
                     .htmlBody(true)
@@ -101,22 +117,52 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
         return incidentEntity;
     }
 
-    private String getProcessName(String processDefinitionId){
+    @NotNull
+    private Map<String, String> getEMailContent(IncidentEntity incidentEntity, String processName) {
+        val link = this.cockpitUrl +
+                "camunda/app/cockpit/default/#/process-instance/" +
+                incidentEntity.getProcessInstanceId() +
+                "/runtime";
+        final String emailText = processName.isBlank() ?
+                "In der Anwendung ist ein Incident aufgetreten." :
+                "In der Anwendung ist ein Incident aufgetreten (Prozessname: " + processName + ").";
+
+        return Map.of(
+                "%%body_top%%", emailText,
+                "%%body_bottom%%", "Mit freundlichen Grüßen<br>Ihr DigiWF-Team",
+                "%%button_link%%", link,
+                "%%button_text%%", "Fehler im Cockpit anzeigen",
+                "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
+        );
+    }
+
+    private String getProcessName(String processDefinitionId) {
         String processName = "";
         try {
             ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
-            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+            if (procDef.getName() != null && !procDef.getName().isBlank()) {
                 processName = procDef.getName();
-            }
-            else {
-                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+            } else {
+                if (procDef.getKey() != null && !procDef.getKey().isBlank()) {
                     processName = procDef.getKey();
                 }
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
+    }
+
+    private String getRootProcessInstanceId(final String aProcessInstanceId) {
+        String tProcessInstanceId = aProcessInstanceId;
+        ProcessInstance superProcessInstance = null;
+        do {
+            superProcessInstance = runtimeService.createProcessInstanceQuery().subProcessInstanceId(tProcessInstanceId).singleResult();
+            if (superProcessInstance != null) {
+                tProcessInstanceId = superProcessInstance.getId();
+            }
+        } while (superProcessInstance != null);
+
+        return tProcessInstanceId;
     }
 }

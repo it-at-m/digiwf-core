@@ -24,10 +24,18 @@ import java.util.List;
 @NoArgsConstructor
 public class ProcessConfig {
 
-
     public static final String INSTANCE_FILE_PATHS_READONLY = "app_instance_file_paths_readonly";
     public static final String INSTANCE_FILE_PATHS = "app_instance_file_paths";
     public static final String INSTANCE_SCHEMA_KEY = "app_instance_schema_key";
+
+    /**
+     * This constant holds the configuration key for email addresses that should be notified in case of an incident.
+     * These addresses are used to send out alerts or notifications when an incident occurs within the application.
+     * <p>
+     * The expected format for the email addresses is a comma-separated list of valid email addresses.
+     * Example: "admin@example.com,support@example.com"
+     */
+    public static final String INCIDENT_NOTIFICATION_ADDRESSES = "app_incident_notification_addresses";
 
     /**
      * key of the process config.
@@ -89,6 +97,10 @@ public class ProcessConfig {
 
     public String getInstanceSchemaKey() {
         return this.getConfig(INSTANCE_SCHEMA_KEY);
+    }
+
+    public String getIncidentNotificationAddresses() {
+        return this.getConfig(INCIDENT_NOTIFICATION_ADDRESSES);
     }
 
 }
