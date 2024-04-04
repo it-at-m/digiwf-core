@@ -20,6 +20,13 @@ spring:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
+        - id: optimize
+          uri: http://${OPTIMIZE_HOST:localhost}:${OPTIMIZE_PORT}/
+          predicates:
+            - Path=/**
+          filters:
+            - RemoveResponseHeader=WWW-Authenticate
+
         - id: backend-cockpit
           uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}
           predicates:
