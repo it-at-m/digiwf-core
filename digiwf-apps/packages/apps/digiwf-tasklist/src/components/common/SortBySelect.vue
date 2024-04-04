@@ -13,18 +13,19 @@
   />
 </template>
 <script lang="ts">
-import {defineComponent} from "vue";
-import {usePageFilters} from "../../store/modules/filters";
+import { defineComponent } from "vue";
+
+import { usePageFilters } from "../../store/modules/filters";
 
 export default defineComponent({
   props: {},
   setup() {
-    const {currentSortDirection, sortDirections} = usePageFilters();
+    const { currentSortDirection, sortDirections } = usePageFilters();
     return {
       items: sortDirections,
-      value: currentSortDirection
+      value: currentSortDirection,
     };
-  }
+  },
 });
 </script>
 

@@ -2,15 +2,12 @@
   <div>
     <v-flex class="d-flex justify-space-between align-center searchField">
       <v-flex class="d-flex left align-center">
-        <search-field
-          :on-filter-change="(v) => $emit('changeFilter', v)"
-        />
+        <search-field :on-filter-change="(v) => $emit('changeFilter', v)" />
         <dwf-button
           aria-label="Weitere Filter"
           class="advanced-filter-button"
           @click="advancedFilterOpen = !advancedFilterOpen"
         >
-
           <v-icon>mdi-filter</v-icon>
           Filter
 
@@ -31,7 +28,7 @@
             @clear="() => $emit('changeAssignee', undefined)"
           />
         </dwf-button>
-        <sort-by-select/>
+        <sort-by-select />
       </v-flex>
       <div class="d-flex align-center">
         <dwf-button
@@ -74,31 +71,37 @@
         :clearable="true"
         flat
         dense
-        @input="(value) =>$emit('changeAssignee', value)"
+        @input="(value) => $emit('changeAssignee', value)"
       />
     </v-flex>
   </div>
 </template>
 
 <script lang="ts">
+import { defineComponent, PropType, ref } from "vue";
 
-import {defineComponent, PropType, ref} from "vue";
-import {HumanTask} from "../../middleware/tasks/tasksModels";
-import BaseLdapInput from "../form/BaseLdapInput.vue";
-import SortBySelect from "../common/SortBySelect.vue";
+import { HumanTask } from "../../middleware/tasks/tasksModels";
 import DwfButton from "../common/DwfButton.vue";
 import SearchField from "../common/SearchField.vue";
+import SortBySelect from "../common/SortBySelect.vue";
+import BaseLdapInput from "../form/BaseLdapInput.vue";
 import UserFilterBadge from "./filter/UserFilterBadge.vue";
 
 export default defineComponent({
-  components: {UserFilterBadge, SearchField, DwfButton, SortBySelect, BaseLdapInput},
+  components: {
+    UserFilterBadge,
+    SearchField,
+    DwfButton,
+    SortBySelect,
+    BaseLdapInput,
+  },
   props: {
     filter: {
       type: String,
       default: "",
     },
     tag: {
-      type: String
+      type: String,
     },
     assignee: {
       type: String,
@@ -115,34 +118,33 @@ export default defineComponent({
     },
     viewName: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * render the "Bearbeiter*in" column if true
      */
     showAssignee: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showAssigneeFilter: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   emits: [
     "loadTasks", // Function as PropType<() => boolean>,
     "changeFilter", // Function as PropType<(newValue: string) => void>,
     "changeTag", //  Function as PropType<(newValue: string) => void>,
-    "changeAssignee"//  Function as PropType<(newValue: string) => void>,
+    "changeAssignee", //  Function as PropType<(newValue: string) => void>,
   ],
   setup: () => {
     const advancedFilterOpen = ref<boolean>(false);
     return {
-      advancedFilterOpen
+      advancedFilterOpen,
     };
-  }
+  },
 });
-
 </script>
 
 <style scoped>

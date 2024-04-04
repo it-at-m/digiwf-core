@@ -1,29 +1,34 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Tasks from "@/views/Tasks.vue";
-import TaskDetail from "@/views/TaskDetail.vue";
-import ProcessDefinitions from "@/views/ProcessDefinitions.vue";
-import StartProcess from "@/views/StartProcess.vue";
-import ProcessInstances from "@/views/ProcessInstances.vue";
-import OpenGroupTasks from "@/views/OpenGroupTasks.vue";
+
+import AccessibilityStatement from "@/views/AccessibilityStatement.vue";
 import AssignedGroupTasks from "@/views/AssignedGroupTasks.vue";
 import GroupTaskDetail from "@/views/GroupTaskDetail.vue";
+import OpenGroupTasks from "@/views/OpenGroupTasks.vue";
+import ProcessDefinitions from "@/views/ProcessDefinitions.vue";
 import ProcessInstanceDetailView from "@/views/ProcessInstanceDetailView.vue";
+import ProcessInstances from "@/views/ProcessInstances.vue";
+import StartProcess from "@/views/StartProcess.vue";
+import TaskDetail from "@/views/TaskDetail.vue";
+import Tasks from "@/views/Tasks.vue";
 import store from "./store";
-import {baseUrl} from "./utils/envVariables";
-import AccessibilityStatement from "@/views/AccessibilityStatement.vue";
+import { baseUrl } from "./utils/envVariables";
 
 Vue.use(Router);
 
 /*
-* Preventing "NavigationDuplicated" errors in console in Vue-router >= 3.1.0
-* https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
-* */
+ * Preventing "NavigationDuplicated" errors in console in Vue-router >= 3.1.0
+ * https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
+ * */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const routerMethods = ['push', 'replace'];
+const routerMethods = ["push", "replace"];
 routerMethods.forEach((method: string) => {
   const originalCall = (Router.prototype as any)[method];
-  (Router.prototype as any)[method] = function (location: any, onResolve: any, onReject: any): Promise<any> {
+  (Router.prototype as any)[method] = function (
+    location: any,
+    onResolve: any,
+    onReject: any
+  ): Promise<any> {
     if (onResolve || onReject) {
       return originalCall.call(this, location, onResolve, onReject);
     }
@@ -38,59 +43,58 @@ const router = new Router({
     {
       path: "/mytask",
       name: "mytask",
-      component: Tasks
+      component: Tasks,
     },
     {
-      path: '/task/:id',
+      path: "/task/:id",
       component: TaskDetail,
-      props: true
+      props: true,
     },
     {
       path: "/process",
       name: "processes",
-      component: ProcessDefinitions
+      component: ProcessDefinitions,
     },
     {
-      path: '/process/:processKey',
+      path: "/process/:processKey",
       component: StartProcess,
-      props: true
+      props: true,
     },
     {
-      path: '/instance',
+      path: "/instance",
       component: ProcessInstances,
-      props: true
-
+      props: true,
     },
     {
-      path: '/instance/:processId',
+      path: "/instance/:processId",
       component: ProcessInstanceDetailView,
-      props: true
+      props: true,
     },
     {
-      path: '/opengrouptask',
-      component: OpenGroupTasks
+      path: "/opengrouptask",
+      component: OpenGroupTasks,
     },
     {
-      path: '/opengrouptask/:id',
+      path: "/opengrouptask/:id",
       component: GroupTaskDetail,
-      props: true
+      props: true,
     },
     {
-      path: '/assignedgrouptask',
-      component: AssignedGroupTasks
+      path: "/assignedgrouptask",
+      component: AssignedGroupTasks,
     },
     {
-      path: '/assignedgrouptask/:id',
+      path: "/assignedgrouptask/:id",
       component: GroupTaskDetail,
-      props: true
+      props: true,
     },
     {
       path: "/accessibilitystatement",
       name: "accessibilitystatement",
-      component: AccessibilityStatement
+      component: AccessibilityStatement,
     },
-    {path: '*', redirect: '/mytask'} //Fallback 2
-  ]
+    { path: "*", redirect: "/mytask" }, //Fallback 2
+  ],
 });
 
 // hide menu if the the query parameter MenuSichtbar is set to false
@@ -100,16 +104,15 @@ router.beforeEach((to, from, next) => {
     delete to.query.MenuSichtbar;
 
     if (value === "Nein") {
-      store.dispatch('menu/setOpen', false);
+      store.dispatch("menu/setOpen", false);
     } else {
-      store.dispatch('menu/setOpen', true);
+      store.dispatch("menu/setOpen", true);
     }
 
-    next({path: to.path, params: to.params, query: to.query});
+    next({ path: to.path, params: to.params, query: to.query });
   } else {
     next();
   }
-
 });
 
 export default router;

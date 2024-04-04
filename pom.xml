@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.muenchen.oss.digiwf</groupId>
@@ -182,9 +182,9 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.13</version>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -292,20 +292,45 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <!-- Nexus Staging Plugin -->
+                    <!-- Central Portal Staging Plugin -->
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                            <stagingProgressPauseDurationSeconds>15</stagingProgressPauseDurationSeconds>
-                            <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
+                            <tokenAuth>true</tokenAuth>
+                            <autoPublish>true</autoPublish>
+                            <deploymentName>${project.groupId}:${project.version}</deploymentName>
+                            <excludeArtifacts>
+                                <!-- find . -type d \( -name '*-service' -o -name '*-example' \) -printf '%f\n' | sort | uniq | awk '{print "<artifact>" $0 "</artifact>"}' -->
+                                <artifact>custom-integration-service</artifact>
+                                <artifact>digiwf-address-integration-service</artifact>
+                                <artifact>digiwf-alw-integration-service</artifact>
+                                <artifact>digiwf-camunda-connector-service</artifact>
+                                <artifact>digiwf-camunda-prometheus-example</artifact>
+                                <artifact>digiwf-cosys-integration-example</artifact>
+                                <artifact>digiwf-cosys-integration-service</artifact>
+                                <artifact>digiwf-dms-integration-fabasoft-mock-service</artifact>
+                                <artifact>digiwf-dms-integration-service</artifact>
+                                <artifact>digiwf-email-integration-example</artifact>
+                                <artifact>digiwf-email-integration-service</artifact>
+                                <artifact>digiwf-engine-rest-service</artifact>
+                                <artifact>digiwf-engine-service</artifact>
+                                <artifact>digiwf-example-integration-example</artifact>
+                                <artifact>digiwf-example-integration-service</artifact>
+                                <artifact>digiwf-forms-example</artifact>
+                                <artifact>digiwf-message-example</artifact>
+                                <artifact>digiwf-okewo-integration-service</artifact>
+                                <artifact>digiwf-process-example</artifact>
+                                <artifact>digiwf-s3-integration-client-example</artifact>
+                                <artifact>digiwf-s3-integration-service</artifact>
+                                <artifact>digiwf-schema-registry-client-example</artifact>
+                                <artifact>digiwf-schema-registry-service</artifact>
+                                <artifact>digiwf-tasklist-service</artifact>
+                                <artifact>digiwf-ticket-integration-service</artifact>
+                            </excludeArtifacts>
                         </configuration>
                     </plugin>
-
 
                     <!-- maven versions plugin-->
                     <plugin>
@@ -371,14 +396,6 @@
             </build>
         </profile>
     </profiles>
-
-    <distributionManagement>
-        <!-- Central Repository -->
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <developers>
         <developer>

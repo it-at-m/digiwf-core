@@ -1,5 +1,8 @@
-import {Configuration, FileApiFactory} from "@muenchen/digiwf-task-api-internal";
-import {AxiosResponse} from "axios";
+import {
+  Configuration,
+  FileApiFactory,
+} from "@muenchen/digiwf-task-api-internal";
+import { AxiosResponse } from "axios";
 
 /**
  * @param cfg
@@ -7,11 +10,16 @@ import {AxiosResponse} from "axios";
  * @param fileName
  * @param filePath
  */
-export const getPresignedUrlForFileUploadFromTaskservice = (cfg: Configuration, formContextId: string, fileName: string, filePath: string): Promise<string> => {
+export const getPresignedUrlForFileUploadFromTaskservice = (
+  cfg: Configuration,
+  formContextId: string,
+  fileName: string,
+  filePath: string
+): Promise<string> => {
   return FileApiFactory(cfg)
-    .getPresignedUrlForFile(formContextId,fileName,filePath,"POST")
+    .getPresignedUrlForFile(formContextId, fileName, filePath, "POST")
     .then((response: AxiosResponse<string>) => Promise.resolve(response.data));
-}
+};
 
 /**
  * @param cfg
@@ -19,11 +27,16 @@ export const getPresignedUrlForFileUploadFromTaskservice = (cfg: Configuration, 
  * @param fileName
  * @param filePath
  */
-export const getPresignedUrlForFileDownloadFromTaskservice = (cfg: Configuration, formContextId: string, fileName: string, filePath: string): Promise<string> => {
+export const getPresignedUrlForFileDownloadFromTaskservice = (
+  cfg: Configuration,
+  formContextId: string,
+  fileName: string,
+  filePath: string
+): Promise<string> => {
   return FileApiFactory(cfg)
-    .getPresignedUrlForFile(formContextId,fileName,filePath,"GET")
+    .getPresignedUrlForFile(formContextId, fileName, filePath, "GET")
     .then((response: AxiosResponse<string>) => Promise.resolve(response.data));
-}
+};
 
 /**
  * @param cfg
@@ -31,19 +44,30 @@ export const getPresignedUrlForFileDownloadFromTaskservice = (cfg: Configuration
  * @param fileName
  * @param filePath
  */
-export const getPresignedUrlForFileDeletionFromTaskservice = (cfg: Configuration, formContextId: string, fileName: string, filePath: string): Promise<string> => {
+export const getPresignedUrlForFileDeletionFromTaskservice = (
+  cfg: Configuration,
+  formContextId: string,
+  fileName: string,
+  filePath: string
+): Promise<string> => {
   return FileApiFactory(cfg)
-    .getPresignedUrlForFile(formContextId,fileName,filePath,"DELETE")
+    .getPresignedUrlForFile(formContextId, fileName, filePath, "DELETE")
     .then((response: AxiosResponse<string>) => Promise.resolve(response.data));
-}
+};
 
 /**
  * @param cfg
  * @param formContextId
  * @param filePath
  */
-export const getFileNamesFromTaskservice = (cfg: Configuration, formContextId: string, filePath: string): Promise<string[]> => {
-  return FileApiFactory(cfg).getFileNames(formContextId,filePath)
-    .then((response: AxiosResponse<string[]>) => Promise.resolve(response.data));
-}
-
+export const getFileNamesFromTaskservice = (
+  cfg: Configuration,
+  formContextId: string,
+  filePath: string
+): Promise<string[]> => {
+  return FileApiFactory(cfg)
+    .getFileNames(formContextId, filePath)
+    .then((response: AxiosResponse<string[]>) =>
+      Promise.resolve(response.data)
+    );
+};

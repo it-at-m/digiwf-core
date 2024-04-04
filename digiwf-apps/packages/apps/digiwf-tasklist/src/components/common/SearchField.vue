@@ -27,7 +27,12 @@
           class="v-icon"
           @click="deletePersistentFilter()"
         >
-          <v-icon color="primary" aria-label="Filter löschen" role="img" aria-hidden="false">
+          <v-icon
+            color="primary"
+            aria-label="Filter löschen"
+            role="img"
+            aria-hidden="false"
+          >
             mdi-star
           </v-icon>
         </v-btn>
@@ -38,12 +43,22 @@
           class="v-icon"
           @click="savePersistentFilter()"
         >
-          <v-icon color="primary" aria-label="Filter speichern" role="img" aria-hidden="false">
+          <v-icon
+            color="primary"
+            aria-label="Filter speichern"
+            role="img"
+            aria-hidden="false"
+          >
             mdi-star-outline
           </v-icon>
         </v-btn>
       </div>
-      <v-icon class="ml-2" aria-label="Aufgaben durchsuchen" role="img" aria-hidden="false">
+      <v-icon
+        class="ml-2"
+        aria-label="Aufgaben durchsuchen"
+        role="img"
+        aria-hidden="false"
+      >
         mdi-magnify
       </v-icon>
     </template>
@@ -51,34 +66,42 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import { FilterTO, SaveFilterTO } from "@muenchen/digiwf-engine-api-internal";
 import debounce from "debounce";
-import {FilterTO, SaveFilterTO} from "@muenchen/digiwf-engine-api-internal";
-import {usePageId} from "../../middleware/pageId";
-import {useGetPaginationData} from "../../middleware/paginationData";
+import { defineComponent, ref } from "vue";
+
+import { SEARCH_DEBOUNCE_INTERVAL } from "../../constants";
+import { usePageId } from "../../middleware/pageId";
+import { useGetPaginationData } from "../../middleware/paginationData";
 import {
   useDeletePersistentFilters,
   useGetPersistentFilters,
-  useSavePersistentFilters
+  useSavePersistentFilters,
 } from "../../middleware/persistentFilter/persistentFilters";
-import {SEARCH_DEBOUNCE_INTERVAL} from "../../constants";
 
 export default defineComponent({
-  props:{
+  props: {
     onFilterChange: {
       type: Function,
       required: false,
-    }
+    },
   },
   setup(props) {
-    const {getSearchQueryOfUrl} = useGetPaginationData();
+    const { getSearchQueryOfUrl } = useGetPaginationData();
     const searchQuery = ref<string>(getSearchQueryOfUrl() || "");
     const pageId = usePageId();
 
-    const {data: persistentFilters = ref([]), isLoading, isError: isLoadingError, refetch} = useGetPersistentFilters();
+    const {
+      data: persistentFilters = ref([]),
+      isLoading,
+      isError: isLoadingError,
+      refetch,
+    } = useGetPersistentFilters();
     const saveMutation = useSavePersistentFilters();
     const deleteMutation = useDeletePersistentFilters();
-    const errorMessage = ref<string>(isLoadingError ? "Filter konnten nicht geladen werden" : "");
+    const errorMessage = ref<string>(
+      isLoadingError ? "Filter konnten nicht geladen werden" : ""
+    );
 
     const savePersistentFilter = () => {
       const newValue = searchQuery.value;
@@ -94,7 +117,9 @@ export default defineComponent({
       });
     };
     const deletePersistentFilter = () => {
-      const id = persistentFilters.value?.find((f: FilterTO) => f.filterString == searchQuery.value)?.id;
+      const id = persistentFilters.value?.find(
+        (f: FilterTO) => f.filterString == searchQuery.value
+      )?.id;
       if (!id) {
         return;
       }
@@ -106,11 +131,16 @@ export default defineComponent({
     const isFilterPersistent = (): boolean => {
       const currentValue = searchQuery.value || "";
       const isNotBlank: boolean = currentValue.trim().length > 0;
-      const isSaved = persistentFilters.value?.some(f => f.filterString === currentValue && f.pageId === pageId.id) || false;
+      const isSaved =
+        persistentFilters.value?.some(
+          (f) => f.filterString === currentValue && f.pageId === pageId.id
+        ) || false;
       return isNotBlank && isSaved;
     };
 
-    const debouncedCallback = props.onFilterChange && debounce(props.onFilterChange, SEARCH_DEBOUNCE_INTERVAL);
+    const debouncedCallback =
+      props.onFilterChange &&
+      debounce(props.onFilterChange, SEARCH_DEBOUNCE_INTERVAL);
 
     return {
       isLoading,
@@ -126,14 +156,13 @@ export default defineComponent({
       savePersistentFilter,
       changeFilter: (newFilter: string) => {
         searchQuery.value = newFilter;
-        if(debouncedCallback) {
+        if (debouncedCallback) {
           debouncedCallback(newFilter);
         }
       },
     };
-  }
+  },
 });
-
 </script>
 
 <style scoped>

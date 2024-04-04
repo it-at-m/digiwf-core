@@ -1,11 +1,21 @@
-import {Configuration} from "@muenchen/digiwf-engine-api-internal";
+import { Configuration } from "@muenchen/digiwf-engine-api-internal";
 
 export class ApiConfig {
-
-  public static base: string = import.meta.env.VITE_VUE_APP_API_URL ? import.meta.env.VITE_VUE_APP_API_URL : 'api/digitalwf-backend-service';
-  public static tasklistBase: string = import.meta.env.VITE_VUE_APP_TASKLIST_API_URL ? import.meta.env.VITE_VUE_APP_TASKLIST_API_URL : 'api/digitalwf-tasklist-service/rest';
-  public static mucsDmsBase: string = import.meta.env.VITE_VUE_APP_MUCS_DMS_API_URL ? import.meta.env.VITE_VUE_APP_MUCS_DMS_API_URL : 'api/dms-integration/mucs/rest/';
-  public static alwDmsBase: string = import.meta.env.VITE_VUE_APP_ALW_DMS_API_URL ? import.meta.env.VITE_VUE_APP_ALW_DMS_API_URL : 'api/dms-integration/alw/rest/';
+  public static base: string = import.meta.env.VITE_VUE_APP_API_URL
+    ? import.meta.env.VITE_VUE_APP_API_URL
+    : "api/digitalwf-backend-service";
+  public static tasklistBase: string = import.meta.env
+    .VITE_VUE_APP_TASKLIST_API_URL
+    ? import.meta.env.VITE_VUE_APP_TASKLIST_API_URL
+    : "api/digitalwf-tasklist-service/rest";
+  public static mucsDmsBase: string = import.meta.env
+    .VITE_VUE_APP_MUCS_DMS_API_URL
+    ? import.meta.env.VITE_VUE_APP_MUCS_DMS_API_URL
+    : "api/dms-integration/mucs/rest/";
+  public static alwDmsBase: string = import.meta.env
+    .VITE_VUE_APP_ALW_DMS_API_URL
+    ? import.meta.env.VITE_VUE_APP_ALW_DMS_API_URL
+    : "api/dms-integration/alw/rest/";
 
   /**
    * @deprecated
@@ -37,5 +47,4 @@ export class ApiConfig {
     cfg.baseOptions = fetchConfig;
     return cfg;
   }
-
 }

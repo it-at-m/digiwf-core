@@ -13,24 +13,23 @@
       />
 
       <router-link
-        style="text-decoration: none;"
+        style="text-decoration: none"
         to="/"
       >
         <v-toolbar-title class="font-weight-bold">
           <span class="white--text">Digi</span>
-          <span :style="{color: stage?.color}">WF</span>
+          <span :style="{ color: stage?.color }">WF</span>
         </v-toolbar-title>
       </router-link>
-      <v-spacer/>
+      <v-spacer />
       <span>{{ stage?.displayName }}</span>
-      <v-spacer/>
+      <v-spacer />
       <app-help-menu
         @openKeyBindingsDialoge="openKeyBindingsDialoge"
         @closeKeyBindingsDialoge="closeKeyBindingsDialoge"
       />
 
-      {{ username }}
-
+      {{ user?.fullInfo }}
     </v-app-bar>
 
     <v-navigation-drawer
@@ -39,7 +38,7 @@
       clipped
       width="300"
     >
-      <AppMenuList :number-of-process-instances="processInstancesCount"/>
+      <AppMenuList :number-of-process-instances="processInstancesCount" />
     </v-navigation-drawer>
     <v-main class="main">
       <v-banner
@@ -66,12 +65,8 @@
         single-line
         sticky
       >
-        <template v-if="loginLoading">
-          Sie werden angemeldet...
-        </template>
-        <template v-else>
-          Sie sind aktuell nicht (mehr) angemeldet!
-        </template>
+        <template v-if="loginLoading"> Sie werden angemeldet... </template>
+        <template v-else> Sie sind aktuell nicht (mehr) angemeldet! </template>
         <template #actions>
           <v-btn
             text
@@ -88,7 +83,7 @@
       />
       <v-container fluid>
         <v-fade-transition mode="out-in">
-          <router-view/>
+          <router-view />
         </v-fade-transition>
       </v-container>
     </v-main>
@@ -103,17 +98,14 @@
 .maintenance >>> .v-avatar {
   margin: 8px;
 }
-
 </style>
 
 <style>
-
 .hrDividerMenu {
   border: 0;
   border-top: 1px solid #ddd;
   margin: -2px 20px 0 20px;
 }
-
 
 .hrDivider {
   border: 0;
@@ -166,90 +158,109 @@ a {
 }
 </style>
 
-
 <script lang="ts">
-import Vue from "vue";
-import {Component, Watch} from "vue-property-decorator";
-import {InfoTO, ServiceInstanceTO, UserTO,} from "@muenchen/digiwf-engine-api-internal";
+import { InfoTO, UserTO } from "@muenchen/digiwf-engine-api-internal";
+import { defineComponent, provide, ref, watch } from "vue";
+
+import StageInfoService, { StageInfo } from "./api/StageInfoService";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
-import {apiGatewayUrl} from "./utils/envVariables";
-import {queryClient} from "./middleware/queryClient";
-import StageInfoService, {StageInfo} from "./api/StageInfoService";
+import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
+import { useStore } from "./hooks/store";
+import { useGetProcessInstances } from "./middleware/processInstances/processInstancesMiddleware";
+import { queryClient } from "./middleware/queryClient";
+import { useCurrentUserInfo } from "./middleware/user/userMiddleware";
+import { apiGatewayUrl } from "./utils/envVariables";
 
-@Component({
-  components: {AppHelpMenu, AppMenuList}
-})
-export default class App extends Vue {
-  drawer = true;
-  processInstancesCount: number | null = null;
-  username = "";
-  appInfo: InfoTO | null = null;
-  loginLoading = false;
-  loggedIn = true;
-  showKeyBindingsModal = false;
-  stage: StageInfo = StageInfoService.getDefaultStageInfo();
+export default defineComponent({
+  components: { AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
+  setup: () => {
+    const drawer = ref(true);
+    const processInstancesCount = ref<number | null>(null);
+    const appInfo = ref<InfoTO | null>(null);
+    const loggedIn = ref(true);
+    const showKeyBindingsModal = ref(false);
+    const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
-  created(): void {
-    this.loadData();
-  }
+    const store = useStore();
 
-  loadData(refresh = false): void {
-    StageInfoService.getStageInfo().then((stageInfo) => {
-      this.stage = stageInfo;
+    const { data: processInstances } = useGetProcessInstances(
+      ref(0),
+      ref(10),
+      ref(undefined)
+    );
+    const {
+      data: user,
+      isLoading: loginLoading,
+      refetch: refetchUser,
+    } = useCurrentUserInfo();
+
+    provide("user", user.value);
+
+    const loadData = () => {
+      StageInfoService.getStageInfo().then((stageInfo) => {
+        stage.value = stageInfo;
+      });
+      store.dispatch("info/getInfo", false);
+      drawer.value = store.getters["menu/open"];
+    };
+
+    watch(processInstances, () => {
+      processInstancesCount.value = processInstances.value
+        ? processInstances.value.totalElements
+        : 0;
     });
-    this.$store.dispatch("user/getUserInfo", refresh);
-    this.$store.dispatch("info/getInfo", refresh);
-    this.drawer = this.$store.getters["menu/open"];
-  }
 
-  getUser(): void {
-    this.loginLoading = true;
-    this.$store.dispatch("user/getUserInfo", true);
-    this.loginLoading = false;
-  }
-
-  @Watch("$store.state.menu.open")
-  onMenuChanged(menuOpen: boolean): void {
-    this.drawer = menuOpen;
-  }
-
-  @Watch("$store.state.user.info")
-  setUserName(user: UserTO): void {
-    this.username = user.forename && user.surname ? user.forename + " " + user.surname : "";
-    // if session is not valid, user is updated to an empty object in redux store
-    this.loggedIn = !!user.username;
-  }
-
-  @Watch("$store.state.processInstances.processInstances")
-  setMyProcessInstancesCount(processInstances: ServiceInstanceTO[]): void {
-    this.processInstancesCount = processInstances.length;
-  }
-
-  @Watch("$store.state.info.info")
-  setAppInfo(info: InfoTO): void {
-    this.appInfo = info;
-  }
-
-  login(): void {
-    let popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
-
-    popup?.focus();
-    let timer = setInterval(() => {
-      if (popup?.closed ?? true) {
-        clearInterval(timer);
-        this.getUser();
-        queryClient.refetchQueries();
+    watch(
+      () => store.state.menu.open,
+      (menuOpen) => {
+        drawer.value = menuOpen as boolean;
       }
-    }, 1000);
-  }
+    );
 
-  openKeyBindingsDialoge(): void {
-    this.showKeyBindingsModal = true;
-  }
+    watch(
+      () => store.state.info.info,
+      (info: InfoTO) => {
+        appInfo.value = info;
+      }
+    );
 
-  closeKeyBindingsDialoge(): void {
-    this.showKeyBindingsModal = false;
-  }
-}
+    const login = (): void => {
+      const popup = window.open(`${apiGatewayUrl}/loginsuccess.html`);
+
+      popup?.focus();
+      const timer = setInterval(() => {
+        if (popup?.closed ?? true) {
+          clearInterval(timer);
+          refetchUser();
+          queryClient.refetchQueries();
+        }
+      }, 1000);
+    };
+
+    const openKeyBindingsDialoge = (): void => {
+      showKeyBindingsModal.value = true;
+    };
+
+    const closeKeyBindingsDialoge = (): void => {
+      showKeyBindingsModal.value = false;
+    };
+
+    loadData();
+
+    return {
+      drawer,
+      appInfo,
+      user,
+      openKeyBindingsDialoge,
+      closeKeyBindingsDialoge,
+      login,
+      loggedIn,
+      showKeyBindingsModal,
+      loginLoading,
+      processInstancesCount,
+      stage,
+    };
+  },
+});
 </script>

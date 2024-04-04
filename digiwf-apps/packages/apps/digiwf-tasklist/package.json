@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "jest src --coverage"
+    "test": "jest src --coverage",
+    "prettier": "prettier src --write --ignore-path ./legacy-ignore.prettierignore"
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
@@ -41,6 +42,8 @@
     "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@muenchen/prettier-codeformat": "^1.0.1",
     "@mdi/font": "^5.9.55",
     "@types/axios": "^0.14.0",
     "@types/debounce": "^1.2.2",

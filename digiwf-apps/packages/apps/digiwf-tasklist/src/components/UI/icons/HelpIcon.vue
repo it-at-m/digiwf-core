@@ -1,24 +1,24 @@
 <template>
   <svg-icon
     type="mdi"
-    :path="path"/>
+    :path="path"
+  />
 </template>
-
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import {mdiHelpCircle} from "@mdi/js";
+import { mdiHelpCircle } from "@mdi/js";
 
 export default {
   name: "HelpIcon",
   components: {
-    SvgIcon
+    SvgIcon,
   },
 
   data() {
     return {
-      path: mdiHelpCircle ,
+      path: mdiHelpCircle,
     };
-  }
+  },
 };
 </script>

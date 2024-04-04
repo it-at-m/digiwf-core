@@ -3,7 +3,11 @@
     <v-list-item-content class="itemContent">
       <v-list-item-title class="itemTitle">
         <span>{{ label }}</span>
-        <span v-if="!!numberOfElements" class="counter grey--text text--darken-2">{{ numberOfElements }}</span>
+        <span
+          v-if="!!numberOfElements"
+          class="counter grey--text text--darken-2"
+          >{{ numberOfElements }}</span
+        >
       </v-list-item-title>
     </v-list-item-content>
   </v-list-item>
@@ -15,18 +19,18 @@ export default {
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     path: {
       type: String,
-      required: true
+      required: true,
     },
     numberOfElements: {
       type: Number,
-      required: false
-    }
-  }
-}
+      required: false,
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -45,5 +49,4 @@ export default {
   align-items: flex-end;
   flex-direction: row;
 }
-
 </style>

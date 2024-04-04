@@ -10,20 +10,21 @@
   </v-alert>
 </template>
 
-<style scoped>
-</style>
-
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import { defineComponent, PropType } from "vue";
 
-@Component
-export default class AppToast extends Vue {
+export type AppToastType = "error" | "info";
 
-  @Prop()
-  message!: string;
-
-  @Prop()
-  type!: 'error' | 'info'
-
-}
+export default defineComponent({
+  props: {
+    message: {
+      type: Object, // normally string, but it is used with Error Object too, FIXME
+      required: true,
+    },
+    type: {
+      type: Object as PropType<AppToastType>,
+      required: true,
+    },
+  },
+});
 </script>

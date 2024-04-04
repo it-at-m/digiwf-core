@@ -1,9 +1,15 @@
 <template>
   <v-list-item
-    :aria-label="'Gruppenaufgabe '+ task.name+ ' öffnen'"
+    :aria-label="'Gruppenaufgabe ' + task.name + ' öffnen'"
     class="d-flex align-center"
-    :style="(task.inAssignProcess && !showAssignee) && 'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'"
-    :to="(!task.inAssignProcess ||showAssignee) ? '/opengrouptask/'+ task.id : ''"
+    :style="
+      task.inAssignProcess &&
+      !showAssignee &&
+      'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'
+    "
+    :to="
+      !task.inAssignProcess || showAssignee ? '/opengrouptask/' + task.id : ''
+    "
   >
     <v-flex
       class="d-flex flex-column taskColumn"
@@ -30,11 +36,11 @@
         Task wird aktuell einer Person zugewiesen
       </p>
       <p
-        v-if="task.followUpDate"
+        v-if="task.followUpDateFormatted"
         class="grey--text"
         style="font-size: 0.9rem"
       >
-        Wiedervorlage am {{ task.followUpDate }}
+        Wiedervorlage am {{ task.followUpDateFormatted }}
       </p>
       <p>
         <text-highlight :queries="searchString">
@@ -83,35 +89,50 @@
           <v-btn
             icon
             v-bind="attrs"
-            @click="(event) => { event.preventDefault()}"
+            @click="
+              (event) => {
+                event.preventDefault();
+              }
+            "
             v-on.prevent="on"
           >
-            <v-icon aria-label="Aktionen für die Aufgabe" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
+            <v-icon
+              aria-label="Aktionen für die Aufgabe"
+              role="img"
+              aria-hidden="false"
+              >mdi-dots-vertical</v-icon
+            >
           </v-btn>
         </template>
         <v-list>
           <v-list-item
-            :aria-label="'Aufgabe '+ task.name+ ' öffnen'"
+            :aria-label="'Aufgabe ' + task.name + ' öffnen'"
             link
-            :to="'/opengrouptask/'+task.id"
-            @click="(event) => { event.preventDefault()}"
+            :to="'/opengrouptask/' + task.id"
+            @click="
+              (event) => {
+                event.preventDefault();
+              }
+            "
           >
             <v-list-item-title>Öffnen</v-list-item-title>
           </v-list-item>
           <v-list-item
-            :aria-label="'Aufgabe '+task.name+ ' bearbeiten'"
+            :aria-label="'Aufgabe ' + task.name + ' bearbeiten'"
             link
-            @click="(event) => {
-              $emit('edit', task.id);
-              event.preventDefault();
-            }"
+            @click="
+              (event) => {
+                $emit('edit', task.id);
+                event.preventDefault();
+              }
+            "
           >
             <v-list-item-title>Bearbeiten</v-list-item-title>
           </v-list-item>
           <v-list-item
-            :aria-label="'Aufgabe '+task.name+ ' zuweisen'"
+            :aria-label="'Aufgabe ' + task.name + ' zuweisen'"
             link
-            @click="() => dialogOpen = true"
+            @click="() => (dialogOpen = true)"
           >
             <v-list-item-title>Zuweisen</v-list-item-title>
           </v-list-item>
@@ -129,47 +150,45 @@
 </template>
 
 <script lang="ts">
-import {HumanTask} from "../../middleware/tasks/tasksModels";
-import {PropType, ref} from "vue";
+import { PropType, ref } from "vue";
+
+import { HumanTask } from "../../middleware/tasks/tasksModels";
 import AssignTaskDialog from "./AssignTaskDialog.vue";
-import {useGetPaginationData} from "../../middleware/paginationData";
 
 export default {
-  components: {AssignTaskDialog},
+  components: { AssignTaskDialog },
   props: {
     task: {
       type: Object as PropType<HumanTask>,
-      required: true
+      required: true,
     },
     searchString: {
       type: String,
-      default: ""
+      default: "",
     },
     showAssignee: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: {
     edit: {
-      type: Function as PropType<(id: string) => void>
+      type: Function as PropType<(id: string) => void>,
     },
     clickTag: {
-      type: Function as PropType<(tag: string) => void>
+      type: Function as PropType<(tag: string) => void>,
     },
   },
   setup: () => {
     const dialogOpen = ref<boolean>(false);
     return {
-      dialogOpen
+      dialogOpen,
     };
-  }
+  },
 };
-
 </script>
 
 <style scoped>
-
 .taskColumn {
   margin: 0 0 0 8px;
   align-self: baseline;
@@ -193,5 +212,4 @@ export default {
 .taskInfo span {
   margin-right: 0.5rem;
 }
-
 </style>

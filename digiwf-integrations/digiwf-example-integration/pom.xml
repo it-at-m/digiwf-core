@@ -25,12 +25,6 @@
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
         </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-logging-and-tracing</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

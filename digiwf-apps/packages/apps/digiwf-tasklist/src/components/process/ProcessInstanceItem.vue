@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-list-item
-      :aria-label="'Vorgang '+item.definitionName+ ' öffnen'"
+      :aria-label="'Vorgang ' + item.definitionName + ' öffnen'"
       class="d-flex justify-space-between"
       :data-cy="'process-instance-item-' + item.id"
       :data-element-key="item.id"
-      :to="'/instance/'+item.id"
+      :to="'/instance/' + item.id"
     >
       <v-flex
         class="d-flex flex-column processColumn"
@@ -20,7 +20,9 @@
           </text-highlight>
         </h2>
         <span>
-          <text-highlight :queries="searchString"> {{ item.description }} </text-highlight>
+          <text-highlight :queries="searchString">
+            {{ item.description }}
+          </text-highlight>
         </span>
       </v-flex>
       <v-flex
@@ -29,7 +31,9 @@
         data-cy="status"
       >
         <span>
-          <text-highlight :queries="searchString"> {{ item.status }}</text-highlight>
+          <text-highlight :queries="searchString">
+            {{ item.status }}</text-highlight
+          >
         </span>
       </v-flex>
       <v-flex
@@ -53,19 +57,32 @@
             <v-btn
               icon
               v-bind="attrs"
-              @click="(event) => { event.preventDefault()}"
+              @click="
+                (event) => {
+                  event.preventDefault();
+                }
+              "
               v-on.prevent="on"
               aria-label="Aktionen für den Vorgang"
               aria-hidden="false"
             >
-              <v-icon aria-label="Aktionen für den Vorgang" role="img" aria-hidden="false">mdi-dots-vertical</v-icon>
+              <v-icon
+                aria-label="Aktionen für den Vorgang"
+                role="img"
+                aria-hidden="false"
+                >mdi-dots-vertical</v-icon
+              >
             </v-btn>
           </template>
           <v-list>
             <v-list-item
               link
-              :to="'/instance/'+item.id"
-              @click="(event) => { event.preventDefault()}"
+              :to="'/instance/' + item.id"
+              @click="
+                (event) => {
+                  event.preventDefault();
+                }
+              "
               data-cy="open-instance"
             >
               <v-list-item-title>Anzeigen</v-list-item-title>
@@ -74,12 +91,11 @@
         </v-menu>
       </div>
     </v-list-item>
-    <hr class="hrDivider">
+    <hr class="hrDivider" />
   </div>
 </template>
 
 <style scoped>
-
 .processColumn {
   margin: 0 0 0 5px;
   align-self: baseline;
@@ -99,24 +115,25 @@
 </style>
 
 <script lang="ts">
-import {PropType} from "vue";
-import {ProcessInstance} from "../../middleware/processInstances/processInstancesMiddleware";
+import { PropType } from "vue";
+
+import { ProcessInstance } from "../../middleware/processInstances/processInstancesMiddleware";
 
 export default {
   props: {
     item: {
       type: Object as PropType<ProcessInstance>,
-      required: true
+      required: true,
     },
     searchString: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   emits: {
     click: {
-      type: Function as PropType<(id: string) => void>
-    }
-  }
+      type: Function as PropType<(id: string) => void>,
+    },
+  },
 };
 </script>
