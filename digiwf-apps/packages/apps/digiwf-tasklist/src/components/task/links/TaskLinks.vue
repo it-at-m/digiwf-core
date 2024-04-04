@@ -1,21 +1,18 @@
 <script lang="ts">
-
-import {PropType} from "vue";
-import {ExternalLink} from "@muenchen/digiwf-task-api-internal";
+import { ExternalLink } from "@muenchen/digiwf-task-api-internal";
+import { PropType } from "vue";
 
 export default {
   props: {
     links: {
       type: Array as PropType<ExternalLink[]>,
-      default: () => []
-    }
-  }
+      default: () => [],
+    },
+  },
 };
-
 </script>
 
 <template>
-
   <v-flex>
     <v-chip
       v-for="link in links"
@@ -31,9 +28,6 @@ export default {
       </a>
     </v-chip>
   </v-flex>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.configuration.CosysConfiguration;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -18,7 +18,7 @@ import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.FileUtils.cre
 
 @Slf4j
 @RequiredArgsConstructor
-public class CosysAdapter implements GenerateDocumentPort {
+public class CosysAdapter implements GenerateDocumentOutPort {
 
     public static final String DATA_FILE_NAME = "data";
     public static final String MERGE_FILE_NAME = "merge";

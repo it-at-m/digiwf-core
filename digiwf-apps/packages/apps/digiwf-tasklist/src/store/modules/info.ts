@@ -1,7 +1,12 @@
-import {ActionContext} from "vuex";
-import {RootState} from "../index";
-import {FetchUtils, InfoRestControllerApiFactory, InfoTO} from '@muenchen/digiwf-engine-api-internal';
-import {ApiConfig} from "../../api/ApiConfig";
+import {
+  FetchUtils,
+  InfoRestControllerApiFactory,
+  InfoTO,
+} from "@muenchen/digiwf-engine-api-internal";
+import { ActionContext } from "vuex";
+
+import { ApiConfig } from "../../api/ApiConfig";
+import { RootState } from "../index";
 
 export interface InfoState {
   info: InfoTO;
@@ -12,7 +17,7 @@ export default {
   namespaced: true,
   state: {
     info: {},
-    lastFetch: null
+    lastFetch: null,
   } as InfoState,
   getters: {
     shouldUpdate: (state: InfoState) => (): boolean => {
@@ -36,22 +41,26 @@ export default {
     },
   },
   actions: {
-    async getInfo(context: ActionContext<InfoState, RootState>, forceRefresh: boolean): Promise<void> {
+    async getInfo(
+      context: ActionContext<InfoState, RootState>,
+      forceRefresh: boolean
+    ): Promise<void> {
       if (!forceRefresh && !context.getters.shouldUpdate()) {
         return;
       }
       const cfg = ApiConfig.getAxiosConfig(FetchUtils.getGETConfig());
 
       try {
-
         const res = await InfoRestControllerApiFactory(cfg).getInfo();
 
-        context.commit('setInfo', res.data);
-        context.commit('setLastFetch');
+        context.commit("setInfo", res.data);
+        context.commit("setLastFetch");
       } catch (err: any) {
-        FetchUtils.defaultCatchHandler(err, "Die Info konnte nicht geladen werden. Bitte versuchen Sie es erneut.");
+        FetchUtils.defaultCatchHandler(
+          err,
+          "Die Info konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+        );
       }
-
     },
-  }
+  },
 };

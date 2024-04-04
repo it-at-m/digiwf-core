@@ -5,14 +5,6 @@
     <bpmn:participant id="Participant_1nz00x0" name="Ticket example process" processRef="ticket-example-article" />
   </bpmn:collaboration>
   <bpmn:process id="ticket-example-article" name="Ticket Integration: Artikel schreiben" isExecutable="true" camunda:historyTimeToLive="P1D">
-    <bpmn:endEvent id="End_completed" name="Ended">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="start">
-          <camunda:script scriptFormat="Javascript">process.setStatus("finished");</camunda:script>
-        </camunda:executionListener>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1ha43tr</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
       <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
         <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
@@ -25,34 +17,66 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
     </bpmn:subProcess>
-    <bpmn:startEvent id="Start_Form" name="Started" camunda:formKey="start-form-ticketing-article">
+    <bpmn:sequenceFlow id="Flow_0lnd3z6" sourceRef="Start_Form" targetRef="Gateway_1rmd6pt" />
+    <bpmn:sequenceFlow id="Flow_1ha43tr" sourceRef="Activity_173ot4u" targetRef="Gateway_0uba803" />
+    <bpmn:startEvent id="Start_Form" name="Started" camunda:formKey="Zammad_Start_Form">
       <bpmn:outgoing>Flow_0lnd3z6</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_0lnd3z6" sourceRef="Start_Form" targetRef="Activity_173ot4u" />
-    <bpmn:sequenceFlow id="Flow_1ha43tr" sourceRef="Activity_173ot4u" targetRef="End_completed" />
+    <bpmn:exclusiveGateway id="Gateway_1rmd6pt" name="With User?" default="Flow_0ke8adu">
+      <bpmn:incoming>Flow_0lnd3z6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ke8adu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0tm86kn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0ke8adu" name="no" sourceRef="Gateway_1rmd6pt" targetRef="Activity_173ot4u" />
+    <bpmn:endEvent id="End_completed" name="Ended">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">process.setStatus("finished");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pqs8h0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1pqs8h0" sourceRef="Gateway_0uba803" targetRef="End_completed" />
     <bpmn:callActivity id="Activity_173ot4u" name="Write article" camunda:modelerTemplate="de.muenchen.digitalwf.templates.ticketing.write-article" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="ticketIntegration" target="app_integration_name" />
         <camunda:in sourceExpression="writeArticle" target="app_type_name" />
-        <camunda:in source="-" target="status" />
-        <camunda:in sourceExpression="${ticketId}" target="ticketId" />
-        <camunda:in sourceExpression="${article}" target="article" />
+        <camunda:in sourceExpression="${Zammad_Status}" target="status" />
+        <camunda:in sourceExpression="${Zammad_Article}" target="article" />
+        <camunda:in sourceExpression="${Zammad_Ticket_Id}" target="ticketId" />
+        <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0lnd3z6</bpmn:incoming>
+      <bpmn:incoming>Flow_0ke8adu</bpmn:incoming>
       <bpmn:outgoing>Flow_1ha43tr</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0tm86kn" sourceRef="Gateway_1rmd6pt" targetRef="Activity_0vo17ly">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Zammad_With_User}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_11f44nt" sourceRef="Activity_0vo17ly" targetRef="Gateway_0uba803" />
+    <bpmn:exclusiveGateway id="Gateway_0uba803">
+      <bpmn:incoming>Flow_1ha43tr</bpmn:incoming>
+      <bpmn:incoming>Flow_11f44nt</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pqs8h0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="Activity_0vo17ly" name="Write Article With User" camunda:modelerTemplate="de.muenchen.digitalwf.templates.ticketing.write-article-with-user" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="ticketIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="writeArticle" target="app_type_name" />
+        <camunda:in sourceExpression="${Zammad_Ticket_Id}" target="ticketId" />
+        <camunda:in sourceExpression="${Zammad_Article}" target="article" />
+        <camunda:in sourceExpression="${Zammad_Status}" target="status" />
+        <camunda:in sourceExpression="${Zammad_User}" target="userId" />
+        <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0tm86kn</bpmn:incoming>
+      <bpmn:outgoing>Flow_11f44nt</bpmn:outgoing>
     </bpmn:callActivity>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test-prozess">
     <bpmndi:BPMNPlane id="BPMNPlane_test-prozess" bpmnElement="Collaboration_0e6ak52">
       <bpmndi:BPMNShape id="Participant_1nz00x0_di" bpmnElement="Participant_1nz00x0" isHorizontal="true" isExpanded="true">
-        <dc:Bounds x="152" y="80" width="508" height="350" />
+        <dc:Bounds x="152" y="-140" width="598" height="570" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="End_completed">
-        <dc:Bounds x="522" y="122" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="525" y="165" width="32" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="282" y="240" width="275" height="130" />
@@ -74,22 +98,63 @@
         <di:waypoint x="474" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1acjyv3_di" bpmnElement="Start_Form">
-        <dc:Bounds x="212" y="122" width="36" height="36" />
+        <dc:Bounds x="212" y="32" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="214" y="165" width="36" height="14" />
+          <dc:Bounds x="214" y="75" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1rmd6pt_di" bpmnElement="Gateway_1rmd6pt" isMarkerVisible="true">
+        <dc:Bounds x="305" y="25" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="364.5" y="43" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="End_completed">
+        <dc:Bounds x="652" y="22" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="655" y="65" width="32" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1s316i5_di" bpmnElement="Activity_173ot4u">
-        <dc:Bounds x="330" y="100" width="100" height="80" />
+        <dc:Bounds x="400" y="100" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0uba803_di" bpmnElement="Gateway_0uba803" isMarkerVisible="true">
+        <dc:Bounds x="566" y="15" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rm5wg9_di" bpmnElement="Activity_0vo17ly">
+        <dc:Bounds x="400" y="-70" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0lnd3z6_di" bpmnElement="Flow_0lnd3z6">
-        <di:waypoint x="248" y="140" />
-        <di:waypoint x="330" y="140" />
+        <di:waypoint x="248" y="50" />
+        <di:waypoint x="305" y="50" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ha43tr_di" bpmnElement="Flow_1ha43tr">
-        <di:waypoint x="430" y="140" />
-        <di:waypoint x="522" y="140" />
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="591" y="140" />
+        <di:waypoint x="591" y="65" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ke8adu_di" bpmnElement="Flow_0ke8adu">
+        <di:waypoint x="330" y="75" />
+        <di:waypoint x="330" y="140" />
+        <di:waypoint x="400" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="359" y="122" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pqs8h0_di" bpmnElement="Flow_1pqs8h0">
+        <di:waypoint x="616" y="40" />
+        <di:waypoint x="652" y="40" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tm86kn_di" bpmnElement="Flow_0tm86kn">
+        <di:waypoint x="330" y="25" />
+        <di:waypoint x="330" y="-30" />
+        <di:waypoint x="400" y="-30" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11f44nt_di" bpmnElement="Flow_11f44nt">
+        <di:waypoint x="500" y="-30" />
+        <di:waypoint x="591" y="-30" />
+        <di:waypoint x="591" y="15" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

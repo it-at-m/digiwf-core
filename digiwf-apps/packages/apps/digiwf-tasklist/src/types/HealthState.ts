@@ -1,7 +1,7 @@
 export default class HealthState {
-    status: string
+  status: string;
 
-    constructor(status: string) {
-        this.status = status;
-    }
+  constructor(status: string) {
+    this.status = status;
+  }
 }

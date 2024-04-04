@@ -1,13 +1,13 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessagePort;
+import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class ProcessAdapter implements CorrelateMessagePort {
+public class ProcessAdapter implements CorrelateMessageOutPort {
 
     private final ProcessApi processApi;
 

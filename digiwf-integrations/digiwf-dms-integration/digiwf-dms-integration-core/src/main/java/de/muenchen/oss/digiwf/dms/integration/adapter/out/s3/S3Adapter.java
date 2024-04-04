@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFilePort;
-import de.muenchen.oss.digiwf.dms.integration.application.port.out.TransferContentPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFileOutPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.TransferContentOutPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements LoadFilePort, TransferContentPort {
+public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
 

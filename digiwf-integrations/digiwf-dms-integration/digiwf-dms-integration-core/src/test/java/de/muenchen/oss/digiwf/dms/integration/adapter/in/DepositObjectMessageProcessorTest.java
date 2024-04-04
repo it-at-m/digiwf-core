@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import jakarta.validation.ValidationException;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -28,7 +28,7 @@ class DepositObjectMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.doNothing().when(depositObjectUseCaseMock).depositObject(
+        Mockito.doNothing().when(depositObjectInPortMock).depositObject(
                 depositObjectDto.getObjectCoo(),
                 depositObjectDto.getUser());
         this.message = new Message<>() {
@@ -47,12 +47,12 @@ class DepositObjectMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDepositObjectSuccessful() {
         messageProcessor.depositObject().accept(this.message);
-        verify(depositObjectUseCaseMock, times(1)).depositObject(depositObjectDto.getObjectCoo(), depositObjectDto.getUser());
+        verify(depositObjectInPortMock, times(1)).depositObject(depositObjectDto.getObjectCoo(), depositObjectDto.getUser());
     }
 
     @Test
     void testDepositObjectValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(depositObjectUseCaseMock).depositObject(any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(depositObjectInPortMock).depositObject(any(), any());
         messageProcessor.depositObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
@@ -62,7 +62,7 @@ class DepositObjectMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDepositObjectIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(depositObjectUseCaseMock).depositObject(any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(depositObjectInPortMock).depositObject(any(), any());
         messageProcessor.depositObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

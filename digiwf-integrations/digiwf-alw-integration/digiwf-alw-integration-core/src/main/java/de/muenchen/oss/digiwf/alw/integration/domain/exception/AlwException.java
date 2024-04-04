@@ -9,6 +9,13 @@ package de.muenchen.oss.digiwf.alw.integration.domain.exception;
  */
 public class AlwException extends Exception {
 
+    private String statusCode = "";
+
+    public AlwException(final String message, String statusCode) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+
     public AlwException(final String message) {
         super(message);
     }

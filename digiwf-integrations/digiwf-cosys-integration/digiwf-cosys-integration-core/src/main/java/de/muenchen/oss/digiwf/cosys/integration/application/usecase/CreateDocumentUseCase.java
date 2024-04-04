@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.cosys.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocument;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessagePort;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentPort;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessageOutPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CreateDocumentUseCase implements CreateDocument {
+public class CreateDocumentUseCase implements CreateDocumentInPort {
 
-    private final SaveFileToStoragePort saveFileToStoragePort;
-    private final CorrelateMessagePort correlateMessagePort;
-    private final GenerateDocumentPort generateDocumentPort;
+    private final SaveFileToStorageOutPort saveFileToStorageOutPort;
+    private final CorrelateMessageOutPort correlateMessageOutPort;
+    private final GenerateDocumentOutPort generateDocumentOutPort;
 
 
     /**
@@ -29,12 +29,12 @@ public class CreateDocumentUseCase implements CreateDocument {
      */
     @Override
     public void createDocument(final String processInstanceIde, final String type, final String integrationName, @Valid final GenerateDocument generateDocument) {
-        final byte[] data = this.generateDocumentPort.generateCosysDocument(generateDocument).block();
-        this.saveFileToStoragePort.saveDocumentInStorage(generateDocument, data);
+        final byte[] data = this.generateDocumentOutPort.generateCosysDocument(generateDocument).block();
+        this.saveFileToStorageOutPort.saveDocumentInStorage(generateDocument, data);
 
         final Map<String, Object> correlatePayload = new HashMap<>();
         correlatePayload.put("status", true);
-        this.correlateMessagePort.correlateMessage(processInstanceIde,type,integrationName,correlatePayload);
+        this.correlateMessageOutPort.correlateMessage(processInstanceIde, type, integrationName, correlatePayload);
     }
 
 

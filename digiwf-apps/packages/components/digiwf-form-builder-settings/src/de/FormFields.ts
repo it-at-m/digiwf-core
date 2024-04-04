@@ -15,69 +15,65 @@ import {
   textAreaSchema,
   textFeldSchema,
   timeSchema,
-  userinputSchema
+  userinputSchema,
 } from "../base/FormFields";
 import { Labels } from "../base/labels";
 
 const constSchema = {
-  "title": "Allgemein",
-  "type": "object",
-  "properties": {
-    "fieldType": {
-      "type": "string",
-      "title": "Type",
-      "readOnly": true
+  title: "Allgemein",
+  type: "object",
+  properties: {
+    fieldType: {
+      type: "string",
+      title: "Type",
+      readOnly: true,
     },
-    "type": {
-      "type": "string",
+    type: {
+      type: "string",
       "x-display": "hidden",
     },
-    "key": {
-      "type": "string",
-      "title": "Key",
+    key: {
+      type: "string",
+      title: "Key",
       "x-props": {
-        "outlined": true,
-        "dense": true
+        outlined: true,
+        dense: true,
       },
-      "x-rules": [
-        "required"
-      ]
+      "x-rules": ["required"],
     },
-    "const": {
-      "type": "string",
-      "title": "Const",
+    const: {
+      type: "string",
+      title: "Const",
       "x-props": {
-        "outlined": true,
-        "dense": true
+        outlined: true,
+        dense: true,
       },
-      "x-rules": [
-        "required"
-      ]
+      "x-rules": ["required"],
     },
-  }
+  },
 };
 
 export const schemaMap = (deLabels: Labels): any => {
   return {
-    "textarea": textAreaSchema(deLabels),
-    "text": textFeldSchema(deLabels),
-    "integer": integerSchema(deLabels),
-    "number": integerSchema(deLabels),
-    "date": dateSchema(deLabels),
-    "time": timeSchema(deLabels),
-    "boolean": checkboxSchema(deLabels),
-    "select": selectSchema(deLabels),
-    "multiselect": multiselectSchema(deLabels),
-    "file": fileSchema(deLabels),
+    textarea: textAreaSchema(deLabels),
+    text: textFeldSchema(deLabels),
+    integer: integerSchema(deLabels),
+    number: integerSchema(deLabels),
+    date: dateSchema(deLabels),
+    time: timeSchema(deLabels),
+    boolean: checkboxSchema(deLabels),
+    select: selectSchema(deLabels),
+    multiselect: multiselectSchema(deLabels),
+    file: fileSchema(deLabels),
     "user-input": userinputSchema(deLabels),
     "multi-user-input": multiUserinputSchema(deLabels),
     "dms-input": dmsInputSchema(deLabels),
-    "array": arrayInput(deLabels),
-    "arrayObject": arrayObjectInput(deLabels),
-    "switch": switchSchema(deLabels),
-    "markdown": markdownSchema(deLabels),
-    "const": constSchema,
-    "object": objectInput(deLabels),
-    "objectType": objectInput(deLabels),
-  }
-}
+    array: arrayInput(deLabels),
+    arrayObject: arrayObjectInput(deLabels),
+    switch: switchSchema(deLabels),
+    markdown: markdownSchema(deLabels),
+    const: constSchema,
+    object: objectInput(deLabels),
+    objectType: objectInput(deLabels),
+  };
+};

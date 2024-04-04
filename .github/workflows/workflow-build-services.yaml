@@ -8,6 +8,10 @@ on:
         type: boolean
         required: true
         default: false
+      upload-codecov:
+        description: 'Upload codecov?'
+        type: boolean
+        default: false
       maven-release:
         description: 'Maven release?'
         type: boolean
@@ -36,9 +40,9 @@ jobs:
           java-version: 17
           distribution: 'adopt'
           cache: "maven"
-          server-id: "ossrh"
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
+          server-id: "central"
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_PASSWORD
 
       - name: Prepare mvnw
         run: chmod +x ./mvnw
@@ -50,6 +54,18 @@ jobs:
 
       - name: Build with Maven
         run: ./mvnw --batch-mode clean install
+
+      - name: Upload coverage to Codecov
+        if: inputs.upload-codecov == true
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./digiwf-coverage/target/coverage/
+          fail_ci_if_error: false
+          files: ./digiwf-coverage/target/coverage/jacoco.xml
+          flags: unittests
+          name: digiwf-core
+          verbose: true
 
       #
       # The GPG key is stored in the secret using the text 'PGP Private Key' format
@@ -70,11 +86,11 @@ jobs:
       # Create a release, passing gpg.keyname and gpg.passphrase directly from the secrets
       #
       - name: Perform maven release
-        if: inputs.maven-release == true
+        if: inputs.maven-release == true && inputs.snapshot-release == false
         run: ./mvnw --batch-mode --no-transfer-progress deploy --activate-profiles release -DskipTests -Dgpg.keyname="${{ secrets.gpg_keyname }}" -Dgpg.passphrase="${{ secrets.gpg_passphrase }}"
         env:
-          OSSRH_USERNAME: ${{ secrets.nexus_username }}
-          OSSRH_PASSWORD: ${{ secrets.nexus_password }}
+          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
+          CENTRAL_PASSWORD: ${{ secrets.sonatype_password }}
 
       - name: Set up QEMU
         if: inputs.build-images == true

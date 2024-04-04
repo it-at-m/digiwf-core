@@ -1,34 +1,41 @@
-import {useGetPaginationData} from "./paginationData";
-import {PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
-import {useRouter} from "vue-router/composables";
-import {inject} from "vue";
+import { inject } from "vue";
+import { useRouter } from "vue-router/composables";
+
+import { PageBasedPaginationProvider } from "./PageBasedPaginationProvider";
+import { useGetPaginationData } from "./paginationData";
 
 beforeEach(() => {
   jest.resetModules();
 });
 jest.mock("vue-router/composables", () => ({
-  ...jest.requireActual('vue-router/composables'),
+  ...jest.requireActual("vue-router/composables"),
   useRoute: jest.fn(),
   useRouter: jest.fn(() => {
     return {
       currentRoute: {
         path: "#/mytask",
         query: {
-          size: "100"
-        }
+          size: "100",
+        },
       },
       push: () => {},
       replace: () => {},
     };
-  })
+  }),
 }));
-jest.mock('vue', () => ({
-  ...jest.requireActual('vue'),
+jest.mock("vue", () => ({
+  ...jest.requireActual("vue"),
   inject: jest.fn(() => {
     return new PageBasedPaginationProvider();
   }),
 }));
-const mockRouter = (path: string, page?: number, size?: number, filter?: string, tag?: string) => {
+const mockRouter = (
+  path: string,
+  page?: number,
+  size?: number,
+  filter?: string,
+  tag?: string
+) => {
   (useRouter as any).mockImplementation(() => ({
     currentRoute: {
       path,
@@ -36,32 +43,25 @@ const mockRouter = (path: string, page?: number, size?: number, filter?: string,
         page: page + "",
         size: size + "",
         filter,
-        tag
-      }
+        tag,
+      },
     },
-    push: () => {
-    },
-    replace: () => {
-    },
+    push: () => {},
+    replace: () => {},
   }));
 };
 
 describe("usePaginationData", () => {
   it("should throw exception if PageBasesPaginationProvider could not be injected", () => {
-    (inject as any).mockImplementation(() => {
-    });
+    (inject as any).mockImplementation(() => {});
     expect(useGetPaginationData).toThrow();
   });
   it("should return values from url query if session is empty", () => {
     (inject as any).mockImplementation(() => {
       return new PageBasedPaginationProvider();
     });
-    mockRouter("/#/mytasks", 99, 999, "filter")
-    const {
-      size,
-      page,
-      searchQuery
-    } = useGetPaginationData();
+    mockRouter("/#/mytasks", 99, 999, "filter");
+    const { size, page, searchQuery } = useGetPaginationData();
     expect(size.value).toBe(999);
     expect(page.value).toBe(99);
     expect(searchQuery.value).toBe("filter");
@@ -77,11 +77,7 @@ describe("usePaginationData", () => {
       return sessionData;
     });
     mockRouter("/", 99, 999, "filter");
-    const {
-      size,
-      page,
-      searchQuery
-    } = useGetPaginationData();
+    const { size, page, searchQuery } = useGetPaginationData();
     expect(size.value).toBe(11);
     expect(page.value).toBe(22);
     expect(searchQuery.value).toBe("session filter");
@@ -96,12 +92,7 @@ describe("usePaginationData", () => {
       return sessionData;
     });
     mockRouter("/", 0, 0, "filter");
-    const {
-      size,
-      page,
-      searchQuery,
-      setSearchQuery
-    } = useGetPaginationData();
+    const { size, page, searchQuery, setSearchQuery } = useGetPaginationData();
     expect(size.value).toBe(5);
     expect(page.value).toBe(1);
     expect(searchQuery.value).toBe(undefined);

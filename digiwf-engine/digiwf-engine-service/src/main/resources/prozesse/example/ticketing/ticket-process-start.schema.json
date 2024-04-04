@@ -1,0 +1,184 @@
+{
+  "key": "Zammad_Start_Form",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "title": "DigiWF Ticket Integration",
+        "description": "",
+        "type": "object",
+        "key": "6b167a25-6951-4715-b639-88b201ad2cf1",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Zammad Ticket",
+            "description": "",
+            "key": "fc4385e5-71d8-44a6-ad46-785faf07a480",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "Zammad_Ticket_Id": {
+                "fieldType": "text",
+                "title": "Zammad Ticket Id",
+                "type": "string",
+                "key": "Zammad_Ticket_Id",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "Zammad_Article": {
+                "fieldType": "textarea",
+                "title": "Kommentar",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "Zammad_Article",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "Zammad_Status": {
+                "fieldType": "select",
+                "title": "Status",
+                "type": "string",
+                "key": "Zammad_Status",
+                "x-display": "select",
+                "readOnly": false,
+                "default": "OPEN",
+                "anyOf": [
+                  {
+                    "title": "Open",
+                    "const": "OPEN"
+                  },
+                  {
+                    "title": "Closed",
+                    "const": "CLOSED"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "Zammad_Files": {
+                "fieldType": "file",
+                "title": "Dateien zum Kommentar anfügen",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "key": "Zammad_Files",
+                "uuidEnabled": false,
+                "filePath": "zammad",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          },
+          {
+            "containerType": "group",
+            "title": "Zammad User",
+            "description": "",
+            "key": "8b1d2919-808e-4426-b1c6-d690ae3c9b20",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "Zammad_With_User": {
+                "fieldType": "boolean",
+                "title": "Mit User?",
+                "default": false,
+                "type": "boolean",
+                "key": "Zammad_With_User",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "Zammad_User": {
+                "fieldType": "user-input",
+                "title": "Benutzerauswahl",
+                "x-display": "custom-user-input",
+                "type": "string",
+                "key": "Zammad_User",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

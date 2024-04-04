@@ -12,5 +12,23 @@
       "position": 2
     }
   ],
-  "statusDokument": ""
+  "statusDokument": "",
+  "configs": [
+    {
+      "key": "ignore_fields_on_start",
+      "value": "1"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "Zammad_Start_Form"
+    },
+    {
+      "key": "app_file_paths_readonly",
+      "value": "zammad"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "zammad"
+    }
+  ]
 }

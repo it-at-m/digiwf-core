@@ -1,6 +1,13 @@
 import { Labels } from "@/base/labels";
 import { FormBuilderSettings } from "../../types";
-import { containerIconMap, defaultContainerIcon, defaultIcon, iconMap } from "../base/IconMap";
+import { containerSchemaBuilder } from "../base/Container";
+import { genericSchema } from "../base/FormFields";
+import {
+  containerIconMap,
+  defaultContainerIcon,
+  defaultIcon,
+  iconMap,
+} from "../base/IconMap";
 import {
   containerPaletteBuilder,
   formFieldPaletteBuilder,
@@ -8,11 +15,9 @@ import {
   optionalItemBuilder,
   optionalObjectPaletteBuilder,
   optionalPropertiesBuilder,
-  sectionPaletteBuilder
+  sectionPaletteBuilder,
 } from "../base/ModelerPalette";
-import { genericSchema } from "../base/FormFields";
 import { sectionBuilder } from "../base/Section";
-import { containerSchemaBuilder } from "../base/Container";
 import { schemaMap } from "./FormFields";
 
 export const enLabels: Labels = {
@@ -45,7 +50,8 @@ export const enLabels: Labels = {
   options: "Options",
   dynamicObject: "Dynamic Object",
   dynamicObjectList: "Dynamic Object List",
-  containerDescription: "I'm a description shown as a paragraph on top of section",
+  containerDescription:
+    "I'm a description shown as a paragraph on top of section",
   maxColSize: "Size (max 12)",
   defaultColSize: "Default size",
   colSizeSmallDevices: "Size on small devices",
@@ -66,31 +72,36 @@ export const enLabels: Labels = {
   dmsSystem: "DMS System",
   dmsObjectClass: "Objectclass",
   dmsDefaultDescription: "List of COOs or links to be checked by the input",
-}
-
+};
 
 const Settings: FormBuilderSettings = {
-    iconSettings: {
-        containerIconMap: containerIconMap,
-        iconMap: iconMap,
-        defaultIcon: defaultIcon,
-        defaultContainerIcon: defaultContainerIcon
-    },
-    modelerPalette: {
-        formFields: formFieldPaletteBuilder(enLabels),
-        containers: containerPaletteBuilder(enLabels),
-        objects: objectPaletteBuilder(enLabels),
-        sections: sectionPaletteBuilder(enLabels),
-        optionalObject: optionalObjectPaletteBuilder(enLabels),
-        optionalProperties: optionalPropertiesBuilder(enLabels),
-        optionalItem: optionalItemBuilder(enLabels)
-    },
-    containerSchema: containerSchemaBuilder("container", enLabels),
-    conditionalContainerSchema: containerSchemaBuilder("conditionalContainer", enLabels),
-    conditionalObjectContainerSchema: containerSchemaBuilder("conditionalObjectContainer", enLabels),
-    sectionSchema: sectionBuilder(enLabels),
-    defaultFormFieldSchema: genericSchema(enLabels),
-    formFieldSchemas: schemaMap(enLabels)
-}
+  iconSettings: {
+    containerIconMap: containerIconMap,
+    iconMap: iconMap,
+    defaultIcon: defaultIcon,
+    defaultContainerIcon: defaultContainerIcon,
+  },
+  modelerPalette: {
+    formFields: formFieldPaletteBuilder(enLabels),
+    containers: containerPaletteBuilder(enLabels),
+    objects: objectPaletteBuilder(enLabels),
+    sections: sectionPaletteBuilder(enLabels),
+    optionalObject: optionalObjectPaletteBuilder(enLabels),
+    optionalProperties: optionalPropertiesBuilder(enLabels),
+    optionalItem: optionalItemBuilder(enLabels),
+  },
+  containerSchema: containerSchemaBuilder("container", enLabels),
+  conditionalContainerSchema: containerSchemaBuilder(
+    "conditionalContainer",
+    enLabels
+  ),
+  conditionalObjectContainerSchema: containerSchemaBuilder(
+    "conditionalObjectContainer",
+    enLabels
+  ),
+  sectionSchema: sectionBuilder(enLabels),
+  defaultFormFieldSchema: genericSchema(enLabels),
+  formFieldSchemas: schemaMap(enLabels),
+};
 
 export default Settings;

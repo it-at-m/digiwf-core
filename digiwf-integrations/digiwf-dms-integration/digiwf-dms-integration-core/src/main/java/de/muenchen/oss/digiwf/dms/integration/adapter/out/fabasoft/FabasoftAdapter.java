@@ -17,16 +17,16 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class FabasoftAdapter implements
-        CreateFilePort,
-        CreateProcedurePort,
-        CreateDocumentPort,
-        UpdateDocumentPort,
-        DepositObjectPort,
-        CancelObjectPort,
-        ReadContentPort,
-        SearchFilePort,
-        SearchSubjectAreaPort,
-        ReadMetadataPort {
+        CreateFileOutPort,
+        CreateProcedureOutPort,
+        CreateDocumentOutPort,
+        UpdateDocumentOutPort,
+        DepositObjectOutPort,
+        CancelObjectOutPort,
+        ReadContentOutPort,
+        SearchFileOutPort,
+        SearchSubjectAreaOutPort,
+        ReadMetadataOutPort {
 
     private final FabasoftProperties properties;
     private final LHMBAI151700GIWSDSoap wsClient;
