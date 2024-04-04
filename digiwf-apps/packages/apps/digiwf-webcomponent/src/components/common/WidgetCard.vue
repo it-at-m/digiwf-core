@@ -71,9 +71,9 @@
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-items-center"
-          :title="getNewTabDescription(linkText)"
+          :title="newTabText"
           role="link"
-          :aria-label="getNewTabDescription(linkText)"
+          :aria-label="newTabText"
         >
           <span class="me-2 footer-text">{{ linkText }}</span>
           <svg-icon
@@ -104,14 +104,14 @@ import {
   mdiOpenInNew,
   mdiReload,
 } from "@mdi/js";
-import { computed } from "vue";
+import { computed, toRef } from "vue";
 
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useInjectParameters } from "@/composables/useParameters";
-import {getNewTabDescription} from "@/util/functions";
+import { useNewTabText } from "@/composables/useNewTabText";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
@@ -133,6 +133,8 @@ const props = withDefaults(
     linkText: "In DigiWF öffnen",
   }
 );
+
+const { newTabText } = useNewTabText(toRef(props.linkText))
 
 const emit = defineEmits<{
   reload: [];

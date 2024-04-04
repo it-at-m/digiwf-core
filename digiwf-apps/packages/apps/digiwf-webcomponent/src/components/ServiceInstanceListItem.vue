@@ -4,9 +4,9 @@
     :href="frontendURL"
     target="_blank"
     class="p-3"
-    :title="getNewTabDescription(linkText)"
+    :title="newTabText"
     role="link"
-    :aria-label="getNewTabDescription(linkText)"
+    :aria-label="newTabText"
   >
     <h2 class="mb-3">
       <strong>{{ serviceInstance.definitionName }}</strong>
@@ -32,17 +32,18 @@ import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 import { useBaseURL } from "@/composables/useBaseURL";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
-import { getNewTabDescription } from "@/util/functions";
+import { useNewTabText } from "@/composables/useNewTabText";
 
 const { baseURL } = useBaseURL();
 
 const props = defineProps<{
   serviceInstance: ServiceInstanceTO;
 }>();
+const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"))
 
 const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
@@ -52,8 +53,6 @@ const frontendURL = computed(() => {
     props.serviceInstance.id
   }`;
 });
-
-const linkText = "Vorgang in DigiWF öffnen";
 </script>
 
 <style scoped>
