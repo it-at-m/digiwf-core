@@ -15,7 +15,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      # SPRING_PROFILES_ACTIVE: ccsm
       JAVA_OPTS: '-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m'
       # This only works for one engine - evtl. ok if we have a Gateway
 
@@ -23,31 +22,13 @@ services:
       # OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: 'http://camunda-webapp:8082/camunda'
       OPTIMIZE_ELASTICSEARCH_HOST: 'elasticsearch'
       OPTIMIZE_ELASTICSEARCH_HTTP_PORT: '9200'
-
-      # Identity setup is ignored in "platform mode"
-      # IDENTITY_AUTH_PROVIDER_BACKEND_URL: https://keycloak:8080/auth/realms/camunda-platform
-      # IDENTITY_AUTH_PROVIDER_ISSUER_URL: https://keycloak:8080/auth/realms/camunda-platform
-      # CAMUNDA_OPTIMIZE_IDENTITY_BASE_URL: http://identity:8084
-      # CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_URL: http://keycloak:8080/auth/realms/camunda-platform
-      # CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_BACKEND_URL: http://keycloak:8080/auth/realms/camunda-platform
-      # CAMUNDA_OPTIMIZE_IDENTITY_REDIRECT_ROOT_URL: http://localhost:8090     # base path of optimize for redirect from keycloak
-      # CAMUNDA_OPTIMIZE_ENTERPRISE: 'true'
-      # CAMUNDA_IDENTITY_CLIENT_ID: optimize
-      # CAMUNDA_IDENTITY_CLIENT_SECRET: XALaRPl5qwTEItdwCMiPS62nVpKs7dL7
-      # CAMUNDA_OPTIMIZE_IDENTITY_CLIENTID: optimize
-      # CAMUNDA_OPTIMIZE_IDENTITY_CLIENTSECRET: XALaRPl5qwTEItdwCMiPS62nVpKs7dL7
-      # CAMUNDA_OPTIMIZE_IDENTITY_AUDIENCE: optimize-api
-      # CAMUNDA_OPTIMIZE_API_AUDIENCE: optimize-api
-      # CAMUNDA_OPTIMIZE_SECURITY_AUTH_COOKIE_SAME_SITE_ENABLED: 'false'
-      # CAMUNDA_OPTIMIZE_UI_LOGOUT_HIDDEN: 'true'
-      # LOGGING_LEVEL_ORG_CAMUNDA_OPTIMIZE_REST_SECURITY: "DEBUG"
-
     volumes:
       - './optimize/environment-config.yaml:/optimize/config/environment-config.yaml'
       - '../digiwf-libs/digiwf-optimize-plugins/target/digiwf-optimize-plugins-jar-with-dependencies.jar:/optimize/plugin/digiwf-plugins.jar'
       - '~/.camunda/OptimizeLicense.txt:/optimize/config/OptimizeLicense.txt'
     networks:
       - local-keycloak
+      - internal
 
 
   elasticsearch:
@@ -204,7 +185,7 @@ services:
       - internal
 
   digiwf-gateway:
-    image: itatm/digiwf-gateway:dev
+    image: itatm/digiwf-gateway:local
     depends_on:
       init-keycloak:
         condition: service_completed_successfully

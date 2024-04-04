@@ -15,6 +15,7 @@
         <ojdbc8.version>18.15.0.0</ojdbc8.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <postgresql.version>42.7.0</postgresql.version>
+        <logbook.version>3.7.2</logbook.version>
     </properties>
 
     <dependencies>
@@ -63,6 +64,12 @@
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
+            <version>${logbook.version}</version>
+        </dependency>
+
         <!-- json etc. -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -92,6 +99,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

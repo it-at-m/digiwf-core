@@ -53,7 +53,18 @@ digiwf:
     client-id: ${SSO_ENGINE_CLIENT_ID}
     client-secret: ${SSO_ENGINE_CLIENT_SECRET}
 
+logbook:
+  predicate:
+    include:
+      - path: "/engine-rest/engine/default/authorization/**"
+      - path: "/engine-rest/engine/default/group/**"
+  filter.enabled: true
+  secure-filter.enabled: true
+  format.style: http
+
 logging:
   level:
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
     org.springframework.web.servlet.DispatcherServlet: DEBUG
+    # org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.zalando.logbook: TRACE
