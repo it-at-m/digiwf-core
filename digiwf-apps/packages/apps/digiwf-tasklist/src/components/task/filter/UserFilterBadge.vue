@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 
-import {getUserInfo} from "../../../middleware/user/userMiddleware";
-import {ref} from "vue";
+import { getUserInfo } from "../../../middleware/user/userMiddleware";
 
 export default {
   props: {
@@ -22,7 +22,6 @@ export default {
   },
   emits: ["clear"],
   setup: (props: { userId: string }) => {
-
     const user = ref<string>("-");
     getUserInfo(props.userId)
       .then((data) => {
@@ -33,13 +32,10 @@ export default {
       });
 
     return {
-      user: user
+      user: user,
     };
-  }
+  },
 };
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

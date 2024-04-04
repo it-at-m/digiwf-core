@@ -21,7 +21,8 @@
               cols="12"
               sm="12"
             >
-              Bitte wählen Sie einen Nutzer aus, welchem Sie die Aufgabe zuweisen möchten:
+              Bitte wählen Sie einen Nutzer aus, welchem Sie die Aufgabe
+              zuweisen möchten:
             </v-col>
           </v-row>
           <v-row>
@@ -31,7 +32,7 @@
             >
               <base-ldap-input
                 :rules="[]"
-                @input="(value) => selectedUserId = value"
+                @input="(value) => (selectedUserId = value)"
               />
             </v-col>
           </v-row>
@@ -60,35 +61,35 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import { defineComponent, ref } from "vue";
+
+import { useAssignTaskToUserMutation } from "../../middleware/tasks/taskMiddleware";
 import BaseLdapInput from "../form/BaseLdapInput.vue";
-import {useAssignTaskToUserMutation} from "../../middleware/tasks/taskMiddleware";
 import AppToast from "../UI/AppToast.vue";
 
 export default defineComponent({
-  components: {AppToast, BaseLdapInput},
+  components: { AppToast, BaseLdapInput },
   props: {
     taskId: {
       type: String,
-      required: true
+      required: true,
     },
     taskName: {
       type: String,
-      required: true
+      required: true,
     },
     open: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: [
     // is triggered when dialog is should be closed
     "close",
     // is triggered when assign action was successfully
-    "success"
+    "success",
   ],
   setup: (props, ctx) => {
-
     const dialog = ref<boolean>(props.open);
     const selectedUserId = ref<string | undefined>();
     const assignMutation = useAssignTaskToUserMutation();
@@ -101,25 +102,28 @@ export default defineComponent({
       save: () => {
         const userId = selectedUserId.value;
         if (!userId) {
-          errorMessage.value = "Bitte wählen Sie einen Nutzer aus um diesen den Aufgabe zuzuweisen.";
+          errorMessage.value =
+            "Bitte wählen Sie einen Nutzer aus um diesen den Aufgabe zuzuweisen.";
           return;
         }
 
-        assignMutation.mutateAsync({
-          taskId: props.taskId,
-          userId,
-        })
+        assignMutation
+          .mutateAsync({
+            taskId: props.taskId,
+            userId,
+          })
           .then(() => {
             ctx.emit("success");
             ctx.emit("close");
           })
-          .catch(() => errorMessage.value = "Aufgabe konnte nicht zugewiesen werden");
-      }
+          .catch(
+            () =>
+              (errorMessage.value = "Aufgabe konnte nicht zugewiesen werden")
+          );
+      },
     };
-  }
+  },
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

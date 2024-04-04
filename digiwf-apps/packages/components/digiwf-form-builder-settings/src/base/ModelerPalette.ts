@@ -2,15 +2,15 @@ import { Labels } from "@/base/labels";
 
 const basicOptions = {
   "x-options": {
-    "fieldColProps": {
-      "cols": 12,
-      "sm": 12
-    }
+    fieldColProps: {
+      cols: 12,
+      sm: 12,
+    },
   },
   "x-props": {
-    "outlined": true,
-    "dense": true
-  }
+    outlined: true,
+    dense: true,
+  },
 };
 
 export function formFieldPaletteBuilder(labels: Labels) {
@@ -19,10 +19,10 @@ export function formFieldPaletteBuilder(labels: Labels) {
       "text",
       {
         ...basicOptions,
-        "fieldType": "text",
+        fieldType: "text",
         title: labels.text,
         type: "string",
-      }
+      },
     ],
     [
       "textarea",
@@ -32,7 +32,7 @@ export function formFieldPaletteBuilder(labels: Labels) {
         title: labels.textarea,
         "x-display": "textarea",
         type: "string",
-      }
+      },
     ],
     [
       "integer",
@@ -41,7 +41,7 @@ export function formFieldPaletteBuilder(labels: Labels) {
         fieldType: "integer",
         title: labels.number,
         type: "integer",
-      }
+      },
     ],
     [
       "number",
@@ -50,7 +50,7 @@ export function formFieldPaletteBuilder(labels: Labels) {
         fieldType: "number",
         title: labels.floatNumber,
         type: "number",
-      }
+      },
     ],
     [
       "boolean",
@@ -58,152 +58,152 @@ export function formFieldPaletteBuilder(labels: Labels) {
         ...basicOptions,
         fieldType: "boolean",
         title: labels.checkbox,
-        "default": false,
+        default: false,
         type: "boolean",
-      }
+      },
     ],
     [
       "date",
       {
         ...basicOptions,
-        "fieldType": "date",
+        fieldType: "date",
         title: labels.date,
         "x-display": "custom-date-input",
         type: "string",
         format: "date",
-      }
+      },
     ],
     [
       "time",
       {
-        "fieldType": "time",
+        fieldType: "time",
         title: labels.time,
         "x-display": "custom-time-input",
         type: "string",
         format: "time",
         ...basicOptions,
         "x-options": {
-          "fieldColProps": {
-            "cols": 12,
-            "sm": 12
+          fieldColProps: {
+            cols: 12,
+            sm: 12,
           },
-          "timePickerProps": {
-            "format": "24hr"
-          }
-        }
-      }
+          timePickerProps: {
+            format: "24hr",
+          },
+        },
+      },
     ],
     [
       "select",
       {
         ...basicOptions,
-        "fieldType": "select",
+        fieldType: "select",
         title: labels.select,
         type: "string",
         anyOf: [],
-      }
+      },
     ],
     [
       "multiselect",
       {
         ...basicOptions,
-        "fieldType": "multiselect",
+        fieldType: "multiselect",
         title: labels.multiSelect,
         type: "array",
         anyOf: [],
-      }
+      },
     ],
     [
       "file",
       {
         ...basicOptions,
-        "fieldType": "file",
+        fieldType: "file",
         title: labels.files,
         "x-display": "file",
         type: "object",
-        "properties": {
-          "key": {
-            "type": "string"
+        properties: {
+          key: {
+            type: "string",
           },
-          "amount": {
-            "type": "integer"
-          }
-        }
-      }
+          amount: {
+            type: "integer",
+          },
+        },
+      },
     ],
     [
       "benutzerauswahl",
       {
         ...basicOptions,
-        "fieldType": "user-input",
+        fieldType: "user-input",
         title: labels.userInput,
         "x-display": "custom-user-input",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     [
       "multibenutzerauswahl",
       {
         ...basicOptions,
-        "fieldType": "multi-user-input",
+        fieldType: "multi-user-input",
         title: labels.multiUserInput,
         "x-display": "custom-multi-user-input",
         type: "array",
-        "items": {
-          "type": "string"
-        }
-      }
+        items: {
+          type: "string",
+        },
+      },
     ],
     [
       "dmsinput",
       {
         ...basicOptions,
-        "fieldType": "dms-input",
+        fieldType: "dms-input",
         title: labels.dmsInput,
         "x-display": "custom-dms-input",
         type: "array",
-        "items": {
-          "type": "object"
+        items: {
+          type: "object",
         },
-      }
+      },
     ],
     [
       "switch",
       {
         ...basicOptions,
-        "fieldType": "switch",
+        fieldType: "switch",
         title: labels.switch,
         "x-display": "switch",
-        "default": false,
+        default: false,
         type: "boolean",
-      }
+      },
     ],
     [
       "array",
       {
         ...basicOptions,
-        "fieldType": "array",
+        fieldType: "array",
         title: labels.list,
         type: "array",
         "x-props": {
-          "outlined": true,
-          "dense": false
+          outlined: true,
+          dense: false,
         },
-        "items": {
-          "type": "string"
-        }
+        items: {
+          type: "string",
+        },
       },
     ],
     [
       "markdown",
       {
         ...basicOptions,
-        "fieldType": "markdown",
+        fieldType: "markdown",
         title: labels.markdown,
         type: "string",
         "x-display": "markdown",
       },
-    ]
+    ],
   ];
 }
 
@@ -212,30 +212,30 @@ export function objectPaletteBuilder(labels: Labels) {
     [
       "objectType",
       {
-        "fieldType": "object",
+        fieldType: "object",
         title: labels.dynamicObject,
         type: "object",
         ...basicOptions,
-        "properties": {}
+        properties: {},
       },
     ],
     [
       "arrayObject",
       {
-        "fieldType": "arrayObject",
+        fieldType: "arrayObject",
         title: labels.dynamicObjectList,
         type: "array",
         ...basicOptions,
         "x-props": {
-          "outlined": true,
-          "dense": false
+          outlined: true,
+          dense: false,
         },
-        "items": {
-          "type": "object",
-          "properties": {}
-        }
+        items: {
+          type: "object",
+          properties: {},
+        },
       },
-    ]
+    ],
   ];
 }
 
@@ -247,19 +247,19 @@ export function optionalObjectPaletteBuilder(labels: Labels) {
       type: "object",
       description: labels.description,
       "x-options": {
-        "childrenClass": "pl-0",
+        childrenClass: "pl-0",
 
-        "fieldColProps": {
-          "cols": 12,
-          "sm": 12
-        }
+        fieldColProps: {
+          cols: 12,
+          sm: 12,
+        },
       },
       "x-props": {
-        "outlined": true,
-        "dense": true
+        outlined: true,
+        dense: true,
       },
-      oneOf: []
-    }
+      oneOf: [],
+    },
   ];
 }
 
@@ -273,19 +273,19 @@ export function optionalPropertiesBuilder(labels: Labels) {
         type: "object",
         description: labels.description,
         "x-options": {
-          "childrenClass": "pl-0",
-          "fieldColProps": {
-            "cols": 12,
-            "sm": 12
-          }
+          childrenClass: "pl-0",
+          fieldColProps: {
+            cols: 12,
+            sm: 12,
+          },
         },
         "x-props": {
-          "outlined": true,
-          "dense": true
+          outlined: true,
+          dense: true,
         },
-        oneOf: []
-      }
-    ]
+        oneOf: [],
+      },
+    ],
   ];
 }
 
@@ -296,16 +296,16 @@ export function optionalItemBuilder(labels: Labels) {
       title: labels.optionalSelectItem,
       description: labels.description,
       "x-options": {
-        "childrenClass": "pl-0",
+        childrenClass: "pl-0",
       },
-      "properties": {
-        "selection": {
-          "fieldType": "const",
-          "type": "string",
-          "const": "selection1"
-        }
-      }
-    }
+      properties: {
+        selection: {
+          fieldType: "const",
+          type: "string",
+          const: "selection1",
+        },
+      },
+    },
   ];
 }
 
@@ -316,9 +316,9 @@ export function containerPaletteBuilder(labels: Labels) {
       title: "Group",
       description: labels.description,
       "x-options": {
-        "childrenClass": "pl-0",
+        childrenClass: "pl-0",
       },
-      properties: {}
+      properties: {},
     },
     {
       containerType: "optionalContainer",
@@ -326,18 +326,18 @@ export function containerPaletteBuilder(labels: Labels) {
       type: "object",
       description: labels.description,
       "x-options": {
-        "sectionsTitlesClasses": ["d-none"],
-        "fieldColProps": {
-          "cols": 12,
-          "sm": 12
-        }
+        sectionsTitlesClasses: ["d-none"],
+        fieldColProps: {
+          cols: 12,
+          sm: 12,
+        },
       },
       "x-props": {
-        "outlined": true,
-        "dense": true
+        outlined: true,
+        dense: true,
       },
-      allOf: []
-    }
+      allOf: [],
+    },
   ];
 }
 
@@ -348,9 +348,9 @@ export function sectionPaletteBuilder(labels: Labels) {
       description: labels.description,
       type: "object",
       "x-options": {
-        "sectionsTitlesClasses": ["d-none"],
+        sectionsTitlesClasses: ["d-none"],
       },
-      allOf: []
-    }
+      allOf: [],
+    },
   ];
 }

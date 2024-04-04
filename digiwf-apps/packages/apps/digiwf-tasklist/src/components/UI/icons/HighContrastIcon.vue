@@ -1,24 +1,24 @@
 <template>
   <svg-icon
     type="mdi"
-    :path="path"/>
+    :path="path"
+  />
 </template>
-
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import {mdiContrastBox } from "@mdi/js";
+import { mdiContrastBox } from "@mdi/js";
 
 export default {
   name: "HighContrastIcon",
   components: {
-    SvgIcon
+    SvgIcon,
   },
 
   data() {
     return {
-      path: mdiContrastBox ,
+      path: mdiContrastBox,
     };
-  }
+  },
 };
 </script>

@@ -1,2 +1,2 @@
 /* eslint-disable*/
-export {default as DwfFormBuilder} from './components/DwfFormBuilder.vue';
+export { default as DwfFormBuilder } from "./components/DwfFormBuilder.vue";

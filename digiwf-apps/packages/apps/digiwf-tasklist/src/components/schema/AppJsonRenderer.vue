@@ -1,56 +1,38 @@
 <template>
-  <v-form
-    ref="form">
-    <dwf-form-renderer
-      :options="{locale : 'de', readOnly: readonly || false, markdownit: { breaks: true } }"
-      :value="value"
+  <v-form ref="form">
+    <dwf-form-renderer-frame
       :schema="schema"
-    >
-      <template #custom-date-input="context">
-        <dwf-date-input v-bind="context"/>
-      </template>
-      <template #custom-dms-input="context">
-        <dwf-dms-input v-bind="context"/>
-      </template>
-      <template #custom-time-input="context">
-        <dwf-time-input v-bind="context"/>
-      </template>
-      <template #custom-user-input="context">
-        <v-user-input v-bind="context"/>
-      </template>
-      <template #custom-multi-user-input="context">
-        <v-multi-user-input v-bind="context"/>
-      </template>
-      <template #custom-multi-file-input="context">
-        <dwf-multi-file-input
-          v-bind="context"
-          :readonly="readonly"
-        />
-      </template>
-    </dwf-form-renderer>
+      :value="value"
+      :readonly="readonly"
+    />
   </v-form>
 </template>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import { PropType } from "vue";
 
-@Component
-export default class AppJsonRenderer extends Vue {
+import DwfFormRendererFrame from "./DwfFormRendererFrame.vue";
 
-  @Prop()
-  value: any;
-
-  @Prop()
-  schema: any;
-
-  @Prop()
-  readonly!: boolean;
-
-  @Emit("input")
-  input(value: any): any {
-    return value;
-  }
-
-
-}
+export default {
+  components: { DwfFormRendererFrame },
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    schema: {
+      type: Object,
+      required: true,
+    },
+    readonly: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: {
+    input: {
+      type: Function as PropType<(value: any) => any>,
+    },
+  },
+};
 </script>
