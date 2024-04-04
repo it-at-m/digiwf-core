@@ -3,7 +3,7 @@
     :key="value"
     :value="value"
     width="500"
-    @click:outside="cancel"
+    @click:outside="$emit('cancel')"
   >
     <v-card>
       <v-card-title class="headline grey lighten-2">
@@ -11,7 +11,8 @@
       </v-card-title>
       <div class="ma-8">
         <p style="margin-bottom: 1rem">
-          Die Aufgabe wird Ihnen zum gewählten Zeitpunkt wieder in "Meine Aufgaben" angezeigt.
+          Die Aufgabe wird Ihnen zum gewählten Zeitpunkt wieder in "Meine
+          Aufgaben" angezeigt.
         </p>
         <v-menu
           v-model="dateSelectionOpen"
@@ -23,12 +24,15 @@
         >
           <template #activator="{ on, attrs }">
             <v-text-field
-              style="pointer-events: auto!important; background-color: white !important;"
+              style="
+                pointer-events: auto !important;
+                background-color: white !important;
+              "
               outlined
               clearable
               hide-details
               readonly
-              :value="computedDateSelection"
+              :value="computedDateSelection()"
               label="Wiedervorlage am"
               prepend-icon="mdi-calendar"
               v-bind="attrs"
@@ -50,13 +54,13 @@
         <v-spacer />
         <v-btn
           text
-          @click="cancel"
+          @click="$emit('cancel')"
         >
           Abbrechen
         </v-btn>
         <v-btn
           color="primary"
-          @click="save"
+          @click="$emit('submit', dateSelection)"
         >
           Speichern
         </v-btn>
@@ -65,49 +69,38 @@
   </v-dialog>
 </template>
 
-<style scoped>
-
-</style>
-
 <script lang="ts">
-import {Component, Emit, Prop, Vue, Watch} from "vue-property-decorator";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
+import { defineComponent, ref } from "vue";
 
-@Component
-export default class TaskFollowUpDialog extends Vue {
+export default defineComponent({
+  props: {
+    value: {
+      type: Boolean,
+      required: true,
+    },
+    followUpDate: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
+  emits: ["cancel", "submit"],
+  setup: (props) => {
+    const dateSelection = ref<string>(props.followUpDate);
+    const dateSelectionOpen = ref<boolean>(false);
 
-  dateSelection = "";
-
-  dateSelectionOpen = false;
-
-  @Prop()
-  value!: boolean;
-
-  @Prop()
-  followUpDate!: string;
-
-  @Watch("value")
-  updateDataSelection(): void {
-    this.dateSelection = this.followUpDate;
-  }
-
-  @Emit("cancel")
-  cancel(): void {
-    //
-  }
-
-  @Emit("save")
-  save(): string {
-    return this.dateSelection;
-  }
-
-  updateDateSelection(value: string): void {
-    this.dateSelection = value;
-  }
-
-  get computedDateSelection(): string {
-    return this.dateSelection ? DateTime.fromFormat(this.dateSelection, "yy-MM-dd").toLocaleString(DateTime.DATE_SHORT) : '';
-  }
-
-}
+    return {
+      dateSelection,
+      dateSelectionOpen,
+      computedDateSelection: () =>
+        dateSelection.value
+          ? DateTime.fromFormat(dateSelection.value, "yy-MM-dd").toLocaleString(
+              DateTime.DATE_SHORT
+            )
+          : "",
+      updateDateSelection: (v: string) => (dateSelection.value = v),
+    };
+  },
+});
 </script>

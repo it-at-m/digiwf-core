@@ -1,4 +1,7 @@
-import {transformNativeTimeValue, transformToNativeTimeValue} from "./transformNativeTimeValue";
+import {
+  transformNativeTimeValue,
+  transformToNativeTimeValue,
+} from "./transformNativeTimeValue";
 
 describe("transformNativeTimeValue", () => {
   describe("transformFromNativeTimeValue", () => {
@@ -10,7 +13,6 @@ describe("transformNativeTimeValue", () => {
     it("should return empty string when the given value is empty", () => {
       const result = transformNativeTimeValue("");
       expect(result).toBe("");
-
     });
     it("should return undefined when the given value is undefined", () => {
       const result = transformNativeTimeValue(undefined);
@@ -31,7 +33,6 @@ describe("transformNativeTimeValue", () => {
     it("should return empty string when the given value is empty", () => {
       const result = transformToNativeTimeValue("");
       expect(result).toBe("");
-
     });
     it("should return undefined when the given value is undefined", () => {
       const result = transformToNativeTimeValue(undefined);

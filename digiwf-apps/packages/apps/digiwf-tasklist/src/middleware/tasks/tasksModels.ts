@@ -1,4 +1,4 @@
-import {ExternalLink} from "@muenchen/digiwf-task-api-internal";
+import { ExternalLink } from "@muenchen/digiwf-task-api-internal";
 
 export interface HumanTask {
   readonly id: string;
@@ -6,7 +6,7 @@ export interface HumanTask {
   readonly followUpDate?: string;
   readonly followUpDateFormatted?: string;
   readonly processName?: string;
-  readonly name: string
+  readonly name: string;
   readonly description?: string;
   readonly tag?: string;
   readonly assigneeId?: string;
@@ -28,7 +28,7 @@ export interface HumanTaskDetails extends HumanTask {
    * new schema for user forms: is used by https://github.com/koumoul-dev/vuetify-jsonschema-form
    */
   readonly schema?: any;
-  readonly variables: TaskVariables
+  readonly variables: TaskVariables;
 
   readonly isCancelable: boolean;
 

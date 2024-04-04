@@ -7,7 +7,7 @@
       :show-assignee="true"
       :show-assignee-filter="true"
       :is-loading="isLoading || isRefetching"
-      :errorMessage="errorMessage"
+      :error-message="errorMessage"
       :tag="tag"
       :assignee="assignee"
       :filter="filter"
@@ -25,7 +25,7 @@
           @edit="reassignTask(props.item.id)"
           @clickTag="onTagChange(props.item.tag)"
         />
-        <hr class="hrDivider">
+        <hr class="hrDivider" />
       </template>
     </task-list>
     <AppPaginationFooter
@@ -44,42 +44,54 @@
   </app-view-layout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 
 <script lang="ts">
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, watch} from "vue";
 import {useRouter} from "vue-router/composables";
-import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation} from "../middleware/tasks/taskMiddleware";
+
+import GroupTaskItem from "../components/task/GroupTaskItem.vue";
+import TaskList from "../components/task/TaskList.vue";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import AppViewLayout from "../components/UI/AppViewLayout.vue";
 import {usePageId} from "../middleware/pageId";
 import {useGetPaginationData} from "../middleware/paginationData";
+import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation,} from "../middleware/tasks/taskMiddleware";
 import {usePageFilters} from "../store/modules/filters";
-import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
-import GroupTaskItem from "../components/task/GroupTaskItem.vue";
-import AppViewLayout from "../components/UI/AppViewLayout.vue";
-import TaskList from "../components/task/TaskList.vue";
 
 export default defineComponent({
-  components: {TaskList, AppViewLayout, GroupTaskItem, AppPaginationFooter},
+  components: { TaskList, AppViewLayout, GroupTaskItem, AppPaginationFooter },
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag, assignee, setAssignee} = useGetPaginationData();
-    const {currentSortDirection} = usePageFilters();
-    const {isLoading, data, error, refetch, isRefetching} = useAssignedGroupTasksQuery(
-      page,
-      size,
+    const {
       searchQuery,
+      size,
+      page,
+      setSize,
+      setPage,
+      setSearchQuery,
       tag,
+      setTag,
       assignee,
-      currentSortDirection
-    );
+      setAssignee,
+    } = useGetPaginationData();
+    const { currentSortDirection } = usePageFilters();
+    const { isLoading, data, error, refetch, isRefetching } =
+      useAssignedGroupTasksQuery(
+        page,
+        size,
+        searchQuery,
+        tag,
+        assignee,
+        currentSortDirection
+      );
 
     const assignToCurrentUserMutation = useAssignTaskToCurrentUserMutation();
     const reassignTask = async (id: string): Promise<void> => {
-      assignToCurrentUserMutation.mutateAsync(id)
-        .then(() => router.push({path: '/task/' + id}));
+      assignToCurrentUserMutation
+        .mutateAsync(id)
+        .then(() => router.push({ path: "/task/" + id }));
     };
     watch(currentSortDirection, () => {
       refetch();
@@ -127,8 +139,9 @@ export default defineComponent({
           refetch();
         },
         isLastPageButtonDisabled: () => page.value === 0,
-        isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
-        updateItemsPerPage: setSize
+        isNextPageButtonDisabled: () =>
+          page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize,
       },
       onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
@@ -143,7 +156,6 @@ export default defineComponent({
         refetch();
       },
     };
-  }
+  },
 });
-
 </script>

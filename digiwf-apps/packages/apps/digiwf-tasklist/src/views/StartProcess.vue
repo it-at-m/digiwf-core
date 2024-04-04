@@ -6,9 +6,7 @@
         type="error"
       />
     </v-flex>
-    <v-flex
-      v-if="process !== null"
-    >
+    <v-flex v-if="process !== null">
       <h1>{{ process.name }}</h1>
       <p>{{ process.description }}</p>
       <base-form
@@ -28,14 +26,13 @@
         :schema="process.jsonSchema"
         :is-completing="isCompleting"
         @complete-form="startProcess"
+        @input="onAppJsonFormInput"
       />
     </v-flex>
-    <app-yes-no-dialog
-      :dialogtext="saveLeaveDialogText"
-      :dialogtitle="saveLeaveDialogTitle"
-      :value="saveLeaveDialog"
-      @yes="leave"
-      @no="cancel"
+    <leave-site-dialog
+      :open="saveLeaveDialogOpen"
+      @submit="onLeaveDialogSubmit"
+      @cancel="onLeaveDialogCancel"
     />
   </app-view-layout>
 </template>
@@ -46,123 +43,139 @@
 }
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { ServiceDefinitionDetailTO } from "@muenchen/digiwf-engine-api-internal";
+import { JSONSchemaType } from "ajv";
+import {provide, ref, defineProps, watch} from "vue";
+import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
+import { NavigationGuardNext } from "vue-router/types/router";
 
-import {Component, Prop, Provide} from "vue-property-decorator";
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
-import router from "../router";
-import SaveLeaveMixin from "../mixins/saveLeaveMixin";
-import AppYesNoDialog from "@/components/common/AppYesNoDialog.vue";
+import AppViewLayout from "@/components/UI/AppViewLayout.vue";
+import { ApiConfig } from "../api/ApiConfig";
+import { callPostProcessInstance } from "../api/processInstances/processInstancesApiCalls";
+import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
+import { loadProcess } from "../middleware/processDefinitions/processDefinitionMiddleware";
+import { invalidProcessInstances } from "../middleware/processInstances/processInstancesMiddleware";
+import { invalidUserTasks } from "../middleware/tasks/taskMiddleware";
+import { mergeObjects } from "../utils/mergeObjects";
+import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
+import { JSFValue, validateSchema } from "../utils/validateSchema";
 
-import {
-  FetchUtils,
-  ServiceDefinitionControllerApiFactory,
-  ServiceDefinitionDetailTO,
-  StartInstanceTO
-} from '@muenchen/digiwf-engine-api-internal';
+const props = defineProps({
+  processKey: {
+    type: String,
+    required: true,
+  },
+});
 
-import {FormContext} from "@muenchen/digiwf-multi-file-input";
-import {ApiConfig} from "../api/ApiConfig";
-import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
-import {invalidProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
-import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
-import {validateSchema} from "../utils/validateSchema";
-import {mergeObjects} from "../utils/mergeObjects";
-import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
+// eslint-disable-next-line
+const processKey: string = props.processKey!;
 
-@Component({
-  components: {BaseForm, AppToast, AppViewLayout, AppYesNoDialog}
-})
-export default class StartProcess extends SaveLeaveMixin {
 
-  process: ServiceDefinitionDetailTO | null = null;
-  errorMessage = "";
-  hasChanges = false;
-  isCompleting = false;
-  hasCompleteError = false;
+const process = ref<ServiceDefinitionDetailTO | null>(null);
+const errorMessage = ref("");
+const isCompleting = ref(false);
+const hasCompleteError = ref(false);
 
-  formFields = {}
+const isDirty = ref(false);
+const saveLeaveDialogOpen = ref(false);
+const next = ref<NavigationGuardNext | null>(null);
 
-  @Prop()
-  processKey!: string;
+const initialFormFields = ref<any>({});
+const formFields = ref<any>({});
 
-  @Provide('formContext')
-  get formContext(): FormContext {
-    return {id: this.processKey, type: "start"};
+const router = useRouter();
+
+
+watch(formFields, () => {
+  setDirty();
+});
+
+provide("formContext", { id: props.processKey, type: "start" });
+provide("apiEndpoint", ApiConfig.base);
+provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
+provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
+
+onBeforeRouteLeave((to, from, nxt) => {
+  if (valuesChanged() && isDirty.value) {
+    saveLeaveDialogOpen.value = true;
+    next.value = nxt;
+  } else {
+    saveLeaveDialogOpen.value = false;
+    nxt();
   }
+});
 
-  @Provide('apiEndpoint')
-  apiEndpoint = ApiConfig.base;
-
-  @Provide('mucsDmsApiEndpoint')
-  mucsDmsApiEndpoint = ApiConfig.mucsDmsBase;
-
-  @Provide('alwDmsApiEndpoint')
-  alwDmsApiEndpoint = ApiConfig.alwDmsBase;
-
-  created() {
-    const urlQueryParameter = this.$router.currentRoute.query;
-    const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
-
-    loadProcess(this.processKey).then(({data, error}) => {
-      if (error) {
-        this.errorMessage = error;
-        return;
-      }
-      if(!data) {
-        this.errorMessage = "Der Vorgang konnte nicht geladen werden.";
-        return;
-      }
-      this.process = data;
-      // use potential value of query parameter if variable is undefined or empty
-      this.formFields = validateSchema(
-        this.process.jsonSchema,
-        mergeObjects(this.process?.startForm || {}, inputs)
-      );
-    });
+const onLeaveDialogSubmit = () => {
+  const nextCallback = next.value;
+  if (nextCallback) {
+    nextCallback();
   }
+};
 
-  async startProcess(model: any): Promise<void> {
-    this.isCompleting = true;
-    this.hasCompleteError = false;
-    let hasError = false;
-    const startTime = new Date().getTime();
+const onLeaveDialogCancel = () => {
+  saveLeaveDialogOpen.value = false;
+};
 
-    const request: StartInstanceTO = {
-      key: this.processKey,
-      variables: model
-    };
-    try {
-      const cfg = ApiConfig.getAxiosConfig(FetchUtils.getPOSTConfig({}));
-      await ServiceDefinitionControllerApiFactory(cfg).startInstance(request);
+const onInit = () => {
+  const urlQueryParameter = router.currentRoute.query;
+  const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-      this.errorMessage = "";
+  loadProcess(processKey).then(({ data, error }) => {
+    if (error) {
+      errorMessage.value = error;
+      return;
+    }
+    if (!data) {
+      errorMessage.value = "Der Vorgang konnte nicht geladen werden.";
+      return;
+    }
+    process.value = data;
+    // use potential value of query parameter if variable is undefined or empty
+    const initValue = validateSchema(
+      process.value?.jsonSchema as JSONSchemaType<JSFValue>,
+      mergeObjects(process.value?.startForm || {}, inputs)
+    );
+    initialFormFields.value = initValue;
+    formFields.value = initValue;
+    isDirty.value = false;
+  });
+};
+
+const valuesChanged = () => {
+  return (
+    JSON.stringify(initialFormFields.value) !== JSON.stringify(formFields.value)
+  );
+};
+
+const startProcess = (model: any) => {
+  isCompleting.value = true;
+  hasCompleteError.value = false;
+
+  callPostProcessInstance(processKey, model)
+    .then(() => {
+      errorMessage.value = "";
+      isDirty.value = false;
       invalidUserTasks();
       invalidProcessInstances();
-
       // hier eventuell zum userTask routen
-      this.hasChanges = false;
-      router.push({path: '/process'});
-    } catch (error) {
-      this.errorMessage = 'Der Vorgang konnte nicht gestartet werden.';
-      hasError = true;
-    }
+      router.push({ path: "/process" });
+    })
+    .catch(() => {
+      errorMessage.value = "Der Vorgang konnte nicht gestartet werden.";
+      hasCompleteError.value = true;
+    });
+};
 
-    setTimeout(() => {
-      this.isCompleting = false;
-      this.hasCompleteError = hasError;
-    }, Math.max(0, 500 - (new Date().getTime() - startTime)));
-  }
+const onAppJsonFormInput = (newValue: any) => {
+  formFields.value = newValue;
+};
 
-  setDirty(): void {
-    this.hasChanges = true;
-  }
+const setDirty = () => {
+  isDirty.value = true;
+};
 
-  isDirty(): boolean {
-    return this.hasChanges;
-  }
-
-}
+onInit();
 </script>

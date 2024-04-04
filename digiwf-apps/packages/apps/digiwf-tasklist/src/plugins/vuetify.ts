@@ -1,7 +1,9 @@
 import "@mdi/font/css/materialdesignicons.css";
-import Vue, {getCurrentInstance} from "vue";
+
+import Vue, { getCurrentInstance } from "vue";
 import Vuetify from "vuetify";
-import {VuetifyThemeVariant} from "vuetify/types/services/theme";
+import { VuetifyThemeVariant } from "vuetify/types/services/theme";
+
 import store from "../store";
 
 Vue.use(Vuetify);
@@ -16,19 +18,21 @@ export const lightTheme: Partial<VuetifyThemeVariant> = {
 
 export const highContrastTheme: Partial<VuetifyThemeVariant> = {
   ...lightTheme,
-  primary: "#000000"
+  primary: "#000000",
 };
 
 // https://medium.com/@jogarcia/vuetify-multiple-themes-c580f41ece65
 const theme = {
   themes: {
-    light: store.getters["accessibility/isHighContrastModeEnabled"] ? highContrastTheme : lightTheme,
+    light: store.getters["accessibility/isHighContrastModeEnabled"]
+      ? highContrastTheme
+      : lightTheme,
   },
-  options: {customProperties: true}, // enable css vars
+  options: { customProperties: true }, // enable css vars
 };
 
 const vuetify = new Vuetify({
-  theme: theme
+  theme: theme,
 });
 
 export const useVuetify = () => {
