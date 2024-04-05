@@ -18,7 +18,6 @@ import org.camunda.bpm.engine.impl.incident.DefaultIncidentHandler;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.Incident;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.jetbrains.annotations.NotNull;
@@ -71,7 +70,7 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
     @Override
     public Incident handleIncident(final IncidentContext context, final String message) {
         log.warn("Incident occurred");
-        final IncidentEntity incidentEntity = (IncidentEntity) super.handleIncident(context, message);
+        final IncidentEntity incidentEntity = superHandleIncident(context, message);
 
         val processInstanceId = incidentEntity.getProcessInstanceId();
         val rootProcessInstanceId = runtimeService
@@ -164,5 +163,9 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
         } while (superProcessInstance != null);
 
         return tProcessInstanceId;
+    }
+
+    IncidentEntity superHandleIncident(final IncidentContext context, final String message) {
+        return (IncidentEntity) super.handleIncident(context, message);
     }
 }
