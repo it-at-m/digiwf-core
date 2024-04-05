@@ -49,7 +49,7 @@ When adding these WebComponents to your website you can configure the behaviour 
 accordingly.
 
 |                           | Description                                                                                                                  | Type     | Required | Default               |
-|---------------------------|------------------------------------------------------------------------------------------------------------------------------|----------|----------|-----------------------|
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
 | `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application                            | `String` | `false`  | `access-token-loaded` |
 | `page-size`               | The amount of elements to display per page                                                                                   | `number` | `false`  | `4`                   |
 | `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                                                       | `number` | `false`  | `5`                   |
@@ -64,13 +64,14 @@ When the event occurs, the WebComponents start fetching data from the backend.
 If a new event is fired (because a new access token should be used) the components reactively switches to the new access token automatically.
 
 The event can be fired from surrounding web applications via the following snippet (using the default event name of `access-token-loaded`):
+
 ```js
 const accessToken = "my-access-token";
 new CustomEvent("access-token-loaded", {
   detail: {
     accessToken,
   },
-})
+});
 ```
 
 ## Styling

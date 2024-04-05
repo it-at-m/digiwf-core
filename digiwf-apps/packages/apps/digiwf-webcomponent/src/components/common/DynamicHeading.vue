@@ -5,8 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { useHeadingTag } from "@/composables/useHeadingTag";
 import { toRef } from "vue";
+
+import { useHeadingTag } from "@/composables/useHeadingTag";
 
 const props = withDefaults(
   defineProps<{

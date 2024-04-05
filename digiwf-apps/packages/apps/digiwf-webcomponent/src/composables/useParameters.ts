@@ -1,11 +1,13 @@
+import type { RootHeadingLevel } from "@/types/RootHeadingLevel";
 import type { InjectionKey, Ref } from "vue";
 
 import { inject, provide } from "vue";
-import type { RootHeadingLevel } from "@/types/RootHeadingLevel";
 
 const PAGE_SIZE_INJECT_KEY = Symbol() as InjectionKey<Ref<number>>;
 const MAX_PAGES_VISIBLE_INJECT_KEY = Symbol() as InjectionKey<Ref<number>>;
-const ROOT_HEADING_LEVEL_INJECT_KEY = Symbol() as InjectionKey<Ref<RootHeadingLevel>>;
+const ROOT_HEADING_LEVEL_INJECT_KEY = Symbol() as InjectionKey<
+  Ref<RootHeadingLevel>
+>;
 
 export function useProvideParameters(
   pageSize: Ref<number>,

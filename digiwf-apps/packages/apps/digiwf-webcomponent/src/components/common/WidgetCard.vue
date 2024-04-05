@@ -27,9 +27,9 @@
           type="submit"
           :disabled="loading"
           title="Daten aktualisieren"
-          @click="emit('reload')"
           aria-label="Daten aktualisieren"
           :aria-disabled="loading"
+          @click="emit('reload')"
         >
           <svg-icon
             type="mdi"
@@ -39,7 +39,10 @@
         </c-button>
       </div>
     </c-card-header>
-    <c-card-body class="p-0" aria-live="polite">
+    <c-card-body
+      class="p-0"
+      aria-live="polite"
+    >
       <slot
         v-if="loading"
         name="placeholder"
@@ -104,15 +107,15 @@ import {
   mdiOpenInNew,
   mdiReload,
 } from "@mdi/js";
-import { computed, ref, toRef } from "vue";
+import { computed, toRef } from "vue";
 
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
-import { useInjectParameters } from "@/composables/useParameters";
 import { useNewTabText } from "@/composables/useNewTabText";
-import DynamicHeading from "@/components/common/DynamicHeading.vue";
+import { useInjectParameters } from "@/composables/useParameters";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
@@ -135,7 +138,7 @@ const props = withDefaults(
   }
 );
 
-const { newTabText } = useNewTabText(toRef(props.linkText))
+const { newTabText } = useNewTabText(toRef(props.linkText));
 
 const emit = defineEmits<{
   reload: [];

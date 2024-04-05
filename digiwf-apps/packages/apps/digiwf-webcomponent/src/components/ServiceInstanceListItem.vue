@@ -8,7 +8,10 @@
     role="link"
     :aria-label="newTabText"
   >
-    <dynamic-heading root-offset="1" class="mb-3 text-title">
+    <dynamic-heading
+      root-offset="1"
+      class="mb-3 text-title"
+    >
       {{ serviceInstance.definitionName }}
     </dynamic-heading>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
@@ -34,10 +37,10 @@ import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
 import { computed, ref } from "vue";
 
-import { useBaseURL } from "@/composables/useBaseURL";
-import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
-import { useNewTabText } from "@/composables/useNewTabText";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
+import { useBaseURL } from "@/composables/useBaseURL";
+import { useNewTabText } from "@/composables/useNewTabText";
+import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
@@ -45,7 +48,7 @@ const props = defineProps<{
   serviceInstance: ServiceInstanceTO;
 }>();
 
-const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"))
+const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));
 
 const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);

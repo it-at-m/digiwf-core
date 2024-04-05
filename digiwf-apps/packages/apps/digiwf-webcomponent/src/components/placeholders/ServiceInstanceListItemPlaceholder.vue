@@ -26,8 +26,9 @@
 
 <script setup lang="ts">
 import { CListGroupItem, CPlaceholder } from "@coreui/vue";
-import { useHeadingTag } from "@/composables/useHeadingTag";
 import { ref } from "vue";
+
+import { useHeadingTag } from "@/composables/useHeadingTag";
 
 const { headingTag } = useHeadingTag(ref(1));
 </script>
