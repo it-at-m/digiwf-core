@@ -157,7 +157,7 @@
 </style>
 
 <script lang="ts" setup>
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
 import {NavigationGuardNext} from "vue-router/types/router";
 
@@ -170,12 +170,12 @@ import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
-  cancelTask,
   completeTask,
   deferTask,
   downloadPDFFromEngine,
   loadTask,
   saveTask,
+  useCancelTaskMutation,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -203,8 +203,6 @@ const isSaving = ref(false);
 const hasSaveError = ref(false);
 const isCompleting = ref(false);
 const hasCompleteError = ref(false);
-const isCancelling = ref(false);
-const hasCancelError = ref(false);
 const cancelText = ref("Aufgabe Abbrechen");
 
 const isDownloading = ref(false);
@@ -218,12 +216,19 @@ const el = ref<any>(null);
 
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
+
+const {
+  mutateAsync: cancelTask,
+  isPending: isCancelling,
+  isError: hasCancelError
+} = useCancelTaskMutation();
+
 /**
  * toggle for showing fab menu
  */
 const fab = ref(false);
 
-provide("formContext", {id: props.id, type: "task"});
+provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
@@ -353,9 +358,7 @@ const saveFollowUp = (newFollowUpDate: string) => {
 
 const handleCancelTask = () => {
   isCancelling.value = true;
-  cancelTask(taskId).then((result) => {
-    isCancelling.value = false;
-    hasCancelError.value = result.isError;
+  cancelTask(taskId).catch((result) => {
     errorMessage.value = result.errorMessage || "";
   });
 };

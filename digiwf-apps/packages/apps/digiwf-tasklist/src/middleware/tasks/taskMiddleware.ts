@@ -1,8 +1,8 @@
-import { PageOfTasks, Task } from "@muenchen/digiwf-task-api-internal";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { computed, inject, ref, Ref } from "vue";
+import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
+import {computed, inject, ref, Ref} from "vue";
 
-import { ApiCallError } from "../../api/defaultErrorHandler";
+import {ApiCallError} from "../../api/defaultErrorHandler";
 import {
   callCancelTaskInTaskService,
   callCompleteTaskInTaskService,
@@ -15,15 +15,15 @@ import {
   callPostAssignTaskInTaskService,
   callSaveTaskInTaskService,
 } from "../../api/tasks/tasksApiCalls";
-import { useStore } from "../../hooks/store";
+import {useStore} from "../../hooks/store";
 import router from "../../router";
 import store from "../../store";
-import { nullToUndefined } from "../../utils/dataTransformations";
-import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
-import { Page } from "../commonModels";
-import { queryClient } from "../queryClient";
-import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
-import { User } from "../user/userModels";
+import {nullToUndefined} from "../../utils/dataTransformations";
+import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
+import {Page} from "../commonModels";
+import {queryClient} from "../queryClient";
+import {getUserInfo, useCurrentUserInfo} from "../user/userMiddleware";
+import {User} from "../user/userModels";
 import {
   addAssignedTaskIds,
   addFinishedTaskIds,
@@ -34,7 +34,7 @@ import {
   mapTaskDetailsFromTaskService,
   mapTaskFromTaskService,
 } from "./taskMapper";
-import { HumanTask, HumanTaskDetails, TaskVariables } from "./tasksModels";
+import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
   const currentValue = tag.value;
@@ -175,7 +175,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   const dummyPageSize = ref(20);
   const dummyQuery = ref(undefined);
   const dummyTag = ref(undefined);
-  const { data: myTasksData } = useMyTasksQuery(
+  const {data: myTasksData} = useMyTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -183,7 +183,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
     ref(false),
     ref(undefined)
   );
-  const { data: assignGroupData } = useAssignedGroupTasksQuery(
+  const {data: assignGroupData} = useAssignedGroupTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -191,7 +191,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
     ref(undefined),
     ref(undefined)
   );
-  const { data: openGroupData } = useOpenGroupTasksQuery(
+  const {data: openGroupData} = useOpenGroupTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -210,7 +210,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
 
 export const useAssignTaskToCurrentUserMutation = () => {
   const queryClient = useQueryClient();
-  const { data: currentUser } = useCurrentUserInfo();
+  const {data: currentUser} = useCurrentUserInfo();
 
   return useMutation<void, any, string>({
     mutationFn: (taskId) => {
@@ -237,7 +237,7 @@ export const useAssignTaskToUserMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, any, { taskId: string; userId: string }>({
-    mutationFn: ({ taskId, userId }) =>
+    mutationFn: ({taskId, userId}) =>
       callPostAssignTaskInTaskService(taskId, userId),
     onSuccess: (_, variables) => {
       addAssignedTaskIds(variables.taskId);
@@ -320,34 +320,18 @@ export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
     });
 };
 
-/**
- * requests for TaskDetailsView
- */
-
-export interface CancelTaskResult {
-  readonly isError: boolean;
-  readonly errorMessage?: string;
-}
-
-/**
- * @deprecated
- * @param taskId
- */
-export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
-  return callCancelTaskInTaskService(taskId)
-    .then(() => {
-      queryClient.invalidateQueries([userTasksQueryId]);
-      router.push({ path: "/task" });
-
-      return Promise.resolve<CancelTaskResult>({
-        isError: false,
-      });
-    })
-    .catch(() => {
-      return Promise.resolve<CancelTaskResult>({
-        isError: true,
-        errorMessage: "Die Aufgabe konnte nicht abgebrochen werden.",
-      });
+export const useCancelTaskMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<void, string, string>(
+    {
+      mutationFn: (taskId) => {
+      return callCancelTaskInTaskService(taskId)
+        .catch(() => Promise.reject("Die Aufgabe konnte nicht abgebrochen werden."));
+    },
+      onSuccess: () => {
+        queryClient.invalidateQueries([userTasksQueryId]);
+        router.push({path: "/task"});
+      },
     });
 };
 
@@ -389,7 +373,7 @@ export const deferTask = (
   return handleDeferTaskInTaskService(taskId, followUp)
     .then(() => {
       invalidUserTasks();
-      router.push({ path: "/task" });
+      router.push({path: "/task"});
 
       return Promise.resolve<SetFollowUpResult>({
         errorMessage: undefined,
@@ -452,13 +436,13 @@ export const assignTask = (
 ): Promise<AssignTaskResult> => {
   return callPostAssignTaskInTaskService(taskId, userId)
     .then(() => {
-      router.push({ path: "/task/" + taskId });
+      router.push({path: "/task/" + taskId});
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
-      return Promise.resolve({ isError: false });
+      return Promise.resolve({isError: false});
     })
-    .catch(() => Promise.resolve({ isError: true }));
+    .catch(() => Promise.resolve({isError: true}));
 };
 
 interface DownloadPdfResult {
