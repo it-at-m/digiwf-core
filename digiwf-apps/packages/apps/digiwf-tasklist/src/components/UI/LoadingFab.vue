@@ -7,14 +7,14 @@
         :color="color"
         :disabled="disabled"
         v-bind="attrs"
-        @click="click"
+        @click="$emit('on-click')"
         v-on="on"
       >
-        <div class="buttonGroup">
+        <div class="button-group">
           <v-progress-circular
             v-if="isLoading"
-            :class="loadingClass"
-            :color="loadingColor"
+            :class="isLoading ? undefined : 'button-hidden'"
+            :color="color === 'secondary' ? 'white' : 'primary'"
             indeterminate
           />
           <slot v-else />
@@ -26,52 +26,45 @@
 </template>
 
 <style scoped>
-.buttonGroup {
+.button-group {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.isNotLoading {
+.button-hidden {
   visibility: hidden;
 }
 </style>
 
 <script lang="ts">
-import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-@Component
-export default class LoadingFab extends Vue {
-  @Prop()
-  isLoading: boolean | undefined;
-
-  @Prop()
-  hasError: boolean | undefined;
-
-  @Prop()
-  buttonText!: string;
-
-  @Prop()
-  color!: string | undefined;
-
-  @Prop()
-  disabled!: boolean | undefined;
-
-  get loadingClass(): string {
-    return this.isLoading ? "" : "isNotLoading";
-  }
-
-  get loadingColor(): string {
-    return this.color === "secondary" ? "white" : "primary";
-  }
-
-  @Emit("on-click")
-  onClick(): boolean {
-    return true;
-  }
-
-  click(): void {
-    this.onClick();
-  }
-}
+export default defineComponent({
+  props: {
+    isLoading: {
+      type: Boolean,
+      required: false,
+    },
+    hasError: {
+      type: Boolean,
+      required: false,
+    },
+    buttonText: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  emits: ["on-click"],
+});
 </script>

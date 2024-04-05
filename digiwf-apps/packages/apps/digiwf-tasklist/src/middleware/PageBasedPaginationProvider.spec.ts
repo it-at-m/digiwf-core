@@ -1,4 +1,8 @@
-import {DEFAULT_PAGE, DEFAULT_SIZE, PageBasedPaginationProvider} from "./PageBasedPaginationProvider";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_SIZE,
+  PageBasedPaginationProvider,
+} from "./PageBasedPaginationProvider";
 
 describe("PageBasedPaginationProvider", () => {
   it("should return undefined when page information is not set for page", () => {
@@ -19,7 +23,11 @@ describe("PageBasedPaginationProvider", () => {
     const provider = new PageBasedPaginationProvider();
     provider.setSearchQuery("tasks", "search-query");
     provider.setSearchQuery("unknown", "other-search-query");
-    expect(provider.getPaginationDataInSession("tasks")?.searchQuery).toBe("search-query");
-    expect(provider.getPaginationDataInSession("unknown")?.searchQuery).toBe("other-search-query");
+    expect(provider.getPaginationDataInSession("tasks")?.searchQuery).toBe(
+      "search-query"
+    );
+    expect(provider.getPaginationDataInSession("unknown")?.searchQuery).toBe(
+      "other-search-query"
+    );
   });
 });

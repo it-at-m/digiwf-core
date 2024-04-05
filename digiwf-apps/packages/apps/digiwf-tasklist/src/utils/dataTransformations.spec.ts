@@ -1,4 +1,4 @@
-import {filterInputsWithValue} from "./dataTransformations";
+import { filterInputsWithValue } from "./dataTransformations";
 
 describe("filterInputsWithValue", () => {
   it("should filter entries with no value", () => {
@@ -9,13 +9,15 @@ describe("filterInputsWithValue", () => {
       nr2: 0,
       b1: true,
       b2: false,
-    }  ;
+    };
 
     const inputWithEmptyValues = {
       nv1: undefined,
       nv2: null,
-      nv3: ""
+      nv3: "",
     };
-    expect(filterInputsWithValue({...inputWithValues, ...inputWithEmptyValues})).toEqual(inputWithValues);
+    expect(
+      filterInputsWithValue({ ...inputWithValues, ...inputWithEmptyValues })
+    ).toEqual(inputWithValues);
   });
 });

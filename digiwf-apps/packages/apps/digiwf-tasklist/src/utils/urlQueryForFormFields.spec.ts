@@ -1,8 +1,10 @@
-import {parseQueryParameterInputs} from "./urlQueryForFormFields";
+import { parseQueryParameterInputs } from "./urlQueryForFormFields";
 
 describe("parseQueryParameterInputs", () => {
   it("should return json object when input is correct", () => {
-    expect(parseQueryParameterInputs("{\"key\":\"value\"}")).toEqual({key: "value"});
+    expect(parseQueryParameterInputs('{"key":"value"}')).toEqual({
+      key: "value",
+    });
   });
 
   it("should return empty object if input is empty or undefined", () => {

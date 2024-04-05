@@ -1,16 +1,16 @@
 export interface Labels {
-  title: string,
-  description: string,
-  key: string,
-  ui: string,
-  general: string,
-  section: string,
-  optionalObject: string,
-  optionalSelectItem: string,
-  optionalGroup: string,
-  optionalFields: string,
-  markdown: string,
-  list: string,
+  title: string;
+  description: string;
+  key: string;
+  ui: string;
+  general: string;
+  section: string;
+  optionalObject: string;
+  optionalSelectItem: string;
+  optionalGroup: string;
+  optionalFields: string;
+  markdown: string;
+  list: string;
   switch: string;
   dmsInput: string;
   multiUserInput: string;

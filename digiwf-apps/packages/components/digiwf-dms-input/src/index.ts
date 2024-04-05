@@ -1,1 +1,1 @@
-export {default as DwfDmsInput} from "./components/DwfDmsInput.vue";
+export { default as DwfDmsInput } from "./components/DwfDmsInput.vue";

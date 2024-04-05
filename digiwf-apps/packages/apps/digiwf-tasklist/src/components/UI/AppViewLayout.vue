@@ -12,13 +12,3 @@
   position: relative;
 }
 </style>
-
-<script lang="ts">
-
-import {Component, Vue} from "vue-property-decorator";
-
-@Component
-export default class AppViewLayout extends Vue {
-}
-</script>
-

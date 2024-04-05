@@ -2,6 +2,7 @@
   <configuration default="false" name="EngineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="local,streaming,no-ldap" />
     <module name="digiwf-engine-service" />
+    <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.EngineServiceApplication" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="true" />

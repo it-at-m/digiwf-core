@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-task</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.10.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-tasklist-service</artifactId>
@@ -20,7 +20,7 @@
         <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
 
         <spin.version>1.23.0</spin.version>
-        <wiremock.version>3.4.2</wiremock.version>
+        <wiremock.version>3.5.2</wiremock.version>
     </properties>
 
     <dependencyManagement>
@@ -51,6 +51,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <type>pom</type>
             <version>${project.version}</version>
         </dependency>
         <dependency>
