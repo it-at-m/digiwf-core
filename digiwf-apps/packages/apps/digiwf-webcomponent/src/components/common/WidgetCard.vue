@@ -9,6 +9,7 @@
             :path="mdiLoading"
             class="me-3 loader-icon"
             size="36"
+            aria-label="Daten werden geladen..."
           />
           <svg-icon
             v-else
@@ -16,25 +17,32 @@
             :path="iconPath"
             class="me-3"
             size="36"
+            aria-hidden="true"
           />
-          <h1 class="mb-0 p-0">
-            <strong>{{ cardTitle }}</strong>
-          </h1>
+          <dynamic-heading class="mb-0 p-0 text-header">
+            {{ cardTitle }}
+          </dynamic-heading>
         </div>
         <c-button
           type="submit"
           :disabled="loading"
           title="Daten aktualisieren"
+          aria-label="Daten aktualisieren"
+          :aria-disabled="loading"
           @click="emit('reload')"
         >
           <svg-icon
             type="mdi"
             :path="mdiReload"
+            aria-hidden="true"
           />
         </c-button>
       </div>
     </c-card-header>
-    <c-card-body class="p-0">
+    <c-card-body
+      class="p-0"
+      aria-live="polite"
+    >
       <slot
         v-if="loading"
         name="placeholder"
@@ -66,13 +74,15 @@
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-items-center"
-          role="button"
-          :title="linkText"
+          :title="newTabText"
+          role="link"
+          :aria-label="newTabText"
         >
-          <span class="me-2 footer-text">{{ linkText }}</span>
+          <span class="me-2 text-footer">{{ linkText }}</span>
           <svg-icon
             type="mdi"
             :path="mdiOpenInNew"
+            aria-hidden="true"
           />
         </c-button>
       </div>
@@ -97,12 +107,14 @@ import {
   mdiOpenInNew,
   mdiReload,
 } from "@mdi/js";
-import { computed } from "vue";
+import { computed, toRef } from "vue";
 
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
 import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
+import { useNewTabText } from "@/composables/useNewTabText";
 import { useInjectParameters } from "@/composables/useParameters";
 
 const { baseURL } = useBaseURL();
@@ -125,6 +137,8 @@ const props = withDefaults(
     linkText: "In DigiWF öffnen",
   }
 );
+
+const { newTabText } = useNewTabText(toRef(props.linkText));
 
 const emit = defineEmits<{
   reload: [];
@@ -223,13 +237,13 @@ svg {
     var(--digiwf-webcomponent-color-hover-default)
   );
 }
-h1 {
+.text-header {
   font-size: var(
     --digiwf-webcomponent-font-size-header,
     var(--digiwf-webcomponent-font-size-header-default)
   );
 }
-.footer-text {
+.text-footer {
   font-size: var(
     --digiwf-webcomponent-font-size-footer,
     var(--digiwf-webcomponent-font-size-footer-default)

@@ -4,10 +4,16 @@
     :href="frontendURL"
     target="_blank"
     class="p-3"
+    :title="newTabText"
+    role="link"
+    :aria-label="newTabText"
   >
-    <h2 class="mb-3">
-      <strong>{{ serviceInstance.definitionName }}</strong>
-    </h2>
+    <dynamic-heading
+      root-offset="1"
+      class="mb-3 text-title"
+    >
+      {{ serviceInstance.definitionName }}
+    </dynamic-heading>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
@@ -29,9 +35,11 @@ import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
+import { useNewTabText } from "@/composables/useNewTabText";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
@@ -39,6 +47,8 @@ const { baseURL } = useBaseURL();
 const props = defineProps<{
   serviceInstance: ServiceInstanceTO;
 }>();
+
+const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));
 
 const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
@@ -83,7 +93,7 @@ p {
     var(--digiwf-webcomponent-font-size-text-default)
   );
 }
-h2 {
+.text-title {
   font-size: var(
     --digiwf-webcomponent-font-size-title,
     var(--digiwf-webcomponent-font-size-title-default)

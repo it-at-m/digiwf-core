@@ -7,12 +7,16 @@
       v-if="showLeftRightButtons"
       component="button"
       :disabled="isOnFirstPage"
+      role="button"
+      :aria-disabled="isOnFirstPage"
+      aria-label="Vorherige Seite"
       @click="gotoPreviousPage"
     >
       <svg-icon
         type="mdi"
         :path="mdiArrowLeftBold"
         :size="iconSize"
+        aria-hidden="true"
       />
     </c-pagination-item>
     <template v-if="showPageButtons">
@@ -21,6 +25,8 @@
         :key="page"
         component="button"
         :active="isActivePage(page)"
+        role="button"
+        :aria-label="`Seite ${page}`"
         @click="gotoPage(page - 1)"
         >{{ page }}
       </c-pagination-item>
@@ -29,12 +35,16 @@
       v-if="showLeftRightButtons"
       component="button"
       :disabled="isOnLastPage"
+      role="button"
+      :aria-disabled="isOnLastPage"
+      aria-label="Nächste Seite"
       @click="gotoNextPage"
     >
       <svg-icon
         type="mdi"
         :path="mdiArrowRightBold"
         :size="iconSize"
+        aria-hidden="true"
       />
     </c-pagination-item>
   </c-pagination>

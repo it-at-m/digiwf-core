@@ -1,9 +1,9 @@
 <template>
   <c-list-group-item class="p-3">
     <c-placeholder
-      component="h2"
+      :component="headingTag"
       animation="wave"
-      class="mb-3"
+      class="mb-3 text-title"
     >
       <c-placeholder :xs="6" />
     </c-placeholder>
@@ -26,6 +26,11 @@
 
 <script setup lang="ts">
 import { CListGroupItem, CPlaceholder } from "@coreui/vue";
+import { ref } from "vue";
+
+import { useHeadingTag } from "@/composables/useHeadingTag";
+
+const { headingTag } = useHeadingTag(ref(1));
 </script>
 
 <style scoped>
@@ -45,7 +50,7 @@ p {
     var(--digiwf-webcomponent-font-size-text-default)
   );
 }
-h2 {
+.text-title {
   font-size: var(
     --digiwf-webcomponent-font-size-title,
     var(--digiwf-webcomponent-font-size-title-default)

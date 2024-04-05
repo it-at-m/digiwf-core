@@ -2,30 +2,30 @@
 
 This repository contains different WebComponents for integrating different DigiWF functionality into other applications.
 
-Currently the following WebComponents are provided:
+Currently, the following WebComponents are provided:
 
 - `digiwf-service-instances-webcomponent`: Displays current Service Instance objects of a user in a list-style manner with pagination
 - `digiwf-hello-world-webcomponent`: Show a simple "Hello World" message
 
 ## Usage
 
-1. Add `script`-Import to webpage:
+### 1. Add `script`-Import to webpage:
 
 For `digiwf-service-instances-webcomponent`:
 
 ```html
-<script src="hostname/loader-digiwf-service-instances-webcomponent.js"></script>
+<script src="HOST/loader-digiwf-service-instances-webcomponent.js"></script>
 ```
 
 For `digiwf-hello-world-webcomponent`:
 
 ```html
-<script src="hostname/loader-digiwf-hello-world-webcomponent.js"></script>
+<script src="HOST/loader-digiwf-hello-world-webcomponent.js"></script>
 ```
 
-**Info:** `hostname` must be replaced with the hostname of the service that hosts the WebComponent as static files
+**Info:** `HOST` must be replaced with the hostname (and eventually an additional path) of the service that hosts the WebComponent as static files
 
-2. Add Element to page with appropriate config
+### 2. Add element to page with appropriate config
 
 For `digiwf-service-instances-webcomponent`:
 
@@ -41,16 +41,19 @@ For `digiwf-hello-world-webcomponent`:
 <digiwf-hello-world-webcomponent></digiwf-hello-world-webcomponent>
 ```
 
+**Info:** Supplying the custom properties is optional as described in [WebComponent Properties](#webcomponent-properties)
+
 ## WebComponent Properties
 
 When adding these WebComponents to your website you can configure the behaviour by changing these properties
 accordingly.
 
-|                           | Description                                                                                       | Type     | Required | Default               |
-| ------------------------- | ------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
-| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application | `String` | `false`  | `access-token-loaded` |
-| `page-size`               | The amount of elements to display per page                                                        | `number` | `false`  | `4`                   |
-| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                            | `number` | `false`  | `5`                   |
+|                           | Description                                                                                                                  | Type     | Required | Default               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
+| `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application                            | `String` | `false`  | `access-token-loaded` |
+| `page-size`               | The amount of elements to display per page                                                                                   | `number` | `false`  | `4`                   |
+| `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                                                       | `number` | `false`  | `5`                   |
+| `root-level-heading`      | The level of HTML `h`-element used at component root (to correctly integrate into surrounding application for accessibility) | `number` | `false`  | `1`                   |
 
 ## Events
 
@@ -59,6 +62,17 @@ accordingly.
 The WebComponent listens for this custom event to retrieve an access token used for authentication against DigiWF.
 When the event occurs, the WebComponents start fetching data from the backend.
 If a new event is fired (because a new access token should be used) the components reactively switches to the new access token automatically.
+
+The event can be fired from surrounding web applications via the following snippet (using the default event name of `access-token-loaded`):
+
+```js
+const accessToken = "my-access-token";
+new CustomEvent("access-token-loaded", {
+  detail: {
+    accessToken,
+  },
+});
+```
 
 ## Styling
 
