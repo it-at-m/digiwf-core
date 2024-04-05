@@ -1,9 +1,9 @@
 <template>
   <c-list-group flush>
     <c-list-group-item class="p-3">
-      <component :is="headingTag" class="mb-3 text-title">
+      <dynamic-heading root-offset="1" class="mb-3 text-title">
         Fehler
-      </component>
+      </dynamic-heading>
       <p class="mb-1">
         Beim Abrufen der {{ name }} ist ein Fehler aufgetreten. Versuchen Sie es
         zu einem späteren Zeitpunkt erneut.
@@ -14,8 +14,7 @@
 
 <script setup lang="ts">
 import { CListGroup, CListGroupItem } from "@coreui/vue";
-import { useHeadingTag } from "@/composables/useHeadingTag";
-import { ref } from "vue";
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 
 withDefaults(
   defineProps<{
@@ -25,8 +24,6 @@ withDefaults(
     name: "Daten",
   }
 );
-
-const { headingTag } = useHeadingTag(ref(1));
 </script>
 
 <style scoped>

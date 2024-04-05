@@ -19,9 +19,9 @@
             size="36"
             aria-hidden="true"
           />
-          <component :is="headingTag" class="mb-0 p-0 text-header">
+          <dynamic-heading class="mb-0 p-0 text-header">
             {{ cardTitle }}
-          </component>
+          </dynamic-heading>
         </div>
         <c-button
           type="submit"
@@ -112,7 +112,7 @@ import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useInjectParameters } from "@/composables/useParameters";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { useHeadingTag } from "@/composables/useHeadingTag";
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
@@ -136,7 +136,6 @@ const props = withDefaults(
 );
 
 const { newTabText } = useNewTabText(toRef(props.linkText))
-const { headingTag } = useHeadingTag(ref(0));
 
 const emit = defineEmits<{
   reload: [];

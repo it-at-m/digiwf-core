@@ -8,9 +8,9 @@
     role="link"
     :aria-label="newTabText"
   >
-    <component :is="headingTag" class="mb-3 text-title">
+    <dynamic-heading root-offset="1" class="mb-3 text-title">
       {{ serviceInstance.definitionName }}
-    </component>
+    </dynamic-heading>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
@@ -37,7 +37,7 @@ import { computed, ref } from "vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { useHeadingTag } from "@/composables/useHeadingTag";
+import DynamicHeading from "@/components/common/DynamicHeading.vue";
 
 const { baseURL } = useBaseURL();
 
@@ -46,12 +46,9 @@ const props = defineProps<{
 }>();
 
 const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"))
-const { headingTag } = useHeadingTag(ref(1));
 
 const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
-
-
 
 const frontendURL = computed(() => {
   return `${baseURL!.value}/#/${FRONTEND_INSTANCE_PATH}/${
