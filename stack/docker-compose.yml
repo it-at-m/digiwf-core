@@ -2,6 +2,7 @@
 version: '3.9'
 services:
   optimize:
+    # docker login registry.camunda.cloud
     image: registry.camunda.cloud/optimize-ee/optimize:3.12.0
     container_name: digiwf-optimize
     hostname: optimize
@@ -25,11 +26,12 @@ services:
     volumes:
       - './optimize/environment-config.yaml:/optimize/config/environment-config.yaml'
       - '../digiwf-libs/digiwf-optimize-plugins/target/digiwf-optimize-plugins-jar-with-dependencies.jar:/optimize/plugin/digiwf-plugins.jar'
-      - '~/.camunda/OptimizeLicense.txt:/optimize/config/OptimizeLicense.txt'
+      #- '~/.camunda/OptimizeLicense.txt:/optimize/config/OptimizeLicense.txt'
     networks:
       - local-keycloak
       - internal
-
+    profiles:
+      - optimize
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
@@ -53,6 +55,8 @@ services:
       - cluster.routing.allocation.disk.watermark.flood_stage=256mb
     networks:
       - local-keycloak
+    profiles:
+      - optimize
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -202,6 +206,10 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - internal
+    profiles:
+      - e2e
+
+
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
@@ -325,7 +333,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: "local"
       ENGINE_HOST: "http://host.docker.internal"
-#      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
+      #      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
       SSO_BASE_URL: "http://host.docker.internal:8080/auth"
     extra_hosts:
       - "host.docker.internal:host-gateway"
