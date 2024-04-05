@@ -157,7 +157,7 @@
 </style>
 
 <script lang="ts" setup>
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
 import {NavigationGuardNext} from "vue-router/types/router";
 
@@ -181,6 +181,7 @@ import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
+import {useSnackbarContext} from "../middleware/snackbar";
 
 const props = defineProps({
   id: {
@@ -230,6 +231,8 @@ provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 
 const router = useRouter();
+
+const {showMessageAndLeavePage} = useSnackbarContext();
 
 const formFields = ref<any>({});
 
@@ -306,7 +309,10 @@ const handleCompleteTask = (model: any) => {
       errorMessage.value = result.errorMessage || "";
       if (!result.isError) {
         hasChanges.value = false;
-        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
+        showMessageAndLeavePage(
+          `Aufgabe ${task.value?.name} wurde erfolgreich abgeschlossen`,
+          { path: "/task" }
+        );
       }
     });
 };

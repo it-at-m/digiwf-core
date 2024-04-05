@@ -86,9 +86,7 @@
           <router-view />
         </v-fade-transition>
       </v-container>
-      <notifcation />
       <snackbar />
-      <dwf-button aria-label="" @click="showMessage">test </dwf-button>
     </v-main>
   </v-app>
 </template>
@@ -162,25 +160,23 @@ a {
 </style>
 
 <script lang="ts">
-import { InfoTO, UserTO } from "@muenchen/digiwf-engine-api-internal";
-import { defineComponent, provide, ref, watch } from "vue";
+import {InfoTO} from "@muenchen/digiwf-engine-api-internal";
+import {defineComponent, provide, ref, watch} from "vue";
 
-import StageInfoService, { StageInfo } from "./api/StageInfoService";
+import StageInfoService, {StageInfo} from "./api/StageInfoService";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
 import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
-import { useStore } from "./hooks/store";
-import { useGetProcessInstances } from "./middleware/processInstances/processInstancesMiddleware";
-import { queryClient } from "./middleware/queryClient";
-import { useCurrentUserInfo } from "./middleware/user/userMiddleware";
-import { apiGatewayUrl } from "./utils/envVariables";
+import {useStore} from "./hooks/store";
+import {useGetProcessInstances} from "./middleware/processInstances/processInstancesMiddleware";
+import {queryClient} from "./middleware/queryClient";
+import {useCurrentUserInfo} from "./middleware/user/userMiddleware";
+import {apiGatewayUrl} from "./utils/envVariables";
 import {SNACKBAR_CONTEXT_KEY, useNotification} from "./middleware/snackbar";
 import Snackbar from "./components/common/Snackbar.vue";
-import DwfButton from "./components/common/DwfButton.vue";
-import Notifcation from "./components/common/Notifcation.vue";
 
 export default defineComponent({
-  components: {Notifcation, DwfButton, Snackbar, AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
+  components: {Snackbar, AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
   setup: () => {
     const drawer = ref(true);
     const processInstancesCount = ref<number | null>(null);
@@ -190,7 +186,7 @@ export default defineComponent({
     const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
     const store = useStore();
-    const snackbarContext = useNotification();
+    const snackbarContext = useNotification(); // FIXME
     provide(SNACKBAR_CONTEXT_KEY, snackbarContext);
 
     const { data: processInstances } = useGetProcessInstances(
@@ -269,8 +265,6 @@ export default defineComponent({
       loginLoading,
       processInstancesCount,
       stage,
-
-      showMessage: () => snackbarContext.showMessage(" app geht")
     };
   },
 });

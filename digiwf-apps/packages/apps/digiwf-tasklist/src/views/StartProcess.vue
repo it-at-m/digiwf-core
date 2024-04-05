@@ -89,7 +89,7 @@ const formFields = ref<any>({});
 
 const router = useRouter();
 
-const {showMessage} = useSnackbarContext();
+const {showMessageAndLeavePage} = useSnackbarContext();
 
 
 watch(formFields, () => {
@@ -163,11 +163,13 @@ const startProcess = (model: any) => {
       isDirty.value = false;
       invalidUserTasks();
       invalidProcessInstances();
-      showMessage(`Vorgang ${process.value?.name} wurde erfolgreich gestartet`);
-      // hier eventuell zum userTask routen
-      router.push({ path: "/process" });
+      showMessageAndLeavePage(
+        `Vorgang ${process.value?.name} wurde erfolgreich gestartet`,
+        { path: "/process" }
+      );
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log("e", e);
       errorMessage.value = "Der Vorgang konnte nicht gestartet werden.";
       hasCompleteError.value = true;
     });

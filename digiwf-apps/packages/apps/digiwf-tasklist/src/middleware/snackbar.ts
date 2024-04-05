@@ -1,5 +1,8 @@
 import {inject, Ref, ref} from "vue";
 import {DateTime} from "luxon";
+import {useRouter} from "vue-router/composables";
+import {RawLocation} from "vue-router/types/router";
+import {useAccessibility} from "../store/modules/accessibility";
 
 export interface Message {
   readonly time: DateTime;
@@ -7,22 +10,24 @@ export interface Message {
 }
 
 export interface SnackbarContext {
-  readonly showMessage: (text: string) => void;
+  readonly showMessageAndLeavePage: (text: string, targetLocation: RawLocation) => void;
   readonly snackbarVisible: Ref<boolean>;
-  readonly messageText: Ref<string>;
-  readonly targetLink: Ref<string>;
+  readonly messageText: Ref<string | undefined>;
   readonly messages: Ref<Message[]>;
+  readonly forwardToTarget: () => void;
 }
 
-export const useNotification = () => {
-
+export const useNotification = (): SnackbarContext => {
+  const {a11YNotificationEnabled} = useAccessibility();
   const messageText = ref<string | undefined>(undefined);
+  const location = ref<RawLocation | undefined>();
   const snackbarVisible = ref<boolean>(false);
   const messages = ref<Message[]>([]);
 
+  const router = useRouter();
+
   return {
-    showMessage: (text: string) => {
-      console.log("showMessage", text);
+    showMessageAndLeavePage: (text: string, targetLocation: RawLocation) => {
       if (text.trim().length > 0) {
         messageText.value = text;
         messages.value = [
@@ -32,12 +37,27 @@ export const useNotification = () => {
           },
           ...messages.value
         ];
-        snackbarVisible.value = true;
+
+        location.value = targetLocation;
+
+        if (a11YNotificationEnabled()) {
+          router.push({path: "/message"});
+        } else {
+          router.push(targetLocation);
+          snackbarVisible.value = true;
+        }
       }
     },
     snackbarVisible,
     messageText,
-    messages
+    messages,
+    forwardToTarget: () => {
+      const targetLocation = location.value;
+
+      if (targetLocation) {
+        router.push(targetLocation);
+      }
+    }
   };
 };
 
