@@ -6,7 +6,7 @@
         type="error"
       />
     </v-flex>
-    <v-flex v-if="task !== null">
+    <v-flex v-if="task">
       <!-- header -->
       <v-flex style="justify-content: space-between">
         <v-row>
@@ -99,8 +99,7 @@
 </style>
 
 <script lang="ts" setup>
-import {UserTO} from "@muenchen/digiwf-engine-api-internal";
-import {provide, ref} from "vue";
+import {provide, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -110,9 +109,9 @@ import {ApiConfig} from "../api/ApiConfig";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
 import {useStore} from "../hooks/store";
-import {loadTask, useAssignTaskMutation} from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {useAssignTaskMutation, useTaskQuery} from "../middleware/tasks/taskMiddleware";
 import {useCurrentUserInfo} from "../middleware/user/userMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
 const props = defineProps({
   id: {
@@ -125,22 +124,25 @@ const props = defineProps({
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const taskId: string = props.id!;
 
-const task = ref<HumanTaskDetails | null>(null);
-const isLoading = ref(false);
-const errorMessage = ref("");
 const showModal = ref(false);
-
+const task = ref<HumanTaskDetails | undefined>(undefined);
 const showAssignDialog = ref(false);
 
 const router = useRouter();
 const store = useStore();
 
 const {data: currentUser} = useCurrentUserInfo();
+const {data: taskLoadingResult, isLoading, error: errorMessage} = useTaskQuery(taskId);
+
+watch(taskLoadingResult, (value: any) => {
+  if(value) {
+    task.value = value.task;
+  }
+});
 
 const {
   mutateAsync: assignTask
 } = useAssignTaskMutation(taskId);
-
 
 provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
@@ -148,23 +150,8 @@ provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
-const onInit = () => {
-  isLoading.value = true;
-  loadTask(taskId).then((result) => {
-    isLoading.value = false;
-    if (result.data) {
-      task.value = result.data.task;
-      errorMessage.value = "";
-    }
-    if (result.error) {
-      errorMessage.value = result.error;
-    }
-  });
-};
-
 const checkTaskAssignment = () => {
-  loadTask(taskId).then((result) => {
-    if (result.data?.task?.assigneeId) {
+    if (task.value?.assigneeId) {
       const lhmObjectId = currentUser.value?.lhmObjectId;
       if (task.value?.assigneeId != lhmObjectId) {
         showModal.value = true;
@@ -175,7 +162,6 @@ const checkTaskAssignment = () => {
     } else {
       triggerAssignTask();
     }
-  });
 };
 
 const openAssignDialog = () => {
@@ -206,5 +192,4 @@ const triggerAssignTask = () => {
   });
 };
 
-onInit();
 </script>

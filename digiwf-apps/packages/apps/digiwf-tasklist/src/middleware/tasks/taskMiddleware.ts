@@ -266,52 +266,46 @@ export interface LoadTaskResultData {
   readonly downloadButtonText: string;
 }
 
-export interface LoadTaskResult {
-  readonly data?: LoadTaskResultData;
-  readonly error?: string;
-}
+export const useTaskQuery = (taskId: string) => {
+  return useQuery<LoadTaskResultData, string>({
+    queryKey: ["task", taskId],
+    queryFn: () => {
+      return callGetTaskDetailsFromTaskService(taskId)
+        .then((taskResponse) => {
+          return (
+            taskResponse.assignee
+              ? getUserInfo(taskResponse.assignee)
+              : Promise.resolve<undefined>(undefined)
+          ).then((user) => {
+            const taskDetails = mapTaskDetailsFromTaskService(
+              taskResponse,
+              isInFinishedProcesses(taskId),
+              isInAssignedProcesses(taskId),
+              user
+            );
+            return Promise.resolve<LoadTaskResultData>({
+              task: taskDetails,
+              hasDownloadButton:
+                taskDetails.form?.buttons?.statusPdf!.showButton || false,
+              model: taskDetails.variables, // FIXME: I guess that is wrong
+              followUpDate: taskDetails.followUpDate!,
+              cancelText:
+                taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
+              downloadButtonText:
+                taskDetails.form?.buttons?.statusPdf!.buttonText || "",
 
-export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
-  return callGetTaskDetailsFromTaskService(taskId)
-    .then((taskResponse) => {
-      return (
-        taskResponse.assignee
-          ? getUserInfo(taskResponse.assignee)
-          : Promise.resolve<undefined>(undefined)
-      ).then((user) => {
-        const taskDetails = mapTaskDetailsFromTaskService(
-          taskResponse,
-          isInFinishedProcesses(taskId),
-          isInAssignedProcesses(taskId),
-          user
-        );
-        return Promise.resolve<LoadTaskResult>({
-          data: {
-            task: taskDetails,
-            hasDownloadButton:
-              taskDetails.form?.buttons?.statusPdf!.showButton || false,
-            model: taskDetails.variables, // FIXME: I guess that is wrong
-            followUpDate: taskDetails.followUpDate!,
-            cancelText:
-              taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
-            downloadButtonText:
-              taskDetails.form?.buttons?.statusPdf!.buttonText || "",
-          },
+            });
+          });
+        })
+        .catch((error: ApiCallError) => {
+          if (error.status === 404) {
+            return Promise.reject("Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.");
+          } else {
+            return Promise.reject("Die Aufgabe konnte nicht geladen werden.");
+          }
         });
-      });
-    })
-    .catch((error: ApiCallError) => {
-      if (error.status === 404) {
-        return Promise.resolve({
-          error:
-            "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.",
-        });
-      } else {
-        return Promise.resolve({
-          error: "Die Aufgabe konnte nicht geladen werden.",
-        });
-      }
-    });
+    }
+  });
 };
 
 export const useCancelTaskMutation = () => {

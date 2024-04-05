@@ -157,7 +157,7 @@
 </style>
 
 <script lang="ts" setup>
-import {onMounted, provide, ref} from "vue";
+import {onMounted, provide, ref, watch} from "vue";
 import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
 import {NavigationGuardNext} from "vue-router/types/router";
 
@@ -170,9 +170,12 @@ import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
-  downloadPDFFromEngine,
-  loadTask,
-  useCancelTaskMutation, useCompleteTaskMutation, useDeferTaskMutation, useSaveTaskMutation,
+  downloadPDFFromEngine, LoadTaskResultData,
+  useCancelTaskMutation,
+  useCompleteTaskMutation,
+  useDeferTaskMutation,
+  useSaveTaskMutation,
+  useTaskQuery,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -209,6 +212,45 @@ const el = ref<any>(null);
 
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
+
+
+const {
+  data: taskLoadingResult,
+  error: taskLoadingError
+} = useTaskQuery(taskId);
+
+watch(taskLoadingResult, (data: any) => {
+  console.log("data: ", data);
+  if (!data) {
+    return;
+  }
+  task.value = data.task;
+  model.value = data.model;
+  followUpDate.value = data.followUpDate;
+  cancelText.value = data.cancelText;
+  hasDownloadButton.value = data.hasDownloadButton;
+  downloadButtonText.value = data.downloadButtonText;
+
+  const urlQueryParameter = router.currentRoute.query;
+
+  const inputs = parseQueryParameterInputs(
+    urlQueryParameter.inputs as string
+  );
+
+  if (data.task.form) {
+    formFields.value = mergeObjects(data.task.variables, inputs);
+  } else {
+    // use potential value of query parameter if variable is undefined or empty
+    formFields.value = validateSchema(
+      data.task.schema,
+      mergeObjects(data.task.variables, inputs)
+    );
+  }
+});
+
+watch(taskLoadingError, () => {
+  errorMessage.value = taskLoadingError.value;
+});
 
 /**
  *  mutations:
@@ -270,40 +312,6 @@ const onLeaveDialogSubmit = () => {
 
 const onLeaveDialogCancel = () => {
   saveLeaveDialogOpen.value = false;
-};
-
-const onInit = () => {
-  loadTask(taskId)
-    .then(({data, error}) => {
-      if (data) {
-        task.value = data.task;
-        model.value = data.model;
-        followUpDate.value = data.followUpDate;
-        cancelText.value = data.cancelText;
-        hasDownloadButton.value = data.hasDownloadButton;
-        downloadButtonText.value = data.downloadButtonText;
-
-        const urlQueryParameter = router.currentRoute.query;
-
-        const inputs = parseQueryParameterInputs(
-          urlQueryParameter.inputs as string
-        );
-
-        if (data.task.form) {
-          formFields.value = mergeObjects(data.task.variables, inputs);
-        } else {
-          // use potential value of query parameter if variable is undefined or empty
-          formFields.value = validateSchema(
-            data.task.schema,
-            mergeObjects(data.task.variables, inputs)
-          );
-        }
-      }
-      if (error) {
-        errorMessage.value = error;
-      }
-      hasChanges.value = false;
-    });
 };
 
 onMounted(() => {
@@ -392,5 +400,4 @@ const isDirty = (): boolean => {
   return hasChanges.value;
 };
 
-onInit();
 </script>
