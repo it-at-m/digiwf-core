@@ -16,24 +16,27 @@ import { useProvideParameters } from "@/composables/useParameters";
 import {
   ACCESS_TOKEN_EVENT_NAME_DEFAULT,
   MAX_PAGES_VISIBLE_DEFAULT,
-  PAGE_SIZE_DEFAULT,
+  PAGE_SIZE_DEFAULT, ROOT_HEADING_LEVEL_DEFAULT,
 } from "@/util/constants";
+import type { RootHeadingLevel } from "@/types/RootHeadingLevel";
 
 const props = withDefaults(
   defineProps<{
     accessTokenEventName?: string;
     pageSize?: number;
     maxPagesVisible?: number;
+    rootHeadingLevel?: RootHeadingLevel;
   }>(),
   {
     accessTokenEventName: ACCESS_TOKEN_EVENT_NAME_DEFAULT,
     pageSize: PAGE_SIZE_DEFAULT,
     maxPagesVisible: MAX_PAGES_VISIBLE_DEFAULT,
+    rootHeadingLevel: ROOT_HEADING_LEVEL_DEFAULT
   }
 );
-const { accessTokenEventName, pageSize, maxPagesVisible } = toRefs(props);
+const { accessTokenEventName, pageSize, maxPagesVisible, rootHeadingLevel } = toRefs(props);
 
-useProvideParameters(pageSize, maxPagesVisible);
+useProvideParameters(pageSize, maxPagesVisible, rootHeadingLevel);
 
 const { baseURL } = useBaseURL();
 const { accessToken } = useAccessToken(accessTokenEventName);

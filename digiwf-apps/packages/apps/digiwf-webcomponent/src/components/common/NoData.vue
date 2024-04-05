@@ -1,9 +1,9 @@
 <template>
   <c-list-group flush>
     <c-list-group-item class="p-3">
-      <h2 class="mb-3">
-        <strong>Keine {{ name }} gefunden</strong>
-      </h2>
+      <component :is="headingTag" class="mb-3 text-title">
+        Keine {{ name }} gefunden
+      </component>
       <p class="mb-1">Es konnten keine {{ name }} gefunden werden.</p>
     </c-list-group-item>
   </c-list-group>
@@ -11,6 +11,8 @@
 
 <script setup lang="ts">
 import { CListGroup, CListGroupItem } from "@coreui/vue";
+import { useHeadingTag } from "@/composables/useHeadingTag";
+import { ref } from "vue";
 
 withDefaults(
   defineProps<{
@@ -20,6 +22,8 @@ withDefaults(
     name: "Daten",
   }
 );
+
+const { headingTag } = useHeadingTag(ref(1));
 </script>
 
 <style scoped>
@@ -39,7 +43,7 @@ p {
     var(--digiwf-webcomponent-font-size-text-default)
   );
 }
-h2 {
+.text-title {
   font-size: var(
     --digiwf-webcomponent-font-size-title,
     var(--digiwf-webcomponent-font-size-title-default)

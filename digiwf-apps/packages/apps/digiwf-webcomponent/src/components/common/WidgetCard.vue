@@ -19,9 +19,9 @@
             size="36"
             aria-hidden="true"
           />
-          <h1 class="mb-0 p-0">
-            <strong>{{ cardTitle }}</strong>
-          </h1>
+          <component :is="headingTag" class="mb-0 p-0 text-header">
+            {{ cardTitle }}
+          </component>
         </div>
         <c-button
           type="submit"
@@ -75,7 +75,7 @@
           role="link"
           :aria-label="newTabText"
         >
-          <span class="me-2 footer-text">{{ linkText }}</span>
+          <span class="me-2 text-footer">{{ linkText }}</span>
           <svg-icon
             type="mdi"
             :path="mdiOpenInNew"
@@ -104,7 +104,7 @@ import {
   mdiOpenInNew,
   mdiReload,
 } from "@mdi/js";
-import { computed, toRef } from "vue";
+import { computed, ref, toRef } from "vue";
 
 import ErrorData from "@/components/common/ErrorData.vue";
 import NoData from "@/components/common/NoData.vue";
@@ -112,6 +112,7 @@ import SmartPagination from "@/components/common/SmartPagination.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useInjectParameters } from "@/composables/useParameters";
 import { useNewTabText } from "@/composables/useNewTabText";
+import { useHeadingTag } from "@/composables/useHeadingTag";
 
 const { baseURL } = useBaseURL();
 const { maxPagesVisible } = useInjectParameters();
@@ -135,6 +136,7 @@ const props = withDefaults(
 );
 
 const { newTabText } = useNewTabText(toRef(props.linkText))
+const { headingTag } = useHeadingTag(ref(0));
 
 const emit = defineEmits<{
   reload: [];
@@ -233,13 +235,13 @@ svg {
     var(--digiwf-webcomponent-color-hover-default)
   );
 }
-h1 {
+.text-header {
   font-size: var(
     --digiwf-webcomponent-font-size-header,
     var(--digiwf-webcomponent-font-size-header-default)
   );
 }
-.footer-text {
+.text-footer {
   font-size: var(
     --digiwf-webcomponent-font-size-footer,
     var(--digiwf-webcomponent-font-size-footer-default)
