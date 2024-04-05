@@ -170,11 +170,10 @@ import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
-  completeTask,
   downloadPDFFromEngine,
   loadTask,
   saveTask,
-  useCancelTaskMutation, useDeferTaskMutation,
+  useCancelTaskMutation, useCompleteTaskMutation, useDeferTaskMutation,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -200,8 +199,6 @@ const hasChanges = ref(false);
 
 const isSaving = ref(false);
 const hasSaveError = ref(false);
-const isCompleting = ref(false);
-const hasCompleteError = ref(false);
 const cancelText = ref("Aufgabe Abbrechen");
 
 const isDownloading = ref(false);
@@ -230,6 +227,11 @@ const {
   mutateAsync: deferTask
 } = useDeferTaskMutation(taskId);
 
+const {
+  mutateAsync: completeTask,
+  isPending: isCompleting,
+  isError: hasCompleteError
+} = useCompleteTaskMutation(taskId);
 
 /**
  * toggle for showing fab menu
@@ -311,16 +313,13 @@ onMounted(() => {
 });
 
 const handleCompleteTask = (model: any) => {
-  isCompleting.value = true;
-  completeTask(taskId, model)
-    .then((result) => {
-      isCompleting.value = false;
-      hasCompleteError.value = result.isError;
-      errorMessage.value = result.errorMessage || "";
-      if (!result.isError) {
-        hasChanges.value = false;
-        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
-      }
+  completeTask(model)
+    .then(() => {
+      errorMessage.value = "";
+      hasChanges.value = false;
+    })
+    .catch(error => {
+      errorMessage.value = error;
     });
 };
 

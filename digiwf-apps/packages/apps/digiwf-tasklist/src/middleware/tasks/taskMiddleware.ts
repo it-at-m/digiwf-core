@@ -329,30 +329,18 @@ export const useCancelTaskMutation = () => {
     });
 };
 
-interface CompleteTaskResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const completeTask = (
-  taskId: string,
-  variables: TaskVariables
-): Promise<CompleteTaskResult> => {
-  return callCompleteTaskInTaskService(taskId, variables)
-    .then(() => {
+export const useCompleteTaskMutation = (taskId: string) => {
+  return useMutation<void, string, TaskVariables>({
+    mutationFn: (variables) => {
+      return callCompleteTaskInTaskService(taskId, variables)
+        .catch(error => Promise.reject(error.message));
+    },
+    onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
-      return Promise.resolve<CompleteTaskResult>({
-        isError: false,
-        errorMessage: undefined,
-      });
-    })
-    .catch((error) => {
-      return Promise.resolve<CompleteTaskResult>({
-        isError: true,
-        errorMessage: error.message,
-      });
-    });
+      router.push({path: "/mytask"});
+    }
+  });
 };
 
 export const useDeferTaskMutation = (taskId: string) => {
