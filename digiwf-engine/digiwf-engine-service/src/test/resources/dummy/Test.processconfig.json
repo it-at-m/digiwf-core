@@ -1,5 +1,5 @@
 {
-  "key": "TestProcessIncident",
+  "key": "TestProcessConfig",
   "statusConfig": [
     {
       "key": "Offen",
@@ -20,15 +20,15 @@
   "configs": [
     {
       "key": "app_file_paths_readonly",
-      "value": "Documents/test4;Documents/test5;Documents/test6"
+      "value": "Documents42/test42"
     },
     {
       "key": "app_file_paths",
-      "value": "Documents/test1;Documents/test2;Documents/test3"
+      "value": "Documents42/test42"
     },
     {
       "key": "app_instance_file_paths",
-      "value": "Documents"
+      "value": "Documents42"
     },
     {
       "key": "app_instance_schema_key",
