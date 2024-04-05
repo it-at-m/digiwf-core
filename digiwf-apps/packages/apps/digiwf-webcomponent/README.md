@@ -49,11 +49,11 @@ When adding these WebComponents to your website you can configure the behaviour 
 accordingly.
 
 |                           | Description                                                                                                                  | Type     | Required | Default               |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
+|---------------------------| ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
 | `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application                            | `String` | `false`  | `access-token-loaded` |
 | `page-size`               | The amount of elements to display per page                                                                                   | `number` | `false`  | `4`                   |
 | `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                                                       | `number` | `false`  | `5`                   |
-| `root-level-heading`      | The level of HTML `h`-element used at component root (to correctly integrate into surrounding application for accessibility) | `number` | `false`  | `1`                   |
+| `root-heading-level`      | The level of HTML `h`-element used at component root (to correctly integrate into surrounding application for accessibility) | `number` | `false`  | `1`                   |
 
 ## Events
 
