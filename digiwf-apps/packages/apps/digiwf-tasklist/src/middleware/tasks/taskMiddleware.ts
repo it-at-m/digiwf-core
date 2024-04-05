@@ -373,29 +373,13 @@ const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
   return callDeferTask(taskId, date);
 };
 
-interface SaveTaskResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const saveTask = (
-  taskId: string,
-  variables: TaskVariables
-): Promise<SaveTaskResult> => {
-  return callSaveTaskInTaskService(taskId, variables)
-    .then(() =>
-      Promise.resolve({
-        // FIXME: invalide task list?
-        isError: false,
-        errorMessage: undefined,
-      })
-    )
-    .catch((error) =>
-      Promise.resolve({
-        isError: true,
-        errorMessage: error.message,
-      })
-    );
+export const useSaveTaskMutation = (taskId: string) => {
+  return useMutation<void, string, TaskVariables>({
+    mutationFn: (variables) => {
+      return callSaveTaskInTaskService(taskId, variables)
+        .catch(error => Promise.reject(error.message));
+    }
+  });
 };
 
 export const useAssignTaskMutation = (taskId: string) => {

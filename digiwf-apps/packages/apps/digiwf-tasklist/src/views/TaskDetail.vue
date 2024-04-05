@@ -84,7 +84,7 @@
           :has-error="hasSaveError"
           color="white"
           button-text="Aufgabe zwischenspeichern"
-          @on-click="onSaveTaskClick"
+          @on-click="handleSaveTask"
         >
           <v-icon> mdi-content-save</v-icon>
         </loading-fab>
@@ -172,8 +172,7 @@ import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
   downloadPDFFromEngine,
   loadTask,
-  saveTask,
-  useCancelTaskMutation, useCompleteTaskMutation, useDeferTaskMutation,
+  useCancelTaskMutation, useCompleteTaskMutation, useDeferTaskMutation, useSaveTaskMutation,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -197,8 +196,6 @@ const model = ref<any>();
 const errorMessage = ref("");
 const hasChanges = ref(false);
 
-const isSaving = ref(false);
-const hasSaveError = ref(false);
 const cancelText = ref("Aufgabe Abbrechen");
 
 const isDownloading = ref(false);
@@ -233,6 +230,12 @@ const {
   isError: hasCompleteError
 } = useCompleteTaskMutation(taskId);
 
+
+const {
+  mutateAsync: saveTask,
+  isPending: isSaving,
+  isError: hasSaveError
+} = useSaveTaskMutation(taskId);
 /**
  * toggle for showing fab menu
  */
@@ -323,20 +326,17 @@ const handleCompleteTask = (model: any) => {
     });
 };
 
-const onSaveTaskClick = (): Promise<void> => {
-  isSaving.value = true;
-  hasSaveError.value = false;
-
-  return saveTask(taskId, model.value).then((result) => {
-    isSaving.value = false;
-    errorMessage.value = result.errorMessage || "";
-    hasSaveError.value = result.isError;
-    if (!result.isError) {
+const handleSaveTask = (): Promise<void> => {
+  return saveTask(model.value)
+    .then(() => {
+      errorMessage.value = "";
       hasChanges.value = false;
-    }
-
-    return result.isError ? Promise.reject() : Promise.resolve();
-  });
+      return Promise.resolve();
+    })
+    .catch(error => {
+      errorMessage.value = error;
+      return Promise.reject();
+    });
 };
 
 const openFollowUp = (): void => {
@@ -356,14 +356,14 @@ const saveFollowUp = (newFollowUpDate: string) => {
   followUpDate.value = newFollowUpDate;
   isFollowUpDialogVisible.value = false;
 
-  (hasChanges.value ? onSaveTaskClick() : Promise.resolve()).then(() => {
-    deferTask( newFollowUpDate)
+  (hasChanges.value ? handleSaveTask() : Promise.resolve()).then(() => {
+    deferTask(newFollowUpDate)
       .then(() => {
         errorMessage.value = "";
       })
       .catch((error) => {
-      errorMessage.value = error;
-    });
+        errorMessage.value = error;
+      });
   });
 };
 
