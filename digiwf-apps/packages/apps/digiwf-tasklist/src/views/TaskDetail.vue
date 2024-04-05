@@ -171,11 +171,10 @@ import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
   completeTask,
-  deferTask,
   downloadPDFFromEngine,
   loadTask,
   saveTask,
-  useCancelTaskMutation,
+  useCancelTaskMutation, useDeferTaskMutation,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -217,11 +216,20 @@ const el = ref<any>(null);
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
 
+/**
+ *  mutations:
+ */
+
 const {
   mutateAsync: cancelTask,
   isPending: isCancelling,
   isError: hasCancelError
 } = useCancelTaskMutation();
+
+const {
+  mutateAsync: deferTask
+} = useDeferTaskMutation(taskId);
+
 
 /**
  * toggle for showing fab menu
@@ -350,8 +358,12 @@ const saveFollowUp = (newFollowUpDate: string) => {
   isFollowUpDialogVisible.value = false;
 
   (hasChanges.value ? onSaveTaskClick() : Promise.resolve()).then(() => {
-    deferTask(taskId, newFollowUpDate).then((result) => {
-      errorMessage.value = result.errorMessage || "";
+    deferTask( newFollowUpDate)
+      .then(() => {
+        errorMessage.value = "";
+      })
+      .catch((error) => {
+      errorMessage.value = error;
     });
   });
 };

@@ -1,6 +1,6 @@
 import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
-import {computed, inject, ref, Ref} from "vue";
+import {computed, ref, Ref} from "vue";
 
 import {ApiCallError} from "../../api/defaultErrorHandler";
 import {
@@ -15,25 +15,19 @@ import {
   callPostAssignTaskInTaskService,
   callSaveTaskInTaskService,
 } from "../../api/tasks/tasksApiCalls";
-import {useStore} from "../../hooks/store";
 import router from "../../router";
-import store from "../../store";
 import {nullToUndefined} from "../../utils/dataTransformations";
 import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
 import {Page} from "../commonModels";
 import {queryClient} from "../queryClient";
 import {getUserInfo, useCurrentUserInfo} from "../user/userMiddleware";
-import {User} from "../user/userModels";
 import {
   addAssignedTaskIds,
   addFinishedTaskIds,
   isInAssignedProcesses,
   isInFinishedProcesses,
 } from "./mutatedTaskFilter";
-import {
-  mapTaskDetailsFromTaskService,
-  mapTaskFromTaskService,
-} from "./taskMapper";
+import {mapTaskDetailsFromTaskService, mapTaskFromTaskService,} from "./taskMapper";
 import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
@@ -325,9 +319,9 @@ export const useCancelTaskMutation = () => {
   return useMutation<void, string, string>(
     {
       mutationFn: (taskId) => {
-      return callCancelTaskInTaskService(taskId)
-        .catch(() => Promise.reject("Die Aufgabe konnte nicht abgebrochen werden."));
-    },
+        return callCancelTaskInTaskService(taskId)
+          .catch(() => Promise.reject("Die Aufgabe konnte nicht abgebrochen werden."));
+      },
       onSuccess: () => {
         queryClient.invalidateQueries([userTasksQueryId]);
         router.push({path: "/task"});
@@ -361,35 +355,25 @@ export const completeTask = (
     });
 };
 
-interface SetFollowUpResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const deferTask = (
-  taskId: string,
-  followUp: string
-): Promise<SetFollowUpResult> => {
-  return handleDeferTaskInTaskService(taskId, followUp)
-    .then(() => {
+export const useDeferTaskMutation = (taskId: string) => {
+  return useMutation<void, string, string>({
+    mutationFn: (followUp: string) => {
+      return handleDeferTaskInTaskService(taskId, followUp)
+        .catch(error => {
+          return Promise.reject(
+            error.message === "incorrect date format"
+              ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
+              : "Die Aufgabe konnte nicht gespeichert werden."
+          );
+        });
+    },
+    onSuccess: () => {
       invalidUserTasks();
       router.push({path: "/task"});
-
-      return Promise.resolve<SetFollowUpResult>({
-        errorMessage: undefined,
-        isError: false,
-      });
-    })
-    .catch((error) => {
-      return Promise.resolve<SetFollowUpResult>({
-        errorMessage:
-          error.message === "incorrect date format"
-            ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
-            : "Die Aufgabe konnte nicht gespeichert werden.",
-        isError: true,
-      });
-    });
+    }
+  });
 };
+
 
 const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
   let date: string | undefined = undefined;
