@@ -110,7 +110,7 @@ import {ApiConfig} from "../api/ApiConfig";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
 import {useStore} from "../hooks/store";
-import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
+import {loadTask, useAssignTaskMutation} from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {useCurrentUserInfo} from "../middleware/user/userMiddleware";
 
@@ -136,6 +136,11 @@ const router = useRouter();
 const store = useStore();
 
 const {data: currentUser} = useCurrentUserInfo();
+
+const {
+  mutateAsync: assignTask
+} = useAssignTaskMutation(taskId);
+
 
 provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
@@ -194,10 +199,10 @@ const triggerAssignTask = () => {
     errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
     return;
   }
-  assignTask(taskId, lhmObjectId).then((result) => {
-    errorMessage.value = result.isError
-      ? "Die Aufgabe konnte nicht zugewiesen werden."
-      : "";
+  assignTask(taskId, lhmObjectId)
+    .then(() => errorMessage.value)
+    .catch((error) => {
+    errorMessage.value = error;
   });
 };
 

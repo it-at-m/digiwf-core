@@ -410,23 +410,19 @@ export const saveTask = (
     );
 };
 
-interface AssignTaskResult {
-  readonly isError: boolean;
-}
-
-export const assignTask = (
-  taskId: string,
-  userId: string
-): Promise<AssignTaskResult> => {
-  return callPostAssignTaskInTaskService(taskId, userId)
-    .then(() => {
+export const useAssignTaskMutation = (taskId: string) => {
+  return useMutation<void, void, string>({
+    mutationFn: (userId: string) => {
+      return callPostAssignTaskInTaskService(taskId, userId)
+        .catch(() => Promise.reject("Die Aufgabe konnte nicht zugewiesen werden."));
+    },
+    onSuccess: () => {
       router.push({path: "/task/" + taskId});
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
-      return Promise.resolve({isError: false});
-    })
-    .catch(() => Promise.resolve({isError: true}));
+    }
+  });
 };
 
 interface DownloadPdfResult {
