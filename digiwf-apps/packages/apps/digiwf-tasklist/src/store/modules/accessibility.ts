@@ -2,7 +2,7 @@ import { useStore } from "../../hooks/store";
 
 export interface AccessibilityState {
   highContrastModeEnabled: boolean;
-  a11YNotificationEnabled: boolean
+  a11YNotificationEnabled: boolean;
 }
 
 const defaultAccessibilityState: AccessibilityState = {

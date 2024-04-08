@@ -34,7 +34,6 @@ declare module 'vue' {
     KeyboardAccessibilityIcon: typeof import('./src/components/UI/icons/KeyboardAccessibilityIcon.vue')['default']
     LeaveSiteDialog: typeof import('./src/components/common/LeaveSiteDialog.vue')['default']
     LoadingFab: typeof import('./src/components/UI/LoadingFab.vue')['default']
-    Notifcation: typeof import('./src/components/common/Notifcation.vue')['default']
     PdfOutput: typeof import('./src/components/form/PdfOutput.vue')['default']
     ProcessDefinitionItem: typeof import('./src/components/process/ProcessDefinitionItem.vue')['default']
     ProcessInstanceItem: typeof import('./src/components/process/ProcessInstanceItem.vue')['default']
