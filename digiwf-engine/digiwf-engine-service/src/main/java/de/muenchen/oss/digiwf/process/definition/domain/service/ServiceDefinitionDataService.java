@@ -56,7 +56,7 @@ public class ServiceDefinitionDataService {
         } else if (Optional.ofNullable(definition.getJsonSchema()).isPresent()) {
             serializedVariables = this.initalizeData(definition, variables);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("No json schema or start form available for service definition " + definition.getKey());
         }
         return serializedVariables;
     }
