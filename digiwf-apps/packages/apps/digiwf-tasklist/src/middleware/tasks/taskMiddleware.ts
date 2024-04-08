@@ -1,8 +1,8 @@
-import {PageOfTasks, Task} from "@muenchen/digiwf-task-api-internal";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
-import {computed, ref, Ref} from "vue";
+import { PageOfTasks, Task } from "@muenchen/digiwf-task-api-internal";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { computed, ref, Ref } from "vue";
 
-import {ApiCallError} from "../../api/defaultErrorHandler";
+import { ApiCallError } from "../../api/defaultErrorHandler";
 import {
   callCancelTaskInTaskService,
   callCompleteTaskInTaskService,
@@ -16,19 +16,22 @@ import {
   callSaveTaskInTaskService,
 } from "../../api/tasks/tasksApiCalls";
 import router from "../../router";
-import {nullToUndefined} from "../../utils/dataTransformations";
-import {dateToIsoDateTime, getCurrentDate} from "../../utils/time";
-import {Page} from "../commonModels";
-import {queryClient} from "../queryClient";
-import {getUserInfo, useCurrentUserInfo} from "../user/userMiddleware";
+import { nullToUndefined } from "../../utils/dataTransformations";
+import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
+import { Page } from "../commonModels";
+import { queryClient } from "../queryClient";
+import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
 import {
   addAssignedTaskIds,
   addFinishedTaskIds,
   isInAssignedProcesses,
   isInFinishedProcesses,
 } from "./mutatedTaskFilter";
-import {mapTaskDetailsFromTaskService, mapTaskFromTaskService,} from "./taskMapper";
-import {HumanTask, HumanTaskDetails, TaskVariables} from "./tasksModels";
+import {
+  mapTaskDetailsFromTaskService,
+  mapTaskFromTaskService,
+} from "./taskMapper";
+import { HumanTask, HumanTaskDetails, TaskVariables } from "./tasksModels";
 
 const extractTag = (tag: Ref<string | undefined>): string | undefined => {
   const currentValue = tag.value;
@@ -169,7 +172,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
   const dummyPageSize = ref(20);
   const dummyQuery = ref(undefined);
   const dummyTag = ref(undefined);
-  const {data: myTasksData} = useMyTasksQuery(
+  const { data: myTasksData } = useMyTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -177,7 +180,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
     ref(false),
     ref(undefined)
   );
-  const {data: assignGroupData} = useAssignedGroupTasksQuery(
+  const { data: assignGroupData } = useAssignedGroupTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -185,7 +188,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
     ref(undefined),
     ref(undefined)
   );
-  const {data: openGroupData} = useOpenGroupTasksQuery(
+  const { data: openGroupData } = useOpenGroupTasksQuery(
     dummyPage,
     dummyPageSize,
     dummyQuery,
@@ -204,7 +207,7 @@ export const useNumberOfTasks = (): UseNumberOfTasksReturn => {
 
 export const useAssignTaskToCurrentUserMutation = () => {
   const queryClient = useQueryClient();
-  const {data: currentUser} = useCurrentUserInfo();
+  const { data: currentUser } = useCurrentUserInfo();
 
   return useMutation<void, any, string>({
     mutationFn: (taskId) => {
@@ -231,7 +234,7 @@ export const useAssignTaskToUserMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, any, { taskId: string; userId: string }>({
-    mutationFn: ({taskId, userId}) =>
+    mutationFn: ({ taskId, userId }) =>
       callPostAssignTaskInTaskService(taskId, userId),
     onSuccess: (_, variables) => {
       addAssignedTaskIds(variables.taskId);
@@ -290,72 +293,73 @@ export const useTaskQuery = (taskId: string) => {
               model: taskDetails.variables, // FIXME: I guess that is wrong
               followUpDate: taskDetails.followUpDate!,
               cancelText:
-                taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
+                taskDetails.form?.buttons?.cancel!.buttonText ||
+                "Task abbrechen",
               downloadButtonText:
                 taskDetails.form?.buttons?.statusPdf!.buttonText || "",
-
             });
           });
         })
         .catch((error: ApiCallError) => {
           if (error.status === 404) {
-            return Promise.reject("Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.");
+            return Promise.reject(
+              "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
+            );
           } else {
             return Promise.reject("Die Aufgabe konnte nicht geladen werden.");
           }
         });
-    }
+    },
   });
 };
 
 export const useCancelTaskMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<void, string, string>(
-    {
-      mutationFn: (taskId) => {
-        return callCancelTaskInTaskService(taskId)
-          .catch(() => Promise.reject("Die Aufgabe konnte nicht abgebrochen werden."));
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries([userTasksQueryId]);
-        router.push({path: "/task"});
-      },
-    });
+  return useMutation<void, string, string>({
+    mutationFn: (taskId) => {
+      return callCancelTaskInTaskService(taskId).catch(() =>
+        Promise.reject("Die Aufgabe konnte nicht abgebrochen werden.")
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries([userTasksQueryId]);
+      router.push({ path: "/task" });
+    },
+  });
 };
 
 export const useCompleteTaskMutation = (taskId: string) => {
   return useMutation<void, string, TaskVariables>({
     mutationFn: (variables) => {
-      return callCompleteTaskInTaskService(taskId, variables)
-        .catch(error => Promise.reject(error.message));
+      return callCompleteTaskInTaskService(taskId, variables).catch((error) =>
+        Promise.reject(error.message)
+      );
     },
     onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
-      router.push({path: "/mytask"});
-    }
+      router.push({ path: "/mytask" });
+    },
   });
 };
 
 export const useDeferTaskMutation = (taskId: string) => {
   return useMutation<void, string, string>({
     mutationFn: (followUp: string) => {
-      return handleDeferTaskInTaskService(taskId, followUp)
-        .catch(error => {
-          return Promise.reject(
-            error.message === "incorrect date format"
-              ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
-              : "Die Aufgabe konnte nicht gespeichert werden."
-          );
-        });
+      return handleDeferTaskInTaskService(taskId, followUp).catch((error) => {
+        return Promise.reject(
+          error.message === "incorrect date format"
+            ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
+            : "Die Aufgabe konnte nicht gespeichert werden."
+        );
+      });
     },
     onSuccess: () => {
       invalidUserTasks();
-      router.push({path: "/task"});
-    }
+      router.push({ path: "/task" });
+    },
   });
 };
-
 
 const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
   let date: string | undefined = undefined;
@@ -370,24 +374,26 @@ const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
 export const useSaveTaskMutation = (taskId: string) => {
   return useMutation<void, string, TaskVariables>({
     mutationFn: (variables) => {
-      return callSaveTaskInTaskService(taskId, variables)
-        .catch(error => Promise.reject(error.message));
-    }
+      return callSaveTaskInTaskService(taskId, variables).catch((error) =>
+        Promise.reject(error.message)
+      );
+    },
   });
 };
 
 export const useAssignTaskMutation = (taskId: string) => {
   return useMutation<void, void, string>({
     mutationFn: (userId: string) => {
-      return callPostAssignTaskInTaskService(taskId, userId)
-        .catch(() => Promise.reject("Die Aufgabe konnte nicht zugewiesen werden."));
+      return callPostAssignTaskInTaskService(taskId, userId).catch(() =>
+        Promise.reject("Die Aufgabe konnte nicht zugewiesen werden.")
+      );
     },
     onSuccess: () => {
-      router.push({path: "/task/" + taskId});
+      router.push({ path: "/task/" + taskId });
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
-    }
+    },
   });
 };
 
