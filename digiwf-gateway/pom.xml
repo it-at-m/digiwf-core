@@ -17,7 +17,8 @@
 
     <properties>
         <apache.commons.lang.version>3.14.0</apache.commons.lang.version>
-        <hazelcast.version>4.2.8</hazelcast.version>
+        <apache.commons.codec.version>1.16.1</apache.commons.codec.version>
+        <hazelcast.version>5.3.6</hazelcast.version>
     </properties>
 
     <dependencies>
@@ -76,8 +77,13 @@
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-all</artifactId>
+            <artifactId>hazelcast-spring</artifactId>
             <version>${hazelcast.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${apache.commons.codec.version}</version>
         </dependency>
 
         <!-- Testing -->
