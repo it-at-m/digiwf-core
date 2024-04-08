@@ -62,7 +62,7 @@ import { invalidUserTasks } from "../middleware/tasks/taskMiddleware";
 import { mergeObjects } from "../utils/mergeObjects";
 import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
 import { JSFValue, validateSchema } from "../utils/validateSchema";
-import {useSnackbarContext} from "../middleware/snackbar";
+import {useNotificationContext} from "../middleware/snackbar";
 
 const props = defineProps({
   processKey: {
@@ -89,7 +89,7 @@ const formFields = ref<any>({});
 
 const router = useRouter();
 
-const {showMessageAndLeavePage} = useSnackbarContext();
+const {showMessageAndLeavePage} = useNotificationContext();
 
 
 watch(formFields, () => {

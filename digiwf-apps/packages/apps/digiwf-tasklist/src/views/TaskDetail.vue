@@ -181,7 +181,7 @@ import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
-import {useSnackbarContext} from "../middleware/snackbar";
+import {useNotificationContext} from "../middleware/snackbar";
 
 const props = defineProps({
   id: {
@@ -232,7 +232,7 @@ provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 
 const router = useRouter();
 
-const {showMessageAndLeavePage} = useSnackbarContext();
+const {showMessageAndLeavePage} = useNotificationContext();
 
 const formFields = ref<any>({});
 

@@ -172,7 +172,7 @@ import {useGetProcessInstances} from "./middleware/processInstances/processInsta
 import {queryClient} from "./middleware/queryClient";
 import {useCurrentUserInfo} from "./middleware/user/userMiddleware";
 import {apiGatewayUrl} from "./utils/envVariables";
-import {SNACKBAR_CONTEXT_KEY, useNotification} from "./middleware/snackbar";
+import {NOTIFICATION_CONTEXT_KEY, useNotification} from "./middleware/snackbar";
 import Snackbar from "./components/common/Snackbar.vue";
 
 export default defineComponent({
@@ -187,7 +187,7 @@ export default defineComponent({
 
     const store = useStore();
     const snackbarContext = useNotification(); // FIXME
-    provide(SNACKBAR_CONTEXT_KEY, snackbarContext);
+    provide(NOTIFICATION_CONTEXT_KEY, snackbarContext);
 
     const { data: processInstances } = useGetProcessInstances(
       ref(0),

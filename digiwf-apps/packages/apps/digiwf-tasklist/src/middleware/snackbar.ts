@@ -10,18 +10,18 @@ export interface Message {
   readonly message: string;
 }
 
-export interface SnackbarContext {
+export interface NotificationContext {
   readonly showMessageAndLeavePage: (
     text: string,
     targetLocation: RawLocation
   ) => void;
   readonly snackbarVisible: Ref<boolean>;
   readonly messageText: Ref<string | undefined>;
-  readonly messages: Ref<Message[]>;
+  readonly messages: Ref<Message[]>; // FIXME: kann raus, da wir ja nicht die letzten nachrichten anzeigen wollen
   readonly forwardToTarget: () => void;
 }
 
-export const useNotification = (): SnackbarContext => {
+export const useNotification = (): NotificationContext => {
   const { a11YNotificationEnabled } = useAccessibility();
   const messageText = ref<string | undefined>(undefined);
   const location = ref<RawLocation | undefined>();
@@ -65,8 +65,8 @@ export const useNotification = (): SnackbarContext => {
   };
 };
 
-export const SNACKBAR_CONTEXT_KEY = "snackbar";
+export const NOTIFICATION_CONTEXT_KEY = "snackbar";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export const useSnackbarContext = () =>
-  inject<SnackbarContext>(SNACKBAR_CONTEXT_KEY)!;
+export const useNotificationContext = () =>
+  inject<NotificationContext>(NOTIFICATION_CONTEXT_KEY)!;

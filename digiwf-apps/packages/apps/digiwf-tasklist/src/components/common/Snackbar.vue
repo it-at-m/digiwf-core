@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import {useSnackbarContext} from "../../middleware/snackbar";
+import {useNotificationContext} from "../../middleware/snackbar";
 import {ref, watch} from "vue";
 
-const {snackbarVisible, messageText} = useSnackbarContext();
+const {snackbarVisible, messageText} = useNotificationContext();
 
-const elem=ref();
+const elem=ref(); // FIXME: glaube nicht mehr notwendig, wenn Barrierefreiheit anders gelöst
 
 watch(snackbarVisible, (v) => {
   if(v === true) {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import {useSnackbarContext} from "../middleware/snackbar";
+import {useNotificationContext} from "../middleware/snackbar";
 import AppViewLayout from "../components/UI/AppViewLayout.vue";
 import DwfButton from "../components/common/DwfButton.vue";
 
-const {messageText, forwardToTarget} = useSnackbarContext();
+const {messageText, forwardToTarget} = useNotificationContext();
 
 </script>
 
