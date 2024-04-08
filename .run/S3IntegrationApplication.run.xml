@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="EngineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="local,streaming,no-ldap" />
-    <module name="digiwf-engine-service" />
+  <configuration default="false" name="S3IntegrationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="ACTIVE_PROFILES" value="local" />
+    <module name="digiwf-s3-integration-service" />
     <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.EngineServiceApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.s3.integration.S3IntegrationApplication" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="true" />
       <option name="IS_SUBST" value="false" />
