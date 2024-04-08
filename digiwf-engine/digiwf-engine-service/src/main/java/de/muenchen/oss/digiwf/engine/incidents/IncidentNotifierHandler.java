@@ -116,8 +116,16 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
         return incidentEntity;
     }
 
+    /**
+     * Retrieves the email content for the incident notification email. This includes the process name,
+     * a link to the incident in the Camunda Cockpit, and a predefined email template.
+     *
+     * @param incidentEntity The IncidentEntity representing the incident.
+     * @param processName The name of the process associated with the incident.
+     * @return A Map containing the email content key-value pairs.
+     */
     @NotNull
-    private Map<String, String> getEMailContent(IncidentEntity incidentEntity, String processName) {
+    private Map<String, String> getEMailContent(final IncidentEntity incidentEntity, final String processName) {
         val link = this.cockpitUrl +
                 "camunda/app/cockpit/default/#/process-instance/" +
                 incidentEntity.getProcessInstanceId() +
@@ -150,19 +158,6 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
             log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
-    }
-
-    private String getRootProcessInstanceId(final String aProcessInstanceId) {
-        String tProcessInstanceId = aProcessInstanceId;
-        ProcessInstance superProcessInstance = null;
-        do {
-            superProcessInstance = runtimeService.createProcessInstanceQuery().subProcessInstanceId(tProcessInstanceId).singleResult();
-            if (superProcessInstance != null) {
-                tProcessInstanceId = superProcessInstance.getId();
-            }
-        } while (superProcessInstance != null);
-
-        return tProcessInstanceId;
     }
 
     IncidentEntity superHandleIncident(final IncidentContext context, final String message) {
