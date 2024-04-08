@@ -6,9 +6,7 @@
       </v-flex>
       <v-flex class="d-flex justify-space-between align-center searchField">
         <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
-        <search-field
-          :on-filter-change="onFilterChanged"
-        />
+        <search-field :on-filter-change="onFilterChanged" />
         <div class="d-flex align-center">
           <dwf-button
             aria-label="Vorgänge aktualisieren"
@@ -22,11 +20,7 @@
                 color="primary"
                 indeterminate
               />
-              <v-icon
-                v-else
-              >
-                mdi-refresh
-              </v-icon>
+              <v-icon v-else> mdi-refresh </v-icon>
             </div>
             Aktualisieren
           </dwf-button>
@@ -40,9 +34,7 @@
       </v-flex>
       <v-flex class="mt-10">
         <v-flex class="tableHeader">
-          <v-flex class="headerTitel">
-            Vorgang
-          </v-flex>
+          <v-flex class="headerTitel"> Vorgang </v-flex>
           <v-flex
             class="headerTitel"
             style="max-width: 145px"
@@ -56,7 +48,7 @@
             Erstellt am
           </v-flex>
         </v-flex>
-        <hr style="margin: 5px 0 0 0">
+        <hr style="margin: 5px 0 0 0" />
       </v-flex>
       <v-list>
         <template v-for="item in data?.content || []">
@@ -86,88 +78,96 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, watch } from "vue";
+
+import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import ProcessInstanceItem from "@/components/process/ProcessInstanceItem.vue";
-import {defineComponent, watch} from "vue";
-import {useGetPaginationData} from "../middleware/paginationData";
-import {useGetProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
-import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
-import SearchField from "../components/common/SearchField.vue";
 import DwfButton from "../components/common/DwfButton.vue";
+import SearchField from "../components/common/SearchField.vue";
+import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
+import { useGetPaginationData } from "../middleware/paginationData";
+import { useGetProcessInstances } from "../middleware/processInstances/processInstancesMiddleware";
 
 export default defineComponent({
-    components: {
-      DwfButton,
-      SearchField,
-      AppPaginationFooter, ProcessInstanceItem, AppToast, AppViewLayout
-    },
-    props: [],
-    setup: () => {
-      const {searchQuery, setSearchQuery, page, size, setSize, setPage} = useGetPaginationData();
+  components: {
+    DwfButton,
+    SearchField,
+    AppPaginationFooter,
+    ProcessInstanceItem,
+    AppToast,
+    AppViewLayout,
+  },
+  props: [],
+  setup: () => {
+    const { searchQuery, setSearchQuery, page, size, setSize, setPage } =
+      useGetPaginationData();
 
-      const {isLoading, data, error: errorMessage, refetch, isRefetching} = useGetProcessInstances(page, size, searchQuery);
+    const {
+      isLoading,
+      data,
+      error: errorMessage,
+      refetch,
+      isRefetching,
+    } = useGetProcessInstances(page, size, searchQuery);
 
-      watch(page, (newPage) => {
-        setPage(newPage);
-        refetch();
-      });
-      watch(size, (newSize) => {
-        setSize(newSize);
-        refetch();
-      });
+    watch(page, (newPage) => {
+      setPage(newPage);
+      refetch();
+    });
+    watch(size, (newSize) => {
+      setSize(newSize);
+      refetch();
+    });
 
-      const onFilterChanged = (value: string) => {
-        setSearchQuery(value);
-        refetch();
-      };
+    const onFilterChanged = (value: string) => {
+      setSearchQuery(value);
+      refetch();
+    };
 
-      return {
-        data,
-        isLoading,
-        isRefetching,
-        searchQuery,
-        errorMessage,
-        onFilterChanged,
-        refetch,
-        pagination: {
-          page,
-          size,
-          onSizeChange: setSize,
-          getCurrentPageLabel: () => page.value + 1,
-          setPage,
-          lastPage: () => {
-            if (page.value === 0) {
-              return;
-            }
-            setPage(page.value - 1);
-            refetch();
-          },
-          nextPage: () => {
-            const totalPages = data.value?.totalPages;
-            if (!totalPages || page.value === totalPages - 1) {
-              return;
-            }
-            setPage(page.value + 1);
-            refetch();
-          },
-          isLastPageButtonDisabled: () => page.value === 0,
-          isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
-          updateItemsPerPage: setSize
+    return {
+      data,
+      isLoading,
+      isRefetching,
+      searchQuery,
+      errorMessage,
+      onFilterChanged,
+      refetch,
+      pagination: {
+        page,
+        size,
+        onSizeChange: setSize,
+        getCurrentPageLabel: () => page.value + 1,
+        setPage,
+        lastPage: () => {
+          if (page.value === 0) {
+            return;
+          }
+          setPage(page.value - 1);
+          refetch();
         },
-      };
-    }
-  }
-);
-
+        nextPage: () => {
+          const totalPages = data.value?.totalPages;
+          if (!totalPages || page.value === totalPages - 1) {
+            return;
+          }
+          setPage(page.value + 1);
+          refetch();
+        },
+        isLastPageButtonDisabled: () => page.value === 0,
+        isNextPageButtonDisabled: () =>
+          page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize,
+      },
+    };
+  },
+});
 </script>
 
 <style scoped>
-
 .tableHeader {
   display: flex;
   margin: 0.5rem 50px 0 12px;
-
 }
 
 .headerTitel {

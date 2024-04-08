@@ -1,8 +1,9 @@
-import '@mdi/font/css/materialdesignicons.css';
-import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
+import "@mdi/font/css/materialdesignicons.css";
 
-Vue.use(Vuetify)
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+
+Vue.use(Vuetify);
 
 const theme = {
   themes: {
@@ -13,9 +14,9 @@ const theme = {
       success: "#69BE28",
       error: "#FF0000",
     },
-  }
+  },
 };
 
 export default new Vuetify({
-  theme: theme
+  theme: theme,
 });

@@ -1,4 +1,4 @@
-import {accessibility, AccessibilityState} from "./accessibility";
+import { accessibility, AccessibilityState } from "./accessibility";
 
 describe("accessibility", () => {
   describe("getters:isHighContrastModeEnabled", () => {
@@ -8,7 +8,6 @@ describe("accessibility", () => {
       };
       const result = accessibility.getters.isHighContrastModeEnabled(state);
       expect(result).toBeFalsy();
-
     });
     it("should return current value if high contrast mode is set to true", () => {
       const state: AccessibilityState = {

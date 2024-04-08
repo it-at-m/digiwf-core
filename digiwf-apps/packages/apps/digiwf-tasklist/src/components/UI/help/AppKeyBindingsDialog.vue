@@ -94,14 +94,11 @@ import KeyBindingLine from "./KeyBindingLine.vue";
 
 defineProps({
   value: {
-    type:Boolean,
-    required:true
-  }
+    type: Boolean,
+    required: true,
+  },
 });
 defineEmits(["close"]);
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,12 +1,15 @@
-import {PageId} from "./pageId";
+import { PageId } from "./pageId";
 
 export const DEFAULT_PAGE = 0;
 export const DEFAULT_SIZE = 20;
 
 export class PageBasedPaginationProvider {
-  private pageKeyToPaginationData: Map<PageId, PaginationDataInSession> = new Map();
+  private pageKeyToPaginationData: Map<PageId, PaginationDataInSession> =
+    new Map();
 
-  public getPaginationDataInSession(pageId: PageId): PaginationDataInSession | undefined {
+  public getPaginationDataInSession(
+    pageId: PageId
+  ): PaginationDataInSession | undefined {
     return this.pageKeyToPaginationData.get(pageId);
   }
 
@@ -27,39 +30,41 @@ export class PageBasedPaginationProvider {
   public setSearchQuery(pageId: PageId, searchQuery?: string) {
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
-      searchQuery
+      searchQuery,
     });
   }
   public setTag(pageId: PageId, tag?: string) {
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
-      tag
+      tag,
     });
   }
   public setAssignee(pageId: PageId, assignee?: string) {
     this.pageKeyToPaginationData.set(pageId, {
       ...this.getPaginationDataInSessionOrDefault(pageId),
-      assignee
+      assignee,
     });
   }
 
-
-  private getPaginationDataInSessionOrDefault(pageId: PageId): PaginationDataInSession {
-    const paginationInformationOfPage = this.pageKeyToPaginationData.get(pageId);
+  private getPaginationDataInSessionOrDefault(
+    pageId: PageId
+  ): PaginationDataInSession {
+    const paginationInformationOfPage =
+      this.pageKeyToPaginationData.get(pageId);
     return {
       size: paginationInformationOfPage?.size || DEFAULT_SIZE,
       page: paginationInformationOfPage?.page || DEFAULT_PAGE,
       searchQuery: paginationInformationOfPage?.searchQuery,
       tag: paginationInformationOfPage?.tag,
-      assignee: paginationInformationOfPage?.assignee
+      assignee: paginationInformationOfPage?.assignee,
     };
   }
 }
 
 export interface PaginationDataInSession {
   readonly searchQuery?: string;
-  readonly tag?: string
+  readonly tag?: string;
   readonly page: number;
   readonly size: number;
-  readonly assignee?: string
+  readonly assignee?: string;
 }

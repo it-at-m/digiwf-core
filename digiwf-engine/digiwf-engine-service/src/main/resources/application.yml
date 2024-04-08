@@ -76,6 +76,8 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: true
+    properties:
+      hibernate.id.optimizer.pooled.preferred: "none" # disabled to prevent Axon global index from getting out of sync on multiple instances
   flyway:
     enabled: true
     locations: "classpath:db/migration/{vendor}"
@@ -142,6 +144,7 @@ digiwf:
     frontendurl: ${DIGIWF_FRONTEND_URL}
   cleanup:
     expired-process-instances: 0 0 23 * * ?
+    threshhold-in-days: ${camunda.bpm.generic-properties.properties.history-time-to-live}
   config:
     autodeploy: true
   cosys:

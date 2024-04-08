@@ -8,4 +8,3 @@ export const parseQueryParameterInputs = (inputs?: string): any => {
   }
   return {};
 };
-

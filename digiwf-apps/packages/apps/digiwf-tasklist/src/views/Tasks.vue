@@ -18,7 +18,7 @@
           :search-string="props.item.searchInput"
           @clickTag="onTagChange(props.item.tag)"
         />
-        <hr class="hrDivider">
+        <hr class="hrDivider" />
       </template>
     </task-list>
     <div style="margin-left: auto">
@@ -53,29 +53,47 @@
 </style>
 
 <script lang="ts">
-import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import TaskList from "@/components/task/TaskList.vue";
+import { defineComponent, ref, watch } from "vue";
+import { useRouter } from "vue-router/composables";
+
 import TaskItem from "@/components/task/TaskItem.vue";
-import {defineComponent, ref, watch} from "vue";
-import {useRouter} from "vue-router/composables";
+import TaskList from "@/components/task/TaskList.vue";
+import AppViewLayout from "@/components/UI/AppViewLayout.vue";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
-import {useMyTasksQuery} from "../middleware/tasks/taskMiddleware";
-import {useGetPaginationData} from "../middleware/paginationData";
-import {usePageId} from "../middleware/pageId";
-import {usePageFilters} from "../store/modules/filters";
+import { usePageId } from "../middleware/pageId";
+import { useGetPaginationData } from "../middleware/paginationData";
+import { useMyTasksQuery } from "../middleware/tasks/taskMiddleware";
+import { usePageFilters } from "../store/modules/filters";
 
 export default defineComponent({
-  components: {AppPaginationFooter, TaskItem, TaskList, AppViewLayout},
+  components: { AppPaginationFooter, TaskItem, TaskList, AppViewLayout },
   props: [],
   setup() {
     const router = useRouter();
     const pageId = usePageId();
-    const {searchQuery, size, page, setSize, setPage, setSearchQuery, tag, setTag} = useGetPaginationData();
+    const {
+      searchQuery,
+      size,
+      page,
+      setSize,
+      setPage,
+      setSearchQuery,
+      tag,
+      setTag,
+    } = useGetPaginationData();
 
-    const {currentSortDirection} = usePageFilters();
-    const getFollowOfUrl = (): boolean => router.currentRoute.query?.followUp === "true";
+    const { currentSortDirection } = usePageFilters();
+    const getFollowOfUrl = (): boolean =>
+      router.currentRoute.query?.followUp === "true";
     const shouldIgnoreFollowUpTasks = ref<boolean>(getFollowOfUrl());
-    const {isLoading, data, error, refetch, isRefetching} = useMyTasksQuery(page, size, searchQuery, tag,shouldIgnoreFollowUpTasks, currentSortDirection);
+    const { isLoading, data, error, refetch, isRefetching } = useMyTasksQuery(
+      page,
+      size,
+      searchQuery,
+      tag,
+      shouldIgnoreFollowUpTasks,
+      currentSortDirection
+    );
 
     watch(currentSortDirection, () => {
       refetch();
@@ -94,8 +112,8 @@ export default defineComponent({
       router.replace({
         query: {
           ...router.currentRoute.query,
-          followUp: followUp ? "true" : "false"
-        }
+          followUp: followUp ? "true" : "false",
+        },
       });
       refetch();
     });
@@ -132,8 +150,9 @@ export default defineComponent({
           refetch();
         },
         isLastPageButtonDisabled: () => page.value === 0,
-        isNextPageButtonDisabled: () => page.value + 1 >= (data.value?.totalPages || 0),
-        updateItemsPerPage: setSize
+        isNextPageButtonDisabled: () =>
+          page.value + 1 >= (data.value?.totalPages || 0),
+        updateItemsPerPage: setSize,
       },
       onFilterChange: (newFilter?: string) => {
         setSearchQuery(newFilter || "");
@@ -144,7 +163,6 @@ export default defineComponent({
         refetch();
       },
     };
-  }
+  },
 });
-
 </script>

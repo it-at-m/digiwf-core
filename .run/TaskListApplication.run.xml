@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TaskListApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="local,no-ldap" />
+    <option name="ACTIVE_PROFILES" value="local,no-ldap,streaming" />
     <module name="digiwf-tasklist-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.task.service.TaskListApplication" />
     <extension name="coverage">

@@ -1,4 +1,8 @@
-import {addFinishedTaskIds, FINISHED_TASK_IDS_KEY, getFinishedTaskIds} from "./mutatedTaskFilter";
+import {
+  addFinishedTaskIds,
+  FINISHED_TASK_IDS_KEY,
+  getFinishedTaskIds,
+} from "./mutatedTaskFilter";
 
 /*
  source: https://stackoverflow.com/questions/51566816/what-is-the-best-way-to-mock-window-sessionstorage-in-jest
@@ -18,13 +22,12 @@ const sessionStorageMock = (() => {
     },
     clear() {
       store = {};
-    }
+    },
   };
 })();
-Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock
+Object.defineProperty(window, "sessionStorage", {
+  value: sessionStorageMock,
 });
-
 
 describe("finishedTaskFilter", () => {
   beforeEach(() => {
@@ -36,7 +39,9 @@ describe("finishedTaskFilter", () => {
     it("should add id correctly", () => {
       sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, '["a","b"]');
       addFinishedTaskIds("c");
-      expect(sessionStorageMock.getItem(FINISHED_TASK_IDS_KEY)).toBe('["a","b","c"]');
+      expect(sessionStorageMock.getItem(FINISHED_TASK_IDS_KEY)).toBe(
+        '["a","b","c"]'
+      );
     });
   });
 
@@ -49,7 +54,7 @@ describe("finishedTaskFilter", () => {
       expect(getFinishedTaskIds()).toEqual([]);
     });
     it("should return empty array if json is not parsable", () => {
-      sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, 'no-json');
+      sessionStorageMock.setItem(FINISHED_TASK_IDS_KEY, "no-json");
       expect(getFinishedTaskIds()).toEqual([]);
     });
   });
