@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-form-renderer",
   "description": "Form renderer",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "module": "dist/digiwf-form-renderer.mjs",
   "scripts": {
     "build": "vite build",
@@ -13,9 +13,9 @@
     "vuetify": "^2.6.0"
   },
   "devDependencies": {
-    "deepmerge": "^4.2.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
-    "@muenchen/prettier-codeformat": "^1.0.1"
+    "@muenchen/prettier-codeformat": "^1.0.1",
+    "deepmerge": "^4.2.2"
   },
   "files": [
     "dist/*",

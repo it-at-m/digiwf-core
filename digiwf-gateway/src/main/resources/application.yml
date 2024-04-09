@@ -43,6 +43,7 @@ spring:
             allowedOriginPatterns: ${ALLOWED_ORIGINS_PUBLIC}
           '[/clients/**]':
             allowedOriginPatterns: ${ALLOWED_ORIGINS_CLIENTS}
+            allowedHeaders: "*"
             allowCredentials: true
 
 server:

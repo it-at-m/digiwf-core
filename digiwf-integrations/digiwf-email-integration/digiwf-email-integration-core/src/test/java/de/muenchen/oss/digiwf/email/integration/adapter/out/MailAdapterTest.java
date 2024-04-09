@@ -27,8 +27,8 @@ class MailAdapterTest {
                 .receiversCc("receiversCc")
                 .receiversBcc("receiversBcc")
                 .build();
-        mailAdapter.sendMail(mail);
-        verify(digiwfEmailApi).sendMail(mail);
+        mailAdapter.sendMail(mail, "logoPath");
+        verify(digiwfEmailApi).sendMail(mail, "logoPath");
     }
 
     @Test

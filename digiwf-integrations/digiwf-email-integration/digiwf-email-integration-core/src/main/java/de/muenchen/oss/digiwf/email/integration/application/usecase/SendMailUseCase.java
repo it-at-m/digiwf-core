@@ -43,7 +43,7 @@ public class SendMailUseCase implements SendMailInPort {
         de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
         mailModel.setBody(mail.getBody());
 
-        this.sendMail(processInstanceIde, type, integrationName, mailModel);
+        this.sendMail(processInstanceIde, type, integrationName, mailModel, null);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SendMailUseCase implements SendMailInPort {
             mailModel.setBody(body);
             mailModel.setHtmlBody(true);
 
-            this.sendMail(processInstanceIde, type, integrationName, mailModel);
+            this.sendMail(processInstanceIde, type, integrationName, mailModel, "templates/email-logo.png");
 
         } catch (IOException ioException) {
             throw new BpmnError("LOAD_TEMPLATE_FAILED", "The template " + mail.getTemplate() + " could not be loaded");
@@ -86,9 +86,9 @@ public class SendMailUseCase implements SendMailInPort {
                 .build();
     }
 
-    private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel) throws BpmnError {
+    private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel, String logoPath) throws BpmnError {
         try {
-            this.mailOutPort.sendMail(mailModel);
+            this.mailOutPort.sendMail(mailModel, logoPath);
             // correlate message
             final Map<String, Object> correlatePayload = new HashMap<>();
             correlatePayload.put("mailSentStatus", true);
