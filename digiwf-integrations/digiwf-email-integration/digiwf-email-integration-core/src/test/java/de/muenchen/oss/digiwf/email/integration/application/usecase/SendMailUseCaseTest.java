@@ -88,7 +88,7 @@ class SendMailUseCaseTest {
                 .receiversBcc(mail.getReceiversBcc())
                 .attachments(List.of())
                 .build();
-        verify(mailOutPort).sendMail(mailOutModel);
+        verify(mailOutPort).sendMail(mailOutModel, null);
         verify(correlateMessageOutPort).correlateMessage(processInstanceId, type, integrationName, Map.of("mailSentStatus", true));
     }
 
@@ -110,13 +110,13 @@ class SendMailUseCaseTest {
                 .receiversBcc(mail.getReceiversBcc())
                 .attachments(List.of(fileAttachment))
                 .build();
-        verify(mailOutPort).sendMail(mailOutModel);
+        verify(mailOutPort).sendMail(mailOutModel, null);
         verify(correlateMessageOutPort).correlateMessage(processInstanceId, type, integrationName, Map.of("mailSentStatus", true));
     }
 
     @Test
     void sendMailThrowsBpmnError() throws MessagingException {
-        doThrow(new MessagingException("Test Exception")).when(mailOutPort).sendMail(any());
+        doThrow(new MessagingException("Test Exception")).when(mailOutPort).sendMail(any(), any());
         assertThatThrownBy(() -> sendMailInPort.sendMailWithText(processInstanceId, type, integrationName, mail)).isInstanceOf(BpmnError.class);
     }
 
@@ -134,7 +134,7 @@ class SendMailUseCaseTest {
                 .receiversBcc(mail.getReceiversBcc())
                 .attachments(List.of())
                 .build();
-        verify(mailOutPort).sendMail(mailOutModel);
+        verify(mailOutPort).sendMail(mailOutModel, "templates/email-logo.png");
         verify(correlateMessageOutPort).correlateMessage(processInstanceId, type, integrationName, Map.of("mailSentStatus", true));
     }
 
