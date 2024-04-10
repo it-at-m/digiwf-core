@@ -24,7 +24,7 @@ public class ProcessMetricsProvider implements MetricsProvider {
         repositoryService.createProcessDefinitionQuery().list().stream()
                 .collect(groupingBy(ProcessDefinition::getKey, counting())).forEach((key, count) -> {
                     processDefinitionCount.labels(key).set(count);
-                    processInstanceCount.labels(key).set(runtimeService.createIncidentQuery().processDefinitionKeyIn(key).count());
+                    processInstanceCount.labels(key).set(runtimeService.createProcessInstanceQuery().processDefinitionKeyIn(key).count());
                 });
     }
 
