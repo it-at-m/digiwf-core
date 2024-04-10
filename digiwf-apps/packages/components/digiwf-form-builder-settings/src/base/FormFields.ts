@@ -944,7 +944,7 @@ export const dmsInputSchema = (labels: Labels) => {
     type: "object",
     properties: {
       type: {
-        const: "object",
+        const: "string",
       },
     },
   };
