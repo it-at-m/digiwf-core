@@ -18,9 +18,9 @@ public class ExampleIntegrationAdapterInAutoconfiguration {
     @ConditionalOnMissingBean
     @Bean
     public MessageProcessor messageProcessor(
-            ProcessResponseInPort processResponseInPort,
-            ExampleInPort exampleInPort,
-            ExampleMapper exampleMapper
+            final ProcessResponseInPort processResponseInPort,
+            final ExampleInPort exampleInPort,
+            final ExampleMapper exampleMapper
     ) {
         return new MessageProcessor(processResponseInPort, exampleInPort, exampleMapper);
     }

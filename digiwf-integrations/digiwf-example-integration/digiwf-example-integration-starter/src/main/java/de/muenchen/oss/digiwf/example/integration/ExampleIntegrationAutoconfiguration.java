@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class ExampleIntegrationAutoconfiguration {
     @ConditionalOnMissingBean
     @Bean
-    public ProcessResponseInPort processResponseInPort(ProcessResponseOutPort processResponseOutPort) {
+    public ProcessResponseInPort processResponseInPort(final ProcessResponseOutPort processResponseOutPort) {
         return new ProcessResponseUseCase(processResponseOutPort);
     }
 
