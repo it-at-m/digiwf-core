@@ -34,8 +34,8 @@ public class MetricsAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "digiwf.prometheus.process-engine.providers", name = "incident")
-    public MetricsProvider incidentMetricsProvider(RuntimeService runtimeService, RepositoryService repositoryService) {
-        return new IncidentMetricsProvider(runtimeService, repositoryService);
+    public MetricsProvider incidentMetricsProvider(RuntimeService runtimeService) {
+        return new IncidentMetricsProvider(runtimeService);
     }
 
     @Bean
