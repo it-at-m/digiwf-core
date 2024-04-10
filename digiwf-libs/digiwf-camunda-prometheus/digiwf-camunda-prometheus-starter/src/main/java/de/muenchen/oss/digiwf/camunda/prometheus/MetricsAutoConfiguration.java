@@ -1,7 +1,10 @@
 package de.muenchen.oss.digiwf.camunda.prometheus;
 
 import lombok.RequiredArgsConstructor;
-import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.ManagementService;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +27,6 @@ public class MetricsAutoConfiguration {
     @Bean
     public MetricsReporter taskEventReporter(RepositoryService repositoryService) {
         return new TaskEventReporter(repositoryService);
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "digiwf.prometheus.process-engine.providers", name = "fniAndEde")
-    public MetricsProvider fniAndEdeMetricsProvider(ManagementService managementService, RepositoryService repositoryService, HistoryService historyService) {
-        return new FniAndEdeMetricsProvider(managementService, repositoryService, historyService);
     }
 
     @Bean
