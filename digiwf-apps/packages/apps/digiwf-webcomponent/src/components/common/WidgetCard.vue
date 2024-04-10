@@ -238,9 +238,15 @@ svg {
   );
 }
 .text-header {
-  font: var(--digiwf-webcomponent-font-header, var(--digiwf-webcomponent-font-header-default));
+  font: var(
+    --digiwf-webcomponent-font-header,
+    var(--digiwf-webcomponent-font-header-default)
+  );
 }
 .text-footer {
-  font: var(--digiwf-webcomponent-font-footer, var(--digiwf-webcomponent-font-footer-default));
+  font: var(
+    --digiwf-webcomponent-font-footer,
+    var(--digiwf-webcomponent-font-footer-default)
+  );
 }
 </style>

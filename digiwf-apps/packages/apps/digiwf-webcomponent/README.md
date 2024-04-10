@@ -49,7 +49,7 @@ When adding these WebComponents to your website you can configure the behaviour 
 accordingly.
 
 |                           | Description                                                                                                                  | Type     | Required | Default               |
-|---------------------------| ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | --------------------- |
 | `access-token-event-name` | The name of the event used to retrieve an appropriate access token by the surrounding application                            | `String` | `false`  | `access-token-loaded` |
 | `page-size`               | The amount of elements to display per page                                                                                   | `number` | `false`  | `4`                   |
 | `max-pages-visible`       | The amount of pages at maximum shown in the pagination                                                                       | `number` | `false`  | `5`                   |
@@ -81,20 +81,20 @@ If a variable gets not provided, a specific default value will be used automatic
 
 The following CSS variables are provided:
 
-|                                        | Description                                                                                  | Default                        |
-|----------------------------------------|----------------------------------------------------------------------------------------------|--------------------------------|
-| `digiwf-webcomponent-color-primary`    | Sets the `background-color` property used for input elements (e.g. buttons, pagination)      | `#FC0`                         |
-| `digiwf-webcomponent-color-text`       | Sets the `color` property for all text-based HTML-tags                                       | `#444`                         |
-| `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`                         |
-| `digiwf-webcomponent-color-background` | Sets the `background-color` property                                                         | `#FFF`                         |
-| `digiwf-webcomponent-color-hover`      | Sets the `background-color` property when hovering input elements (e.g. buttons, pagination) | `#FDB813`                      |
-| `digiwf-webcomponent-color-separator`  | Sets the `border-color` property of the separating line between list elements                | `#DADADA`                      |
-| `digiwf-webcomponent-font-header`      | Sets the shorthand `font` property for the header of the web component                       | `bold 1.3rem Arial,sans-serif` |
-| `digiwf-webcomponent-font-title`       | Sets the shorthand `font` property for the title of each element                             | `bold 1.1rem Arial,sans-serif` |
-| `digiwf-webcomponent-font-text`        | Sets the shorthand `font` property for text                                                  | `1.0rem/1.5 Arial,sans-serif`  |
-| `digiwf-webcomponent-font-footer`      | Sets the shorthand `font` property for the footer of the web component                       | `1.0rem Arial,sans-serif`      |
-| `digiwf-webcomponent-border-radius`    | Sets the `border-radius` property of the surrounding container and all input elements        | `0px`                          |
-| `digiwf-webcomponent-shadow`           | Sets the `shadow` property of the surrounding container                                      | `0px`                          |
+|                                        | Description                                                                                  | Default                         |
+| -------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------- |
+| `digiwf-webcomponent-color-primary`    | Sets the `background-color` property used for input elements (e.g. buttons, pagination)      | `#FC0`                          |
+| `digiwf-webcomponent-color-text`       | Sets the `color` property for all text-based HTML-tags                                       | `#444`                          |
+| `digiwf-webcomponent-color-icon`       | Sets the `color` property for all icons                                                      | `#FC0`                          |
+| `digiwf-webcomponent-color-background` | Sets the `background-color` property                                                         | `#FFF`                          |
+| `digiwf-webcomponent-color-hover`      | Sets the `background-color` property when hovering input elements (e.g. buttons, pagination) | `#FDB813`                       |
+| `digiwf-webcomponent-color-separator`  | Sets the `border-color` property of the separating line between list elements                | `#DADADA`                       |
+| `digiwf-webcomponent-font-header`      | Sets the shorthand `font` property for the header of the web component                       | `bold 1.3rem Arial, sans-serif` |
+| `digiwf-webcomponent-font-title`       | Sets the shorthand `font` property for the title of each element                             | `bold 1.1rem Arial, sans-serif` |
+| `digiwf-webcomponent-font-text`        | Sets the shorthand `font` property for text                                                  | `1rem/1.5 Arial, sans-serif`    |
+| `digiwf-webcomponent-font-footer`      | Sets the shorthand `font` property for the footer of the web component                       | `1rem Arial, sans-serif`        |
+| `digiwf-webcomponent-border-radius`    | Sets the `border-radius` property of the surrounding container and all input elements        | `0px`                           |
+| `digiwf-webcomponent-shadow`           | Sets the `shadow` property of the surrounding container                                      | `0px`                           |
 
 **Info:**: Setting the `font` properties expects a value of format `<font-style> <font-variant> <font-weight> <font-size>/<line-height> <font-family>`
 Only `font-size` and `font-family` are required. Unset values will use browser defaults.

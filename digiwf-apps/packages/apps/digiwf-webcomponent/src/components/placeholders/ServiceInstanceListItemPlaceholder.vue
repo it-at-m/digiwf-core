@@ -45,9 +45,15 @@ const { headingTag } = useHeadingTag(ref(1));
   );
 }
 p {
-  font: var(--digiwf-webcomponent-font-text, var(--digiwf-webcomponent-font-text-default));
+  font: var(
+    --digiwf-webcomponent-font-text,
+    var(--digiwf-webcomponent-font-text-default)
+  );
 }
 .text-title {
-  font: var(--digiwf-webcomponent-font-title, var(--digiwf-webcomponent-font-title-default));
+  font: var(
+    --digiwf-webcomponent-font-title,
+    var(--digiwf-webcomponent-font-title-default)
+  );
 }
 </style>
