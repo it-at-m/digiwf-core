@@ -39,15 +39,9 @@ withDefaults(
   );
 }
 p {
-  font-size: var(
-    --digiwf-webcomponent-font-size-text,
-    var(--digiwf-webcomponent-font-size-text-default)
-  );
+  font: var(--digiwf-webcomponent-font-text, var(--digiwf-webcomponent-font-text-default));
 }
 .text-title {
-  font-size: var(
-    --digiwf-webcomponent-font-size-title,
-    var(--digiwf-webcomponent-font-size-title-default)
-  );
+  font: var(--digiwf-webcomponent-font-title, var(--digiwf-webcomponent-font-title-default));
 }
 </style>
