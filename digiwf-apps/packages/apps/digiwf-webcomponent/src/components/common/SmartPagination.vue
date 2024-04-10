@@ -12,7 +12,8 @@
       aria-label="Vorherige Seite"
       @click="gotoPreviousPage"
     >
-      <p v-html="UNICODE_ARROW_LEFT"/>
+      <!-- eslint-disable vue/no-v-html -->
+      <p v-html="UNICODE_ARROW_LEFT" />
     </c-pagination-item>
     <template v-if="showPageButtons">
       <c-pagination-item
@@ -23,7 +24,7 @@
         role="button"
         :aria-label="`Seite ${page}`"
         @click="gotoPage(page - 1)"
-        >
+      >
         <p>
           {{ page }}
         </p>
@@ -38,17 +39,21 @@
       aria-label="Nächste Seite"
       @click="gotoNextPage"
     >
-      <p v-html="UNICODE_ARROW_RIGHT"/>
+      <!-- eslint-disable vue/no-v-html -->
+      <p v-html="UNICODE_ARROW_RIGHT" />
     </c-pagination-item>
   </c-pagination>
 </template>
 
 <script setup lang="ts">
 import { CPagination, CPaginationItem } from "@coreui/vue";
-import { UNICODE_ARROW_LEFT, UNICODE_ARROW_RIGHT } from "@/util/constants";
 import { computed, defineEmits, defineProps, withDefaults } from "vue";
 
-import { MAX_PAGES_VISIBLE_DEFAULT } from "@/util/constants";
+import {
+  MAX_PAGES_VISIBLE_DEFAULT,
+  UNICODE_ARROW_LEFT,
+  UNICODE_ARROW_RIGHT,
+} from "@/util/constants";
 
 const props = withDefaults(
   defineProps<{
@@ -171,8 +176,8 @@ svg {
 }
 p {
   font: var(
-      --digiwf-webcomponent-font-footer,
-      var(--digiwf-webcomponent-font-footer-default)
+    --digiwf-webcomponent-font-footer,
+    var(--digiwf-webcomponent-font-footer-default)
   );
   line-height: 1;
   margin-bottom: 0;
