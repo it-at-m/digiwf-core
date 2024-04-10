@@ -2,7 +2,7 @@
   <c-list-group flush>
     <c-list-group-item class="p-3">
       <dynamic-heading
-        root-offset="1"
+        :root-offset="1"
         class="mb-3 text-title"
       >
         Fehler

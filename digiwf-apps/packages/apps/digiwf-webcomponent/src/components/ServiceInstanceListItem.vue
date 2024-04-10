@@ -9,7 +9,7 @@
     :aria-label="newTabText"
   >
     <dynamic-heading
-      root-offset="1"
+      :root-offset="1"
       class="mb-3 text-title"
     >
       {{ serviceInstance.definitionName }}
