@@ -7,3 +7,5 @@ export const PAGE_SIZE_DEFAULT = 4;
 export const MAX_PAGES_VISIBLE_DEFAULT = 5;
 export const ROOT_HEADING_LEVEL_DEFAULT = 1;
 export const HTML_HEADING_TAG_MAX_LEVEL = 6;
+export const UNICODE_ARROW_LEFT = "&#x2BC7";
+export const UNICODE_ARROW_RIGHT = "&#x2BC8;"

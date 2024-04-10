@@ -12,12 +12,7 @@
       aria-label="Vorherige Seite"
       @click="gotoPreviousPage"
     >
-      <svg-icon
-        type="mdi"
-        :path="mdiArrowLeftBold"
-        :size="iconSize"
-        aria-hidden="true"
-      />
+      <p v-html="UNICODE_ARROW_LEFT"/>
     </c-pagination-item>
     <template v-if="showPageButtons">
       <c-pagination-item
@@ -28,7 +23,10 @@
         role="button"
         :aria-label="`Seite ${page}`"
         @click="gotoPage(page - 1)"
-        >{{ page }}
+        >
+        <p>
+          {{ page }}
+        </p>
       </c-pagination-item>
     </template>
     <c-pagination-item
@@ -40,20 +38,14 @@
       aria-label="Nächste Seite"
       @click="gotoNextPage"
     >
-      <svg-icon
-        type="mdi"
-        :path="mdiArrowRightBold"
-        :size="iconSize"
-        aria-hidden="true"
-      />
+      <p v-html="UNICODE_ARROW_RIGHT"/>
     </c-pagination-item>
   </c-pagination>
 </template>
 
 <script setup lang="ts">
 import { CPagination, CPaginationItem } from "@coreui/vue";
-import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiArrowLeftBold, mdiArrowRightBold } from "@mdi/js";
+import { UNICODE_ARROW_LEFT, UNICODE_ARROW_RIGHT } from "@/util/constants";
 import { computed, defineEmits, defineProps, withDefaults } from "vue";
 
 import { MAX_PAGES_VISIBLE_DEFAULT } from "@/util/constants";
@@ -93,19 +85,6 @@ const gotoNextPage = () => {
 const gotoPage = (page: number) => {
   if (page !== props.activePage) emit("changepage", page);
 };
-
-const iconSize = computed(() => {
-  switch (props.size) {
-    case undefined:
-      return 15;
-    case "lg":
-      return 19;
-    case "sm":
-      return 14;
-    default:
-      return 15;
-  }
-});
 
 const visiblePages = computed(() => {
   // If there are less pages than the maximum displayed pages, show all pages
@@ -189,5 +168,13 @@ svg {
     --digiwf-webcomponent-color-hover,
     var(--digiwf-webcomponent-color-hover-default)
   );
+}
+p {
+  font: var(
+      --digiwf-webcomponent-font-footer,
+      var(--digiwf-webcomponent-font-footer-default)
+  );
+  line-height: 1;
+  margin-bottom: 0;
 }
 </style>
