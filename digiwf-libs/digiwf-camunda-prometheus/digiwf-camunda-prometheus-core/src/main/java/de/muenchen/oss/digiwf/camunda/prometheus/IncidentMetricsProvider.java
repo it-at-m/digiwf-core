@@ -18,9 +18,11 @@ public class IncidentMetricsProvider implements MetricsProvider {
     @Override
     public void updateMetrics() {
         repositoryService.createProcessDefinitionQuery().list().stream()
-                .map(ResourceDefinition::getKey).forEach((key) -> {
-                    openIncidents.labels(key).set(runtimeService.createIncidentQuery().processDefinitionKeyIn(key).count());
-                });
+                .map(ResourceDefinition::getKey).forEach((key) ->
+                        openIncidents.labels(key)
+                                .set(runtimeService.createIncidentQuery().processDefinitionKeyIn(key).count()
+                                )
+                );
         openIncidents.labels(NOT_PROCESS_INCIDENT).set(runtimeService.createIncidentQuery().processDefinitionId(null).count());
     }
 
