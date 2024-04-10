@@ -1,6 +1,6 @@
 {
-  "name": "Ticketing: Artikel mit Benutzer schreiben",
-  "id": "de.muenchen.digitalwf.templates.ticketing.write-article-with-user",
+  "name": "Ticketing: Artikel schreiben",
+  "id": "de.muenchen.digitalwf.templates.ticketing.write-article",
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -46,6 +46,21 @@
       }
     },
     {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
       "label": "Ticket ID",
       "type": "String",
       "value": "",
@@ -83,14 +98,6 @@
           "value": "OPEN"
         },
         {
-          "name": "Ausstehende Erinnerung",
-          "value": "PENDING_REMINDER"
-        },
-        {
-          "name": "Bis zum Abschluss",
-          "value": "PENDING_CLOSE"
-        },
-        {
           "name": "Geschlossen",
           "value": "CLOSED"
         }
@@ -106,27 +113,26 @@
       }
     },
     {
-      "label": "User",
+      "label": "Pfad(e) im S3",
       "type": "String",
       "value": "",
+      "description": "Comma seperated list of file- and folder-paths. Folder-paths need to end with a slash.",
       "binding": {
-        "type": "camunda:in",
+        "type": "camunda:inputParameter",
         "expression": true,
-        "name": "userId",
-        "target": "userId"
+        "name": "filepaths",
+        "target": "filepaths"
       },
       "constraints": {
-        "notEmpty": true
+        "notEmpty": false
       }
     },
     {
-      "label": "Pfad(e) im S3",
-      "type": "String",
-      "value": "${app_file_context}/",
+      "type": "Hidden",
+      "value": "${filepaths}",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "filepaths",
         "target": "filepaths"
       },
       "constraints": {
