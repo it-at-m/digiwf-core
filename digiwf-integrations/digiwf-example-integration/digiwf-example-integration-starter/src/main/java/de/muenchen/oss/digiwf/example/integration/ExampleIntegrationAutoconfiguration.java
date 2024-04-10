@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.example.integration;
 
-
 import de.muenchen.oss.digiwf.example.integration.core.application.port.in.ExampleInPort;
 import de.muenchen.oss.digiwf.example.integration.core.application.port.in.ProcessResponseInPort;
 import de.muenchen.oss.digiwf.example.integration.core.application.port.out.ProcessResponseOutPort;
