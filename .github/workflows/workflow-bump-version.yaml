@@ -43,7 +43,6 @@ on:
 jobs:
   bump-versions:
     name: Bumps versions
-    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

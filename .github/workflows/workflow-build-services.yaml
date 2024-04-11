@@ -29,7 +29,6 @@ on:
 
 jobs:
   build-services:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -211,7 +210,7 @@ jobs:
           tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }}
 
   build-services-camunda-ee:
-    if: false
+    if: inputs.build-images == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
