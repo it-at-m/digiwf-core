@@ -9,19 +9,18 @@ import de.muenchen.oss.digiwf.email.model.Mail;
 import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.impl.incident.DefaultIncidentHandler;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.Incident;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -34,37 +33,19 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class IncidentNotifierHandler extends DefaultIncidentHandler {
+@RequiredArgsConstructor(onConstructor_ = { @Lazy })
+@EnableConfigurationProperties(IncidentNotificationProperties.class)
+public class IncidentNotifierHandler extends BaseIncidentHandler {
 
-    @Autowired
-    private DigiwfEmailApi digiwfEmailApi;
+    private final RepositoryService repositoryService;
 
-    @Autowired
-    @Lazy
-    private RepositoryService repositoryService;
+    private final RuntimeService runtimeService;
 
-    @Autowired
-    @Lazy
-    private RuntimeService runtimeService;
+    private final DigiwfEmailApi digiwfEmailApi;
 
-    @Autowired
-    private ProcessConfigService processConfigService;
+    private final ProcessConfigService processConfigService;
 
-    @Value("${digiwf.incident.cockpitUrl:#{null}}")
-    private String cockpitUrl;
-
-    @Value("${digiwf.incident.fromAddress:#{null}}")
-    private String fromAddress;
-
-    @Value("${digiwf.incident.toAddress:#{null}}")
-    private String toAddress;
-
-    @Value("${digiwf.incident.environment:#{null}}")
-    private String environment;
-
-    public IncidentNotifierHandler() {
-        super("failedJob");
-    }
+    private final IncidentNotificationProperties incidentNotificationProperties;
 
     @Override
     public Incident handleIncident(final IncidentContext context, final String message) {
@@ -87,7 +68,7 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
 
         var notificationAddresses = processConfig.orElse(new ProcessConfig()).getIncidentNotificationAddresses();
 
-        if (Strings.isEmpty(notificationAddresses)) notificationAddresses = this.toAddress;
+        if (Strings.isEmpty(notificationAddresses)) notificationAddresses = incidentNotificationProperties.getToaddress();
 
         if (Strings.isEmpty(notificationAddresses)) {
             log.debug("Notification on incidents is not configured");
@@ -102,10 +83,10 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
 
             final Mail mail = Mail.builder()
                     .receivers(notificationAddresses)
-                    .subject(this.environment + ": Incident aufgetreten")
+                    .subject(incidentNotificationProperties.getEnvironment() + ": Incident aufgetreten")
                     .body(emailBody)
                     .htmlBody(true)
-                    .replyTo(this.fromAddress)
+                    .replyTo(incidentNotificationProperties.getFromaddress())
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
         } catch (final MessagingException error) {
@@ -116,16 +97,16 @@ public class IncidentNotifierHandler extends DefaultIncidentHandler {
     }
 
     /**
-     * Retrieves the email content for the incident notification email. This includes the process name,
-     * a link to the incident in the Camunda Cockpit, and a predefined email template.
+     * Retrieves the email content for the incident notification email. This includes the process name, a link to the incident in the Camunda Cockpit, and a
+     * predefined email template.
      *
      * @param incidentEntity The IncidentEntity representing the incident.
-     * @param processName The name of the process associated with the incident.
+     * @param processName    The name of the process associated with the incident.
      * @return A Map containing the email content key-value pairs.
      */
     @NotNull
     private Map<String, String> getEMailContent(final IncidentEntity incidentEntity, final String processName) {
-        val link = this.cockpitUrl +
+        val link = incidentNotificationProperties.getCockpiturl() +
                 "camunda/app/cockpit/default/#/process-instance/" +
                 incidentEntity.getProcessInstanceId() +
                 "/runtime";

@@ -45,7 +45,7 @@ io:
   muenchendigital:
     digiwf:
       mail:
-        fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
+        fromAddress: ${MAIL_USERNAME:itm.digiwf@muenchen.de}
         metrics:
           totalMailCounterName: "digiwf.email.integration.send_mail.total"
           failureCounterName: "digiwf.email.integration.send_mail.failure"

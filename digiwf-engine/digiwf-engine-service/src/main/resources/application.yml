@@ -161,7 +161,7 @@ digiwf:
   incident:
     cockpiturl: ${COCKPIT_URL}
     environment: ${DIGIWF_ENV}
-    fromaddress: itm.digiwf@muenchen.de
+    fromaddress: noreply@muenchen.de
     toaddress: itm.digiwf@muenchen.de
   jsonschema:
     autodeploy: true

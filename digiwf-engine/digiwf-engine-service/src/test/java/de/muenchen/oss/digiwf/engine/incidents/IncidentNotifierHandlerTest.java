@@ -7,9 +7,11 @@ import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import de.muenchen.oss.digiwf.process.config.infrastructure.entity.ProcessConfigEntity;
 import jakarta.mail.MessagingException;
+import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.impl.incident.IncidentContext;
 import org.camunda.bpm.engine.impl.persistence.entity.IncidentEntity;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -36,7 +38,13 @@ class IncidentNotifierHandlerTest {
     private RuntimeService runtimeService;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private RepositoryService repositoryService;
+
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ProcessConfigService processConfigService;
+
+    @Mock
+    private IncidentNotificationProperties incidentNotificationProperties;
 
     @Captor
     private ArgumentCaptor<Mail> incidentEntityCaptor;
@@ -81,6 +89,11 @@ class IncidentNotifierHandlerTest {
         final ProcessConfig processConfig = new ProcessConfigMapper().map(processConfigEntity);
         when(processConfigService.getProcessConfig(anyString())).thenReturn(Optional.of(processConfig));
         when(incidentNotifierHandler.superHandleIncident(any(), anyString())).thenReturn(incidentEntity);
+        when(incidentNotificationProperties.getCockpiturl()).thenReturn("cockpiturl");
+        when(incidentNotificationProperties.getEnvironment()).thenReturn("environment");
+        when(incidentNotificationProperties.getFromaddress()).thenReturn("from@address.org");
+        ProcessDefinition processDefinitionMock = Mockito.mock(ProcessDefinition.class);
+        when(repositoryService.createProcessDefinitionQuery().processDefinitionId(anyString()).singleResult()).thenReturn(processDefinitionMock);
 
         // Execute
         incidentNotifierHandler.handleIncident(incidentContext, "Incident message");
@@ -92,6 +105,11 @@ class IncidentNotifierHandlerTest {
     }
 
     private static class IncidentNotifierHandlerMock extends IncidentNotifierHandler {
+
+        public IncidentNotifierHandlerMock(RepositoryService repositoryService, RuntimeService runtimeService, DigiwfEmailApi digiwfEmailApi,
+                ProcessConfigService processConfigService, IncidentNotificationProperties incidentNotificationProperties) {
+            super(repositoryService, runtimeService, digiwfEmailApi, processConfigService, incidentNotificationProperties);
+        }
 
         // Workaround: If a static method is in the chain, Mockito will not mock method calls of superclasses.
         @Override
