@@ -18,10 +18,12 @@ public class WriteArticleDto {
     private String status;
     private String filepaths;
 
+    private String fileContext;
+
     public List<String> getFilepaths() {
         if (filepaths == null)
             return List.of();
-        return Arrays.asList(filepaths.split(";"));
+        return Arrays.asList(filepaths.split("[,;]"));
     }
 
 }

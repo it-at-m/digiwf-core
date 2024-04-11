@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface MailOutPort {
 
-    void sendMail(Mail mail) throws MessagingException;
+    void sendMail(Mail mail, String logoPath) throws MessagingException;
 
     String getBodyFromTemplate(String templateName, Map<String, Object> content) throws TemplateException, IOException;
 

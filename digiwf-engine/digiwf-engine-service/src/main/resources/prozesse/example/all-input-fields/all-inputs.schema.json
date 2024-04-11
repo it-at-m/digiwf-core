@@ -224,7 +224,7 @@
                   "requiredObject"
                 ],
                 "fieldType": "file",
-                "title": "Files",
+                "title": "Dateien ohne Einschränkungen",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
                 "filePath": "test",
@@ -249,7 +249,7 @@
                   "dense": true
                 },
                 "fieldType": "file",
-                "title": "Files with validation",
+                "title": "Dateien mit Validierung",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
                 "filePath": "test",

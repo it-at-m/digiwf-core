@@ -44,7 +44,8 @@
         <camunda:in sourceExpression="${Zammad_Status}" target="status" />
         <camunda:in sourceExpression="${Zammad_Article}" target="article" />
         <camunda:in sourceExpression="${Zammad_Ticket_Id}" target="ticketId" />
-        <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
+        <camunda:in sourceExpression="zammad/" target="filepaths" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ke8adu</bpmn:incoming>
       <bpmn:outgoing>Flow_1ha43tr</bpmn:outgoing>
@@ -66,7 +67,8 @@
         <camunda:in sourceExpression="${Zammad_Article}" target="article" />
         <camunda:in sourceExpression="${Zammad_Status}" target="status" />
         <camunda:in sourceExpression="${Zammad_User}" target="userId" />
-        <camunda:in sourceExpression="${app_file_context}/zammad/" target="filepaths" />
+        <camunda:in sourceExpression="zammad/" target="filepaths" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0tm86kn</bpmn:incoming>
       <bpmn:outgoing>Flow_11f44nt</bpmn:outgoing>

@@ -22,20 +22,20 @@ import static org.mockito.ArgumentMatchers.any;
 
 class WriteArticleMessageProcessorTest {
 
-    private WriteArticleInPort writeArticleInPort = Mockito.mock(WriteArticleInPort.class);
+    private final WriteArticleInPort writeArticleInPort = Mockito.mock(WriteArticleInPort.class);
 
-    private ProcessApi processApi = Mockito.mock(ProcessApi.class);
+    private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
 
-    private ErrorApi errorApi = Mockito.mock(ErrorApi.class);
+    private final ErrorApi errorApi = Mockito.mock(ErrorApi.class);
 
-    private TicketMessageProcessor messageProcessor = new TicketMessageProcessor(
+    private final TicketMessageProcessor messageProcessor = new TicketMessageProcessor(
             writeArticleInPort,
             processApi,
             errorApi);
 
     @BeforeEach
     void setup() {
-        Mockito.doNothing().when(writeArticleInPort).writeArticle(any(), any(), any(), any(), any());
+        Mockito.doNothing().when(writeArticleInPort).writeArticle(any(), any(), any(), any(), any(), any());
     }
 
     @NotNull
@@ -61,7 +61,8 @@ class WriteArticleMessageProcessorTest {
                 "mein text",
                 "userID123",
                 "OPEN",
-                "test"
+                "test",
+                "fileContext"
         );
         final Message message1 = createmessage(writeArticleDto);
 
@@ -72,7 +73,7 @@ class WriteArticleMessageProcessorTest {
         Mockito.verify(writeArticleInPort, Mockito.times(1)).writeArticle(
                 "ticketID123",
                 new Article("mein text", "userID123"),
-                TicketStatus.OPEN, List.of("test"), "processDefinition");
+                TicketStatus.OPEN, List.of("test"), "fileContext", "processDefinition");
     }
 
 }

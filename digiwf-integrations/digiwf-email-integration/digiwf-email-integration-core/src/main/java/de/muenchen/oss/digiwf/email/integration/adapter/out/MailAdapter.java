@@ -16,8 +16,8 @@ public class MailAdapter implements MailOutPort {
     private final DigiwfEmailApi digiwfEmailApi;
 
     @Override
-    public void sendMail(Mail mail) throws MessagingException {
-        this.digiwfEmailApi.sendMail(mail);
+    public void sendMail(Mail mail, String logoPath) throws MessagingException {
+        this.digiwfEmailApi.sendMail(mail, logoPath);
     }
 
     @Override
