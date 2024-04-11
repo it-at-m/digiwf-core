@@ -238,15 +238,15 @@ svg {
   );
 }
 .text-header {
-  font-size: var(
-    --digiwf-webcomponent-font-size-header,
-    var(--digiwf-webcomponent-font-size-header-default)
+  font: var(
+    --digiwf-webcomponent-font-header,
+    var(--digiwf-webcomponent-font-header-default)
   );
 }
 .text-footer {
-  font-size: var(
-    --digiwf-webcomponent-font-size-footer,
-    var(--digiwf-webcomponent-font-size-footer-default)
+  font: var(
+    --digiwf-webcomponent-font-footer,
+    var(--digiwf-webcomponent-font-footer-default)
   );
 }
 </style>

@@ -5,11 +5,10 @@
   --digiwf-webcomponent-color-background: lightblue;
   --digiwf-webcomponent-color-hover: red;
   --digiwf-webcomponent-color-separator: red;
-  --digiwf-webcomponent-font-family: Arial, sans-serif;
-  --digiwf-webcomponent-font-size-text: 0.5rem;
-  --digiwf-webcomponent-font-size-title: 1.75rem;
-  --digiwf-webcomponent-font-size-header: 2rem;
-  --digiwf-webcomponent-font-size-footer: 0.75rem;
+  --digiwf-webcomponent-font-header: bold 2rem Arial, sans-serif;
+  --digiwf-webcomponent-font-title: bold 1.5rem Arial, sans-serif;
+  --digiwf-webcomponent-font-text: 1rem Arial, sans-serif;
+  --digiwf-webcomponent-font-footer: 0.7rem Arial, sans-serif;
   --digiwf-webcomponent-border-radius: 100px;
   --digiwf-webcomponent-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
