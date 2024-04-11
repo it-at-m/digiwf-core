@@ -5,7 +5,7 @@
   >
     <c-pagination-item
       v-if="showLeftRightButtons"
-      component="button"
+      as="button"
       :disabled="isOnFirstPage"
       role="button"
       :aria-disabled="isOnFirstPage"
@@ -19,7 +19,7 @@
       <c-pagination-item
         v-for="page in visiblePages"
         :key="page"
-        component="button"
+        as="button"
         :active="isActivePage(page)"
         role="button"
         :aria-label="`Seite ${page}`"
@@ -32,7 +32,7 @@
     </template>
     <c-pagination-item
       v-if="showLeftRightButtons"
-      component="button"
+      as="button"
       :disabled="isOnLastPage"
       role="button"
       :aria-disabled="isOnLastPage"

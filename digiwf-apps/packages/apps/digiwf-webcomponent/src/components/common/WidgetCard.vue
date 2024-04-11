@@ -70,7 +70,7 @@
         />
         <c-button
           variant="ghost"
-          component="a"
+          as="a"
           :href="frontendURL"
           target="_blank"
           class="d-flex justify-content-around align-items-center"

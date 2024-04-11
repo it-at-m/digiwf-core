@@ -1,6 +1,6 @@
 <template>
   <c-list-group-item
-    component="a"
+    as="a"
     :href="frontendURL"
     target="_blank"
     class="p-3"
