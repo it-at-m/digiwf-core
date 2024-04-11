@@ -21,9 +21,10 @@ public class WriteArticleUseCase implements WriteArticleInPort {
     private final LoadFileOutPort loadFileOutPort;
 
     @Override
-    public void writeArticle(@NotBlank String ticketId, @NotNull Article article, TicketStatus status, final List<String> filepaths, final String processDefinition) {
+    public void writeArticle(@NotBlank String ticketId, @NotNull Article article, TicketStatus status, final List<String> filepaths,
+                             @NotBlank final String fileContext, final String processDefinition) {
         if ((filepaths != null) && !filepaths.isEmpty()) {
-            List<FileContent> fileContents = loadFileOutPort.loadFiles(filepaths, processDefinition);
+            List<FileContent> fileContents = loadFileOutPort.loadFiles(filepaths, fileContext, processDefinition);
             ticketOutPort.updateTicket(ticketId, article, status, fileContents);
             return;
         }

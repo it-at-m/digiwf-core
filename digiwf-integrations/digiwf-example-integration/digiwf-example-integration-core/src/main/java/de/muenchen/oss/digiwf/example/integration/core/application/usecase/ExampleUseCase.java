@@ -4,9 +4,7 @@ import de.muenchen.oss.digiwf.example.integration.core.application.port.in.Examp
 import de.muenchen.oss.digiwf.example.integration.core.domain.ExampleModel;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
 public class ExampleUseCase implements ExampleInPort {
 

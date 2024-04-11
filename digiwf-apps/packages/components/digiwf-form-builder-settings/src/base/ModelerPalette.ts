@@ -1,4 +1,4 @@
-import { Labels } from "@/base/labels";
+import {Labels} from "@/base/labels";
 
 const basicOptions = {
   "x-options": {
@@ -162,8 +162,10 @@ export function formFieldPaletteBuilder(labels: Labels) {
         title: labels.dmsInput,
         "x-display": "custom-dms-input",
         type: "array",
+        dmsSystem: "mucs",
+        objectclass: "Schriftstueck",
         items: {
-          type: "object",
+          type: "string",
         },
       },
     ],

@@ -29,9 +29,9 @@ class WriteArticleUseCaseTest {
         final TicketStatus status = TicketStatus.OPEN;
 
         // when
-        when(loadFileOutPort.loadFiles(List.of(), "processDefinition")).thenReturn(List.of());
+        when(loadFileOutPort.loadFiles(List.of(), "fileContext", "processDefinition")).thenReturn(List.of());
 
-        writeArticleUseCase.writeArticle(ticketId, article, status, List.of(), "processDefinition");
+        writeArticleUseCase.writeArticle(ticketId, article, status, List.of(), "fileContext", "processDefinition");
 
         // then
         verify(ticketOutPort).updateTicket(eq(ticketId), eq(article), eq(status), eq(List.of()));
@@ -48,10 +48,10 @@ class WriteArticleUseCaseTest {
         final FileContent fileContent = new FileContent("text/plain", "file", "content".getBytes());
 
         // when
-        when(loadFileOutPort.loadFiles(filepaths, "processDefinition")).thenReturn(
+        when(loadFileOutPort.loadFiles(filepaths, "fileContext", "processDefinition")).thenReturn(
                 List.of(fileContent));
 
-        writeArticleUseCase.writeArticle(ticketId, article, status, filepaths, "processDefinition");
+        writeArticleUseCase.writeArticle(ticketId, article, status, filepaths, "fileContext", "processDefinition");
 
         // then
         verify(ticketOutPort).updateTicket(eq(ticketId), eq(article), eq(status), eq(List.of(fileContent)));
