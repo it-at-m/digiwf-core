@@ -27,7 +27,7 @@ Zudem wurden bei der Entwicklung auf eine barrierefreihe Umsetzung geachtet.
 
 Genauere Informationen zur der Einbindung und den individuellen Konfigurationsmöglichkeiten der Web Components kann der technischen [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-apps/packages/apps/digiwf-webcomponent/README.md) auf GitHub entnommen werden.
 
-## Vorteile von Web Components gegenüber Single-Page-Applications
+## Vorteile von Web Components
 
 - **Skalierbarkeit**: Web Components können effizienter skaliert werden, da sie in kleinen Einheiten betrieben und damit mehrere parallele Anfragen gleichzeitig beantwortet werden können.
 - **Performanz**: Web Components werden als kleine Einheiten an den Browser ausgeliefert und sind damit deutlich performanter als schwergewichtige Single-Page-Applications. Dies macht sich zum Beispiel in der Ladezeit bemerkbar.
@@ -38,16 +38,6 @@ Genauere Informationen zur der Einbindung und den individuellen Konfigurationsm�
 - **Integration**: Web Components lassen sich als einfaches HTML-Element nahtlos in bestehenden Anwendungen integrieren. Es erfolgt kein Kontextwechsel bei einer Interaktion mit der Web Component.
 - **Wiederverwendbarkeit**: Web Components sind wiederverwendbare GUI-Teile, die unabhängig von der einbettenden Anwendung eingesetzt werden können.
 
-## Security
+## Visualisierung der Kommunikation
 
-Im folgenden werden einige Sicherheits-relevante Sonderheiten der Web Components erläutert.
-
-### Authentifizierung am API-Gateway
-
-TODO
-
-### Austausch des Access-Tokens
-
-TODO
-
-TODO BILD ERGÄNZEN
+![Communication between components](~@source/images/platform/components/webcomponents/webcomps-flow.png)
