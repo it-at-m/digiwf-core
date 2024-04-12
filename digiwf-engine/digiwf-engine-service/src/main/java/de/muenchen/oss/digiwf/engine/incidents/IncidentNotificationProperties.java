@@ -7,11 +7,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "digiwf.incident")
 public class IncidentNotificationProperties {
 
-    private String cockpiturl;
+    private String cockpitUrl;
 
     private String environment;
 
-    private String fromaddress;
+    private String fromAddress;
 
-    private String toaddress;
+    private String toAddress;
 }

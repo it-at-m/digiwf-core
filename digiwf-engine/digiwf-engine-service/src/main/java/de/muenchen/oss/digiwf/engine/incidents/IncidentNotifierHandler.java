@@ -68,7 +68,7 @@ public class IncidentNotifierHandler extends BaseIncidentHandler {
 
         var notificationAddresses = processConfig.orElse(new ProcessConfig()).getIncidentNotificationAddresses();
 
-        if (Strings.isEmpty(notificationAddresses)) notificationAddresses = incidentNotificationProperties.getToaddress();
+        if (Strings.isEmpty(notificationAddresses)) notificationAddresses = incidentNotificationProperties.getToAddress();
 
         if (Strings.isEmpty(notificationAddresses)) {
             log.debug("Notification on incidents is not configured");
@@ -86,7 +86,7 @@ public class IncidentNotifierHandler extends BaseIncidentHandler {
                     .subject(incidentNotificationProperties.getEnvironment() + ": Incident aufgetreten")
                     .body(emailBody)
                     .htmlBody(true)
-                    .replyTo(incidentNotificationProperties.getFromaddress())
+                    .replyTo(incidentNotificationProperties.getFromAddress())
                     .build();
             this.digiwfEmailApi.sendMailWithDefaultLogo(mail);
         } catch (final MessagingException error) {
@@ -106,7 +106,7 @@ public class IncidentNotifierHandler extends BaseIncidentHandler {
      */
     @NotNull
     private Map<String, String> getEMailContent(final IncidentEntity incidentEntity, final String processName) {
-        val link = incidentNotificationProperties.getCockpiturl() +
+        val link = incidentNotificationProperties.getCockpitUrl() +
                 "camunda/app/cockpit/default/#/process-instance/" +
                 incidentEntity.getProcessInstanceId() +
                 "/runtime";

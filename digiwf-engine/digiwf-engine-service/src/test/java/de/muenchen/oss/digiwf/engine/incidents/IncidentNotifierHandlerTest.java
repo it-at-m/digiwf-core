@@ -89,9 +89,9 @@ class IncidentNotifierHandlerTest {
         final ProcessConfig processConfig = new ProcessConfigMapper().map(processConfigEntity);
         when(processConfigService.getProcessConfig(anyString())).thenReturn(Optional.of(processConfig));
         when(incidentNotifierHandler.superHandleIncident(any(), anyString())).thenReturn(incidentEntity);
-        when(incidentNotificationProperties.getCockpiturl()).thenReturn("cockpiturl");
+        when(incidentNotificationProperties.getCockpitUrl()).thenReturn("cockpiturl");
         when(incidentNotificationProperties.getEnvironment()).thenReturn("environment");
-        when(incidentNotificationProperties.getFromaddress()).thenReturn("from@address.org");
+        when(incidentNotificationProperties.getFromAddress()).thenReturn("from@address.org");
         ProcessDefinition processDefinitionMock = Mockito.mock(ProcessDefinition.class);
         when(repositoryService.createProcessDefinitionQuery().processDefinitionId(anyString()).singleResult()).thenReturn(processDefinitionMock);
 
