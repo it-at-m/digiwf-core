@@ -1,0 +1,11 @@
+de:
+  muenchen:
+    oss:
+      digiwf:
+        openai:
+          service:
+            api-key:
+            model: gpt-3.5-turbo
+            base-url:
+            deployment-name:
+            api-version:

@@ -1,0 +1,60 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: ${OPENAI_INTEGRATION_SERVER_PORT:-8080}
+  shutdown: graceful
+spring:
+  application:
+    name: '@project.artifactId@'
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: "dwf-openai-${DIGIWF_ENV}"
+          group: dwf-openai-service
+        sendMessage-out-0:
+          destination: "dwf-connector-${DIGIWF_ENV}"
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        typeMappings:
+          chat: basicChat
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        openai:
+          service:
+            api-key: ''
+            model: ''
+            base-url: ''
+            deployment-name: ''
+            api-version: ''
