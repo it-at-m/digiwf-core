@@ -14,7 +14,6 @@ public enum DMSStatusCode {
     OBJEKT_GESPERRT(1),
     FEHLENDE_BERECHTIGUNG(2),
     UNGUELTIGE_ADRESSE(3),
-    MEHR_ALS_1000_UNTERGEORDNETE_OBJEKTE(4),
     AUFRUF_OBJEKT_FALSCHER_FEHLERKLASSE(5),
     HINWEIS_LESEN_VON_STORNIERTEM_OBJEKT(6),
     FALSCHE_ZUGRIFFSDEFINITION(7),
@@ -28,7 +27,7 @@ public enum DMSStatusCode {
 
     private final int statuscode;
 
-    private DMSStatusCode(final int statuscode) {
+    DMSStatusCode(final int statuscode) {
         this.statuscode = statuscode;
     }
 

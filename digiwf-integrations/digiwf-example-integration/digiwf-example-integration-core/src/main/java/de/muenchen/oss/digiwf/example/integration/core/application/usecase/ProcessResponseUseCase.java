@@ -5,11 +5,9 @@ import de.muenchen.oss.digiwf.example.integration.core.application.port.out.Proc
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Service
 @RequiredArgsConstructor
 public class ProcessResponseUseCase implements ProcessResponseInPort {
     private final ProcessResponseOutPort processResponseOutPort;

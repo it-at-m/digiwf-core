@@ -32,18 +32,19 @@ Nach oben haben wir eine Integration Richtung GUI, nach unten eine Integration i
 ist als Build Komponente das Co-Creation dargestellt.](~@source/images/platform/architecture/digiwf_how_to_integrate_your_app.png)
 
 Das obige Bild zeigt eine "ausgewachsene" DigiWF-Architektur einschließlich selbst erstellter Artefakte. Alles in
-Schwarz wird vom DigiWF-Projekt bereitgestellt, aber wir sind offen für Integrationen. Es können also folgende Artefakte
-erstellt und integriert werden:
+Schwarz ist der Kern der DigiWF Plattform und reicht für sich schon aus für den Betrieb von digitalen Workflows. Da dies 
+in einigen Fällen nicht ausreicht, sind wir an vielen Stellen offen für Integration. Zur Unterstützung und Vereinfachung bieten
+wir die in weiß beispielhaft dargestellten Komponenten und Bibliotheken an.
+Es können folgende Artefakte erstellt und integriert werden (im Bild gelb):
 
-- eigene Frontends
-- Integrationsartefakte zur Kommunikation mit der On-Premise- oder Cloud-Infrastruktur
+- Eigene Frontends
+- Integrationsartefakte zur Kommunikation mit Drittsystemen (egal ob On-Prem oder Cloud)
 - (Mikro-)Services
 
 Es können beliebige Technologien verwendet werden, aber die beste Unterstützung erhält man, wenn VueJS (mit VuetifyJs)
-im Frontend und Spring Boot in den Integrations- oder anderen Services verwendet werden. Es gibt nur zwei
+im Frontend und Spring Boot in den Integrations- oder anderen Services verwendet werden. Es gibt nur eine
 Voraussetzungen:
 
-- Die Frontend-Technologie muss über einen GraphQL-Client verfügen
 - Das Backend (Dienste, Integrationsartefakte) muss in der Lage sein, mit einer der
   von [Spring Cloud Streams](https://spring.io/projects/spring-cloud-stream) unterstützten Binder-Implementierungen zu
   kommunizieren.
@@ -60,8 +61,8 @@ erstellt haben.
 ### DigiWF Core
 
 DigiWF Core ist das Herzstück von DigiWF und besteht aus fünf Diensten. Zur Interaktion mit Frontend-Anwendungen gibt es
-eine GraphQL-API. Zusätzlich gibt es eine sehr generische API, die über einen Event Bus mit verschiedenen
-Backend-Systemen kommuniziert.
+eine nach außen gerichtete API. Zusätzlich gibt es eine eventbasierte API, sodass über den Event Bus mit verschiedenen
+Backend-Systemen kommuniziert werden kann.
 
 ![Die fünf Services in Digiwf Core: Service Definition, Form + Validation, Task, Service Instance and
 Process Engine.](~@source/images/platform/architecture/digiwf_core_services.png)

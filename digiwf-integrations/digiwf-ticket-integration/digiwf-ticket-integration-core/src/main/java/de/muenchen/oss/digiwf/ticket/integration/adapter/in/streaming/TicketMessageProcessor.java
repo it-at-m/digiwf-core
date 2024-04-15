@@ -54,7 +54,8 @@ public class TicketMessageProcessor {
             try {
                 writeArticleInPort.writeArticle(
                         request.getTicketId(), new Article(request.getArticle(), request.getUserId()),
-                        mapStatus(request.getStatus()), request.getFilepaths(), headers.get(DIGIWF_PROCESS_DEFINITION).toString());
+                        mapStatus(request.getStatus()), request.getFilepaths(), request.getFileContext(),
+                        headers.get(DIGIWF_PROCESS_DEFINITION).toString());
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
                 handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));

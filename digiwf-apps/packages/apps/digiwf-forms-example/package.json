@@ -2,25 +2,25 @@
   "name": "@muenchen/digiwf-forms-example",
   "description": "DigiWF Forms",
   "private": true,
-  "version": "1.9.0",
+  "version": "1.10.0",
   "scripts": {
     "dev": "vite --host localhost",
     "build": "vite build"
   },
   "dependencies": {
-    "@muenchen/digiwf-date-input": "^1.9.0",
-    "@muenchen/digiwf-dms-input": "^1.9.0",
-    "@muenchen/digiwf-form-builder": "^1.9.0",
-    "@muenchen/digiwf-form-builder-settings": "^1.9.0",
-    "@muenchen/digiwf-form-renderer": "^1.9.0",
-    "@muenchen/digiwf-multi-file-input": "^1.9.0",
+    "@muenchen/digiwf-date-input": "^1.10.0",
+    "@muenchen/digiwf-dms-input": "^1.10.0",
+    "@muenchen/digiwf-form-builder": "^1.10.0",
+    "@muenchen/digiwf-form-builder-settings": "^1.10.0",
+    "@muenchen/digiwf-form-renderer": "^1.10.0",
+    "@muenchen/digiwf-multi-file-input": "^1.10.0",
     "@muenchen/vjsf": "^2.21.12",
     "vue": "^2.7.10",
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
-    "@mdi/font": "^7.0.96",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@mdi/font": "^7.0.96",
     "@muenchen/prettier-codeformat": "^1.0.1"
   }
 }

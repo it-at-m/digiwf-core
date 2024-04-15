@@ -9,5 +9,12 @@ import java.util.List;
 
 public interface WriteArticleInPort {
 
-    void writeArticle(@NotBlank String ticketId, @NotNull Article article, TicketStatus status, final List<String> filepaths, final String processDefinition);
+    void writeArticle(
+            @NotBlank String ticketId,
+            @NotNull Article article,
+            TicketStatus status,
+            final List<String> filepaths,
+            @NotBlank final String fileContext,
+            final String processDefinition
+    );
 }

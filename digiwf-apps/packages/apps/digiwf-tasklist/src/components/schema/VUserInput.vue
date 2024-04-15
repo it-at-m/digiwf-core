@@ -161,6 +161,7 @@ export default defineComponent({
       )
         .then((user) => {
           selectedUser.value = user;
+          items.value.push(user);
           errorMessage.value = "";
         })
         .catch(() => {

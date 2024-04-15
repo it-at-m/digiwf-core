@@ -34,14 +34,15 @@ public class S3Adapter implements LoadFileOutPort {
     private final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
 
     @Override
-    public List<FileContent> loadFiles(final List<String> filepaths, final String processDefinition) {
+    public List<FileContent> loadFiles(final List<String> filepaths, final String fileContext, final String processDefinition) {
         final String s3Storage = getDomainSpecificS3Storage(processDefinition).orElse(null);
         final List<FileContent> contents = new ArrayList<>();
         filepaths.forEach(path -> {
-            if (path.endsWith("/")) {
-                contents.addAll(getFilesFromFolder(path, s3Storage));
+            final String fullPath = fileContext + "/" + path;
+            if (fullPath.endsWith("/")) {
+                contents.addAll(getFilesFromFolder(fullPath, s3Storage));
             } else {
-                contents.add(getFile(path, s3Storage));
+                contents.add(getFile(fullPath, s3Storage));
             }
         });
         return contents;
