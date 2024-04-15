@@ -19,7 +19,6 @@ public class EngineRestGroupFilter implements Filter {
 
     private final ObjectMapper objectMapper;
     private final ResolveUserGroupsInPort resolveUserGroupsInPort;
-    private final RestMapper restMapper;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,10 +36,10 @@ public class EngineRestGroupFilter implements Filter {
             log.info("Asking membership for user: {}", queryDto.getMember());
 
             var payload = resolveUserGroupsInPort
-                .resolveGroups(queryDto.getMember())
-                .stream()
-                .map(restMapper::toDto)
-                .collect(Collectors.toList());
+                    .resolveGroups(queryDto.getMember())
+                    .stream()
+                    .map(OptimizeGroupDto::fromGroup)
+                    .collect(Collectors.toList());
 
             response.setStatus(200);
             response.setContentType("application/json");

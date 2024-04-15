@@ -5,15 +5,20 @@ package de.muenchen.oss.digiwf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestGroupFilter;
-import de.muenchen.oss.digiwf.adapter.in.rest.RestMapper;
+import de.muenchen.oss.digiwf.adapter.out.ldap.LdapMockOutPort;
+import de.muenchen.oss.digiwf.adapter.out.ldap.LdapOutAdapter;
+import de.muenchen.oss.digiwf.adapter.out.ldap.LdapProperties;
 import de.muenchen.oss.digiwf.application.port.in.ResolveUserGroupsInPort;
+import de.muenchen.oss.digiwf.application.port.out.ResolveUserGroupsOutPort;
+import de.muenchen.oss.digiwf.application.usecase.ResolveUserGroupsUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.ldap.core.ContextSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 /**
  * Application class for starting the micro-service.
@@ -27,21 +32,47 @@ public class EngineRestServiceApplication {
         SpringApplication.run(EngineRestServiceApplication.class, args);
     }
 
+    // adapter in
 
     /**
      * Registriert den Filter für die Camunda-Group Abfrage.
      */
     @Bean
+    @Profile("!no-ldap")
     public FilterRegistrationBean<EngineRestGroupFilter> engineRestGroupFilter(
-        ObjectMapper objectMapper,
-        ResolveUserGroupsInPort resolveUserGroupsInPort,
-        RestMapper restMapper
+            final ObjectMapper objectMapper,
+            final ResolveUserGroupsInPort resolveUserGroupsInPort
     ) {
         FilterRegistrationBean<EngineRestGroupFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new EngineRestGroupFilter(objectMapper, resolveUserGroupsInPort, restMapper));
+        filterRegistrationBean.setFilter(new EngineRestGroupFilter(objectMapper, resolveUserGroupsInPort));
         filterRegistrationBean.setOrder(101);
         filterRegistrationBean.addUrlPatterns("/engine-rest/engine/default/group");
         return filterRegistrationBean;
     }
 
+    // application
+    @Bean
+    public ResolveUserGroupsInPort resolveUserGroupsInPort(final ResolveUserGroupsOutPort resolveUserGroupsOutPort) {
+        return new ResolveUserGroupsUseCase(resolveUserGroupsOutPort);
+    }
+
+
+    // adapter out
+    @Bean
+    @Profile("!no-ldap")
+    public LdapProperties ldapProperties() {
+        return new LdapProperties();
+    }
+
+    @Bean
+    @Profile("!no-ldap")
+    public ResolveUserGroupsOutPort ldapOutPort(final ContextSource contextSource, final LdapProperties ldapProperties) {
+        return new LdapOutAdapter(contextSource, ldapProperties);
+    }
+
+    @Bean
+    @Profile("no-ldap")
+    public ResolveUserGroupsOutPort ldapMockOutPort() {
+        return new LdapMockOutPort();
+    }
 }
