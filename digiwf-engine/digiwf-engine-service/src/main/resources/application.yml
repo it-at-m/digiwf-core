@@ -161,10 +161,10 @@ digiwf:
     autodeployBausteine: true
     whitelist: '^[\w\s\?\!\#\: \.§\%\/\(\);:,@\u20AC\-\''\u00C0-\u017F]*$'
   incident:
-    cockpiturl: ${COCKPIT_URL}
+    cockpit-url: ${COCKPIT_URL}
     environment: ${DIGIWF_ENV}
-    fromaddress: itm.digiwf@muenchen.de
-    toaddress: itm.digiwf@muenchen.de
+    from-address: noreply@muenchen.de
+    to-address: itm.digiwf@muenchen.de
   jsonschema:
     autodeploy: true
   mail:
