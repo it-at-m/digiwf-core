@@ -28,10 +28,10 @@ class MessageProcessorTest {
     private final String processInstanceId = "ProcessInstanceId";
     private final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "integrationName", TYPE, "type"));
-    Message<GenerateDocument> message;
-    private MessageProcessor messageProcessor;
     private final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
     private final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
+    Message<GenerateDocument> message;
+    private MessageProcessor messageProcessor;
 
     @BeforeEach
     void setup() {
@@ -51,7 +51,7 @@ class MessageProcessorTest {
 
     @Test
     void cosysIntegrationCreateDocumentSuccessfully() {
-        messageProcessor.cosysIntegration().accept(this.message);
+        messageProcessor.createCosysDocument().accept(this.message);
         verify(createDocumentMock).createDocument(processInstanceId, "type", "integrationName", generateDocument);
         verifyNoMoreInteractions(createDocumentMock);
     }
@@ -59,7 +59,7 @@ class MessageProcessorTest {
     @Test
     void cosysIntegrationHandlesValidationException() {
         doThrow(new ValidationException("ValidationException")).when(createDocumentMock).createDocument(any(), any(), any(), any());
-        messageProcessor.cosysIntegration().accept(this.message);
+        messageProcessor.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
         verifyNoMoreInteractions(errorApiMock);
@@ -69,7 +69,7 @@ class MessageProcessorTest {
     @Test
     void cosysIntegrationHandlesBpmnError() {
         doThrow(new BpmnError("S3_FILE_SAVE_ERROR", "BpmnErrorCode")).when(createDocumentMock).createDocument(any(), any(), any(), any());
-        messageProcessor.cosysIntegration().accept(this.message);
+        messageProcessor.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
         verifyNoMoreInteractions(errorApiMock);
@@ -79,7 +79,7 @@ class MessageProcessorTest {
     @Test
     void cosysIntegrationIncidentError() {
         doThrow(new IncidentError("IncidentError")).when(createDocumentMock).createDocument(any(), any(), any(), any());
-        messageProcessor.cosysIntegration().accept(this.message);
+        messageProcessor.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         verifyNoMoreInteractions(errorApiMock);

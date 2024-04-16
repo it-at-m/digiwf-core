@@ -23,12 +23,7 @@ public class MessageProcessor {
 
     private final ErrorApi errorApi;
 
-    /**
-     * All messages from the route "generateDocument" go here.
-     *
-     * @return the consumer
-     */
-    public Consumer<Message<GenerateDocument>> cosysIntegration() {
+    public Consumer<Message<GenerateDocument>> createCosysDocument() {
         return message -> {
             try {
                 log.info("Processing generate document request from eventbus");

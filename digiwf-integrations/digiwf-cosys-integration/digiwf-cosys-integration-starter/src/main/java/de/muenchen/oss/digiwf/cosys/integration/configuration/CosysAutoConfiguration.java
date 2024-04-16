@@ -130,7 +130,7 @@ public class CosysAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<GenerateDocument>> cosysIntegration(final MessageProcessor messageProcessor) {
-        return messageProcessor.cosysIntegration();
+    public Consumer<Message<GenerateDocument>> createCosysDocument(final MessageProcessor messageProcessor) {
+        return messageProcessor.createCosysDocument();
     }
 }
