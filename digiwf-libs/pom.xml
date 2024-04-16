@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -26,7 +26,6 @@
         <module>digiwf-email</module>
         <module>digiwf-testing</module>
         <module>digiwf-process</module>
-        <module>digiwf-optimize-plugins</module>
     </modules>
 
     <profiles>
@@ -50,12 +49,8 @@
                     <id>camunda-optimize</id>
                     <name>camunda-optimize</name>
                     <url>https://artifacts.camunda.com/artifactory/camunda-optimize</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
                 </repository>
             </repositories>
 
