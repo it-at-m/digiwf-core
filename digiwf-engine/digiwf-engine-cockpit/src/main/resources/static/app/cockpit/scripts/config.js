@@ -4,6 +4,14 @@ export default {
         name: 'Welcome',
         vendor: 'DigiWF Cockpit'
     },
+    skipCustomListeners: {
+        default: false,
+        hidden: true
+    },
+    skipIoMappings: {
+        default: false,
+        hidden: true
+    },
     disableWelcomeMessage: true,
     links: [
         {
