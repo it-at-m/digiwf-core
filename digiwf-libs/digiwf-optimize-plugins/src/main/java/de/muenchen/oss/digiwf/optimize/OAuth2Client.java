@@ -20,6 +20,20 @@ public class OAuth2Client {
 
     private final OAuth2ClientProperties oAuth2ClientProperties;
 
+    private static HTTPRequest constructClientCredentialsRequest(OAuth2ClientProperties oAuth2ClientProperties) throws URISyntaxException {
+        // The credentials to authenticate the client at the token endpoint
+        ClientID clientID = new ClientID(oAuth2ClientProperties.clientId());
+        Secret clientSecret = new Secret(oAuth2ClientProperties.clientSecret());
+        ClientAuthentication clientAuth = new ClientSecretBasic(clientID, clientSecret);
+        // The token endpoint
+        URI tokenEndpoint = new URI(oAuth2ClientProperties.accessTokenUrl());
+        // scopes
+        Scope scope = new Scope("openid", "profile");
+        // Make the token request
+        TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, new ClientCredentialsGrant(), scope);
+        return request.toHTTPRequest();
+    }
+
     public String getAccessToken() throws URISyntaxException, IOException, ParseException {
 
         HTTPRequest httpRequest = constructClientCredentialsRequest(oAuth2ClientProperties);
@@ -39,19 +53,5 @@ public class OAuth2Client {
         // FIXME -> cache it.
         // RefreshToken refreshToken = successResponse.getTokens().getRefreshToken();
         return accessToken.toAuthorizationHeader();
-    }
-
-    private static HTTPRequest constructClientCredentialsRequest(OAuth2ClientProperties oAuth2ClientProperties) throws URISyntaxException {
-        // The credentials to authenticate the client at the token endpoint
-        ClientID clientID = new ClientID(oAuth2ClientProperties.getClientId());
-        Secret clientSecret = new Secret(oAuth2ClientProperties.getClientSecret());
-        ClientAuthentication clientAuth = new ClientSecretBasic(clientID, clientSecret);
-        // The token endpoint
-        URI tokenEndpoint = new URI(oAuth2ClientProperties.getAccessTokenUrl());
-        // scopes
-        Scope scope = new Scope("openid", "profile");
-        // Make the token request
-        TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, new ClientCredentialsGrant(), scope);
-        return request.toHTTPRequest();
     }
 }
