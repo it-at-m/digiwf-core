@@ -18,7 +18,8 @@ camunda:
         history-removal-time-strategy: end
         history-cleanup-degree-of-parallelism: '4'
         enable-exceptions-after-unhandled-bpmn-error: true
-backend:
+    eventing:
+      skippable: false
   security:
     process:
       deployment:
