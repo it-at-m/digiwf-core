@@ -39,8 +39,8 @@
                 Bearbeiten
               </v-btn>
               <v-btn
-                style="margin-left: 5pt"
                 color="primary"
+                style="margin-left: 5pt"
                 @click="openAssignDialog"
               >
                 <v-icon left> mdi-send-outline</v-icon>
@@ -51,17 +51,17 @@
         </v-row>
         <base-form
           v-if="task.form"
-          :readonly-mode="true"
-          class="taskForm"
+          :buttons-disabled="true"
           :form="task.form"
           :init-model="task.variables"
-          :buttons-disabled="true"
+          :readonly-mode="true"
+          class="taskForm"
         />
         <app-json-form
           v-else
           :readonly="true"
-          :value="task.variables"
           :schema="task.schema"
+          :value="task.variables"
         />
         <assign-yourself-dialog
           :assignee-formatted="task.assigneeFormatted || 'Unbekannter Nutzer'"
@@ -72,8 +72,8 @@
         <assign-task-dialog
           v-if="showAssignDialog"
           :open="true"
-          :task-name="task.name"
           :task-id="task.id"
+          :task-name="task.name"
           @close="closeAssignDialog"
           @success="handleSuccessfullyAssignment"
         />
@@ -134,8 +134,14 @@ const store = useStore();
 const {data: currentUser} = useCurrentUserInfo();
 const {data: taskLoadingResult, isLoading, error: errorMessage} = useTaskQuery(taskId);
 
+
+if (taskLoadingResult.value) {
+  task.value = taskLoadingResult.value.task;
+}
+
 watch(taskLoadingResult, (value: any) => {
-  if(value) {
+  console.log("data: ", value);
+  if (value) {
     task.value = value.task;
   }
 });
@@ -151,17 +157,17 @@ provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
 const checkTaskAssignment = () => {
-    if (task.value?.assigneeId) {
-      const lhmObjectId = currentUser.value?.lhmObjectId;
-      if (task.value?.assigneeId != lhmObjectId) {
-        showModal.value = true;
-        setTimeout(() => (showModal.value = false), 10000);
-      } else {
-        router.push({path: "/task/" + taskId});
-      }
+  if (task.value?.assigneeId) {
+    const lhmObjectId = currentUser.value?.lhmObjectId;
+    if (task.value?.assigneeId != lhmObjectId) {
+      showModal.value = true;
+      setTimeout(() => (showModal.value = false), 10000);
     } else {
-      triggerAssignTask();
+      router.push({path: "/task/" + taskId});
     }
+  } else {
+    triggerAssignTask();
+  }
 };
 
 const openAssignDialog = () => {
@@ -185,11 +191,11 @@ const triggerAssignTask = () => {
     errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
     return;
   }
-  assignTask(taskId, lhmObjectId)
+  assignTask(lhmObjectId)
     .then(() => errorMessage.value)
     .catch((error) => {
-    errorMessage.value = error;
-  });
+      errorMessage.value = error;
+    });
 };
 
 </script>

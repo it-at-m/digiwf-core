@@ -338,7 +338,6 @@ export const useCompleteTaskMutation = (taskId: string) => {
     onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
-      router.push({ path: "/mytask" });
     },
   });
 };
@@ -395,6 +394,10 @@ export const useAssignTaskMutation = (taskId: string) => {
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
     },
   });
+};
+
+export const pushRouterPath = (path: string) => {
+  router.push({ path: path });
 };
 
 interface DownloadPdfResult {

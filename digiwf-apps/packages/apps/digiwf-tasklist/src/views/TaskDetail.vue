@@ -21,38 +21,38 @@
 
       <base-form
         v-if="task.form"
-        :is-saving="isSaving"
-        :is-completing="isCompleting"
+        :form="task.form"
         :has-complete-error="hasCompleteError"
         :has-save-error="hasSaveError"
-        class="taskForm"
-        :form="task.form"
         :init-model="formFields"
+        :is-completing="isCompleting"
+        :is-saving="isSaving"
+        class="taskForm"
         @model-changed="modelChanged"
         @complete-form="handleCompleteTask"
       />
       <app-json-form
         v-else
-        :value="formFields"
         :schema="task.schema"
+        :value="formFields"
         @input="modelChanged"
         @complete-form="handleCompleteTask"
       />
     </v-flex>
     <v-flex class="buttonWrapper">
       <v-speed-dial
+        direction="bottom"
         fab
         fixed
-        direction="bottom"
         transition="slide-y-transition"
       >
         <template #activator>
           <v-btn
-            color="white"
-            fab
             :aria-label="
               fab ? 'Weitere Aktionen schließen' : 'Weitere Aktionen öffnen'
             "
+            color="white"
+            fab
             @click="switchFab"
           >
             <v-icon v-if="fab">
@@ -67,8 +67,8 @@
           <template #activator="{ on, attrs }">
             <v-btn
               aria-label="Wiedervorlage bearbeiten"
-              fab
               color="white"
+              fab
               v-bind="attrs"
               @click="openFollowUp"
               v-on="on"
@@ -80,10 +80,10 @@
         </v-tooltip>
 
         <loading-fab
-          :is-loading="isSaving"
           :has-error="hasSaveError"
-          color="white"
+          :is-loading="isSaving"
           button-text="Aufgabe zwischenspeichern"
+          color="white"
           @on-click="handleSaveTask"
         >
           <v-icon> mdi-content-save</v-icon>
@@ -91,10 +91,10 @@
 
         <loading-fab
           v-if="task?.isCancelable"
-          :is-loading="isCancelling"
-          :has-error="hasCancelError"
-          color="white"
           :button-text="cancelText"
+          :has-error="hasCancelError"
+          :is-loading="isCancelling"
+          color="white"
           @on-click="handleCancelTask"
         >
           <v-icon> mdi-cancel</v-icon>
@@ -102,10 +102,10 @@
 
         <loading-fab
           v-if="hasDownloadButton"
-          :is-loading="isDownloading"
-          :has-error="hasDownloadButton"
-          color="white"
           :button-text="downloadButtonText"
+          :has-error="hasDownloadButton"
+          :is-loading="isDownloading"
+          color="white"
           @on-click="downloadPDF"
         >
           <v-icon> mdi-download</v-icon>
@@ -115,8 +115,8 @@
 
     <leave-site-dialog
       :open="saveLeaveDialogOpen"
-      @submit="onLeaveDialogSubmit"
       @cancel="onLeaveDialogCancel"
+      @submit="onLeaveDialogSubmit"
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
@@ -170,7 +170,9 @@ import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
-  downloadPDFFromEngine, LoadTaskResultData,
+  downloadPDFFromEngine,
+  LoadTaskResultData,
+  pushRouterPath,
   useCancelTaskMutation,
   useCompleteTaskMutation,
   useDeferTaskMutation,
@@ -213,17 +215,21 @@ const el = ref<any>(null);
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
 
+const router = useRouter();
+
+const formFields = ref<any>({});
+
+/**
+ * toggle for showing fab menu
+ */
+const fab = ref(false);
 
 const {
   data: taskLoadingResult,
   error: taskLoadingError
 } = useTaskQuery(taskId);
 
-watch(taskLoadingResult, (data: any) => {
-  console.log("data: ", data);
-  if (!data) {
-    return;
-  }
+const loadTask = (data: LoadTaskResultData) => {
   task.value = data.task;
   model.value = data.model;
   followUpDate.value = data.followUpDate;
@@ -246,6 +252,18 @@ watch(taskLoadingResult, (data: any) => {
       mergeObjects(data.task.variables, inputs)
     );
   }
+};
+
+if (taskLoadingResult.value) {
+  loadTask(taskLoadingResult.value);
+}
+
+watch(taskLoadingResult, (data: any) => {
+  console.log("data: ", data);
+  if (!data) {
+    return;
+  }
+  loadTask(data);
 });
 
 watch(taskLoadingError, () => {
@@ -278,10 +296,6 @@ const {
   isPending: isSaving,
   isError: hasSaveError
 } = useSaveTaskMutation(taskId);
-/**
- * toggle for showing fab menu
- */
-const fab = ref(false);
 
 provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
@@ -289,9 +303,6 @@ provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 
-const router = useRouter();
-
-const formFields = ref<any>({});
 
 onBeforeRouteLeave((to, from, nxt) => {
   if (isDirty()) {
@@ -328,6 +339,7 @@ const handleCompleteTask = (model: any) => {
     .then(() => {
       errorMessage.value = "";
       hasChanges.value = false;
+      pushRouterPath("/mytask");
     })
     .catch(error => {
       errorMessage.value = error;
