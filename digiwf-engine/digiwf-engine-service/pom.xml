@@ -16,7 +16,7 @@
         <apache.commons.csv>1.10.0</apache.commons.csv>
         <apache.commons.io>2.16.1</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
-        <apache.commons.text>1.11.0</apache.commons.text>
+        <apache.commons.text>1.12.0</apache.commons.text>
         <apache.commons.validator>1.8.0</apache.commons.validator>
 
         <miranum-ide.version>0.3.2</miranum-ide.version>
