@@ -6,6 +6,15 @@
         type="error"
       />
     </v-flex>
+    <v-flex
+      v-if="isLoading"
+      justify="center"
+    >
+      <v-progress-circular
+        :size="50"
+        indeterminate
+      ></v-progress-circular>
+    </v-flex>
     <v-flex v-if="task !== null">
       <span class="processName grey--text">{{ task.processName }}</span>
       <h1>{{ task.name }}</h1>
@@ -157,7 +166,7 @@
 </style>
 
 <script lang="ts" setup>
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
 import {NavigationGuardNext} from "vue-router/types/router";
 
@@ -219,6 +228,8 @@ const router = useRouter();
 
 const formFields = ref<any>({});
 
+const isLoading = ref(true);
+
 /**
  * toggle for showing fab menu
  */
@@ -226,8 +237,19 @@ const fab = ref(false);
 
 const {
   data: taskLoadingResult,
-  error: taskLoadingError
+  error: taskLoadingError,
+  refetch: reload
 } = useTaskQuery(taskId);
+
+reload().then(() => {
+  if (taskLoadingResult.value) {
+    loadTask(taskLoadingResult.value);
+  }
+  if (taskLoadingError.value) {
+    errorMessage.value = taskLoadingError.value;
+  }
+  isLoading.value = false;
+});
 
 const loadTask = (data: LoadTaskResultData) => {
   task.value = data.task;
@@ -253,22 +275,6 @@ const loadTask = (data: LoadTaskResultData) => {
     );
   }
 };
-
-if (taskLoadingResult.value) {
-  loadTask(taskLoadingResult.value);
-}
-
-watch(taskLoadingResult, (data: any) => {
-  console.log("data: ", data);
-  if (!data) {
-    return;
-  }
-  loadTask(data);
-});
-
-watch(taskLoadingError, () => {
-  errorMessage.value = taskLoadingError.value;
-});
 
 /**
  *  mutations:

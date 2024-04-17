@@ -99,7 +99,7 @@
 </style>
 
 <script lang="ts" setup>
-import {provide, ref, watch} from "vue";
+import {provide, ref} from "vue";
 import {useRouter} from "vue-router/composables";
 
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -132,17 +132,12 @@ const router = useRouter();
 const store = useStore();
 
 const {data: currentUser} = useCurrentUserInfo();
-const {data: taskLoadingResult, isLoading, error: errorMessage} = useTaskQuery(taskId);
+const {data: taskLoadingResult, error: errorMessage, refetch: reload} = useTaskQuery(taskId);
 
-
-if (taskLoadingResult.value) {
-  task.value = taskLoadingResult.value.task;
-}
-
-watch(taskLoadingResult, (value: any) => {
-  console.log("data: ", value);
-  if (value) {
-    task.value = value.task;
+reload().then(() => {
+  if (taskLoadingResult.value) {
+    console.log("Hier sind hoffentlich die richtigen Daten: ", taskLoadingResult.value);
+    task.value = taskLoadingResult.value.task;
   }
 });
 
