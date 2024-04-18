@@ -84,7 +84,7 @@ public class IncidentNotifierHandler extends BaseIncidentHandler {
         }
 
         try {
-            String processName = this.getProcessName(incidentEntity.getProcessDefinitionId());
+            String processName = this.getProcessName(rootProcessDefinitionId);
             final Map<String, String> emailContent = getEMailContent(incidentEntity, processName);
             final String templatePath = "bausteine/mail/templatewithlink/mail-template.tpl";
             final String emailBody = this.digiwfEmailApi.getEmailBodyFromTemplate(templatePath, emailContent);
