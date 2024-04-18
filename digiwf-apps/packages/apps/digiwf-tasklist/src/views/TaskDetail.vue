@@ -48,7 +48,7 @@
         tabindex="0"
       ></v-progress-circular>
     </v-flex>
-    <v-flex v-else class="buttonWrapper">
+    <v-flex v-if="task" class="buttonWrapper">
       <v-speed-dial
         direction="bottom"
         fab
